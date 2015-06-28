@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Telegram.Bot")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Telegram Bot Api")]
+[assembly: AssemblyDescription("Telegram Bot Api C# Wrapper")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Robin Müller")]
 [assembly: AssemblyProduct("Telegram.Bot")]
