@@ -485,19 +485,22 @@ namespace Telegram.Bot
 
             var client = new HttpClient();
 
-
-            var form = new MultipartFormDataContent();
+            HttpResponseMessage response;
 
             if (parameters != null)
             {
-                foreach (var parameter in parameters)
+                var form = new MultipartFormDataContent();
+
+               foreach (var parameter in parameters)
                 {
                     if (parameter.Value == null) continue;
                     form.Add(ConvertParameterValue(parameter.Value), parameter.Key);
                 }
-            }
 
-            var response = await client.PostAsync(uri, form);
+                response = await client.PostAsync(uri, form);
+            }
+            else
+                response = await client.GetAsync(uri);
 
             response.EnsureSuccessStatusCode();
 
@@ -517,17 +520,21 @@ namespace Telegram.Bot
 
             var client = new HttpClient();
 
-            var form = new MultipartFormDataContent();
+            HttpResponseMessage response;
 
             if (parameters != null)
             {
+                var form = new MultipartFormDataContent();
+
                 foreach (var parameter in parameters)
                 {
                     form.Add(ConvertParameterValue(parameter.Value), parameter.Key);
                 }
+                
+                response = await client.PostAsync(uri, form);
             }
-
-            var response = await client.PostAsync(uri, form);
+            else
+                response = await client.GetAsync(uri);
 
             response.EnsureSuccessStatusCode();
         }
