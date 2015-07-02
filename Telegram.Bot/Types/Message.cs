@@ -139,5 +139,37 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "group_chat_created", Required = Required.Default)]
         public bool GroupChatCreated;
+
+        public MessageType Type
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(Text))
+                    return MessageType.TextMessage;
+
+                if (Audio != null)
+                    return MessageType.AudioMessage;
+
+                if (Document != null)
+                    return MessageType.DocumentMessage;
+
+                if (Photo != null)
+                    return MessageType.PhotoMessage;
+
+                if (Sticker != null)
+                    return MessageType.StickerMessage;
+
+                if (Video != null)
+                    return MessageType.VideoMessage;
+
+                if (Contact != null)
+                    return  MessageType.ContactMessage;
+
+                if (Location != null)
+                    return MessageType.LocationMessage;
+
+                throw new FormatException("MessageType unknown");
+            }
+        }
     }
 }

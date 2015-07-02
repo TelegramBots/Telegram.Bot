@@ -53,6 +53,7 @@
     <Compile Include="Types\GroupChat.cs" />
     <Compile Include="Types\Location.cs" />
     <Compile Include="Types\Message.cs" />
+    <Compile Include="Types\MessageType.cs" />
     <Compile Include="Types\PhotoSize.cs" />
     <Compile Include="Types\ReplyKeyboardHide.cs" />
     <Compile Include="Types\ReplyKeyboardMarkup.cs" />
@@ -70,7 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Telegram.Bot.nuspec" />
+    <None Include="Telegram.Bot.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

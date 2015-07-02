@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/MrRoundRobin/telegram.bot</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial Release</releaseNotes>
+    <releaseNotes>Generalized methods, deprecated ReSend* methods</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Telegram Api Bot</tags>
     <dependencies>
