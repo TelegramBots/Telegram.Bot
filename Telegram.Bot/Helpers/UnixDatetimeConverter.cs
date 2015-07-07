@@ -4,7 +4,7 @@ using Newtonsoft.Json.Converters;
 
 namespace Telegram.Bot.Helpers
 {
-    public class UnixDateTimeConverter : DateTimeConverterBase
+    class UnixDateTimeConverter : DateTimeConverterBase
     {
         /// <summary>
         /// Writes the JSON representation of the object.

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -114,8 +115,10 @@ namespace Telegram.Bot
                 additionalParameters = new Dictionary<string, object>();
 
             additionalParameters.Add("chat_id", chatId);
-            additionalParameters.Add("reply_to_message_id", replyToMessageId);
             additionalParameters.Add("reply_markup", replyMarkup);
+
+            if (replyToMessageId != 0)
+                additionalParameters.Add("reply_to_message_id", replyToMessageId);
 
             if (!string.IsNullOrEmpty(type.ContentParameter))
                 additionalParameters.Add(type.ContentParameter, content);
@@ -153,10 +156,10 @@ namespace Telegram.Bot
         public async Task<Message> SendTextMessage(int chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            var additionalParameters = new Dictionary<string, object>()
-            {
-                {"disable_web_page_preview", disableWebPagePreview}
-            };
+            var additionalParameters = new Dictionary<string, object>();
+
+            if (disableWebPagePreview)
+                additionalParameters.Add("disable_web_page_preview", true);
 
             return await SendMessage(MessageType.TextMessage, chatId, text, replyToMessageId, replyMarkup, additionalParameters);
         }
@@ -448,7 +451,7 @@ namespace Telegram.Bot
         {
             const string method = "sendChatAction";
 
-            var parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId},
                 {"action", chatAction.ToString()}
@@ -468,7 +471,7 @@ namespace Telegram.Bot
         {
             const string method = "getUserProfilePhotos";
 
-            var parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>
             {
                 {"user_id", userId},
                 {"offset", offset},
@@ -480,35 +483,11 @@ namespace Telegram.Bot
             return response;
         }
 
-
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
         {
-            var uri = new Uri(BaseUrl + _token + "/" + method);
+            var response = await SendRequest(method, parameters);
 
-            var client = new HttpClient();
-
-            HttpResponseMessage response;
-
-            if (parameters != null)
-            {
-                var form = new MultipartFormDataContent();
-
-               foreach (var parameter in parameters)
-                {
-                    if (parameter.Value == null) continue;
-                    form.Add(ConvertParameterValue(parameter.Value), parameter.Key);
-                }
-
-                response = await client.PostAsync(uri, form);
-            }
-            else
-                response = await client.GetAsync(uri);
-
-            response.EnsureSuccessStatusCode();
-
-            var responseText = await response.Content.ReadAsStringAsync();
-
-            var responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseText);
+            var responseObject = await response.Content.ReadAsAsync<ApiResponse<T>>();
 
             if (responseObject.Ok)
                 return responseObject.ResultObject;
@@ -518,27 +497,43 @@ namespace Telegram.Bot
 
         private async Task SendWebRequest(string method, Dictionary<string, object> parameters = null)
         {
-            var uri = new Uri(BaseUrl + _token + "/" + method);
+            await SendRequest(method, parameters);
+        }
 
-            var client = new HttpClient();
+        private async Task<HttpResponseMessage> SendRequest(string method, Dictionary<string, object> parameters = null)
+        {
+            var uri = new Uri(BaseUrl + _token + "/" + method);
 
             HttpResponseMessage response;
 
             if (parameters != null)
             {
-                var form = new MultipartFormDataContent();
-
-                foreach (var parameter in parameters)
+                using (var form = new MultipartFormDataContent())
                 {
-                    form.Add(ConvertParameterValue(parameter.Value), parameter.Key);
+
+                    foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
+                    {
+                        form.Add(ConvertParameterValue(parameter.Value), parameter.Key);
+                    }
+
+                    using (var client = new HttpClient())
+                    {
+                        response = await client.PostAsync(uri, form);
+                    }
                 }
-                
-                response = await client.PostAsync(uri, form);
             }
             else
-                response = await client.GetAsync(uri);
+            {
+                using (var client = new HttpClient())
+                {
 
-            response.EnsureSuccessStatusCode();
+                    response = await client.GetAsync(uri);
+                }
+            }
+
+            //response.EnsureSuccessStatusCode();
+
+            return response;
         }
 
         private static HttpContent ConvertParameterValue(object value)

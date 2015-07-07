@@ -8,7 +8,7 @@
         private MessageType(string method, string contentParameter)
         {
             _method = method;
-            _contentParameter = _contentParameter;
+            _contentParameter = contentParameter;
         }
 
         public static MessageType TextMessage { get { return new MessageType("sendMessage", "text"); } }
