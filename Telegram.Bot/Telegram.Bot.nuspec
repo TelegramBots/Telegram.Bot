@@ -9,11 +9,12 @@
     <projectUrl>https://github.com/MrRoundRobin/telegram.bot</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Generalized methods, deprecated ReSend* methods</releaseNotes>
+    <releaseNotes>Conversation is now IConversation</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Telegram Api Bot</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="7.0.1" />
+      <dependency id="Microsoft.Net.Http" version="2.2.29" />
     </dependencies>
   </metadata>
 </package>

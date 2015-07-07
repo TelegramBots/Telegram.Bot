@@ -4,20 +4,17 @@ using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Helpers
 {
-    class ConversationConverter : JsonCreationConverter<Conversation>
+    class ConversationConverter : JsonCreationConverter<IConversation>
     {
-        protected override Conversation Create(Type objectType, JObject jObject)
+        protected override IConversation Create(Type objectType, JObject jObject)
         {
-            if (FieldExists("title", jObject))
-            {
+            if (jObject["title"] != null)
                 return new GroupChat();
-            }
-            return FieldExists("first_name", jObject) ? new User() : new Conversation();
-        }
 
-        private bool FieldExists(string fieldName, JObject jObject)
-        {
-            return jObject[fieldName] != null;
+            if (jObject["first_name"] != null)
+                return new User();
+
+            throw new FormatException();
         }
     }
 }

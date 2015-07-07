@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Echo
 {
@@ -12,28 +7,34 @@ namespace Telegram.Bot.Echo
     {
         static void Main(string[] args)
         {
+            Run().Wait();
+        }
+
+        static async Task Run()
+        {
             var Bot = new Api("Your Api Key");
 
-            var name = Bot.GetMe().Result.Username;
+            var me = await Bot.GetMe();
 
-            Console.WriteLine("Hello my name is {0}", name);
+            Console.WriteLine("Hello my name is {0}", me.Username);
 
             var offset = 0;
 
             while (true)
             {
-                var updates = Bot.GetUpdates(offset).Result;
+                var updates = await Bot.GetUpdates(offset);
 
                 foreach (var update in updates)
                 {
                     if (update.Message.Text != null)
-                        Bot.SendTextMessage(((User)update.Message.Chat).Id, update.Message.Text).Wait();
+                        await Bot.SendTextMessage(update.Message.Chat.Id, update.Message.Text);
 
-                    offset = update.Id+1;
+                    offset = update.Id + 1;
                 }
 
-                Thread.Sleep(100);
+                await Task.Delay(1000);
             }
+
         }
     }
 }

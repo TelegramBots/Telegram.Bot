@@ -6,7 +6,7 @@ namespace Telegram.Bot.Types
     /// This object represents a group chat.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class GroupChat : Conversation
+    public class GroupChat : IConversation
     {
         /// <summary>
         /// Unique identifier for this group chat

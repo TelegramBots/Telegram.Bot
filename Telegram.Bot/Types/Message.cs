@@ -35,7 +35,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "chat", Required = Required.Always)]
         [JsonConverter(typeof (ConversationConverter))]
-        public Conversation Chat;
+        public IConversation Chat;
 
         /// <summary>
         /// Optional. For forwarded messages, sender of the original message

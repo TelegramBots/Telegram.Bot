@@ -6,7 +6,7 @@ namespace Telegram.Bot.Types
     /// This object represents a Telegram user or bot.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class User : Conversation
+    public class User : IConversation
     {
         /// <summary>
         /// Unique identifier for this user or bot
