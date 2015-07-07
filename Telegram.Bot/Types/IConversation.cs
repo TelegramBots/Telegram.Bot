@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types
 {
-    public class Conversation
+    public interface IConversation
     {
-        public int Id { get; set; }
+        int Id { get; set; }
     }
 }
