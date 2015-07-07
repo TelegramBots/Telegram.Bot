@@ -47,6 +47,7 @@
     <Compile Include="Types\Audio.cs" />
     <Compile Include="Types\ChatAction.cs" />
     <Compile Include="Types\Contact.cs" />
+    <Compile Include="Types\FileToSend.cs" />
     <Compile Include="Types\IConversation.cs" />
     <Compile Include="Types\Document.cs" />
     <Compile Include="Types\File.cs" />

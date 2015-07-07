@@ -9,7 +9,7 @@
     <projectUrl>https://github.com/MrRoundRobin/telegram.bot</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Conversation is now IConversation</releaseNotes>
+    <releaseNotes>Fixed File Sending</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Telegram Api Bot</tags>
     <dependencies>

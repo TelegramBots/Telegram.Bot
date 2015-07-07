@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -175,7 +174,7 @@ namespace Telegram.Bot
         {
             const string method = "forwardMessage";
 
-            var parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId},
                 {"from_chat_id", fromChatId},
@@ -196,7 +195,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendPhoto(int chatId, byte[] photo, string caption = "", int replyToMessageId = 0,
+        public async Task<Message> SendPhoto(int chatId, FileToSend photo, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -256,7 +255,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendAudio(int chatId, byte[] audio, int replyToMessageId = 0,
+        public async Task<Message> SendAudio(int chatId, FileToSend audio, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup);
@@ -299,7 +298,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendDocument(int chatId, byte[] document, int replyToMessageId = 0,
+        public async Task<Message> SendDocument(int chatId, FileToSend document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup);
@@ -343,7 +342,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendSticker(int chatId, byte[] sticker, int replyToMessageId = 0,
+        public async Task<Message> SendSticker(int chatId, FileToSend sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup);
@@ -386,7 +385,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendVideo(int chatId, byte[] video, int replyToMessageId = 0,
+        public async Task<Message> SendVideo(int chatId, FileToSend video, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup);
@@ -513,7 +512,12 @@ namespace Telegram.Bot
 
                     foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
                     {
-                        form.Add(ConvertParameterValue(parameter.Value), parameter.Key);
+                        var content = ConvertParameterValue(parameter.Value);
+
+                        if (parameter.Value is FileToSend)
+                            form.Add(content, parameter.Key, ((FileToSend)parameter.Value).Filename);
+                        else
+                            form.Add(content, parameter.Key);
                     }
 
                     using (var client = new HttpClient())
@@ -546,8 +550,8 @@ namespace Telegram.Bot
                     return new StringContent(value.ToString());
                 case "Boolean":
                     return new StringContent((bool)value ? "true" : "false");
-                case "Byte[]":
-                    return new StreamContent(new MemoryStream((byte[]) value));
+                case "FileToSend":
+                    return new StreamContent(((FileToSend)value).Content);
                 default:
                     return new StringContent(JsonConvert.SerializeObject(value));
             }

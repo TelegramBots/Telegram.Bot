@@ -8,7 +8,7 @@ namespace Telegram.Bot.Types
         [JsonProperty(PropertyName = "ok", Required = Required.Always)]
         public bool Ok;
 
-        [JsonProperty(PropertyName = "result", Required = Required.Always)]
+        [JsonProperty(PropertyName = "result", Required = Required.Default)]
         public T ResultObject;
 
         [JsonProperty(PropertyName = "description", Required = Required.Default)]
