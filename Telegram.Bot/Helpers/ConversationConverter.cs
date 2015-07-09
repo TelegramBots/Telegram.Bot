@@ -1,20 +1,47 @@
 ﻿using System;
+using System.Reflection;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Helpers
 {
-    class ConversationConverter : JsonCreationConverter<IConversation>
+    class ConversationConverter : JsonConverter
     {
-        protected override IConversation Create(Type objectType, JObject jObject)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            throw new NotImplementedException();
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            // Load JObject from stream
+            var jObject = JObject.Load(reader);
+
+            IConversation conversation;
+
             if (jObject["title"] != null)
-                return new GroupChat();
+            {
+                conversation = new GroupChat();
+            }
+            else if (jObject["first_name"] != null)
+            {
+                conversation = new User();
+            }
+            else
+            {
+                throw new JsonReaderException("Required properties not found");
+            }
+            
+            // Populate the object properties
+            serializer.Populate(jObject.CreateReader(), conversation);
 
-            if (jObject["first_name"] != null)
-                return new User();
+            return conversation;
+        }
 
-            throw new FormatException();
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof (IConversation).GetTypeInfo().IsAssignableFrom(objectType.GetTypeInfo());
         }
     }
 }

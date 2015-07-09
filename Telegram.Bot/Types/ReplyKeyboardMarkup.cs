@@ -27,6 +27,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "one_time_keyboard", Required = Required.Default,
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public bool OneTimeKeyBoard;
+        public bool OneTimeKeyboard;
     }
 }

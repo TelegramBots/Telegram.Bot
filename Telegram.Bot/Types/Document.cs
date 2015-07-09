@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Telegram.Bot.Helpers;
 
 namespace Telegram.Bot.Types
 {
@@ -11,7 +12,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Document thumbnail as defined by sender
         /// </summary>
-        [JsonProperty(PropertyName = "thumb", Required = Required.Always)]
+        [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
+        [JsonConverter(typeof(PhotoSizeConverter))]
         public PhotoSize Thumb;
 
         /// <summary>
