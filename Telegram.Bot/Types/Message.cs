@@ -47,7 +47,7 @@ namespace Telegram.Bot.Types
         /// Optional. For forwarded messages, date the original message was sent in Unix time
         /// </summary>
         [JsonProperty(PropertyName = "forward_date", Required = Required.Default)]
-        [JsonConverter(typeof (JavaScriptDateTimeConverter))]
+        [JsonConverter(typeof (UnixDateTimeConverter))]
         public DateTime ForwardDate;
 
         /// <summary>
