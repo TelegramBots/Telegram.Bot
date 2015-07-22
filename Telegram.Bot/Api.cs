@@ -24,12 +24,7 @@ namespace Telegram.Bot
         /// A simple method for testing your bot's auth token. Requires no parameters. Returns basic information about the bot in form of User object.
         /// </summary>
         /// <returns>Returns basic information about the bot in form of <see cref="User"/> object</returns>
-        public async Task<User> GetMe()
-        {
-            const string method = "getMe";
-
-            return await SendWebRequest<User>(method).ConfigureAwait(false);
-        }
+        public async Task<User> GetMe() => await SendWebRequest<User>("getMe").ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to receive incoming updates using long polling.
@@ -52,8 +47,6 @@ namespace Telegram.Bot
         /// <returns>An Array of Update objects is returned.</returns>
         public async Task<Update[]> GetUpdates(int offset = 0, int limit = 100, int timeout = 0)
         {
-            const string method = "getUpdates";
-
             var parameters = new Dictionary<string, object>
             {
                 {"offset", offset},
@@ -61,7 +54,7 @@ namespace Telegram.Bot
                 {"timeout", timeout}
             };
 
-            return await SendWebRequest<Update[]>(method, parameters).ConfigureAwait(false);
+            return await SendWebRequest<Update[]>("getUpdates", parameters).ConfigureAwait(false);
         }
 
 
@@ -78,14 +71,12 @@ namespace Telegram.Bot
         /// </remarks>
         public async void SetWebhook(string url)
         {
-            const string method = "setWebhook";
-
             var parameters = new Dictionary<string, object>
             {
                 {"url", url}
             };
 
-            await SendWebRequest(method, parameters).ConfigureAwait(false);
+            await SendWebRequest("setWebhook", parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -132,10 +123,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         [Obsolete("SendMessage is deprecated, please use SendTextMessage instead.")]
         public async Task<Message> SendMessage(int chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendTextMessage(chatId, text, disableWebPagePreview, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendTextMessage(chatId, text, disableWebPagePreview, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send text messages. On success, the sent Message is returned.
@@ -166,8 +154,6 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> ForwardMessage(int chatId, int fromChatId, int messageId)
         {
-            const string method = "forwardMessage";
-
             var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId},
@@ -175,7 +161,7 @@ namespace Telegram.Bot
                 {"message_id", messageId},
             };
 
-            return await SendWebRequest<Message>(method, parameters).ConfigureAwait(false);
+            return await SendWebRequest<Message>("forwardMessage", parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -248,10 +234,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendAudio(int chatId, FileToSend audio, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can send audio files of up to 50 MB in size.
@@ -262,10 +245,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendAudio(int chatId, string audio, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can send audio files of up to 50 MB in size.
@@ -277,10 +257,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         [Obsolete("ReSendAudio is deprecated, please use SendAudio instead.")]
         public async Task<Message> ReSendAudio(int chatId, string audio, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -291,10 +268,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendDocument(int chatId, FileToSend document, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -305,10 +279,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendDocument(int chatId, string document, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -320,10 +291,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         [Obsolete("ReSendDocument is deprecated, please use SendDocument instead.")]
         public async Task<Message> ReSendDocument(int chatId, string document, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
@@ -334,10 +302,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendSticker(int chatId, FileToSend sticker, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
@@ -348,10 +313,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendSticker(int chatId, string sticker, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
@@ -363,10 +325,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         [Obsolete("ReSendSticker is deprecated, please use SendSticker instead.")]
         public async Task<Message> ReSendSticker(int chatId, string sticker, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
@@ -377,10 +336,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendVideo(int chatId, FileToSend video, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
@@ -391,10 +347,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendVideo(int chatId, string video, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
@@ -406,10 +359,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         [Obsolete("ReSendVideo is deprecated, please use SendVideo instead.")]
         public async Task<Message> ReSendVideo(int chatId, string video, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
-        {
-            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
-        }
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.
@@ -439,15 +389,13 @@ namespace Telegram.Bot
         /// <remarks>We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.</remarks>
         public async Task SendChatAction(int chatId, ChatAction chatAction)
         {
-            const string method = "sendChatAction";
-
             var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId},
                 {"action", chatAction.ToString()}
             };
 
-            await SendWebRequest(method, parameters).ConfigureAwait(false);
+            await SendWebRequest("sendChatAction", parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -459,8 +407,6 @@ namespace Telegram.Bot
         /// <returns></returns>
         public async Task<UserProfilePhotos> GetUserProfilePhotos(int userId, int? offset = null, int limit = 100)
         {
-            const string method = "getUserProfilePhotos";
-
             var parameters = new Dictionary<string, object>
             {
                 {"user_id", userId},
@@ -468,7 +414,7 @@ namespace Telegram.Bot
                 {"limit", limit}
             };
 
-            return await SendWebRequest<UserProfilePhotos>(method, parameters).ConfigureAwait(false);
+            return await SendWebRequest<UserProfilePhotos>("getUserProfilePhotos", parameters).ConfigureAwait(false);
         }
 
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
