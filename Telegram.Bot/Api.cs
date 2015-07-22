@@ -28,9 +28,7 @@ namespace Telegram.Bot
         {
             const string method = "getMe";
 
-            var response = await SendWebRequest<User>(method);
-
-            return response;
+            return await SendWebRequest<User>(method).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -63,9 +61,7 @@ namespace Telegram.Bot
                 {"timeout", timeout}
             };
 
-            var response = await SendWebRequest<Update[]>(method, parameters);
-
-            return response;
+            return await SendWebRequest<Update[]>(method, parameters).ConfigureAwait(false);
         }
 
 
@@ -81,7 +77,7 @@ namespace Telegram.Bot
         /// 3. For the moment, the only supported port for Webhooks is 443. We may support additional ports later.
         /// </remarks>
         public async void SetWebhook(string url)
-        {//TODO: Test
+        {
             const string method = "setWebhook";
 
             var parameters = new Dictionary<string, object>
@@ -89,7 +85,7 @@ namespace Telegram.Bot
                 {"url", url}
             };
 
-            await SendWebRequest(method, parameters);
+            await SendWebRequest(method, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -122,9 +118,7 @@ namespace Telegram.Bot
             if (!string.IsNullOrEmpty(type.ContentParameter))
                 additionalParameters.Add(type.ContentParameter, content);
 
-            var response = await SendWebRequest<Message>(type.Method, additionalParameters);
-
-            return response;
+            return await SendWebRequest<Message>(type.Method, additionalParameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -140,7 +134,7 @@ namespace Telegram.Bot
         public async Task<Message> SendMessage(int chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendTextMessage(chatId, text, disableWebPagePreview, replyToMessageId, replyMarkup);
+            return await SendTextMessage(chatId, text, disableWebPagePreview, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -160,7 +154,7 @@ namespace Telegram.Bot
             if (disableWebPagePreview)
                 additionalParameters.Add("disable_web_page_preview", true);
 
-            return await SendMessage(MessageType.TextMessage, chatId, text, replyToMessageId, replyMarkup, additionalParameters);
+            return await SendMessage(MessageType.TextMessage, chatId, text, replyToMessageId, replyMarkup, additionalParameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -181,9 +175,7 @@ namespace Telegram.Bot
                 {"message_id", messageId},
             };
 
-            var response = await SendWebRequest<Message>(method, parameters);
-
-            return response;
+            return await SendWebRequest<Message>(method, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -203,7 +195,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return await SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters);
+            return await SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -223,7 +215,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return await SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters);
+            return await SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -244,7 +236,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return await SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters);
+            return await SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -258,7 +250,7 @@ namespace Telegram.Bot
         public async Task<Message> SendAudio(int chatId, FileToSend audio, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -272,7 +264,7 @@ namespace Telegram.Bot
         public async Task<Message> SendAudio(int chatId, string audio, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -287,7 +279,7 @@ namespace Telegram.Bot
         public async Task<Message> ReSendAudio(int chatId, string audio, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -301,8 +293,7 @@ namespace Telegram.Bot
         public async Task<Message> SendDocument(int chatId, FileToSend document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup);
-
+            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -316,7 +307,7 @@ namespace Telegram.Bot
         public async Task<Message> SendDocument(int chatId, string document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -331,7 +322,7 @@ namespace Telegram.Bot
         public async Task<Message> ReSendDocument(int chatId, string document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -345,7 +336,7 @@ namespace Telegram.Bot
         public async Task<Message> SendSticker(int chatId, FileToSend sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -359,7 +350,7 @@ namespace Telegram.Bot
         public async Task<Message> SendSticker(int chatId, string sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -374,7 +365,7 @@ namespace Telegram.Bot
         public async Task<Message> ReSendSticker(int chatId, string sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -388,7 +379,7 @@ namespace Telegram.Bot
         public async Task<Message> SendVideo(int chatId, FileToSend video, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -402,7 +393,7 @@ namespace Telegram.Bot
         public async Task<Message> SendVideo(int chatId, string video, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -417,7 +408,7 @@ namespace Telegram.Bot
         public async Task<Message> ReSendVideo(int chatId, string video, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
-            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup);
+            return await SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -437,7 +428,7 @@ namespace Telegram.Bot
                 {"longitude", longitude},
             };
 
-            return await SendMessage(MessageType.LocationMessage, chatId, latitude, replyToMessageId, replyMarkup, additionalParameters);
+            return await SendMessage(MessageType.LocationMessage, chatId, latitude, replyToMessageId, replyMarkup, additionalParameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -456,7 +447,7 @@ namespace Telegram.Bot
                 {"action", chatAction.ToString()}
             };
 
-            await SendWebRequest(method, parameters);
+            await SendWebRequest(method, parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -477,16 +468,14 @@ namespace Telegram.Bot
                 {"limit", limit}
             };
 
-            var response = await SendWebRequest<UserProfilePhotos>(method, parameters);
-
-            return response;
+            return await SendWebRequest<UserProfilePhotos>(method, parameters).ConfigureAwait(false);
         }
 
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
         {
-            var response = await SendRequest(method, parameters);
+            var response = await SendRequest(method, parameters).ConfigureAwait(false);
 
-            var responseObject = await response.Content.ReadAsAsync<ApiResponse<T>>();
+            var responseObject = await response.Content.ReadAsAsync<ApiResponse<T>>().ConfigureAwait(false);
 
             if (responseObject.Ok)
                 return responseObject.ResultObject;
@@ -496,7 +485,7 @@ namespace Telegram.Bot
 
         private async Task SendWebRequest(string method, Dictionary<string, object> parameters = null)
         {
-            await SendRequest(method, parameters);
+            await SendRequest(method, parameters).ConfigureAwait(false);
         }
 
         private async Task<HttpResponseMessage> SendRequest(string method, Dictionary<string, object> parameters = null)
@@ -522,7 +511,7 @@ namespace Telegram.Bot
 
                     using (var client = new HttpClient())
                     {
-                        response = await client.PostAsync(uri, form);
+                        response = await client.PostAsync(uri, form).ConfigureAwait(false);
                     }
                 }
             }
@@ -530,8 +519,7 @@ namespace Telegram.Bot
             {
                 using (var client = new HttpClient())
                 {
-
-                    response = await client.GetAsync(uri);
+                    response = await client.GetAsync(uri).ConfigureAwait(false);
                 }
             }
 
