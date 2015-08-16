@@ -106,7 +106,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. A new member was added to the group, information about them (this member may be bot itself)
         /// </summary>
-        [JsonProperty(PropertyName = "new_chat_patricipant", Required = Required.Default)]
+        [JsonProperty(PropertyName = "new_chat_participant", Required = Required.Default)]
         public User NewChatParticipant;
 
         /// <summary>
