@@ -30,4 +30,4 @@ Install as [NuGet package](https://www.nuget.org/packages/Telegram.Bot/):
     
 ## API Coverage
 
-There are functions for all available API methods. (2015-07-01)
+There are functions for all available API methods. (2015-08-18)
