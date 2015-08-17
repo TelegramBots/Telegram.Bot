@@ -4,8 +4,6 @@ namespace Telegram.Bot.Helpers
 {
     public static class UnixDateTimeHelper
     {
-        private const string InvalidUnixEpochErrorMessage = "Unix epoc starts January 1st, 1970";
-
         /// <summary>
         ///   Convert a long into a DateTime
         /// </summary>
@@ -18,6 +16,7 @@ namespace Telegram.Bot.Helpers
         /// <summary>
         ///   Convert a DateTime into a long
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
         public static long ToUnixTime(this DateTime self)
         {
 
@@ -29,7 +28,7 @@ namespace Telegram.Bot.Helpers
             var epoc = new DateTime(1970, 1, 1);
             var delta = self - epoc;
 
-            if (delta.TotalSeconds < 0) throw new ArgumentOutOfRangeException(InvalidUnixEpochErrorMessage);
+            if (delta.TotalSeconds < 0) throw new ArgumentOutOfRangeException(@"Unix epoc starts January 1st, 1970");
 
             return (long) delta.TotalSeconds;
         }

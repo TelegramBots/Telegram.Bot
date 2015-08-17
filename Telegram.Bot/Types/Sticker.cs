@@ -23,7 +23,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Sticker thumbnail in .webp or .jpg format
         /// </summary>
-        [JsonProperty(PropertyName = "thumb", Required = Required.Always)]
+        [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
         public PhotoSize Thumb;
     }
 }

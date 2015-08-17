@@ -3,28 +3,16 @@
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents an audio file to be treated as music by the Telegram clients.
+    /// This object represents a voice note.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class Audio : File
+    public class Voice : File
     {
         /// <summary>
         /// Duration of the audio in seconds as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "duration", Required = Required.Always)]
         public int Duration;
-
-        /// <summary>
-        /// Performer of the audio as defined by sender or by audio tags
-        /// </summary>
-        [JsonProperty(PropertyName = "performer", Required = Required.Default)]
-        public int Performer;
-
-        /// <summary>
-        /// Title of the audio as defined by sender or by audio tags
-        /// </summary>
-        [JsonProperty(PropertyName = "title", Required = Required.Default)]
-        public int Title;
 
         /// <summary>
         /// Optional. MIME type of the file as defined by sender

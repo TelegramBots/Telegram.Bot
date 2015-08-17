@@ -65,6 +65,7 @@
     <Compile Include="Types\Video.cs" />
     <Compile Include="Types\Sticker.cs" />
     <Compile Include="Types\User.cs" />
+    <Compile Include="Types\Voice.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

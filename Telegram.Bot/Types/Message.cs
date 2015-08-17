@@ -92,6 +92,18 @@ namespace Telegram.Bot.Types
         public Video Video;
 
         /// <summary>
+        /// Message is a voice message, information about the file
+        /// </summary>
+        [JsonProperty(PropertyName = "voice", Required = Required.Default)]
+        public Voice Voice;
+
+        /// <summary>
+        /// Caption for the photo or video
+        /// </summary>
+        [JsonProperty(PropertyName = "caption", Required = Required.Default)]
+        public string Caption;
+
+        /// <summary>
         /// Optional. Message is a shared contact, information about the contact
         /// </summary>
         [JsonProperty(PropertyName = "contact", Required = Required.Default)]
@@ -160,6 +172,9 @@ namespace Telegram.Bot.Types
 
                 if (Video != null)
                     return MessageType.VideoMessage;
+
+                if (Voice != null)
+                    return MessageType.VoiceMessage;
 
                 if (Contact != null)
                     return  MessageType.ContactMessage;

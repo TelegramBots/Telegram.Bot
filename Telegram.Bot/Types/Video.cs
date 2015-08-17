@@ -29,7 +29,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Video thumbnail
         /// </summary>
-        [JsonProperty(PropertyName = "thumb", Required = Required.Always)]
+        [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
         public PhotoSize Thumb;
 
         /// <summary>
@@ -37,11 +37,5 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "mime_type", Required = Required.Default)]
         public string MimeType;
-
-        /// <summary>
-        /// Optional. Text description of the video (usually empty)
-        /// </summary>
-        [JsonProperty(PropertyName = "caption", Required = Required.Default)]
-        public string Caption;
     }
 }
