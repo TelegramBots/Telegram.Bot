@@ -16,6 +16,15 @@ namespace Telegram.Bot.Types
         public int Id { get; set; }
 
         /// <summary>
+        /// Gets the Conversation type.
+        /// </summary>
+        /// <value>
+        /// The type.
+        /// </value>
+        [JsonIgnore]
+        public ConversationType Type { get; } = ConversationType.GroupChat;
+
+        /// <summary>
         /// Group name
         /// </summary>
         [JsonProperty(PropertyName = "title", Required = Required.Always)]

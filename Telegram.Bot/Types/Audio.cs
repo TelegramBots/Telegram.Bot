@@ -18,13 +18,13 @@ namespace Telegram.Bot.Types
         /// Performer of the audio as defined by sender or by audio tags
         /// </summary>
         [JsonProperty(PropertyName = "performer", Required = Required.Default)]
-        public int Performer;
+        public string Performer;
 
         /// <summary>
         /// Title of the audio as defined by sender or by audio tags
         /// </summary>
         [JsonProperty(PropertyName = "title", Required = Required.Default)]
-        public int Title;
+        public string Title;
 
         /// <summary>
         /// Optional. MIME type of the file as defined by sender

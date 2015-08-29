@@ -16,6 +16,15 @@ namespace Telegram.Bot.Types
         public int Id { get; set; }
 
         /// <summary>
+        /// Gets the Conversation type.
+        /// </summary>
+        /// <value>
+        /// The type.
+        /// </value>
+        [JsonIgnore]
+        public ConversationType Type { get; } = ConversationType.UserChat;
+
+        /// <summary>
         /// User‘s or bot’s first name
         /// </summary>
         [JsonProperty(PropertyName = "first_name", Required = Required.Always)]
