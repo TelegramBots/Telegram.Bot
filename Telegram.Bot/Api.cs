@@ -126,14 +126,18 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Optimal. Disables link previews for links in this message</param>
         /// <param name="replyToMessageId">Optimal. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optimal. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="isMardown">Optimal. Set to true if you want Telegram apps to show bold, italic and inline URLs in your message.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendTextMessage(int chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            ReplyMarkup replyMarkup = null, bool isMardown = false)
         {
             var additionalParameters = new Dictionary<string, object>();
 
             if (disableWebPagePreview)
                 additionalParameters.Add("disable_web_page_preview", true);
+
+            if (isMardown)
+                additionalParameters.Add("parse_mode", "Markdown");
 
             return await SendMessage(MessageType.TextMessage, chatId, text, replyToMessageId, replyMarkup, additionalParameters).ConfigureAwait(false);
         }

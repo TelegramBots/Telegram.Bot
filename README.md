@@ -30,4 +30,5 @@ Install as [NuGet package](https://www.nuget.org/packages/Telegram.Bot/):
     
 ## API Coverage
 
-There are functions for all available API methods. (2015-08-18)
+There are functions for all available API methods. (2015-09-20)
+Missing: [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
