@@ -64,17 +64,21 @@ namespace Telegram.Bot
         /// give up after a reasonable amount of attempts.
         /// </summary>
         /// <param name="url">Optimal. HTTPS url to send updates to. Use an empty string to remove webhook integration</param>
+        /// <param name="certificate">Upload your public key certificate so that the root certificate in use can be checked</param>
         /// <remarks>
         /// 1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
         /// 2. We currently do not support self-signed certificates.
         /// 3. For the moment, the only supported port for Webhooks is 443. We may support additional ports later.
         /// </remarks>
-        public async void SetWebhook(string url)
+        public async void SetWebhook(string url = "", FileToSend? certificate = null)
         {
             var parameters = new Dictionary<string, object>
             {
                 {"url", url}
             };
+
+            if (certificate != null)
+                parameters.Add("certificate", certificate);
 
             await SendWebRequest("setWebhook", parameters).ConfigureAwait(false);
         }
