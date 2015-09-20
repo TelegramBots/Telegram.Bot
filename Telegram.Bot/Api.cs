@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace Telegram.Bot
     public class Api
     {
         private const string BaseUrl = "https://api.telegram.org/bot";
+        private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
         private readonly string _token;
 
@@ -425,6 +427,38 @@ namespace Telegram.Bot
             };
 
             return await SendWebRequest<UserProfilePhotos>("getUserProfilePhotos", parameters).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size.
+        /// </summary>
+        /// <param name="fileId">File identifier</param>
+        /// <param name="destination">The destination stream</param>
+        /// <returns>The File object. If destination is empty stream ist embedded in the File Object</returns>
+        public async Task<File> GetFile(string fileId, Stream destination = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"file_id", fileId}
+            };
+
+            var fileInfo = await SendWebRequest<File>("getFile", parameters).ConfigureAwait(false);
+
+            var fileUri = new Uri(BaseFileUrl + _token + "/" + fileInfo.FilePath);
+
+            if (destination == null)
+                destination = fileInfo.FileStream = new MemoryStream();
+
+            using (var downloader = new HttpClient())
+            {
+                using (var response = await downloader.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead))
+                {
+                    await response.Content.CopyToAsync(destination).ConfigureAwait(false);
+                    destination.Position = 0;
+                }
+            }
+
+            return fileInfo;
         }
 
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
