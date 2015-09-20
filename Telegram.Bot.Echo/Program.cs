@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Telegram.Bot.Echo
@@ -29,12 +31,25 @@ namespace Telegram.Bot.Echo
                     if (update.Message.Text != null)
                         await Bot.SendTextMessage(update.Message.Chat.Id, update.Message.Text);
 
+                    if (update.Message.Photo != null)
+                    {
+                        var file = await Bot.GetFile(update.Message.Photo.LastOrDefault()?.FileId);
+
+                        var filename = file.FileId+"."+file.FilePath.Split('.').Last();
+
+                        using (var profileImageStream = File.Open(filename, FileMode.Create))
+                        {
+                            await file.FileStream.CopyToAsync(profileImageStream);
+                        }
+
+
+                    }
+
                     offset = update.Id + 1;
                 }
 
                 await Task.Delay(1000);
             }
-
         }
     }
 }
