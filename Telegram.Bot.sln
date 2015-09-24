@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E3482D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.Echo", "Telegram.Bot.Echo\Telegram.Bot.Echo.csproj", "{3AFF460B-0963-406C-8A57-29D9323BD206}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.WebHook", "Telegram.Bot.WebHook\Telegram.Bot.WebHook.csproj", "{97C91678-4323-4C99-81AD-AFF3C862CE8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{3AFF460B-0963-406C-8A57-29D9323BD206}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AFF460B-0963-406C-8A57-29D9323BD206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AFF460B-0963-406C-8A57-29D9323BD206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97C91678-4323-4C99-81AD-AFF3C862CE8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C91678-4323-4C99-81AD-AFF3C862CE8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C91678-4323-4C99-81AD-AFF3C862CE8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C91678-4323-4C99-81AD-AFF3C862CE8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
