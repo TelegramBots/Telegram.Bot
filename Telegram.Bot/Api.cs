@@ -72,7 +72,7 @@ namespace Telegram.Bot
         /// 2. We currently do not support self-signed certificates.
         /// 3. For the moment, the only supported port for Webhooks is 443. We may support additional ports later.
         /// </remarks>
-        public async void SetWebhook(string url = "", FileToSend? certificate = null)
+        public async Task SetWebhook(string url = "", FileToSend? certificate = null)
         {
             var parameters = new Dictionary<string, object>
             {

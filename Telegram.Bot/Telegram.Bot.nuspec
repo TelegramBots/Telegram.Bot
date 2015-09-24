@@ -11,7 +11,7 @@
     <licenseUrl>https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Download Files, Set WebHook Certificate</releaseNotes>
+    <releaseNotes>Awaitable WebHook</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Telegram Api Bot</tags>
     <dependencies>

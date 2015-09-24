@@ -2,6 +2,21 @@
 {
     public class MessageType
     {
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (Method.GetHashCode()*397) ^ ContentParameter.GetHashCode();
+            }
+        }
+
+        protected bool Equals(MessageType other) => string.Equals(Method, other.Method) && string.Equals(ContentParameter, other.ContentParameter);
+
+        public override bool Equals(object obj)
+        {
+            return obj.GetType() == GetType() && (this == (MessageType)obj || Equals((MessageType)obj));
+        }
+
         private MessageType(string method, string contentParameter)
         {
             Method = method;
@@ -21,5 +36,9 @@
         public string Method { get; }
 
         public string ContentParameter { get; }
+
+        public static bool operator ==(MessageType a, MessageType b) => ReferenceEquals(a, b);
+
+        public static bool operator !=(MessageType a, MessageType b) => !(a == b);
     }
 }
