@@ -37,7 +37,7 @@
 
         public string ContentParameter { get; }
 
-        public static bool operator ==(MessageType a, MessageType b) => ReferenceEquals(a, b);
+        public static bool operator ==(MessageType a, MessageType b) => (a?.ContentParameter == b?.ContentParameter && a?.Method == b?.Method);
 
         public static bool operator !=(MessageType a, MessageType b) => !(a == b);
     }
