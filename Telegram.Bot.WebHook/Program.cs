@@ -59,12 +59,12 @@ namespace Telegram.Bot.WebHook
 
             Console.WriteLine("Received Message from {0}", message.Chat.Id);
 
-            if (message.Type.Equals(MessageType.TextMessage))
+            if (message.Type == MessageType.TextMessage)
             {
                 // Echo each Message
                 await Bot.Api.SendTextMessage(message.Chat.Id, message.Text);
             }
-            else if (message.Type.Equals(MessageType.PhotoMessage))
+            else if (message.Type == MessageType.PhotoMessage)
             {
                 // Download Photo
                 var file = await Bot.Api.GetFile(message.Photo.LastOrDefault()?.FileId);

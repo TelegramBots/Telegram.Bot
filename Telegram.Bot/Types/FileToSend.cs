@@ -4,8 +4,8 @@ namespace Telegram.Bot.Types
 {
     public struct FileToSend
     {
-        public string Filename;
-        public Stream Content;
+        public string Filename { get; set; }
+        public Stream Content { get; set; }
 
         public FileToSend(string filename, Stream content)
         {

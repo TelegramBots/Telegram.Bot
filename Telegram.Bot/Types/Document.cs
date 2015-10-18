@@ -14,18 +14,18 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
         [JsonConverter(typeof(PhotoSizeConverter))]
-        public PhotoSize Thumb;
+        public PhotoSize Thumb { get; internal set; }
 
         /// <summary>
         /// Optional. Original filename as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "file_name", Required = Required.Default)]
-        public string FileName;
+        public string FileName { get; internal set; }
 
         /// <summary>
         /// Optional. MIME type of the file as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "mime_type", Required = Required.Default)]
-        public string MimeType;
+        public string MimeType { get; internal set; }
     }
 }

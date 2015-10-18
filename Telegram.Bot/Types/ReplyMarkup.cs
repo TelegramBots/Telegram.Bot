@@ -10,6 +10,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "selective", Required = Required.Default, 
             DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public bool Selective;
+        public bool Selective { get; set; }
     }
 }

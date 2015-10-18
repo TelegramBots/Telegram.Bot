@@ -1,22 +1,47 @@
-﻿namespace Telegram.Bot.Types
+﻿using System;
+
+namespace Telegram.Bot.Types
 {
-    public class ChatAction
+    /// <summary>
+    /// Type of action the Bot is performing
+    /// </summary>
+    public enum ChatAction
     {
-        private readonly string _value;
-        private ChatAction(string value)
+        Typing,
+        UploadPhoto,
+        RecordVideo,
+        UploadVideo,
+        RecordAudio,
+        UploadAudio,
+        UploadDocument,
+        FindLocation,
+    }
+
+    internal static class ChatActionExtension
+    {
+        internal static string ToActionString(this ChatAction action)
         {
-            _value = value;
+            switch (action)
+            {
+                case ChatAction.Typing:
+                    return "typing";
+                case ChatAction.UploadPhoto:
+                    return "upload_photo";
+                case ChatAction.RecordVideo:
+                    return "record_video";
+                case ChatAction.UploadVideo:
+                    return "upload_video";
+                case ChatAction.RecordAudio:
+                    return "record_audio";
+                case ChatAction.UploadAudio:
+                    return "upload_audio";
+                case ChatAction.UploadDocument:
+                    return "upload_document";
+                case ChatAction.FindLocation:
+                    return "find_location";
+                default:
+                    throw new NotImplementedException();
+            }
         }
-
-        public static ChatAction Typing => new ChatAction("typing");
-        public static ChatAction UploadPhoto => new ChatAction("upload_photo");
-        public static ChatAction RecordVideo => new ChatAction("record_video");
-        public static ChatAction UploadVideo => new ChatAction("upload_video");
-        public static ChatAction RecordAudio => new ChatAction("record_audio");
-        public static ChatAction UploadAudio => new ChatAction("upload_audio");
-        public static ChatAction UploadDocument => new ChatAction("upload_document");
-        public static ChatAction FindLocation => new ChatAction("find_location");
-
-        public override string ToString() => _value;
     }
 }

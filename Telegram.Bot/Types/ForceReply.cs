@@ -12,6 +12,6 @@ namespace Telegram.Bot.Types
         /// Shows reply interface to the user, as if they manually selected the bot‘s message and tapped ’Reply'
         /// </summary>
         [JsonProperty(PropertyName = "force_reply", Required = Required.Always)]
-        public bool Force;
+        public bool Force { get; set; }
     }
 }

@@ -14,13 +14,13 @@ namespace Telegram.Bot.Types
         /// restore the correct update sequence, should they get out of order.
         /// </summary>
         [JsonProperty(PropertyName = "update_id", Required = Required.Always)]
-        public int Id;
+        public int Id { get; internal set; }
 
         /// <summary>
         /// Optional. New incoming message of any kind — text, photo, sticker, etc.
         /// </summary>
         [JsonProperty(PropertyName = "message", Required = Required.Default)]
-        public Message Message;
+        public Message Message { get; internal set; }
 
         public static Update FromString(string data)
         {

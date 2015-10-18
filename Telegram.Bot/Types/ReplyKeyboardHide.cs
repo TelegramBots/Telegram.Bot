@@ -12,6 +12,6 @@ namespace Telegram.Bot.Types
         /// Requests clients to hide the custom keyboard
         /// </summary>
         [JsonProperty(PropertyName = "hide_keyboard", Required = Required.Always)]
-        public bool HideKeyboard;
+        public bool HideKeyboard { get; set; }
     }
 }

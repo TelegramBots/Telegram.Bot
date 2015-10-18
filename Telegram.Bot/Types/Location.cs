@@ -12,12 +12,12 @@ namespace Telegram.Bot.Types
         /// Longitude as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "longitude", Required = Required.Always)]
-        public float Longitude;
+        public float Longitude { get; internal set; }
 
         /// <summary>
         /// Latitude as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "latitude", Required = Required.Always)]
-        public float Latitude;
+        public float Latitude { get; internal set; }
     }
 }

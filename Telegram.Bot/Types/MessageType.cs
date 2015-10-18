@@ -1,44 +1,52 @@
-﻿namespace Telegram.Bot.Types
+﻿using System;
+using System.Collections.Generic;
+
+namespace Telegram.Bot.Types
 {
-    public class MessageType
+    /// <summary>
+    /// The type of a Message
+    /// </summary>
+    public enum MessageType
     {
-        public override int GetHashCode()
+        TextMessage,
+        PhotoMessage,
+        AudioMessage,
+        VideoMessage,
+        VoiceMessage,
+        DocumentMessage,
+        StickerMessage,
+        LocationMessage,
+        ContactMessage,
+    }
+
+    internal static class MessageTypeExtension
+    {
+        internal static KeyValuePair<string, string> ToKeyValue(this MessageType type)
         {
-            unchecked
+            switch (type)
             {
-                return (Method.GetHashCode()*397) ^ ContentParameter.GetHashCode();
+                case MessageType.TextMessage:
+                    return new KeyValuePair<string, string>("sendMessage", "text");
+                case MessageType.PhotoMessage:
+                    return new KeyValuePair<string, string>("sendPhoto", "photo");
+                case MessageType.AudioMessage:
+                    return new KeyValuePair<string, string>("sendAudio", "audio");
+                case MessageType.VideoMessage:
+                    return new KeyValuePair<string, string>("sendVideo", "video");
+                case MessageType.VoiceMessage:
+                    return new KeyValuePair<string, string>("sendVoice", "voice");
+                case MessageType.DocumentMessage:
+                    return new KeyValuePair<string, string>("sendDocument", "document");
+                case MessageType.StickerMessage:
+                    return new KeyValuePair<string, string>("sendSticker", "sticker");
+                case MessageType.LocationMessage:
+                    return new KeyValuePair<string, string>("sendLocation", "latitude");
+                case MessageType.ContactMessage:
+                    return new KeyValuePair<string, string>(null, null);
+
+                default:
+                    throw new NotImplementedException();
             }
-        }
-
-        protected bool Equals(MessageType other) => string.Equals(Method, other.Method) && string.Equals(ContentParameter, other.ContentParameter);
-
-        public override bool Equals(object obj)
-        {
-            return obj.GetType() == GetType() && (this == (MessageType)obj || Equals((MessageType)obj));
-        }
-
-        private MessageType(string method, string contentParameter)
-        {
-            Method = method;
-            ContentParameter = contentParameter;
-        }
-
-        public static MessageType TextMessage => new MessageType("sendMessage", "text");
-        public static MessageType PhotoMessage => new MessageType("sendPhoto", "photo");
-        public static MessageType AudioMessage => new MessageType("sendAudio", "audio");
-        public static MessageType VideoMessage => new MessageType("sendVideo", "video");
-        public static MessageType VoiceMessage => new MessageType("sendVoice", "voice");
-        public static MessageType DocumentMessage => new MessageType("sendDocument", "document");
-        public static MessageType StickerMessage => new MessageType("sendSticker", "sticker");
-        public static MessageType LocationMessage => new MessageType("sendLocation", "latitude");
-        public static MessageType ContactMessage => new MessageType(null, null);
-
-        public string Method { get; }
-
-        public string ContentParameter { get; }
-
-        public static bool operator ==(MessageType a, MessageType b) => (a?.ContentParameter == b?.ContentParameter && a?.Method == b?.Method);
-
-        public static bool operator !=(MessageType a, MessageType b) => !(a == b);
+        } 
     }
 }

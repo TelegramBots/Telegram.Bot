@@ -13,12 +13,12 @@ namespace Telegram.Bot.Types
         /// Photo width
         /// </summary>
         [JsonProperty(PropertyName = "width", Required = Required.Always)]
-        public int Width;
+        public int Width { get; set; }
 
         /// <summary>
         /// Photo height
         /// </summary>
         [JsonProperty(PropertyName = "Height", Required = Required.Always)]
-        public int Height;
+        public int Height { get; set; }
     }
 }

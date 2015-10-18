@@ -82,29 +82,28 @@ namespace Telegram.Bot
             if (certificate != null)
                 parameters.Add("certificate", certificate);
 
-            await SendWebRequest("setWebhook", parameters).ConfigureAwait(false);
+            await SendWebRequest<bool>("setWebhook", parameters).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Use this method to send any messages. On success, the sent Message is returned.
         /// </summary>
         /// <param name="type">The <see cref="MessageType"/></param>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
         /// <param name="content">The content of the message. Could be a text, photo, audio, sticker, document, video or location</param>
         /// <param name="replyToMessageId">Optimal. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optimal. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="additionalParameters">Optimal. if additional Parameters could bei send i.e. "disable_web_page_preview" in for a TextMessage</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        private async Task<Message> SendMessage(MessageType type, int chatId, object content,
+        private async Task<Message> SendMessage(MessageType type, string chatId, object content,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null,
             Dictionary<string, object> additionalParameters = null)
         {
-            if (string.IsNullOrEmpty(type.Method))
-                throw new NotSupportedException();
-
             if (additionalParameters == null)
                 additionalParameters = new Dictionary<string, object>();
+
+            var typeInfo = type.ToKeyValue();
 
             additionalParameters.Add("chat_id", chatId);
             additionalParameters.Add("reply_markup", replyMarkup);
@@ -112,23 +111,38 @@ namespace Telegram.Bot
             if (replyToMessageId != 0)
                 additionalParameters.Add("reply_to_message_id", replyToMessageId);
 
-            if (!string.IsNullOrEmpty(type.ContentParameter))
-                additionalParameters.Add(type.ContentParameter, content);
+            if (!string.IsNullOrEmpty(typeInfo.Value))
+                additionalParameters.Add(typeInfo.Value, content);
 
-            return await SendWebRequest<Message>(type.Method, additionalParameters).ConfigureAwait(false);
+            return await SendWebRequest<Message>(typeInfo.Key, additionalParameters).ConfigureAwait(false);
         }
 
         /// <summary>
         /// Use this method to send text messages. On success, the sent Message is returned.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="text">Text of the message to be sent</param>
         /// <param name="disableWebPagePreview">Optimal. Disables link previews for links in this message</param>
         /// <param name="replyToMessageId">Optimal. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optimal. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="isMardown">Optimal. Set to true if you want Telegram apps to show bold, italic and inline URLs in your message.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendTextMessage(int chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
+        public async Task<Message> SendTextMessage(int chatId, string text, bool disableWebPagePreview = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null, bool isMardown = false)
+            => await SendTextMessage(chatId.ToString(), text, disableWebPagePreview, replyToMessageId, replyMarkup, isMardown);
+
+        /// <summary>
+        /// Use this method to send text messages. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
+        /// <param name="text">Text of the message to be sent</param>
+        /// <param name="disableWebPagePreview">Optimal. Disables link previews for links in this message</param>
+        /// <param name="replyToMessageId">Optimal. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optimal. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="isMardown">Optimal. Set to true if you want Telegram apps to show bold, italic and inline URLs in your message.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendTextMessage(string chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null, bool isMardown = false)
         {
             var additionalParameters = new Dictionary<string, object>();
@@ -145,11 +159,38 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Message is returned.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
-        /// <param name="fromChatId">Unique identifier for the chat where the original message was sent — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="fromChatId">Unique identifier for the chat where the original message was sent</param>
         /// <param name="messageId">Unique message identifier</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> ForwardMessage(int chatId, int fromChatId, int messageId)
+        public async Task<Message> ForwardMessage(int chatId, int fromChatId, int messageId) => await ForwardMessage(chatId.ToString(), fromChatId.ToString(), messageId);
+
+        /// <summary>
+        /// Use this method to forward messages of any kind. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="fromChatId">channel username in the format @channelusername</param>
+        /// <param name="messageId">Unique message identifier</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> ForwardMessage(int chatId, string fromChatId, int messageId) => await ForwardMessage(chatId.ToString(), fromChatId, messageId);
+
+        /// <summary>
+        /// Use this method to forward messages of any kind. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
+        /// <param name="fromChatId">Unique identifier for the chat where the original message was sent</param>
+        /// <param name="messageId">Unique message identifier</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> ForwardMessage(string chatId, int fromChatId, int messageId) => await ForwardMessage(chatId, fromChatId.ToString(), messageId);
+
+        /// <summary>
+        /// Use this method to forward messages of any kind. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
+        /// <param name="fromChatId">channel username in the format @channelusername</param>
+        /// <param name="messageId">Unique message identifier</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> ForwardMessage(string chatId, string fromChatId, int messageId)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -164,13 +205,26 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send photos. On success, the sent Message is returned.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
         /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendPhoto(int chatId, FileToSend photo, string caption = "", int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendPhoto(chatId.ToString(), photo, caption, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send photos. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
+        /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendPhoto(string chatId, FileToSend photo, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -184,13 +238,26 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send photos. On success, the sent Message is returned.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
         /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendPhoto(int chatId, string photo, string caption = "", int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendPhoto(chatId.ToString(), photo, caption, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send photos. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
+        /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendPhoto(string chatId, string photo, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -204,7 +271,7 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
@@ -212,7 +279,23 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendAudio(int chatId, FileToSend audio, int duration, string performer, string title, int replyToMessageId = 0,
+        public async Task<Message> SendAudio(int chatId, FileToSend audio, int duration, string performer, string title,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendAudio(chatId.ToString(), audio, duration, performer, title, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
+        /// <param name="duration">Duration of the audio in seconds</param>
+        /// <param name="performer">Performer</param>
+        /// <param name="title">Track name</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendAudio(string chatId, FileToSend audio, int duration, string performer, string title, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -228,7 +311,7 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can send audio files of up to 50 MB in size.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
@@ -236,7 +319,23 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendAudio(int chatId, string audio, int duration, string performer, string title, int replyToMessageId = 0,
+        public async Task<Message> SendAudio(int chatId, string audio, int duration, string performer, string title,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendAudio(chatId.ToString(), audio, duration, performer, title, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can send audio files of up to 50 MB in size.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
+        /// <param name="duration">Duration of the audio in seconds</param>
+        /// <param name="performer">Performer</param>
+        /// <param name="title">Track name</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendAudio(string chatId, string audio, int duration, string performer, string title, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -252,58 +351,117 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendDocument(int chatId, FileToSend document, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, replyToMessageId, replyMarkup).ConfigureAwait(false);
+
+        /// <summary>
+        /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendDocument(string chatId, FileToSend document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendDocument(int chatId, string document, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, replyToMessageId, replyMarkup).ConfigureAwait(false);
+
+        /// <summary>
+        /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendDocument(string chatId, string document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendSticker(int chatId, FileToSend sticker, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
+
+        /// <summary>
+        /// Use this method to send .webp stickers. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendSticker(string chatId, FileToSend sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendSticker(int chatId, string sticker, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
+
+        /// <summary>
+        /// Use this method to send .webp stickers. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendSticker(string chatId, string sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => await SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="caption">Video caption</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendVideo(int chatId, FileToSend video, int duration = 0, string caption = "", int replyToMessageId = 0,
+        public async Task<Message> SendVideo(int chatId, FileToSend video, int duration = 0, string caption = "",
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendVideo(chatId.ToString(), video, duration, caption, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
+        /// <param name="duration">Duration of sent video in seconds</param>
+        /// <param name="caption">Video caption</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendVideo(string chatId, FileToSend video, int duration = 0, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -318,14 +476,29 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="caption">Video caption</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public async Task<Message> SendVideo(int chatId, string video, int duration = 0, string caption = "", int replyToMessageId = 0,
+        public async Task<Message> SendVideo(int chatId, string video, int duration = 0, string caption = "",
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendVideo(chatId.ToString(), video, duration, caption, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
+        /// <param name="duration">Duration of sent video in seconds</param>
+        /// <param name="caption">Video caption</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendVideo(string chatId, string video, int duration = 0, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -340,13 +513,26 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendVoice(int chatId, FileToSend audio, int duration = 0, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendVoice(chatId.ToString(), audio, duration, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
+        /// <param name="duration">Duration of sent audio in seconds</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendVoice(string chatId, FileToSend audio, int duration = 0, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -360,13 +546,26 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendVoice(int chatId, string audio, int duration = 0, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendVoice(chatId.ToString(), audio, duration, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
+        /// <param name="duration">Duration of sent audio in seconds</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendVoice(string chatId, string audio, int duration = 0, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -380,13 +579,26 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="latitude">Latitude of location</param>
         /// <param name="longitude">Longitude of location</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public async Task<Message> SendLocation(int chatId, float latitude, float longitude, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            => await SendLocation(chatId.ToString(), latitude, longitude, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send point on the map. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="latitude">Latitude of location</param>
+        /// <param name="longitude">Longitude of location</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public async Task<Message> SendLocation(string chatId, float latitude, float longitude, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -400,18 +612,27 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
         /// </summary>
-        /// <param name="chatId">Unique identifier for the message recipient — User or GroupChat id</param>
+        /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="chatAction">Type of action to broadcast. Choose one, depending on what the user is about to receive.</param>
         /// <remarks>We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.</remarks>
         public async Task SendChatAction(int chatId, ChatAction chatAction)
+            => await SendChatAction(chatId.ToString(), chatAction);
+
+        /// <summary>
+        /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="chatAction">Type of action to broadcast. Choose one, depending on what the user is about to receive.</param>
+        /// <remarks>We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.</remarks>
+        public async Task SendChatAction(string chatId, ChatAction chatAction)
         {
             var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId},
-                {"action", chatAction.ToString()}
+                {"action", chatAction.ToActionString()}
             };
 
-            await SendWebRequest("sendChatAction", parameters).ConfigureAwait(false);
+            await SendWebRequest<bool>("sendChatAction", parameters).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -439,14 +660,14 @@ namespace Telegram.Bot
         /// <param name="fileId">File identifier</param>
         /// <param name="destination">The destination stream</param>
         /// <returns>The File object. If destination is empty stream ist embedded in the File Object</returns>
-        public async Task<File> GetFile(string fileId, Stream destination = null)
+        public async Task<Types.File> GetFile(string fileId, Stream destination = null)
         {
             var parameters = new Dictionary<string, object>
             {
                 {"file_id", fileId}
             };
 
-            var fileInfo = await SendWebRequest<File>("getFile", parameters).ConfigureAwait(false);
+            var fileInfo = await SendWebRequest<Types.File>("getFile", parameters).ConfigureAwait(false);
 
             var fileUri = new Uri(BaseFileUrl + _token + "/" + fileInfo.FilePath);
 
@@ -467,65 +688,61 @@ namespace Telegram.Bot
 
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
         {
-            var response = await SendRequest(method, parameters).ConfigureAwait(false);
-
-            var responseObject = await response.Content.ReadAsAsync<ApiResponse<T>>().ConfigureAwait(false);
-
-            if (responseObject.Ok)
-                return responseObject.ResultObject;
-
-            throw new Exception(responseObject.Message);
-        }
-
-        private async Task SendWebRequest(string method, Dictionary<string, object> parameters = null)
-        {
-            await SendRequest(method, parameters).ConfigureAwait(false);
-        }
-
-        private async Task<HttpResponseMessage> SendRequest(string method, Dictionary<string, object> parameters = null)
-        {
             var uri = new Uri(BaseUrl + _token + "/" + method);
 
-            HttpResponseMessage response;
-
-            if (parameters != null)
+            using (var client = new HttpClient())
             {
-                using (var form = new MultipartFormDataContent())
+                ApiResponse<T> responseObject = null;
+                try
                 {
+                    HttpResponseMessage response;
 
-                    foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
+                    if (parameters != null)
                     {
-                        var content = ConvertParameterValue(parameter.Value);
+                        using (var form = new MultipartFormDataContent())
+                        {
+                            foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
+                            {
+                                var content = ConvertParameterValue(parameter.Value);
 
-                        if (parameter.Value is FileToSend)
-                            form.Add(content, parameter.Key, ((FileToSend)parameter.Value).Filename);
-                        else
-                            form.Add(content, parameter.Key);
+                                if (parameter.Value is FileToSend)
+                                    form.Add(content, parameter.Key, ((FileToSend) parameter.Value).Filename);
+                                else
+                                    form.Add(content, parameter.Key);
+                            }
+
+                            response = await client.PostAsync(uri, form).ConfigureAwait(false);
+                        }
+                    }
+                    else
+                    {
+                        response = await client.GetAsync(uri).ConfigureAwait(false);
                     }
 
-                    using (var client = new HttpClient())
-                    {
-                        response = await client.PostAsync(uri, form).ConfigureAwait(false);
-                    }
+                    responseObject = await response.Content.ReadAsAsync<ApiResponse<T>>().ConfigureAwait(false);
+                    response.EnsureSuccessStatusCode();
                 }
-            }
-            else
-            {
-                using (var client = new HttpClient())
+                catch (HttpRequestException e) when (e.Message.Contains("400"))
                 {
-                    response = await client.GetAsync(uri).ConfigureAwait(false);
                 }
+                    
+                //TODO: catch more exceptions
+
+                if (responseObject == null)
+                    responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+
+                if (!responseObject.Ok)
+                    throw new ApiRequestException(responseObject.Message, responseObject.Code);
+
+                return responseObject.ResultObject;
             }
-
-            //response.EnsureSuccessStatusCode();
-
-            return response;
         }
 
         private static HttpContent ConvertParameterValue(object value)
         {
-            var type = value.GetType().Name;
-            switch (type)
+            var type = value.GetType();
+
+            switch (type.Name)
             {
                 case "String":
                 case "Int32":

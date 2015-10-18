@@ -2,6 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
+using File = System.IO.File;
 
 namespace Telegram.Bot.Echo
 {
@@ -28,12 +30,19 @@ namespace Telegram.Bot.Echo
 
                 foreach (var update in updates)
                 {
-                    if (update.Message.Text != null)
-                        await Bot.SendTextMessage(update.Message.Chat.Id, update.Message.Text);
+                    if (update.Message.Type == MessageType.TextMessage)
+                    {
+                        await Bot.SendChatAction(update.Message.Chat.Id, ChatAction.Typing);
+                        await Task.Delay(2000);
+                        var t = await Bot.SendTextMessage(update.Message.Chat.Id, update.Message.Text);
+                        Console.WriteLine("Echo Message: {0}", update.Message.Text);
+                    }
 
-                    if (update.Message.Photo != null)
+                    if (update.Message.Type == MessageType.PhotoMessage)
                     {
                         var file = await Bot.GetFile(update.Message.Photo.LastOrDefault()?.FileId);
+
+                        Console.WriteLine("Received Photo: {0}", file.FilePath);
 
                         var filename = file.FileId+"."+file.FilePath.Split('.').Last();
 
@@ -41,8 +50,6 @@ namespace Telegram.Bot.Echo
                         {
                             await file.FileStream.CopyToAsync(profileImageStream);
                         }
-
-
                     }
 
                     offset = update.Id + 1;

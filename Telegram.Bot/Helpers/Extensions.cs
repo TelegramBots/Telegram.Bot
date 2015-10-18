@@ -2,7 +2,7 @@
 
 namespace Telegram.Bot.Helpers
 {
-    public static class UnixDateTimeHelper
+    public static class Extensions
     {
         /// <summary>
         ///   Convert a long into a DateTime
