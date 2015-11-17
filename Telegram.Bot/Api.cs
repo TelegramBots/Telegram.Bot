@@ -16,6 +16,11 @@ namespace Telegram.Bot
 
         private readonly string _token;
 
+        /// <summary>
+        /// Timeout for uploading Files/Videos/Documents etc.
+        /// </summary>
+        public TimeSpan UploadTimeout = TimeSpan.FromMinutes(1);
+
         public Api(string token)
         {
             _token = token;
@@ -706,7 +711,10 @@ namespace Telegram.Bot
                                 var content = ConvertParameterValue(parameter.Value);
 
                                 if (parameter.Value is FileToSend)
+                                {
+                                    client.Timeout = UploadTimeout;
                                     form.Add(content, parameter.Key, ((FileToSend) parameter.Value).Filename);
+                                }
                                 else
                                     form.Add(content, parameter.Key);
                             }

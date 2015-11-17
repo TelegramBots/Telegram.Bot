@@ -11,7 +11,7 @@
     <licenseUrl>https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Changed some Types to enums, implemented recent api changes, added ApiResponseExceptions</releaseNotes>
+    <releaseNotes>Fixed typos, removed neccessary awaits, added configureable upload timeout for large files</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Telegram Api Bot</tags>
     <dependencies>
