@@ -11,7 +11,7 @@
     <licenseUrl>https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Fixed typos, removed neccessary awaits, added configureable upload timeout for large files</releaseNotes>
+    <releaseNotes>Fixed support for channels</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Telegram Api Bot</tags>
     <dependencies>

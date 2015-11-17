@@ -132,7 +132,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="isMarkdown">Optional. Set to true if you want Telegram apps to show bold, italic and inline URLs in your message.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendTextMessage(int chatId, string text, bool disableWebPagePreview = false,
+        public Task<Message> SendTextMessage(long chatId, string text, bool disableWebPagePreview = false,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null, bool isMarkdown = false)
             => SendTextMessage(chatId.ToString(), text, disableWebPagePreview, replyToMessageId, replyMarkup, isMarkdown);
@@ -168,7 +168,7 @@ namespace Telegram.Bot
         /// <param name="fromChatId">Unique identifier for the chat where the original message was sent</param>
         /// <param name="messageId">Unique message identifier</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> ForwardMessage(int chatId, int fromChatId, int messageId) => ForwardMessage(chatId.ToString(), fromChatId.ToString(), messageId);
+        public Task<Message> ForwardMessage(long chatId, long fromChatId, int messageId) => ForwardMessage(chatId.ToString(), fromChatId.ToString(), messageId);
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -177,7 +177,7 @@ namespace Telegram.Bot
         /// <param name="fromChatId">channel username in the format @channelusername</param>
         /// <param name="messageId">Unique message identifier</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> ForwardMessage(int chatId, string fromChatId, int messageId) => ForwardMessage(chatId.ToString(), fromChatId, messageId);
+        public Task<Message> ForwardMessage(long chatId, string fromChatId, int messageId) => ForwardMessage(chatId.ToString(), fromChatId, messageId);
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -186,7 +186,7 @@ namespace Telegram.Bot
         /// <param name="fromChatId">Unique identifier for the chat where the original message was sent</param>
         /// <param name="messageId">Unique message identifier</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> ForwardMessage(string chatId, int fromChatId, int messageId) => ForwardMessage(chatId, fromChatId.ToString(), messageId);
+        public Task<Message> ForwardMessage(string chatId, long fromChatId, int messageId) => ForwardMessage(chatId, fromChatId.ToString(), messageId);
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -216,7 +216,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendPhoto(int chatId, FileToSend photo, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendPhoto(long chatId, FileToSend photo, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendPhoto(chatId.ToString(), photo, caption, replyToMessageId, replyMarkup);
 
@@ -249,7 +249,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendPhoto(int chatId, string photo, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendPhoto(long chatId, string photo, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendPhoto(chatId.ToString(), photo, caption, replyToMessageId, replyMarkup);
 
@@ -284,7 +284,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendAudio(int chatId, FileToSend audio, int duration, string performer, string title,
+        public Task<Message> SendAudio(long chatId, FileToSend audio, int duration, string performer, string title,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendAudio(chatId.ToString(), audio, duration, performer, title, replyToMessageId, replyMarkup);
@@ -324,7 +324,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendAudio(int chatId, string audio, int duration, string performer, string title,
+        public Task<Message> SendAudio(long chatId, string audio, int duration, string performer, string title,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendAudio(chatId.ToString(), audio, duration, performer, title, replyToMessageId, replyMarkup);
@@ -361,7 +361,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(int chatId, FileToSend document, int replyToMessageId = 0,
+        public Task<Message> SendDocument(long chatId, FileToSend document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -383,7 +383,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(int chatId, string document, int replyToMessageId = 0,
+        public Task<Message> SendDocument(long chatId, string document, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendSticker(int chatId, FileToSend sticker, int replyToMessageId = 0,
+        public Task<Message> SendSticker(long chatId, FileToSend sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -427,7 +427,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendSticker(int chatId, string sticker, int replyToMessageId = 0,
+        public Task<Message> SendSticker(long chatId, string sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -451,7 +451,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVideo(int chatId, FileToSend video, int duration = 0, string caption = "",
+        public Task<Message> SendVideo(long chatId, FileToSend video, int duration = 0, string caption = "",
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendVideo(chatId.ToString(), video, duration, caption, replyToMessageId, replyMarkup);
@@ -488,7 +488,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVideo(int chatId, string video, int duration = 0, string caption = "",
+        public Task<Message> SendVideo(long chatId, string video, int duration = 0, string caption = "",
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendVideo(chatId.ToString(), video, duration, caption, replyToMessageId, replyMarkup);
@@ -524,7 +524,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVoice(int chatId, FileToSend audio, int duration = 0, int replyToMessageId = 0,
+        public Task<Message> SendVoice(long chatId, FileToSend audio, int duration = 0, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendVoice(chatId.ToString(), audio, duration, replyToMessageId, replyMarkup);
 
@@ -557,7 +557,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVoice(int chatId, string audio, int duration = 0, int replyToMessageId = 0,
+        public Task<Message> SendVoice(long chatId, string audio, int duration = 0, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendVoice(chatId.ToString(), audio, duration, replyToMessageId, replyMarkup);
 
@@ -590,7 +590,7 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendLocation(int chatId, float latitude, float longitude, int replyToMessageId = 0,
+        public Task<Message> SendLocation(long chatId, float latitude, float longitude, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             => SendLocation(chatId.ToString(), latitude, longitude, replyToMessageId, replyMarkup);
 
@@ -620,7 +620,7 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="chatAction">Type of action to broadcast. Choose one, depending on what the user is about to receive.</param>
         /// <remarks>We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.</remarks>
-        public Task SendChatAction(int chatId, ChatAction chatAction)
+        public Task SendChatAction(long chatId, ChatAction chatAction)
             => SendChatAction(chatId.ToString(), chatAction);
 
         /// <summary>

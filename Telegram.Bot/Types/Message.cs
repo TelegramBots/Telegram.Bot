@@ -19,7 +19,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Sender
         /// </summary>
-        [JsonProperty(PropertyName = "from", Required = Required.Always)]
+        [JsonProperty(PropertyName = "from", Required = Required.Default)]
         public User From { get; internal set; }
 
         /// <summary>
