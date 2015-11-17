@@ -52,7 +52,7 @@ namespace Telegram.Bot.Types
         /// Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
         /// </summary>
         [JsonProperty(PropertyName = "reply_to_message", Required = Required.Default)]
-        public Message ReplayToMessage { get; internal set; }
+        public Message ReplyToMessage { get; internal set; }
 
         /// <summary>
         /// Optional. For text messages, the actual UTF-8 text of the message
