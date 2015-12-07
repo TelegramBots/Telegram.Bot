@@ -8,5 +8,6 @@
         Private,
         Group,
         Channel,
+        Supergroup
     }
 }
