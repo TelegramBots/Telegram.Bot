@@ -150,6 +150,30 @@ namespace Telegram.Bot.Types
         [JsonProperty(PropertyName = "group_chat_created", Required = Required.Default)]
         public bool GroupChatCreated { get; internal set; }
 
+        /// <summary>
+        /// Optional. Service message: the supergroup has been created
+        /// </summary>
+        [JsonProperty(PropertyName = "supergroup_chat_created", Required = Required.Default)]
+        public bool SupergroupChatCreated { get; internal set; }
+
+        /// <summary>
+        /// Optional. Service message: the channel has been created
+        /// </summary>
+        [JsonProperty(PropertyName = "channel_chat_created", Required = Required.Default)]
+        public bool ChannelChatCreated { get; internal set; }
+
+        /// <summary>
+        /// Optional. The group has been migrated to a supergroup with the specified identifier
+        /// </summary>
+        [JsonProperty(PropertyName = "migrate_to_chat_id", Required = Required.Default)]
+        public long MigrateToChatId { get; internal set; }
+
+        /// <summary>
+        /// Optional. The supergroup has been migrated from a group with the specified identifier
+        /// </summary>
+        [JsonProperty(PropertyName = "migrate_from_chat_id", Required = Required.Default)]
+        public long MigrateFromChatId { get; internal set; }
+
         public MessageType Type
         {
             get
