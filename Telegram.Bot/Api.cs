@@ -545,7 +545,7 @@ namespace Telegram.Bot
                 {"duration", duration}
             };
 
-            return SendMessage(MessageType.VideoMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.VoiceMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -578,7 +578,7 @@ namespace Telegram.Bot
                 {"duration", duration}
             };
 
-            return SendMessage(MessageType.VideoMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.VoiceMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
