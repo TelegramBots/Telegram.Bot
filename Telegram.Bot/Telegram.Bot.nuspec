@@ -11,7 +11,7 @@
     <licenseUrl>http://www.gnu.org/licenses/gpl-3.0.txt</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Added support for supergroups</releaseNotes>
+    <releaseNotes>Added support for Inline bots</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>Telegram Api Bot</tags>
     <dependencies>

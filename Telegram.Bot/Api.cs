@@ -691,6 +691,33 @@ namespace Telegram.Bot
             return fileInfo;
         }
 
+        /// <summary>
+        /// Use this method to send answers to an inline query.
+        /// </summary>
+        /// <param name="inlineQueryId">Unique identifier for answered query</param>
+        /// <param name="results">A array of results for the inline query</param>
+        /// <param name="cacheTime">Optional. The maximum amount of time in seconds the result of the inline query may be cached on the server</param>
+        /// <param name="isPersonal">Optional. Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query</param>
+        /// <param name="nextOffset">Optional. Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.</param>
+        /// <returns>On success, True is returned.</returns>
+        public Task<bool> AnswerInlineQuery(string inlineQueryId, InlineQueryResult[] results, int? cacheTime = null, bool isPersonal = false, string nextOffset = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"inline_query_id", inlineQueryId},
+                {"results", results},
+                {"is_personal", isPersonal}
+            };
+
+            if (cacheTime.HasValue)
+                parameters.Add("cache_time", cacheTime);
+
+            if (!string.IsNullOrWhiteSpace(nextOffset))
+                parameters.Add("next_offset", nextOffset);
+
+            return SendWebRequest<bool>("answerInlineQuery", parameters);
+        }
+
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
         {
             var uri = new Uri(BaseUrl + _token + "/" + method);
