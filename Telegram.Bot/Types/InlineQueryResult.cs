@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Telegram.Bot.Helpers;
 
 namespace Telegram.Bot.Types
 {
@@ -13,6 +15,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the result
         /// </summary>
+        [JsonConverter(typeof (InlineQueryResultTypeConverter))]
         [JsonProperty("type", Required = Required.Always)]
         public InlineQueryResultType Type { get; set; }
 
@@ -28,13 +31,18 @@ namespace Telegram.Bot.Types
         [JsonProperty("message_text", Required = Required.Always)]
         public string MessageText { get; set; }
 
-        //TODO: Change to enum or boolean
-
         /// <summary>
-        /// Optional. Send "Markdown", if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
+        /// Set true if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
         /// </summary>
+        [JsonIgnore]
+        public bool Markdown { get; set; } = false;
+        
         [JsonProperty("parse_mode", Required = Required.Default)]
-        public string ParseMode { get; set; }
+        internal string ParseMode
+        {
+            get { return Markdown ? "Markdown" : null; }
+            set { Markdown = (value == "Markdown"); }
+        }
 
         /// <summary>
         /// Optional. Url of the thumbnail for the result

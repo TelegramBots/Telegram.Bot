@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Telegram.Bot.Types
 {
@@ -7,6 +8,7 @@ namespace Telegram.Bot.Types
     /// </summary>
     public enum InlineQueryResultType
     {
+        Unknown = 0,
         Article,
         Photo,
         Gif,
@@ -16,23 +18,19 @@ namespace Telegram.Bot.Types
 
     internal static class InlineQueryResultTypeExtension
     {
+        private static readonly Dictionary<InlineQueryResultType, string> StringMap =
+            new Dictionary<InlineQueryResultType, string>
+            {
+                {InlineQueryResultType.Article, "article" },
+                {InlineQueryResultType.Photo, "photo" },
+                {InlineQueryResultType.Gif, "gif" },
+                {InlineQueryResultType.Mpeg4Gif, "mpeg4_gif" },
+                {InlineQueryResultType.Video, "video" }
+            };
+
         internal static string ToTypeString(this InlineQueryResultType type)
         {
-            switch (type)
-            {
-                case InlineQueryResultType.Article:
-                    return "article";
-                case InlineQueryResultType.Photo:
-                    return "photo";
-                case InlineQueryResultType.Gif:
-                    return "gif";
-                case InlineQueryResultType.Mpeg4Gif:
-                    return "mpeg4_gif";
-                case InlineQueryResultType.Video:
-                    return "video";
-                default:
-                    throw new NotImplementedException();
-            }
+            return StringMap[type];
         }
     }
 }

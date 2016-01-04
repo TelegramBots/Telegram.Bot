@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types
 {
@@ -28,8 +29,25 @@ namespace Telegram.Bot.Types
         [JsonProperty("inline_query", Required = Required.Default)]
         public InlineQuery InlineQuery { get; internal set; }
 
+        /// <summary>
+        /// Optional. The result of a inline query that was chosen by a user and sent to their chat partner
+        /// </summary>
+        [JsonProperty("chosen_inline_result", Required = Required.Default)]
+        public ChosenInlineResult ChosenInlineResult { get; internal set; }
+
+
         [JsonIgnore]
-        public bool IsInlineQuery => Message == null;
+        public UpdateType Type
+        {
+            get
+            {
+                if (Message != null)            return UpdateType.MessageUpdate;
+                if (InlineQuery != null)        return UpdateType.InlineQueryUpdate;
+                if (ChosenInlineResult != null) return UpdateType.ChosenInlineResultUpdate;
+
+                throw new ArgumentOutOfRangeException();
+            }
+        }
 
         public static Update FromString(string data)
         {
