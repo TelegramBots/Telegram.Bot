@@ -22,6 +22,15 @@ namespace Telegram.Bot.Types
         [JsonProperty(PropertyName = "message", Required = Required.Default)]
         public Message Message { get; internal set; }
 
+        /// <summary>
+        /// Optional. New incoming inline query
+        /// </summary>
+        [JsonProperty("inline_query", Required = Required.Default)]
+        public InlineQuery InlineQuery { get; internal set; }
+
+        [JsonIgnore]
+        public bool IsInlineQuery => Message == null;
+
         public static Update FromString(string data)
         {
             return JsonConvert.DeserializeObject<Update>(data);
