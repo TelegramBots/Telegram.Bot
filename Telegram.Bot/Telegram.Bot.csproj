@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Api.cs" />
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\InlineQueryResultTypeConverter.cs" />
     <Compile Include="Helpers\PhotoSizeConverter.cs" />
     <Compile Include="Helpers\UnixDatetimeConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Types\Chat.cs" />
     <Compile Include="Types\ChatAction.cs" />
     <Compile Include="Types\ChatType.cs" />
+    <Compile Include="Types\ChosenInlineResult.cs" />
     <Compile Include="Types\Contact.cs" />
     <Compile Include="Types\FileToSend.cs" />
     <Compile Include="Types\Document.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Types\ReplyKeyboardMarkup.cs" />
     <Compile Include="Types\ReplyMarkup.cs" />
     <Compile Include="Types\Update.cs" />
+    <Compile Include="Types\UpdateType.cs" />
     <Compile Include="Types\UserProfilePhotos.cs" />
     <Compile Include="Types\Video.cs" />
     <Compile Include="Types\Sticker.cs" />
