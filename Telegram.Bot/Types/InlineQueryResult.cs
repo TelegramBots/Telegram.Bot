@@ -1,11 +1,22 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using Telegram.Bot.Helpers;
 
 namespace Telegram.Bot.Types
 {
     public class InlineQueryResult
     {
+        private static readonly Dictionary<Type, InlineQueryResultType> TypeMap =
+            new Dictionary<Type, InlineQueryResultType>
+            {
+                {typeof (InlineQueryResultArticle), InlineQueryResultType.Article},
+                {typeof (InlineQueryResultPhoto), InlineQueryResultType.Photo},
+                {typeof (InlineQueryResultGif), InlineQueryResultType.Gif},
+                {typeof (InlineQueryResultMpeg4Gif), InlineQueryResultType.Mpeg4Gif},
+                {typeof (InlineQueryResultVideo), InlineQueryResultType.Video},
+            };
+
         /// <summary>
         /// Unique identifier of this result
         /// </summary>
@@ -17,25 +28,25 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonConverter(typeof (InlineQueryResultTypeConverter))]
         [JsonProperty("type", Required = Required.Always)]
-        public InlineQueryResultType Type { get; set; }
+        public InlineQueryResultType Type => TypeMap[GetType()];
 
         /// <summary>
         /// Title of the result
         /// </summary>
-        [JsonProperty("title", Required = Required.Always)]
+        [JsonProperty("title", Required = Required.Default)]
         public string Title { get; set; }
 
         /// <summary>
         /// Text of a message to be sent
         /// </summary>
-        [JsonProperty("message_text", Required = Required.Always)]
+        [JsonProperty("message_text", Required = Required.Default)]
         public string MessageText { get; set; }
 
         /// <summary>
         /// Set true if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
         /// </summary>
         [JsonIgnore]
-        public bool Markdown { get; set; } = false;
+        public bool Markdown { get; set; }
         
         [JsonProperty("parse_mode", Required = Required.Default)]
         internal string ParseMode
@@ -47,7 +58,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. Url of the thumbnail for the result
         /// </summary>
-        [JsonProperty("thumb_url", Required = Required.Default)]
+        [JsonProperty("thumb_url", Required = Required.Always)]
         public string ThumbUrl { get; set; }
 
         /// <summary>

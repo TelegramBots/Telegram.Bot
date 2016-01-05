@@ -5,6 +5,7 @@
     /// </summary>
     public enum UpdateType
     {
+        UnkownUpdate = 0,
         MessageUpdate,
         InlineQueryUpdate,
         ChosenInlineResultUpdate,

@@ -8,6 +8,24 @@ namespace Telegram.Bot.Types
     public class InlineQueryResultArticle : InlineQueryResult
     {
         /// <summary>
+        /// Title of the result
+        /// </summary>
+        [JsonProperty("title", Required = Required.Always)]
+        public new string Title { get; set; }
+
+        /// <summary>
+        /// Text of a message to be sent
+        /// </summary>
+        [JsonProperty("message_text", Required = Required.Always)]
+        public new string MessageText { get; set; }
+
+        /// <summary>
+        /// Optional. Url of the thumbnail for the result
+        /// </summary>
+        [JsonProperty("thumb_url", Required = Required.Default)]
+        public new string ThumbUrl { get; set; }
+
+        /// <summary>
         /// Optional. URL of the result
         /// </summary>
         [JsonProperty("url", Required = Required.Default)]

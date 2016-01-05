@@ -8,6 +8,18 @@ namespace Telegram.Bot.Types
     public class InlineQueryResultVideo : InlineQueryResult
     {
         /// <summary>
+        /// Title of the result
+        /// </summary>
+        [JsonProperty("title", Required = Required.Always)]
+        public new string Title { get; set; }
+
+        /// <summary>
+        /// Text of a message to be sent
+        /// </summary>
+        [JsonProperty("message_text", Required = Required.Always)]
+        public new string MessageText { get; set; }
+        
+        /// <summary>
         /// A valid URL for the embedded video player or video file
         /// </summary>
         [JsonProperty("video_url", Required = Required.Always)]

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Telegram.Bot.Types
 {
@@ -25,7 +24,7 @@ namespace Telegram.Bot.Types
                 {InlineQueryResultType.Photo, "photo" },
                 {InlineQueryResultType.Gif, "gif" },
                 {InlineQueryResultType.Mpeg4Gif, "mpeg4_gif" },
-                {InlineQueryResultType.Video, "video" }
+                {InlineQueryResultType.Video, "video" },
             };
 
         internal static string ToTypeString(this InlineQueryResultType type)

@@ -787,7 +787,12 @@ namespace Telegram.Bot
                 case "FileToSend":
                     return new StreamContent(((FileToSend)value).Content);
                 default:
-                    return new StringContent(JsonConvert.SerializeObject(value));
+                    var settings = new JsonSerializerSettings
+                    {
+                        DefaultValueHandling = DefaultValueHandling.Ignore,
+                    };
+
+                    return new StringContent(JsonConvert.SerializeObject(value, settings));
             }
         }
     }

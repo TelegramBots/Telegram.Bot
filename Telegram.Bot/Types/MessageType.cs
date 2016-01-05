@@ -8,6 +8,7 @@ namespace Telegram.Bot.Types
     /// </summary>
     public enum MessageType
     {
+        UnknownMessage = 0,
         TextMessage,
         PhotoMessage,
         AudioMessage,
