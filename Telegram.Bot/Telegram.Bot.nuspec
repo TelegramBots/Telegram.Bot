@@ -13,6 +13,10 @@
     <description>$description$</description>
     <releaseNotes>Added support for Inline bots</releaseNotes>
     <copyright>Copyright 2016</copyright>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="8.0.1" />
+      <dependency id="Microsoft.Net.Http" version="2.2.29" />
+    </dependencies>
     <tags>Telegram Api Bot</tags>
   </metadata>
 </package>
