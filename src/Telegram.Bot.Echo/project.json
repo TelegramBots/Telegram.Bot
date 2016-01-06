@@ -1,0 +1,29 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Telegram.Bot Test Console Application",
+  "authors": [ "Robin Müller" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Telegram.Bot": ""
+  },
+
+  "commands": {
+    "Telegram.Bot.Echo": "Telegram.Bot.Echo"
+  },
+
+  "frameworks": {
+    "dotnet5.4": {
+      "dependencies": {
+        "System.Console": "4.0.0-beta-23516",
+        "System.IO.FileSystem": "4.0.0"
+      }
+    }
+  }
+}
