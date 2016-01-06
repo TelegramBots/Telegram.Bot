@@ -1,0 +1,26 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Telegram.WebHook Test Web Application",
+  "authors": [ "Robin Müller" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "compilationOptions": {
+    "emitEntryPoint": true
+  },
+
+  "dependencies": {
+    "Telegram.Bot": "",
+    "Microsoft.AspNet.WebApi.OwinSelfHost": "5.2.3",
+    "Microsoft.Owin": "3.0.1"
+  },
+
+  "commands": {
+    "Telegram.Bot.WebHook": "Telegram.Bot.WebHook"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}
