@@ -13,6 +13,37 @@
         "Microsoft.CSharp": "4.0.0",
         "System.Net.Http": "4.0.0"
       }
+    },
+    "dotnet": {
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0",
+        "System.Net.Http": "4.0.0"
+      }
+    },
+    ".NETPortable,Version=4.5,Profile=Profile7": {
+      "compilationOptions": {
+        "define": [
+          "PORTABLE"
+        ]
+      },
+      "frameworkAssemblies": {
+        "mscorlib": "",
+        "Microsoft.CSharp": "",
+        "System": "",
+        "System.Collections": "",
+        "System.Core": "",
+        "System.Dynamic.Runtime": "",
+        "System.IO": "",
+        "System.Linq": "",
+        "System.Net.Http": "",
+        "System.ObjectModel": "",
+        "System.Reflection": "",
+        "System.Reflection.Extensions": "",
+        "System.Runtime": "",
+        "System.Runtime.Extensions": "",
+        "System.Threading": "",
+        "System.Threading.Tasks": ""
+      }
     }
   },
   "dependencies": {
