@@ -18,6 +18,7 @@ namespace Telegram.Bot.Types
         StickerMessage,
         LocationMessage,
         ContactMessage,
+        ServiceMessage,
     }
 
     internal static class MessageTypeExtension

@@ -178,9 +178,6 @@ namespace Telegram.Bot.Types
         {
             get
             {
-                if (!string.IsNullOrEmpty(Text))
-                    return MessageType.TextMessage;
-
                 if (Audio != null)
                     return MessageType.AudioMessage;
 
@@ -205,7 +202,20 @@ namespace Telegram.Bot.Types
                 if (Location != null)
                     return MessageType.LocationMessage;
 
-                throw new FormatException("MessageType unknown");
+                if (Text != null)
+                    return MessageType.TextMessage;
+
+                if (NewChatParticipant != null ||
+                    LeftChatParticipant != null ||
+                    NewChatTitle != null ||
+                    NewChatPhoto != null ||
+                    DeleteChatPhoto ||
+                    GroupChatCreated ||
+                    SupergroupChatCreated ||
+                    ChannelChatCreated)
+                    return MessageType.ServiceMessage;
+
+                return MessageType.UnknownMessage;
             }
         }
     }
