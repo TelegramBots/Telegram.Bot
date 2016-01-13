@@ -754,7 +754,13 @@ namespace Telegram.Bot
                         response = await client.GetAsync(uri).ConfigureAwait(false);
                     }
 
+#if NETPLATFORM
+                    var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                    responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
+#else
                     responseObject = await response.Content.ReadAsAsync<ApiResponse<T>>().ConfigureAwait(false);
+#endif
                     response.EnsureSuccessStatusCode();
                 }
                 catch (HttpRequestException e) when (e.Message.Contains("400"))

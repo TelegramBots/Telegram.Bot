@@ -7,47 +7,42 @@
   "iconUrl": "https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828",
   "licenseUrl": "http://www.gnu.org/licenses/gpl-3.0.txt",
   "frameworks": {
-    "dnx451": { },
-    "dotnet5.4": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
-        "System.Net.Http": "4.0.0"
-      }
-    },
-    "dotnet": {
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
-        "System.Net.Http": "4.0.0"
-      }
-    },
-    ".NETPortable,Version=4.5,Profile=Profile7": {
-      "compilationOptions": {
-        "define": [
-          "PORTABLE"
-        ]
-      },
+    "net45": {
       "frameworkAssemblies": {
         "mscorlib": "",
         "Microsoft.CSharp": "",
         "System": "",
-        "System.Collections": "",
-        "System.Core": "",
-        "System.Dynamic.Runtime": "",
-        "System.IO": "",
-        "System.Linq": "",
-        "System.Net.Http": "",
-        "System.ObjectModel": "",
-        "System.Reflection": "",
-        "System.Reflection.Extensions": "",
-        "System.Runtime": "",
-        "System.Runtime.Extensions": "",
-        "System.Threading": "",
-        "System.Threading.Tasks": ""
+        "System.Core": ""
+      }
+    },
+    "dotnet": {
+      "compilationOptions": {
+        "define": [
+          "NETPLATFORM"
+        ]
+      },
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0",
+        "System.Net.Http": "4.0.0"
+      }
+    },
+    "dnxcore50": {
+      "compilationOptions": {
+        "define": [
+          "DNXCORE"
+        ]
+      },
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0",
+        "System.Collections": "4.0.10",
+        "System.IO": "4.0.10",
+        "System.Linq": "4.0.0",
+        "System.Net.Http": "4.0.0"
       }
     }
   },
   "dependencies": {
     "Microsoft.AspNet.WebApi.Client": "5.2.3",
-    "Newtonsoft.Json": "8.0.1"
+    "Newtonsoft.Json": "8.0.2"
   }
 }
