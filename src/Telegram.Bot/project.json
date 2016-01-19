@@ -1,23 +1,37 @@
 {
-  "version": "7.0.0-*",
+  "version": "7.1.0-*",
   "title": "Telegram Bot API",
   "description": "Telegram Bot API Class Library",
   "authors": [ "Robin Müller" ],
-  "copyright": "Copyright © Robin Müller 2015",
+  "copyright": "Copyright © Robin Müller 2016",
   "tags": [ "Telegram", "Api", "Bot" ],
   "repository": {
-    "git": "https://github.com/MrRoundRobin/telegram.bot.git"
+    "type": "git",
+    "url": "https://github.com/MrRoundRobin/telegram.bot.git"
   },
+  "releaseNotes": "Background message polling triggering events",
   "projectUrl": "https://github.com/MrRoundRobin/telegram.bot",
   "iconUrl": "https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828",
   "licenseUrl": "http://www.gnu.org/licenses/gpl-3.0.txt",
   "frameworks": {
     "net45": {
+      "compilationOptions": {
+        "define": [
+          "NET45"
+        ]
+      },
       "frameworkAssemblies": {
         "mscorlib": "",
         "Microsoft.CSharp": "",
         "System": "",
         "System.Core": ""
+      }
+    },
+    "net46": {
+      "compilationOptions": {
+        "define": [
+          "NET46"
+        ] 
       }
     },
     "dotnet": {

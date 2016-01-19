@@ -19,13 +19,108 @@ namespace Telegram.Bot
         /// <summary>
         /// Timeout for uploading Files/Videos/Documents etc.
         /// </summary>
-        public TimeSpan UploadTimeout = TimeSpan.FromMinutes(1);
+        public TimeSpan UploadTimeout { get; set; } = TimeSpan.FromMinutes(1);
+
+        /// <summary>
+        /// Timeout for long-polling
+        /// </summary>
+        public TimeSpan PollingTimeout { get; set; } = TimeSpan.FromMinutes(1);
+
+        /// <summary>
+        /// Indecates if receiving updates
+        /// </summary>
+        public bool IsReceiving { get; set; }
+
+        /// <summary>
+        /// The current message offset
+        /// </summary>
+        public int MessageOffset { get; set; } = 0;
+
+        protected virtual void OnUpdateReceived(UpdateEventArgs e)
+        {
+            UpdateReceived?.Invoke(this, e);
+
+            switch (e.Update.Type)
+            {
+                case UpdateType.MessageUpdate:
+                    MessageReceived?.Invoke(this, e);
+                    break;
+
+                case UpdateType.InlineQueryUpdate:
+                    InlineQueryReceived?.Invoke(this, e);
+                    break;
+
+                case UpdateType.ChosenInlineResultUpdate:
+                    ChosenInlineResultReceived?.Invoke(this, e);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Fired when any updates are availible
+        /// </summary>
+        public event EventHandler<UpdateEventArgs> UpdateReceived;
+
+        /// <summary>
+        /// Fired when messages are availible
+        /// </summary>
+        public event EventHandler<MessageEventArgs> MessageReceived;
+
+        /// <summary>
+        /// Fired when inline queries are availible
+        /// </summary>
+        public event EventHandler<InlineQueryEventArgs> InlineQueryReceived;
+
+        /// <summary>
+        /// Fired when chosen inline results are availible
+        /// </summary>
+        public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived;
 
         public Api(string token)
         {
             _token = token;
         }
 
+        /// <summary>
+        /// Start update receiving
+        /// </summary>
+        public void StartReceiving() => StartReceiving(PollingTimeout);
+
+        /// <summary>
+        /// Start update receiving
+        /// </summary>
+        public void StartReceiving(TimeSpan timeout)
+        {
+            PollingTimeout = timeout;
+            IsReceiving = true;
+
+            Receive();
+        }
+
+        private async void Receive()
+        {
+            while (IsReceiving)
+            {
+                var timeout = Convert.ToInt32(PollingTimeout.TotalSeconds);
+
+                var updates = await GetUpdates(MessageOffset, timeout: timeout).ConfigureAwait(false);
+
+                foreach (var update in updates)
+                {
+                    OnUpdateReceived(new UpdateEventArgs(update));
+                    MessageOffset = update.Id + 1;
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// Stop update receiving
+        /// </summary>
+        public void StopReceiving()
+        {
+            IsReceiving = false;
+        }
 
         /// <summary>
         /// A simple method for testing your bot's auth token. Requires no parameters. Returns basic information about the bot in form of User object.
@@ -736,6 +831,11 @@ namespace Telegram.Bot
                             foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
                             {
                                 var content = ConvertParameterValue(parameter.Value);
+
+                                if (parameter.Key == "timeout")
+                                {
+                                    client.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
+                                }
 
                                 if (parameter.Value is FileToSend)
                                 {

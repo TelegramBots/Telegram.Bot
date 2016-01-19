@@ -5,7 +5,7 @@ using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Helpers
 {
-    class PhotoSizeConverter : JsonConverter
+    internal class PhotoSizeConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
