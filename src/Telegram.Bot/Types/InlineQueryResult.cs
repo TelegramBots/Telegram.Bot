@@ -26,7 +26,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the result
         /// </summary>
-        [JsonConverter(typeof (InlineQueryResultTypeConverter))]
+        [JsonConverter(typeof(InlineQueryResultTypeConverter))]
         [JsonProperty("type", Required = Required.Always)]
         public InlineQueryResultType Type => TypeMap[GetType()];
 
@@ -43,17 +43,11 @@ namespace Telegram.Bot.Types
         public string MessageText { get; set; }
 
         /// <summary>
-        /// Set true if you want Telegram apps to show bold, italic and inline URLs in your bot's message.
+        /// Optional. If you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
         /// </summary>
-        [JsonIgnore]
-        public bool Markdown { get; set; }
-        
+        [JsonConverter(typeof(ParseModeConverter))]
         [JsonProperty("parse_mode", Required = Required.Default)]
-        internal string ParseMode
-        {
-            get { return Markdown ? "Markdown" : null; }
-            set { Markdown = (value == "Markdown"); }
-        }
+        public ParseMode ParseMode { get; set; }
 
         /// <summary>
         /// Optional. Url of the thumbnail for the result

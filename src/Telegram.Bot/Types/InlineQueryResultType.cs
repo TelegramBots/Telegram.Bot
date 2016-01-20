@@ -27,9 +27,6 @@ namespace Telegram.Bot.Types
                 {InlineQueryResultType.Video, "video" },
             };
 
-        internal static string ToTypeString(this InlineQueryResultType type)
-        {
-            return StringMap[type];
-        }
+        internal static string ToTypeString(this InlineQueryResultType type) => StringMap[type];
     }
 }

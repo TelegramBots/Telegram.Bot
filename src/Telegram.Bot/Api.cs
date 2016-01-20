@@ -225,12 +225,12 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Optional. Disables link previews for links in this message</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="isMarkdown">Optional. Set to true if you want Telegram apps to show bold, italic and inline URLs in your message.</param>
+        /// <param name="parseMode">Optional. Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendTextMessage(long chatId, string text, bool disableWebPagePreview = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null, bool isMarkdown = false)
-            => SendTextMessage(chatId.ToString(), text, disableWebPagePreview, replyToMessageId, replyMarkup, isMarkdown);
+            ReplyMarkup replyMarkup = null, ParseMode parseMode = ParseMode.Default)
+            => SendTextMessage(chatId.ToString(), text, disableWebPagePreview, replyToMessageId, replyMarkup, parseMode);
 
         /// <summary>
         /// Use this method to send text messages. On success, the sent Message is returned.
@@ -240,18 +240,18 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Optional. Disables link previews for links in this message</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="isMarkdown">Optional. Set to true if you want Telegram apps to show bold, italic and inline URLs in your message.</param>
+        /// <param name="parseMode">Optional. Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendTextMessage(string chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null, bool isMarkdown = false)
+            ReplyMarkup replyMarkup = null, ParseMode parseMode = ParseMode.Default)
         {
             var additionalParameters = new Dictionary<string, object>();
 
             if (disableWebPagePreview)
                 additionalParameters.Add("disable_web_page_preview", true);
 
-            if (isMarkdown)
-                additionalParameters.Add("parse_mode", "Markdown");
+            if (parseMode != ParseMode.Default)
+                additionalParameters.Add("parse_mode", parseMode.ToModeString());
 
             return SendMessage(MessageType.TextMessage, chatId, text, replyToMessageId, replyMarkup, additionalParameters);
         }
