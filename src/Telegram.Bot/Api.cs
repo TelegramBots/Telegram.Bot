@@ -832,11 +832,12 @@ namespace Telegram.Bot
                             {
                                 var content = ConvertParameterValue(parameter.Value);
 
-                                if (parameter.Key == "timeout")
+/*                                
+								if (parameter.Key == "timeout")
                                 {
                                     client.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
                                 }
-
+*/
                                 if (parameter.Value is FileToSend)
                                 {
                                     client.Timeout = UploadTimeout;
