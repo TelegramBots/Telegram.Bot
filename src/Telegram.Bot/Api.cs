@@ -853,7 +853,7 @@ namespace Telegram.Bot
                             {
                                 var content = ConvertParameterValue(parameter.Value);
 
-                                if (parameter.Key == "timeout")
+                                if (parameter.Key == "timeout" && (int)parameter.Value != 0)
                                 {
                                     client.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
                                 }
