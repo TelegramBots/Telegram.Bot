@@ -458,7 +458,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendDocument(long chatId, FileToSend document, string caption = "", int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, caption, replyToMessageId, replyMarkup);
+            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -491,7 +491,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendDocument(long chatId, string document, string caption = "", int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, replyToMessageId, replyMarkup);
+            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
