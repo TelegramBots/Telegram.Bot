@@ -453,32 +453,44 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
+        /// <param name="caption">Document caption</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(long chatId, FileToSend document, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, replyToMessageId, replyMarkup);
+        public Task<Message> SendDocument(long chatId, FileToSend document, string caption = "", int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, caption, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
         /// </summary>
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
+        /// <param name="caption">Document caption</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(string chatId, FileToSend document, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup);
+        public Task<Message> SendDocument(string chatId, FileToSend document, string caption = "", int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+        {
+            var additionalParameters = new Dictionary<string, object>
+            {
+                {"caption", caption}
+            };
+
+            return SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup, additionalParameters);
+        }
+
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
+        /// <param name="caption">Document caption</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(long chatId, string document, int replyToMessageId = 0,
+        public Task<Message> SendDocument(long chatId, string document, string caption = "", int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId.ToString(), document, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -486,11 +498,20 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
+        /// <param name="caption">Document caption</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(string chatId, string document, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup);
+        public Task<Message> SendDocument(string chatId, string document, string caption = "", int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+        {
+            var additionalParameters = new Dictionary<string, object>
+            {
+                {"caption", caption}
+            };
+
+            return SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup, additionalParameters);
+        }
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
@@ -840,7 +861,7 @@ namespace Telegram.Bot
                                 if (parameter.Value is FileToSend)
                                 {
                                     client.Timeout = UploadTimeout;
-                                    form.Add(content, parameter.Key, ((FileToSend) parameter.Value).Filename);
+                                    form.Add(content, parameter.Key, ((FileToSend)parameter.Value).Filename);
                                 }
                                 else
                                     form.Add(content, parameter.Key);
@@ -866,11 +887,11 @@ namespace Telegram.Bot
                 catch (HttpRequestException e) when (e.Message.Contains("400"))
                 {
                 }
-                    
+
                 //TODO: catch more exceptions
 
                 if (responseObject == null)
-                    responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+                    responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
 
                 if (!responseObject.Ok)
                     throw new ApiRequestException(responseObject.Message, responseObject.Code);
