@@ -884,7 +884,7 @@ namespace Telegram.Bot
 #endif
                     response.EnsureSuccessStatusCode();
                 }
-                catch (HttpRequestException e) when (e.Message.Contains("400"))
+                catch (HttpRequestException e) when (e.Message.Contains("400") || e.Message.Contains("403"))
                 {
                 }
 
