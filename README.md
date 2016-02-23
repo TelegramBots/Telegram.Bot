@@ -22,13 +22,18 @@ static void testApi()
 }
 ```
 
+see [telegram.bot.examples](https://github.com/MrRoundRobin/telegram.bot.examples)
+
 ## Installation
 
 Install as [NuGet package](https://www.nuget.org/packages/Telegram.Bot/):
 
-    Install-Package Telegram.Bot
-    
+```
+Install-Package Telegram.Bot
+```
+
 ## API Coverage
 
-There are functions for all available API methods. (2015-11-17)
+There are functions for all available API methods. (2016-01-05) incl. [Inline mode](https://core.telegram.org/bots/api#inline-mode)
+
 Missing: [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
