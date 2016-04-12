@@ -834,7 +834,159 @@ namespace Telegram.Bot
             return SendWebRequest<bool>("answerInlineQuery", parameters);
         }
 
-        private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
+		/// <summary>
+		/// Use this method to send answers to an inline query.
+		/// </summary>
+		/// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
+		/// <param name="text">Optional. Text of the notification. If not specified, nothing will be shown to the user</param>
+		/// <param name="showAlert">Optional. If true, an alert will be shown by the client instead of a notificaiton at the top of the chat screen. Defaults to false.</param>
+		/// <returns>On success, True is returned.</returns>
+		public Task<bool> AnswerCallbackQuery(string callbackQueryId, string text, bool showAlert = false)
+		{
+			var parameters = new Dictionary<string, object>
+			{
+				{"callback_query_id", callbackQueryId},
+				{"show_alert", showAlert}
+			};
+
+			if (!string.IsNullOrEmpty(text))
+				parameters.Add("text", text);
+
+			return SendWebRequest<bool>("answerCallbackQuery", parameters);
+		}
+
+		/// <summary>
+		/// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+		/// </summary>
+		/// <param name="chatId">Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+		/// <param name="messageId">Required if inline_message_id is not specified. Unique identifier of the sent message</param>
+		/// <param name="inlineMessageId">Required if chat_id and message_id are not specified. Identifier of the inline message</param>
+		/// <param name="text">New text of the message</param>
+		/// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+		/// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+		/// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+		/// <returns>On success, the edited Message is returned.</returns>
+		public Task<bool> EditMessageText(int chatId, int messageId, string inlineMessageId, string text, ParseMode parseMode, bool disableWebPagePreview, InlineKeyboardMarkup replyMarkup) => EditMessageText(chatId.ToString(), messageId, inlineMessageId, text, parseMode, disableWebPagePreview, replyMarkup);
+
+		/// <summary>
+		/// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+		/// </summary>
+		/// <param name="chatId">Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+		/// <param name="messageId">Required if inline_message_id is not specified. Unique identifier of the sent message</param>
+		/// <param name="inlineMessageId">Required if chat_id and message_id are not specified. Identifier of the inline message</param>
+		/// <param name="text">New text of the message</param>
+		/// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+		/// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+		/// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+		/// <returns>On success, the edited Message is returned.</returns>
+		public Task<bool> EditMessageText(string chatId, int messageId, string inlineMessageId, string text, ParseMode parseMode, bool disableWebPagePreview, InlineKeyboardMarkup replyMarkup)
+		{
+			var parameters = new Dictionary<string, object>
+			{
+				{"text", text }
+			};
+
+			if (replyMarkup != null)
+				parameters.Add("reply_markup", replyMarkup);
+
+			if (messageId != 0)
+				parameters.Add("message_id", messageId);
+
+			if (disableWebPagePreview)
+				parameters.Add("disable_web_page_preview", true);
+
+			if (parseMode != ParseMode.Default)
+				parameters.Add("parse_mode", parseMode.ToModeString());
+
+			if (!string.IsNullOrEmpty(chatId))
+				parameters.Add("chat_id", chatId);
+
+			if (!string.IsNullOrEmpty(inlineMessageId))
+				parameters.Add("inline_message_id", inlineMessageId);
+
+			return SendWebRequest<bool>("editMessageText", parameters);
+		}
+
+		/// <summary>
+		/// Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
+		/// </summary>
+		/// <param name="chatId">Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+		/// <param name="messageId">Required if inline_message_id is not specified. Unique identifier of the sent message</param>
+		/// <param name="inlineMessageId">Required if chat_id and message_id are not specified. Identifier of the inline message</param>
+		/// <param name="caption">New caption of the message</param>
+		/// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+		/// <returns>On success, the edited Message is returned.</returns>
+		public Task<bool> EditMessageCaption(int chatId, int messageId, string inlineMessageId, string caption, InlineKeyboardMarkup replyMarkup) => EditMessageCaption(chatId.ToString(), messageId, inlineMessageId, caption, replyMarkup);
+
+		/// <summary>
+		/// Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
+		/// </summary>
+		/// <param name="chatId">Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+		/// <param name="messageId">Required if inline_message_id is not specified. Unique identifier of the sent message</param>
+		/// <param name="inlineMessageId">Required if chat_id and message_id are not specified. Identifier of the inline message</param>
+		/// <param name="caption">New caption of the message</param>
+		/// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+		/// <returns>On success, the edited Message is returned.</returns>
+		public Task<bool> EditMessageCaption(string chatId, int messageId, string inlineMessageId, string caption, InlineKeyboardMarkup replyMarkup)
+		{
+			var parameters = new Dictionary<string, object>
+			{
+				{"caption", caption }
+			};
+
+			if (replyMarkup != null)
+				parameters.Add("reply_markup", replyMarkup);
+
+			if (messageId != 0)
+				parameters.Add("message_id", messageId);
+
+			if (!string.IsNullOrEmpty(chatId))
+				parameters.Add("chat_id", chatId);
+
+			if (!string.IsNullOrEmpty(inlineMessageId))
+				parameters.Add("inline_message_id", inlineMessageId);
+
+			return SendWebRequest<bool>("editMessageCaption", parameters);
+		}
+
+		/// <summary>
+		/// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+		/// </summary>
+		/// <param name="chatId">Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+		/// <param name="messageId">Required if inline_message_id is not specified. Unique identifier of the sent message</param>
+		/// <param name="inlineMessageId">Required if chat_id and message_id are not specified. Identifier of the inline message</param>
+		/// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+		/// <returns>On success, the edited Message is returned.</returns>
+		public Task<bool> EditMessageReplyMarkup(int chatId, int messageId, string inlineMessageId, InlineKeyboardMarkup replyMarkup) => EditMessageReplyMarkup(chatId.ToString(), messageId, inlineMessageId, replyMarkup);
+
+		/// <summary>
+		/// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+		/// </summary>
+		/// <param name="chatId">Required if inline_message_id is not specified. Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+		/// <param name="messageId">Required if inline_message_id is not specified. Unique identifier of the sent message</param>
+		/// <param name="inlineMessageId">Required if chat_id and message_id are not specified. Identifier of the inline message</param>
+		/// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+		/// <returns>On success, the edited Message is returned.</returns>
+		public Task<bool> EditMessageReplyMarkup(string chatId, int messageId, string inlineMessageId, InlineKeyboardMarkup replyMarkup)
+		{
+			var parameters = new Dictionary<string, object>();
+
+			if (replyMarkup != null)
+				parameters.Add("reply_markup", replyMarkup);
+
+			if (messageId != 0)
+				parameters.Add("message_id", messageId);
+
+			if (!string.IsNullOrEmpty(chatId))
+				parameters.Add("chat_id", chatId);
+
+			if (!string.IsNullOrEmpty(inlineMessageId))
+				parameters.Add("inline_message_id", inlineMessageId);
+
+			return SendWebRequest<bool>("editMessageReplyMarkup", parameters);
+		}
+
+		private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
         {
             var uri = new Uri(BaseUrl + _token + "/" + method);
 
