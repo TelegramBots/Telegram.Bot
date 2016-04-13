@@ -6,6 +6,9 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents an incoming update.
     /// </summary>
+    /// <remarks>
+    /// Only one of the optional parameters can be present in any given update.
+    /// </remarks>
     [JsonObject(MemberSerialization.OptIn)]
     public class Update
     {
@@ -35,6 +38,11 @@ namespace Telegram.Bot.Types
         [JsonProperty("chosen_inline_result", Required = Required.Default)]
         public ChosenInlineResult ChosenInlineResult { get; internal set; }
 
+        /// <summary>
+        /// Optional. New incoming callback query
+        /// </summary>
+        [JsonProperty("callback_query", Required = Required.Default)]
+        public CallbackQuery CallbackQuery { get; set; }
 
         [JsonIgnore]
         public UpdateType Type
@@ -44,6 +52,7 @@ namespace Telegram.Bot.Types
                 if (Message != null)            return UpdateType.MessageUpdate;
                 if (InlineQuery != null)        return UpdateType.InlineQueryUpdate;
                 if (ChosenInlineResult != null) return UpdateType.ChosenInlineResultUpdate;
+                if (CallbackQuery != null)      return UpdateType.CallbackQueryUpdate;
 
                 throw new ArgumentOutOfRangeException();
             }

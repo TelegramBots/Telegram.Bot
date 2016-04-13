@@ -815,8 +815,10 @@ namespace Telegram.Bot
         /// <param name="cacheTime">Optional. The maximum amount of time in seconds the result of the inline query may be cached on the server</param>
         /// <param name="isPersonal">Optional. Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query</param>
         /// <param name="nextOffset">Optional. Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.</param>
+        /// <param name="switchPmText">If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter</param>
+        /// <param name="switchPmParameter">Parameter for the start message sent to the bot when user presses the switch button</param>
         /// <returns>On success, True is returned.</returns>
-        public Task<bool> AnswerInlineQuery(string inlineQueryId, InlineQueryResult[] results, int? cacheTime = null, bool isPersonal = false, string nextOffset = null)
+        public Task<bool> AnswerInlineQuery(string inlineQueryId, InlineQueryResult[] results, int? cacheTime = null, bool isPersonal = false, string nextOffset = null, string switchPmText = null, string switchPmParameter = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -832,6 +834,187 @@ namespace Telegram.Bot
                 parameters.Add("next_offset", nextOffset);
 
             return SendWebRequest<bool>("answerInlineQuery", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
+        /// </summary>
+        /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
+        /// <param name="text">Text of the notification. If not specified, nothing will be shown to the user</param>
+        /// <param name="showAlert">If true, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.</param>
+        /// <returns>On success, True is returned.</returns>
+        public Task<bool> AnswerCallbackQuery(string callbackQueryId, string text = null, bool showAlert = false)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"callback_query_id", callbackQueryId },
+                {"show_alert", showAlert },
+            };
+
+            if (string.IsNullOrEmpty(text))
+                parameters.Add("text", text);
+
+            return SendWebRequest<bool>("answerCallbackQuery", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="text">New text of the message</param>
+        /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditMessageText(long chatId, int messageId, string text,
+            ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, ReplyMarkup replyMarkup = null)
+            => EditMessageText(chatId.ToString(), messageId, text, parseMode, disableWebPagePreview, replyMarkup);
+
+        /// <summary>
+        /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="text">New text of the message</param>
+        /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditMessageText(string chatId, int messageId, string text, ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"message_id", messageId},
+                {"text", text },
+                {"parse_mode", parseMode },
+                {"disable_web_page_preview", disableWebPagePreview },
+                {"reply_markup", replyMarkup },
+            };
+
+            return SendWebRequest<Message>("editMessageText", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="inlineMessageId">Identifier of the inline message</param>
+        /// <param name="text">New text of the message</param>
+        /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditInlineMessageText(string inlineMessageId, string text,
+            ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"inline_message_id", inlineMessageId},
+                {"text", text },
+                {"parse_mode", parseMode },
+                {"disable_web_page_preview", disableWebPagePreview },
+                {"reply_markup", replyMarkup },
+            };
+
+            return SendWebRequest<Message>("editMessageText", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="caption">New caption of the message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditMessageCaption(long chatId, int messageId, string caption, ReplyMarkup replyMarkup = null)
+            => EditMessageCaption(chatId.ToString(), messageId, caption, replyMarkup);
+
+        /// <summary>
+        /// Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="caption">New caption of the message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditMessageCaption(string chatId, int messageId, string caption, ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"message_id", messageId},
+                {"caption", caption },
+                {"reply_markup", replyMarkup },
+            };
+
+            return SendWebRequest<Message>("editMessageText", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="inlineMessageId">Unique identifier of the sent message</param>
+        /// <param name="caption">New caption of the message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditInlineMessageCaption(string inlineMessageId, string caption, ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"inline_message_id", inlineMessageId},
+                {"caption", caption },
+                {"reply_markup", replyMarkup },
+            };
+
+            return SendWebRequest<Message>("editMessageText", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditMessageReplyMarkup(long chatId, int messageId, ReplyMarkup replyMarkup = null)
+            => EditMessageReplyMarkup(chatId.ToString(), messageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditMessageReplyMarkup(string chatId, int messageId, ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"message_id", messageId},
+                {"reply_markup", replyMarkup },
+            };
+
+            return SendWebRequest<Message>("editMessageText", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="inlineMessageId">Unique identifier of the sent message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <returns>On success, the edited Message is returned.</returns>
+        public Task<Message> EditInlineMessageReplyMarkup(string inlineMessageId, ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"inline_message_id", inlineMessageId},
+                {"reply_markup", replyMarkup },
+            };
+
+            return SendWebRequest<Message>("editMessageText", parameters);
         }
 
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)

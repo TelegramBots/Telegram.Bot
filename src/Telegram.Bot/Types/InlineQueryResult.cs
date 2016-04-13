@@ -37,6 +37,12 @@ namespace Telegram.Bot.Types
         public string Title { get; set; }
 
         /// <summary>
+        /// Optional. Inline keyboard attached to the message
+        /// </summary>
+        [JsonProperty("reply_markup", Required = Required.Default)]
+        public InlineKeyboardMarkup ReplyMarkup { get; set; }
+
+        /// <summary>
         /// Text of a message to be sent
         /// </summary>
         [JsonProperty("message_text", Required = Required.Default)]

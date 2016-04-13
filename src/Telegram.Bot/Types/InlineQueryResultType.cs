@@ -13,6 +13,23 @@ namespace Telegram.Bot.Types
         Gif,
         Mpeg4Gif,
         Video,
+
+        Audio,
+        Contact,
+        Document,
+        Location,
+        Venue,
+        Voice,
+
+        CachedPhoto = 102,
+        CachedGif = 103,
+        CachedMpeg4Gif = 104,
+        CachedVideo = 105,
+        CachedAudio = 106,
+        CachedDocument = 108,
+        CachedVoice = 111,
+
+        CachedSticker = 112,
     }
 
     internal static class InlineQueryResultTypeExtension
@@ -25,6 +42,16 @@ namespace Telegram.Bot.Types
                 {InlineQueryResultType.Gif, "gif" },
                 {InlineQueryResultType.Mpeg4Gif, "mpeg4_gif" },
                 {InlineQueryResultType.Video, "video" },
+
+                {InlineQueryResultType.Audio, "audio" },
+                {InlineQueryResultType.Voice,  "voice" },
+                {InlineQueryResultType.Document, "document" },
+                {InlineQueryResultType.Location, "location" },
+                {InlineQueryResultType.Venue, "venue" },
+                {InlineQueryResultType.Contact, "contact" },
+
+                {InlineQueryResultType.Contact, "contact" },
+
             };
 
         internal static string ToTypeString(this InlineQueryResultType type) => StringMap[type];

@@ -9,5 +9,6 @@
         MessageUpdate,
         InlineQueryUpdate,
         ChosenInlineResultUpdate,
+        CallbackQueryUpdate,
     }
 }
