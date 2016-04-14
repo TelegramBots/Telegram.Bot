@@ -50,7 +50,7 @@ namespace Telegram.Bot.Types
                 {InlineQueryResultType.Venue, "venue" },
                 {InlineQueryResultType.Contact, "contact" },
 
-                {InlineQueryResultType.Contact, "contact" },
+                
 
             };
 

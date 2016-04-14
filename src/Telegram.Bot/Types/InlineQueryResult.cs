@@ -15,6 +15,7 @@ namespace Telegram.Bot.Types
                 {typeof (InlineQueryResultGif), InlineQueryResultType.Gif},
                 {typeof (InlineQueryResultMpeg4Gif), InlineQueryResultType.Mpeg4Gif},
                 {typeof (InlineQueryResultVideo), InlineQueryResultType.Video},
+                {typeof (InlineQueryResultDocument), InlineQueryResultType.Document}
             };
 
         /// <summary>
