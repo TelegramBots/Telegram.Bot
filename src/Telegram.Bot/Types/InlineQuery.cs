@@ -27,6 +27,12 @@ namespace Telegram.Bot.Types
         public string Query { get; internal set; }
 
         /// <summary>
+        /// Optional. Sender location, only for bots that request user location
+        /// </summary>
+        [JsonProperty("location", Required = Required.Default)]
+        public Location Location { get; internal set; }
+
+        /// <summary>
         /// Offset of the results to be returned, can be controlled by the bot
         /// </summary>
         [JsonProperty("offset", Required = Required.Always)]
