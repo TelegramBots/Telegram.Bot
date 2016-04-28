@@ -26,9 +26,6 @@ namespace Telegram.Bot.Types
         [JsonProperty("request_location")]
         public bool RequestLocation { get; set; } = false;
 
-        public static implicit operator KeyboardButton(string key)
-        {
-            return new KeyboardButton {Text = key};
-        }
+        public static implicit operator KeyboardButton(string key) => new KeyboardButton {Text = key};
     }
 }

@@ -34,6 +34,9 @@ Install-Package Telegram.Bot
 
 ## API Coverage
 
-There are functions for all available API methods. (2016-01-05) incl. [Inline mode](https://core.telegram.org/bots/api#inline-mode)
+Updated to [Bot API 2.0](https://core.telegram.org/bots/2-0-intro)
 
-Missing: [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
+Missing / TODO (last check 28.04.2016):
+  * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
+  * Silent Messages
+  * InlineQueryResultCaced*
