@@ -888,10 +888,12 @@ namespace Telegram.Bot
                 {"chat_id", chatId},
                 {"message_id", messageId},
                 {"text", text },
-                {"parse_mode", parseMode },
                 {"disable_web_page_preview", disableWebPagePreview },
                 {"reply_markup", replyMarkup },
             };
+            
+            if (parseMode != ParseMode.Default)
+                parameters.Add("parse_mode", parseMode.ToModeString());
 
             return SendWebRequest<Message>("editMessageText", parameters);
         }
@@ -912,10 +914,12 @@ namespace Telegram.Bot
             {
                 {"inline_message_id", inlineMessageId},
                 {"text", text },
-                {"parse_mode", parseMode },
                 {"disable_web_page_preview", disableWebPagePreview },
                 {"reply_markup", replyMarkup },
             };
+
+            if (parseMode != ParseMode.Default)
+                parameters.Add("parse_mode", parseMode.ToModeString());
 
             return SendWebRequest<Message>("editMessageText", parameters);
         }
