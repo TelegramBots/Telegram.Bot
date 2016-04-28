@@ -53,6 +53,10 @@ namespace Telegram.Bot
                 case UpdateType.ChosenInlineResultUpdate:
                     ChosenInlineResultReceived?.Invoke(this, e);
                     break;
+
+                case UpdateType.CallbackQueryUpdate:
+                    CallbackQueryReceived?.Invoke(this, e);
+                    break;
             }
         }
 
@@ -75,6 +79,11 @@ namespace Telegram.Bot
         /// Fired when chosen inline results are availible
         /// </summary>
         public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived;
+
+        /// <summary>
+        /// Fired when an callback query is received
+        /// </summary>
+        public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived;
 
         public Api(string token)
         {
@@ -832,6 +841,12 @@ namespace Telegram.Bot
 
             if (!string.IsNullOrWhiteSpace(nextOffset))
                 parameters.Add("next_offset", nextOffset);
+
+            if (!string.IsNullOrWhiteSpace(switchPmText))
+                parameters.Add("switch_pm_text", switchPmText);
+
+            if (!string.IsNullOrWhiteSpace(switchPmParameter))
+                parameters.Add("switch_pm_parameter", switchPmParameter);
 
             return SendWebRequest<bool>("answerInlineQuery", parameters);
         }

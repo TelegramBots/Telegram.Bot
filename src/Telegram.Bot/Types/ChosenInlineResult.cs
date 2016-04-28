@@ -21,6 +21,18 @@ namespace Telegram.Bot.Types
         public User From { get; internal set; }
 
         /// <summary>
+        /// Optional. Sender location, only for bots that require user location
+        /// </summary>
+        [JsonProperty("location", Required = Required.Default)]
+        public Location Location { get; internal set; }
+
+        /// <summary>
+        /// Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
+        /// </summary>
+        [JsonProperty("inline_message_id", Required = Required.Default)]
+        public string InlineMessageId { get; internal set; }
+
+        /// <summary>
         /// The query that was used to obtain the result.
         /// </summary>
         [JsonProperty("query", Required = Required.Always)]

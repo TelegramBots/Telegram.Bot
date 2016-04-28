@@ -226,8 +226,8 @@ namespace Telegram.Bot.Types
                 if (Venue != null)
                     return MessageType.VenueMessage;
 
-                if (NewChatParticipant != null ||
-                    LeftChatParticipant != null ||
+                if (NewChatMember != null ||
+                    LeftChatMember != null ||
                     NewChatTitle != null ||
                     NewChatPhoto != null ||
                     PinnedMessage != null ||
