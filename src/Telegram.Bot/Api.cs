@@ -36,6 +36,8 @@ namespace Telegram.Bot
         /// </summary>
         public int MessageOffset { get; set; } = 0;
 
+        #region Events
+
         protected virtual void OnUpdateReceived(UpdateEventArgs e)
         {
             UpdateReceived?.Invoke(this, e);
@@ -52,6 +54,10 @@ namespace Telegram.Bot
 
                 case UpdateType.ChosenInlineResultUpdate:
                     ChosenInlineResultReceived?.Invoke(this, e);
+                    break;
+
+                case UpdateType.CallbackQueryUpdate:
+                    CallbackQueryReceived?.Invoke(this, e);
                     break;
             }
         }
@@ -76,10 +82,19 @@ namespace Telegram.Bot
         /// </summary>
         public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived;
 
+        /// <summary>
+        /// Fired when an callback query is received
+        /// </summary>
+        public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived;
+
+        #endregion
+
         public Api(string token)
         {
             _token = token;
         }
+
+        #region Support Methods - Public
 
         /// <summary>
         /// Start update receiving
@@ -122,6 +137,10 @@ namespace Telegram.Bot
             IsReceiving = false;
         }
 
+        #endregion
+
+        #region API Methods - General
+
         /// <summary>
         /// A simple method for testing your bot's auth token. Requires no parameters. Returns basic information about the bot in form of User object.
         /// </summary>
@@ -158,8 +177,7 @@ namespace Telegram.Bot
 
             return SendWebRequest<Update[]>("getUpdates", parameters);
         }
-
-
+        
         /// <summary>
         /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will
         /// send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will
@@ -185,39 +203,11 @@ namespace Telegram.Bot
             return SendWebRequest<bool>("setWebhook", parameters);
         }
 
-        /// <summary>
-        /// Use this method to send any messages. On success, the sent Message is returned.
-        /// </summary>
-        /// <param name="type">The <see cref="MessageType"/></param>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
-        /// <param name="content">The content of the message. Could be a text, photo, audio, sticker, document, video or location</param>
-        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
-        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="additionalParameters">Optional. if additional Parameters could bei send i.e. "disable_web_page_preview" in for a TextMessage</param>
-        /// <returns>On success, the sent Message is returned.</returns>
-        private Task<Message> SendMessage(MessageType type, string chatId, object content,
-            int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null,
-            Dictionary<string, object> additionalParameters = null)
-        {
-            if (additionalParameters == null)
-                additionalParameters = new Dictionary<string, object>();
+        #endregion
 
-            var typeInfo = type.ToKeyValue();
-
-            additionalParameters.Add("chat_id", chatId);
-            additionalParameters.Add("reply_markup", replyMarkup);
-
-            if (replyToMessageId != 0)
-                additionalParameters.Add("reply_to_message_id", replyToMessageId);
-
-            if (!string.IsNullOrEmpty(typeInfo.Value))
-                additionalParameters.Add(typeInfo.Value, content);
-
-            return SendWebRequest<Message>(typeInfo.Key, additionalParameters);
-        }
-
-        /// <summary>
+        #region API Methods - SendMessages
+        
+                /// <summary>
         /// Use this method to send text messages. On success, the sent Message is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
@@ -449,6 +439,48 @@ namespace Telegram.Bot
         }
 
         /// <summary>
+        /// Use this method to send phone contacts.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="phoneNumber">Contact's phone number</param>
+        /// <param name="firstName">Contact's first name</param>
+        /// <param name="lastName">Contact's last name</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public Task<Message> SendContact(long chatId, string phoneNumber, string firstName, string lastName = null,
+            bool disableNotification = false, int replyToMessageId = 0, ReplyMarkup replyMarkup = null)
+            =>
+                SendContact(chatId.ToString(), phoneNumber, firstName, lastName, disableNotification, replyToMessageId,
+                    replyMarkup);
+
+        /// <summary>
+        /// Use this method to send phone contacts.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="phoneNumber">Contact's phone number</param>
+        /// <param name="firstName">Contact's first name</param>
+        /// <param name="lastName">Contact's last name</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public Task<Message> SendContact(string chatId, string phoneNumber, string firstName, string lastName = null,
+            bool disableNotification = false, int replyToMessageId = 0, ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"first_name", firstName }
+            };
+
+            if (!string.IsNullOrWhiteSpace(lastName))
+                parameters.Add("last_name", lastName);
+
+            return SendMessage(MessageType.ContactMessage, chatId, phoneNumber, disableNotification, replyToMessageId, replyMarkup, parameters);
+        }
+
+        /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
@@ -556,6 +588,57 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendSticker(string chatId, string sticker, int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send information about a venue.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="latitude">Latitude of the venue</param>
+        /// <param name="longitude">Longitude of the venue</param>
+        /// <param name="title">Name of the venue</param>
+        /// <param name="address">Address of the venue</param>
+        /// <param name="foursquareId">Foursquare identifier of the venue</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public Task<Message> SendVenue(long chatId, float latitude, float longitude, string title, string address,
+            string foursquareId = null, bool disableNotification = false, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+            =>
+                SendVenue(chatId.ToString(), latitude, longitude, title, address, foursquareId, disableNotification,
+                    replyToMessageId, replyMarkup);
+
+        /// <summary>
+        /// Use this method to send information about a venue.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="latitude">Latitude of the venue</param>
+        /// <param name="longitude">Longitude of the venue</param>
+        /// <param name="title">Name of the venue</param>
+        /// <param name="address">Address of the venue</param>
+        /// <param name="foursquareId">Foursquare identifier of the venue</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        public Task<Message> SendVenue(string chatId, float latitude, float longitude, string title, string address,
+            string foursquareId = null, bool disableNotification = false, int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"longitude", longitude },
+                {"title", title },
+                {"address", address }
+            };
+
+            if (!string.IsNullOrWhiteSpace(foursquareId))
+                parameters.Add("foursquare_id", foursquareId);
+
+            return SendMessage(MessageType.VenueMessage, chatId, latitude, disableNotification, replyToMessageId,
+                replyMarkup, parameters);
+        }
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
@@ -756,6 +839,64 @@ namespace Telegram.Bot
             return SendWebRequest<bool>("sendChatAction", parameters);
         }
 
+        #endregion
+
+        #region API Methods - Group administration
+
+        /// <summary>
+        /// Use this method to kick a user from a group or a supergroup. In the case of supergroups, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the group for this to work.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target group</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <returns>True on success.</returns>
+        public Task<bool> KickChatMember(long chatId, int userId) => KickChatMember(chatId.ToString(), userId);
+
+        /// <summary>
+        /// Use this method to kick a user from a group or a supergroup. In the case of supergroups, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the group for this to work.
+        /// </summary>
+        /// <param name="chatId">Username of the target supergroup (in the format @supergroupusername)</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <returns>True on success.</returns>
+        public Task<bool> KickChatMember(string chatId, int userId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"user_id", userId}
+            };
+
+            return SendWebRequest<bool>("kickChatMember", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work. 
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target group</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <returns>True on success.</returns>
+        public Task<bool> UnbanChatMember(long chatId, int userId) => UnbanChatMember(chatId.ToString(), userId);
+
+        /// <summary>
+        /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work. 
+        /// </summary>
+        /// <param name="chatId">Username of the target supergroup (in the format @supergroupusername)</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <returns>True on success.</returns>
+        public Task<bool> UnbanChatMember(string chatId, int userId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"user_id", userId}
+            };
+
+            return SendWebRequest<bool>("unbanChatMember", parameters);
+        }
+
+        #endregion
+
+        #region API Methods - Download Content
+
         /// <summary>
         /// Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
         /// </summary>
@@ -807,6 +948,10 @@ namespace Telegram.Bot
             return fileInfo;
         }
 
+        #endregion
+
+        #region API Methods - Inline
+
         /// <summary>
         /// Use this method to send answers to an inline query.
         /// </summary>
@@ -833,6 +978,12 @@ namespace Telegram.Bot
             if (!string.IsNullOrWhiteSpace(nextOffset))
                 parameters.Add("next_offset", nextOffset);
 
+            if (!string.IsNullOrWhiteSpace(switchPmText))
+                parameters.Add("switch_pm_text", switchPmText);
+
+            if (!string.IsNullOrWhiteSpace(switchPmParameter))
+                parameters.Add("switch_pm_parameter", switchPmParameter);
+
             return SendWebRequest<bool>("answerInlineQuery", parameters);
         }
 
@@ -856,6 +1007,10 @@ namespace Telegram.Bot
 
             return SendWebRequest<bool>("answerCallbackQuery", parameters);
         }
+
+        #endregion
+
+        #region API Methods - Edit
 
         /// <summary>
         /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
@@ -1021,6 +1176,65 @@ namespace Telegram.Bot
             return SendWebRequest<Message>("editMessageText", parameters);
         }
 
+        #endregion
+
+        #region Support Methods - Private
+
+        /// <summary>
+        /// Use this method to send any messages. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="type">The <see cref="MessageType"/></param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="content">The content of the message. Could be a text, photo, audio, sticker, document, video or location</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="additionalParameters">Optional. if additional Parameters could bei send i.e. "disable_web_page_preview" in for a TextMessage</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        private Task<Message> SendMessage(MessageType type, string chatId, object content,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null,
+            Dictionary<string, object> additionalParameters = null)
+            => SendMessage(type, chatId, content, false, replyToMessageId, replyMarkup, additionalParameters);
+
+        /// <summary>
+        /// Use this method to send any messages. On success, the sent Message is returned.
+        /// </summary>
+        /// <param name="type">The <see cref="MessageType"/></param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="content">The content of the message. Could be a text, photo, audio, sticker, document, video or location</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="additionalParameters">Optional. if additional Parameters could bei send i.e. "disable_web_page_preview" in for a TextMessage</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        private Task<Message> SendMessage(MessageType type, string chatId, object content,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null,
+            Dictionary<string, object> additionalParameters = null)
+        {
+            if (additionalParameters == null)
+                additionalParameters = new Dictionary<string, object>();
+
+            var typeInfo = type.ToKeyValue();
+
+            additionalParameters.Add("chat_id", chatId);
+
+            if (disableNotification)
+                additionalParameters.Add("disable_notification", true);
+
+            if (replyMarkup != null)
+                additionalParameters.Add("reply_markup", replyMarkup);
+
+            if (replyToMessageId != 0)
+                additionalParameters.Add("reply_to_message_id", replyToMessageId);
+
+            if (!string.IsNullOrEmpty(typeInfo.Value))
+                additionalParameters.Add(typeInfo.Value, content);
+
+            return SendWebRequest<Message>(typeInfo.Key, additionalParameters);
+        }
+
         private async Task<T> SendWebRequest<T>(string method, Dictionary<string, object> parameters = null)
         {
             var uri = new Uri(BaseUrl + _token + "/" + method);
@@ -1109,5 +1323,7 @@ namespace Telegram.Bot
                     return new StringContent(JsonConvert.SerializeObject(value, settings));
             }
         }
+
+        #endregion
     }
 }

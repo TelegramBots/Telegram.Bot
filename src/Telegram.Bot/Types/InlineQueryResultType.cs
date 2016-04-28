@@ -49,9 +49,6 @@ namespace Telegram.Bot.Types
                 {InlineQueryResultType.Location, "location" },
                 {InlineQueryResultType.Venue, "venue" },
                 {InlineQueryResultType.Contact, "contact" },
-
-                {InlineQueryResultType.Contact, "contact" },
-
             };
 
         internal static string ToTypeString(this InlineQueryResultType type) => StringMap[type];

@@ -11,10 +11,16 @@ namespace Telegram.Bot.Types
             new Dictionary<Type, InlineQueryResultType>
             {
                 {typeof (InlineQueryResultArticle), InlineQueryResultType.Article},
-                {typeof (InlineQueryResultPhoto), InlineQueryResultType.Photo},
+                {typeof (InlineQueryResultAudio), InlineQueryResultType.Audio},
+                {typeof (InlineQueryResultContact), InlineQueryResultType.Contact},
+                {typeof (InlineQueryResultDocument), InlineQueryResultType.Document},
                 {typeof (InlineQueryResultGif), InlineQueryResultType.Gif},
+                {typeof (InlineQueryResultLocation), InlineQueryResultType.Location},
                 {typeof (InlineQueryResultMpeg4Gif), InlineQueryResultType.Mpeg4Gif},
+                {typeof (InlineQueryResultPhoto), InlineQueryResultType.Photo},
+                {typeof (InlineQueryResultVenue), InlineQueryResultType.Venue},
                 {typeof (InlineQueryResultVideo), InlineQueryResultType.Video},
+                {typeof (InlineQueryResultVoice), InlineQueryResultType.Voice},
             };
 
         /// <summary>
