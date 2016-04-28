@@ -8,27 +8,9 @@ namespace Telegram.Bot.Types
     public class InlineQueryResultCached : InlineQueryResult
     {
         /// <summary>
-        /// Optional. Short description of the result
-        /// </summary>
-        [JsonProperty("description", Required = Required.Default)]
-        public string Description { get; set; }
-
-        /// <summary>
         /// Optional. Caption of the result to be sent, 0-200 characters
         /// </summary>
         [JsonProperty("caption", Required = Required.Default)]
         public string Caption { get; set; }
-
-        [JsonIgnore]
-        public new string MessageText { get; set; }
-
-        [JsonIgnore]
-        public new ParseMode ParseMode { get; set; }
-
-        [JsonIgnore]
-        public new string ThumbUrl { get; set; }
-
-        [JsonIgnore]
-        public new bool DisableWebPagePreview { get; set; }
     }
 }
