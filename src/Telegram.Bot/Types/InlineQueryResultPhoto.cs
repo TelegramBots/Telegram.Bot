@@ -7,19 +7,13 @@ namespace Telegram.Bot.Types
     /// By default, this photo will be sent by the user with optional caption.
     /// Alternatively, you can provide message_text to send it instead of photo.
     /// </summary>
-    public class InlineQueryResultPhoto : InlineQueryResult
+    public class InlineQueryResultPhoto : InlineQueryResultNew
     {
         /// <summary>
         /// A valid URL of the photo. Photo size must not exceed 5MB
         /// </summary>
         [JsonProperty("photo_url", Required = Required.Always)]
         public string Url { get; set; }
-
-        /// <summary>
-        /// Optional. MIME type of the photo, defaults to image/jpeg
-        /// </summary>
-        [JsonProperty("mime_type", Required = Required.Default)]
-        public string MimeType { get; set; }
 
         /// <summary>
         /// Optional. Width of the photo
@@ -44,5 +38,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("caption", Required = Required.Default)]
         public string Caption { get; set; }
+
+        [JsonIgnore]
+        public new string ThumbWidth { get; set; }
+
+        [JsonIgnore]
+        public new string ThumbHeight { get; set; }
     }
 }

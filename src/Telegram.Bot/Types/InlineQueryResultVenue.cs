@@ -9,14 +9,8 @@ namespace Telegram.Bot.Types
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn)]
-    public class InlineQueryResultVenue : InlineQueryResult
+    public class InlineQueryResultVenue : InlineQueryResultNew
     {
-        /// <summary>
-        /// Title of the result
-        /// </summary>
-        [JsonProperty("title", Required = Required.Always)]
-        public new string Title { get; set; }
-
         /// <summary>
         /// Latitude of the location in degrees
         /// </summary>
@@ -40,32 +34,5 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("foursquare_id", Required = Required.Default)]
         public string FoursquareId { get; set; }
-        
-        /// <summary>
-        /// Optional. Content of the message to be sent instead of the audio
-        /// </summary>
-        [JsonProperty("input_message_content", Required = Required.Default)]
-        public InputMessageContent InputMessageContent { get; set; }
-
-        /// <summary>
-        /// Optional. Thumbnail width
-        /// </summary>
-        [JsonProperty("thumb_width", Required = Required.Default)]
-        public string ThumbWidth { get; set; }
-        
-        /// <summary>
-        /// Optional. Thumbnail height
-        /// </summary>
-        [JsonProperty("thumb_height", Required = Required.Default)]
-        public string ThumbHeight { get; set; }
-        
-        [JsonIgnore]
-        public new string MessageText { get; set; }
-
-        [JsonIgnore]
-        public new ParseMode ParseMode { get; set; }
-
-        [JsonIgnore]
-        public new bool DisableWebPagePreview { get; set; }
     }
 }

@@ -38,17 +38,25 @@ namespace Telegram.Bot.Types
             new Dictionary<InlineQueryResultType, string>
             {
                 {InlineQueryResultType.Article, "article" },
-                {InlineQueryResultType.Photo, "photo" },
-                {InlineQueryResultType.Gif, "gif" },
-                {InlineQueryResultType.Mpeg4Gif, "mpeg4_gif" },
-                {InlineQueryResultType.Video, "video" },
-
                 {InlineQueryResultType.Audio, "audio" },
-                {InlineQueryResultType.Voice,  "voice" },
-                {InlineQueryResultType.Document, "document" },
-                {InlineQueryResultType.Location, "location" },
-                {InlineQueryResultType.Venue, "venue" },
                 {InlineQueryResultType.Contact, "contact" },
+                {InlineQueryResultType.Document, "document" },
+                {InlineQueryResultType.Gif, "gif" },
+                {InlineQueryResultType.Location, "location" },
+                {InlineQueryResultType.Mpeg4Gif, "mpeg4_gif" },
+                {InlineQueryResultType.Photo, "photo" },
+                {InlineQueryResultType.Venue, "venue" },
+                {InlineQueryResultType.Video, "video" },
+                {InlineQueryResultType.Voice,  "voice" },
+
+                {InlineQueryResultType.CachedAudio, "audio" },
+                {InlineQueryResultType.CachedDocument, "document" },
+                {InlineQueryResultType.CachedGif, "gif" },
+                {InlineQueryResultType.CachedMpeg4Gif, "mpeg4_gif" },
+                {InlineQueryResultType.CachedPhoto, "photo" },
+                {InlineQueryResultType.CachedSticker, "sticker" },
+                {InlineQueryResultType.CachedVideo, "video" },
+                {InlineQueryResultType.CachedVoice, "voice" },
             };
 
         internal static string ToTypeString(this InlineQueryResultType type) => StringMap[type];

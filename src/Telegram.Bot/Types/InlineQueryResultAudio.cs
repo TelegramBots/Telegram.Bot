@@ -3,16 +3,16 @@
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// Represents a link to an mp3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
+    /// Represents a link to an mp3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the audio.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class InlineQueryResultAudio : InlineQueryResult
+    public class InlineQueryResultAudio : InlineQueryResultNew
     {
         /// <summary>
-        /// Title of the result
+        /// A valid file identifier for the audio file
         /// </summary>
-        [JsonProperty("title", Required = Required.Always)]
-        public new string Title { get; set; }
+        [JsonProperty("audio_file_id", Required = Required.Always)]
+        public string FileId { get; set; }
 
         /// <summary>
         /// A valid URL for the audio file
@@ -32,23 +32,13 @@ namespace Telegram.Bot.Types
         [JsonProperty("audio_duration", Required = Required.Always)]
         public int Duration { get; set; }
 
-        /// <summary>
-        /// Optional. Content of the message to be sent instead of the audio
-        /// </summary>
-        [JsonProperty("input_message_content", Required = Required.Default)]
-        public InputMessageContent InputMessageContent { get; set; }
-
-        [JsonIgnore]
-        public new string MessageText { get; set; }
-
-        [JsonIgnore]
-        public new ParseMode ParseMode { get; set; }
-
         [JsonIgnore]
         public new string ThumbUrl { get; set; }
 
         [JsonIgnore]
-        public new bool DisableWebPagePreview { get; set; }
+        public new string ThumbWidth { get; set; }
 
+        [JsonIgnore]
+        public new string ThumbHeight { get; set; }
     }
 }

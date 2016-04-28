@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types
     /// By default, this animated GIF file will be sent by the user with optional caption.
     /// Alternatively, you can provide message_text to send it instead of the animation.
     /// </summary>
-    public class InlineQueryResultGif : InlineQueryResult
+    public class InlineQueryResultGif : InlineQueryResultNew
     {
         /// <summary>
         /// A valid URL for the GIF file. File size must not exceed 1MB
@@ -32,5 +32,15 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("caption", Required = Required.Default)]
         public string Caption { get; set; }
+
+        [JsonIgnore]
+        public new string ThumbUrl { get; set; }
+
+        [JsonIgnore]
+        public new string ThumbWidth { get; set; }
+
+        [JsonIgnore]
+        public new string ThumbHeight { get; set; }
+
     }
 }
