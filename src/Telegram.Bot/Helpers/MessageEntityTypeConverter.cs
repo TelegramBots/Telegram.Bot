@@ -14,7 +14,7 @@ namespace Telegram.Bot.Helpers
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return MessageEntityTypeExtensions.StringMap.FirstOrDefault(type => type.Value == reader.Value.ToString());
+            return MessageEntityTypeExtensions.StringMap.Where(type => type.Value == reader.Value.ToString()).Select(kv => kv.Key).FirstOrDefault();
         }
 
         public override bool CanConvert(Type objectType) => objectType == typeof (MessageEntityType);
