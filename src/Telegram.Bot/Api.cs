@@ -1138,8 +1138,8 @@ namespace Telegram.Bot
         /// <param name="messageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditMessageIReplyMarkup(long chatId, int messageId, IReplyMarkup replyMarkup = null)
-            => EditMessageIReplyMarkup(chatId.ToString(), messageId, replyMarkup);
+        public Task<Message> EditMessageReplyMarkup(long chatId, int messageId, IReplyMarkup replyMarkup = null)
+            => EditMessageReplyMarkup(chatId.ToString(), messageId, replyMarkup);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
@@ -1148,7 +1148,7 @@ namespace Telegram.Bot
         /// <param name="messageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditMessageIReplyMarkup(string chatId, int messageId, IReplyMarkup replyMarkup = null)
+        public Task<Message> EditMessageReplyMarkup(string chatId, int messageId, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1166,7 +1166,7 @@ namespace Telegram.Bot
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditInlineMessageIReplyMarkup(string inlineMessageId, IReplyMarkup replyMarkup = null)
+        public Task<Message> EditInlineMessageReplyMarkup(string inlineMessageId, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
