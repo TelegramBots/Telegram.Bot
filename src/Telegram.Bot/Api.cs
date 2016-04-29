@@ -221,7 +221,7 @@ namespace Telegram.Bot
         public Task<Message> SendTextMessage(long chatId, string text, bool disableWebPagePreview = false,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null,
+            IReplyMarkup replyMarkup = null,
             ParseMode parseMode = ParseMode.Default)
             => SendTextMessage(chatId.ToString(), text, disableWebPagePreview, disableNotification, replyToMessageId, replyMarkup, parseMode);
 
@@ -239,7 +239,7 @@ namespace Telegram.Bot
         public Task<Message> SendTextMessage(string chatId, string text, bool disableWebPagePreview = false,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null,
+            IReplyMarkup replyMarkup = null,
             ParseMode parseMode = ParseMode.Default)
         {
             var additionalParameters = new Dictionary<string, object>();
@@ -323,7 +323,7 @@ namespace Telegram.Bot
         public Task<Message> SendPhoto(long chatId, FileToSend photo, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendPhoto(chatId.ToString(), photo, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -339,7 +339,7 @@ namespace Telegram.Bot
         public Task<Message> SendPhoto(string chatId, FileToSend photo, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -362,7 +362,7 @@ namespace Telegram.Bot
         public Task<Message> SendPhoto(long chatId, string photo, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendPhoto(chatId.ToString(), photo, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -378,7 +378,7 @@ namespace Telegram.Bot
         public Task<Message> SendPhoto(string chatId, string photo, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -403,7 +403,7 @@ namespace Telegram.Bot
         public Task<Message> SendAudio(long chatId, FileToSend audio, int duration, string performer, string title,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendAudio(chatId.ToString(), audio, duration, performer, title, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -421,7 +421,7 @@ namespace Telegram.Bot
         public Task<Message> SendAudio(string chatId, FileToSend audio, int duration, string performer, string title,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -448,7 +448,7 @@ namespace Telegram.Bot
         public Task<Message> SendAudio(long chatId, string audio, int duration, string performer, string title,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendAudio(chatId.ToString(), audio, duration, performer, title, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -466,7 +466,7 @@ namespace Telegram.Bot
         public Task<Message> SendAudio(string chatId, string audio, int duration, string performer, string title, 
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -492,7 +492,7 @@ namespace Telegram.Bot
         public Task<Message> SendContact(long chatId, string phoneNumber, string firstName, string lastName = null,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             =>
                 SendContact(chatId.ToString(), phoneNumber, firstName, lastName, disableNotification, replyToMessageId,
                     replyMarkup);
@@ -511,7 +511,7 @@ namespace Telegram.Bot
         public Task<Message> SendContact(string chatId, string phoneNumber, string firstName, string lastName = null,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -537,7 +537,7 @@ namespace Telegram.Bot
         public Task<Message> SendDocument(long chatId, FileToSend document, string caption = "", 
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, disableNotification, replyToMessageId, replyMarkup);
+            IReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -552,7 +552,7 @@ namespace Telegram.Bot
         public Task<Message> SendDocument(string chatId, FileToSend document, string caption = "", 
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -576,7 +576,7 @@ namespace Telegram.Bot
         public Task<Message> SendDocument(long chatId, string document, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, disableNotification, replyToMessageId, replyMarkup);
+            IReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -591,7 +591,7 @@ namespace Telegram.Bot
         public Task<Message> SendDocument(string chatId, string document, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -613,7 +613,7 @@ namespace Telegram.Bot
         public Task<Message> SendSticker(long chatId, FileToSend sticker,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, disableNotification, replyToMessageId, replyMarkup);
+            IReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
@@ -627,7 +627,7 @@ namespace Telegram.Bot
         public Task<Message> SendSticker(string chatId, FileToSend sticker,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, disableNotification, replyToMessageId, replyMarkup);
+            IReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
@@ -641,7 +641,7 @@ namespace Telegram.Bot
         public Task<Message> SendSticker(long chatId, string sticker,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, disableNotification, replyToMessageId, replyMarkup);
+            IReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
@@ -655,7 +655,7 @@ namespace Telegram.Bot
         public Task<Message> SendSticker(string chatId, string sticker,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, disableNotification, replyToMessageId, replyMarkup);
+            IReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send information about a venue.
@@ -674,7 +674,7 @@ namespace Telegram.Bot
             string foursquareId = null,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             =>
                 SendVenue(chatId.ToString(), latitude, longitude, title, address, foursquareId, disableNotification,
                     replyToMessageId, replyMarkup);
@@ -696,7 +696,7 @@ namespace Telegram.Bot
             string foursquareId = null,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -726,7 +726,7 @@ namespace Telegram.Bot
         public Task<Message> SendVideo(long chatId, FileToSend video, int duration = 0, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendVideo(chatId.ToString(), video, duration, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -743,7 +743,7 @@ namespace Telegram.Bot
         public Task<Message> SendVideo(string chatId, FileToSend video, int duration = 0, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -768,7 +768,7 @@ namespace Telegram.Bot
         public Task<Message> SendVideo(long chatId, string video, int duration = 0, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendVideo(chatId.ToString(), video, duration, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -785,7 +785,7 @@ namespace Telegram.Bot
         public Task<Message> SendVideo(string chatId, string video, int duration = 0, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -809,7 +809,7 @@ namespace Telegram.Bot
         public Task<Message> SendVoice(long chatId, FileToSend audio, int duration = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendVoice(chatId.ToString(), audio, duration, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -825,7 +825,7 @@ namespace Telegram.Bot
         public Task<Message> SendVoice(string chatId, FileToSend audio, int duration = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -848,7 +848,7 @@ namespace Telegram.Bot
         public Task<Message> SendVoice(long chatId, string audio, int duration = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendVoice(chatId.ToString(), audio, duration, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -864,7 +864,7 @@ namespace Telegram.Bot
         public Task<Message> SendVoice(string chatId, string audio, int duration = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -887,7 +887,7 @@ namespace Telegram.Bot
         public Task<Message> SendLocation(long chatId, float latitude, float longitude,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
             => SendLocation(chatId.ToString(), latitude, longitude, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
@@ -903,7 +903,7 @@ namespace Telegram.Bot
         public Task<Message> SendLocation(string chatId, float latitude, float longitude,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null)
+            IReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
             {
@@ -1123,7 +1123,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
         public Task<Message> EditMessageText(long chatId, int messageId, string text,
-            ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, ReplyMarkup replyMarkup = null)
+            ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, IReplyMarkup replyMarkup = null)
             => EditMessageText(chatId.ToString(), messageId, text, parseMode, disableWebPagePreview, replyMarkup);
 
         /// <summary>
@@ -1136,7 +1136,7 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditMessageText(string chatId, int messageId, string text, ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, ReplyMarkup replyMarkup = null)
+        public Task<Message> EditMessageText(string chatId, int messageId, string text, ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1163,7 +1163,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
         public Task<Message> EditInlineMessageText(string inlineMessageId, string text,
-            ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, ReplyMarkup replyMarkup = null)
+            ParseMode parseMode = ParseMode.Default, bool disableWebPagePreview = false, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1187,7 +1187,7 @@ namespace Telegram.Bot
         /// <param name="caption">New caption of the message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditMessageCaption(long chatId, int messageId, string caption, ReplyMarkup replyMarkup = null)
+        public Task<Message> EditMessageCaption(long chatId, int messageId, string caption, IReplyMarkup replyMarkup = null)
             => EditMessageCaption(chatId.ToString(), messageId, caption, replyMarkup);
 
         /// <summary>
@@ -1198,7 +1198,7 @@ namespace Telegram.Bot
         /// <param name="caption">New caption of the message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditMessageCaption(string chatId, int messageId, string caption, ReplyMarkup replyMarkup = null)
+        public Task<Message> EditMessageCaption(string chatId, int messageId, string caption, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1218,7 +1218,7 @@ namespace Telegram.Bot
         /// <param name="caption">New caption of the message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditInlineMessageCaption(string inlineMessageId, string caption, ReplyMarkup replyMarkup = null)
+        public Task<Message> EditInlineMessageCaption(string inlineMessageId, string caption, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1237,7 +1237,7 @@ namespace Telegram.Bot
         /// <param name="messageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditMessageReplyMarkup(long chatId, int messageId, ReplyMarkup replyMarkup = null)
+        public Task<Message> EditMessageReplyMarkup(long chatId, int messageId, IReplyMarkup replyMarkup = null)
             => EditMessageReplyMarkup(chatId.ToString(), messageId, replyMarkup);
 
         /// <summary>
@@ -1247,7 +1247,7 @@ namespace Telegram.Bot
         /// <param name="messageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditMessageReplyMarkup(string chatId, int messageId, ReplyMarkup replyMarkup = null)
+        public Task<Message> EditMessageReplyMarkup(string chatId, int messageId, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1265,7 +1265,7 @@ namespace Telegram.Bot
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <returns>On success, the edited Message is returned.</returns>
-        public Task<Message> EditInlineMessageReplyMarkup(string inlineMessageId, ReplyMarkup replyMarkup = null)
+        public Task<Message> EditInlineMessageReplyMarkup(string inlineMessageId, IReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1292,7 +1292,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         private Task<Message> SendMessage(MessageType type, string chatId, object content,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null,
+            IReplyMarkup replyMarkup = null,
             Dictionary<string, object> additionalParameters = null)
             => SendMessage(type, chatId, content, false, replyToMessageId, replyMarkup, additionalParameters);
 
@@ -1310,7 +1310,7 @@ namespace Telegram.Bot
         private Task<Message> SendMessage(MessageType type, string chatId, object content,
             bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null,
+            IReplyMarkup replyMarkup = null,
             Dictionary<string, object> additionalParameters = null)
         {
             if (additionalParameters == null)
