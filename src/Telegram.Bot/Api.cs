@@ -206,21 +206,24 @@ namespace Telegram.Bot
         #endregion
 
         #region API Methods - SendMessages
-        
-                /// <summary>
+
+        /// <summary>
         /// Use this method to send text messages. On success, the sent Message is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="text">Text of the message to be sent</param>
         /// <param name="disableWebPagePreview">Optional. Disables link previews for links in this message</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="parseMode">Optional. Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendTextMessage(long chatId, string text, bool disableWebPagePreview = false,
+            bool disableNotification = false,
             int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null, ParseMode parseMode = ParseMode.Default)
-            => SendTextMessage(chatId.ToString(), text, disableWebPagePreview, replyToMessageId, replyMarkup, parseMode);
+            ReplyMarkup replyMarkup = null,
+            ParseMode parseMode = ParseMode.Default)
+            => SendTextMessage(chatId.ToString(), text, disableWebPagePreview, disableNotification, replyToMessageId, replyMarkup, parseMode);
 
         /// <summary>
         /// Use this method to send text messages. On success, the sent Message is returned.
@@ -228,12 +231,16 @@ namespace Telegram.Bot
         /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
         /// <param name="text">Text of the message to be sent</param>
         /// <param name="disableWebPagePreview">Optional. Disables link previews for links in this message</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="parseMode">Optional. Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendTextMessage(string chatId, string text, bool disableWebPagePreview = false, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null, ParseMode parseMode = ParseMode.Default)
+        public Task<Message> SendTextMessage(string chatId, string text, bool disableWebPagePreview = false,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null,
+            ParseMode parseMode = ParseMode.Default)
         {
             var additionalParameters = new Dictionary<string, object>();
 
@@ -243,7 +250,7 @@ namespace Telegram.Bot
             if (parseMode != ParseMode.Default)
                 additionalParameters.Add("parse_mode", parseMode.ToModeString());
 
-            return SendMessage(MessageType.TextMessage, chatId, text, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.TextMessage, chatId, text, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -252,8 +259,10 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="fromChatId">Unique identifier for the chat where the original message was sent</param>
         /// <param name="messageId">Unique message identifier</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> ForwardMessage(long chatId, long fromChatId, int messageId) => ForwardMessage(chatId.ToString(), fromChatId.ToString(), messageId);
+        public Task<Message> ForwardMessage(long chatId, long fromChatId, int messageId,
+            bool disableNotification = false) => ForwardMessage(chatId.ToString(), fromChatId.ToString(), messageId, disableNotification);
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -261,8 +270,10 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="fromChatId">channel username in the format @channelusername</param>
         /// <param name="messageId">Unique message identifier</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> ForwardMessage(long chatId, string fromChatId, int messageId) => ForwardMessage(chatId.ToString(), fromChatId, messageId);
+        public Task<Message> ForwardMessage(long chatId, string fromChatId, int messageId,
+            bool disableNotification = false) => ForwardMessage(chatId.ToString(), fromChatId, messageId, disableNotification);
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -270,8 +281,10 @@ namespace Telegram.Bot
         /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
         /// <param name="fromChatId">Unique identifier for the chat where the original message was sent</param>
         /// <param name="messageId">Unique message identifier</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> ForwardMessage(string chatId, long fromChatId, int messageId) => ForwardMessage(chatId, fromChatId.ToString(), messageId);
+        public Task<Message> ForwardMessage(string chatId, long fromChatId, int messageId,
+            bool disableNotification = false) => ForwardMessage(chatId, fromChatId.ToString(), messageId, disableNotification);
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Message is returned.
@@ -279,8 +292,10 @@ namespace Telegram.Bot
         /// <param name="chatId">username of the target channel (in the format @channelusername)</param>
         /// <param name="fromChatId">channel username in the format @channelusername</param>
         /// <param name="messageId">Unique message identifier</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> ForwardMessage(string chatId, string fromChatId, int messageId)
+        public Task<Message> ForwardMessage(string chatId, string fromChatId, int messageId,
+            bool disableNotification = false)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -288,6 +303,9 @@ namespace Telegram.Bot
                 {"from_chat_id", fromChatId},
                 {"message_id", messageId},
             };
+
+            if (disableNotification)
+                parameters.Add("disable_notification", true);
 
             return SendWebRequest<Message>("forwardMessage", parameters);
         }
@@ -298,12 +316,15 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
         /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendPhoto(long chatId, FileToSend photo, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendPhoto(long chatId, FileToSend photo, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendPhoto(chatId.ToString(), photo, caption, replyToMessageId, replyMarkup);
+            => SendPhoto(chatId.ToString(), photo, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send photos. On success, the sent Message is returned.
@@ -311,10 +332,13 @@ namespace Telegram.Bot
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
         /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendPhoto(string chatId, FileToSend photo, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendPhoto(string chatId, FileToSend photo, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -322,7 +346,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.PhotoMessage, chatId, photo, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -331,12 +355,15 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
         /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendPhoto(long chatId, string photo, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendPhoto(long chatId, string photo, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendPhoto(chatId.ToString(), photo, caption, replyToMessageId, replyMarkup);
+            => SendPhoto(chatId.ToString(), photo, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send photos. On success, the sent Message is returned.
@@ -344,10 +371,13 @@ namespace Telegram.Bot
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="photo">Photo to send. You can either pass a file_id as String to resend a photo that is already on the Telegram servers, or upload a new photo using multipart/form-data.</param>
         /// <param name="caption">Optional. Photo caption (may also be used when resending photos by file_id).</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendPhoto(string chatId, string photo, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendPhoto(string chatId, string photo, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -355,7 +385,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return SendMessage(MessageType.PhotoMessage, chatId, photo, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.PhotoMessage, chatId, photo, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -366,13 +396,15 @@ namespace Telegram.Bot
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
         /// <param name="title">Track name</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendAudio(long chatId, FileToSend audio, int duration, string performer, string title,
+            bool disableNotification = false,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendAudio(chatId.ToString(), audio, duration, performer, title, replyToMessageId, replyMarkup);
+            => SendAudio(chatId.ToString(), audio, duration, performer, title, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. On success, the sent Message is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
@@ -382,10 +414,13 @@ namespace Telegram.Bot
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
         /// <param name="title">Track name</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendAudio(string chatId, FileToSend audio, int duration, string performer, string title, int replyToMessageId = 0,
+        public Task<Message> SendAudio(string chatId, FileToSend audio, int duration, string performer, string title,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -395,7 +430,7 @@ namespace Telegram.Bot
                 {"title", title}
             };
 
-            return SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.AudioMessage, chatId, audio, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -406,13 +441,15 @@ namespace Telegram.Bot
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
         /// <param name="title">Track name</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendAudio(long chatId, string audio, int duration, string performer, string title,
+            bool disableNotification = false,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendAudio(chatId.ToString(), audio, duration, performer, title, replyToMessageId, replyMarkup);
+            => SendAudio(chatId.ToString(), audio, duration, performer, title, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Document). On success, the sent Message is returned. Bots can send audio files of up to 50 MB in size.
@@ -422,10 +459,13 @@ namespace Telegram.Bot
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
         /// <param name="title">Track name</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendAudio(string chatId, string audio, int duration, string performer, string title, int replyToMessageId = 0,
+        public Task<Message> SendAudio(string chatId, string audio, int duration, string performer, string title, 
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -435,7 +475,7 @@ namespace Telegram.Bot
                 {"title", title}
             };
 
-            return SendMessage(MessageType.AudioMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.AudioMessage, chatId, audio, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -450,7 +490,9 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendContact(long chatId, string phoneNumber, string firstName, string lastName = null,
-            bool disableNotification = false, int replyToMessageId = 0, ReplyMarkup replyMarkup = null)
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
             =>
                 SendContact(chatId.ToString(), phoneNumber, firstName, lastName, disableNotification, replyToMessageId,
                     replyMarkup);
@@ -467,7 +509,9 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendContact(string chatId, string phoneNumber, string firstName, string lastName = null,
-            bool disableNotification = false, int replyToMessageId = 0, ReplyMarkup replyMarkup = null)
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -486,11 +530,14 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
         /// <param name="caption">Document caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(long chatId, FileToSend document, string caption = "", int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, replyToMessageId, replyMarkup);
+        public Task<Message> SendDocument(long chatId, FileToSend document, string caption = "", 
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -498,10 +545,13 @@ namespace Telegram.Bot
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
         /// <param name="caption">Document caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(string chatId, FileToSend document, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendDocument(string chatId, FileToSend document, string caption = "", 
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -509,7 +559,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.DocumentMessage, chatId, document, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
 
@@ -519,11 +569,14 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
         /// <param name="caption">Document caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(long chatId, string document, string caption = "", int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, replyToMessageId, replyMarkup);
+        public Task<Message> SendDocument(long chatId, string document, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => SendDocument(chatId.ToString(), document, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Message is returned. Bots can send files of any type of up to 50 MB in size.
@@ -531,10 +584,13 @@ namespace Telegram.Bot
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="document">File to send. You can either pass a file_id as String to resend a file that is already on the Telegram servers, or upload a new file using multipart/form-data.</param>
         /// <param name="caption">Document caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendDocument(string chatId, string document, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendDocument(string chatId, string document, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -542,7 +598,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return SendMessage(MessageType.DocumentMessage, chatId, document, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.DocumentMessage, chatId, document, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -550,44 +606,56 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendSticker(long chatId, FileToSend sticker, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, replyToMessageId, replyMarkup);
+        public Task<Message> SendSticker(long chatId, FileToSend sticker,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
         /// </summary>
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendSticker(string chatId, FileToSend sticker, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup);
+        public Task<Message> SendSticker(string chatId, FileToSend sticker,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendSticker(long chatId, string sticker, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, replyToMessageId, replyMarkup);
+        public Task<Message> SendSticker(long chatId, string sticker,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId.ToString(), sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Message is returned.
         /// </summary>
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="sticker">Sticker to send. You can either pass a file_id as String to resend a sticker that is already on the Telegram servers, or upload a new sticker using multipart/form-data.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendSticker(string chatId, string sticker, int replyToMessageId = 0,
-            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, replyToMessageId, replyMarkup);
+        public Task<Message> SendSticker(string chatId, string sticker,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            ReplyMarkup replyMarkup = null) => SendMessage(MessageType.StickerMessage, chatId, sticker, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send information about a venue.
@@ -603,7 +671,9 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendVenue(long chatId, float latitude, float longitude, string title, string address,
-            string foursquareId = null, bool disableNotification = false, int replyToMessageId = 0,
+            string foursquareId = null,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
             =>
                 SendVenue(chatId.ToString(), latitude, longitude, title, address, foursquareId, disableNotification,
@@ -623,7 +693,9 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendVenue(string chatId, float latitude, float longitude, string title, string address,
-            string foursquareId = null, bool disableNotification = false, int replyToMessageId = 0,
+            string foursquareId = null,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var parameters = new Dictionary<string, object>
@@ -647,13 +719,15 @@ namespace Telegram.Bot
         /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="caption">Video caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendVideo(long chatId, FileToSend video, int duration = 0, string caption = "",
+            bool disableNotification = false,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendVideo(chatId.ToString(), video, duration, caption, replyToMessageId, replyMarkup);
+            => SendVideo(chatId.ToString(), video, duration, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
@@ -662,10 +736,13 @@ namespace Telegram.Bot
         /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="caption">Video caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVideo(string chatId, FileToSend video, int duration = 0, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendVideo(string chatId, FileToSend video, int duration = 0, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -674,7 +751,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.VideoMessage, chatId, video, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -684,13 +761,15 @@ namespace Telegram.Bot
         /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="caption">Video caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         public Task<Message> SendVideo(long chatId, string video, int duration = 0, string caption = "",
+            bool disableNotification = false,
             int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendVideo(chatId.ToString(), video, duration, caption, replyToMessageId, replyMarkup);
+            => SendVideo(chatId.ToString(), video, duration, caption, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Message is returned. Bots can send video files of up to 50 MB in size.
@@ -699,10 +778,13 @@ namespace Telegram.Bot
         /// <param name="video">Video to send. You can either pass a file_id as String to resend a video that is already on the Telegram servers, or upload a new video file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="caption">Video caption</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVideo(string chatId, string video, int duration = 0, string caption = "", int replyToMessageId = 0,
+        public Task<Message> SendVideo(string chatId, string video, int duration = 0, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -711,7 +793,7 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return SendMessage(MessageType.VideoMessage, chatId, video, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.VideoMessage, chatId, video, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -720,12 +802,15 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVoice(long chatId, FileToSend audio, int duration = 0, int replyToMessageId = 0,
+        public Task<Message> SendVoice(long chatId, FileToSend audio, int duration = 0,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendVoice(chatId.ToString(), audio, duration, replyToMessageId, replyMarkup);
+            => SendVoice(chatId.ToString(), audio, duration, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -733,10 +818,13 @@ namespace Telegram.Bot
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVoice(string chatId, FileToSend audio, int duration = 0, int replyToMessageId = 0,
+        public Task<Message> SendVoice(string chatId, FileToSend audio, int duration = 0,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -744,7 +832,7 @@ namespace Telegram.Bot
                 {"duration", duration}
             };
 
-            return SendMessage(MessageType.VoiceMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.VoiceMessage, chatId, audio, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -753,12 +841,15 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVoice(long chatId, string audio, int duration = 0, int replyToMessageId = 0,
+        public Task<Message> SendVoice(long chatId, string audio, int duration = 0,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendVoice(chatId.ToString(), audio, duration, replyToMessageId, replyMarkup);
+            => SendVoice(chatId.ToString(), audio, duration, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Message is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -766,10 +857,13 @@ namespace Telegram.Bot
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="audio">Audio file to send. You can either pass a file_id as String to resend an audio that is already on the Telegram servers, or upload a new audio file using multipart/form-data.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendVoice(string chatId, string audio, int duration = 0, int replyToMessageId = 0,
+        public Task<Message> SendVoice(string chatId, string audio, int duration = 0,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -777,7 +871,7 @@ namespace Telegram.Bot
                 {"duration", duration}
             };
 
-            return SendMessage(MessageType.VoiceMessage, chatId, audio, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.VoiceMessage, chatId, audio, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>
@@ -786,12 +880,15 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="latitude">Latitude of location</param>
         /// <param name="longitude">Longitude of location</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendLocation(long chatId, float latitude, float longitude, int replyToMessageId = 0,
+        public Task<Message> SendLocation(long chatId, float latitude, float longitude,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
-            => SendLocation(chatId.ToString(), latitude, longitude, replyToMessageId, replyMarkup);
+            => SendLocation(chatId.ToString(), latitude, longitude, disableNotification, replyToMessageId, replyMarkup);
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.
@@ -799,10 +896,13 @@ namespace Telegram.Bot
         /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
         /// <param name="latitude">Latitude of location</param>
         /// <param name="longitude">Longitude of location</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendLocation(string chatId, float latitude, float longitude, int replyToMessageId = 0,
+        public Task<Message> SendLocation(string chatId, float latitude, float longitude,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
             ReplyMarkup replyMarkup = null)
         {
             var additionalParameters = new Dictionary<string, object>
@@ -810,7 +910,7 @@ namespace Telegram.Bot
                 {"longitude", longitude},
             };
 
-            return SendMessage(MessageType.LocationMessage, chatId, latitude, replyToMessageId, replyMarkup, additionalParameters);
+            return SendMessage(MessageType.LocationMessage, chatId, latitude, disableNotification, replyToMessageId, replyMarkup, additionalParameters);
         }
 
         /// <summary>

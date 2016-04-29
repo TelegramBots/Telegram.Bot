@@ -1,5 +1,5 @@
 {
-  "version": "9.0.0-beta1",
+  "version": "9.0.0-beta2",
   "title": "Telegram Bot API",
   "description": "Telegram Bot API Class Library",
   "authors": [ "Robin Müller" ],
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/MrRoundRobin/telegram.bot.git"
   },
-  "releaseNotes": "API 2.0 Update",
+  "releaseNotes": "API 2.0 Update, Silent Messages",
   "projectUrl": "https://github.com/MrRoundRobin/telegram.bot",
   "iconUrl": "https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828",
   "licenseUrl": "https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt",

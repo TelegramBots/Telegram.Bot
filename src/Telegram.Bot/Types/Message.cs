@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Telegram.Bot.Helpers;
 
@@ -64,7 +66,10 @@ namespace Telegram.Bot.Types
         /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
         /// </summary>
         [JsonProperty("entities", Required = Required.Default)]
-        public MessageEntity[] Entities { get; internal set; }
+        public List<MessageEntity> Entities { get; internal set; } = new List<MessageEntity>();
+
+        [JsonIgnore]
+        public List<string> EntityValues => Entities.ToList().Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
 
         /// <summary>
         /// Optional. Message is an audio file, information about the file
