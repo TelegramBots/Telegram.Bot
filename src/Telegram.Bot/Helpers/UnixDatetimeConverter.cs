@@ -49,7 +49,7 @@ namespace Telegram.Bot.Helpers
 #if NET45
             return ticks.FromUnixTime();
 #else
-            return DateTimeOffset.FromUnixTimeSeconds(ticks).Date;
+            return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
 #endif
         }
     }
