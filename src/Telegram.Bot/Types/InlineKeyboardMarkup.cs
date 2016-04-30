@@ -13,5 +13,20 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("inline_keyboard", Required = Required.Always)]
         public InlineKeyboardButton[][] InlineKeyboard { get; set; }
+
+        public InlineKeyboardMarkup() { }
+
+        public InlineKeyboardMarkup(InlineKeyboardButton[] inlineKeyboardRow)
+        {
+            InlineKeyboard = new[]
+            {
+                inlineKeyboardRow
+            };
+        }
+
+        public InlineKeyboardMarkup(InlineKeyboardButton[][] inlineKeyboard)
+        {
+            InlineKeyboard = inlineKeyboard;
+        }
     }
 }

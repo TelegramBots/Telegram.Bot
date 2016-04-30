@@ -40,11 +40,10 @@ namespace Telegram.Bot.Types
 
         public InlineKeyboardButton() { }
 
-        public InlineKeyboardButton(string text, string callbackData = null, string url = null)
+        public InlineKeyboardButton(string text, string callbackData = null)
         {
             Text = text;
-            CallbackData = callbackData;
-            Url = url;
+            CallbackData = string.IsNullOrWhiteSpace(callbackData) ? Text : callbackData;
         }
     }
 }
