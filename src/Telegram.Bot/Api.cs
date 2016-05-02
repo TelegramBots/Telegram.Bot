@@ -1468,7 +1468,7 @@ namespace Telegram.Bot
                     _invalidToken = true;
                     throw new ApiRequestException("Invalid token", 401);
                 }
-                catch (HttpRequestException e) when (e.Message.Contains("400") || e.Message.Contains("403"))
+                catch (HttpRequestException e) when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
                 {
                 }
                 catch (UnsupportedMediaTypeException)
