@@ -1173,7 +1173,7 @@ namespace Telegram.Bot
                 {"show_alert", showAlert},
             };
 
-            if (string.IsNullOrEmpty(text))
+            if (!string.IsNullOrEmpty(text))
                 parameters.Add("text", text);
 
             return SendWebRequest<bool>("answerCallbackQuery", parameters);
