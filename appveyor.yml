@@ -1,4 +1,4 @@
-version: 9.0.0-alpha.{build}
+version: 9.0.0-ci.{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:
