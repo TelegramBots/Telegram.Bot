@@ -1,8 +1,10 @@
 version: 9.0.0-{branch}-alpha{build}
+pull_requests:
+  do_not_increment_build_number: true
 branches:
   except:
     - gh-pages
-os: Windows Server 2012
+image: Visual Studio 2015
 init:
   - git config --global core.autocrlf input
 cache:
@@ -13,8 +15,10 @@ configuration: Debug
 before_build:
   - ps: dnu restore
 build:
+  publish_nuget: true
+  publish_nuget_symbols: true
   verbosity: normal
 after_build:
-  - ps: "gci .\\artifacts\\bin\\Telegram.Bot\\Debug\\*.nupkg | % {appveyor PushArtifact  $_.FullName}"
-artifacts:
-  - path: artifacts\bin\Telegram.Bot\Debug\*.nupkg
+  - ps: "Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
+test: off
+deploy: off
