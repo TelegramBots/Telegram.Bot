@@ -19,6 +19,6 @@ build:
   publish_nuget_symbols: true
   verbosity: normal
 after_build:
-  - ps: "Get-ChildItem .\\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
+  - ps: "Get-ChildItem *.nupkg -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
 test: off
 deploy: off
