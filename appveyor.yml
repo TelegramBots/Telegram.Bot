@@ -6,7 +6,7 @@ os: Windows Server 2012
 init:
   - git config --global core.autocrlf input
 cache:
-  - \Users\appveyor\.dnx\packages -> **\project.json
+  - "C:\\Users\\appveyor\\.dnx\\packages -> **\\project.json"
 install:
   - ps: dnvm upgrade -r clr
 configuration: Debug
