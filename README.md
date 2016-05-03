@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/x0vwuxdhe644sys0/branch/master?svg=true)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master)
+
 ## Telegram Bot Api Library
 
 C# library to talk to Telegrams Bot API (https://core.telegram.org/bots/api)
