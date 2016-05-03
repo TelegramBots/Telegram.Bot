@@ -14,5 +14,7 @@ before_build:
   - ps: dnu restore
 build:
   verbosity: normal
+after_build:
+  - ps: "gci .\artifacts\bin\Telegram.Bot\Debug\*.nupkg | % {appveyor PushArtifact  $_.FullName}"
 artifacts:
   - path: artifacts\bin\Telegram.Bot\Debug\*.nupkg
