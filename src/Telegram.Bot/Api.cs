@@ -1282,7 +1282,7 @@ namespace Telegram.Bot
                 {"reply_markup", replyMarkup},
             };
 
-            return SendWebRequest<Message>("editMessageText", parameters);
+            return SendWebRequest<Message>("editMessageCaption", parameters);
         }
 
         /// <summary>
@@ -1302,7 +1302,7 @@ namespace Telegram.Bot
                 {"reply_markup", replyMarkup},
             };
 
-            return SendWebRequest<Message>("editMessageText", parameters);
+            return SendWebRequest<Message>("editMessageCaption", parameters);
         }
 
         /// <summary>
@@ -1331,7 +1331,7 @@ namespace Telegram.Bot
                 {"reply_markup", replyMarkup},
             };
 
-            return SendWebRequest<Message>("editMessageText", parameters);
+            return SendWebRequest<Message>("editMessageReplyMarkup", parameters);
         }
 
         /// <summary>
@@ -1348,7 +1348,7 @@ namespace Telegram.Bot
                 {"reply_markup", replyMarkup},
             };
 
-            return SendWebRequest<Message>("editMessageText", parameters);
+            return SendWebRequest<Message>("editMessageReplyMarkup", parameters);
         }
 
         #endregion
