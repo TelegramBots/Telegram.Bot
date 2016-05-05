@@ -26,4 +26,11 @@ build:
 after_build:
   - ps: "Get-ChildItem *.nupkg -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
 test: off
-deploy: off
+deploy:
+  - provider: NuGet
+    server: https://www.myget.org/F/telegram-bot/api/v2/package
+    api_key:
+      secure: Dl2/cPfGdESLPBMd7Y+CIQomwOgNQ2+rUTylGGzMb0FaJaL4WgPPf5lzkY5KD4V6
+    symbol_server: https://www.myget.org/F/telegram-bot/api/v2/package
+    on:
+      branch: master

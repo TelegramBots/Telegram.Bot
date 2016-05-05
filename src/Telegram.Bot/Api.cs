@@ -64,6 +64,11 @@ namespace Telegram.Bot
             }
         }
 
+        protected virtual void OnReceiveError(ReceiveErrorEventArgs e)
+        {
+            ReceiveError?.Invoke(this, e);
+        }
+
         /// <summary>
         /// Fired when any updates are availible
         /// </summary>
@@ -88,6 +93,8 @@ namespace Telegram.Bot
         /// Fired when an callback query is received
         /// </summary>
         public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived;
+
+        public event EventHandler<ReceiveErrorEventArgs> ReceiveError;
 
         #endregion
 
@@ -144,12 +151,19 @@ namespace Telegram.Bot
             {
                 var timeout = Convert.ToInt32(PollingTimeout.TotalSeconds);
 
-                var updates = await GetUpdates(MessageOffset, timeout: timeout).ConfigureAwait(false);
-
-                foreach (var update in updates)
+                try
                 {
-                    OnUpdateReceived(new UpdateEventArgs(update));
-                    MessageOffset = update.Id + 1;
+                    var updates = await GetUpdates(MessageOffset, timeout: timeout).ConfigureAwait(false);
+
+                    foreach (var update in updates)
+                    {
+                        OnUpdateReceived(new UpdateEventArgs(update));
+                        MessageOffset = update.Id + 1;
+                    }
+                }
+                catch (ApiRequestException e)
+                {
+                    OnReceiveError(e);
                 }
             }
         }

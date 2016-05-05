@@ -34,6 +34,8 @@ Install as [NuGet package](https://www.nuget.org/packages/Telegram.Bot/):
 Install-Package Telegram.Bot
 ```
 
+For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-bot) with automated builds
+
 ## API Coverage
 
 Updated to [Bot API 2.0](https://core.telegram.org/bots/2-0-intro)
