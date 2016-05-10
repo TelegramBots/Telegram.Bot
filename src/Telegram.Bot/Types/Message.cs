@@ -44,6 +44,12 @@ namespace Telegram.Bot.Types
         public User ForwardFrom { get; internal set; }
 
         /// <summary>
+        /// Optional. For messages forwarded from a channel, information about the original channel
+        /// </summary>
+        [JsonProperty("forward_from_chat", Required = Required.Default)]
+        public Chat ForwardFromChat { get; internal set; }
+
+        /// <summary>
         /// Optional. For forwarded messages, date the original message was sent in Unix time
         /// </summary>
         [JsonProperty("forward_date", Required = Required.Default)]

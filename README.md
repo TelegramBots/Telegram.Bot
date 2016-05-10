@@ -40,5 +40,5 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 
 Updated to [Bot API 2.0](https://core.telegram.org/bots/2-0-intro)
 
-Missing / TODO (last check 28.04.2016):
+Missing / TODO (last check 10.05.2016):
   * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)

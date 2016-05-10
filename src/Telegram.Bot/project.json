@@ -1,5 +1,5 @@
 {
-  "version": "9.0.0-beta4",
+  "version": "9.0.0",
   "title": "Telegram Bot API",
   "description": "Telegram Bot API Class Library",
   "authors": [ "Robin Müller" ],
