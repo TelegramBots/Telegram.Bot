@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/x0vwuxdhe644sys0/branch/master?svg=true)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master)
+
 ## Telegram Bot Api Library
 
 C# library to talk to Telegrams Bot API (https://core.telegram.org/bots/api)
@@ -32,10 +34,11 @@ Install as [NuGet package](https://www.nuget.org/packages/Telegram.Bot/):
 Install-Package Telegram.Bot
 ```
 
+For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-bot) with automated builds
+
 ## API Coverage
 
 Updated to [Bot API 2.0](https://core.telegram.org/bots/2-0-intro)
 
-Missing / TODO (last check 28.04.2016):
+Missing / TODO (last check 10.05.2016):
   * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
-  * Silent Messages

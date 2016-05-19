@@ -34,5 +34,16 @@ namespace Telegram.Bot.Types
         /// </remarks>
         [JsonProperty(PropertyName = "switch_inline_query", Required = Required.Default)]
         public string SwitchInlineQuery { get; set; }
+
+        public static implicit operator InlineKeyboardButton(string key) => new InlineKeyboardButton(key);
+        public static implicit operator InlineKeyboardButton(KeyboardButton button) => new InlineKeyboardButton(button.Text);
+
+        public InlineKeyboardButton() { }
+
+        public InlineKeyboardButton(string text, string callbackData = null)
+        {
+            Text = text;
+            CallbackData = string.IsNullOrWhiteSpace(callbackData) ? Text : callbackData;
+        }
     }
 }

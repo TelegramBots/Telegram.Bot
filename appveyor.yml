@@ -1,0 +1,36 @@
+version: 9.0.1-alpha
+pull_requests:
+  do_not_increment_build_number: true
+branches:
+  except:
+    - gh-pages
+image: Visual Studio 2015
+init:
+  - ps: git config --global core.autocrlf input
+  - ps: Update-AppveyorBuild -Version ($env:APPVEYOR_BUILD_VERSION + ([int]$env:APPVEYOR_BUILD_NUMBER).toString("0000"))
+cache:
+  - "C:\\Users\\appveyor\\.dnx\\packages -> **\\project.json"
+install:
+  - ps: dnvm upgrade -r clr
+configuration: Debug
+before_build:
+  - ps: $projectJson = Get-ChildItem project.json -Recurse
+  - ps: $json = ConvertFrom-Json (Get-Content $projectJson.FullName -Raw -Encoding UTF8)
+  - ps: $json.version = $env:APPVEYOR_BUILD_VERSION
+  - ps: Set-Content -Value (ConvertTo-Json $json -Depth 10) -Path $projectJson.FullName -Encoding UTF8
+  - ps: dnu restore
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  verbosity: normal
+after_build:
+  - ps: "Get-ChildItem *.nupkg -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
+test: off
+deploy:
+  - provider: NuGet
+    server: https://www.myget.org/F/telegram-bot/api/v2/package
+    api_key:
+      secure: Dl2/cPfGdESLPBMd7Y+CIQomwOgNQ2+rUTylGGzMb0FaJaL4WgPPf5lzkY5KD4V6
+    symbol_server: https://www.myget.org/F/telegram-bot/api/v2/package
+    on:
+      branch: master

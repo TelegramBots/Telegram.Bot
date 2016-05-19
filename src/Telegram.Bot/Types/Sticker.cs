@@ -25,5 +25,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
         public PhotoSize Thumb { get; internal set; }
+
+        /// <summary>
+        /// Emoji associated with the sticker
+        /// </summary>
+        [JsonProperty(PropertyName = "emoji", Required = Required.Default)]
+        public string Emoji { get; internal set; }
     }
 }
