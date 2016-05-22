@@ -63,6 +63,12 @@ namespace Telegram.Bot.Types
         public Message ReplyToMessage { get; internal set; }
 
         /// <summary>
+        /// Optional. Date the message was last edited in Unix time
+        /// </summary>
+        [JsonProperty("edit_date", Required = Required.Default)]
+        public DateTime EditDate { get; internal set; }
+
+        /// <summary>
         /// Optional. For text messages, the actual UTF-8 text of the message
         /// </summary>
         [JsonProperty("text", Required = Required.Default)]

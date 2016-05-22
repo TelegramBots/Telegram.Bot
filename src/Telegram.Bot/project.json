@@ -1,69 +1,42 @@
 {
-  "version": "9.0.0",
+  "version": "9.1.0-*",
   "title": "Telegram Bot API",
   "description": "Telegram Bot API Class Library",
   "authors": [ "Robin Müller" ],
   "copyright": "Copyright © Robin Müller 2016",
-  "tags": [ "Telegram", "Api", "Bot" ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/MrRoundRobin/telegram.bot.git"
+  "packOptions": {
+    "iconUrl": "https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828",
+    "projectUrl": "https://github.com/MrRoundRobin/telegram.bot",
+    "licenseUrl": "https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt",
+    "releaseNotes": "Added .NET Core RC2, API 2.1",
+    "tags": [ "Telegram", "Api", "Bot" ],
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/MrRoundRobin/telegram.bot.git"
+    }
   },
-  "releaseNotes": "API 2.0 Update, Silent Messages",
-  "projectUrl": "https://github.com/MrRoundRobin/telegram.bot",
-  "iconUrl": "https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828",
-  "licenseUrl": "https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt",
   "frameworks": {
     "net45": {
-      "compilationOptions": {
-        "define": [
-          "NET45"
-        ]
-      },
-      "frameworkAssemblies": {
-        "mscorlib": "",
-        "Microsoft.CSharp": "",
-        "System": "",
-        "System.Core": ""
+      "dependencies": {
+        "Microsoft.AspNet.WebApi.Client": "5.2.3"
       }
     },
     "net46": {
-      "compilationOptions": {
-        "define": [
-          "NET46"
-        ]
+      "dependencies": {
+        "Microsoft.AspNet.WebApi.Client": "5.2.3"
       }
     },
-    "dotnet": {
-      "compilationOptions": {
-        "define": [
-          "NETPLATFORM"
-        ]
+    "netstandard1.2": {
+      "buildOptions": {
+        "debugType": "portable"
       },
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
-        "System.Net.Http": "4.0.0",
-        "System.Text.RegularExpressions": "4.0.10"
-      }
-    },
-    "dnxcore50": {
-      "compilationOptions": {
-        "define": [
-          "DNXCORE"
-        ]
-      },
-      "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
-        "System.Collections": "4.0.10",
-        "System.IO": "4.0.10",
-        "System.Linq": "4.0.0",
-        "System.Net.Http": "4.0.0",
-        "System.Text.RegularExpressions": "4.0.10"
+        "Microsoft.CSharp": "4.0.1-rc2-24027",
+        "System.Net.Http": "4.0.1-rc2-24027"
       }
     }
   },
   "dependencies": {
-    "Microsoft.AspNet.WebApi.Client": "5.2.3",
-    "Newtonsoft.Json": "8.0.3"
+    "Newtonsoft.Json": "8.0.4-beta1"
   }
 }

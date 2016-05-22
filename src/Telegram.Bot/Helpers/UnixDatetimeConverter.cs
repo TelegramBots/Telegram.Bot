@@ -17,10 +17,10 @@ namespace Telegram.Bot.Helpers
             long val;
             if (value is DateTime)
             {
-#if NET45
-                val = ((DateTime)value).ToUnixTime();
+#if NET46
+                val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
 #else
-                val = new DateTimeOffset((DateTime) value).ToUnixTimeSeconds();
+                val = ((DateTime)value).ToUnixTime();
 #endif
             }
             else
@@ -46,10 +46,10 @@ namespace Telegram.Bot.Helpers
 
             var ticks = (long)reader.Value;
 
-#if NET45
-            return ticks.FromUnixTime();
-#else
+#if NET46
             return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
+#else
+            return ticks.FromUnixTime();
 #endif
         }
     }

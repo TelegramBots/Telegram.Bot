@@ -1,4 +1,6 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/x0vwuxdhe644sys0/branch/master?svg=true)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master)
+[![NuGet Pre Release](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?maxAge=2592000)](https://www.nuget.org/packages/Telegram.Bot/)
+[![license](https://img.shields.io/github/license/mrroundrobin/telegram.bot.svg?maxAge=2592000)]()
 
 ## Telegram Bot Api Library
 
@@ -38,7 +40,7 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 
 ## API Coverage
 
-Updated to [Bot API 2.0](https://core.telegram.org/bots/2-0-intro)
+Updated to [Bot API 2.1](https://core.telegram.org/bots/2-0-intro)
 
-Missing / TODO (last check 10.05.2016):
+Missing / TODO (last check 22.05.2016):
   * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)

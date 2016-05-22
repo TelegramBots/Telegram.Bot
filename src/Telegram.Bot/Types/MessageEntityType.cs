@@ -14,6 +14,7 @@ namespace Telegram.Bot.Types
         Code,
         Pre,
         TextLink,
+        TextMention,
     }
 
     internal static class MessageEntityTypeExtensions
@@ -31,6 +32,7 @@ namespace Telegram.Bot.Types
                 {MessageEntityType.Pre, "pre" },
                 {MessageEntityType.TextLink, "text_link" },
                 {MessageEntityType.Url, "url" },
+                {MessageEntityType.TextMention, "text_mention" },
             };
 
         public static string ToMessageEntityString(this MessageEntityType type) => StringMap[type];

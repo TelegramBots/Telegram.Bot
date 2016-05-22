@@ -33,5 +33,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("url", Required = Required.Default)]
         public string Url { get; internal set; }
+
+        /// <summary>
+        /// Optional. For "text_mention" only, the mentioned user
+        /// </summary>
+        [JsonProperty("user", Required = Required.Default)]
+        public User User { get; internal set; }
     }
 }

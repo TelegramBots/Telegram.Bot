@@ -1020,8 +1020,121 @@ namespace Telegram.Bot
 
         #endregion
 
-        #region API Methods - Group administration
+        #region API Methods - Administration
 
+        /// <summary>
+        /// Use this method to get a list of administrators in a chat.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <returns>On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.</returns>
+        public Task<ChatMember[]> GetChatAdministrators(long chatId) => GetChatAdministrators(chatId.ToString());
+
+        /// <summary>
+        /// Use this method to get a list of administrators in a chat.
+        /// </summary>
+        /// <param name="chatId">Username of the target supergroup or channel (in the format @channelusername)</param>
+        /// <returns>On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.</returns>
+        public Task<ChatMember[]> GetChatAdministrators(string chatId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId }
+            };
+
+            return SendWebRequest<ChatMember[]>("getChatAdministrators", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to get the number of members in a chat.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <returns>Returns Int on success.</returns>
+        public Task<int> GetChatMembersCount(long chatId) => GetChatMembersCount(chatId.ToString());
+
+        /// <summary>
+        /// Use this method to get the number of members in a chat.
+        /// </summary>
+        /// <param name="chatId">Username of the target supergroup or channel (in the format @channelusername)</param>
+        /// <returns>Returns Int on success.</returns>
+        public Task<int> GetChatMembersCount(string chatId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId }
+            };
+
+            return SendWebRequest<int>("getChatMembersCount", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to get information about a member of a chat.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <returns>Returns a ChatMember object on success.</returns>
+        public Task<ChatMember> GetChatMember(long chatId, int userId) => GetChatMember(chatId.ToString(), userId);
+
+        /// <summary>
+        /// Use this method to get information about a member of a chat.
+        /// </summary>
+        /// <param name="chatId">Username of the target supergroup or channel (in the format @channelusername)</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <returns>Returns a ChatMember object on success.</returns>
+        public Task<ChatMember> GetChatMember(string chatId, int userId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId },
+                {"user_id", userId}
+            };
+
+            return SendWebRequest<ChatMember>("getChatMember", parameters);
+        }
+
+        /// <summary>
+        /// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <returns>Returns a Chat object on success.</returns>
+        public Task<Chat> GetChat(long chatId) => GetChat(chatId.ToString());
+
+        /// <summary>
+        /// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
+        /// </summary>
+        /// <param name="chatId">Username of the target supergroup or channel (in the format @channelusername)</param>
+        /// <returns>Returns a Chat object on success.</returns>
+        public Task<Chat> GetChat(string chatId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId }
+            };
+
+            return SendWebRequest<Chat>("getChat", parameters);
+        }
+
+        /// <summary>
+        /// Use this method for your bot to leave a group, supergroup or channel.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <returns>Returns a Chat object on success.</returns>
+        public Task<bool> LeaveChat(long chatId) => LeaveChat(chatId.ToString());
+
+        /// <summary>
+        /// Use this method for your bot to leave a group, supergroup or channel.
+        /// </summary>
+        /// <param name="chatId">Username of the target supergroup or channel (in the format @channelusername)</param>
+        /// <returns>Returns a Chat object on success.</returns>
+        public Task<bool> LeaveChat(string chatId)
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId }
+            };
+
+            return SendWebRequest<bool>("leaveChat", parameters);
+        }
+        
         /// <summary>
         /// Use this method to kick a user from a group or a supergroup. In the case of supergroups, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the group for this to work.
         /// </summary>
@@ -1468,7 +1581,7 @@ namespace Telegram.Bot
                         response = await client.GetAsync(uri).ConfigureAwait(false);
                     }
 
-#if NETPLATFORM
+#if NETSTANDARD1_2
                     var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                     responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
@@ -1485,10 +1598,12 @@ namespace Telegram.Bot
                 catch (HttpRequestException e) when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
                 {
                 }
+#if !NETSTANDARD1_2
                 catch (UnsupportedMediaTypeException)
                 {
                     throw new ApiRequestException("Invalid response received", 501);
                 }
+#endif
 
                 //TODO: catch more exceptions
 

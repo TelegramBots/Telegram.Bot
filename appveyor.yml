@@ -1,4 +1,4 @@
-version: 9.0.1-alpha
+version: 9.1.0-alpha-{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:
@@ -7,23 +7,21 @@ branches:
 image: Visual Studio 2015
 init:
   - ps: git config --global core.autocrlf input
-  - ps: Update-AppveyorBuild -Version ($env:APPVEYOR_BUILD_VERSION + ([int]$env:APPVEYOR_BUILD_NUMBER).toString("0000"))
 cache:
-  - "C:\\Users\\appveyor\\.dnx\\packages -> **\\project.json"
-install:
-  - ps: dnvm upgrade -r clr
+  - "C:\\Users\\appveyor\\.nuget\\packages -> **\\project.json"
 configuration: Debug
 before_build:
   - ps: $projectJson = Get-ChildItem project.json -Recurse
   - ps: $json = ConvertFrom-Json (Get-Content $projectJson.FullName -Raw -Encoding UTF8)
   - ps: $json.version = $env:APPVEYOR_BUILD_VERSION
   - ps: Set-Content -Value (ConvertTo-Json $json -Depth 10) -Path $projectJson.FullName -Encoding UTF8
-  - ps: dnu restore
+  - ps: dotnet restore
 build:
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: normal
 after_build:
+  - ps: "dotnet pack .\\src\\Telegram.Bot -c Debug"
   - ps: "Get-ChildItem *.nupkg -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
 test: off
 deploy:
