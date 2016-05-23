@@ -4,6 +4,7 @@ namespace Telegram.Bot.Helpers
 {
     public static class Extensions
     {
+#if NET45
         private static readonly DateTime UnixStart = new DateTime(1970, 1, 1);
         /// <summary>
         ///   Convert a long into a DateTime
@@ -25,5 +26,6 @@ namespace Telegram.Bot.Helpers
 
             return (long) delta.TotalSeconds;
         }
+#endif
     }
 }
