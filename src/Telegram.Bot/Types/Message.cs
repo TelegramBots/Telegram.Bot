@@ -67,6 +67,7 @@ namespace Telegram.Bot.Types
         /// Optional. Date the message was last edited in Unix time
         /// </summary>
         [JsonProperty("edit_date", Required = Required.Default)]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime EditDate { get; internal set; }
 
         /// <summary>
