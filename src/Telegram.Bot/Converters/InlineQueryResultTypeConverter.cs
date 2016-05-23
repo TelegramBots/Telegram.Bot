@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Telegram.Bot.Types;
 
-namespace Telegram.Bot.Helpers
+namespace Telegram.Bot.Converters
 {
     internal class InlineQueryResultTypeConverter : JsonConverter
     {

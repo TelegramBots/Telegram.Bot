@@ -145,6 +145,7 @@ namespace Telegram.Bot
             Receive();
         }
 
+#pragma warning disable AsyncFixer03 // Avoid fire & forget async void methods
         private async void Receive()
         {
             while (IsReceiving)
@@ -167,6 +168,7 @@ namespace Telegram.Bot
                 }
             }
         }
+#pragma warning restore AsyncFixer03 // Avoid fire & forget async void methods
 
         /// <summary>
         /// Stop update receiving
@@ -1581,7 +1583,7 @@ namespace Telegram.Bot
                         response = await client.GetAsync(uri).ConfigureAwait(false);
                     }
 
-#if NETSTANDARD1_2
+#if NETSTANDARD1_3
                     var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                     responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
@@ -1598,7 +1600,7 @@ namespace Telegram.Bot
                 catch (HttpRequestException e) when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
                 {
                 }
-#if !NETSTANDARD1_2
+#if !NETSTANDARD1_3
                 catch (UnsupportedMediaTypeException)
                 {
                     throw new ApiRequestException("Invalid response received", 501);

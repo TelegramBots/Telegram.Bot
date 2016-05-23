@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types
 {
@@ -7,41 +9,39 @@ namespace Telegram.Bot.Types
     /// </summary>
     public enum ChatAction
     {
+        [EnumMember(Value = "typing")]
         Typing,
+
+        [EnumMember(Value = "upload_photo")]
         UploadPhoto,
+
+        [EnumMember(Value = "record_video")]
         RecordVideo,
+
+        [EnumMember(Value = "upload_video")]
         UploadVideo,
+
+        [EnumMember(Value = "record_audio")]
         RecordAudio,
+
+        [EnumMember(Value = "upload_audio")]
         UploadAudio,
+
+        [EnumMember(Value = "upload_document")]
         UploadDocument,
+
+        [EnumMember(Value = "find_location")]
         FindLocation,
     }
 
-    internal static class ChatActionExtension
+    internal static class ChatActionExtensions
     {
         internal static string ToActionString(this ChatAction action)
         {
-            switch (action)
-            {
-                case ChatAction.Typing:
-                    return "typing";
-                case ChatAction.UploadPhoto:
-                    return "upload_photo";
-                case ChatAction.RecordVideo:
-                    return "record_video";
-                case ChatAction.UploadVideo:
-                    return "upload_video";
-                case ChatAction.RecordAudio:
-                    return "record_audio";
-                case ChatAction.UploadAudio:
-                    return "upload_audio";
-                case ChatAction.UploadDocument:
-                    return "upload_document";
-                case ChatAction.FindLocation:
-                    return "find_location";
-                default:
-                    throw new NotImplementedException();
-            }
+            return action.GetType()
+                .GetRuntimeField(action.ToString())
+                .GetCustomAttributes(typeof(EnumMemberAttribute), true)
+                .Select(a => ((EnumMemberAttribute)a).Value).FirstOrDefault();
         }
     }
 }

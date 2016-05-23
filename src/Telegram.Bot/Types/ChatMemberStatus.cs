@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types
 {
@@ -8,32 +7,19 @@ namespace Telegram.Bot.Types
     /// </summary>
     public enum ChatMemberStatus
     {
+        [EnumMember(Value = "creator")]
         Creator,
+
+        [EnumMember(Value = "administrator")]
         Administrator,
+
+        [EnumMember(Value = "member")]
         Member,
+
+        [EnumMember(Value = "left")]
         Left,
+
+        [EnumMember(Value = "kicked")]
         Kicked,
-    }
-
-    internal static class ChatMemberStatusExtension
-    {
-        private static readonly Dictionary<ChatMemberStatus, string> Map = new Dictionary<ChatMemberStatus, string>
-        {
-            {ChatMemberStatus.Creator, "creator"},
-            {ChatMemberStatus.Administrator, "administrator"},
-            {ChatMemberStatus.Member, "member"},
-            {ChatMemberStatus.Left, "left"},
-            {ChatMemberStatus.Kicked, "kicked"},
-        };
-
-        internal static string ToStatusString(this ChatMemberStatus status)
-        {
-            return Map[status];
-        }
-
-        internal static ChatMemberStatus ToChatMemberStatus(this string status)
-        {
-            return Map.FirstOrDefault(s => s.Value == status).Key;
-        }
     }
 }

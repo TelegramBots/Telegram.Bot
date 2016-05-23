@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Newtonsoft.Json.Converters;
 
 namespace Telegram.Bot.Types
 {
@@ -12,8 +12,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the entity
         /// </summary>
-        [JsonConverter(typeof(MessageEntityTypeConverter))]
         [JsonProperty("type", Required = Required.Always)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public MessageEntityType Type { get; internal set; }
 
         /// <summary>

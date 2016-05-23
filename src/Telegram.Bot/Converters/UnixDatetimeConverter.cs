@@ -2,7 +2,11 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Telegram.Bot.Helpers
+#if NET45
+using Telegram.Bot.Helpers;
+#endif
+
+namespace Telegram.Bot.Converters
 {
     internal class UnixDateTimeConverter : DateTimeConverterBase
     {
@@ -17,10 +21,10 @@ namespace Telegram.Bot.Helpers
             long val;
             if (value is DateTime)
             {
-#if NET46
-                val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
-#else
+#if NET45
                 val = ((DateTime)value).ToUnixTime();
+#else
+                val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
 #endif
             }
             else
@@ -46,11 +50,20 @@ namespace Telegram.Bot.Helpers
 
             var ticks = (long)reader.Value;
 
-#if NET46
-            return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
-#else
+#if NET45
             return ticks.FromUnixTime();
+#else
+            return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
 #endif
         }
+
+        /// <summary>
+        /// Determines whether this instance can convert the specified object type.
+        /// </summary>
+        /// <param name="objectType">Type of the object.</param>
+        /// <returns>
+        /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
+        /// </returns>
+        public override bool CanConvert(Type objectType) => objectType == typeof(DateTime);
     }
 }

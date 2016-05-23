@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
 {

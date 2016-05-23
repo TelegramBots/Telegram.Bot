@@ -1,41 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types
 {
     public enum MessageEntityType
     {
+        [EnumMember(Value = "mention")]
         Mention,
+
+        [EnumMember(Value = "hashtag")]
         Hashtag,
+
+        [EnumMember(Value = "bot_command")]
         BotCommand,
+
+        [EnumMember(Value = "url")]
         Url,
+
+        [EnumMember(Value = "email")]
         Email,
+
+        [EnumMember(Value = "bold")]
         Bold,
+
+        [EnumMember(Value = "italic")]
         Italic,
+
+        [EnumMember(Value = "code")]
         Code,
+
+        [EnumMember(Value = "pre")]
         Pre,
+
+        [EnumMember(Value = "text_link")]
         TextLink,
+
+        [EnumMember(Value = "text_mention")]
         TextMention,
     }
-
-    internal static class MessageEntityTypeExtensions
-    {
-        internal static readonly Dictionary<MessageEntityType, string> StringMap =
-            new Dictionary<MessageEntityType, string>
-            {
-                {MessageEntityType.Bold, "bold" },
-                {MessageEntityType.BotCommand, "bot_command" },
-                {MessageEntityType.Code, "code" },
-                {MessageEntityType.Email, "email" },
-                {MessageEntityType.Hashtag, "hashtag" },
-                {MessageEntityType.Italic, "italic" },
-                {MessageEntityType.Mention, "mention" },
-                {MessageEntityType.Pre, "pre" },
-                {MessageEntityType.TextLink, "text_link" },
-                {MessageEntityType.Url, "url" },
-                {MessageEntityType.TextMention, "text_mention" },
-            };
-
-        public static string ToMessageEntityString(this MessageEntityType type) => StringMap[type];
-    }
-
 }
