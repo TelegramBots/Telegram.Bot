@@ -1,6 +1,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/x0vwuxdhe644sys0/branch/master?svg=true)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master)
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?maxAge=2592000)](https://www.nuget.org/packages/Telegram.Bot/)
-[![license](https://img.shields.io/github/license/mrroundrobin/telegram.bot.svg?maxAge=2592000)]()
+[![MyGet](https://img.shields.io/myget/telegram-bot/v/Telegram.bot.svg?maxAge=2592000)](https://www.myget.org/feed/telegram-bot/package/nuget/Telegram.Bot)
+[![license](https://img.shields.io/github/license/mrroundrobin/telegram.bot.svg?maxAge=2592000)](https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt)
 
 ## Telegram Bot Api Library
 

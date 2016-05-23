@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.InputMessageContents
@@ -19,6 +20,7 @@ namespace Telegram.Bot.Types.InputMessageContents
         /// Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
         /// </summary>
         [JsonProperty("parse_mode", Required = Required.Default)]
+        [JsonConverter(typeof(ParseModeConverter))]
         public ParseMode ParseMode { get; set; }
 
         /// <summary>
