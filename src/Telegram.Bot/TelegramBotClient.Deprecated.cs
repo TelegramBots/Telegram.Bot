@@ -8,7 +8,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot
 {
-    public partial class Client {
+    public partial class TelegramBotClient {
         private const bool GenerateErrorOnUsage = false;
 
         #region Support Methods - Public

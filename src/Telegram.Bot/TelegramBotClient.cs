@@ -15,7 +15,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot
 {
-    public partial class Client
+    public partial class TelegramBotClient
     {
         private const string BaseUrl = "https://api.telegram.org/bot";
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
@@ -104,11 +104,11 @@ namespace Telegram.Bot
         #endregion
 
         /// <summary>
-        /// Creat new Telegram Bot Api Client
+        /// Create a new <see cref="TelegramBotClient"/> instance.
         /// </summary>
         /// <param name="token">API token</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invvalid</exception>
-        public Client(string token)
+        public TelegramBotClient(string token)
         {
             if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
                 throw new ArgumentException("Invalid token format", nameof(token));
