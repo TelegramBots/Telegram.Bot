@@ -6,8 +6,11 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
+using File = Telegram.Bot.Types.File;
+
 namespace Telegram.Bot
 {
+#pragma warning disable CS1591
     public partial class TelegramBotClient {
         private const bool GenerateErrorOnUsage = false;
 
@@ -339,7 +342,7 @@ namespace Telegram.Bot
             => GetUserProfilePhotosAsync(userId, offset, limit);
 
         [Obsolete("GetFile is deprecated, please use GetFileAsync", GenerateErrorOnUsage)]
-        public Task<Types.File> GetFile(string fileId, Stream destination = null)
+        public Task<File> GetFile(string fileId, Stream destination = null)
             => GetFileAsync(fileId, destination);
 
         #endregion
@@ -401,4 +404,5 @@ namespace Telegram.Bot
 
         #endregion
     }
+#pragma warning restore CS1591
 }

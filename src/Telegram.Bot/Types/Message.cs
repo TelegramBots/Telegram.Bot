@@ -82,6 +82,12 @@ namespace Telegram.Bot.Types
         [JsonProperty("entities", Required = Required.Default)]
         public List<MessageEntity> Entities { get; internal set; } = new List<MessageEntity>();
 
+        /// <summary>
+        /// Gets the entity values.
+        /// </summary>
+        /// <value>
+        /// The entity values.
+        /// </value>
         [JsonIgnore]
         public List<string> EntityValues => Entities.ToList().Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
 
@@ -151,17 +157,11 @@ namespace Telegram.Bot.Types
         [JsonProperty("new_chat_member", Required = Required.Default)]
         public User NewChatMember { get; internal set; }
 
-        [Obsolete]
-        public User NewChatParticipant => NewChatMember;
-
         /// <summary>
         /// Optional. A member was removed from the group, information about them (this member may be bot itself)
         /// </summary>
         [JsonProperty("left_chat_member", Required = Required.Default)]
         public User LeftChatMember { get; internal set; }
-
-        [Obsolete]
-        public User LeftChatParticipant => LeftChatMember;
 
         /// <summary>
         /// Optional. A group title was changed to this value
@@ -217,6 +217,12 @@ namespace Telegram.Bot.Types
         [JsonProperty("pinned_message", Required = Required.Default)]
         public Message PinnedMessage { get; internal set; }
 
+        /// <summary>
+        /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
+        /// </summary>
+        /// <value>
+        /// The <see cref="MessageType"/> of the <see cref="Message"/>
+        /// </value>
         public MessageType Type
         {
             get

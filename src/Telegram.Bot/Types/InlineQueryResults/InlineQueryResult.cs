@@ -7,6 +7,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
+    /// <summary>
+    /// Base Class for inline results send in response to an <see cref="InlineQuery"/>
+    /// </summary>
     public class InlineQueryResult
     {
         private static readonly Dictionary<Type, InlineQueryResultType> TypeMap =

@@ -14,8 +14,8 @@ namespace Telegram.Bot.Types
     public class Update
     {
         /// <summary>
-        /// The update‘s unique identifier. Update identifiers start from a certain positive number and increase sequentially.
-        /// This ID becomes especially handy if you’re using Webhooks, since it allows you to ignore repeated updates or to
+        /// The update's unique identifier. Update identifiers start from a certain positive number and increase sequentially.
+        /// This ID becomes especially handy if you're using Webhooks, since it allows you to ignore repeated updates or to
         /// restore the correct update sequence, should they get out of order.
         /// </summary>
         [JsonProperty("update_id", Required = Required.Always)]
@@ -51,6 +51,13 @@ namespace Telegram.Bot.Types
         [JsonProperty("callback_query", Required = Required.Default)]
         public CallbackQuery CallbackQuery { get; internal set; }
 
+        /// <summary>
+        /// Gets the update type.
+        /// </summary>
+        /// <value>
+        /// The update type.
+        /// </value>
+        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         [JsonIgnore]
         public UpdateType Type
         {
@@ -66,6 +73,11 @@ namespace Telegram.Bot.Types
             }
         }
 
+        /// <summary>
+        /// Converts a JSON serialized <see cref="Update"/> to the corresponding object
+        /// </summary>
+        /// <param name="data">The JSON string containing the update</param>
+        /// <returns>The <see cref="Update"/> object </returns>
         public static Update FromString(string data)
         {
             return JsonConvert.DeserializeObject<Update>(data);

@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents a result of an inline query that was chosen by the user and sent to their chat partner.
+    /// This object represents a result of an <see cref="InlineQuery"/> that was chosen by the <see cref="User"/> and sent to their chat partner.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class ChosenInlineResult

@@ -8,17 +8,64 @@ namespace Telegram.Bot.Types.Enums
     /// </summary>
     public enum MessageType
     {
+        /// <summary>
+        /// The <see cref="Message"/> is unknown
+        /// </summary>
         UnknownMessage = 0,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains text
+        /// </summary>
         TextMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="PhotoSize"/>
+        /// </summary>
         PhotoMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains an <see cref="Audio"/>
+        /// </summary>
         AudioMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contins a <see cref="Video"/>
+        /// </summary>
         VideoMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Voice"/>
+        /// </summary>
         VoiceMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contians a <see cref="Document"/>
+        /// </summary>
         DocumentMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contins a <see cref="Sticker"/>
+        /// </summary>
         StickerMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contins a <see cref="Location"/>
+        /// </summary>
         LocationMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contins a <see cref="Contact"/>
+        /// </summary>
         ContactMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains meta informations, dor example <see cref="Message.GroupChatCreated"/> or <see cref="Message.NewChatTitle"/>
+        /// </summary>
         ServiceMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Venue"/>
+        /// </summary>
         VenueMessage,
     }
 

@@ -13,8 +13,13 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
+using File = Telegram.Bot.Types.File;
+
 namespace Telegram.Bot
 {
+    /// <summary>
+    /// A client to use the Telegram Bot API
+    /// </summary>
     public partial class TelegramBotClient
     {
         private const string BaseUrl = "https://api.telegram.org/bot";
@@ -75,30 +80,33 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Fired when any updates are availible
+        /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
         public event EventHandler<UpdateEventArgs> UpdateReceived;
 
         /// <summary>
-        /// Fired when messages are availible
+        /// Occurs when a <see cref="Message"/> is recieved.
         /// </summary>
         public event EventHandler<MessageEventArgs> MessageReceived;
 
         /// <summary>
-        /// Fired when inline queries are availible
+        /// Occurs when an <see cref="InlineQuery"/> is received.
         /// </summary>
         public event EventHandler<InlineQueryEventArgs> InlineQueryReceived;
 
         /// <summary>
-        /// Fired when chosen inline results are availible
+        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
         /// </summary>
         public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived;
 
         /// <summary>
-        /// Fired when an callback query is received
+        /// Occurs when an <see cref="CallbackQuery"/> is received
         /// </summary>
         public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived;
 
+        /// <summary>
+        /// Occurs when an error occures during the background update pooling.
+        /// </summary>
         public event EventHandler<ReceiveErrorEventArgs> ReceiveError;
 
         #endregion
@@ -1155,7 +1163,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <returns>True on success.</returns>
+        /// <returns><c>true</c> on success.</returns>
         public Task<bool> KickChatMemberAsync(long chatId, int userId) => KickChatMemberAsync(chatId.ToString(), userId);
 
         /// <summary>
@@ -1163,7 +1171,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Username of the target supergroup (in the format @supergroupusername)</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <returns>True on success.</returns>
+        /// <returns><c>true</c> on success.</returns>
         public Task<bool> KickChatMemberAsync(string chatId, int userId)
         {
             var parameters = new Dictionary<string, object>
@@ -1180,7 +1188,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <returns>True on success.</returns>
+        /// <returns><c>true</c> on success.</returns>
         public Task<bool> UnbanChatMemberAsync(long chatId, int userId) => UnbanChatMemberAsync(chatId.ToString(), userId);
 
         /// <summary>
@@ -1188,7 +1196,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Username of the target supergroup (in the format @supergroupusername)</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <returns>True on success.</returns>
+        /// <returns><c>true</c> on success.</returns>
         public Task<bool> UnbanChatMemberAsync(string chatId, int userId)
         {
             var parameters = new Dictionary<string, object>
@@ -1229,14 +1237,14 @@ namespace Telegram.Bot
         /// <param name="fileId">File identifier</param>
         /// <param name="destination">The destination stream</param>
         /// <returns>The File object. If destination is empty stream ist embedded in the File Object</returns>
-        public async Task<Types.File> GetFileAsync(string fileId, Stream destination = null)
+        public async Task<File> GetFileAsync(string fileId, Stream destination = null)
         {
             var parameters = new Dictionary<string, object>
             {
                 {"file_id", fileId}
             };
 
-            var fileInfo = await SendWebRequestAsync<Types.File>("getFile", parameters).ConfigureAwait(false);
+            var fileInfo = await SendWebRequestAsync<File>("getFile", parameters).ConfigureAwait(false);
 
             var fileUri = new Uri(BaseFileUrl + _token + "/" + fileInfo.FilePath);
 
@@ -1269,11 +1277,11 @@ namespace Telegram.Bot
         /// <param name="inlineQueryId">Unique identifier for answered query</param>
         /// <param name="results">A array of results for the inline query</param>
         /// <param name="cacheTime">Optional. The maximum amount of time in seconds the result of the inline query may be cached on the server</param>
-        /// <param name="isPersonal">Optional. Pass True, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query</param>
-        /// <param name="nextOffset">Optional. Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don‘t support pagination. Offset length can’t exceed 64 bytes.</param>
+        /// <param name="isPersonal">Optional. Pass <c>true</c>, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query</param>
+        /// <param name="nextOffset">Optional. Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.</param>
         /// <param name="switchPmText">If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter</param>
         /// <param name="switchPmParameter">Parameter for the start message sent to the bot when user presses the switch button</param>
-        /// <returns>On success, True is returned.</returns>
+        /// <returns>On success, <c>true</c> is returned.</returns>
         public Task<bool> AnswerInlineQueryAsync(string inlineQueryId, InlineQueryResult[] results, int? cacheTime = null,
             bool isPersonal = false, string nextOffset = null, string switchPmText = null,
             string switchPmParameter = null)
@@ -1306,7 +1314,7 @@ namespace Telegram.Bot
         /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
         /// <param name="text">Text of the notification. If not specified, nothing will be shown to the user</param>
         /// <param name="showAlert">If true, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.</param>
-        /// <returns>On success, True is returned.</returns>
+        /// <returns>On success, <c>true</c> is returned.</returns>
         public Task<bool> AnswerCallbackQueryAsync(string callbackQueryId, string text = null, bool showAlert = false)
         {
             var parameters = new Dictionary<string, object>

@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types.InputMessageContents
 {
     /// <summary>
-    /// Represents the content of a location message to be sent as the result of an inline query.
+    /// Represents the content of a location message to be sent as the result of an <see cref="InlineQuery"/>.
     /// </summary>
     /// <remarks>
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.

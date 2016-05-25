@@ -14,6 +14,7 @@ before_build:
   - ps: $projectJson = Get-ChildItem project.json -Recurse
   - ps: $json = ConvertFrom-Json (Get-Content $projectJson.FullName -Raw -Encoding UTF8)
   - ps: $json.version = $env:APPVEYOR_BUILD_VERSION
+  - ps: $json.buildOptions.xmlDoc = false
   - ps: Set-Content -Value (ConvertTo-Json $json -Depth 10) -Path $projectJson.FullName -Encoding UTF8
   - ps: dotnet restore
 build:

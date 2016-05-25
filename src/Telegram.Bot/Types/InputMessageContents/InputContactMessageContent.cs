@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types.InputMessageContents
 {
     /// <summary>
-    /// Represents the content of a contact message to be sent as the result of an inline query.
+    /// Represents the content of a contact message to be sent as the result of an <see cref="InlineQuery"/>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class InputContactMessageContent : InputMessageContent

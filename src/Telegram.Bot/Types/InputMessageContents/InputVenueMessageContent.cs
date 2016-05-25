@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types.InputMessageContents
 {
     /// <summary>
-    /// Represents the content of a venue message to be sent as the result of an inline query.
+    /// Represents the content of a <see cref="Venue"/> message to be sent as the result of an <see cref="InlineQuery"/>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class InputVenueMessageContent : InputMessageContent
