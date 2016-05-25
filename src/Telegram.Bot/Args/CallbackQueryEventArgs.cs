@@ -20,7 +20,7 @@ namespace Telegram.Bot.Args
         /// <summary>
         /// Initializes a new instance of the <see cref="CallbackQueryEventArgs"/> class.
         /// </summary>
-        /// <param name="update">The update.</param>
+        /// <param name="update">The <see cref="Update"/>.</param>
         internal CallbackQueryEventArgs(Update update)
         {
             CallbackQuery = update.CallbackQuery;

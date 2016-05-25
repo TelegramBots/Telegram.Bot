@@ -212,7 +212,7 @@ namespace Telegram.Bot
         /// Use this method to receive incoming updates using long polling.
         /// </summary>
         /// <param name="offset">
-        /// Identifier of the first update to be returned.
+        /// Identifier of the first <see cref="Update"/> to be returned.
         /// </param>
         /// <param name="limit">
         /// Limits the number of updates to be retrieved. Values between 1—100 are accepted. Defaults to 100
@@ -225,7 +225,7 @@ namespace Telegram.Bot
         /// 2. In order to avoid getting duplicate updates, recalculate offset after each server response.
         /// 
         /// Must be greater by one than the highest among the identifiers of previously received updates. 
-        /// By default, updates starting with the earliest unconfirmed update are returned. An update is considered confirmed as soon as GetUpdates is called with an offset higher than its Id.
+        /// By default, updates starting with the earliest unconfirmed <see cref="Update"/> are returned. An <see cref="Update"/> is considered confirmed as soon as GetUpdates is called with an offset higher than its Id.
         /// </remarks>
         /// <returns>An Array of <see cref="Update"/> is returned.</returns>
         public Task<Update[]> GetUpdatesAsync(int offset = 0, int limit = 100, int timeout = 0)
@@ -241,7 +241,7 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will
+        /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an <see cref="Update"/> for the bot, we will
         /// send an HTTPS POST request to the specified url, containing a JSON-serialized Update. In case of an unsuccessful request, we will
         /// give up after a reasonable amount of attempts.
         /// </summary>
