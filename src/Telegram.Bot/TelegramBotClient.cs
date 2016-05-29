@@ -1618,6 +1618,10 @@ namespace Telegram.Bot
                     _invalidToken = true;
                     throw new ApiRequestException("Invalid token", 401);
                 }
+                catch (TaskCanceledException)
+                {
+                    throw new ApiRequestException("Request timed out", 408);
+                }
                 catch (HttpRequestException e) when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
                 {
                 }
@@ -1627,8 +1631,6 @@ namespace Telegram.Bot
                     throw new ApiRequestException("Invalid response received", 501);
                 }
 #endif
-
-                //TODO: catch more exceptions
 
                 if (responseObject == null)
                     responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
