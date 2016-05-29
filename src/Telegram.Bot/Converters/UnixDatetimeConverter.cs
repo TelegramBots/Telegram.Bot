@@ -13,11 +13,17 @@ namespace Telegram.Bot.Converters
         /// <summary>
         /// Writes the JSON representation of the object.
         /// </summary>
-        /// <param name="writer">The <see cref="Newtonsoft.Json.JsonWriter"/> to write to.</param>
+        /// <param name="writer">The <see cref="JsonWriter"/> to write to.</param>
         /// <param name="value">The value.</param>
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
+            if (value == null)
+            {
+                writer.WriteNull();
+                return;
+            }
+
             long val;
             if (value is DateTime)
             {
@@ -43,8 +49,15 @@ namespace Telegram.Bot.Converters
         /// <param name="serializer">The calling serializer.</param>
         /// <returns>The object value.</returns>
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
-                                        JsonSerializer serializer)
+            JsonSerializer serializer)
         {
+            if (reader.TokenType == JsonToken.Null)
+            {
+                if (objectType == typeof(DateTime))
+                    return default(DateTime);
+                return null;
+            }
+
             if (reader.TokenType != JsonToken.Integer)
                 throw new Exception("Wrong Token Type");
 
@@ -64,6 +77,6 @@ namespace Telegram.Bot.Converters
         /// <returns>
         /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
         /// </returns>
-        public override bool CanConvert(Type objectType) => objectType == typeof(DateTime);
+        public override bool CanConvert(Type objectType) => objectType == typeof(DateTime) || objectType == typeof(DateTime?);
     }
 }

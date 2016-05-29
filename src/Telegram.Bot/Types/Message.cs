@@ -26,7 +26,7 @@ namespace Telegram.Bot.Types
         public User From { get; internal set; }
 
         /// <summary>
-        /// Date the message was sent in Unix time
+        /// Date the message was sent
         /// </summary>
         [JsonProperty("date", Required = Required.Always)]
         [JsonConverter(typeof (UnixDateTimeConverter))]
@@ -55,7 +55,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("forward_date", Required = Required.Default)]
         [JsonConverter(typeof (UnixDateTimeConverter))]
-        public DateTime ForwardDate { get; internal set; }
+        public DateTime? ForwardDate { get; internal set; }
 
         /// <summary>
         /// Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
@@ -68,7 +68,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("edit_date", Required = Required.Default)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime EditDate { get; internal set; }
+        public DateTime? EditDate { get; internal set; }
 
         /// <summary>
         /// Optional. For text messages, the actual UTF-8 text of the message
@@ -86,7 +86,7 @@ namespace Telegram.Bot.Types
         /// Gets the entity values.
         /// </summary>
         /// <value>
-        /// The entity values.
+        /// The entity contents.
         /// </value>
         [JsonIgnore]
         public List<string> EntityValues => Entities.ToList().Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
@@ -265,7 +265,9 @@ namespace Telegram.Bot.Types
                     DeleteChatPhoto ||
                     GroupChatCreated ||
                     SupergroupChatCreated ||
-                    ChannelChatCreated)
+                    ChannelChatCreated ||
+                    MigrateFromChatId == default(long) ||
+                    MigrateToChatId == default(long))
                     return MessageType.ServiceMessage;
 
                 return MessageType.UnknownMessage;
