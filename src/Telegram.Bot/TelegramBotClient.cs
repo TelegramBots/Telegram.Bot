@@ -1616,19 +1616,19 @@ namespace Telegram.Bot
                 catch (HttpRequestException e) when (e.Message.Contains("401"))
                 {
                     _invalidToken = true;
-                    throw new ApiRequestException("Invalid token", 401);
+                    throw new ApiRequestException("Invalid token", 401, e);
                 }
-                catch (TaskCanceledException)
+                catch (TaskCanceledException e)
                 {
-                    throw new ApiRequestException("Request timed out", 408);
+                    throw new ApiRequestException("Request timed out", 408, e);
                 }
                 catch (HttpRequestException e) when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
                 {
                 }
 #if !NETSTANDARD1_3
-                catch (UnsupportedMediaTypeException)
+                catch (UnsupportedMediaTypeException e)
                 {
-                    throw new ApiRequestException("Invalid response received", 501);
+                    throw new ApiRequestException("Invalid response received", 501, e);
                 }
 #endif
 
