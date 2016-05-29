@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
-    /// Type of a Chat
+    /// Type of a <see cref="Chat"/>
     /// </summary>
     public enum ChatType
     {

@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
-    /// The type of an Update
+    /// The type of an <see cref="Update"/>
     /// </summary>
     public enum UpdateType
     {
@@ -20,19 +20,19 @@ namespace Telegram.Bot.Types.Enums
         MessageUpdate,
 
         /// <summary>
-        /// The <see cref="Update"/> contains an <see cref="InlineQueryUpdate"/>.
+        /// The <see cref="Update"/> contains an <see cref="InlineQuery"/>.
         /// </summary>
         [EnumMember(Value = "inline_query_update")]
         InlineQueryUpdate,
 
         /// <summary>
-        /// The <see cref="Update"/> contains a <see cref="ChosenInlineResultUpdate"/>.
+        /// The <see cref="Update"/> contains a <see cref="ChosenInlineResult"/>.
         /// </summary>
         [EnumMember(Value = "chosen_inline_result_update")]
         ChosenInlineResultUpdate,
 
         /// <summary>
-        /// The <see cref="Update"/> contins a <see cref="CallbackQueryUpdate"/>
+        /// The <see cref="Update"/> contins a <see cref="CallbackQuery"/>
         /// </summary>
         [EnumMember(Value = "callback_query_update")]
         CallbackQueryUpdate,

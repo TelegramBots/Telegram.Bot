@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
-    /// The type of a Message
+    /// The type of a <see cref="Message"/>
     /// </summary>
     public enum MessageType
     {
@@ -29,7 +29,7 @@ namespace Telegram.Bot.Types.Enums
         AudioMessage,
 
         /// <summary>
-        /// The <see cref="Message"/> contins a <see cref="Video"/>
+        /// The <see cref="Message"/> contains a <see cref="Video"/>
         /// </summary>
         VideoMessage,
 
@@ -39,27 +39,27 @@ namespace Telegram.Bot.Types.Enums
         VoiceMessage,
 
         /// <summary>
-        /// The <see cref="Message"/> contians a <see cref="Document"/>
+        /// The <see cref="Message"/> contains a <see cref="Document"/>
         /// </summary>
         DocumentMessage,
 
         /// <summary>
-        /// The <see cref="Message"/> contins a <see cref="Sticker"/>
+        /// The <see cref="Message"/> contains a <see cref="Sticker"/>
         /// </summary>
         StickerMessage,
 
         /// <summary>
-        /// The <see cref="Message"/> contins a <see cref="Location"/>
+        /// The <see cref="Message"/> contains a <see cref="Location"/>
         /// </summary>
         LocationMessage,
 
         /// <summary>
-        /// The <see cref="Message"/> contins a <see cref="Contact"/>
+        /// The <see cref="Message"/> contains a <see cref="Contact"/>
         /// </summary>
         ContactMessage,
 
         /// <summary>
-        /// The <see cref="Message"/> contains meta informations, dor example <see cref="Message.GroupChatCreated"/> or <see cref="Message.NewChatTitle"/>
+        /// The <see cref="Message"/> contains meta informations, for example <see cref="Message.GroupChatCreated"/> or <see cref="Message.NewChatTitle"/>
         /// </summary>
         ServiceMessage,
 
