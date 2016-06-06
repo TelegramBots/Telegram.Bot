@@ -1,4 +1,4 @@
-#if NET45
+#if NET45 || NETSTANDARD1_1
 using System;
 
 namespace Telegram.Bot.Helpers
@@ -9,6 +9,7 @@ namespace Telegram.Bot.Helpers
     public static class Extensions
     {
         private static readonly DateTime UnixStart = new DateTime(1970, 1, 1);
+
         /// <summary>
         ///   Convert a long into a DateTime
         /// </summary>
@@ -25,10 +26,12 @@ namespace Telegram.Bot.Helpers
 
             var delta = dateTime - UnixStart;
 
-            if (delta.TotalSeconds < 0) throw new ArgumentOutOfRangeException(nameof(dateTime), "Unix epoc starts January 1st, 1970");
+            if (delta.TotalSeconds < 0)
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "Unix epoc starts January 1st, 1970");
 
             return (long)delta.TotalSeconds;
         }
     }
 }
+
 #endif

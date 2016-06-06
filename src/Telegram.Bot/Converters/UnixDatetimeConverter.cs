@@ -1,8 +1,9 @@
-﻿using System;
+using System;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-#if NET45
+#if NET45 || NETSTANDARD1_1
 using Telegram.Bot.Helpers;
 #endif
 
@@ -27,7 +28,7 @@ namespace Telegram.Bot.Converters
             long val;
             if (value is DateTime)
             {
-#if NET45
+#if NET45 || NETSTANDARD1_1
                 val = ((DateTime)value).ToUnixTime();
 #else
                 val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
@@ -37,6 +38,7 @@ namespace Telegram.Bot.Converters
             {
                 throw new Exception("Expected date object value.");
             }
+
             writer.WriteValue(val);
         }
 
@@ -55,6 +57,7 @@ namespace Telegram.Bot.Converters
             {
                 if (objectType == typeof(DateTime))
                     return default(DateTime);
+
                 return null;
             }
 
@@ -63,7 +66,7 @@ namespace Telegram.Bot.Converters
 
             var ticks = (long)reader.Value;
 
-#if NET45
+#if NET45 || NETSTANDARD1_1
             return ticks.FromUnixTime();
 #else
             return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
@@ -77,6 +80,7 @@ namespace Telegram.Bot.Converters
         /// <returns>
         /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
         /// </returns>
-        public override bool CanConvert(Type objectType) => objectType == typeof(DateTime) || objectType == typeof(DateTime?);
+        public override bool CanConvert(Type objectType)
+            => objectType == typeof(DateTime) || objectType == typeof(DateTime?);
     }
 }

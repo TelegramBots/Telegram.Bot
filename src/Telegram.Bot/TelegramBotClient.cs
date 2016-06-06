@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -188,16 +189,10 @@ namespace Telegram.Bot
 
                 try
                 {
-#if !NETSTANDARD1_3
-                    Console.WriteLine("Get Updates");
-#endif
                     var updates =
                         await
                         GetUpdatesAsync(MessageOffset, timeout: timeout, cancellationToken: cancellationToken)
                             .ConfigureAwait(false);
-#if !NETSTANDARD1_3
-                    Console.WriteLine("Parsing");
-#endif
 
                     foreach (var update in updates)
                     {
@@ -1804,7 +1799,7 @@ namespace Telegram.Bot
                                                .ConfigureAwait(false);
                     }
 
-#if NETSTANDARD1_3
+#if NETSTANDARD1_1
                     var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                     responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
@@ -1829,7 +1824,7 @@ namespace Telegram.Bot
                 }
                 catch (HttpRequestException e)
                     when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) {}
-#if !NETSTANDARD1_3
+#if !NETSTANDARD1_1
                 catch (UnsupportedMediaTypeException e)
                 {
                     throw new ApiRequestException("Invalid response received", 501, e);
@@ -1848,9 +1843,13 @@ namespace Telegram.Bot
 
         private static HttpContent ConvertParameterValue(object value)
         {
-            var type = value.GetType();
+#if NETSTANDARD1_1
+            var typeName = value.GetType().GetTypeInfo().Name;
+#else
+            var typeName = value.GetType().Name;
+#endif
 
-            switch (type.Name)
+            switch (typeName)
             {
                 case "String":
                 case "Int32":
