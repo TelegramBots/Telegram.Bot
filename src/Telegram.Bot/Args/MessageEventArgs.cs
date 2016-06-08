@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Args
 {
@@ -23,7 +24,7 @@ namespace Telegram.Bot.Args
         /// <param name="update">The update.</param>
         internal MessageEventArgs(Update update)
         {
-            Message = update.Message;
+            Message = (update.Type == UpdateType.EditedMessage) ? update.EditedMessage : update.Message;
         }
 
         /// <summary>

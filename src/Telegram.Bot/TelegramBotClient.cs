@@ -82,6 +82,10 @@ namespace Telegram.Bot
                 case UpdateType.CallbackQueryUpdate:
                     CallbackQueryReceived?.Invoke(this, e);
                     break;
+
+                case UpdateType.EditedMessage:
+                    MessageEdited?.Invoke(this, e);
+                    break;
             }
         }
 
@@ -103,6 +107,11 @@ namespace Telegram.Bot
         /// Occurs when a <see cref="Message"/> is recieved.
         /// </summary>
         public event EventHandler<MessageEventArgs> MessageReceived;
+
+        /// <summary>
+        /// Occurs when <see cref="Message"/> was edited.
+        /// </summary>
+        public event EventHandler<MessageEventArgs> MessageEdited; 
 
         /// <summary>
         /// Occurs when an <see cref="InlineQuery"/> is received.
