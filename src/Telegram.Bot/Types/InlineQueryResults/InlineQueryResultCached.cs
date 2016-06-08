@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Caption of the result to be sent, 0-200 characters
         /// </summary>
-        [JsonProperty("caption", Required = Required.Default)]
+        [JsonProperty("caption", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Caption { get; set; }
     }
 }

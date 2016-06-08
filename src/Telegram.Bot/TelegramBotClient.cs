@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,6 +57,10 @@ namespace Telegram.Bot
 
         #region Events
 
+        /// <summary>
+        /// Raises the <see cref="UpdateReceived" />, <see cref="MessageReceived"/>, <see cref="InlineQueryReceived"/>, <see cref="ChosenInlineResultReceived"/> and <see cref="CallbackQueryReceived"/> events.
+        /// </summary>
+        /// <param name="e">The <see cref="UpdateEventArgs"/> instance containing the event data.</param>
         protected virtual void OnUpdateReceived(UpdateEventArgs e)
         {
             UpdateReceived?.Invoke(this, e);
@@ -80,6 +85,10 @@ namespace Telegram.Bot
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="ReceiveError" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="ReceiveErrorEventArgs"/> instance containing the event data.</param>
         protected virtual void OnReceiveError(ReceiveErrorEventArgs e)
         {
             ReceiveError?.Invoke(this, e);
@@ -154,6 +163,7 @@ namespace Telegram.Bot
         /// <summary>
         /// Start update receiving
         /// </summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
         public void StartReceiving(CancellationToken cancellationToken = default(CancellationToken))
             => StartReceiving(PollingTimeout, cancellationToken);
@@ -1767,7 +1777,12 @@ namespace Telegram.Bot
                 {
                     HttpResponseMessage response;
 
-                    if (parameters != null)
+                    if (parameters == null || parameters.Count == 0)
+                    {
+                        response = await client.GetAsync(uri, cancellationToken)
+                                               .ConfigureAwait(false);
+                    }
+                    else if (parameters.Any(p => p.Value is FileToSend))
                     {
                         using (var form = new MultipartFormDataContent())
                         {
@@ -1795,12 +1810,17 @@ namespace Telegram.Bot
                     }
                     else
                     {
-                        response = await client.GetAsync(uri, cancellationToken)
+                        var payload = JsonConvert.SerializeObject(parameters);
+
+                        var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                        response = await client.PostAsync(uri, httpContent, cancellationToken)
                                                .ConfigureAwait(false);
                     }
 
 #if NETSTANDARD1_1
-                    var responseString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var responseString = await response.Content.ReadAsStringAsync()
+                                                       .ConfigureAwait(false);
 
                     responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
 #else
@@ -1844,27 +1864,25 @@ namespace Telegram.Bot
         private static HttpContent ConvertParameterValue(object value)
         {
 #if NETSTANDARD1_1
-            var typeName = value.GetType().GetTypeInfo().Name;
+            var typeName = value.GetType()
+                                .GetTypeInfo()
+                                .Name;
 #else
-            var typeName = value.GetType().Name;
+            var typeName = value.GetType()
+                                .Name;
 #endif
 
             switch (typeName)
             {
                 case "String":
                 case "Int32":
-                    return new StringContent(value.ToString());
+                    return new StringContent(value.ToString(), Encoding.UTF8);
                 case "Boolean":
                     return new StringContent((bool)value ? "true" : "false");
                 case "FileToSend":
                     return new StreamContent(((FileToSend)value).Content);
                 default:
-                    var settings = new JsonSerializerSettings
-                    {
-                        DefaultValueHandling = DefaultValueHandling.Ignore,
-                    };
-
-                    return new StringContent(JsonConvert.SerializeObject(value, settings));
+                    return new StringContent(JsonConvert.SerializeObject(value));
             }
         }
 
