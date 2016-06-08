@@ -1,4 +1,4 @@
-#if NET45 || NETSTANDARD1_1
+#if !NET46
 using System;
 
 namespace Telegram.Bot.Helpers

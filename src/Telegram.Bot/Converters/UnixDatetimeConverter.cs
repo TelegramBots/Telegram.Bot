@@ -3,7 +3,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-#if NET45 || NETSTANDARD1_1
+#if !NET46
 using Telegram.Bot.Helpers;
 #endif
 
@@ -28,10 +28,10 @@ namespace Telegram.Bot.Converters
             long val;
             if (value is DateTime)
             {
-#if NET45 || NETSTANDARD1_1
-                val = ((DateTime)value).ToUnixTime();
-#else
+#if NET46
                 val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
+#else
+                val = ((DateTime)value).ToUnixTime();
 #endif
             }
             else
@@ -66,10 +66,10 @@ namespace Telegram.Bot.Converters
 
             var ticks = (long)reader.Value;
 
-#if NET45 || NETSTANDARD1_1
-            return ticks.FromUnixTime();
-#else
+#if NET46
             return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
+#else
+            return ticks.FromUnixTime();
 #endif
         }
 
