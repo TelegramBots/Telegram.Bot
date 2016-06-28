@@ -26,7 +26,7 @@ namespace Telegram.Bot.Converters
             }
 
             long val;
-            if (value is DateTime)
+            if (value is DateTime || value is Nullable<DateTime>)
             {
 #if NET46
                 val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
@@ -55,7 +55,7 @@ namespace Telegram.Bot.Converters
         {
             if (reader.TokenType == JsonToken.Null)
             {
-                if (objectType == typeof(DateTime))
+                if (Nullable.GetUnderlyingType(objectType) != null)
                     return default(DateTime);
 
                 return null;

@@ -58,80 +58,141 @@ namespace Telegram.Bot
         #region Events
 
         /// <summary>
-        /// Raises the <see cref="UpdateReceived" />, <see cref="MessageReceived"/>, <see cref="InlineQueryReceived"/>, <see cref="ChosenInlineResultReceived"/> and <see cref="CallbackQueryReceived"/> events.
+        /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>, <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and <see cref="OnCallbackQuery"/> events.
         /// </summary>
         /// <param name="e">The <see cref="UpdateEventArgs"/> instance containing the event data.</param>
         protected virtual void OnUpdateReceived(UpdateEventArgs e)
         {
-            UpdateReceived?.Invoke(this, e);
+            OnUpdate?.Invoke(this, e);
 
             switch (e.Update.Type)
             {
                 case UpdateType.MessageUpdate:
-                    MessageReceived?.Invoke(this, e);
+                    OnMessage?.Invoke(this, e);
                     break;
 
                 case UpdateType.InlineQueryUpdate:
-                    InlineQueryReceived?.Invoke(this, e);
+                    OnInlineQuery?.Invoke(this, e);
                     break;
 
                 case UpdateType.ChosenInlineResultUpdate:
-                    ChosenInlineResultReceived?.Invoke(this, e);
+                    OnInlineResultChosen?.Invoke(this, e);
                     break;
 
                 case UpdateType.CallbackQueryUpdate:
-                    CallbackQueryReceived?.Invoke(this, e);
+                    OnCallbackQuery?.Invoke(this, e);
                     break;
 
                 case UpdateType.EditedMessage:
-                    MessageEdited?.Invoke(this, e);
+                    OnMessageEdited?.Invoke(this, e);
                     break;
             }
         }
 
         /// <summary>
-        /// Raises the <see cref="ReceiveError" /> event.
+        /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
-        /// <param name="e">The <see cref="ReceiveErrorEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnReceiveError(ReceiveErrorEventArgs e)
-        {
-            ReceiveError?.Invoke(this, e);
-        }
+        public event EventHandler<UpdateEventArgs> OnUpdate;
 
         /// <summary>
         /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
-        public event EventHandler<UpdateEventArgs> UpdateReceived;
+        [Obsolete("Use OnUpdate")]
+        public event EventHandler<UpdateEventArgs> UpdateReceived
+        {
+            add { OnUpdate += value; }
+            remove { OnUpdate -= value; }
+        }
 
         /// <summary>
         /// Occurs when a <see cref="Message"/> is recieved.
         /// </summary>
-        public event EventHandler<MessageEventArgs> MessageReceived;
+        public event EventHandler<MessageEventArgs> OnMessage;
+
+        /// <summary>
+        /// Occurs when a <see cref="Message"/> is recieved.
+        /// </summary>
+        [Obsolete("Use OnMessage")]
+        public event EventHandler<MessageEventArgs> MessageReceived
+        {
+            add { OnMessage += value; }
+            remove { OnMessage -= value; }
+        }
 
         /// <summary>
         /// Occurs when <see cref="Message"/> was edited.
         /// </summary>
-        public event EventHandler<MessageEventArgs> MessageEdited; 
+        public event EventHandler<MessageEventArgs> OnMessageEdited;
+
+        /// <summary>
+        /// Occurs when <see cref="Message"/> was edited.
+        /// </summary>
+        [Obsolete("Use OnMessageEdited")]
+        public event EventHandler<MessageEventArgs> MessageEdited
+        {
+            add { OnMessageEdited += value; }
+            remove { OnMessageEdited -= value; }
+        }
 
         /// <summary>
         /// Occurs when an <see cref="InlineQuery"/> is received.
         /// </summary>
-        public event EventHandler<InlineQueryEventArgs> InlineQueryReceived;
+        public event EventHandler<InlineQueryEventArgs> OnInlineQuery;
+
+        /// <summary>
+        /// Occurs when an <see cref="InlineQuery"/> is received.
+        /// </summary>
+        [Obsolete("Use OnInlineQuery")]
+        public event EventHandler<InlineQueryEventArgs> InlineQueryReceived
+        {
+            add { OnInlineQuery += value; }
+            remove { OnInlineQuery -= value; }
+        }
 
         /// <summary>
         /// Occurs when a <see cref="ChosenInlineResult"/> is received.
         /// </summary>
-        public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived;
+        public event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
+
+        /// <summary>
+        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
+        /// </summary>
+        [Obsolete("Use OnInlineResultChosen")]
+        public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived
+        {
+            add { OnInlineResultChosen += value; }
+            remove { OnInlineResultChosen -= value; }
+        }
 
         /// <summary>
         /// Occurs when an <see cref="CallbackQuery"/> is received
         /// </summary>
-        public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived;
+        public event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
+
+        /// <summary>
+        /// Occurs when an <see cref="CallbackQuery"/> is received
+        /// </summary>
+        [Obsolete("Use OnCallbackQuery")]
+        public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived
+        {
+            add { OnCallbackQuery += value; }
+            remove { OnCallbackQuery -= value; }
+        }
 
         /// <summary>
         /// Occurs when an error occures during the background update pooling.
         /// </summary>
-        public event EventHandler<ReceiveErrorEventArgs> ReceiveError;
+        public event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
+
+        /// <summary>
+        /// Occurs when an error occures during the background update pooling.
+        /// </summary>
+        [Obsolete("Use OnReceiveError")]
+        public event EventHandler<ReceiveErrorEventArgs> ReceiveError
+        {
+            add { OnReceiveError += value; }
+            remove { OnReceiveError -= value; }
+        }
 
         #endregion
 
@@ -222,7 +283,7 @@ namespace Telegram.Bot
                 catch (OperationCanceledException) {}
                 catch (ApiRequestException e)
                 {
-                    OnReceiveError(e);
+                    OnReceiveError?.Invoke(this, e);
                 }
             }
 
