@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Newtonsoft.Json.Converters;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
 {
@@ -12,8 +13,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the entity
         /// </summary>
-        [JsonConverter(typeof(MessageEntityTypeConverter))]
         [JsonProperty("type", Required = Required.Always)]
+        [JsonConverter(typeof(StringEnumConverter))]
         public MessageEntityType Type { get; internal set; }
 
         /// <summary>
@@ -33,5 +34,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("url", Required = Required.Default)]
         public string Url { get; internal set; }
+
+        /// <summary>
+        /// Optional. For "text_mention" only, the mentioned user
+        /// </summary>
+        [JsonProperty("user", Required = Required.Default)]
+        public User User { get; internal set; }
     }
 }

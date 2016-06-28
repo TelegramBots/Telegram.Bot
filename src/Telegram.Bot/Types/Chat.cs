@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
 {
@@ -15,7 +16,7 @@ namespace Telegram.Bot.Types
         public long Id { get; internal set; }
 
         /// <summary>
-        /// Type of chat, can be either "Private", or "Group", or "Channel"
+        /// Type of chat
         /// </summary>
         [JsonProperty(PropertyName = "type", Required = Required.Always)]
         public ChatType Type { get; internal set; }

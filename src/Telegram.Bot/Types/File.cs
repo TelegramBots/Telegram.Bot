@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents a file ready to be downloaded. The file can be downloaded via the link https://api.telegram.org/file/bot{token}/{file_path}. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile.
+    /// This object represents a file ready to be downloaded. The file can be downloaded via <see cref="TelegramBotClient.GetFileAsync"/>. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling <see cref="TelegramBotClient.GetFileAsync"/>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class File
@@ -22,11 +22,14 @@ namespace Telegram.Bot.Types
         public int FileSize { get; internal set; }
 
         /// <summary>
-        /// File path. Use https://api.telegram.org/file/bot{token}/{file_path} to get the file.
+        /// File path. Use <see cref="TelegramBotClient.GetFileAsync"/> to get the file.
         /// </summary>
         [JsonProperty(PropertyName = "file_path", Required = Required.Default)]
         public string FilePath { get; internal set; }
 
+        /// <summary>
+        /// Gets the file stream.
+        /// </summary>
         public Stream FileStream { get; internal set; }
     }
 }

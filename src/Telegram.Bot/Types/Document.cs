@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents a general file (as opposed to photos and audio files).
+    /// This object represents a general file (as opposed to <see cref="PhotoSize"/> and <see cref="Audio"/> files).
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class Document : File

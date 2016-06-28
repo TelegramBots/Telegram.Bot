@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Telegram.Bot.Converters;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
 {
@@ -25,7 +26,7 @@ namespace Telegram.Bot.Types
         public User From { get; internal set; }
 
         /// <summary>
-        /// Date the message was sent in Unix time
+        /// Date the message was sent
         /// </summary>
         [JsonProperty("date", Required = Required.Always)]
         [JsonConverter(typeof (UnixDateTimeConverter))]
@@ -44,17 +45,30 @@ namespace Telegram.Bot.Types
         public User ForwardFrom { get; internal set; }
 
         /// <summary>
+        /// Optional. For messages forwarded from a channel, information about the original channel
+        /// </summary>
+        [JsonProperty("forward_from_chat", Required = Required.Default)]
+        public Chat ForwardFromChat { get; internal set; }
+
+        /// <summary>
         /// Optional. For forwarded messages, date the original message was sent in Unix time
         /// </summary>
         [JsonProperty("forward_date", Required = Required.Default)]
         [JsonConverter(typeof (UnixDateTimeConverter))]
-        public DateTime ForwardDate { get; internal set; }
+        public DateTime? ForwardDate { get; internal set; }
 
         /// <summary>
         /// Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
         /// </summary>
         [JsonProperty("reply_to_message", Required = Required.Default)]
         public Message ReplyToMessage { get; internal set; }
+
+        /// <summary>
+        /// Optional. Date the message was last edited in Unix time
+        /// </summary>
+        [JsonProperty("edit_date", Required = Required.Default)]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime? EditDate { get; internal set; }
 
         /// <summary>
         /// Optional. For text messages, the actual UTF-8 text of the message
@@ -68,6 +82,12 @@ namespace Telegram.Bot.Types
         [JsonProperty("entities", Required = Required.Default)]
         public List<MessageEntity> Entities { get; internal set; } = new List<MessageEntity>();
 
+        /// <summary>
+        /// Gets the entity values.
+        /// </summary>
+        /// <value>
+        /// The entity contents.
+        /// </value>
         [JsonIgnore]
         public List<string> EntityValues => Entities.ToList().Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
 
@@ -137,17 +157,11 @@ namespace Telegram.Bot.Types
         [JsonProperty("new_chat_member", Required = Required.Default)]
         public User NewChatMember { get; internal set; }
 
-        [Obsolete]
-        public User NewChatParticipant => NewChatMember;
-
         /// <summary>
         /// Optional. A member was removed from the group, information about them (this member may be bot itself)
         /// </summary>
         [JsonProperty("left_chat_member", Required = Required.Default)]
         public User LeftChatMember { get; internal set; }
-
-        [Obsolete]
-        public User LeftChatParticipant => LeftChatMember;
 
         /// <summary>
         /// Optional. A group title was changed to this value
@@ -203,6 +217,12 @@ namespace Telegram.Bot.Types
         [JsonProperty("pinned_message", Required = Required.Default)]
         public Message PinnedMessage { get; internal set; }
 
+        /// <summary>
+        /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
+        /// </summary>
+        /// <value>
+        /// The <see cref="MessageType"/> of the <see cref="Message"/>
+        /// </value>
         public MessageType Type
         {
             get
@@ -245,7 +265,9 @@ namespace Telegram.Bot.Types
                     DeleteChatPhoto ||
                     GroupChatCreated ||
                     SupergroupChatCreated ||
-                    ChannelChatCreated)
+                    ChannelChatCreated ||
+                    MigrateFromChatId == default(long) ||
+                    MigrateToChatId == default(long))
                     return MessageType.ServiceMessage;
 
                 return MessageType.UnknownMessage;

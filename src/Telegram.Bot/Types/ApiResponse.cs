@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types
         /// Gets a value indicating whether the request was successful.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the request was successful and the result of the query can be found in the ‘result’ field, otherwise <c>false</c>.
+        ///   <c>true</c> if the request was successful and the result of the query can be found in the <see cref="ResultObject"/> field, otherwise <c>false</c>.
         /// </value>
         [JsonProperty(PropertyName = "ok", Required = Required.Always)]
         public bool Ok { get; internal set; }
