@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types.InputMessageContents
 {
@@ -23,7 +23,7 @@ namespace Telegram.Bot.Types.InputMessageContents
         /// <summary>
         /// Optional. Contact's last name
         /// </summary>
-        [JsonProperty("last_name", Required = Required.Default)]
+        [JsonProperty("last_name", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string LastName { get; set; }
     }
 }

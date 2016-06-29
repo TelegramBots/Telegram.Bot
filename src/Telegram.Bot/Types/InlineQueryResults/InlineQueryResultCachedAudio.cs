@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+using System.ComponentModel;
+
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -14,10 +16,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty("audio_file_id", Required = Required.Always)]
         public string FileId { get; set; }
 
+        /// <summary>
+        /// Title of the result
+        /// </summary>
         [JsonIgnore]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Title { get; set; }
 
+        /// <summary>
+        /// Optional. Caption of the result to be sent, 0-200 characters
+        /// </summary>
         [JsonIgnore]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Caption { get; set; }
     }
 }

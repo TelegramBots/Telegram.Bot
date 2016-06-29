@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -13,6 +13,6 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Requests clients to hide the custom keyboard
         /// </summary>
         [JsonProperty(PropertyName = "hide_keyboard", Required = Required.Always)]
-        public bool HideKeyboard { get; set; }
+        public bool HideKeyboard { get; set; } = true;
     }
 }

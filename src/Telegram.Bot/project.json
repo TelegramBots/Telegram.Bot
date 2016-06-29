@@ -1,5 +1,5 @@
 {
-  "version": "10.0.0-*",
+  "version": "10.2.0-*",
   "title": "Telegram Bot API",
   "description": "Telegram Bot API Class Library",
   "authors": [ "Robin Müller" ],
@@ -8,7 +8,7 @@
     "iconUrl": "https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828",
     "projectUrl": "https://github.com/MrRoundRobin/telegram.bot",
     "licenseUrl": "https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt",
-    "releaseNotes": "Added .NET Core RC2, API 2.1",
+    "releaseNotes": "Added .NET Core RC2, API 2.1, Task Cancellation",
     "tags": [ "Telegram", "Api", "Bot" ],
     "repository": {
       "type": "git",
@@ -32,7 +32,7 @@
         "Microsoft.AspNet.WebApi.Client": "5.2.3"
       }
     },
-    "netstandard1.3": {
+    "netstandard1.1": {
       "buildOptions": {
         "debugType": "portable"
       },
@@ -46,8 +46,7 @@
     }
   },
   "dependencies": {
-    "AsyncFixer": "1.1.3",
-    "Newtonsoft.Json": "8.0.4-beta1"
+    "Newtonsoft.Json": "9.0.1-beta1"
   },
   "buildOptions": {
     "xmlDoc": true

@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+using System.ComponentModel;
+
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -24,22 +26,34 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Height of the GIF
         /// </summary>
-        [JsonProperty("gif_height", Required = Required.Default)]
+        [JsonProperty("gif_height", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Caption of the GIF file to be sent
         /// </summary>
-        [JsonProperty("caption", Required = Required.Default)]
+        [JsonProperty("caption", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Caption { get; set; }
 
+        /// <summary>
+        /// Optional. Url of the thumbnail for the result
+        /// </summary>
         [JsonIgnore]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string ThumbUrl { get; set; }
 
+        /// <summary>
+        /// Optional. Thumbnail width
+        /// </summary>
         [JsonIgnore]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string ThumbWidth { get; set; }
 
+        /// <summary>
+        /// Optional. Thumbnail height
+        /// </summary>
         [JsonIgnore]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string ThumbHeight { get; set; }
 
     }

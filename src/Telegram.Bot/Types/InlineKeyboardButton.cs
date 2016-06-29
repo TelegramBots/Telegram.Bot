@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types
 {
@@ -17,13 +17,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. HTTP url to be opened when button is pressed
         /// </summary>
-        [JsonProperty(PropertyName = "url", Required = Required.Default)]
+        [JsonProperty(PropertyName = "url", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Url { get; set; }
 
         /// <summary>
         /// Optional. Data to be sent in a callback query to the bot when button is pressed
         /// </summary>
-        [JsonProperty(PropertyName = "callback_data", Required = Required.Default)]
+        [JsonProperty(PropertyName = "callback_data", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string CallbackData { get; set; }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Telegram.Bot.Types
         /// <remarks>
         /// Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switchPm[...] parameters (see <see cref="TelegramBotClient.AnswerInlineQueryAsync"/>)  – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
         /// </remarks>
-        [JsonProperty(PropertyName = "switch_inline_query", Required = Required.Default)]
+        [JsonProperty(PropertyName = "switch_inline_query", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string SwitchInlineQuery { get; set; }
 
         /// <summary>

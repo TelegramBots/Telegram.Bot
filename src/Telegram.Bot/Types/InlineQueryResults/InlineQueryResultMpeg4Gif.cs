@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+using System.ComponentModel;
+
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -18,25 +20,33 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty("mpeg4_width", Required = Required.Default)]
+        [JsonProperty("mpeg4_width", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public int Width { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty("mpeg4_height", Required = Required.Default)]
+        [JsonProperty("mpeg4_height", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Caption of the MPEG-4 file to be sent
         /// </summary>
-        [JsonProperty("caption", Required = Required.Default)]
+        [JsonProperty("caption", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Caption { get; set; }
 
+        /// <summary>
+        /// Optional. Thumbnail width
+        /// </summary>
         [JsonIgnore]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string ThumbWidth { get; set; }
 
+        /// <summary>
+        /// Optional. Thumbnail height
+        /// </summary>
         [JsonIgnore]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string ThumbHeight { get; set; }
     }
 }
