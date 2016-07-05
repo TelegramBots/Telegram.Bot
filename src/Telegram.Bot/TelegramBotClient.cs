@@ -1629,8 +1629,10 @@ namespace Telegram.Bot
                 {"message_id", messageId},
                 {"text", text},
                 {"disable_web_page_preview", disableWebPagePreview},
-                {"reply_markup", replyMarkup},
             };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
 
             if (parseMode != ParseMode.Default)
                 parameters.Add("parse_mode", parseMode.ToModeString());
