@@ -1661,8 +1661,10 @@ namespace Telegram.Bot
                 {"inline_message_id", inlineMessageId},
                 {"text", text},
                 {"disable_web_page_preview", disableWebPagePreview},
-                {"reply_markup", replyMarkup},
             };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
 
             if (parseMode != ParseMode.Default)
                 parameters.Add("parse_mode", parseMode.ToModeString());
@@ -1702,8 +1704,10 @@ namespace Telegram.Bot
                 {"chat_id", chatId},
                 {"message_id", messageId},
                 {"caption", caption},
-                {"reply_markup", replyMarkup},
             };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
 
             return SendWebRequestAsync<Message>("editMessageCaption", parameters, cancellationToken);
         }
@@ -1725,8 +1729,10 @@ namespace Telegram.Bot
             {
                 {"inline_message_id", inlineMessageId},
                 {"caption", caption},
-                {"reply_markup", replyMarkup},
             };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
 
             return SendWebRequestAsync<Message>("editMessageCaption", parameters, cancellationToken);
         }
@@ -1762,8 +1768,10 @@ namespace Telegram.Bot
             {
                 {"chat_id", chatId},
                 {"message_id", messageId},
-                {"reply_markup", replyMarkup},
             };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
 
             return SendWebRequestAsync<Message>("editMessageReplyMarkup", parameters, cancellationToken);
         }
@@ -1783,8 +1791,10 @@ namespace Telegram.Bot
             var parameters = new Dictionary<string, object>
             {
                 {"inline_message_id", inlineMessageId},
-                {"reply_markup", replyMarkup},
             };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
 
             return SendWebRequestAsync<Message>("editMessageReplyMarkup", parameters, cancellationToken);
         }
