@@ -9,7 +9,11 @@ namespace Telegram.Bot.Converters
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            if (value == null)
+            {
+                return;
+            }
+            JObject.FromObject(value).WriteTo(writer);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
