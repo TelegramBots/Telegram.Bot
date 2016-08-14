@@ -15,10 +15,10 @@ namespace Telegram.Bot.Args
         /// <value>
         /// The exception.
         /// </value>
-        public Exception Exception { get; private set; }
+        public Exception Exception { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReceiveErrorEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="ReceiveGeneralErrorEventArgs"/> class.
         /// </summary>
         /// <param name="exception">The general exception.</param>
         internal ReceiveGeneralErrorEventArgs(Exception exception)
