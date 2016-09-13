@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
@@ -47,6 +48,11 @@ namespace Telegram.Bot
         /// Indecates if receiving updates
         /// </summary>
         public bool IsReceiving { get; set; }
+
+        /// <summary>
+        /// WebProxy for http client
+        /// </summary>
+        public IWebProxy WebProxy { get; set; }
 
         private CancellationTokenSource _receivingCancellationTokenSource = default(CancellationTokenSource);
 
@@ -1782,7 +1788,15 @@ namespace Telegram.Bot
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
 
-            using (var client = new HttpClient())
+            var httpClientHandler = new HttpClientHandler();
+
+            if(WebProxy != null)
+            {
+                httpClientHandler.UseProxy = true;
+                httpClientHandler.Proxy = WebProxy;
+            }
+
+            using (var client = new HttpClient(httpClientHandler))
             {
                 ApiResponse<T> responseObject = null;
                 try
