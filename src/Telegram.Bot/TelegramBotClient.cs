@@ -130,6 +130,11 @@ namespace Telegram.Bot
         /// </summary>
         public event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
 
+        /// <summary>
+        /// Occurs when an error occures during the background update pooling.
+        /// </summary>
+        public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
+
         #endregion
 
         /// <summary>
@@ -216,10 +221,14 @@ namespace Telegram.Bot
                         MessageOffset = update.Id + 1;
                     }
                 }
-                catch (OperationCanceledException) {}
-                catch (ApiRequestException e)
+                catch (OperationCanceledException) { }
+                catch (ApiRequestException apiException)
                 {
-                    OnReceiveError?.Invoke(this, e);
+                    OnReceiveError?.Invoke(this, apiException);
+                }
+                catch (Exception generalException)
+                {
+                    OnReceiveGeneralError?.Invoke(this, generalException);
                 }
             }
 
