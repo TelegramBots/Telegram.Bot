@@ -1,5 +1,4 @@
-﻿using System;
-using Telegram.Bot.Exceptions;
+using System;
 
 namespace Telegram.Bot.Args
 {

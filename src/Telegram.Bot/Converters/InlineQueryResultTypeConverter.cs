@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.InlineQueryResults;
 
@@ -25,8 +25,7 @@ namespace Telegram.Bot.Converters
         }
 
         public override bool CanConvert(Type objectType)
-        {
-            return objectType == typeof (InlineQueryResultType);
-        }
+            => objectType == typeof (InlineQueryResultType);
+
     }
 }
