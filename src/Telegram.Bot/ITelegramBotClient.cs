@@ -41,21 +41,11 @@ namespace Telegram.Bot
         /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
         event EventHandler<UpdateEventArgs> OnUpdate;
-
-        /// <summary>
-        /// Occurs when an <see cref="Update"/> is received.
-        /// </summary>
-        event EventHandler<UpdateEventArgs> UpdateReceived;
-
+ 
         /// <summary>
         /// Occurs when a <see cref="Message"/> is recieved.
         /// </summary>
         event EventHandler<MessageEventArgs> OnMessage;
-
-        /// <summary>
-        /// Occurs when a <see cref="Message"/> is recieved.
-        /// </summary>
-        event EventHandler<MessageEventArgs> MessageReceived;
 
         /// <summary>
         /// Occurs when <see cref="Message"/> was edited.
@@ -63,19 +53,9 @@ namespace Telegram.Bot
         event EventHandler<MessageEventArgs> OnMessageEdited;
 
         /// <summary>
-        /// Occurs when <see cref="Message"/> was edited.
-        /// </summary>
-        event EventHandler<MessageEventArgs> MessageEdited;
-
-        /// <summary>
         /// Occurs when an <see cref="InlineQuery"/> is received.
         /// </summary>
         event EventHandler<InlineQueryEventArgs> OnInlineQuery;
-
-        /// <summary>
-        /// Occurs when an <see cref="InlineQuery"/> is received.
-        /// </summary>
-        event EventHandler<InlineQueryEventArgs> InlineQueryReceived;
 
         /// <summary>
         /// Occurs when a <see cref="ChosenInlineResult"/> is received.
@@ -83,29 +63,14 @@ namespace Telegram.Bot
         event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
 
         /// <summary>
-        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
-        /// </summary>
-        event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived;
-
-        /// <summary>
         /// Occurs when an <see cref="CallbackQuery"/> is received
         /// </summary>
         event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
 
         /// <summary>
-        /// Occurs when an <see cref="CallbackQuery"/> is received
-        /// </summary>
-        event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived;
-
-        /// <summary>
         /// Occurs when an error occures during the background update pooling.
         /// </summary>
         event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
-
-        /// <summary>
-        /// Occurs when an error occures during the background update pooling.
-        /// </summary>
-        event EventHandler<ReceiveErrorEventArgs> ReceiveError;
 
         /// <summary>
         /// Test the API token
