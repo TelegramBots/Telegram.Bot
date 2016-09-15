@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
+
+using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -13,6 +15,80 @@ namespace Telegram.Bot
 #pragma warning disable CS1591
     public partial class TelegramBotClient {
         private const bool GenerateErrorOnUsage = false;
+
+        #region Events
+
+        /// <summary>
+        /// Occurs when an <see cref="Update"/> is received.
+        /// </summary>
+        [Obsolete("Use OnUpdate")]
+        public event EventHandler<UpdateEventArgs> UpdateReceived
+        {
+            add { OnUpdate += value; }
+            remove { OnUpdate -= value; }
+        }
+
+        /// <summary>
+        /// Occurs when a <see cref="Message"/> is recieved.
+        /// </summary>
+        [Obsolete("Use OnMessage")]
+        public event EventHandler<MessageEventArgs> MessageReceived
+        {
+            add { OnMessage += value; }
+            remove { OnMessage -= value; }
+        }
+
+        /// <summary>
+        /// Occurs when <see cref="Message"/> was edited.
+        /// </summary>
+        [Obsolete("Use OnMessageEdited")]
+        public event EventHandler<MessageEventArgs> MessageEdited
+        {
+            add { OnMessageEdited += value; }
+            remove { OnMessageEdited -= value; }
+        }
+
+        /// <summary>
+        /// Occurs when an <see cref="InlineQuery"/> is received.
+        /// </summary>
+        [Obsolete("Use OnInlineQuery")]
+        public event EventHandler<InlineQueryEventArgs> InlineQueryReceived
+        {
+            add { OnInlineQuery += value; }
+            remove { OnInlineQuery -= value; }
+        }
+
+        /// <summary>
+        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
+        /// </summary>
+        [Obsolete("Use OnInlineResultChosen")]
+        public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived
+        {
+            add { OnInlineResultChosen += value; }
+            remove { OnInlineResultChosen -= value; }
+        }
+
+        /// <summary>
+        /// Occurs when an <see cref="CallbackQuery"/> is received
+        /// </summary>
+        [Obsolete("Use OnCallbackQuery")]
+        public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived
+        {
+            add { OnCallbackQuery += value; }
+            remove { OnCallbackQuery -= value; }
+        }
+
+        /// <summary>
+        /// Occurs when an error occures during the background update pooling.
+        /// </summary>
+        [Obsolete("Use OnReceiveError")]
+        public event EventHandler<ReceiveErrorEventArgs> ReceiveError
+        {
+            add { OnReceiveError += value; }
+            remove { OnReceiveError -= value; }
+        }
+
+        #endregion
 
         #region Support Methods - Public
 
