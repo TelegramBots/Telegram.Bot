@@ -2,12 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+
+#if NETSTANDARD1_1
+using System.Reflection;
+#endif
 
 using Newtonsoft.Json;
 
@@ -47,6 +51,11 @@ namespace Telegram.Bot
         /// Indecates if receiving updates
         /// </summary>
         public bool IsReceiving { get; set; }
+
+        /// <summary>
+        /// WebProxy for http client
+        /// </summary>
+        public IWebProxy WebProxy { get; set; }
 
         private CancellationTokenSource _receivingCancellationTokenSource = default(CancellationTokenSource);
 
@@ -95,29 +104,9 @@ namespace Telegram.Bot
         public event EventHandler<UpdateEventArgs> OnUpdate;
 
         /// <summary>
-        /// Occurs when an <see cref="Update"/> is received.
-        /// </summary>
-        [Obsolete("Use OnUpdate")]
-        public event EventHandler<UpdateEventArgs> UpdateReceived
-        {
-            add { OnUpdate += value; }
-            remove { OnUpdate -= value; }
-        }
-
-        /// <summary>
         /// Occurs when a <see cref="Message"/> is recieved.
         /// </summary>
         public event EventHandler<MessageEventArgs> OnMessage;
-
-        /// <summary>
-        /// Occurs when a <see cref="Message"/> is recieved.
-        /// </summary>
-        [Obsolete("Use OnMessage")]
-        public event EventHandler<MessageEventArgs> MessageReceived
-        {
-            add { OnMessage += value; }
-            remove { OnMessage -= value; }
-        }
 
         /// <summary>
         /// Occurs when <see cref="Message"/> was edited.
@@ -125,29 +114,9 @@ namespace Telegram.Bot
         public event EventHandler<MessageEventArgs> OnMessageEdited;
 
         /// <summary>
-        /// Occurs when <see cref="Message"/> was edited.
-        /// </summary>
-        [Obsolete("Use OnMessageEdited")]
-        public event EventHandler<MessageEventArgs> MessageEdited
-        {
-            add { OnMessageEdited += value; }
-            remove { OnMessageEdited -= value; }
-        }
-
-        /// <summary>
         /// Occurs when an <see cref="InlineQuery"/> is received.
         /// </summary>
         public event EventHandler<InlineQueryEventArgs> OnInlineQuery;
-
-        /// <summary>
-        /// Occurs when an <see cref="InlineQuery"/> is received.
-        /// </summary>
-        [Obsolete("Use OnInlineQuery")]
-        public event EventHandler<InlineQueryEventArgs> InlineQueryReceived
-        {
-            add { OnInlineQuery += value; }
-            remove { OnInlineQuery -= value; }
-        }
 
         /// <summary>
         /// Occurs when a <see cref="ChosenInlineResult"/> is received.
@@ -155,29 +124,9 @@ namespace Telegram.Bot
         public event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
 
         /// <summary>
-        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
-        /// </summary>
-        [Obsolete("Use OnInlineResultChosen")]
-        public event EventHandler<ChosenInlineResultEventArgs> ChosenInlineResultReceived
-        {
-            add { OnInlineResultChosen += value; }
-            remove { OnInlineResultChosen -= value; }
-        }
-
-        /// <summary>
         /// Occurs when an <see cref="CallbackQuery"/> is received
         /// </summary>
         public event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
-
-        /// <summary>
-        /// Occurs when an <see cref="CallbackQuery"/> is received
-        /// </summary>
-        [Obsolete("Use OnCallbackQuery")]
-        public event EventHandler<CallbackQueryEventArgs> CallbackQueryReceived
-        {
-            add { OnCallbackQuery += value; }
-            remove { OnCallbackQuery -= value; }
-        }
 
         /// <summary>
         /// Occurs when an error occures during the background update pooling.
@@ -187,12 +136,7 @@ namespace Telegram.Bot
         /// <summary>
         /// Occurs when an error occures during the background update pooling.
         /// </summary>
-        [Obsolete("Use OnReceiveError")]
-        public event EventHandler<ReceiveErrorEventArgs> ReceiveError
-        {
-            add { OnReceiveError += value; }
-            remove { OnReceiveError -= value; }
-        }
+        public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
 
         #endregion
 
@@ -280,10 +224,14 @@ namespace Telegram.Bot
                         MessageOffset = update.Id + 1;
                     }
                 }
-                catch (OperationCanceledException) {}
-                catch (ApiRequestException e)
+                catch (OperationCanceledException) { }
+                catch (ApiRequestException apiException)
                 {
-                    OnReceiveError?.Invoke(this, e);
+                    OnReceiveError?.Invoke(this, apiException);
+                }
+                catch (Exception generalException)
+                {
+                    OnReceiveGeneralError?.Invoke(this, generalException);
                 }
             }
 
@@ -1852,7 +1800,15 @@ namespace Telegram.Bot
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
 
-            using (var client = new HttpClient())
+            var httpClientHandler = new HttpClientHandler();
+
+            if(WebProxy != null)
+            {
+                httpClientHandler.UseProxy = true;
+                httpClientHandler.Proxy = WebProxy;
+            }
+
+            using (var client = new HttpClient(httpClientHandler))
             {
                 ApiResponse<T> responseObject = null;
                 try
