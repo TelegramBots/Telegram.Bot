@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -31,6 +32,11 @@ namespace Telegram.Bot
         /// Indecates if receiving updates
         /// </summary>
         bool IsReceiving { get; set; }
+
+        /// <summary>
+        /// WebProxy for http client
+        /// </summary>
+        IWebProxy WebProxy { get; set; }
 
         /// <summary>
         /// The current message offset
@@ -71,6 +77,11 @@ namespace Telegram.Bot
         /// Occurs when an error occures during the background update pooling.
         /// </summary>
         event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
+
+        /// <summary>
+        /// Occurs when an error occures during the background update pooling.
+        /// </summary>
+        event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
 
         /// <summary>
         /// Test the API token
