@@ -4,17 +4,15 @@ solution: Telegram.Bot.sln
 matrix:
   include:
     - os: linux
+      dist: trusty
       dotnet: 1.0.0-preview2-003131
       env: DOTNETCORE=1
       mono: none
     - os: osx
+      osx_image: xcode7.2
       dotnet: 1.0.0-preview2-003121
       env: DOTNETCORE=1
       mono: none
-    - os: linux
-      mono: latest
-    - os: osx
-      mono: latest
 
 script:
   - if [ -n "${DOTNETCORE}" ]; then time dotnet restore && dotnet pack; fi
