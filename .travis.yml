@@ -15,4 +15,4 @@ matrix:
 
 script:
   - time dotnet restore
-  - dotnet build src/Telegram.Bot
+  - dotnet build ./src/Telegram.Bot -f .NETStandard,Version=v1.1
