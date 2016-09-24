@@ -5,15 +5,14 @@ matrix:
   include:
     - os: linux
       dist: trusty
+      sudo: required
       dotnet: 1.0.0-preview2-003131
-      env: DOTNETCORE=1
       mono: none
     - os: osx
       osx_image: xcode7.2
       dotnet: 1.0.0-preview2-003121
-      env: DOTNETCORE=1
       mono: none
 
 script:
-  - if [ -n "${DOTNETCORE}" ]; then time dotnet restore && dotnet pack; fi
-  - if [ -z "${DOTNETCORE}" ]; then xbuild /p:Configuration=Release Telegram.Bot.sln; fi
+  - time dotnet restore
+  - dotnet build src/Telegram.Bot
