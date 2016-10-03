@@ -27,7 +27,12 @@ static void testApi()
 }
 ```
 
-see the [docs](https://mrroundrobin.github.io/telegram.bot/) and examples at [telegram.bot.examples](https://github.com/MrRoundRobin/telegram.bot.examples)
+Before submitting issues please consult following links:
+
+* [Library docs](https://mrroundrobin.github.io/telegram.bot/)
+* [API docs](https://core.telegram.org/bots/api)
+* [Webook docs](https://core.telegram.org/bots/webhooks)
+* [Examples](https://github.com/MrRoundRobin/telegram.bot.examples)
 
 ## Installation
 
@@ -41,8 +46,10 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 
 ## API Coverage
 
-Updated to [Bot API 2.1](https://core.telegram.org/bots/2-0-intro)
+* [Inline Mode](https://core.telegram.org/bots/inline)
+* [Bot API 2.1](https://core.telegram.org/bots/2-0-intro)
+* [Games](https://core.telegram.org/bots/games)
 
-Missing / TODO (last check 06.07.2016):
+Missing / TODO (last check 03.10.2016):
 
 * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
