@@ -325,7 +325,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, returns a WebhookInfo object.</returns>
-        public Task<WebhookInfo> GetWebhookInfo(CancellationToken cancellationToken = new CancellationToken())
+        public Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = new CancellationToken())
             => SendWebRequestAsync<WebhookInfo>("getWebhookInfo", null, cancellationToken);
 
         #endregion
@@ -342,9 +342,9 @@ namespace Telegram.Bot
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
-        public Task<Message> SetGameScore(int userId, int score, long chatId, int messageId, bool editMessage = false,
+        public Task<Message> SetGameScoreAsync(int userId, int score, long chatId, int messageId, bool editMessage = false,
                 CancellationToken cancellationToken = new CancellationToken())
-            => SetGameScore(userId, score, chatId.ToString(), editMessage, cancellationToken);
+            => SetGameScoreAsync(userId, score, chatId.ToString(), editMessage, cancellationToken);
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
@@ -356,7 +356,7 @@ namespace Telegram.Bot
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
-        public Task<Message> SetGameScore(int userId, int score, string chatId, int messageId, bool editMessage = false,
+        public Task<Message> SetGameScoreAsync(int userId, int score, string chatId, int messageId, bool editMessage = false,
             CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new Dictionary<string, object>
@@ -381,7 +381,7 @@ namespace Telegram.Bot
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
-        public Task<Message> SetGameScore(int userId, int score, string inlineMessageId, bool editMessage = false,
+        public Task<Message> SetGameScoreAsync(int userId, int score, string inlineMessageId, bool editMessage = false,
             CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new Dictionary<string, object>
@@ -407,9 +407,9 @@ namespace Telegram.Bot
         /// This method will currently return scores for the target user, plus two of his closest neighbors on each side.
         /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
-        public Task<GameHighScore[]> GetGameHighScores(int userId, long chatId, int messageId,
+        public Task<GameHighScore[]> GetGameHighScoresAsync(int userId, long chatId, int messageId,
                 CancellationToken cancellationToken = new CancellationToken())
-            => GetGameHighScores(userId, chatId.ToString(), messageId, cancellationToken);
+            => GetGameHighScoresAsync(userId, chatId.ToString(), messageId, cancellationToken);
 
         /// <summary>
         /// Use this method to get data for high score tables.
@@ -423,7 +423,7 @@ namespace Telegram.Bot
         /// This method will currently return scores for the target user, plus two of his closest neighbors on each side.
         /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
-        public Task<GameHighScore[]> GetGameHighScores(int userId, string chatId, int messageId,
+        public Task<GameHighScore[]> GetGameHighScoresAsync(int userId, string chatId, int messageId,
             CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new Dictionary<string, object>
@@ -447,7 +447,7 @@ namespace Telegram.Bot
         /// This method will currently return scores for the target user, plus two of his closest neighbors on each side.
         /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
-        public Task<GameHighScore[]> GetGameHighScores(int userId, string inlineMessageId, CancellationToken cancellationToken = new CancellationToken())
+        public Task<GameHighScore[]> GetGameHighScoresAsync(int userId, string inlineMessageId, CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new Dictionary<string, object>
             {
@@ -468,11 +468,11 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendGame(long chatId, string gameShortName, bool disableNotification = false,
+        public Task<Message> SendGameAsync(long chatId, string gameShortName, bool disableNotification = false,
                 int replyToMessageId = 0,
                 IReplyMarkup replyMarkup = null, CancellationToken cancellationToken = new CancellationToken())
             =>
-            SendGame(chatId.ToString(), gameShortName, disableNotification, replyToMessageId, replyMarkup,
+            SendGameAsync(chatId.ToString(), gameShortName, disableNotification, replyToMessageId, replyMarkup,
                      cancellationToken);
 
         /// <summary>
@@ -485,7 +485,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
-        public Task<Message> SendGame(string chatId, string gameShortName, bool disableNotification = false,
+        public Task<Message> SendGameAsync(string chatId, string gameShortName, bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null, CancellationToken cancellationToken = new CancellationToken())
             => SendMessageAsync(MessageType.GameMessage, chatId, gameShortName, disableNotification, replyToMessageId, replyMarkup, null, cancellationToken);
