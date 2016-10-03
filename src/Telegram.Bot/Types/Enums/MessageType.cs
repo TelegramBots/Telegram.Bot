@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Telegram.Bot.Types.Enums
@@ -67,6 +67,11 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains a <see cref="Venue"/>
         /// </summary>
         VenueMessage,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Game"/>
+        /// </summary>
+        GameMessage
     }
 
     internal static class MessageTypeExtension
@@ -95,6 +100,8 @@ namespace Telegram.Bot.Types.Enums
                     return new KeyValuePair<string, string>("sendContact", "phone_number");
                 case MessageType.VenueMessage:
                     return new KeyValuePair<string, string>("sendVenue", "latitude");
+                case MessageType.GameMessage:
+                    return new KeyValuePair<string, string>("sendGame", "game_short_name");
 
                 default:
                     throw new NotImplementedException();

@@ -19,6 +19,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
                 {typeof(InlineQueryResultAudio), InlineQueryResultType.Audio},
                 {typeof(InlineQueryResultContact), InlineQueryResultType.Contact},
                 {typeof(InlineQueryResultDocument), InlineQueryResultType.Document},
+                {typeof(InlineQueryResultGame), InlineQueryResultType.Game},
                 {typeof(InlineQueryResultGif), InlineQueryResultType.Gif},
                 {typeof(InlineQueryResultLocation), InlineQueryResultType.Location},
                 {typeof(InlineQueryResultMpeg4Gif), InlineQueryResultType.Mpeg4Gif},

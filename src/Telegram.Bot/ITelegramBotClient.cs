@@ -157,6 +157,44 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="chatId">Unique identifier for the target chat.</param>
+        /// <param name="messageId">Unique identifier of the sent message.</param>
+        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        Task<Message> SetGameScore(int userId, int score, long chatId, int messageId, bool editMessage = false,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername).</param>
+        /// <param name="messageId">Unique identifier of the sent message.</param>
+        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        Task<Message> SetGameScore(int userId, int score, string chatId, int messageId, bool editMessage = false,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="inlineMessageId">Identifier of the inline message.</param>
+        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        Task<Message> SetGameScore(int userId, int score, string inlineMessageId, bool editMessage = false,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Use this method to send text messages. On success, the sent Message is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
@@ -491,6 +529,38 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         Task<Message> SendDocumentAsync(string chatId, string document, string caption = "",
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            IReplyMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to send a game.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat</param>
+        /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        Task<Message> SendGame(long chatId, string gameShortName,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            IReplyMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to send a game.
+        /// </summary>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername)</param>
+        /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        Task<Message> SendGame(string chatId, string gameShortName,
             bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
@@ -949,6 +1019,54 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
+        /// Use this method to get current webhook status.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, returns a WebhookInfo object.</returns>
+        Task<WebhookInfo> GetWebhookInfo(CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to get data for high score tables.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="chatId">Unique identifier for the target chat.</param>
+        /// <param name="messageId">Unique identifier of the sent message.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects</returns>
+        /// <remarks>
+        /// This method will currently return scores for the target user, plus two of his closest neighbors on each side.
+        /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
+        /// </remarks>
+        Task<GameHighScore[]> GetGameHighScores(int userId, long chatId, int messageId, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to get data for high score tables.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername).</param>
+        /// <param name="messageId">Unique identifier of the sent message.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects</returns>
+        /// <remarks>
+        /// This method will currently return scores for the target user, plus two of his closest neighbors on each side.
+        /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
+        /// </remarks>
+        Task<GameHighScore[]> GetGameHighScores(int userId, string chatId, int messageId, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to get data for high score tables.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="inlineMessageId">Unique identifier of the inline message.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects</returns>
+        /// <remarks>
+        /// This method will currently return scores for the target user, plus two of his closest neighbors on each side.
+        /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
+        /// </remarks>
+        Task<GameHighScore[]> GetGameHighScores(int userId, string inlineMessageId, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
         /// Use this method to send answers to an inline query.
         /// </summary>
         /// <param name="inlineQueryId">Unique identifier for answered query</param>
@@ -973,10 +1091,19 @@ namespace Telegram.Bot
         /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
         /// <param name="text">Text of the notification. If not specified, nothing will be shown to the user</param>
         /// <param name="showAlert">If true, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.</param>
+        /// <param name="url">
+        /// URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @Botfather, specify the URL that opens your game – note that this will only work if the query comes from a callback_game button.
+        /// Otherwise, you may use links like telegram.me/your_bot? start = XXXX that open your bot with a parameter.
+        /// </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned.</returns>
+        /// <remarks>
+        /// Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via BotFather and accept the terms.
+        /// Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
+        /// </remarks>
         Task<bool> AnswerCallbackQueryAsync(string callbackQueryId, string text = null,
             bool showAlert = false,
+            string url = null,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
