@@ -52,5 +52,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("game_short_name", Required = Required.Default)]
         public string GameShortName { get; set; }
+
+        /// <summary>
+        /// Idecates if the User requests a Game
+        /// </summary>
+        [JsonIgnore]
+        public bool IsGameQuery => GameShortName != null;
     }
 }

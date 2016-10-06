@@ -1707,6 +1707,9 @@ namespace Telegram.Bot
             if (!string.IsNullOrEmpty(text))
                 parameters.Add("text", text);
 
+            if (!string.IsNullOrEmpty(url))
+                parameters.Add("url", url);
+
             return SendWebRequestAsync<bool>("answerCallbackQuery", parameters, cancellationToken);
         }
 
