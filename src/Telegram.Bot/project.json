@@ -43,6 +43,13 @@
         "System.Runtime": "4.1.0",
         "System.Runtime.Serialization.Json": "4.0.2"
       }
+    },
+    "netcoreapp1.0": {
+      "buildOptions": { "define": [ "NETSTANDARD1_1" ] },
+      "imports": "dnxcore50",
+      "dependencies": {
+        "System.Net.Http": "4.0.0-beta-22816"
+      }
     }
   },
   "dependencies": {
