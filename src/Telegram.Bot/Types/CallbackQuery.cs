@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types
 {
@@ -33,6 +33,12 @@ namespace Telegram.Bot.Types
         public string InlineMessageId { get; set; }
 
         /// <summary>
+        /// Identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
+        /// </summary>
+        [JsonProperty("chat_instance", Required = Required.Always)]
+        public string ChatInstance { get; set; }
+
+        /// <summary>
         /// Data associated with the callback button.
         /// </summary>
         /// <remarks>
@@ -40,5 +46,17 @@ namespace Telegram.Bot.Types
         /// </remarks>
         [JsonProperty("data", Required = Required.Always)]
         public string Data { get; set; }
+
+        /// <summary>
+        /// Optional. Short name of a <see cref="Game"/> to be returned, serves as the unique identifier for the game.
+        /// </summary>
+        [JsonProperty("game_short_name", Required = Required.Default)]
+        public string GameShortName { get; set; }
+
+        /// <summary>
+        /// Idecates if the User requests a Game
+        /// </summary>
+        [JsonIgnore]
+        public bool IsGameQuery => GameShortName != null;
     }
 }

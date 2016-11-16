@@ -36,6 +36,15 @@ namespace Telegram.Bot.Types
         public string SwitchInlineQuery { get; set; }
 
         /// <summary>
+        /// Optimal. Description of the game that will be launched when the user presses the button.
+        /// </summary>
+        /// <remarks>
+        /// Note: This type of button must always be the first button in the first row.
+        /// </remarks>
+        [JsonProperty("callback_game", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public CallbackGame CallbackGame { get; set; }
+
+        /// <summary>
         /// Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/>.
         /// </summary>
         /// <param name="key">The key.</param>

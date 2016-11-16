@@ -56,6 +56,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <see cref="InlineQueryResultVoice"/>
         /// </summary>
         Voice,
+        /// <summary>
+        /// <see cref="InlineQueryResultGame"/>
+        /// </summary>
+        Game,
 
         /// <summary>
         /// <see cref="InlineQueryResultCachedPhoto"/>
@@ -101,6 +105,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
                 {InlineQueryResultType.Audio, "audio" },
                 {InlineQueryResultType.Contact, "contact" },
                 {InlineQueryResultType.Document, "document" },
+                {InlineQueryResultType.Game, "game" },
                 {InlineQueryResultType.Gif, "gif" },
                 {InlineQueryResultType.Location, "location" },
                 {InlineQueryResultType.Mpeg4Gif, "mpeg4_gif" },

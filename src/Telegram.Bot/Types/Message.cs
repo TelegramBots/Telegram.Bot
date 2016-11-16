@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -102,6 +102,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("document", Required = Required.Default)]
         public Document Document { get; internal set; }
+
+        /// <summary>
+        /// Message is a game, information about the game.
+        /// </summary>
+        [JsonProperty("game", Required = Required.Default)]
+        public Game Game { get; internal set; }
 
         /// <summary>
         /// Optional. Message is a photo, available sizes of the photo
@@ -232,6 +238,9 @@ namespace Telegram.Bot.Types
 
                 if (Document != null)
                     return MessageType.DocumentMessage;
+
+                if (Game != null)
+                    return MessageType.GameMessage;
 
                 if (Photo != null)
                     return MessageType.PhotoMessage;
