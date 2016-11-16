@@ -72,6 +72,7 @@ namespace Telegram.Bot.Types
         {
             Text = text;
             CallbackData = string.IsNullOrWhiteSpace(callbackData) ? Text : callbackData;
+            Url = url;
         }
     }
 }
