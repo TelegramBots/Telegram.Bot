@@ -36,6 +36,15 @@ namespace Telegram.Bot.Types
         public string SwitchInlineQuery { get; set; }
 
         /// <summary>
+        /// Optional. If set, pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot’s username will be inserted.
+        /// </summary>
+        /// <remarks>
+        /// Note: This offers a quick way for the user to open your bot in inline mode in the same chat – good for selecting something from multiple options.
+        /// </remarks>
+        [JsonProperty(PropertyName = "switch_inline_query_current_chat", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string SwitchInlineQueryCurrentChat { get; set; }
+
+        /// <summary>
         /// Optimal. Description of the game that will be launched when the user presses the button.
         /// </summary>
         /// <remarks>
