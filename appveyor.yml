@@ -1,4 +1,4 @@
-version: 11.0.0-alpha-{build}
+version: 11.1.0-alpha-{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:

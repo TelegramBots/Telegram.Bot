@@ -1615,7 +1615,15 @@ namespace Telegram.Bot
             if (destination == null)
                 destination = fileInfo.FileStream = new MemoryStream();
 
-            using (var downloader = new HttpClient())
+            var httpClientHandler = new HttpClientHandler();
+
+            if (WebProxy != null)
+            {
+                httpClientHandler.UseProxy = true;
+                httpClientHandler.Proxy = WebProxy;
+            }
+
+            using (var downloader = new HttpClient(httpClientHandler))
             {
                 using (
                     var response =
