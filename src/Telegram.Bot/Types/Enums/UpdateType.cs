@@ -42,5 +42,17 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "edited_message")]
         EditedMessage,
+
+        /// <summary>
+        /// The <see cref="Update"/> contains a channel post <see cref="Message"/>
+        /// </summary>
+        [EnumMember(Value = "channel_post")]
+        ChannelPost,
+
+        /// <summary>
+        /// The <see cref="Update"/> contains an edited channel post <see cref="Message"/>
+        /// </summary>
+        [EnumMember(Value = "edited_channel_post")]
+        EditedChannelPost,
     }
 }

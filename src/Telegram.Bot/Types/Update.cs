@@ -52,6 +52,18 @@ namespace Telegram.Bot.Types
         public CallbackQuery CallbackQuery { get; internal set; }
 
         /// <summary>
+        /// Optional. New incoming channel post of any kind — text, photo, sticker, etc.
+        /// </summary>
+        [JsonProperty("channel_post", Required = Required.Default)]
+        public Message ChannelPost { get; internal set; }
+
+        /// <summary>
+        /// Optional. New version of a channel post that is known to the bot and was edited
+        /// </summary>
+        [JsonProperty("edited_channel_post", Required = Required.Default)]
+        public Message EditedChannelPost { get; internal set; }
+
+        /// <summary>
         /// Gets the update type.
         /// </summary>
         /// <value>
@@ -63,11 +75,13 @@ namespace Telegram.Bot.Types
         {
             get
             {
-                if (Message != null)            return UpdateType.MessageUpdate;
-                if (InlineQuery != null)        return UpdateType.InlineQueryUpdate;
+                if (Message != null) return UpdateType.MessageUpdate;
+                if (InlineQuery != null) return UpdateType.InlineQueryUpdate;
                 if (ChosenInlineResult != null) return UpdateType.ChosenInlineResultUpdate;
-                if (CallbackQuery != null)      return UpdateType.CallbackQueryUpdate;
-                if (EditedMessage != null)      return UpdateType.EditedMessage;
+                if (CallbackQuery != null) return UpdateType.CallbackQueryUpdate;
+                if (EditedMessage != null) return UpdateType.EditedMessage;
+                if (ChannelPost != null) return UpdateType.ChannelPost;
+                if (EditedChannelPost != null) return UpdateType.EditedChannelPost;
 
                 throw new ArgumentOutOfRangeException();
             }
