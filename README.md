@@ -18,15 +18,6 @@ static async void testApiAsync()
 }
 ```
 
-```C#
-static void testApi()
-{
-    var Bot = new Telegram.Bot.Api("your API access Token");
-    var me = Bot.GetMeAsync().Result;
-    System.Console.WriteLine("Hello my name is " + me.FirstName);
-}
-```
-
 Before submitting issues please consult following links:
 
 * [Library docs](https://mrroundrobin.github.io/telegram.bot/)
@@ -47,9 +38,9 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 ## API Coverage
 
 * [Inline Mode](https://core.telegram.org/bots/inline)
-* [Bot API 2.1](https://core.telegram.org/bots/2-0-intro)
+* [Bot API 2.3](https://core.telegram.org/bots/api-changelog)
 * [Games](https://core.telegram.org/bots/games)
 
-Missing / TODO (last check 03.10.2016):
+Missing / TODO (last check 21.11.2016):
 
 * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
