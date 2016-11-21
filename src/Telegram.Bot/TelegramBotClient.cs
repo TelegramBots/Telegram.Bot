@@ -23,6 +23,7 @@ using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 
 using File = Telegram.Bot.Types.File;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot
 {
@@ -1778,7 +1779,7 @@ namespace Telegram.Bot
         /// Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via BotFather and accept the terms.
         /// Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
         /// </remarks>
-        Task<bool> AnswerCallbackQueryAsync(string callbackQueryId, string text = null,
+        public Task<bool> AnswerCallbackQueryAsync(string callbackQueryId, string text = null,
             bool showAlert = false,
             string url = null,
             int cacheTime = 0,
@@ -2091,7 +2092,7 @@ namespace Telegram.Bot
                         response = await client.GetAsync(uri, cancellationToken)
                                                .ConfigureAwait(false);
                     }
-                    else if (parameters.Any(p => p.Value is FileToSend))
+                    else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
                     {
                         using (var form = new MultipartFormDataContent())
                         {
@@ -2119,7 +2120,7 @@ namespace Telegram.Bot
                     }
                     else
                     {
-                        var payload = JsonConvert.SerializeObject(parameters);
+                        var payload = JsonConvert.SerializeObject(parameters, new FileToSendConverter());
 
                         var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
 

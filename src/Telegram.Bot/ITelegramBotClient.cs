@@ -376,6 +376,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendPhoto with FileToSend")]
         Task<Message> SendPhotoAsync(long chatId, string photo, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -393,6 +394,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendPhoto with FileToSend")]
         Task<Message> SendPhotoAsync(string chatId, string photo, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -451,6 +453,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendAudio with FileToSend")]
         Task<Message> SendAudioAsync(long chatId, string audio, int duration, string performer, string title,
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -470,6 +473,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendAudio with FileToSend")]
         Task<Message> SendAudioAsync(string chatId, string audio, int duration, string performer, string title,
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -558,6 +562,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendDocument with FileToSend")]
         Task<Message> SendDocumentAsync(long chatId, string document, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -575,6 +580,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendDocument with FileToSend")]
         Task<Message> SendDocumentAsync(string chatId, string document, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -655,6 +661,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendSticker with FileToSend")]
         Task<Message> SendStickerAsync(long chatId, string sticker,
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -671,6 +678,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendSticker with FileToSend")]
         Task<Message> SendStickerAsync(string chatId, string sticker,
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -767,6 +775,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendVideo with FileToSend")]
         Task<Message> SendVideoAsync(long chatId, string video, int duration = 0, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -785,6 +794,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendVideo with FileToSend")]
         Task<Message> SendVideoAsync(string chatId, string video, int duration = 0, string caption = "",
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -836,6 +846,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendVoice with FileToSend")]
         Task<Message> SendVoiceAsync(long chatId, string audio, int duration = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -853,6 +864,7 @@ namespace Telegram.Bot
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
+        [Obsolete("Use SendVoice with FileToSend")]
         Task<Message> SendVoiceAsync(string chatId, string audio, int duration = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
