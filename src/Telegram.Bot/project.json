@@ -8,7 +8,7 @@
     "iconUrl": "https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828",
     "projectUrl": "https://github.com/MrRoundRobin/telegram.bot",
     "licenseUrl": "https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt",
-    "releaseNotes": "Added Game support",
+    "releaseNotes": "Bot API 2.3",
     "tags": [ "Telegram", "Api", "Bot" ],
     "repository": {
       "type": "git",
@@ -37,11 +37,11 @@
         "debugType": "portable"
       },
       "dependencies": {
-        "Microsoft.CSharp": "4.0.1",
-        "System.Net.Http": "4.1.0",
-        "System.Reflection": "4.1.0",
-        "System.Runtime": "4.1.0",
-        "System.Runtime.Serialization.Json": "4.0.2"
+        "Microsoft.CSharp": "4.3.0",
+        "System.Net.Http": "4.3.0",
+        "System.Reflection": "4.3.0",
+        "System.Runtime": "4.3.0",
+        "System.Runtime.Serialization.Json": "4.3.0"
       }
     }
   },

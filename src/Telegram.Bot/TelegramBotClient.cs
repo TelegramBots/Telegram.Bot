@@ -342,9 +342,25 @@ namespace Telegram.Bot
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        [Obsolete("Use SetGameScoreAsync(int userId, int score, bool force, long chatId, int messageId, bool editMessage = false, CancellationToken cancellationToken = default(CancellationToken)")]
         public Task<Message> SetGameScoreAsync(int userId, int score, long chatId, int messageId, bool editMessage = false,
-                CancellationToken cancellationToken = new CancellationToken())
-            => SetGameScoreAsync(userId, score, chatId.ToString(), editMessage, cancellationToken);
+            CancellationToken cancellationToken = new CancellationToken())
+            => SetGameScoreAsync(userId, score, false, chatId.ToString(), editMessage, cancellationToken);
+
+        /// <summary>
+        /// Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="force">Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters</param>
+        /// <param name="chatId">Unique identifier for the target chat.</param>
+        /// <param name="messageId">Unique identifier of the sent message.</param>
+        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        public Task<Message> SetGameScoreAsync(int userId, int score, bool force, long chatId, int messageId, bool editMessage = false,
+            CancellationToken cancellationToken = default(CancellationToken))
+            => SetGameScoreAsync(userId, score, force, chatId.ToString(), editMessage, cancellationToken);
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
@@ -356,20 +372,36 @@ namespace Telegram.Bot
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        [Obsolete("Use SetGameScoreAsync(int userId, int score, bool force, string chatId, int messageId, bool editMessage = false, CancellationToken cancellationToken = default(CancellationToken)")]
         public Task<Message> SetGameScoreAsync(int userId, int score, string chatId, int messageId, bool editMessage = false,
             CancellationToken cancellationToken = new CancellationToken())
+            => SetGameScoreAsync(userId, score, false, chatId, messageId, editMessage, cancellationToken);
+
+        /// <summary>
+        /// Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="force">Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters</param>
+        /// <param name="chatId">Username of the target channel (in the format @channelusername).</param>
+        /// <param name="messageId">Unique identifier of the sent message.</param>
+        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        public Task<Message> SetGameScoreAsync(int userId, int score, bool force, string chatId, int messageId, bool editMessage = false,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
             {
                 {"user_id", userId},
                 {"score", score},
+                {"force", force },
                 {"chat_id", chatId},
                 {"message_id", messageId},
                 {"edit_message", editMessage}
             };
 
             return SendWebRequestAsync<Message>("setGameScore", parameters, cancellationToken);
-
         }
 
         /// <summary>
@@ -381,13 +413,29 @@ namespace Telegram.Bot
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        [Obsolete("Use SetGameScoreAsync(int userId, int score, bool force, string inlineMessageId, bool editMessage = false, CancellationToken cancellationToken = default(CancellationToken))")]
         public Task<Message> SetGameScoreAsync(int userId, int score, string inlineMessageId, bool editMessage = false,
             CancellationToken cancellationToken = new CancellationToken())
+            => SetGameScoreAsync(userId, score, false, inlineMessageId, editMessage, cancellationToken);
+
+        /// <summary>
+        /// Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="userId">Unique identifier of the target user.</param>
+        /// <param name="score">The score.</param>
+        /// <param name="force">Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters</param>
+        /// <param name="inlineMessageId">Identifier of the inline message.</param>
+        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        public Task<Message> SetGameScoreAsync(int userId, int score, bool force, string inlineMessageId, bool editMessage = false,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
             {
                 {"user_id", userId},
                 {"score", score},
+                {"force", force },
                 {"inline_message_id", inlineMessageId},
                 {"edit_message", editMessage}
             };
