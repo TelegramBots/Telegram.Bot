@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -7,12 +8,14 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// </summary>
     /// <seealso cref="ReplyKeyboardMarkup"/>
     [JsonObject(MemberSerialization.OptIn)]
+    [Obsolete("Use ReplyKeyboardRemove")]
     public class ReplyKeyboardHide : ReplyMarkup
     {
         /// <summary>
         /// Requests clients to hide the custom keyboard
         /// </summary>
-        [JsonProperty(PropertyName = "hide_keyboard", Required = Required.Always)]
+        [JsonProperty(PropertyName = "remove_keyboard", Required = Required.Always)]
+        [Obsolete("Use ReplyKeyboardRemove")]
         public bool HideKeyboard { get; set; } = true;
     }
 }
