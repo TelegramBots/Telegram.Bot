@@ -44,5 +44,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "last_name", Required = Required.Default)]
         public string LastName { get; internal set; }
+
+        /// <summary>
+        /// Optional. True if a group has 'All Members Are Admins' enabled.
+        /// </summary>
+        [JsonProperty(PropertyName = "all_members_are_administrators", Required = Required.Default)]
+        public bool AllMembersAreAdministrators { get; internal set; }
     }
 }
