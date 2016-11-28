@@ -32,7 +32,15 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of file to send
         /// </summary>
-        public FileType Type { get; private set; }
+        public FileType Type {
+            get
+            {
+                if (Content != null) return FileType.Stream;
+                else if (FileId != null) return FileType.Id;
+                else if (Url != null) return FileType.Url;
+                else return FileType.Unknown;
+            }
+        }
 
         /// <summary>
         /// Send a FileStream.
@@ -43,8 +51,6 @@ namespace Telegram.Bot.Types
         {
             Filename = filename;
             Content = content;
-
-            Type = FileType.Stream;
 
             Url = null;
             FileId = null;
@@ -58,8 +64,6 @@ namespace Telegram.Bot.Types
         {
             Url = url;
 
-            Type = FileType.Url;
-
             Filename = null;
             Content = null;
             FileId = null;
@@ -72,8 +76,6 @@ namespace Telegram.Bot.Types
         public FileToSend(string fileId)
         {
             FileId = fileId;
-
-            Type = FileType.Id;
 
             Filename = null;
             Content = null;
