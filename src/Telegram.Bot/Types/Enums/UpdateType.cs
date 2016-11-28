@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types.Enums
         /// Update Type is unknown
         /// </summary>
         [EnumMember(Value = "unknown_update")]
-        UnkownUpdate = 0,
+        UnknownUpdate = 0,
 
         /// <summary>
         /// The <see cref="Update"/> contains a <see cref="Message"/>.
