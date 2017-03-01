@@ -58,6 +58,8 @@ namespace Telegram.Bot
         /// </summary>
         public IWebProxy WebProxy { get; set; }
 
+        private HttpClient _client { get; set; }
+
         private CancellationTokenSource _receivingCancellationTokenSource = default(CancellationTokenSource);
 
         /// <summary>
@@ -1669,26 +1671,16 @@ namespace Telegram.Bot
             if (destination == null)
                 destination = fileInfo.FileStream = new MemoryStream();
 
-            var httpClientHandler = new HttpClientHandler();
-
-            if (WebProxy != null)
+            var downloader = GetHttpClient();
+            using (
+                var response =
+                    await downloader.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                                    .ConfigureAwait(false)
+                )
             {
-                httpClientHandler.UseProxy = true;
-                httpClientHandler.Proxy = WebProxy;
-            }
-
-            using (var downloader = new HttpClient(httpClientHandler))
-            {
-                using (
-                    var response =
-                        await downloader.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                                        .ConfigureAwait(false)
-                    )
-                {
-                    await response.Content.CopyToAsync(destination)
-                                  .ConfigureAwait(false);
-                    destination.Position = 0;
-                }
+                await response.Content.CopyToAsync(destination)
+                              .ConfigureAwait(false);
+                destination.Position = 0;
             }
 
             return fileInfo;
@@ -2071,89 +2063,82 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Invalid token", 401);
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
+            
+            var client = GetHttpClient();
 
-            var httpClientHandler = new HttpClientHandler();
-
-            if(WebProxy != null)
+            ApiResponse<T> responseObject = null;
+            try
             {
-                httpClientHandler.UseProxy = true;
-                httpClientHandler.Proxy = WebProxy;
-            }
+                HttpResponseMessage response;
 
-            using (var client = new HttpClient(httpClientHandler))
-            {
-                ApiResponse<T> responseObject = null;
-                try
+                if (parameters == null || parameters.Count == 0)
                 {
-                    HttpResponseMessage response;
-
-                    if (parameters == null || parameters.Count == 0)
+                    response = await client.GetAsync(uri, cancellationToken)
+                                           .ConfigureAwait(false);
+                }
+                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
+                {
+                    using (var form = new MultipartFormDataContent())
                     {
-                        response = await client.GetAsync(uri, cancellationToken)
-                                               .ConfigureAwait(false);
-                    }
-                    else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
-                    {
-                        using (var form = new MultipartFormDataContent())
+                        foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
                         {
-                            foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
+                            var content = ConvertParameterValue(parameter.Value);
+
+                            if (parameter.Key == "timeout" && (int)parameter.Value != 0)
                             {
-                                var content = ConvertParameterValue(parameter.Value);
-
-                                if (parameter.Key == "timeout" && (int)parameter.Value != 0)
-                                {
-                                    client.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
-                                }
-
-                                if (parameter.Value is FileToSend)
-                                {
-                                    client.Timeout = UploadTimeout;
-                                    form.Add(content, parameter.Key, ((FileToSend)parameter.Value).Filename);
-                                }
-                                else
-                                    form.Add(content, parameter.Key);
+                                client.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
                             }
 
-                            response = await client.PostAsync(uri, form, cancellationToken)
-                                                   .ConfigureAwait(false);
+                            if (parameter.Value is FileToSend)
+                            {
+                                client.Timeout = UploadTimeout;
+                                form.Add(content, parameter.Key, ((FileToSend)parameter.Value).Filename);
+                            }
+                            else
+                                form.Add(content, parameter.Key);
                         }
-                    }
-                    else
-                    {
-                        var payload = JsonConvert.SerializeObject(parameters, new FileToSendConverter());
 
-                        var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                        response = await client.PostAsync(uri, httpContent, cancellationToken)
+                        response = await client.PostAsync(uri, form, cancellationToken)
                                                .ConfigureAwait(false);
                     }
+                }
+                else
+                {
+                    var payload = JsonConvert.SerializeObject(parameters, new FileToSendConverter());
+
+                    var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                    response = await client.PostAsync(uri, httpContent, cancellationToken)
+                                           .ConfigureAwait(false);
+                }
 
 #if NETSTANDARD1_1
-                    var responseString = await response.Content.ReadAsStringAsync()
-                                                       .ConfigureAwait(false);
+                var responseString = await response.Content.ReadAsStringAsync()
+                                                   .ConfigureAwait(false);
 
-                    responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
+                responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
 #else
                     responseObject =
                         await response.Content.ReadAsAsync<ApiResponse<T>>(cancellationToken)
                                       .ConfigureAwait(false);
 #endif
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (HttpRequestException e) when (e.Message.Contains("401"))
-                {
-                    _invalidToken = true;
-                    throw new ApiRequestException("Invalid token", 401, e);
-                }
-                catch (TaskCanceledException e)
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                        throw;
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e) when (e.Message.Contains("401"))
+            {
+                _invalidToken = true;
+                throw new ApiRequestException("Invalid token", 401, e);
+            }
+            catch (TaskCanceledException e)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                    throw;
 
-                    throw new ApiRequestException("Request timed out", 408, e);
-                }
-                catch (HttpRequestException e)
-                    when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) {}
+                throw new ApiRequestException("Request timed out", 408, e);
+            }
+            catch (HttpRequestException e)
+                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
+            { }
 #if !NETSTANDARD1_1
                 catch (UnsupportedMediaTypeException e)
                 {
@@ -2161,14 +2146,13 @@ namespace Telegram.Bot
                 }
 #endif
 
-                if (responseObject == null)
-                    responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+            if (responseObject == null)
+                responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
 
-                if (!responseObject.Ok)
-                    throw ApiRequestException.FromApiResponse(responseObject);
+            if (!responseObject.Ok)
+                throw ApiRequestException.FromApiResponse(responseObject);
 
-                return responseObject.ResultObject;
-            }
+            return responseObject.ResultObject;
         }
 
         private static HttpContent ConvertParameterValue(object value)
@@ -2194,6 +2178,21 @@ namespace Telegram.Bot
                 default:
                     return new StringContent(JsonConvert.SerializeObject(value));
             }
+        }
+
+        private HttpClient GetHttpClient()
+        {
+            if (_client != null) return _client;
+
+            var httpClientHandler = new HttpClientHandler();
+            if (WebProxy != null)
+            {
+                httpClientHandler.UseProxy = true;
+                httpClientHandler.Proxy = WebProxy;
+            }
+
+            _client = new HttpClient(httpClientHandler);
+            return _client;
         }
 
         #endregion
