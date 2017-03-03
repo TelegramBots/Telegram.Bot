@@ -32,5 +32,18 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "username", Required = Required.Default)]
         public string Username { get; internal set; }
+
+        /// <summary>
+        /// Returns if this User equals to another user
+        /// </summary>
+        /// <param name="obj">Another user</param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is User)
+                return (obj as User).Id == this.Id;
+            else
+                return false;
+        }
     }
 }
