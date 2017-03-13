@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.1</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>12.0.0-*</Version>
+    <Product>Telegram Bot API</Product>
+    <Description>Telegram Bot API Class Library</Description>
+    <Authors>Robin Müller</Authors>
+    <Copyright>Copyright © Robin Müller 2016</Copyright>
+    <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/MrRoundRobin/telegram.bot</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/MrRoundRobin/telegram.bot/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageReleaseNotes>Bot API 2.3.1 &amp; Changed how files are sent</PackageReleaseNotes>
+    <Company />
+    <Product>Telegram Bot API</Product>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Telegram Api Bot</PackageTags>
+    <RepositoryUrl>https://github.com/MrRoundRobin/telegram.bot.git</RepositoryUrl>
+    <AssemblyVersion>12.0.0.0</AssemblyVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+</Project>
