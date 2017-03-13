@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <returns></returns>
         [JsonProperty(PropertyName = "id", Required = Required.Always)]
-        public int Id { get; internal set; }
+        public ChatId Id { get; internal set; }
 
         /// <summary>
         /// User's or bot's first name

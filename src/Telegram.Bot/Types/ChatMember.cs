@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
@@ -20,7 +19,6 @@ namespace Telegram.Bot.Types
         /// The member's status in the chat.
         /// </summary>
         [JsonProperty("status", Required = Required.Always)]
-        [JsonConverter(typeof(StringEnumConverter))]
         public ChatMemberStatus Status { get; internal set; }
     }
 }

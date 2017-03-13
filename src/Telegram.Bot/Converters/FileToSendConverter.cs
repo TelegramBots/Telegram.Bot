@@ -1,6 +1,5 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -26,11 +25,9 @@ namespace Telegram.Bot.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            Uri uri;
-
             var value = reader.ReadAsString();
 
-            if (Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out uri))
+            if (Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out Uri uri))
             {
                 return new FileToSend(uri);
             }

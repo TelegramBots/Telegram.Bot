@@ -47,7 +47,6 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Type of the result
         /// </summary>
-        [JsonConverter(typeof(InlineQueryResultTypeConverter))]
         [JsonProperty("type", Required = Required.Always)]
         public InlineQueryResultType Type => TypeMap[GetType()];
 

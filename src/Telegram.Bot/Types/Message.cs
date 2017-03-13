@@ -95,7 +95,8 @@ namespace Telegram.Bot.Types
         /// The entity contents.
         /// </value>
         [JsonIgnore]
-        public List<string> EntityValues => Entities.ToList().Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
+        public List<string> EntityValues
+            => Entities.ToList().Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
 
         /// <summary>
         /// Optional. Message is an audio file, information about the file

@@ -93,8 +93,6 @@ namespace Telegram.Bot.Types
         /// <param name="data">The JSON string containing the update</param>
         /// <returns>The <see cref="Update"/> object </returns>
         public static Update FromString(string data)
-        {
-            return JsonConvert.DeserializeObject<Update>(data);
-        }
+            => JsonConvert.DeserializeObject<Update>(data);
     }
 }
