@@ -12,30 +12,30 @@ namespace Telegram.Bot.Types
         /// Unique identifier for this query
         /// </summary>
         [JsonProperty("id", Required = Required.Always)]
-        public string Id { get; internal set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Sender
         /// </summary>
         [JsonProperty("from", Required = Required.Always)]
-        public User From { get; internal set; }
+        public User From { get; set; }
 
         /// <summary>
         /// Text of the query
         /// </summary>
         [JsonProperty("query", Required = Required.Always)]
-        public string Query { get; internal set; }
+        public string Query { get; set; }
 
         /// <summary>
         /// Optional. Sender location, only for bots that request user location
         /// </summary>
         [JsonProperty("location", Required = Required.Default)]
-        public Location Location { get; internal set; }
+        public Location Location { get; set; }
 
         /// <summary>
         /// Offset of the results to be returned, can be controlled by the bot
         /// </summary>
         [JsonProperty("offset", Required = Required.Always)]
-        public string Offset { get; internal set; }
+        public string Offset { get; set; }
     }
 }

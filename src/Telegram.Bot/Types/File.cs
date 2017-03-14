@@ -13,23 +13,23 @@ namespace Telegram.Bot.Types
         /// Unique identifier for this file
         /// </summary>
         [JsonProperty(PropertyName = "file_id", Required = Required.Always)]
-        public string FileId { get; internal set; }
+        public string FileId { get; set; }
 
         /// <summary>
         /// Optional. File size, if known
         /// </summary>
         [JsonProperty(PropertyName = "file_size", Required = Required.Default)]
-        public int FileSize { get; internal set; }
+        public int FileSize { get; set; }
 
         /// <summary>
         /// File path. Use <see cref="TelegramBotClient.GetFileAsync"/> to get the file.
         /// </summary>
         [JsonProperty(PropertyName = "file_path", Required = Required.Default)]
-        public string FilePath { get; internal set; }
+        public string FilePath { get; set; }
 
         /// <summary>
         /// Gets the file stream.
         /// </summary>
-        public Stream FileStream { get; internal set; }
+        public Stream FileStream { get; set; }
     }
 }

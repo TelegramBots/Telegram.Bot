@@ -12,30 +12,30 @@ namespace Telegram.Bot.Types
         /// Video width as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "width", Required = Required.Always)]
-        public string Width { get; internal set; }
+        public string Width { get; set; }
 
         /// <summary>
         /// Video height as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "height", Required = Required.Always)]
-        public string Height { get; internal set; }
+        public string Height { get; set; }
 
         /// <summary>
         /// Duration of the video in seconds as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "duration", Required = Required.Always)]
-        public int Duration { get; internal set; }
+        public int Duration { get; set; }
 
         /// <summary>
         /// Video thumbnail
         /// </summary>
         [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
-        public PhotoSize Thumb { get; internal set; }
+        public PhotoSize Thumb { get; set; }
 
         /// <summary>
         /// Optional. Mime type of a file as defined by sender
         /// </summary>
         [JsonProperty(PropertyName = "mime_type", Required = Required.Default)]
-        public string MimeType { get; internal set; }
+        public string MimeType { get; set; }
     }
 }

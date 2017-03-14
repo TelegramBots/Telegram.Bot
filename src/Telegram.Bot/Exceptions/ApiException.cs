@@ -12,12 +12,12 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Gets the error code.
         /// </summary>
-        public int ErrorCode { get; internal set; }
+        public int ErrorCode { get; set; }
 
         /// <summary>
         /// Contains information about why a request was unsuccessfull.
         /// </summary>
-        public ResponseParameters Parameters { get; internal set; }
+        public ResponseParameters Parameters { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestException"/> class.

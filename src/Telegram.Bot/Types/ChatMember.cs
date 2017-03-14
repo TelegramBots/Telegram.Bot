@@ -13,12 +13,12 @@ namespace Telegram.Bot.Types
         /// Information about the user
         /// </summary>
         [JsonProperty("user", Required = Required.Always)]
-        public User User { get; internal set; }
+        public User User { get; set; }
 
         /// <summary>
         /// The member's status in the chat.
         /// </summary>
         [JsonProperty("status", Required = Required.Always)]
-        public ChatMemberStatus Status { get; internal set; }
+        public ChatMemberStatus Status { get; set; }
     }
 }
