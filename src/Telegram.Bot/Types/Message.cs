@@ -264,14 +264,14 @@ namespace Telegram.Bot.Types
                 if (Contact != null)
                     return MessageType.ContactMessage;
 
+                if (Venue != null)
+                    return MessageType.VenueMessage;
+
                 if (Location != null)
                     return MessageType.LocationMessage;
 
                 if (Text != null)
                     return MessageType.TextMessage;
-
-                if (Venue != null)
-                    return MessageType.VenueMessage;
 
                 if (NewChatMember != null ||
                     LeftChatMember != null ||
