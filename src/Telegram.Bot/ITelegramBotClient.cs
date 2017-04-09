@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -30,14 +29,14 @@ namespace Telegram.Bot
         TimeSpan PollingTimeout { get; set; }
 
         /// <summary>
+        /// Timeout for <see cref="GetFileAsync"/>
+        /// </summary>
+        TimeSpan DownloadTimeout { get; set; }
+
+        /// <summary>
         /// Indecates if receiving updates
         /// </summary>
         bool IsReceiving { get; set; }
-
-        /// <summary>
-        /// WebProxy for http client
-        /// </summary>
-        IWebProxy WebProxy { get; set; }
 
         /// <summary>
         /// The current message offset

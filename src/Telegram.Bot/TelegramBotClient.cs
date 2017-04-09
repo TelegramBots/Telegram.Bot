@@ -34,28 +34,29 @@ namespace Telegram.Bot
 
         private readonly string _token;
         private bool _invalidToken;
+        private readonly HttpClient _httpClient;
 
         #region Config Properties
 
         /// <summary>
         /// Timeout for uploading Files/Videos/Documents etc.
         /// </summary>
-        public TimeSpan UploadTimeout { get; set; } = TimeSpan.FromMinutes(1);
+        public TimeSpan UploadTimeout { get; set; } = TimeSpan.FromMinutes(10);
 
         /// <summary>
         /// Timeout for long-polling
         /// </summary>
-        public TimeSpan PollingTimeout { get; set; } = TimeSpan.FromMinutes(1);
+        public TimeSpan PollingTimeout { get; set; } = TimeSpan.FromMinutes(10);
+
+        /// <summary>
+        /// Timeout for <see cref="GetFileAsync"/>
+        /// </summary>
+        public TimeSpan DownloadTimeout { get; set; } = TimeSpan.FromMinutes(10);
 
         /// <summary>
         /// Indecates if receiving updates
         /// </summary>
         public bool IsReceiving { get; set; }
-
-        /// <summary>
-        /// WebProxy for http client
-        /// </summary>
-        public IWebProxy WebProxy { get; set; }
 
         private CancellationTokenSource _receivingCancellationTokenSource = default(CancellationTokenSource);
 
@@ -146,14 +147,38 @@ namespace Telegram.Bot
         /// Create a new <see cref="TelegramBotClient"/> instance.
         /// </summary>
         /// <param name="token">API token</param>
+        /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invvalid</exception>
-        public TelegramBotClient(string token)
+        public TelegramBotClient(string token, HttpClient httpClient = null)
         {
             if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
                 throw new ArgumentException("Invalid token format", nameof(token));
 
             _token = token;
+            _httpClient = httpClient ?? new HttpClient();
         }
+
+        /// <summary>
+        /// Create a new <see cref="TelegramBotClient"/> instance behind a proxy.
+        /// </summary>
+        /// <param name="token">API token</param>
+        /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invvalid</exception>
+        public TelegramBotClient(string token, IWebProxy webProxy)
+        {
+            if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
+                throw new ArgumentException("Invalid token format", nameof(token));
+
+            var httpClientHander = new HttpClientHandler
+            {
+                Proxy = webProxy,
+                UseProxy = true
+            };
+
+            _token = token;
+            _httpClient = new HttpClient(httpClientHander);
+        }
+
 
         #region Helpers
 
@@ -778,8 +803,7 @@ namespace Telegram.Bot
                 {"file_id", fileId}
             };
 
-            var fileInfo =
-                await SendWebRequestAsync<File>("getFile", parameters, cancellationToken)
+            var fileInfo = await SendWebRequestAsync<File>("getFile", parameters, cancellationToken)
                           .ConfigureAwait(false);
 
             var fileUri = new Uri(BaseFileUrl + _token + "/" + fileInfo.FilePath);
@@ -787,26 +811,14 @@ namespace Telegram.Bot
             if (destination == null)
                 destination = fileInfo.FileStream = new MemoryStream();
 
-            var httpClientHandler = new HttpClientHandler();
+            _httpClient.Timeout = DownloadTimeout;
 
-            if (WebProxy != null)
+            using (var response = await _httpClient.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                                    .ConfigureAwait(false))
             {
-                httpClientHandler.UseProxy = true;
-                httpClientHandler.Proxy = WebProxy;
-            }
-
-            using (var downloader = new HttpClient(httpClientHandler))
-            {
-                using (
-                    var response =
-                        await downloader.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                                        .ConfigureAwait(false)
-                    )
-                {
-                    await response.Content.CopyToAsync(destination)
-                                  .ConfigureAwait(false);
-                    destination.Position = 0;
-                }
+                await response.Content.CopyToAsync(destination)
+                                .ConfigureAwait(false);
+                destination.Position = 0;
             }
 
             return fileInfo;
@@ -1390,103 +1402,93 @@ namespace Telegram.Bot
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
 
-            var httpClientHandler = new HttpClientHandler();
-
-            if(WebProxy != null)
+            ApiResponse<T> responseObject = null;
+            try
             {
-                httpClientHandler.UseProxy = true;
-                httpClientHandler.Proxy = WebProxy;
-            }
+                HttpResponseMessage response;
 
-            using (var client = new HttpClient(httpClientHandler))
-            {
-                ApiResponse<T> responseObject = null;
-                try
+                if (parameters == null || parameters.Count == 0)
                 {
-                    HttpResponseMessage response;
+                    // Request with no parameters
 
-                    if (parameters == null || parameters.Count == 0)
+                    response = await _httpClient.GetAsync(uri, cancellationToken)
+                                            .ConfigureAwait(false);
+                }
+                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
+                {
+                    // Request including a file
+
+                    using (var form = new MultipartFormDataContent())
                     {
-                        // Request with no parameters
+                        _httpClient.Timeout = UploadTimeout;
 
-                        response = await client.GetAsync(uri, cancellationToken)
-                                               .ConfigureAwait(false);
-                    }
-                    else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
-                    {
-                        // Request including a file
-
-                        using (var form = new MultipartFormDataContent())
+                        foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
                         {
-                            foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
+                            var content = ConvertParameterValue(parameter.Value);
+
+                            if (parameter.Key == "timeout" && (int)parameter.Value != 0)
                             {
-                                var content = ConvertParameterValue(parameter.Value);
-
-                                if (parameter.Key == "timeout" && (int)parameter.Value != 0)
-                                {
-                                    client.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
-                                }
-
-                                if (parameter.Value is FileToSend)
-                                {
-                                    client.Timeout = UploadTimeout;
-                                    content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                                    {
-                                        FileNameStar = ((FileToSend)parameter.Value).Filename
-                                    };
-
-                                    form.Add(content, parameter.Key);
-                                }
-                                else
-                                    form.Add(content, parameter.Key);
+                                _httpClient.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
                             }
 
-                            response = await client.PostAsync(uri, form, cancellationToken)
-                                                   .ConfigureAwait(false);
+                            if (parameter.Value is FileToSend)
+                            {
+                                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                                {
+                                    FileNameStar = ((FileToSend)parameter.Value).Filename
+                                };
+
+                                form.Add(content, parameter.Key);
+                            }
+                            else
+                                form.Add(content, parameter.Key);
                         }
+
+                        response = await _httpClient.PostAsync(uri, form, cancellationToken)
+                                                .ConfigureAwait(false);
                     }
-                    else
-                    {
-                        // Request with JSON data
-
-                        var payload = JsonConvert.SerializeObject(parameters);
-
-                        var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                        response = await client.PostAsync(uri, httpContent, cancellationToken)
-                                               .ConfigureAwait(false);
-                    }
-
-                    var responseString = await response.Content.ReadAsStringAsync()
-                                                       .ConfigureAwait(false);
-
-                    responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
-
-                    response.EnsureSuccessStatusCode();
                 }
-                catch (HttpRequestException e) when (e.Message.Contains("401"))
+                else
                 {
-                    _invalidToken = true;
-                    throw new ApiRequestException("Invalid token", 401, e);
+                    // Request with JSON data
+
+                    var payload = JsonConvert.SerializeObject(parameters);
+
+                    var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                    response = await _httpClient.PostAsync(uri, httpContent, cancellationToken)
+                                            .ConfigureAwait(false);
                 }
-                catch (TaskCanceledException e)
-                {
-                    if (cancellationToken.IsCancellationRequested)
-                        throw;
 
-                    throw new ApiRequestException("Request timed out", 408, e);
-                }
-                catch (HttpRequestException e)
-                    when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) {}
+                var responseString = await response.Content.ReadAsStringAsync()
+                                                    .ConfigureAwait(false);
 
-                if (responseObject == null)
-                    responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+                responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
 
-                if (!responseObject.Ok)
-                    throw ApiRequestException.FromApiResponse(responseObject);
-
-                return responseObject.ResultObject;
+                response.EnsureSuccessStatusCode();
             }
+            catch (HttpRequestException e) when (e.Message.Contains("401"))
+            {
+                _invalidToken = true;
+                throw new ApiRequestException("Invalid token", 401, e);
+            }
+            catch (TaskCanceledException e)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                    throw;
+
+                throw new ApiRequestException("Request timed out", 408, e);
+            }
+            catch (HttpRequestException e)
+                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) {}
+
+            if (responseObject == null)
+                responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+
+            if (!responseObject.Ok)
+                throw ApiRequestException.FromApiResponse(responseObject);
+
+            return responseObject.ResultObject;
         }
 
         private static HttpContent ConvertParameterValue(object value)
