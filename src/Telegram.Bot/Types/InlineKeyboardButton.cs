@@ -79,7 +79,7 @@ namespace Telegram.Bot.Types
         public InlineKeyboardButton(string text, string callbackData = null)
         {
             Text = text;
-            CallbackData = string.IsNullOrWhiteSpace(callbackData) ? Text : callbackData;
+            CallbackData = callbackData;
         }
     }
 }
