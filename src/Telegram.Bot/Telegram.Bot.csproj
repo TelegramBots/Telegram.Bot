@@ -17,13 +17,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Telegram Api Bot</PackageTags>
     <RepositoryUrl>https://github.com/MrRoundRobin/telegram.bot.git</RepositoryUrl>
-    <BuildNumber Condition=" '$(APPVEYOR_BUILD_NUMBER)' != '' ">$(APPVEYOR_BUILD_NUMBER)</BuildNumber>
-    <BuildNumber Condition=" '$(BuildNumber)' == '' ">12.0.0</BuildNumber>
-    <AssemblyVersion>$(BuildNumber)</AssemblyVersion>
-    <AssemblyFileVersion>$(BuildNumber)</AssemblyFileVersion>
-    <InformationalVersion>$(BuildNumber)</InformationalVersion>
-    <PackageVersion>$(BuildNumber)</PackageVersion>
-    <VersionSuffix Condition="'$(VersionSuffix)'!='' AND '$(BuildNumber)' != ''">$(VersionSuffix)-$(BuildNumber)</VersionSuffix>
+    <Version Condition="'$(APPVEYOR)' == 'True'">12.0.0-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
   </PropertyGroup>
 
   <ItemGroup>
