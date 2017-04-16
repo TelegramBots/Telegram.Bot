@@ -46,11 +46,6 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyboardButton"/> class.
         /// </summary>
-        public KeyboardButton() { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardButton"/> class.
-        /// </summary>
         /// <param name="text">The <see cref="Text"/></param>
         public KeyboardButton(string text)
         {
