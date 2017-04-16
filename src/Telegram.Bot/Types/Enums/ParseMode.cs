@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types.Enums
     /// The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline links and pre-formatted code in your bots' messages.
     /// Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.
     /// </summary>
-    /// <see cref="https://core.telegram.org/bots/api#formatting-options"/>
+    /// <see href="https://core.telegram.org/bots/api#formatting-options"/>
     [JsonConverter(typeof(ParseModeConverter))]
     public enum ParseMode
     {
