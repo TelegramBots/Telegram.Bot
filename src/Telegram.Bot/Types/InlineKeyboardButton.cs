@@ -76,7 +76,8 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="text">The text.</param>
         /// <param name="callbackData">The callback data.</param>
-        public InlineKeyboardButton(string text, string callbackData = null)
+        /// <param name="url">The Url.</param>
+        public InlineKeyboardButton(string text, string callbackData = null, string url = null)
         {
             Text = text;
             CallbackData = callbackData;
