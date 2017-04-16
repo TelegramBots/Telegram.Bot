@@ -19,24 +19,14 @@ namespace Telegram.Bot
         #region Config Properties
 
         /// <summary>
-        /// Timeout for uploading Files/Videos/Documents etc.
+        /// Timeout for requests
         /// </summary>
-        TimeSpan UploadTimeout { get; set; }
-
-        /// <summary>
-        /// Timeout for long-polling
-        /// </summary>
-        TimeSpan PollingTimeout { get; set; }
-
-        /// <summary>
-        /// Timeout for <see cref="GetFileAsync"/>
-        /// </summary>
-        TimeSpan DownloadTimeout { get; set; }
-
+        TimeSpan Timeout { get; set; }
+        
         /// <summary>
         /// Indecates if receiving updates
         /// </summary>
-        bool IsReceiving { get; set; }
+        bool IsReceiving { get; }
 
         /// <summary>
         /// The current message offset
@@ -99,18 +89,10 @@ namespace Telegram.Bot
         /// <summary>
         /// Start update receiving
         /// </summary>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="Exceptions.ApiRequestException"> Thrown if token is invalid</exception>
-        void StartReceiving(CancellationToken cancellationToken = default(CancellationToken));
-
-        /// <summary>
-        /// Start update receiving
-        /// </summary>
-        /// <param name="timeout">Timeout for long pooling http requests</param>
         /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="Exceptions.ApiRequestException"> Thrown if token is invalid</exception>
-        void StartReceiving(TimeSpan timeout, UpdateType[] allowedUpdates = null, CancellationToken cancellationToken = default(CancellationToken));
+        void StartReceiving(UpdateType[] allowedUpdates = null, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Stop update receiving

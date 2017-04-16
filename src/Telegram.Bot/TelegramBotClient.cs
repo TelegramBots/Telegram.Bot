@@ -39,19 +39,13 @@ namespace Telegram.Bot
         #region Config Properties
 
         /// <summary>
-        /// Timeout for uploading Files/Videos/Documents etc.
+        /// Timeout for requests
         /// </summary>
-        public TimeSpan UploadTimeout { get; set; } = TimeSpan.FromMinutes(10);
-
-        /// <summary>
-        /// Timeout for long-polling
-        /// </summary>
-        public TimeSpan PollingTimeout { get; set; } = TimeSpan.FromMinutes(10);
-
-        /// <summary>
-        /// Timeout for <see cref="GetFileAsync"/>
-        /// </summary>
-        public TimeSpan DownloadTimeout { get; set; } = TimeSpan.FromMinutes(10);
+        public TimeSpan Timeout
+        {
+            get { return _httpClient.Timeout; }
+            set { _httpClient.Timeout = value; }
+        }
 
         /// <summary>
         /// Indecates if receiving updates
@@ -204,24 +198,13 @@ namespace Telegram.Bot
         /// <summary>
         /// Start update receiving
         /// </summary>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
-        public void StartReceiving(CancellationToken cancellationToken = default(CancellationToken))
-            => StartReceiving(PollingTimeout, null, cancellationToken);
-
-        /// <summary>
-        /// Start update receiving
-        /// </summary>
-        /// <param name="timeout">Timeout for long pooling http requests</param>
         /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
-        public void StartReceiving(TimeSpan timeout, UpdateType[] allowedUpdates = null, CancellationToken cancellationToken = default(CancellationToken))
+        public void StartReceiving(UpdateType[] allowedUpdates = null, CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_invalidToken)
                 throw new ApiRequestException("Invalid token", 401);
-
-            PollingTimeout = timeout;
 
             _receivingCancellationTokenSource = new CancellationTokenSource();
 
@@ -237,7 +220,7 @@ namespace Telegram.Bot
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var timeout = Convert.ToInt32(PollingTimeout.TotalSeconds);
+                var timeout = Convert.ToInt32(Timeout.TotalSeconds);
 
                 try
                 {
@@ -810,8 +793,6 @@ namespace Telegram.Bot
 
             if (destination == null)
                 destination = fileInfo.FileStream = new MemoryStream();
-
-            _httpClient.Timeout = DownloadTimeout;
 
             using (var response = await _httpClient.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                                     .ConfigureAwait(false))
@@ -1420,28 +1401,18 @@ namespace Telegram.Bot
 
                     using (var form = new MultipartFormDataContent())
                     {
-                        _httpClient.Timeout = UploadTimeout;
-
                         foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
                         {
                             var content = ConvertParameterValue(parameter.Value);
 
-                            if (parameter.Key == "timeout" && (int)parameter.Value != 0)
-                            {
-                                _httpClient.Timeout = TimeSpan.FromSeconds((int)parameter.Value + 1);
-                            }
-
                             if (parameter.Value is FileToSend)
                             {
-                                content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-                                {
-                                    FileNameStar = ((FileToSend)parameter.Value).Filename
-                                };
-
-                                form.Add(content, parameter.Key);
+                                form.Add(content, parameter.Key, ((FileToSend)parameter.Value).Filename);
                             }
                             else
+                            {
                                 form.Add(content, parameter.Key);
+                            }
                         }
 
                         response = await _httpClient.PostAsync(uri, form, cancellationToken)
