@@ -81,5 +81,18 @@ namespace Telegram.Bot.Types
             Text = text;
             CallbackData = callbackData;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        /// <param name="callbackData">The callback data.</param>
+        /// <param name="url">The Url.</param>
+        public InlineKeyboardButton(string text, string callbackData, string url)
+        {
+            Text = text;
+            Url = url;
+            CallbackData = string.IsNullOrWhiteSpace(callbackData) ? Text : callbackData;
+        }
     }
 }
