@@ -33,18 +33,15 @@ namespace Telegram.Bot.Types
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static implicit operator KeyboardButton(string key) => new KeyboardButton(key);
+        public static implicit operator KeyboardButton(string key)
+            => new KeyboardButton(key);
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="InlineKeyboardButton"/> to <see cref="KeyboardButton"/>.
         /// </summary>
         /// <param name="button"></param>
-        public static implicit operator KeyboardButton(InlineKeyboardButton button) => new KeyboardButton(button.Text);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KeyboardButton"/> class.
-        /// </summary>
-        public KeyboardButton() { }
+        public static implicit operator KeyboardButton(InlineKeyboardButton button)
+            => new KeyboardButton(button.Text);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyboardButton"/> class.

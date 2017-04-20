@@ -1,10 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// ChatMember status
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ChatMemberStatus
     {
         /// <summary>

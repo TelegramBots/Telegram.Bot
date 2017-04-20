@@ -1,10 +1,13 @@
+using Newtonsoft.Json;
 using System.Collections.Generic;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Type of the InlineQueryResult
     /// </summary>
+    [JsonConverter(typeof(InlineQueryResultTypeConverter))]
     public enum InlineQueryResultType
     {
         /// <summary>

@@ -41,6 +41,6 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 * [Bot API 2.3](https://core.telegram.org/bots/api-changelog)
 * [Games](https://core.telegram.org/bots/games)
 
-Missing / TODO (last check 21.11.2016):
+Missing / TODO (last check 16.04.2017):
 
 * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)

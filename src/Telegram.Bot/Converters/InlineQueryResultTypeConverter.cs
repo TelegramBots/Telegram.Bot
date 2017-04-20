@@ -15,11 +15,9 @@ namespace Telegram.Bot.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            InlineQueryResultType resultType;
-
             var value = reader.Value.ToString().Replace("_", "");
 
-            Enum.TryParse(value, true, out resultType);
+            Enum.TryParse(value, true, out InlineQueryResultType resultType);
 
             return resultType;
         }

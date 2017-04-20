@@ -3,6 +3,7 @@ using System;
 using Newtonsoft.Json;
 
 using Telegram.Bot.Converters;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
 {
@@ -42,5 +43,17 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty("last_error_message", Required = Required.Default)]
         public string LastErrorMessage { get; set; }
+
+        /// <summary>
+        /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
+        /// </summary>
+        [JsonProperty("max_connections", Required = Required.Default)]
+        public int MaxConnections { get; set; }
+
+        /// <summary>
+        /// A list of update types the bot is subscribed to. Defaults to all update types
+        /// </summary>
+        [JsonProperty("allowed_updates", Required = Required.Default)]
+        public UpdateType[] AllowedUpdates { get; set; }
     }
 }
