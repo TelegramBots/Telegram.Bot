@@ -370,7 +370,7 @@ namespace Telegram.Bot
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletewebhook"/>
         public Task<bool> DeleteWebhookAsync(CancellationToken cancellationToken = default(CancellationToken))
-            => SendWebRequestAsync<bool>("removeWebhook", null, cancellationToken);
+            => SendWebRequestAsync<bool>("deleteWebhook", null, cancellationToken);
 
         /// <summary>
         /// Use this method to get current webhook status.
