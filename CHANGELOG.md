@@ -8,12 +8,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Method `DeleteMessage`
 - Method `SendVideoNote`
+- Method `SendInvoice`
+- Method `AnswerShippingQuery`
+- Method `AnswerPreCheckoutQuery`
+- Type `Invoice`
+- Type `LabeledPrice`
+- Type `ShippingAddress`
+- Type `ShippingOption`
+- Type `ShippingQuery`
+- Type `SuccessfulPayment`
+- Type `OrderInfo`
+- Type `PreCheckoutQuery`
 - Type `VideoNote`
-- Type `Message` property `VideoNote`
+- Type `Message` properties `VideoNote`, `Invoice` and `SuccessfulPayment`
 - Type `User` poperty `LanguageCode`
+- Type `Update` properties `ShippingQuery` and `PreCheckoutQuery`
 - Type `InlineQueryResultGif` porperty `Duration`
 - Type `InlineQueryResultMpeg4Gif` porperty `Duration`
+- Type `InlineeyboardButton` property `Pay`
 - Enum `ChatAction` members `RecordVideoNote` and `UplaodVideoNote`
+- Enum `UpdateType` members `ShippingQuery` and `PreCheckoutQuery`
 ### Changed
 - Property `NewChatMember` replaced with `NewChatMembers` on Type `Message`
 ## [Past]

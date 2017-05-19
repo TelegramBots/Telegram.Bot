@@ -4,6 +4,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.Payments;
 
 namespace Telegram.Bot.Types
 {
@@ -244,6 +245,18 @@ namespace Telegram.Bot.Types
         public Message PinnedMessage { get; set; }
 
         /// <summary>
+        /// Optional. Message is an invoice for a payment
+        /// </summary>
+        [JsonProperty("invoice")]
+        public Invoice Invoice { get; set; }
+
+        /// <summary>
+        /// Optional. Message is a service message about a successful payment
+        /// </summary>
+        [JsonProperty("successful_payment")]
+        public SuccessfulPayment SuccessfulPayment { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
         /// </summary>
         /// <value>
@@ -285,6 +298,12 @@ namespace Telegram.Bot.Types
 
                 if (Text != null)
                     return MessageType.TextMessage;
+
+                if (Invoice != null)
+                    return MessageType.Invoice;
+
+                if (SuccessfulPayment != null)
+                    return MessageType.SuccessfulPayment;
 
                 if (NewChatMember != null ||
                     (NewChatMembers != null && NewChatMembers.Length > 0) ||

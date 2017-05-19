@@ -59,6 +59,18 @@ namespace Telegram.Bot.Types.Enums
         EditedChannelPost,
 
         /// <summary>
+        /// The <see cref="Update"/> contains an <see cref="ShippingQueryUpdate"/>
+        /// </summary>
+        [EnumMember(Value = "shipping_query")]
+        ShippingQueryUpdate,
+
+        /// <summary>
+        /// The <see cref="Update"/> contains an <see cref="PreCheckoutQueryUpdate"/>
+        /// </summary>
+        [EnumMember(Value = "pre_checkout_query")]
+        PreCheckoutQueryUpdate,
+
+        /// <summary>
         /// Receive all <see cref="Update"/> Types
         /// </summary>
         [EnumMember(Value = "")]

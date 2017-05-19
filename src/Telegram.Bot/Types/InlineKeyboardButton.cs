@@ -55,6 +55,15 @@ namespace Telegram.Bot.Types
         public CallbackGame CallbackGame { get; set; }
 
         /// <summary>
+        /// Optional. Specify True, to send a Pay button.
+        /// </summary>
+        /// <remarks>
+        /// Note: This type of button must always be the first button in the first row.
+        /// </remarks>
+        [JsonProperty("pay", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public bool Pay { get; set; }
+
+        /// <summary>
         /// Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/>.
         /// </summary>
         /// <param name="key">The key.</param>

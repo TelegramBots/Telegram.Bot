@@ -6,6 +6,7 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
+using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
 
@@ -691,6 +692,85 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion Inline mode
+
+        #region Payments
+
+        /// <summary>
+        /// Use this method to send invoices.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target private chat</param>
+        /// <param name="title">Product name</param>
+        /// <param name="description">Product description</param>
+        /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
+        /// <param name="providerToken">Payments provider token, obtained via Botfather</param>
+        /// <param name="startParameter">Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter</param>
+        /// <param name="currency">Three-letter ISO 4217 currency code, see more on currencies</param>
+        /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
+        /// <param name="photoUrl">URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.</param>
+        /// <param name="photoSize">Photo size</param>
+        /// <param name="photoWidth">Photo width</param>
+        /// <param name="photoHeight">Photo height</param>
+        /// <param name="needName">Pass True, if you require the user's full name to complete the order</param>
+        /// <param name="needPhoneNumber">Pass True, if you require the user's phone number to complete the order</param>
+        /// <param name="needEmail">Pass True, if you require the user's email to complete the order</param>
+        /// <param name="needShippingAddress">Pass True, if you require the user's shipping address to complete the order</param>
+        /// <param name="isFlexible">Pass True, if the final price depends on the shipping method</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
+        Task<Message> SendInvoiceAsync(ChatId chatId, string title, string description,
+            string payload,
+            string providerToken,
+            string startParameter,
+            string currency,
+            LabeledPrice[] prices,
+            string photoUrl = null,
+            int photoSize = 0,
+            int photoWidth = 0,
+            int photoHeight = 0,
+            bool needName = false,
+            bool needPhoneNumber = false,
+            bool needEmail = false,
+            bool needShippingAddress= false,
+            bool isFlexible = false,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            InlineKeyboardMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.
+        /// </summary>
+        /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
+        /// <param name="ok">Specify True if delivery to the specified address is possible and False if there are any problems</param>
+        /// <param name="shippingOptions">Required if ok is True.</param>
+        /// <param name="errorMessage">Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order </param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
+        Task<bool> AnswerShippingQueryAsync(string shippingQueryId, bool ok,
+            ShippingOption[] shippingOptions = null,
+            string errorMessage = null,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to respond to such pre-checkout queries.
+        /// </summary>
+        /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
+        /// <param name="ok">Specify True if everything is alright</param>
+        /// <param name="errorMessage">Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <remarks>Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#answerprecheckoutquery"/>
+        Task<bool> AnswerPreCheckoutQuery(string preCheckoutQueryId, bool ok,
+            string errorMessage = null,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        #endregion Payments
 
         #region Games
 
