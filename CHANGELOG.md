@@ -4,7 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [12.0.0] - Upcomming
+### Added
+- Method `DeleteMessage`
+- Method `SendVideoNote`
+- Type `VideoNote`
+- Type `Message` property `VideoNote`
+- Type `User` poperty `LanguageCode`
+- Type `InlineQueryResultGif` porperty `Duration`
+- Type `InlineQueryResultMpeg4Gif` porperty `Duration`
+- Enum `ChatAction` members `RecordVideoNote` and `UplaodVideoNote`
+### Changed
+- Property `NewChatMember` replaced with `NewChatMembers` on Type `Message`
+## [Past]
 ### Added
 - Method `SetWebHookAsync` parameters `maxConnections`, `allowedUpdates`
 - Method `AnswerCallbackQueryAsync` parameter `cacheTime`

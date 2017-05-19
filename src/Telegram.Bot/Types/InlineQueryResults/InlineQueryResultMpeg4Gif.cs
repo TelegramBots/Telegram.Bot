@@ -30,6 +30,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public int Height { get; set; }
 
         /// <summary>
+        /// Optional. Duration of the Video
+        /// </summary>
+        [JsonProperty("mpeg4_duration", Required = Required.Default)]
+        public int Duration { get; set; }
+
+        /// <summary>
         /// Optional. Caption of the MPEG-4 file to be sent
         /// </summary>
         [JsonProperty("caption", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

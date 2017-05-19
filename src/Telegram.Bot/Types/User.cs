@@ -32,5 +32,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "username", Required = Required.Default)]
         public string Username { get; set; }
+
+        /// <summary>
+        /// Optional. IETF language tag of the user's language
+        /// </summary>
+        [JsonProperty("language_code")]
+        public string LanguageCode { get; set; }
     }
 }

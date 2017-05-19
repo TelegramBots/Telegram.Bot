@@ -30,6 +30,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public int Height { get; set; }
 
         /// <summary>
+        /// Optional. Duration of the GIF
+        /// </summary>
+        [JsonProperty("gif_duration", Required = Required.Default)]
+        public int Duration { get; set; }
+
+        /// <summary>
         /// Optional. Caption of the GIF file to be sent
         /// </summary>
         [JsonProperty("caption", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

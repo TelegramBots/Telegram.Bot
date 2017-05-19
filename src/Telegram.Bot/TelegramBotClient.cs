@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -27,7 +26,7 @@ namespace Telegram.Bot
     /// <summary>
     /// A client to use the Telegram Bot API
     /// </summary>
-    public partial class TelegramBotClient : ITelegramBotClient
+    public class TelegramBotClient : ITelegramBotClient
     {
         private const string BaseUrl = "https://api.telegram.org/bot";
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
@@ -634,6 +633,36 @@ namespace Telegram.Bot
         }
 
         /// <summary>
+        /// As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="videoNote">Video note to send.</param>
+        /// <param name="duration">Duration of sent video in seconds</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
+        public Task<Message> SendVideoNoteAsync(ChatId chatId, FileToSend videoNote,
+            int duration = 0,
+            bool disableNotification = false,
+            int replyToMessageId = 0,
+            IReplyMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var additionalParameters = new Dictionary<string, object>
+            {
+                {"duration", duration},
+            };
+
+            return SendMessageAsync(MessageType.VideoNoteMessage, chatId, videoNote, disableNotification, replyToMessageId,
+                replyMarkup, additionalParameters, cancellationToken);
+
+        }
+
+
+        /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
@@ -1147,6 +1176,26 @@ namespace Telegram.Bot
                 parameters.Add("reply_markup", replyMarkup);
 
             return SendWebRequestAsync<Message>("editMessageReplyMarkup", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to delete a message. A message can only be deleted if it was sent less than 48 hours ago. Any such recently sent outgoing message may be deleted. Additionally, if the bot is an administrator in a group chat, it can delete any message. If the bot is an administrator in a supergroup, it can delete messages from any other user and service messages about people joining or leaving the group (other types of service messages may only be removed by the group creator). In channels, bots can only remove their own messages.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="messageId">Unique identifier of the message to delete</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#deletemessage"/>
+        public Task<bool> DeleteMessageAsync(ChatId chatId, int messageId,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"message_id", messageId}
+            };
+
+            return SendWebRequestAsync<bool>("deleteMessage", parameters, cancellationToken);
         }
 
         #endregion Updating messages

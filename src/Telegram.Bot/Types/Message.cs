@@ -141,6 +141,12 @@ namespace Telegram.Bot.Types
         public Voice Voice { get; set; }
 
         /// <summary>
+        /// Optional. Message is a <see cref="VideoNote"/>, information about the video message
+        /// </summary>
+        [JsonProperty("video_note")]
+        public VideoNote VideoNote { get; set; }
+
+        /// <summary>
         /// Caption for the photo or video
         /// </summary>
         [JsonProperty("caption", Required = Required.Default)]
@@ -167,8 +173,15 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. A new member was added to the group, information about them (this member may be bot itself)
         /// </summary>
+        [Obsolete("Use the NewChatMembers property")]
         [JsonProperty("new_chat_member", Required = Required.Default)]
         public User NewChatMember { get; set; }
+
+        /// <summary>
+        /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
+        /// </summary>
+        [JsonProperty("new_chat_members", Required = Required.Default)]
+        public User[] NewChatMembers { get; set; }
 
         /// <summary>
         /// Optional. A member was removed from the group, information about them (this member may be bot itself)
@@ -274,6 +287,7 @@ namespace Telegram.Bot.Types
                     return MessageType.TextMessage;
 
                 if (NewChatMember != null ||
+                    (NewChatMembers != null && NewChatMembers.Length > 0) ||
                     LeftChatMember != null ||
                     NewChatTitle != null ||
                     NewChatPhoto != null ||
