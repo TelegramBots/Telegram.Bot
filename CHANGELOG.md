@@ -6,11 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [12.0.0] - Upcomming
 ### Added
-- Method `DeleteMessage`
-- Method `SendVideoNote`
-- Method `SendInvoice`
-- Method `AnswerShippingQuery`
-- Method `AnswerPreCheckoutQuery`
+- Method `DeleteMessageAsync`
+- Method `SendVideoNoteAsync`
+- Method `SendInvoiceAsync`
+- Method `AnswerShippingQueryAsync`
+- Method `AnswerPreCheckoutQueryAsync`
 - Type `Invoice`
 - Type `LabeledPrice`
 - Type `ShippingAddress`
