@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types
 {
@@ -45,5 +45,34 @@ namespace Telegram.Bot.Types
             else
                 return false;
         }
+        
+        /// <summary>
+        /// Returns if this User equals to another user
+        /// </summary>
+        /// <param name="obj">Another user</param>
+        /// <returns></returns>
+        public bool Equals(User user)
+        {
+            if (user != null)
+                return (obj as User).Id == this.Id;
+            
+            return false;
+        }
+        
+        public static bool operator ==(User a, User b)
+        {
+            if (System.Object.ReferenceEquals(a, b))
+                return true;
+
+            if (((object)a == null) || ((object)b == null))
+                return false;
+        
+            return a.Id == b.Id;
+        }
+        
+        public static bool operator !=(User a, User b)
+        {
+            return !(a == b);
+        }
     }
-}
+}        
