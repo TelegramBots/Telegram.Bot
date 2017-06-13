@@ -23,7 +23,7 @@ Before submitting issues please consult following resources:
 * [Library docs](https://mrroundrobin.github.io/telegram.bot/)
 * [Changelog](https://github.com/MrRoundRobin/telegram.bot/blob/master/CHANGELOG.md)
 * [API docs](https://core.telegram.org/bots/api)
-* [Webook docs](https://core.telegram.org/bots/webhooks)
+* [Webhook docs](https://core.telegram.org/bots/webhooks)
 * [Examples](https://github.com/MrRoundRobin/telegram.bot.examples)
 
 ## Installation
