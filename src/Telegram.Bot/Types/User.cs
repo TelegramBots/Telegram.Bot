@@ -60,7 +60,7 @@ namespace Telegram.Bot.Types
         public bool Equals(User user)
         {
             if (user != null)
-                return (obj as User).Id == this.Id;
+                return (user as User).Id == this.Id;
             
             return false;
         }
