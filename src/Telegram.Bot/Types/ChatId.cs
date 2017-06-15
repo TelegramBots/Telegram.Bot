@@ -71,7 +71,18 @@ namespace Telegram.Bot.Types
         /// Create a <c>int</c> out of a <see cref="ChatId"/>
         /// </summary>
         /// <param name="chatid">The <see cref="ChatId"/></param>
-        public static implicit operator int(ChatId chatid) => checked((int) chatid.Identifier);
+        public static implicit operator int(ChatId chatid)
+        {
+            try
+            {
+                 int intChatId = (int) chatid.Identifier;
+                 return intChatId;
+            }
+            catch(OverflowException)
+            {
+                throw;
+            }
+        }
 
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
