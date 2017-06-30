@@ -351,7 +351,7 @@ namespace Telegram.Bot
             var parameters = new Dictionary<string, object>
             {
                 {"url", url},
-                {"mac_connections", maxConnections}
+                {"max_connections", maxConnections}
             };
 
             if (allowedUpdates != null && !allowedUpdates.Contains(UpdateType.All))
