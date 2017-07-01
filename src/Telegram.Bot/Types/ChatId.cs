@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types
     [JsonConverter(typeof(ChatIdConverter))]
     public class ChatId
     {
-        internal long Identifier;
+        internal long? Identifier;
         internal string Username;
 
         public ChatId(long identifier)
@@ -29,7 +29,13 @@ namespace Telegram.Bot.Types
             }
         }
 
-        public override bool Equals(object obj) => ((string)this).Equals(obj);
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+            var chatId = obj as ChatId;
+            return long.Equals(this.Identifier ?? 0, chatId.Identifier) || string.Equals(this.Username ?? string.Empty, chatId.Username);
+        }
 
         public override int GetHashCode() => ((string)this).GetHashCode();
 
