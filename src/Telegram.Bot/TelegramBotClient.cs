@@ -1055,9 +1055,9 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
-        public Task<Message> EditInlineMessageTextAsync(string inlineMessageId, string text,
+        public Task<bool> EditInlineMessageTextAsync(string inlineMessageId, string text,
             ParseMode parseMode = ParseMode.Default,
             bool disableWebPagePreview = false,
             IReplyMarkup replyMarkup = null,
@@ -1076,7 +1076,7 @@ namespace Telegram.Bot
             if (parseMode != ParseMode.Default)
                 parameters.Add("parse_mode", parseMode.ToModeString());
 
-            return SendWebRequestAsync<Message>("editMessageText", parameters, cancellationToken);
+            return SendWebRequestAsync<bool>("editMessageText", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1113,9 +1113,9 @@ namespace Telegram.Bot
         /// <param name="caption">New caption of the message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
-        public Task<Message> EditInlineMessageCaptionAsync(string inlineMessageId, string caption,
+        public Task<bool> EditInlineMessageCaptionAsync(string inlineMessageId, string caption,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1128,7 +1128,7 @@ namespace Telegram.Bot
             if (replyMarkup != null)
                 parameters.Add("reply_markup", replyMarkup);
 
-            return SendWebRequestAsync<Message>("editMessageCaption", parameters, cancellationToken);
+            return SendWebRequestAsync<bool>("editMessageCaption", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1162,9 +1162,9 @@ namespace Telegram.Bot
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
-        public Task<Message> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
+        public Task<bool> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1176,7 +1176,7 @@ namespace Telegram.Bot
             if (replyMarkup != null)
                 parameters.Add("reply_markup", replyMarkup);
 
-            return SendWebRequestAsync<Message>("editMessageReplyMarkup", parameters, cancellationToken);
+            return SendWebRequestAsync<bool>("editMessageReplyMarkup", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1635,10 +1635,11 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Request timed out", 408, e);
             }
             catch (HttpRequestException e)
-                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) {}
+                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
+            { }
 
             if (responseObject == null)
-                responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+                responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
 
             if (!responseObject.Ok)
                 throw ApiRequestException.FromApiResponse(responseObject);
