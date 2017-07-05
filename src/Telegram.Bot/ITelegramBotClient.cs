@@ -817,7 +817,7 @@ namespace Telegram.Bot
         /// <param name="disableEditMessage">Pass True, if the game message should not be automatically edited to include the current scoreboard</param>
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message, otherwise return null.</returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
         Task<Message> SetGameScoreAsync(int userId, int score, string inlineMessageId,
             bool force = false,

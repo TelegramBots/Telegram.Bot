@@ -1444,7 +1444,7 @@ namespace Telegram.Bot
         /// <param name="disableEditMessage">Pass True, if the game message should not be automatically edited to include the current scoreboard</param>
         /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
+        /// <returns>On success, if the message was sent by the bot, returns the edited Message, otherwise return null.</returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
         public Task<Message> SetGameScoreAsync(int userId, int score, string inlineMessageId,
             bool force = false,
@@ -1462,7 +1462,30 @@ namespace Telegram.Bot
                 {"edit_message", editMessage}
             };
 
-            return SendWebRequestAsync<Message>("setGameScore", parameters, cancellationToken);
+
+            Task<Message> task = SendWebRequestAsync<Message>("setGameScore", parameters, cancellationToken)
+                .ContinueWith(t =>
+                {
+                    Message message = null;
+                    if (t.IsFaulted)
+                    {
+                        if (t.Exception.InnerException is JsonSerializationException)
+                        {
+
+                        }
+                        else
+                        {
+                            throw t.Exception.InnerException;
+                        }
+                    }
+                    else if (t.IsCompleted)
+                    {
+                        message = t.Result;
+                    }
+                    return message;
+                }, cancellationToken);
+
+            return task;
         }
 
         /// <summary>
@@ -1635,10 +1658,11 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Request timed out", 408, e);
             }
             catch (HttpRequestException e)
-                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) {}
+                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
+            { }
 
             if (responseObject == null)
-                responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+                responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
 
             if (!responseObject.Ok)
                 throw ApiRequestException.FromApiResponse(responseObject);
