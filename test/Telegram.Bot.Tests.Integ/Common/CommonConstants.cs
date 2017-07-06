@@ -15,6 +15,10 @@
             public const string SendingMessages = "Sending Messages";
 
             public const string CallbackQueries = "Callback Queries";
+
+            public const string InlineQueries = "Inline Queries";
+
+            public const string Games = "Games";
         }
 
         public static class TelegramBotApiMethods
@@ -24,6 +28,8 @@
             public const string SendMessage = "sendMessage";
 
             public const string AnswerCallbackQuery = "answerCallbackQuery";
+
+            public const string AnswerInlineQuery = "answerInlineQuery";
         }
     }
 }

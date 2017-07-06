@@ -39,6 +39,16 @@ namespace Telegram.Bot.Tests.Integ
             {
                 get { return Configuration["ChatId"]; }
             }
+
+            public static string[] AllowedUserNames
+            {
+                get
+                {
+                    string names = Configuration["AllowedUserNames"];
+                    string[] usernames = names.Split(',');
+                    return usernames;
+                }
+            }
         }
     }
 }

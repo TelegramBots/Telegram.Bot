@@ -11,6 +11,8 @@ namespace Telegram.Bot.Tests.Integ.Common
     {
         public ITelegramBotClient BotClient { get; }
 
+        public UpdateReceiver UpdateReceiver { get; }
+
         public int UserId { get; private set; }
 
         public ChatId ChatId { get; private set; }
@@ -20,7 +22,9 @@ namespace Telegram.Bot.Tests.Integ.Common
             string apiToken = ConfigurationProvider.TelegramBot.ApiToken;
             BotClient = new TelegramBotClient(apiToken);
 
-            // todo delete webhook
+            BotClient.DeleteWebhookAsync().Wait();
+
+            UpdateReceiver = new UpdateReceiver(BotClient, ConfigurationProvider.TestAnalyst.AllowedUserNames);
 
             /* ToDo:
              * First check whether any config is provided for userId and chatId.
@@ -29,11 +33,18 @@ namespace Telegram.Bot.Tests.Integ.Common
              * UserIds to initiate the test
              */
 
-            WaitForTestAnalystToStart().Wait();
+            ChatId = ConfigurationProvider.TestAnalyst.ChatId;
+
+            UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+
+            if (string.IsNullOrWhiteSpace(ChatId))
+            {
+                WaitForTestAnalystToStart().Wait();
+            }
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));
             BotClient.SendTextMessageAsync(ChatId,
-                "`Test execution is starting...`",
+                "```\nTest execution is starting...\n```",
                 ParseMode.Markdown,
                 cancellationToken: source.Token)
                 .Wait(source.Token);
@@ -55,30 +66,21 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         private async Task WaitForTestAnalystToStart()
         {
-            await DiscardAnyExistingUpdates();
-
-            var update = (await UpdateReceiver.GetUpdates(
-                BotClient,
-                u => u.Message?.Text?.Trim()
-                    .Equals("/test", StringComparison.OrdinalIgnoreCase) == true,
+            var update = (await UpdateReceiver.GetUpdatesAsync(
+                u => u.Message?.Text?.Equals("/test", StringComparison.OrdinalIgnoreCase) == true,
                 updateTypes: UpdateType.MessageUpdate)).Single();
 
             UserId = int.Parse(update.Message.From.Id);
             ChatId = update.Message.Chat.Id;
 
-            await DiscardAnyExistingUpdates();
-        }
-
-        private Task DiscardAnyExistingUpdates()
-        {
-            return UpdateReceiver.DiscardNewUpdates(BotClient);
+            await UpdateReceiver.DiscardNewUpdatesAsync();
         }
 
         public void Dispose()
         {
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));
             BotClient.SendTextMessageAsync(ChatId,
-                "`Test execution is finished.`",
+                "```\nTest execution is finished.\n```",
                 ParseMode.Markdown,
                 cancellationToken: source.Token)
                 .Wait(source.Token);

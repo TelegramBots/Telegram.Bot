@@ -27,17 +27,16 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
         public async Task ShouldReceiveCallbackQuery()
         {
             await _fixture.SendTestCaseNotification(FactTitles.ShouldReceiveCallbackQuery,
-                "Click on *Yes* button");
+                "Click on *OK* button");
 
-            const string callbackQueryData = "YES";
+            const string callbackQueryData = "ok btn";
             var replyMarkup = new InlineKeyboardMarkup(new[]
             {
-                new InlineKeyboardButton("Yes", callbackQueryData),
-                new InlineKeyboardButton("No", "NO"),
+                new InlineKeyboardButton("OK", callbackQueryData),
             });
 
             Message message = await BotClient.SendTextMessageAsync(_fixture.ChatId,
-                "Please click on *Yes* button.",
+                "Please click on *OK* button.",
                 ParseMode.Markdown,
                 replyMarkup: replyMarkup);
 
@@ -80,14 +79,13 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
         private async Task<Update> WaitForCallbackQueryUpdate(int messageId, CancellationToken cancellationToken = default(CancellationToken))
         {
-            var updates = await UpdateReceiver.GetUpdates(BotClient,
-                u => u.CallbackQuery.Message.MessageId == messageId,
+            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(u => u.CallbackQuery.Message.MessageId == messageId,
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.CallbackQueryUpdate);
 
             var update = updates.Single();
 
-            await UpdateReceiver.DiscardNewUpdates(BotClient);
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
             return update;
         }

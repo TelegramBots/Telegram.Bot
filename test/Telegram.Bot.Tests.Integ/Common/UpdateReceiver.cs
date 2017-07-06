@@ -7,10 +7,19 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Common
 {
-    public static class UpdateReceiver
+    public class UpdateReceiver
     {
-        public static async Task DiscardNewUpdates(ITelegramBotClient botClient,
-            CancellationToken cancellationToken = default(CancellationToken))
+        private readonly ITelegramBotClient _botClient;
+
+        private readonly string[] _allowedUsernames;
+
+        public UpdateReceiver(ITelegramBotClient botClient, params string[] allowedUsernames)
+        {
+            _botClient = botClient;
+            _allowedUsernames = allowedUsernames;
+        }
+
+        public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             if (cancellationToken == default(CancellationToken))
             {
@@ -22,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var updates = await botClient.GetUpdatesAsync(offset,
+                var updates = await _botClient.GetUpdatesAsync(offset,
                     cancellationToken: cancellationToken);
 
                 if (updates.Any())
@@ -36,9 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             }
         }
 
-        public static async Task<Update[]> GetUpdates(
-            ITelegramBotClient botClient,
-            Func<Update, bool> predicate,
+        public async Task<Update[]> GetUpdatesAsync(Func<Update, bool> predicate,
             int offset = 0,
             CancellationToken cancellationToken = default(CancellationToken),
             params UpdateType[] updateTypes)
@@ -53,12 +60,11 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var updates = await botClient.GetUpdatesAsync(offset,
-                    allowedUpdates: updateTypes,
-                    cancellationToken: cancellationToken);
+                var updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
 
-                matchingUpdates = updates.
-                    Where(predicate)
+                matchingUpdates = updates
+                    .Where(u => updateTypes.Contains(u.Type))
+                    .Where(predicate)
                     .ToArray();
 
                 if (updates.Any())
@@ -73,6 +79,58 @@ namespace Telegram.Bot.Tests.Integ.Common
             }
 
             return matchingUpdates;
+        }
+
+        private async Task<Update[]> GetOnlyAllowedUpdatesAsync(int offset, CancellationToken cToken, params UpdateType[] types)
+        {
+            var updates = await _botClient.GetUpdatesAsync(offset,
+                allowedUpdates: types,
+                cancellationToken: cToken);
+
+            var allowedUpdates = updates.Where(IsAllowed).ToArray();
+
+            return allowedUpdates;
+        }
+
+        private bool IsAllowed(Update update)
+        {
+            if (_allowedUsernames?.All(string.IsNullOrWhiteSpace) == true)
+            {
+                return true;
+            }
+
+            bool isAllowed;
+
+            switch (update.Type)
+            {
+                case UpdateType.MessageUpdate:
+                    isAllowed = _allowedUsernames
+                        .Contains(update.Message.From.Username, StringComparer.OrdinalIgnoreCase);
+                    break;
+                case UpdateType.InlineQueryUpdate:
+                    isAllowed = _allowedUsernames
+                        .Contains(update.InlineQuery.From.Username, StringComparer.OrdinalIgnoreCase);
+                    break;
+                case UpdateType.CallbackQueryUpdate:
+                    isAllowed = _allowedUsernames
+                        .Contains(update.CallbackQuery.From.Username, StringComparer.OrdinalIgnoreCase);
+                    break;
+                case UpdateType.ChosenInlineResultUpdate:
+                case UpdateType.EditedMessage:
+                case UpdateType.ChannelPost:
+                case UpdateType.EditedChannelPost:
+                case UpdateType.ShippingQueryUpdate:
+                case UpdateType.PreCheckoutQueryUpdate:
+                case UpdateType.All:
+                    isAllowed = false;
+                    break;
+                case UpdateType.UnknownUpdate:
+                    throw new ArgumentException("Unkown update found!");
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return isAllowed;
         }
     }
 }

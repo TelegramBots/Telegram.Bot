@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
         public async Task ShouldGetBotUser()
         {
             await _fixture.SendTestCaseNotification(FactTitles.ShouldGetBotUser);
-
+            // todo set botuser on fixture so other tests (inline query instructions) can use it 
             User botUser = await BotClient.GetMeAsync();
 
             Assert.NotNull(botUser);
