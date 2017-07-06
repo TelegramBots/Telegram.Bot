@@ -33,13 +33,16 @@ namespace Telegram.Bot.Tests.Integ.Common
              * UserIds to initiate the test
              */
 
-            ChatId = ConfigurationProvider.TestAnalyst.ChatId;
-
+            string chatid = ConfigurationProvider.TestAnalyst.ChatId;
             UpdateReceiver.DiscardNewUpdatesAsync().Wait();
 
-            if (string.IsNullOrWhiteSpace(ChatId))
+            if (string.IsNullOrWhiteSpace(chatid))
             {
                 WaitForTestAnalystToStart().Wait();
+            }
+            else
+            {
+                ChatId = chatid;
             }
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));

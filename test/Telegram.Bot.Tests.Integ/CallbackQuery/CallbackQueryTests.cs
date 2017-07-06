@@ -59,7 +59,6 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
             var replyMarkup = new InlineKeyboardMarkup(new[]
             {
                 new InlineKeyboardButton("Notify", callbackQueryData),
-                new InlineKeyboardButton("cancel", "Cancel"),
             });
 
             Message message = await BotClient.SendTextMessageAsync(_fixture.ChatId,
@@ -79,11 +78,13 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
         private async Task<Update> WaitForCallbackQueryUpdate(int messageId, CancellationToken cancellationToken = default(CancellationToken))
         {
+            Update update;
+
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(u => u.CallbackQuery.Message.MessageId == messageId,
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.CallbackQueryUpdate);
 
-            var update = updates.Single();
+            update = updates.Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 

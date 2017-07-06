@@ -23,21 +23,35 @@ namespace Telegram.Bot.Tests.Integ
             {
                 get
                 {
-                    return Configuration["ApiToken"];
+                    string token = Configuration["ApiToken"];
+                    return token;
                 }
             }
         }
 
         public static class TestAnalyst
         {
-            public static int UserId
+            // todo remove if not needed
+            public static int? UserId
             {
-                get { return int.Parse(Configuration["UserId"]); }
+                get
+                {
+                    int? userid;
+                    if (int.TryParse(Configuration["UserId"], out int i))
+                        userid = i;
+                    else
+                        userid = null;
+                    return userid;
+                }
             }
 
             public static string ChatId
             {
-                get { return Configuration["ChatId"]; }
+                get
+                {
+                    string chatid = Configuration["ChatId"];
+                    return chatid;
+                }
             }
 
             public static string[] AllowedUserNames
