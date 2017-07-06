@@ -1,18 +1,12 @@
 language: csharp
-solution: Telegram.Bot.sln
-
-matrix:
-  include:
-    - os: linux
-      dist: trusty
-      sudo: required
-      dotnet: 1.0.0-preview2-003131
-      mono: none
-    - os: osx
-      osx_image: xcode7.3
-      dotnet: 1.0.0-preview2-003121
-      mono: none
-
+dist: trusty
+mono: none
+sudo: required
+dotnet: 1.0.4
 script:
   - dotnet restore
-  - dotnet build ./src/Telegram.Bot -f .NETStandard,Version=v1.1
+  - dotnet build
+  - chmod +x ./test.sh
+  - ./test.sh
+notifications:
+  email: false
