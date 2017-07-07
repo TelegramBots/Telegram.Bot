@@ -10,7 +10,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.InlineQuery
 {
-    [Collection(CommonConstants.TestCollectionName)]
+    [Collection(CommonConstants.TestCollections.InlineQuery)]
+    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.InlineQueries)]
     public class InlineQueryTests
     {
@@ -26,6 +27,7 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithArticle)]
         [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.Games)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(1.1)]
         public async Task ShouldAnswerInlineQueryWithArticle()
         {
             await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerInlineQueryWithArticle,

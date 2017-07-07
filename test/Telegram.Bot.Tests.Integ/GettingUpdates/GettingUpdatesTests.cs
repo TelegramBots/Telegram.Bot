@@ -6,7 +6,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.GettingUpdates
 {
-    [Collection(CommonConstants.TestCollectionName)]
+    [Collection(CommonConstants.TestCollections.GettingUpdates)]
+    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.GettingUpdates)]
     public class GettingUpdatesTests
     {
@@ -20,6 +21,7 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
         }
 
         [Fact(DisplayName = FactTitles.ShouldGetBotUser)]
+        [ExecutionOrder(1.1)]
         public async Task ShouldGetBotUser()
         {
             await _fixture.SendTestCaseNotification(FactTitles.ShouldGetBotUser);
