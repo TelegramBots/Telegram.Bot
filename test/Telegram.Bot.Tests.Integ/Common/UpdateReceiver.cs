@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,7 +46,8 @@ namespace Telegram.Bot.Tests.Integ.Common
             }
         }
 
-        public async Task<Update[]> GetUpdatesAsync(Func<Update, bool> predicate,
+        public async Task<Update[]> GetUpdatesAsync(
+            Func<Update, bool> predicate = null,
             int offset = 0,
             CancellationToken cancellationToken = default(CancellationToken),
             params UpdateType[] updateTypes)
@@ -60,12 +62,20 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
+                IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
 
-                matchingUpdates = updates
-                    .Where(u => updateTypes.Contains(u.Type))
-                    .Where(predicate)
-                    .ToArray();
+                if (predicate is null)
+                {
+                    updates = updates.Where(u => updateTypes.Contains(u.Type));
+                }
+                else
+                {
+                    updates = updates
+                        .Where(u => updateTypes.Contains(u.Type))
+                        .Where(predicate);
+                }
+
+                matchingUpdates = updates.ToArray();
 
                 if (updates.Any())
                 {
@@ -115,12 +125,18 @@ namespace Telegram.Bot.Tests.Integ.Common
                     isAllowed = _allowedUsernames
                         .Contains(update.CallbackQuery.From.Username, StringComparer.OrdinalIgnoreCase);
                     break;
+                case UpdateType.PreCheckoutQueryUpdate:
+                    isAllowed = _allowedUsernames
+                        .Contains(update.PreCheckoutQuery.From.Username, StringComparer.OrdinalIgnoreCase);
+                    break;
+                case UpdateType.ShippingQueryUpdate:
+                    isAllowed = _allowedUsernames
+                        .Contains(update.ShippingQuery.From.Username, StringComparer.OrdinalIgnoreCase);
+                    break;
                 case UpdateType.ChosenInlineResultUpdate:
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
-                case UpdateType.ShippingQueryUpdate:
-                case UpdateType.PreCheckoutQueryUpdate:
                 case UpdateType.All:
                     isAllowed = false;
                     break;

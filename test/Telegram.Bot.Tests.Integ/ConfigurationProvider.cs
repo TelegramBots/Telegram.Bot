@@ -23,10 +23,20 @@ namespace Telegram.Bot.Tests.Integ
             {
                 get
                 {
-                    string token = Configuration["ApiToken"];
+                    string token = Configuration[nameof(ApiToken)];
                     return token;
                 }
             }
+
+            public static string PaymentProviderToken
+            {
+                get
+                {
+                    string providerToken = Configuration[nameof(PaymentProviderToken)];
+                    return providerToken;
+                }
+            }
+
         }
 
         public static class TestAnalyst
@@ -37,7 +47,7 @@ namespace Telegram.Bot.Tests.Integ
                 get
                 {
                     int? userid;
-                    if (int.TryParse(Configuration["UserId"], out int i))
+                    if (int.TryParse(Configuration[nameof(UserId)], out int i))
                         userid = i;
                     else
                         userid = null;
@@ -49,7 +59,7 @@ namespace Telegram.Bot.Tests.Integ
             {
                 get
                 {
-                    string chatid = Configuration["ChatId"];
+                    string chatid = Configuration[nameof(ChatId)];
                     return chatid;
                 }
             }
@@ -58,7 +68,7 @@ namespace Telegram.Bot.Tests.Integ
             {
                 get
                 {
-                    string names = Configuration["AllowedUserNames"];
+                    string names = Configuration[nameof(AllowedUserNames)];
                     string[] usernames = names.Split(',');
                     return usernames;
                 }

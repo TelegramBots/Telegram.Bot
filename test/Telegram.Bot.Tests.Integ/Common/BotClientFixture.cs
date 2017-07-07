@@ -17,6 +17,8 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public ChatId ChatId { get; private set; }
 
+        public string PaymentProviderToken { get; set; }
+
         public BotClientFixture()
         {
             string apiToken = ConfigurationProvider.TelegramBot.ApiToken;
@@ -32,6 +34,8 @@ namespace Telegram.Bot.Tests.Integ.Common
              * Also allow the config for a list of allowed UserNames, or allowed
              * UserIds to initiate the test
              */
+
+            PaymentProviderToken = ConfigurationProvider.TelegramBot.PaymentProviderToken;
 
             string chatid = ConfigurationProvider.TestAnalyst.ChatId;
             UpdateReceiver.DiscardNewUpdatesAsync().Wait();

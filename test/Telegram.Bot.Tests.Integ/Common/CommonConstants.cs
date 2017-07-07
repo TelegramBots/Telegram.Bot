@@ -19,6 +19,8 @@
             public const string InlineQueries = "Inline Queries";
 
             public const string Games = "Games";
+
+            public const string Payments = "Payments";
         }
 
         public static class TelegramBotApiMethods
@@ -30,6 +32,8 @@
             public const string AnswerCallbackQuery = "answerCallbackQuery";
 
             public const string AnswerInlineQuery = "answerInlineQuery";
+
+            public const string SendInvoice = "sendInvoice";
         }
     }
 }

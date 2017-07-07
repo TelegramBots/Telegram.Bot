@@ -55,7 +55,7 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
 
         private async Task<Update> GetInlineQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
         {
-            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(u => true,
+            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.InlineQueryUpdate);
 
