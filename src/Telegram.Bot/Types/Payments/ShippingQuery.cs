@@ -17,7 +17,7 @@ namespace Telegram.Bot.Types.Payments
         /// <summary>
         /// User who sent the query
         /// </summary>
-        [JsonProperty("form", Required = Required.Always)]
+        [JsonProperty("from", Required = Required.Always)]
         public User From { get; set; }
 
         /// <summary>

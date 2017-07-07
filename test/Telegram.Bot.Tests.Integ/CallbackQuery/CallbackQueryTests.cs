@@ -9,7 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.CallbackQuery
 {
-    [Collection(CommonConstants.TestCollectionName)]
+    [Collection(CommonConstants.TestCollections.CallbackQuery)]
+    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.CallbackQueries)]
     public class CallbackQueryTests
     {
@@ -24,6 +25,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
         [Fact(DisplayName = FactTitles.ShouldReceiveCallbackQuery)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(1.1)]
         public async Task ShouldReceiveCallbackQuery()
         {
             await _fixture.SendTestCaseNotification(FactTitles.ShouldReceiveCallbackQuery,
@@ -50,6 +52,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
         [Fact(DisplayName = FactTitles.ShouldAnswerCallbackQuery)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerCallbackQuery)]
+        [ExecutionOrder(1.2)]
         public async Task ShouldAnswerCallbackQuery()
         {
             await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerCallbackQuery,
@@ -74,7 +77,6 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
             Assert.True(result);
         }
-
 
         private async Task<Update> WaitForCallbackQueryUpdate(int messageId, CancellationToken cancellationToken = default(CancellationToken))
         {

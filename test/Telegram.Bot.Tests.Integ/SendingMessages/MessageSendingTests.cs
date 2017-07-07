@@ -6,7 +6,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
-    [Collection(CommonConstants.TestCollectionName)]
+    [Collection(CommonConstants.TestCollections.SendingMessages)]
+    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.SendingMessages)]
     public class MessageSendingTests
     {
@@ -20,6 +21,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendTextMessage)]
+        [ExecutionOrder(1.1)]
         public async Task ShouldSendTextMessage()
         {
             await _fixture.SendTestCaseNotification(FactTitles.ShouldSendTextMessage);

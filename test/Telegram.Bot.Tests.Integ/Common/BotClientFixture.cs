@@ -13,9 +13,13 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public UpdateReceiver UpdateReceiver { get; }
 
+        public string[] AllowedUserNames { get; private set; }
+
         public int UserId { get; private set; }
 
         public ChatId ChatId { get; private set; }
+
+        public string PaymentProviderToken { get; set; }
 
         public BotClientFixture()
         {
@@ -24,7 +28,8 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             BotClient.DeleteWebhookAsync().Wait();
 
-            UpdateReceiver = new UpdateReceiver(BotClient, ConfigurationProvider.TestAnalyst.AllowedUserNames);
+            AllowedUserNames = ConfigurationProvider.TestAnalyst.AllowedUserNames;
+            UpdateReceiver = new UpdateReceiver(BotClient, AllowedUserNames);
 
             /* ToDo:
              * First check whether any config is provided for userId and chatId.
@@ -32,6 +37,8 @@ namespace Telegram.Bot.Tests.Integ.Common
              * Also allow the config for a list of allowed UserNames, or allowed
              * UserIds to initiate the test
              */
+
+            PaymentProviderToken = ConfigurationProvider.TelegramBot.PaymentProviderToken;
 
             string chatid = ConfigurationProvider.TestAnalyst.ChatId;
             UpdateReceiver.DiscardNewUpdatesAsync().Wait();
