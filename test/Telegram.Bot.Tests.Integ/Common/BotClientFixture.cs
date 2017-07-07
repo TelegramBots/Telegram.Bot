@@ -13,6 +13,8 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public UpdateReceiver UpdateReceiver { get; }
 
+        public string[] AllowedUserNames { get; private set; }
+
         public int UserId { get; private set; }
 
         public ChatId ChatId { get; private set; }
@@ -26,7 +28,8 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             BotClient.DeleteWebhookAsync().Wait();
 
-            UpdateReceiver = new UpdateReceiver(BotClient, ConfigurationProvider.TestAnalyst.AllowedUserNames);
+            AllowedUserNames = ConfigurationProvider.TestAnalyst.AllowedUserNames;
+            UpdateReceiver = new UpdateReceiver(BotClient, AllowedUserNames);
 
             /* ToDo:
              * First check whether any config is provided for userId and chatId.

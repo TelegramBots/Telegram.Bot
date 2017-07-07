@@ -34,6 +34,10 @@
             public const string AnswerInlineQuery = "answerInlineQuery";
 
             public const string SendInvoice = "sendInvoice";
+
+            public const string AnswerShippingQuery = "answerShippingQuery";
+
+            public const string AnswerPreCheckoutQuery = "answerPreCheckoutQuery";
         }
     }
 }

@@ -60,6 +60,138 @@ namespace Telegram.Bot.Tests.Integ.PaymentTests
             Assert.Equal(invoice.Description, message.Invoice.Description);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithOk)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerShippingQuery)]
+        public async Task ShouldAnswerShippingQueryWithOk()
+        {
+            await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerShippingQueryWithOk,
+                "Click on *Pay <amount>* and send your shipping address. You should see shipment options afterwards.");
+
+            const string payload = "shippingquery-ok-payload";
+
+            LabeledPrice[] productPrices = {
+                new LabeledPrice {Amount = 150, Label = "One dolloar 50 cents"},
+                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
+            };
+            Invoice invoice = new Invoice
+            {
+                Title = "PRODUCT_TITLE",
+                Currency = "CAD",
+                StartParameter = "start_param",
+                TotalAmount = productPrices.Sum(p => p.Amount),
+                Description = "PRODUCT_DESCRIPTION",
+            };
+
+            LabeledPrice[] shippingPrices = {
+                new LabeledPrice {Amount = 500, Label = "SHIPPING1: 500"},
+                new LabeledPrice {Amount = 299, Label = "SHIPPING2: 299"},
+            };
+
+            ShippingOption[] shippingOptions = {
+                new ShippingOption
+                {
+                    Id= "option1",
+                    Title = "OPTION-1",
+                    Prices = shippingPrices,
+                }
+            };
+
+            Message message = await BotClient.SendInvoiceAsync(_fixture.ChatId,
+                title: invoice.Title,
+                description: invoice.Description,
+                payload: payload,
+                providerToken: _fixture.PaymentProviderToken,
+                startParameter: invoice.StartParameter,
+                currency: invoice.Currency,
+                prices: productPrices,
+                needShippingAddress: true,
+                isFlexible: true
+            );
+
+            Update shippingUpdate = await GetShippingQueryUpdate();
+
+            bool result = await BotClient.AnswerShippingQueryAsync(
+                shippingUpdate.ShippingQuery.Id,
+                true,
+                shippingOptions
+            );
+
+            Assert.Equal(UpdateType.ShippingQueryUpdate, shippingUpdate.Type);
+            Assert.Equal(payload, shippingUpdate.ShippingQuery.InvoicePayload);
+            Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.CountryCode);
+            Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.City);
+            Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.State);
+            Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.StreetLine1);
+            Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.PostCode);
+
+            Assert.True(result);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
+        public async Task ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption()
+        {
+            await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
+                "Click on *Pay <amount>* and confirm payment. Transaction should be completed.");
+
+            const string payload = "precheckout-ok-payload";
+
+            LabeledPrice[] productPrices = {
+                new LabeledPrice {Amount = 150, Label = "One dolloar 50 cents"},
+                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
+            };
+            Invoice invoice = new Invoice
+            {
+                Title = "PRODUCT_TITLE",
+                Currency = "USD",
+                StartParameter = "start_param",
+                TotalAmount = productPrices.Sum(p => p.Amount),
+                Description = "PRODUCT_DESCRIPTION",
+            };
+
+            Message message = await BotClient.SendInvoiceAsync(_fixture.ChatId,
+                title: invoice.Title,
+                description: invoice.Description,
+                payload: payload,
+                providerToken: _fixture.PaymentProviderToken,
+                startParameter: invoice.StartParameter,
+                currency: invoice.Currency,
+                prices: productPrices
+            );
+
+            Update precheckoutUpdate = await GetPreCheckoutQueryUpdate();
+            PreCheckoutQuery query = precheckoutUpdate.PreCheckoutQuery;
+
+            bool result = await BotClient.AnswerPreCheckoutQueryAsync(
+                query.Id,
+                true
+            );
+
+            Assert.Equal(UpdateType.PreCheckoutQueryUpdate, precheckoutUpdate.Type);
+            Assert.NotNull(query.Id);
+            Assert.Equal(payload, query.InvoicePayload);
+            Assert.Equal(invoice.TotalAmount, query.TotalAmount);
+            Assert.Equal(invoice.Currency, query.Currency);
+            Assert.Contains(query.From.Username, _fixture.AllowedUserNames);
+            Assert.Null(query.OrderInfo);
+            Assert.True(result);
+        }
+        // todo another method: receive successful payment
+        private async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+                cancellationToken: cancellationToken,
+                updateTypes: UpdateType.ShippingQueryUpdate);
+
+            var update = updates.Single();
+
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
+
+            return update;
+        }
+
         private async Task<Update> GetPreCheckoutQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
@@ -73,9 +205,28 @@ namespace Telegram.Bot.Tests.Integ.PaymentTests
             return update;
         }
 
+        private async Task<Update> GetSuccessfulPaymentUpdate(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+                predicate: u => u.Message.Type == MessageType.SuccessfulPayment,
+                cancellationToken: cancellationToken,
+                updateTypes: UpdateType.MessageUpdate);
+
+            var update = updates.Single();
+
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
+
+            return update;
+        }
+
         private static class FactTitles
         {
             public const string ShouldSendInvoice = "Should send an invoice";
+
+            public const string ShouldAnswerShippingQueryWithOk = "Should receive shipping address query and reply with shipping options";
+
+            public const string ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption =
+                "Should send invoice for no shipment option, and reply pre-checkout query with OK.";
         }
     }
 }
