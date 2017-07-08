@@ -15,6 +15,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             CommonConstants.TestCollections.InlineQuery,
             CommonConstants.TestCollections.Payment,
             CommonConstants.TestCollections.AdminBots,
+            CommonConstants.TestCollections.ChatMemberAdministration,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

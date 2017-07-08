@@ -10,16 +10,13 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 {
     [Collection(CommonConstants.TestCollections.AdminBots)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    public class AdminBotTests : IClassFixture<AdminBotsFixture>
+    public class AdminBotTests
     {
         private readonly BotClientFixture _fixture;
 
-        private readonly AdminBotsFixture _classFixture;
-
-        public AdminBotTests(BotClientFixture fixture, AdminBotsFixture adminBotsFixture)
+        public AdminBotTests(BotClientFixture assemblyFixture)
         {
-            _fixture = fixture;
-            _classFixture = adminBotsFixture;
+            _fixture = assemblyFixture;
         }
 
         #region 1. Changing Chat Title
@@ -67,27 +64,11 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         #endregion
 
-        #region 3. Exporting Chat Invite Link
-
-        [Fact(DisplayName = FactTitles.ShouldExportChatInviteLink)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.ExportChatInviteLink)]
-        [ExecutionOrder(3)]
-        public async Task ShouldExportChatInviteLink()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldExportChatInviteLink);
-
-            string result = await _fixture.BotClient.ExportChatInviteLinkAsync(_fixture.SuperGroupChatId);
-
-            Assert.StartsWith("https://t.me/joinchat/", result);
-        }
-
-        #endregion
-
-        #region 4. Pinning Chat Message
+        #region 3. Pinning Chat Message
 
         [Fact(DisplayName = FactTitles.ShouldPinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PinChatMessage)]
-        [ExecutionOrder(4.1)]
+        [ExecutionOrder(3.1)]
         public async Task ShouldPinMessage()
         {
             Message msg = await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPinMessage);
@@ -99,7 +80,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         [Fact(DisplayName = FactTitles.ShouldUnpinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UnpinChatMessage)]
-        [ExecutionOrder(4.2)]
+        [ExecutionOrder(3.2)]
         public async Task ShouldUnpinMessage()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnpinMessage);
@@ -111,11 +92,11 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         #endregion
 
-        #region 5. Changing Chat Photo
+        #region 4. Changing Chat Photo
 
         [Fact(DisplayName = FactTitles.ShouldSetChatPhoto)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetChatPhoto)]
-        [ExecutionOrder(5.1)]
+        [ExecutionOrder(4.1)]
         public async Task ShouldSetChatPhoto()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatPhoto);
@@ -132,7 +113,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         [Fact(DisplayName = FactTitles.ShouldDeleteChatPhoto)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.DeleteChatPhoto)]
-        [ExecutionOrder(5.2)]
+        [ExecutionOrder(4.2)]
         public async Task ShouldDeleteChatPhoto()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatPhoto);
@@ -144,7 +125,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         [Fact(DisplayName = FactTitles.ShouldThrowOnDeletingChatDeletedPhoto)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.DeleteChatPhoto)]
-        [ExecutionOrder(5.3)]
+        [ExecutionOrder(4.3)]
         public async Task ShouldThrowOnDeletingChatDeletedPhoto()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
@@ -165,8 +146,6 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             public const string ShouldSetChatDescription = "Should set chat description";
 
             public const string ShouldDeleteChatDescription = "Should delete chat description";
-
-            public const string ShouldExportChatInviteLink = "Should export an invite link to the group";
 
             public const string ShouldPinMessage = "Should pin chat message";
 

@@ -478,8 +478,8 @@ namespace Telegram.Bot
         /// <param name="untilDate">Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
-        Task<bool> KickChatMemberAsync(ChatId chatId, int userId,
-            CancellationToken cancellationToken = default(CancellationToken), int untilDate = 0);
+        Task<bool> KickChatMemberAsync(ChatId chatId, int userId, int untilDate = 0,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Use this method for your bot to leave a group, supergroup or channel.

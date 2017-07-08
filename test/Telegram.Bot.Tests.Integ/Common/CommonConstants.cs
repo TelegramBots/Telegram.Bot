@@ -25,6 +25,8 @@
             public const string Payment = "Payment";
 
             public const string AdminBots = "Group Admin";
+
+            public const string ChatMemberAdministration = "Chat Member Administration";
         }
 
         public static class TelegramBotApiMethods
@@ -56,6 +58,10 @@
             public const string SetChatPhoto = "setChatPhoto";
 
             public const string DeleteChatPhoto = "deleteChatPhoto";
+
+            public const string KickChatMember = "kickChatMember";
+
+            public const string UnbanChatMember = "unbanChatMember";
         }
     }
 }

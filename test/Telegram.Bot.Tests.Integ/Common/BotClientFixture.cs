@@ -67,13 +67,35 @@ namespace Telegram.Bot.Tests.Integ.Common
         public async Task<Message> SendTestCaseNotificationAsync(string testcase, string instructions = null,
             ChatType chatType = ChatType.Supergroup)
         {
-            const string format = "Executing test case:\n*{0}*";
-            const string instructionsFromat = "_Instructions_:\n{0}";
+            Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatType);
+            return msg;
+        }
 
-            string text = string.Format(format, testcase);
-            if (!string.IsNullOrWhiteSpace(instructions))
+        public async Task<Message> SendTestCollectionNotificationAsync(string collectionName,
+            string instructions = null, ChatType chatType = ChatType.Supergroup)
+        {
+            Message msg = await SendNotificationToChatAsync(true, collectionName, instructions, chatType);
+            return msg;
+        }
+
+        private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
+            string instructions = null, ChatType chatType = ChatType.Supergroup)
+        {
+            string textFormat;
+            if (isForCollection)
             {
-                text += string.Format("\n\n" + instructionsFromat, instructions);
+                textFormat = Constants.StartCollectionMessageFormat;
+            }
+            else
+            {
+                textFormat = Constants.StartTestCaseMessageFormat;
+            }
+
+            string text = string.Format(textFormat, name);
+
+            if (instructions != null)
+            {
+                text += "\n\n" + string.Format(Constants.InstructionsMessageFormat, instructions);
             }
 
             ChatId chatid;
@@ -87,8 +109,8 @@ namespace Telegram.Bot.Tests.Integ.Common
                 chatid = PrivateChatId;
             }
 
-            Message message = await BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
-            return message;
+            var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
+            return task;
         }
 
         private async Task<ChatId> GetChatIdFromTesterAsync(ChatType chatType)
@@ -112,6 +134,15 @@ namespace Telegram.Bot.Tests.Integ.Common
                 ParseMode.Markdown,
                 cancellationToken: source.Token)
                 .Wait(source.Token);
+        }
+
+        private static class Constants
+        {
+            public const string StartCollectionMessageFormat = "💬 Test Collection:\n*{0}*";
+
+            public const string StartTestCaseMessageFormat = "🔹 Test Case:\n*{0}*";
+
+            public const string InstructionsMessageFormat = "👉 _Instructions_: 👈\n{0}";
         }
     }
 }
