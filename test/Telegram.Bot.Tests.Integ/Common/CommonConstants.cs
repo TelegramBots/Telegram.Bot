@@ -24,7 +24,7 @@
 
             public const string Payment = "Payment";
 
-            public const string GroupAdmin = "Group Admin";
+            public const string AdminBots = "Group Admin";
         }
 
         public static class TelegramBotApiMethods
@@ -48,6 +48,14 @@
             public const string SetChatDescription = "setChatDescription";
 
             public const string ExportChatInviteLink = "exportChatInviteLink";
+
+            public const string PinChatMessage = "pinChatMessage";
+
+            public const string UnpinChatMessage = "unpinChatMessage";
+
+            public const string SetChatPhoto = "setChatPhoto";
+
+            public const string DeleteChatPhoto = "deleteChatPhoto";
         }
     }
 }

@@ -64,7 +64,7 @@ namespace Telegram.Bot.Tests.Integ.Common
                 .Wait(source.Token);
         }
 
-        public async Task SendTestCaseNotificationAsync(string testcase, string instructions = null,
+        public async Task<Message> SendTestCaseNotificationAsync(string testcase, string instructions = null,
             ChatType chatType = ChatType.Supergroup)
         {
             const string format = "Executing test case:\n*{0}*";
@@ -87,7 +87,8 @@ namespace Telegram.Bot.Tests.Integ.Common
                 chatid = PrivateChatId;
             }
 
-            await BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
+            Message message = await BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
+            return message;
         }
 
         private async Task<ChatId> GetChatIdFromTesterAsync(ChatType chatType)
