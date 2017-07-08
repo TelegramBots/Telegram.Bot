@@ -11,7 +11,6 @@ namespace Telegram.Bot.Tests.Integ.Payment
 {
     [Collection(CommonConstants.TestCollections.Payment)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.Payments)]
     public class PaymentTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -45,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.ChatId,
+            Message message = await BotClient.SendInvoiceAsync(_fixture.PrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -100,7 +99,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 }
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.ChatId,
+            Message message = await BotClient.SendInvoiceAsync(_fixture.PrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -155,7 +154,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.ChatId,
+            Message message = await BotClient.SendInvoiceAsync(_fixture.PrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,

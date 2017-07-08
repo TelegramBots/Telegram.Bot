@@ -41,25 +41,20 @@ namespace Telegram.Bot.Tests.Integ
 
         public static class TestAnalyst
         {
-            // todo remove if not needed
-            public static int? UserId
+            public static string PrivateChatId
             {
                 get
                 {
-                    int? userid;
-                    if (int.TryParse(Configuration[nameof(UserId)], out int i))
-                        userid = i;
-                    else
-                        userid = null;
-                    return userid;
+                    string chatid = Configuration[nameof(PrivateChatId)];
+                    return chatid;
                 }
             }
 
-            public static string ChatId
+            public static string SuperGroupChatId
             {
                 get
                 {
-                    string chatid = Configuration[nameof(ChatId)];
+                    string chatid = Configuration[nameof(SuperGroupChatId)];
                     return chatid;
                 }
             }

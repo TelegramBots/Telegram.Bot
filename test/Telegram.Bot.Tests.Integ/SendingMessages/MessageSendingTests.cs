@@ -8,7 +8,6 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
     [Collection(CommonConstants.TestCollections.SendingMessages)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.SendingMessages)]
     public class MessageSendingTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -27,11 +26,11 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             await _fixture.SendTestCaseNotification(FactTitles.ShouldSendTextMessage);
 
             const string text = "Hello world!";
-            Message message = await BotClient.SendTextMessageAsync(_fixture.ChatId, text);
+            Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId, text);
 
             Assert.Equal(text, message.Text);
             Assert.Equal(MessageType.TextMessage, message.Type);
-            Assert.Equal(_fixture.ChatId.ToString(), message.Chat.Id.ToString());
+            Assert.Equal(_fixture.SuperGroupChatId.ToString(), message.Chat.Id.ToString());
         }
 
         private static class FactTitles

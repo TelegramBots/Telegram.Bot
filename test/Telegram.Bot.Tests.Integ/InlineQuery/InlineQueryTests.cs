@@ -12,7 +12,6 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
 {
     [Collection(CommonConstants.TestCollections.InlineQuery)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.InlineQueries)]
     public class InlineQueryTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -25,7 +24,6 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithArticle)]
-        [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.Games)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1.1)]
         public async Task ShouldAnswerInlineQueryWithArticle()

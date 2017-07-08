@@ -17,7 +17,9 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public int UserId { get; private set; }
 
-        public ChatId ChatId { get; private set; }
+        public ChatId PrivateChatId { get; private set; }
+
+        public ChatId SuperGroupChatId { get; private set; }
 
         public string PaymentProviderToken { get; set; }
 
@@ -40,20 +42,33 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             PaymentProviderToken = ConfigurationProvider.TelegramBot.PaymentProviderToken;
 
-            string chatid = ConfigurationProvider.TestAnalyst.ChatId;
+            string superGroupChatId = ConfigurationProvider.TestAnalyst.SuperGroupChatId;
+            string privateChatId = ConfigurationProvider.TestAnalyst.PrivateChatId;
+
             UpdateReceiver.DiscardNewUpdatesAsync().Wait();
 
-            if (string.IsNullOrWhiteSpace(chatid))
+            if (string.IsNullOrWhiteSpace(superGroupChatId))
             {
-                WaitForTestAnalystToStart().Wait();
+                throw new ArgumentNullException(nameof(ConfigurationProvider.TestAnalyst.SuperGroupChatId));
+                //WaitForTestAnalystToStart().Wait(); // todo
             }
             else
             {
-                ChatId = chatid;
+                SuperGroupChatId = superGroupChatId;
+            }
+
+            if (string.IsNullOrWhiteSpace(superGroupChatId))
+            {
+                throw new ArgumentNullException(nameof(ConfigurationProvider.TestAnalyst.PrivateChatId));
+                //WaitForTestAnalystToStart().Wait(); // todo
+            }
+            else
+            {
+                PrivateChatId = privateChatId;
             }
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));
-            BotClient.SendTextMessageAsync(ChatId,
+            BotClient.SendTextMessageAsync(SuperGroupChatId,
                 "```\nTest execution is starting...\n```",
                 ParseMode.Markdown,
                 cancellationToken: source.Token)
@@ -71,7 +86,7 @@ namespace Telegram.Bot.Tests.Integ.Common
                 text += string.Format("\n\n" + instructionsFromat, instructions);
             }
 
-            await BotClient.SendTextMessageAsync(ChatId, text, ParseMode.Markdown);
+            await BotClient.SendTextMessageAsync(SuperGroupChatId, text, ParseMode.Markdown);
         }
 
         private async Task WaitForTestAnalystToStart()
@@ -81,7 +96,7 @@ namespace Telegram.Bot.Tests.Integ.Common
                 updateTypes: UpdateType.MessageUpdate)).Single();
 
             UserId = int.Parse(update.Message.From.Id);
-            ChatId = update.Message.Chat.Id;
+            SuperGroupChatId = update.Message.Chat.Id;
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
         }
@@ -89,7 +104,7 @@ namespace Telegram.Bot.Tests.Integ.Common
         public void Dispose()
         {
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));
-            BotClient.SendTextMessageAsync(ChatId,
+            BotClient.SendTextMessageAsync(SuperGroupChatId,
                 "```\nTest execution is finished.\n```",
                 ParseMode.Markdown,
                 cancellationToken: source.Token)

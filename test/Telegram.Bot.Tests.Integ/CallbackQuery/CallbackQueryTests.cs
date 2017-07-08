@@ -11,7 +11,6 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 {
     [Collection(CommonConstants.TestCollections.CallbackQuery)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.CallbackQueries)]
     public class CallbackQueryTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -37,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 new InlineKeyboardButton("OK", callbackQueryData),
             });
 
-            Message message = await BotClient.SendTextMessageAsync(_fixture.ChatId,
+            Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId,
                 "Please click on *OK* button.",
                 ParseMode.Markdown,
                 replyMarkup: replyMarkup);
@@ -64,7 +63,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 new InlineKeyboardButton("Notify", callbackQueryData),
             });
 
-            Message message = await BotClient.SendTextMessageAsync(_fixture.ChatId,
+            Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId,
                 "Please click on *Notify* button.",
                 ParseMode.Markdown,
                 replyMarkup: replyMarkup);

@@ -23,7 +23,7 @@ namespace Telegram.Bot
         /// Timeout for requests
         /// </summary>
         TimeSpan Timeout { get; set; }
-        
+
         /// <summary>
         /// Indecates if receiving updates
         /// </summary>
@@ -41,7 +41,7 @@ namespace Telegram.Bot
         /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
         event EventHandler<UpdateEventArgs> OnUpdate;
- 
+
         /// <summary>
         /// Occurs when a <see cref="Message"/> is recieved.
         /// </summary>
@@ -349,7 +349,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvoice"/>
-        Task<Message> SendVoiceAsync(ChatId chatId, FileToSend voice, 
+        Task<Message> SendVoiceAsync(ChatId chatId, FileToSend voice,
             string caption = "",
             int duration = 0,
             bool disableNotification = false,
@@ -774,7 +774,7 @@ namespace Telegram.Bot
             bool needName = false,
             bool needPhoneNumber = false,
             bool needEmail = false,
-            bool needShippingAddress= false,
+            bool needShippingAddress = false,
             bool isFlexible = false,
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -914,7 +914,7 @@ namespace Telegram.Bot
         /// <param name="photo">The new profile picture for the chat.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <c>true</c> on success.</returns>
-        Task<bool> SetChatPhotoAsync(ChatId chatId, FileToSend photo, 
+        Task<bool> SetChatPhotoAsync(ChatId chatId, FileToSend photo,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -942,7 +942,7 @@ namespace Telegram.Bot
         /// <param name="description">New chat description, 0-255 characters</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
-        Task<bool> SetChatDescriptionAsync(ChatId chatId, string description,
+        Task<bool> SetChatDescriptionAsync(ChatId chatId, string description = null,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>

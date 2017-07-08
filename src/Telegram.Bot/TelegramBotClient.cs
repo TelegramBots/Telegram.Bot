@@ -1027,7 +1027,7 @@ namespace Telegram.Bot
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
         public Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, int untilDate = 0,
             bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
-            bool? canAddWebPagePreviews = null, 
+            bool? canAddWebPagePreviews = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
@@ -1637,7 +1637,7 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns exported invite link as String on success.</returns>
-        public Task<string> ExportChatInviteLinkAsync(ChatId chatId, 
+        public Task<string> ExportChatInviteLinkAsync(ChatId chatId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
@@ -1709,7 +1709,7 @@ namespace Telegram.Bot
         /// <param name="description">New chat description, 0-255 characters</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
-        public Task<bool> SetChatDescriptionAsync(ChatId chatId, string description = "",
+        public Task<bool> SetChatDescriptionAsync(ChatId chatId, string description = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()

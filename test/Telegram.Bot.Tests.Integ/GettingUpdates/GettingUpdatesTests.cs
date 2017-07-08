@@ -8,7 +8,6 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
 {
     [Collection(CommonConstants.TestCollections.GettingUpdates)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    [Trait(CommonConstants.CategoryTraitName, CommonConstants.TestCategories.GettingUpdates)]
     public class GettingUpdatesTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;

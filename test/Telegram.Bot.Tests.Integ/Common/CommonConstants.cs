@@ -20,22 +20,11 @@
 
             public const string InlineQuery = "Inline Query";
 
-            public const string Payment = "Payment";
-        }
-
-        public static class TestCategories
-        {
-            public const string GettingUpdates = "Getting Updates";
-
-            public const string SendingMessages = "Sending Messages";
-
-            public const string CallbackQueries = "Callback Queries";
-
-            public const string InlineQueries = "Inline Queries";
-
             public const string Games = "Games";
 
-            public const string Payments = "Payments";
+            public const string Payment = "Payment";
+
+            public const string GroupAdmin = "Group Admin";
         }
 
         public static class TelegramBotApiMethods
@@ -53,6 +42,12 @@
             public const string AnswerShippingQuery = "answerShippingQuery";
 
             public const string AnswerPreCheckoutQuery = "answerPreCheckoutQuery";
+
+            public const string SetChatTitle = "setChatTitle";
+
+            public const string SetChatDescription = "setChatDescription";
+
+            public const string ExportChatInviteLink = "exportChatInviteLink";
         }
     }
 }
