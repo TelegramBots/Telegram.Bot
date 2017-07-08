@@ -9,7 +9,12 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public ExecutionOrderAttribute(double executionOrder)
         {
-            // todo: validate the number. eg. 1 <= N
+            if (executionOrder < 1)
+            {
+                throw new ArgumentException("Execution order number cannot be less than 1.",
+                    nameof(executionOrder));
+            }
+
             ExecutionOrder = executionOrder;
         }
     }

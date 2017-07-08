@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [ExecutionOrder(1.1)]
         public async Task ShouldSendInvoice()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldSendInvoice);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInvoice, chatType: ChatType.Private);
 
             const string payload = "my-payload";
 
@@ -67,8 +67,9 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [ExecutionOrder(1.2)]
         public async Task ShouldAnswerShippingQueryWithOk()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerShippingQueryWithOk,
-                "Click on *Pay <amount>* and send your shipping address. You should see shipment options afterwards.");
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerShippingQueryWithOk,
+                "Click on *Pay <amount>* and send your shipping address. You should see shipment options afterwards.",
+                ChatType.Private);
 
             const string payload = "shippingquery-ok-payload";
 
@@ -136,8 +137,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [ExecutionOrder(1.3)]
         public async Task ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
-                "Click on *Pay <amount>* and confirm payment. Transaction should be completed.");
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
+                "Click on *Pay <amount>* and confirm payment. Transaction should be completed.", ChatType.Private);
 
             const string payload = "precheckout-ok-payload";
 

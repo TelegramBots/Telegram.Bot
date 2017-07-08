@@ -28,7 +28,7 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
         [ExecutionOrder(1.1)]
         public async Task ShouldAnswerInlineQueryWithArticle()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerInlineQueryWithArticle,
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
                 "Start an inline query with bot. For example, type `@bot_user_name ` in chat and wait.");
 
             var results = new InlineQueryResult[]

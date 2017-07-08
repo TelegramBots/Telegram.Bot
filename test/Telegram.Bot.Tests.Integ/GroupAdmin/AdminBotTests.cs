@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.GroupAdmin
         [ExecutionOrder(1)]
         public async Task ShouldSetChatTitle()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldSetChatTitle);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatTitle);
 
             bool result = await _fixture.BotClient.SetChatTitleAsync(_fixture.SuperGroupChatId, "Test Chat Title");
 
@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.GroupAdmin
         [ExecutionOrder(2.1)]
         public async Task ShouldSetChatDescription()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldSetChatDescription);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatDescription);
 
             bool result = await _fixture.BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId,
                 "Test Chat Description");
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.GroupAdmin
         [ExecutionOrder(2.2)]
         public async Task ShouldDeleteChatDescription()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldDeleteChatDescription);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
 
             bool result = await _fixture.BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId);
 
@@ -57,7 +57,7 @@ namespace Telegram.Bot.Tests.Integ.GroupAdmin
         [ExecutionOrder(3)]
         public async Task ShouldExportChatInviteLink()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldExportChatInviteLink);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldExportChatInviteLink);
 
             string result = await _fixture.BotClient.ExportChatInviteLinkAsync(_fixture.SuperGroupChatId);
 

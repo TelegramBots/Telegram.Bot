@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
         [ExecutionOrder(1.1)]
         public async Task ShouldReceiveCallbackQuery()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldReceiveCallbackQuery,
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveCallbackQuery,
                 "Click on *OK* button");
 
             const string callbackQueryData = "ok btn";
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
         [ExecutionOrder(1.2)]
         public async Task ShouldAnswerCallbackQuery()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldAnswerCallbackQuery,
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerCallbackQuery,
                 "Click on *Notify* button");
 
             const string callbackQueryData = "Show Notification";

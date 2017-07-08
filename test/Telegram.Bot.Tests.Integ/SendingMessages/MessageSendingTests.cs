@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         [ExecutionOrder(1.1)]
         public async Task ShouldSendTextMessage()
         {
-            await _fixture.SendTestCaseNotification(FactTitles.ShouldSendTextMessage);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessage);
 
             const string text = "Hello world!";
             Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId, text);

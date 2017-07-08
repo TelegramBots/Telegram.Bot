@@ -13,54 +13,43 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public UpdateReceiver UpdateReceiver { get; }
 
-        public string[] AllowedUserNames { get; private set; }
+        public string[] AllowedUserNames { get; }
 
-        public int UserId { get; private set; }
+        public ChatId PrivateChatId { get; }
 
-        public ChatId PrivateChatId { get; private set; }
-
-        public ChatId SuperGroupChatId { get; private set; }
+        public ChatId SuperGroupChatId { get; }
 
         public string PaymentProviderToken { get; set; }
 
         public BotClientFixture()
         {
-            string apiToken = ConfigurationProvider.TelegramBot.ApiToken;
+            string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
             BotClient = new TelegramBotClient(apiToken);
 
             BotClient.DeleteWebhookAsync().Wait();
 
-            AllowedUserNames = ConfigurationProvider.TestAnalyst.AllowedUserNames;
+            AllowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNamesArray;
             UpdateReceiver = new UpdateReceiver(BotClient, AllowedUserNames);
 
-            /* ToDo:
-             * First check whether any config is provided for userId and chatId.
-             * If not, go and wait for `/test` to be initiated is some chat
-             * Also allow the config for a list of allowed UserNames, or allowed
-             * UserIds to initiate the test
-             */
+            PaymentProviderToken = ConfigurationProvider.TestConfigurations.PaymentProviderToken;
 
-            PaymentProviderToken = ConfigurationProvider.TelegramBot.PaymentProviderToken;
-
-            string superGroupChatId = ConfigurationProvider.TestAnalyst.SuperGroupChatId;
-            string privateChatId = ConfigurationProvider.TestAnalyst.PrivateChatId;
-
-            UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+            string superGroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
+            string privateChatId = ConfigurationProvider.TestConfigurations.PrivateChatId;
 
             if (string.IsNullOrWhiteSpace(superGroupChatId))
             {
-                throw new ArgumentNullException(nameof(ConfigurationProvider.TestAnalyst.SuperGroupChatId));
-                //WaitForTestAnalystToStart().Wait(); // todo
+                UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+                SuperGroupChatId = GetChatIdFromTesterAsync(ChatType.Supergroup).Result;
             }
             else
             {
                 SuperGroupChatId = superGroupChatId;
             }
 
-            if (string.IsNullOrWhiteSpace(superGroupChatId))
+            if (string.IsNullOrWhiteSpace(privateChatId))
             {
-                throw new ArgumentNullException(nameof(ConfigurationProvider.TestAnalyst.PrivateChatId));
-                //WaitForTestAnalystToStart().Wait(); // todo
+                UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+                PrivateChatId = GetChatIdFromTesterAsync(ChatType.Private).Result;
             }
             else
             {
@@ -75,7 +64,8 @@ namespace Telegram.Bot.Tests.Integ.Common
                 .Wait(source.Token);
         }
 
-        public async Task SendTestCaseNotification(string testcase, string instructions = null)
+        public async Task SendTestCaseNotificationAsync(string testcase, string instructions = null,
+            ChatType chatType = ChatType.Supergroup)
         {
             const string format = "Executing test case:\n*{0}*";
             const string instructionsFromat = "_Instructions_:\n{0}";
@@ -86,19 +76,31 @@ namespace Telegram.Bot.Tests.Integ.Common
                 text += string.Format("\n\n" + instructionsFromat, instructions);
             }
 
-            await BotClient.SendTextMessageAsync(SuperGroupChatId, text, ParseMode.Markdown);
+            ChatId chatid;
+
+            if (chatType == ChatType.Supergroup)
+            {
+                chatid = SuperGroupChatId;
+            }
+            else
+            {
+                chatid = PrivateChatId;
+            }
+
+            await BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
         }
 
-        private async Task WaitForTestAnalystToStart()
+        private async Task<ChatId> GetChatIdFromTesterAsync(ChatType chatType)
         {
-            var update = (await UpdateReceiver.GetUpdatesAsync(
-                u => u.Message?.Text?.Equals("/test", StringComparison.OrdinalIgnoreCase) == true,
+            var update = (await UpdateReceiver.GetUpdatesAsync(u =>
+                u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true &&
+                u.Message.Chat.Type == chatType,
                 updateTypes: UpdateType.MessageUpdate)).Single();
 
-            UserId = int.Parse(update.Message.From.Id);
-            SuperGroupChatId = update.Message.Chat.Id;
-
             await UpdateReceiver.DiscardNewUpdatesAsync();
+
+            ChatId chatid = update.Message.Chat.Id;
+            return chatid;
         }
 
         public void Dispose()
