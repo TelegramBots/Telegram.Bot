@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -841,10 +842,10 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="untilDate">Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever</param>
+        /// <param name="utcUntilDate">Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
-        public Task<bool> KickChatMemberAsync(ChatId chatId, int userId, int untilDate = 0,
+        public Task<bool> KickChatMemberAsync(ChatId chatId, int userId, DateTime? utcUntilDate = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
@@ -853,8 +854,11 @@ namespace Telegram.Bot
                 {"user_id", userId}
             };
 
-            if (untilDate != 0)
-                parameters.Add("until_date", untilDate);
+            if (utcUntilDate != null)
+            {
+                long epochTime = utcUntilDate.Value.ToUnixTime();
+                parameters.Add("until_date", epochTime);
+            }
 
             return SendWebRequestAsync<bool>("kickChatMember", parameters, cancellationToken);
         }
@@ -1740,7 +1744,7 @@ namespace Telegram.Bot
             };
 
             if (disableNotification)
-                parameters.Add("disable_notification", disableNotification);
+                parameters.Add("disable_notification", true);
 
             return SendWebRequestAsync<bool>("pinChatMessage", parameters, cancellationToken);
         }

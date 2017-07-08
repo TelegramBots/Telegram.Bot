@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
@@ -92,6 +93,32 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         #endregion
 
+        #region 2. Restrict, and Promote Chat Member
+
+        // todo
+
+        #endregion
+
+        #region 3. Kick chat member temporarily
+
+        [Fact(DisplayName = FactTitles.ShouldKickChatMemberTemporarily)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.KickChatMember)]
+        [ExecutionOrder(3)]
+        public async Task ShouldKickChatMemberTemporarily()
+        {
+            const int banSeconds = 35;
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberTemporarily,
+                $"{_classFixture.RegularMemberName} should be able to join again in *{banSeconds} seconds* " +
+                "via the link shared in private chat with him/her");
+
+            bool result = await _fixture.BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
+                _classFixture.RegularMemberId, DateTime.UtcNow.AddSeconds(banSeconds));
+
+            Assert.True(result);
+        }
+
+        #endregion
+
         private static class FactTitles
         {
             public const string ShouldKickChatMemberForEver = "Should kick user from chat and ban him/her for ever";
@@ -102,6 +129,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             public const string ShouldReceiveNewChatMemberNotification =
                 "Should receive a notification of new member (same kicked member) joining the chat";
+
+            public const string ShouldKickChatMemberTemporarily = "Should kick user from chat and ban him/her temporarily";
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             AssemblyFixture.SendTestCollectionNotificationAsync(
                 CommonConstants.TestCollections.ChatMemberAdministration,
-                "A non-admin chat member should should send `/me` command so bot can use his/her user id during tests.")
+                "A non-admin chat member should should send /me command so bot can use his/her user id during tests.")
                 .Wait();
 
             Message replyInGroup = GetRegularGroupChatMemberUserIdAsync().Result;
@@ -37,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             AssemblyFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
 
             AssemblyFixture.BotClient.SendTextMessageAsync(AssemblyFixture.SuperGroupChatId,
-                $"Now, {RegularMemberName} should send bot `/me` command in his/her private chat with bot.",
+                $"Now, {RegularMemberName} should send bot /me command in his/her private chat with bot.",
                 ParseMode.Markdown,
                 replyToMessageId: replyInGroup.MessageId).Wait();
 
