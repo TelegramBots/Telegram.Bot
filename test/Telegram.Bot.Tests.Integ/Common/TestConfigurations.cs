@@ -25,7 +25,7 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public string PaymentProviderToken { get; set; }
 
-        public string PrivateChatId { get; set; }
+        public string TesterPrivateChatId { get; set; }
 
         public string SuperGroupChatId { get; set; }
 

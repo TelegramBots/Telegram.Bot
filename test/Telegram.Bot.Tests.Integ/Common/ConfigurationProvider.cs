@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace Telegram.Bot.Tests.Integ.Common
@@ -20,9 +21,9 @@ namespace Telegram.Bot.Tests.Integ.Common
             TestConfigurations = new TestConfigurations
             {
                 ApiToken = configuration[nameof(TestConfigurations.ApiToken)],
-                PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
                 AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)],
-                PrivateChatId = configuration[nameof(TestConfigurations.PrivateChatId)],
+                PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
+                TesterPrivateChatId = configuration[nameof(TestConfigurations.TesterPrivateChatId)],
                 SuperGroupChatId = configuration[nameof(TestConfigurations.SuperGroupChatId)],
                 RegularMemberUserId = configuration[nameof(TestConfigurations.RegularMemberUserId)],
                 RegularMemberUserName = configuration[nameof(TestConfigurations.RegularMemberUserName)],
@@ -35,12 +36,8 @@ namespace Telegram.Bot.Tests.Integ.Common
             if (TestConfigurations.ApiToken?.Length < 25)
                 throw new ArgumentException("API token is too short.", nameof(TestConfigurations.ApiToken));
 
-            if (string.IsNullOrWhiteSpace(TestConfigurations.PaymentProviderToken))
-                throw new ArgumentNullException(nameof(TestConfigurations.PaymentProviderToken),
-                    "Payment provider token is not provided or is empty.");
-
-            if (TestConfigurations.PaymentProviderToken?.Length < 15)
-                throw new ArgumentException("Payment provider token is too short.", nameof(TestConfigurations.PaymentProviderToken));
+            if (!TestConfigurations.AllowedUserNamesArray.Any())
+                throw new ArgumentException("Allowed user names is not provided", nameof(TestConfigurations.AllowedUserNames));
         }
     }
 }

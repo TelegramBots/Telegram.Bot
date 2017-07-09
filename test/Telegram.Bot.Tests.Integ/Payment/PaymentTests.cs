@@ -11,15 +11,16 @@ namespace Telegram.Bot.Tests.Integ.Payment
 {
     [Collection(CommonConstants.TestCollections.Payment)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    public class PaymentTests // todo: : IClassFixture<>
+    public class PaymentTests : IClassFixture<PaymentTestsFixture>
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
-
         private readonly TestsFixture _fixture;
 
-        public PaymentTests(TestsFixture fixture)
+        private readonly PaymentTestsFixture _classFixture;
+
+        public PaymentTests(PaymentTestsFixture fixture)
         {
-            _fixture = fixture;
+            _classFixture = fixture;
+            _fixture = fixture.TestsFixture;
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendInvoice)]
@@ -27,7 +28,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [ExecutionOrder(1.1)]
         public async Task ShouldSendInvoice()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInvoice, chatType: ChatType.Private);
+            await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInvoice);
 
             const string payload = "my-payload";
 
@@ -44,11 +45,11 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.TesterPrivateChatId,
+            Message message = await _fixture.BotClient.SendInvoiceAsync(_classFixture.TesterPrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
-                providerToken: _fixture.PaymentProviderToken,
+                providerToken: _classFixture.PaymentProviderToken,
                 startParameter: invoice.StartParameter,
                 currency: invoice.Currency,
                 prices: prices
@@ -67,9 +68,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [ExecutionOrder(1.2)]
         public async Task ShouldAnswerShippingQueryWithOk()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerShippingQueryWithOk,
-                "Click on *Pay <amount>* and send your shipping address. You should see shipment options afterwards.",
-                ChatType.Private);
+            await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerShippingQueryWithOk,
+                "Click on *Pay <amount>* and send your shipping address. You should see shipment options afterwards.");
 
             const string payload = "shippingquery-ok-payload";
 
@@ -100,11 +100,11 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 }
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.TesterPrivateChatId,
+            Message message = await _fixture.BotClient.SendInvoiceAsync(_classFixture.TesterPrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
-                providerToken: _fixture.PaymentProviderToken,
+                providerToken: _classFixture.PaymentProviderToken,
                 startParameter: invoice.StartParameter,
                 currency: invoice.Currency,
                 prices: productPrices,
@@ -114,7 +114,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             Update shippingUpdate = await GetShippingQueryUpdate();
 
-            bool result = await BotClient.AnswerShippingQueryAsync(
+            bool result = await _fixture.BotClient.AnswerShippingQueryAsync(
                 shippingUpdate.ShippingQuery.Id,
                 true,
                 shippingOptions
@@ -137,8 +137,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [ExecutionOrder(1.3)]
         public async Task ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
-                "Click on *Pay <amount>* and confirm payment. Transaction should be completed.", ChatType.Private);
+            await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
+                "Click on *Pay <amount>* and confirm payment. Transaction should be completed.");
 
             const string payload = "precheckout-ok-payload";
 
@@ -155,11 +155,11 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.TesterPrivateChatId,
+            Message message = await _fixture.BotClient.SendInvoiceAsync(_classFixture.TesterPrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
-                providerToken: _fixture.PaymentProviderToken,
+                providerToken: _classFixture.PaymentProviderToken,
                 startParameter: invoice.StartParameter,
                 currency: invoice.Currency,
                 prices: productPrices
@@ -168,7 +168,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             Update precheckoutUpdate = await GetPreCheckoutQueryUpdate();
             PreCheckoutQuery query = precheckoutUpdate.PreCheckoutQuery;
 
-            bool result = await BotClient.AnswerPreCheckoutQueryAsync(
+            bool result = await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
                 query.Id,
                 true
             );
