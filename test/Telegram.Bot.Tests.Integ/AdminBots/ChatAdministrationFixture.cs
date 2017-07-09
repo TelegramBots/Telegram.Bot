@@ -55,7 +55,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
                 Message replyInGroup = GetRegularGroupChatMemberUserIdAsync().Result;
                 RegularMemberUserId = int.Parse(replyInGroup.From.Id);
-                RegularMemberUserName = '@' + replyInGroup.From.Username;
+                RegularMemberUserName = replyInGroup.From.Username;
 
                 TestsFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
 

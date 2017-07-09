@@ -38,11 +38,6 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 
 ## API Coverage
 
-* [Inline Mode](https://core.telegram.org/bots/inline)
-* [Bot API 3.0](https://core.telegram.org/bots/api-changelog)
-* [Payments](https://core.telegram.org/bots/payments) (Needs some testing)
-* [Games](https://core.telegram.org/bots/games)
+Up to [Bot API 3.1](https://core.telegram.org/bots/api-changelog#june-30-2017)
 
-Missing / TODO (last check 07.06.2017):
-
-* [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
+[Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
