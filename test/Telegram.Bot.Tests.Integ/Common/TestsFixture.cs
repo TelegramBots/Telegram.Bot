@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Tests.Integ.AdminBots;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Common
 {
-    public class BotClientFixture : IDisposable
+    public class TestsFixture : IDisposable
     {
         public ITelegramBotClient BotClient { get; }
 
@@ -15,13 +16,13 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public string[] AllowedUserNames { get; }
 
-        public ChatId PrivateChatId { get; }
+        public ChatId TesterPrivateChatId { get; }
 
         public ChatId SuperGroupChatId { get; }
 
         public string PaymentProviderToken { get; set; }
 
-        public BotClientFixture()
+        public TestsFixture()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
             BotClient = new TelegramBotClient(apiToken);
@@ -36,6 +37,8 @@ namespace Telegram.Bot.Tests.Integ.Common
             string superGroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
             string privateChatId = ConfigurationProvider.TestConfigurations.PrivateChatId;
 
+            #region Validations
+
             if (string.IsNullOrWhiteSpace(superGroupChatId))
             {
                 UpdateReceiver.DiscardNewUpdatesAsync().Wait();
@@ -46,15 +49,18 @@ namespace Telegram.Bot.Tests.Integ.Common
                 SuperGroupChatId = superGroupChatId;
             }
 
-            if (string.IsNullOrWhiteSpace(privateChatId))
-            {
-                UpdateReceiver.DiscardNewUpdatesAsync().Wait();
-                PrivateChatId = GetChatIdFromTesterAsync(ChatType.Private).Result;
-            }
-            else
-            {
-                PrivateChatId = privateChatId;
-            }
+            // todo test this is payments fixture
+            //if (string.IsNullOrWhiteSpace(privateChatId))
+            //{
+            //    UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+            //    TesterPrivateChatId = GetChatIdFromTesterAsync(ChatType.Private).Result;
+            //}
+            //else
+            //{
+            //    TesterPrivateChatId = privateChatId;
+            //}
+
+            #endregion
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));
             BotClient.SendTextMessageAsync(SuperGroupChatId,
@@ -106,7 +112,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             }
             else
             {
-                chatid = PrivateChatId;
+                chatid = TesterPrivateChatId;
             }
 
             var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);

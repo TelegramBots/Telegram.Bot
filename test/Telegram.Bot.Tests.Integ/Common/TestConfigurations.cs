@@ -1,4 +1,6 @@
-﻿namespace Telegram.Bot.Tests.Integ.Common
+﻿using System.Linq;
+
+namespace Telegram.Bot.Tests.Integ.Common
 {
     public class TestConfigurations
     {
@@ -12,7 +14,10 @@
             {
                 if (_allowedUsers == null)
                 {
-                    _allowedUsers = AllowedUserNames.Split(',');
+                    _allowedUsers = AllowedUserNames
+                        .Split(',')
+                        .Select(n => n.Trim())
+                        .ToArray();
                 }
                 return _allowedUsers;
             }
@@ -23,6 +28,12 @@
         public string PrivateChatId { get; set; }
 
         public string SuperGroupChatId { get; set; }
+
+        public string RegularMemberUserId { get; set; }
+
+        public string RegularMemberUserName { get; set; }
+
+        public string RegularMemberPrivateChatId { get; set; }
 
         private string[] _allowedUsers;
     }

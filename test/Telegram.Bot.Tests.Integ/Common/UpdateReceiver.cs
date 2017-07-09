@@ -84,7 +84,7 @@ namespace Telegram.Bot.Tests.Integ.Common
                 else
                 {
                     offset = updates.LastOrDefault()?.Id + 1 ?? 0;
-                    await Task.Delay(5_000, cancellationToken);
+                    await Task.Delay(1_500, cancellationToken);
                 }
             }
 

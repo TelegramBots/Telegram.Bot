@@ -12,9 +12,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly BotClientFixture _fixture;
+        private readonly TestsFixture _fixture;
 
-        public MessageSendingTests(BotClientFixture fixture)
+        public MessageSendingTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }

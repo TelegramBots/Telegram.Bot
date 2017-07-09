@@ -24,6 +24,9 @@ namespace Telegram.Bot.Tests.Integ.Common
                 AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)],
                 PrivateChatId = configuration[nameof(TestConfigurations.PrivateChatId)],
                 SuperGroupChatId = configuration[nameof(TestConfigurations.SuperGroupChatId)],
+                RegularMemberUserId = configuration[nameof(TestConfigurations.RegularMemberUserId)],
+                RegularMemberUserName = configuration[nameof(TestConfigurations.RegularMemberUserName)],
+                RegularMemberPrivateChatId = configuration[nameof(TestConfigurations.RegularMemberPrivateChatId)],
             };
 
             if (string.IsNullOrWhiteSpace(TestConfigurations.ApiToken))

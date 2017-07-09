@@ -15,9 +15,9 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly BotClientFixture _fixture;
+        private readonly TestsFixture _fixture;
 
-        public CallbackQueryTests(BotClientFixture fixture)
+        public CallbackQueryTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }

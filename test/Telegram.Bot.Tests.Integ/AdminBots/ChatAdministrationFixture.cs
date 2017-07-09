@@ -9,45 +9,69 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 {
     public class ChatAdministrationFixture
     {
-        public BotClientFixture AssemblyFixture { get; }
+        public TestsFixture TestsFixture { get; }
 
-        public int RegularMemberId { get; }
+        public int RegularMemberUserId { get; }
 
-        public string RegularMemberName { get; }
+        public string RegularMemberUserName { get; }
 
         public ChatId RegularMemberPrivateChatId { get; }
 
         public string GroupInviteLink { get; set; }
 
-        public ChatAdministrationFixture(BotClientFixture assemblyFixture)
+        public ChatAdministrationFixture(TestsFixture testsFixture)
         {
-            AssemblyFixture = assemblyFixture;
+            TestsFixture = testsFixture;
 
-            // ToDo: check for this USERID in appsettings first
+            bool isUserIdNull = string.IsNullOrWhiteSpace(ConfigurationProvider.TestConfigurations.RegularMemberUserId);
+            bool isUserNameNull =
+                string.IsNullOrWhiteSpace(ConfigurationProvider.TestConfigurations.RegularMemberUserName);
+            bool isChatIdNull = string.IsNullOrWhiteSpace(ConfigurationProvider.TestConfigurations
+                .RegularMemberPrivateChatId);
 
-            AssemblyFixture.SendTestCollectionNotificationAsync(
-                CommonConstants.TestCollections.ChatMemberAdministration,
-                "A non-admin chat member should should send /me command so bot can use his/her user id during tests.")
-                .Wait();
+            // All must have values or all must be null
+            if (!(isUserIdNull == isUserNameNull && isUserNameNull == isChatIdNull))
+            {
+                throw new ArgumentException("All (or none) of Regular Chat Member configurations should be provided.");
+            }
 
-            Message replyInGroup = GetRegularGroupChatMemberUserIdAsync().Result;
-            RegularMemberId = int.Parse(replyInGroup.From.Id);
-            RegularMemberName = '@' + replyInGroup.From.Username;
+            bool configValuesExist = !isUserIdNull;
 
-            AssemblyFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+            if (configValuesExist)
+            {
+                RegularMemberUserId = int.Parse(ConfigurationProvider.TestConfigurations.RegularMemberUserId);
+                RegularMemberUserName = ConfigurationProvider.TestConfigurations.RegularMemberUserName;
+                RegularMemberPrivateChatId = ConfigurationProvider.TestConfigurations.RegularMemberPrivateChatId;
 
-            AssemblyFixture.BotClient.SendTextMessageAsync(AssemblyFixture.SuperGroupChatId,
-                $"Now, {RegularMemberName} should send bot /me command in his/her private chat with bot.",
-                ParseMode.Markdown,
-                replyToMessageId: replyInGroup.MessageId).Wait();
+                testsFixture.SendTestCollectionNotificationAsync(
+                    CommonConstants.TestCollections.ChatMemberAdministration).Wait();
+            }
+            else
+            {
+                testsFixture.SendTestCollectionNotificationAsync(
+                        CommonConstants.TestCollections.ChatMemberAdministration,
+                        "A non-admin chat member should send /me command so bot can use his/her user id during tests.")
+                    .Wait();
 
-            Message replyInPrivate = GetRegularMemberPrivateChatIdAsync(RegularMemberId).Result;
-            RegularMemberPrivateChatId = replyInPrivate.Chat.Id;
+                Message replyInGroup = GetRegularGroupChatMemberUserIdAsync().Result;
+                RegularMemberUserId = int.Parse(replyInGroup.From.Id);
+                RegularMemberUserName = '@' + replyInGroup.From.Username;
+
+                testsFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+
+                testsFixture.BotClient.SendTextMessageAsync(testsFixture.SuperGroupChatId,
+                    $"Now, {RegularMemberUserName} should send bot /me command in his/her private chat with bot.",
+                    ParseMode.Markdown,
+                    replyToMessageId: replyInGroup.MessageId).Wait();
+
+                Message replyInPrivate = GetRegularMemberPrivateChatIdAsync(RegularMemberUserId).Result;
+                RegularMemberPrivateChatId = replyInPrivate.Chat.Id;
+            }
         }
 
         private async Task<Message> GetRegularGroupChatMemberUserIdAsync()
         {
-            var update = (await AssemblyFixture.UpdateReceiver.GetUpdatesAsync(u =>
+            var update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Supergroup &&
                     u.Message.Text?.StartsWith("/me", StringComparison.OrdinalIgnoreCase) == true,
                 updateTypes: UpdateType.MessageUpdate)).Single();
@@ -59,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         private async Task<Message> GetRegularMemberPrivateChatIdAsync(ChatId userid)
         {
-            var update = (await AssemblyFixture.UpdateReceiver.GetUpdatesAsync(u =>
+            var update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Private &&
                     u.Message.From.Id.ToString() == userid.ToString() &&
                     u.Message.Text?.StartsWith("/me", StringComparison.OrdinalIgnoreCase) == true,

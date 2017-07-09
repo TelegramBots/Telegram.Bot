@@ -11,13 +11,13 @@ namespace Telegram.Bot.Tests.Integ.Payment
 {
     [Collection(CommonConstants.TestCollections.Payment)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    public class PaymentTests
+    public class PaymentTests // todo: : IClassFixture<>
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly BotClientFixture _fixture;
+        private readonly TestsFixture _fixture;
 
-        public PaymentTests(BotClientFixture fixture)
+        public PaymentTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }
@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             const string payload = "my-payload";
 
             LabeledPrice[] prices = {
-                new LabeledPrice() {Amount = 150, Label = "One dolloar 50 cents"},
+                new LabeledPrice() {Amount = 150, Label = "One dollar 50 cents"},
                 new LabeledPrice() {Amount = 2029, Label = "20 dollars 29 cents"},
             };
             Invoice invoice = new Invoice
@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.PrivateChatId,
+            Message message = await BotClient.SendInvoiceAsync(_fixture.TesterPrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -74,7 +74,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             const string payload = "shippingquery-ok-payload";
 
             LabeledPrice[] productPrices = {
-                new LabeledPrice {Amount = 150, Label = "One dolloar 50 cents"},
+                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
                 new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
             };
             Invoice invoice = new Invoice
@@ -100,7 +100,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 }
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.PrivateChatId,
+            Message message = await BotClient.SendInvoiceAsync(_fixture.TesterPrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -143,7 +143,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             const string payload = "precheckout-ok-payload";
 
             LabeledPrice[] productPrices = {
-                new LabeledPrice {Amount = 150, Label = "One dolloar 50 cents"},
+                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
                 new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
             };
             Invoice invoice = new Invoice
@@ -155,7 +155,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            Message message = await BotClient.SendInvoiceAsync(_fixture.PrivateChatId,
+            Message message = await BotClient.SendInvoiceAsync(_fixture.TesterPrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,

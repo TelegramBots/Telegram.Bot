@@ -12,9 +12,9 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly BotClientFixture _fixture;
+        private readonly TestsFixture _fixture;
 
-        public GettingUpdatesTests(BotClientFixture fixture)
+        public GettingUpdatesTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }

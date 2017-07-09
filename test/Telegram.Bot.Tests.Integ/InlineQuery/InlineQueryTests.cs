@@ -16,9 +16,9 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly BotClientFixture _fixture;
+        private readonly TestsFixture _fixture;
 
-        public InlineQueryTests(BotClientFixture fixture)
+        public InlineQueryTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }

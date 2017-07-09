@@ -12,9 +12,9 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     public class AdminBotTests
     {
-        private readonly BotClientFixture _fixture;
+        private readonly TestsFixture _fixture;
 
-        public AdminBotTests(BotClientFixture assemblyFixture)
+        public AdminBotTests(TestsFixture assemblyFixture)
         {
             _fixture = assemblyFixture;
         }
