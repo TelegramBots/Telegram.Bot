@@ -2,9 +2,23 @@
 
 Integration tests are meant to test the project with real data from Telegram. They are semi-automated tests and tester(s) need to interact with bot for some cases during the test execution. Tests could be used as a playground for exploring Bot API methods.
 
+## Sample Test Diagnostics Output
+
+All the test output goes into the supergroup/private chats specified in configurations or interactively during test execution. You can see some samples of test output below.
+
+Admin bots can change chat photo.
+
+![Test Case: Set Chat Photo](./images/testcase-chatphoto.jpg)
+
+Invoices could be paid in private chats.
+
+![Test Case: Set Chat Photo](./images/testcase-payment.jpg)
+
 ## How Tests Works
 
-These integration tests are written just like regular unit tests with xUnit framework. When you build the solution, you will see them in Test Explorer window. Tests could be run through .NET Core's CLI as well and that's how this project's CI is set up.
+These integration tests are written just like regular unit tests with xUnit framework so they seem to be unit tests. When you run test(s), bot makes a request to Bot API and you should see results(message or service notification) in the chat with bot.
+
+When you build the solution, you will see them in Test Explorer window. Tests could be run through .NET Core's CLI as well and that's how this project's CI is set up.
 
 A bot, of course, is needed to test Bot API. This document refers to its user name as _MyTestBot_.
 
@@ -21,8 +35,7 @@ Tests could be run individually, in collections, or all at once. All the test co
 
 ## Test Environment Setup
 
-Create a Super Group and add bot to it as an admin. This group needs to have another regular(non-admin) member to be used
-in tests for chat administration methods(such as Kick, Restrict, Unban). A super group with 2 testers in it, one admin and the other non-admin member, is enough.
+Create a Super Group and add bot to it. Promote bot to admin and make sure it has all the permissions. This group needs to have another regular(non-admin) member to be used in tests for chat administration methods(such as Kick, Restrict, Unban). A super group with 2 testers in it, one admin and the other non-admin member, is enough.
 
 Bot should have some features enabled, usually through BotFather, in order to pass tests. These features are listed below:
 

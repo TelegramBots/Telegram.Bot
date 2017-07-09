@@ -54,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.Common
         public async Task<Message> SendTestCaseNotificationAsync(string testcase, string instructions = null,
             ChatId chatid = null)
         {
-            Message msg = await SendNotificationToChatAsync(false, testcase, instructions);
+            Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid);
             return msg;
         }
 

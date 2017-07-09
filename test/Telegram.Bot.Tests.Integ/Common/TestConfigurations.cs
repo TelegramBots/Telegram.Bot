@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Telegram.Bot.Tests.Integ.Common
 {
@@ -15,7 +16,7 @@ namespace Telegram.Bot.Tests.Integ.Common
                 if (_allowedUsers == null)
                 {
                     _allowedUsers = AllowedUserNames
-                        .Split(',')
+                        .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                         .Select(n => n.Trim())
                         .ToArray();
                 }
