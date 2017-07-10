@@ -570,7 +570,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <param name="untilDate">Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever</param>
+        /// <param name="utcUntilDate">Date when restrictions will be lifted for the user, UTC DateTime. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever</param>
         /// <param name="canSendMessages">Pass True, if the user can send text messages, contacts, locations and venues</param>
         /// <param name="canSendMediaMessages">Pass True, if the user can send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages</param>
         /// <param name="canSendOtherMessages">Pass True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages</param>
@@ -578,7 +578,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned</returns>
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
-        Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, int untilDate = 0,
+        Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime? utcUntilDate = null,
             bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
             bool? canAddWebPagePreviews = null,
             CancellationToken cancellationToken = default(CancellationToken));
@@ -898,6 +898,7 @@ namespace Telegram.Bot
         #endregion Games
 
         #region Group and channel management
+        
         /// <summary>
         /// Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
         /// </summary>
@@ -963,7 +964,6 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         Task<bool> UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken));
-
 
         #endregion
     }

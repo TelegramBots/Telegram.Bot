@@ -62,6 +62,10 @@
             public const string KickChatMember = "kickChatMember";
 
             public const string UnbanChatMember = "unbanChatMember";
+
+            public const string RestrictChatMember = "restrictChatMember";
+
+            public const string PromoteChatMember = "promoteChatMember";
         }
     }
 }

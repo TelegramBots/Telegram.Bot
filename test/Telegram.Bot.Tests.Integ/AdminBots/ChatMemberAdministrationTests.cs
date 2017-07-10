@@ -93,9 +93,41 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         #endregion
 
-        #region 2. Restrict, and Promote Chat Member
+        #region 2. Promote and Restrict Chat Member
 
-        // todo
+        [Fact(DisplayName = FactTitles.ShouldPromoteUserToChangeChatInfo)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PromoteChatMember)]
+        [ExecutionOrder(2.1)]
+        public async Task ShouldPromoteUserToChangeChatInfo()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPromoteUserToChangeChatInfo);
+
+            bool result = await _fixture.BotClient.PromoteChatMemberAsync(
+                _fixture.SuperGroupChatId,
+                _classFixture.RegularMemberUserId,
+                canChangeInfo: false);
+
+            Assert.True(result);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldRestrictSendingStickersTemporarily)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.RestrictChatMember)]
+        [ExecutionOrder(2.2)]
+        public async Task ShouldRestrictSendingStickersTemporarily()
+        {
+            const int banSeconds = 35;
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRestrictSendingStickersTemporarily);
+
+            bool result = await _fixture.BotClient.RestrictChatMemberAsync(
+                _fixture.SuperGroupChatId,
+                _classFixture.RegularMemberUserId,
+                DateTime.UtcNow.AddSeconds(banSeconds),
+                canSendMessages: true,
+                canSendMediaMessages: true,
+                canSendOtherMessages: false);
+
+            Assert.True(result);
+        }
 
         #endregion
 
@@ -131,6 +163,10 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
                 "Should receive a notification of new member (same kicked member) joining the chat";
 
             public const string ShouldKickChatMemberTemporarily = "Should kick user from chat and ban him/her temporarily";
+
+            public const string ShouldPromoteUserToChangeChatInfo = "Should promote chat member to change chat information";
+
+            public const string ShouldRestrictSendingStickersTemporarily = "Should restrict chat member from sending stickers temporarily";
         }
     }
 }
