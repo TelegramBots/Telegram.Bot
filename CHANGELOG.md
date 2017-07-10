@@ -1,16 +1,29 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [12.0.0] - Upcomming
+## [12.0.0] - 2017-07-10
+
 ### Added
+
+- Integration Tests
 - Method `DeleteMessageAsync`
 - Method `SendVideoNoteAsync`
 - Method `SendInvoiceAsync`
 - Method `AnswerShippingQueryAsync`
 - Method `AnswerPreCheckoutQueryAsync`
+- Method `RestrictChatMemberAsync`
+- Method `PromoteChatMemberAsync`
+- Method `ExportChatInviteLinkAsync`
+- Method `SetChatPhotoAsync`
+- Method `DeleteChatPhotoAsync`
+- Method `SetChatTitle`
+- Method `SetChatDescriptionAsync`
+- Method `PinChatMessageAsync`
+- Method `UnpinChatMessageAsync`
 - Type `Invoice`
 - Type `LabeledPrice`
 - Type `ShippingAddress`
@@ -26,12 +39,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `InlineQueryResultGif` porperty `Duration`
 - Type `InlineQueryResultMpeg4Gif` porperty `Duration`
 - Type `InlineeyboardButton` property `Pay`
+- Type `Chat` properties `ChatPhoto`, `Description`, and `InviteLink`
+- Type `ChatMember` properties `UntilDate`, `CanBeEdited`, `CanChangeInfo`, `CanPostMessages`, `CanEditMessages`, `CanDeleteMessages`, `CanInviteUsers`, `CanRestrictMembers`, `CanPinMessages`, `CanPromoteMembers`, `CanSendMessages`, `CanSendMediaMessages`, `CanSendOtherMessages`, and `CanAddWebPagePreviews`
 - Enum `ChatAction` members `RecordVideoNote` and `UplaodVideoNote`
 - Enum `UpdateType` members `ShippingQuery` and `PreCheckoutQuery`
+
 ### Changed
+
 - Property `NewChatMember` replaced with `NewChatMembers` on Type `Message`
+
 ## [Past]
+
 ### Added
+
 - Method `SetWebHookAsync` parameters `maxConnections`, `allowedUpdates`
 - Method `AnswerCallbackQueryAsync` parameter `cacheTime`
 - Method `StartReceiving` parameter `allowedUpdates`
@@ -64,6 +84,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Enum `MesageType` member `Game`
 
 ### Changed
+
 - Now the `HttpClient` will be reused
 - Consolidated timeouts
 - To use a proxy, use the constructor
@@ -72,6 +93,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Replaced all file sending overloads with `FileToSend`
 
 ### Removed
+
 - Removed deprecated API class
 - Removed deprecated methods and events
 - Removed `StartReceiving` overload with `timeout` parameter

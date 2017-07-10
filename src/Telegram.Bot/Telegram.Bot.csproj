@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Telegram.Bot.Core</PackageId>
     <TargetFramework>netstandard1.1</TargetFramework>
-    <PackageVersion>12.0.0-beta-05</PackageVersion>
+    <PackageVersion>12.0.0</PackageVersion>
     <AssemblyName>Telegram.Bot</AssemblyName>
     <AssemblyTitle>Telegram.Bot</AssemblyTitle>
     <PackageTags>telegram bot chatbot chat netcore</PackageTags>
@@ -14,7 +14,7 @@
 
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Product>Telegram Bot API</Product>
-    <Description>Telegram Bot API Class Library</Description>
+    <Description>Telegram Bot API Library</Description>
 
     <Product>Telegram Bot API</Product>
     <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot.Core</PackageProjectUrl>
@@ -22,7 +22,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot.Core/master/LICENSE.txt</PackageLicenseUrl>
-    <PackageReleaseNotes>Bot API 3.0</PackageReleaseNotes>
+    <PackageReleaseNotes>Telegram Bot API 3.1</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
