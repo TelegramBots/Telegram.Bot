@@ -21,6 +21,7 @@ using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 
 using File = Telegram.Bot.Types.File;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot
 {
@@ -150,6 +151,10 @@ namespace Telegram.Bot
 
             _token = token;
             _httpClient = httpClient ?? new HttpClient();
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>() { new UnixDateTimeConverter() }
+            };
         }
         
         /// <summary>
@@ -171,6 +176,10 @@ namespace Telegram.Bot
 
             _token = token;
             _httpClient = new HttpClient(httpClientHander);
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
+            {
+                Converters = new List<JsonConverter>() { new UnixDateTimeConverter() }
+            };
         }
 
 
