@@ -151,7 +151,7 @@ namespace Telegram.Bot
             _token = token;
             _httpClient = httpClient ?? new HttpClient();
         }
-
+        
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance behind a proxy.
         /// </summary>
@@ -840,13 +840,13 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="untilDate">Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
         public Task<bool> KickChatMemberAsync(ChatId chatId, int userId,
-            CancellationToken cancellationToken = default(CancellationToken),
-            int untilDate = 0)
+            int untilDate = 0,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1859,8 +1859,7 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Request timed out", 408, e);
             }
             catch (HttpRequestException e)
-                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
-            { }
+                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) { }
 
             if (responseObject == null)
                 responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
