@@ -578,6 +578,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned</returns>
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#restrictchatmember"/>
         Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilTime = default(DateTime),
             bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
             bool? canAddWebPagePreviews = null,
@@ -599,6 +600,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns True on success.</returns>
         /// <remarks>Pass False for all boolean parameters to demote a user.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
         Task<bool> PromoteChatMemberAsync(ChatId chatId, int userId, bool? canChangeInfo = null,
             bool? canPostMessages = null, bool? canEditMessages = null, bool? canDeleteMessages = null,
             bool? canInviteUsers = null, bool? canRestrictMembers = null, bool? canPinMessages = null,
@@ -904,6 +906,7 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns exported invite link as String on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#exportchatinvitelink"/>
         Task<string> ExportChatInviteLinkAsync(ChatId chatId,
             CancellationToken cancellationToken = default(CancellationToken));
 
@@ -914,6 +917,7 @@ namespace Telegram.Bot
         /// <param name="photo">The new profile picture for the chat.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
         Task<bool> SetChatPhotoAsync(ChatId chatId, FileToSend photo, 
             CancellationToken cancellationToken = default(CancellationToken));
 
@@ -923,6 +927,7 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
         Task<bool> DeleteChatPhotoAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -932,6 +937,7 @@ namespace Telegram.Bot
         /// <param name="title">New chat title, 1-255 characters</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchattitle"/>
         Task<bool> SetChatTitleAsync(ChatId chatId, string title,
             CancellationToken cancellationToken = default(CancellationToken));
 
@@ -942,6 +948,7 @@ namespace Telegram.Bot
         /// <param name="description">New chat description, 0-255 characters</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchatdescription"/>
         Task<bool> SetChatDescriptionAsync(ChatId chatId, string description,
             CancellationToken cancellationToken = default(CancellationToken));
 
@@ -953,6 +960,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Pass True, if it is not necessary to send a notification to all group members about the new pinned message</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#pinchatmessage"/>
         Task<bool> PinChatMessageAsync(ChatId chatId, int messageId, bool disableNotification = false,
             CancellationToken cancellationToken = default(CancellationToken));
 
@@ -962,6 +970,7 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
+        /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
         Task<bool> UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken));
 
 
