@@ -845,17 +845,15 @@ namespace Telegram.Bot
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
         public Task<bool> KickChatMemberAsync(ChatId chatId, int userId,
-            int untilDate = 0,
+            DateTime untilDate = default(DateTime),
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId},
-                {"user_id", userId}
+                {"user_id", userId},
+                {"until_date", untilDate.ToFileTimeUtc()}
             };
-
-            if (untilDate != 0)
-                parameters.Add("until_date", untilDate);
 
             return SendWebRequestAsync<bool>("kickChatMember", parameters, cancellationToken);
         }
