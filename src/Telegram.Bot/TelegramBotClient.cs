@@ -151,10 +151,6 @@ namespace Telegram.Bot
 
             _token = token;
             _httpClient = httpClient ?? new HttpClient();
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
-            {
-                Converters = new List<JsonConverter>() { new UnixDateTimeConverter() }
-            };
         }
         
         /// <summary>
@@ -176,13 +172,8 @@ namespace Telegram.Bot
 
             _token = token;
             _httpClient = new HttpClient(httpClientHander);
-            JsonConvert.DefaultSettings = () => new JsonSerializerSettings()
-            {
-                Converters = new List<JsonConverter>() { new UnixDateTimeConverter() }
-            };
         }
-
-
+        
         #region Helpers
 
         /// <summary>
@@ -1849,7 +1840,7 @@ namespace Telegram.Bot
                 {
                     // Request with JSON data
 
-                    var payload = JsonConvert.SerializeObject(parameters);
+                    var payload = JsonConvert.SerializeObject(parameters, new UnixDateTimeConverter());
 
                     var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
