@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using Telegram.Bot.Args;
+using Telegram.Bot.Converters;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -35,6 +36,19 @@ namespace Telegram.Bot
         private readonly string _token;
         private bool _invalidToken;
         private readonly HttpClient _httpClient;
+
+        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        {
+            Converters = new List<JsonConverter>
+            {
+                new ChatIdConverter(),
+                new FileToSendConverter(),
+                new InlineQueryResultTypeConverter(),
+                new ParseModeConverter(),
+                new PhotoSizeConverter(),
+                new UnixDateTimeConverter(),
+            },
+        };
 
         #region Config Properties
 
@@ -1607,7 +1621,7 @@ namespace Telegram.Bot
                 {
                     // Request with JSON data
 
-                    var payload = JsonConvert.SerializeObject(parameters);
+                    var payload = JsonConvert.SerializeObject(parameters, SerializerSettings);
 
                     var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
@@ -1618,7 +1632,7 @@ namespace Telegram.Bot
                 var responseString = await response.Content.ReadAsStringAsync()
                                                     .ConfigureAwait(false);
 
-                responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
+                responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString, SerializerSettings);
 
                 response.EnsureSuccessStatusCode();
             }
@@ -1653,15 +1667,10 @@ namespace Telegram.Bot
 
             switch (typeName)
             {
-                case "String":
-                case "Int32":
-                    return new StringContent(value.ToString(), Encoding.UTF8);
-                case "Boolean":
-                    return new StringContent((bool)value ? "true" : "false");
                 case "FileToSend":
                     return new StreamContent(((FileToSend)value).Content);
                 default:
-                    return new StringContent(JsonConvert.SerializeObject(value));
+                    return new StringContent(JsonConvert.SerializeObject(value, SerializerSettings));
             }
         }
         #endregion

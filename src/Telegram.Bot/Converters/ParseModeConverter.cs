@@ -12,9 +12,10 @@ namespace Telegram.Bot.Converters
         
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-            =>ParseModeExtensions.StringMap.FirstOrDefault(mode => mode.Value == reader.ReadAsString());
+            => ParseModeExtensions.StringMap.FirstOrDefault(mode => mode.Value == reader.ReadAsString());
         
 
-        public override bool CanConvert(Type objectType) => objectType == typeof (ParseMode);
+        public override bool CanConvert(Type objectType)
+            => objectType == typeof (ParseMode);
     }
 }
