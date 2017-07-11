@@ -578,7 +578,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned</returns>
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
-        Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, int untilDate = 0,
+        Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilTime = default(DateTime),
             bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
             bool? canAddWebPagePreviews = null,
             CancellationToken cancellationToken = default(CancellationToken));

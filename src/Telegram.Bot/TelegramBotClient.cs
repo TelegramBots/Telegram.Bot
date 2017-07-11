@@ -852,8 +852,10 @@ namespace Telegram.Bot
             {
                 {"chat_id", chatId},
                 {"user_id", userId},
-                {"until_date", untilDate.ToFileTimeUtc()}
             };
+
+            if (untilDate != default(DateTime))
+                parameters.Add("until_date", untilDate);
 
             return SendWebRequestAsync<bool>("kickChatMember", parameters, cancellationToken);
         }
@@ -1023,7 +1025,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned</returns>
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
-        public Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, int untilDate = 0,
+        public Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilDate = default(DateTime),
             bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
             bool? canAddWebPagePreviews = null, 
             CancellationToken cancellationToken = default(CancellationToken))
@@ -1034,7 +1036,7 @@ namespace Telegram.Bot
                 { "user_id", userId }
             };
 
-            if (untilDate != 0)
+            if (untilDate != default(DateTime))
                 parameters.Add("until_date", untilDate);
 
             if (canSendMessages != null)

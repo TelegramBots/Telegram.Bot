@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
@@ -23,15 +24,11 @@ namespace Telegram.Bot.Types
         public ChatMemberStatus Status { get; set; }
 
         /// <summary>
-        /// Optional. Restictred and kicked only. Date when restrictions will be lifted for this user, unix time
-        /// </summary>
-        [JsonProperty(PropertyName = "until_date", Required = Required.Default)]
-        private long UntilDateUnix = 0;
-
-        /// <summary>
         /// Optional. Restictred and kicked only. Date when restrictions will be lifted for this user, UTC time
         /// </summary>
-        public DateTime UntilDate { get { return DateTime.FromFileTimeUtc(UntilDateUnix); } set { UntilDateUnix = value.ToFileTimeUtc(); } }
+        [JsonProperty(PropertyName = "until_date", Required = Required.Default)]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime UntilDate { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the bot is allowed to edit administrator privileges of that user
