@@ -29,9 +29,9 @@ namespace Telegram.Bot.Converters
             if (value is DateTime || value is Nullable<DateTime>)
             {
 #if NET46
-                val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
+                val = new DateTimeOffset((DateTime)value).ToUniversalTime().ToUnixTimeSeconds();
 #else
-                val = ((DateTime)value).ToUnixTime();
+                val = ((DateTime)value).ToUniversalTime().ToUnixTime();
 #endif
             }
             else
