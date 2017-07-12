@@ -75,7 +75,7 @@ namespace Telegram.Bot.Types
         {
             try
             {
-                 return Convert.ToInt32(chatid.Identifier)
+                 return Convert.ToInt32(chatid.Identifier);
             }
             catch(OverflowException)
             {
