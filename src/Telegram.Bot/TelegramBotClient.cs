@@ -37,6 +37,19 @@ namespace Telegram.Bot
         private bool _invalidToken;
         private readonly HttpClient _httpClient;
 
+        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
+        {
+            Converters = new List<JsonConverter>
+            {
+                new ChatIdConverter(),
+                new FileToSendConverter(),
+                new InlineQueryResultTypeConverter(),
+                new ParseModeConverter(),
+                new PhotoSizeConverter(),
+                new UnixDateTimeConverter(),
+            },
+        };
+
         #region Config Properties
 
         /// <summary>
@@ -1840,7 +1853,7 @@ namespace Telegram.Bot
                 {
                     // Request with JSON data
 
-                    var payload = JsonConvert.SerializeObject(parameters, new UnixDateTimeConverter());
+                    var payload = JsonConvert.SerializeObject(parameters, SerializerSettings);
 
                     var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
@@ -1868,7 +1881,8 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Request timed out", 408, e);
             }
             catch (HttpRequestException e)
-                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409")) { }
+                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
+            { }
 
             if (responseObject == null)
                 responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
