@@ -165,7 +165,7 @@ namespace Telegram.Bot
             _token = token;
             _httpClient = httpClient ?? new HttpClient();
         }
-
+        
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance behind a proxy.
         /// </summary>
@@ -186,8 +186,7 @@ namespace Telegram.Bot
             _token = token;
             _httpClient = new HttpClient(httpClientHander);
         }
-
-
+        
         #region Helpers
 
         /// <summary>
@@ -859,17 +858,22 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="untilDate"><see cref="DateTime"/> when the user will be unbanned. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
         public Task<bool> KickChatMemberAsync(ChatId chatId, int userId,
+            DateTime untilDate = default(DateTime),
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId},
-                {"user_id", userId}
+                {"user_id", userId},
             };
+
+            if (untilDate != default(DateTime))
+                parameters.Add("until_date", untilDate);
 
             return SendWebRequestAsync<bool>("kickChatMember", parameters, cancellationToken);
         }
@@ -1024,6 +1028,94 @@ namespace Telegram.Bot
                 parameters.Add("cache_time", cacheTime);
 
             return SendWebRequestAsync<bool>("answerCallbackQuery", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="untilDate"><see cref="DateTime"/> when restrictions will be lifted for the user. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever</param>
+        /// <param name="canSendMessages">Pass True, if the user can send text messages, contacts, locations and venues</param>
+        /// <param name="canSendMediaMessages">Pass True, if the user can send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages</param>
+        /// <param name="canSendOtherMessages">Pass True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages</param>
+        /// <param name="canAddWebPagePreviews">Pass True, if the user may add web page previews to their messages, implies can_send_media_messages</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, <c>true</c> is returned</returns>
+        /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#restrictchatmember"/>
+        public Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilDate = default(DateTime),
+            bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
+            bool? canAddWebPagePreviews = null, 
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId },
+                { "user_id", userId }
+            };
+
+            if (untilDate != default(DateTime))
+                parameters.Add("until_date", untilDate);
+
+            if (canSendMessages != null)
+                parameters.Add("can_send_messages", canSendMessages.Value);
+            if (canSendMediaMessages != null)
+                parameters.Add("can_send_media_messages", canSendMediaMessages.Value);
+            if (canSendOtherMessages != null)
+                parameters.Add("can_send_other_messages", canSendOtherMessages.Value);
+            if (canAddWebPagePreviews != null)
+                parameters.Add("can_add_web_page_previews", canAddWebPagePreviews.Value);
+
+            return SendWebRequestAsync<bool>("restrictChatMember", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="canChangeInfo">Pass True, if the administrator can change chat title, photo and other settings</param>
+        /// <param name="canPostMessages">Pass True, if the administrator can create channel posts, channels only</param>
+        /// <param name="canEditMessages">Pass True, if the administrator can edit messages of other users, channels only</param>
+        /// <param name="canDeleteMessages">Pass True, if the administrator can delete messages of other users</param>
+        /// <param name="canInviteUsers">Pass True, if the administrator can invite new users to the chat</param>
+        /// <param name="canRestrictMembers">Pass True, if the administrator can restrict, ban or unban chat members</param>
+        /// <param name="canPinMessages">Pass True, if the administrator can pin messages, supergroups only</param>
+        /// <param name="canPromoteMembers">Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        /// <remarks>Pass False for all boolean parameters to demote a user.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
+        public Task<bool> PromoteChatMemberAsync(ChatId chatId, int userId, bool? canChangeInfo = null,
+            bool? canPostMessages = null, bool? canEditMessages = null, bool? canDeleteMessages = null,
+            bool? canInviteUsers = null, bool? canRestrictMembers = null, bool? canPinMessages = null,
+            bool? canPromoteMembers = null, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId },
+                { "user_id", userId }
+            };
+
+            if (canChangeInfo != null)
+                parameters.Add("can_change_info", canChangeInfo.Value);
+            if (canPostMessages != null)
+                parameters.Add("can_post_messages", canPostMessages.Value);
+            if (canEditMessages != null)
+                parameters.Add("can_edit_messages", canEditMessages.Value);
+            if (canDeleteMessages != null)
+                parameters.Add("can_delete_messages", canDeleteMessages.Value);
+            if (canInviteUsers != null)
+                parameters.Add("can_invite_users", canInviteUsers.Value);
+            if (canRestrictMembers != null)
+                parameters.Add("can_restrict_members", canRestrictMembers.Value);
+            if (canPinMessages != null)
+                parameters.Add("can_pin_messages", canPinMessages.Value);
+            if (canPromoteMembers != null)
+                parameters.Add("can_promote_members", canPromoteMembers.Value);
+
+            return SendWebRequestAsync<bool>("promoteChatMember", parameters, cancellationToken);
         }
 
         #endregion Available methods
@@ -1534,6 +1626,146 @@ namespace Telegram.Bot
         }
 
         #endregion Games
+
+        #region Group and channel management
+        /// <summary>
+        /// Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns exported invite link as String on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#exportchatinvitelink"/>
+        public Task<string> ExportChatInviteLinkAsync(ChatId chatId, 
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId }
+            };
+
+            return SendWebRequestAsync<string>("exportChatInviteLink", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="photo">The new profile picture for the chat.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns <c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
+        public Task<bool> SetChatPhotoAsync(ChatId chatId, FileToSend photo,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId },
+                { "photo", photo }
+            };
+
+            return SendWebRequestAsync<bool>("setChatPhoto", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
+        public Task<bool> DeleteChatPhotoAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId }
+            };
+
+            return SendWebRequestAsync<bool>("deleteChatPhoto", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="title">New chat title, 1-255 characters</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchattitle"/>
+        public Task<bool> SetChatTitleAsync(ChatId chatId, string title,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId },
+                { "title", title }
+            };
+
+            return SendWebRequestAsync<bool>("setChatTitle", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to change the description of a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="description">New chat description, 0-255 characters. Defaults to an empty string, which would clear the description.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchatdescription"/>
+        public Task<bool> SetChatDescriptionAsync(ChatId chatId, string description = "",
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId }
+            };
+
+            if (!string.IsNullOrEmpty(description))
+                parameters.Add("description", description);
+
+            return SendWebRequestAsync<bool>("setChatDescription", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to pin a message in a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
+        /// <param name="messageId">Identifier of a message to pin</param>
+        /// <param name="disableNotification">Pass True, if it is not necessary to send a notification to all group members about the new pinned message</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns true on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#pinchatmessage"/>
+        public Task<bool> PinChatMessageAsync(ChatId chatId, int messageId, bool disableNotification = false,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId },
+                { "message_id", messageId }
+            };
+
+            if (disableNotification)
+                parameters.Add("disable_notification", disableNotification);
+
+            return SendWebRequestAsync<bool>("pinChatMessage", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to unpin a message in a supergroup chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns true on success</returns>
+        /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
+        public Task<bool> UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId }
+            };
+
+            return SendWebRequestAsync<bool>("unpinChatMessage", parameters, cancellationToken);
+        }
+        #endregion
 
         #region Support Methods - Private
 
