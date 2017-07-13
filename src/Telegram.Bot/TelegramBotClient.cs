@@ -22,7 +22,6 @@ using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 
 using File = Telegram.Bot.Types.File;
-using Telegram.Bot.Converters;
 
 namespace Telegram.Bot
 {
