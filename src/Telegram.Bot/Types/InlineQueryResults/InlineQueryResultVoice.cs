@@ -37,13 +37,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbWidth { get; set; }
+        public new int ThumbWidth { get; set; }
 
         /// <summary>
         /// Optional. Thumbnail height
         /// </summary>
         [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbHeight { get; set; }
+        public new int ThumbHeight { get; set; }
     }
 }
