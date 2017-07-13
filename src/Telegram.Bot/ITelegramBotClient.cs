@@ -23,7 +23,7 @@ namespace Telegram.Bot
         /// Timeout for requests
         /// </summary>
         TimeSpan Timeout { get; set; }
-        
+
         /// <summary>
         /// Indecates if receiving updates
         /// </summary>
@@ -41,7 +41,7 @@ namespace Telegram.Bot
         /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
         event EventHandler<UpdateEventArgs> OnUpdate;
- 
+
         /// <summary>
         /// Occurs when a <see cref="Message"/> is recieved.
         /// </summary>
@@ -349,7 +349,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvoice"/>
-        Task<Message> SendVoiceAsync(ChatId chatId, FileToSend voice, 
+        Task<Message> SendVoiceAsync(ChatId chatId, FileToSend voice,
             string caption = "",
             int duration = 0,
             bool disableNotification = false,
@@ -363,6 +363,7 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="videoNote">Video note to send.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
+        /// <param name="length">Video width and height</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
@@ -371,6 +372,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
         Task<Message> SendVideoNoteAsync(ChatId chatId, FileToSend videoNote,
             int duration = 0,
+            int length = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
@@ -637,9 +639,9 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
-        Task<Message> EditInlineMessageTextAsync(string inlineMessageId, string text,
+        Task<bool> EditInlineMessageTextAsync(string inlineMessageId, string text,
             ParseMode parseMode = ParseMode.Default,
             bool disableWebPagePreview = false,
             IReplyMarkup replyMarkup = null,
@@ -666,9 +668,9 @@ namespace Telegram.Bot
         /// <param name="caption">New caption of the message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
-        Task<Message> EditInlineMessageCaptionAsync(string inlineMessageId, string caption,
+        Task<bool> EditInlineMessageCaptionAsync(string inlineMessageId, string caption,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken));
 
@@ -691,9 +693,9 @@ namespace Telegram.Bot
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
-        Task<Message> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
+        Task<bool> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken));
 
@@ -776,7 +778,7 @@ namespace Telegram.Bot
             bool needName = false,
             bool needPhoneNumber = false,
             bool needEmail = false,
-            bool needShippingAddress= false,
+            bool needShippingAddress = false,
             bool isFlexible = false,
             bool disableNotification = false,
             int replyToMessageId = 0,

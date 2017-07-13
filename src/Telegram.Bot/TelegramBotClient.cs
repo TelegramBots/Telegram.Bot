@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using Telegram.Bot.Args;
+using Telegram.Bot.Converters;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -364,7 +365,7 @@ namespace Telegram.Bot
             var parameters = new Dictionary<string, object>
             {
                 {"url", url},
-                {"mac_connections", maxConnections}
+                {"max_connections", maxConnections}
             };
 
             if (allowedUpdates != null && !allowedUpdates.Contains(UpdateType.All))
@@ -652,6 +653,7 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="videoNote">Video note to send.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
+        /// <param name="length">Video width and height</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
@@ -660,15 +662,19 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
         public Task<Message> SendVideoNoteAsync(ChatId chatId, FileToSend videoNote,
             int duration = 0,
+            int length = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var additionalParameters = new Dictionary<string, object>
-            {
-                {"duration", duration},
-            };
+            var additionalParameters = new Dictionary<string, object>();
+
+            if (duration > 0)
+                additionalParameters.Add("duration", duration);
+
+            if (length > 0)
+                additionalParameters.Add("length", length);
 
             return SendMessageAsync(MessageType.VideoNoteMessage, chatId, videoNote, disableNotification, replyToMessageId,
                 replyMarkup, additionalParameters, cancellationToken);
@@ -1161,9 +1167,9 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
-        public Task<Message> EditInlineMessageTextAsync(string inlineMessageId, string text,
+        public Task<bool> EditInlineMessageTextAsync(string inlineMessageId, string text,
             ParseMode parseMode = ParseMode.Default,
             bool disableWebPagePreview = false,
             IReplyMarkup replyMarkup = null,
@@ -1182,7 +1188,7 @@ namespace Telegram.Bot
             if (parseMode != ParseMode.Default)
                 parameters.Add("parse_mode", parseMode.ToModeString());
 
-            return SendWebRequestAsync<Message>("editMessageText", parameters, cancellationToken);
+            return SendWebRequestAsync<bool>("editMessageText", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1219,9 +1225,9 @@ namespace Telegram.Bot
         /// <param name="caption">New caption of the message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
-        public Task<Message> EditInlineMessageCaptionAsync(string inlineMessageId, string caption,
+        public Task<bool> EditInlineMessageCaptionAsync(string inlineMessageId, string caption,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1234,7 +1240,7 @@ namespace Telegram.Bot
             if (replyMarkup != null)
                 parameters.Add("reply_markup", replyMarkup);
 
-            return SendWebRequestAsync<Message>("editMessageCaption", parameters, cancellationToken);
+            return SendWebRequestAsync<bool>("editMessageCaption", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1268,9 +1274,9 @@ namespace Telegram.Bot
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the edited Message is returned.</returns>
+        /// <returns>><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
-        public Task<Message> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
+        public Task<bool> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
@@ -1282,7 +1288,7 @@ namespace Telegram.Bot
             if (replyMarkup != null)
                 parameters.Add("reply_markup", replyMarkup);
 
-            return SendWebRequestAsync<Message>("editMessageReplyMarkup", parameters, cancellationToken);
+            return SendWebRequestAsync<bool>("editMessageReplyMarkup", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1864,7 +1870,7 @@ namespace Telegram.Bot
                 var responseString = await response.Content.ReadAsStringAsync()
                                                     .ConfigureAwait(false);
 
-                responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString);
+                responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString, SerializerSettings);
 
                 response.EnsureSuccessStatusCode();
             }
@@ -1899,15 +1905,10 @@ namespace Telegram.Bot
 
             switch (typeName)
             {
-                case "String":
-                case "Int32":
-                    return new StringContent(value.ToString(), Encoding.UTF8);
-                case "Boolean":
-                    return new StringContent((bool)value ? "true" : "false");
                 case "FileToSend":
                     return new StreamContent(((FileToSend)value).Content);
                 default:
-                    return new StringContent(JsonConvert.SerializeObject(value));
+                    return new StringContent(JsonConvert.SerializeObject(value, SerializerSettings));
             }
         }
         #endregion

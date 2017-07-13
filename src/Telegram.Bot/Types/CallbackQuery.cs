@@ -44,7 +44,7 @@ namespace Telegram.Bot.Types
         /// <remarks>
         /// Be aware that a bad client can send arbitrary data in this field.
         /// </remarks>
-        [JsonProperty("data", Required = Required.Always)]
+        [JsonProperty("data", Required = Required.Default)]
         public string Data { get; set; }
 
         /// <summary>

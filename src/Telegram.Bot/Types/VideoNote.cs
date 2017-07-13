@@ -8,11 +8,21 @@ namespace Telegram.Bot.Types
     [JsonObject(MemberSerialization.OptIn)]
     public class VideoNote : File
     {
-        // BUG: Don't think this is right in the documentation
         /// <summary>
         /// Video width and height as defined by sender
         /// </summary>
+        [JsonProperty("Length", Required = Required.Always)]
         public int Length { get; set; }
+
+        /// <summary>
+        /// Video width as defined by sender
+        /// </summary>
+        public int Width => Length;
+
+        /// <summary>
+        /// Video height as defined by sender
+        /// </summary>
+        public int Height => Length;
 
         /// <summary>
         /// Duration of the video in seconds as defined by sender
