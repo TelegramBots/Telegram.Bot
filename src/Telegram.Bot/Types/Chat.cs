@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types
         /// Unique identifier for this chat, not exceeding 1e13 by absolute value
         /// </summary>
         [JsonProperty(PropertyName = "id", Required = Required.Always)]
-        public ChatId Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Type of chat
@@ -50,5 +50,23 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "all_members_are_administrators", Required = Required.Default)]
         public bool AllMembersAreAdministrators { get; set; }
+
+        /// <summary>
+        /// Optional. Chat photo. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(PropertyName = "photo", Required = Required.Default)]
+        public ChatPhoto Photo { get; set; }
+
+        /// <summary>
+        /// Optional. Description, for supergroups and channel chats. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(PropertyName = "description", Required = Required.Default)]
+        public string Description { get; set; }
+
+        /// <summary>
+        /// Optional. Chat invite link, for supergroups and channel chats. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(PropertyName = "invite_link", Required = Required.Default)]
+        public string InviteLink { get; set; }
     }
 }

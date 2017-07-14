@@ -23,7 +23,7 @@ Before submitting issues please consult following resources:
 * [Library docs](https://mrroundrobin.github.io/telegram.bot/)
 * [Changelog](https://github.com/MrRoundRobin/telegram.bot/blob/master/CHANGELOG.md)
 * [API docs](https://core.telegram.org/bots/api)
-* [Webook docs](https://core.telegram.org/bots/webhooks)
+* [Webhook docs](https://core.telegram.org/bots/webhooks)
 * [Examples](https://github.com/MrRoundRobin/telegram.bot.examples)
 
 ## Installation
@@ -39,10 +39,10 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 ## API Coverage
 
 * [Inline Mode](https://core.telegram.org/bots/inline)
-* [Bot API 3.0](https://core.telegram.org/bots/api-changelog)
+* [Bot API 3.1](https://core.telegram.org/bots/api-changelog)
 * [Payments](https://core.telegram.org/bots/payments) (Needs some testing)
 * [Games](https://core.telegram.org/bots/games)
 
-Missing / TODO (last check 07.06.2017):
+Missing / TODO (last check 13.07.2017):
 
 * [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)

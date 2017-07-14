@@ -305,6 +305,9 @@ namespace Telegram.Bot.Types
                 if (SuccessfulPayment != null)
                     return MessageType.SuccessfulPayment;
 
+                if (VideoNote != null)
+                    return MessageType.VideoNoteMessage;
+
                 if (NewChatMember != null ||
                     (NewChatMembers != null && NewChatMembers.Length > 0) ||
                     LeftChatMember != null ||

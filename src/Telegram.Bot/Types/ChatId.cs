@@ -9,8 +9,15 @@ namespace Telegram.Bot.Types
     [JsonConverter(typeof(ChatIdConverter))]
     public class ChatId
     {
-        internal long Identifier;
-        internal string Username;
+        /// <summary>
+        /// Unique identifier for the chat
+        /// </summary>
+        public readonly long Identifier;
+
+        /// <summary>
+        /// Username of the channel (in the format @channelusername)
+        /// </summary>
+        public readonly string Username;
 
         /// <summary>
         /// Create a <see cref="ChatId"/> using an identifier
@@ -22,6 +29,15 @@ namespace Telegram.Bot.Types
         }
 
         /// <summary>
+        /// Create a <see cref="ChatId"/> using an identifier
+        /// </summary>
+        /// <param name="chatId">The Identifier</param>
+        public ChatId(int chatId)
+        {
+            Identifier = chatId;
+        }
+
+        /// <summary>
         /// Create a <see cref="ChatId"/> using an user name
         /// </summary>
         /// <param name="username">The user name</param>
@@ -30,6 +46,10 @@ namespace Telegram.Bot.Types
             if (username.Length > 1 && username.Substring(0, 1) == "@")
             {
                 Username = username;
+            }
+            else if (int.TryParse(username, out int chatId))
+            {
+                Identifier = chatId;
             }
             else if (long.TryParse(username, out long identifier))
             {
@@ -52,6 +72,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="identifier">The identifier</param>
         public static implicit operator ChatId(long identifier) => new ChatId(identifier);
+
+        /// <summary>
+        /// Create a <see cref="ChatId"/> out of an identifier
+        /// </summary>
+        /// <param name="chatId">The identifier</param>
+        public static implicit operator ChatId(int chatId) => new ChatId(chatId);
 
         /// <summary>
         /// Create a <see cref="ChatId"/> out of an user name
