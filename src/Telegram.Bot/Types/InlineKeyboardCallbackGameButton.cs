@@ -9,6 +9,15 @@ namespace Telegram.Bot.Types
     public class InlineKeyboardCallbackGameButton : InlineKeyboardButton
     {
         /// <summary>
+        /// Optimal. Description of the game that will be launched when the user presses the button.
+        /// </summary>
+        /// <remarks>
+        /// Note: This type of button must always be the first button in the first row.
+        /// </remarks>
+        [JsonProperty("callback_game", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public CallbackGame CallbackGame { get; set; }
+        
+        /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
         /// </summary>
         /// <param name="text">Text of the button</param>

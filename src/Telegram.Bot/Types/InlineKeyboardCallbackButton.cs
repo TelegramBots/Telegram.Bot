@@ -9,6 +9,12 @@ namespace Telegram.Bot.Types
     public class InlineKeyboardCallbackButton : InlineKeyboardButton
     {
         /// <summary>
+        /// Optional. Data to be sent in a callback query to the bot when button is pressed
+        /// </summary>
+        [JsonProperty(PropertyName = "callback_data", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string CallbackData { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
         /// </summary>
         /// <param name="text">The text.</param>
