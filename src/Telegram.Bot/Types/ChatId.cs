@@ -88,7 +88,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
         /// </summary>
-        /// <param name="chatid">The <see cref="ChatId"/></param>
+        /// <param name="chatid">The <see cref="ChatId"/>The ChatId</param>
         public static implicit operator string(ChatId chatid) => chatid.Username ?? chatid.Identifier.ToString();
+
+        /// <summary>
+        /// Convert a Chat Object to a <see cref="ChatId"/>
+        /// </summary>
+        /// <param name="chat"></param>
+        public static implicit operator ChatId(Chat chat) => chat.Id != default(long) ? (ChatId)chat.Id : (ChatId)("@"+chat.Username);
     }
 }
