@@ -4,10 +4,10 @@ using System;
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
+    /// This object represents one button of an inline keyboard.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class InlineKeyboardButton
+    public abstract class InlineKeyboardButton
     {
         /// <summary>
         /// Label text on the button
@@ -70,23 +70,13 @@ namespace Telegram.Bot.Types
         /// <returns>
         /// The result of the conversion.
         /// </returns>
-        public static implicit operator InlineKeyboardButton(string key) => new InlineKeyboardButton(key, key);
+        public static implicit operator InlineKeyboardButton(string key) => new InlineKeyboardCallbackButton(key, key);
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="KeyboardButton"/> to <see cref="InlineKeyboardButton"/>.
         /// </summary>
         /// <param name="button">The <see cref="KeyboardButton"/></param>
-        public static implicit operator InlineKeyboardButton(KeyboardButton button) => new InlineKeyboardButton(button.Text, button.Text);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
-        /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="callbackData">The callback data.</param>
-        public InlineKeyboardButton(string text, string callbackData) : this(text)
-        {
-            CallbackData = callbackData;
-        }
+        public static implicit operator InlineKeyboardButton(KeyboardButton button) => new InlineKeyboardCallbackButton(button.Text, button.Text);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
@@ -102,7 +92,7 @@ namespace Telegram.Bot.Types
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
         /// </summary>
         /// <param name="text">Text of the button</param>
-        private InlineKeyboardButton(string text)
+        protected InlineKeyboardButton(string text)
         {
             Text = text;
         }
@@ -113,7 +103,7 @@ namespace Telegram.Bot.Types
         /// <param name="text">Text of the button</param>
         /// <param name="url">HTTP url to be opened when button is pressed</param>
         public static InlineKeyboardButton WithUrl(string text, string url)
-            => new InlineKeyboardButton(text) { Url = url };
+            => new InlineKeyboardUrlButton(text, url);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
@@ -121,14 +111,14 @@ namespace Telegram.Bot.Types
         /// <param name="text">Text of the button</param>
         /// <param name="url">HTTP url to be opened when button is pressed</param>
         public static InlineKeyboardButton WithUrl(string text, Uri url)
-            => new InlineKeyboardButton(text) { Url = url.AbsoluteUri };
+            => new InlineKeyboardUrlButton(text, url);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
         /// </summary>
         /// <param name="textAndCallbackData">Text of the button and data to be sent in a <see cref="CallbackQuery"/> to the bot when button is pressed</param>
         public static InlineKeyboardButton WithCallbackData(string textAndCallbackData)
-            => new InlineKeyboardButton(textAndCallbackData, textAndCallbackData);
+            => new InlineKeyboardCallbackButton(textAndCallbackData, textAndCallbackData);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
@@ -136,7 +126,7 @@ namespace Telegram.Bot.Types
         /// <param name="text">Text of the button</param>
         /// <param name="callbackData">Data to be sent in a <see cref="CallbackQuery"/> to the bot when button is pressed, 1-64 bytes</param>
         public static InlineKeyboardButton WithCallbackData(string text, string callbackData)
-            => new InlineKeyboardButton(text, callbackData);
+            => new InlineKeyboardCallbackButton(text, callbackData);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
@@ -145,7 +135,7 @@ namespace Telegram.Bot.Types
         /// <param name="switchInlineQuery">Pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot’s username will be inserted.</param>
         /// <returns></returns>
         public static InlineKeyboardButton WithSwitchInlineQuery(string text, string switchInlineQuery = "")
-            => new InlineKeyboardButton(text) { SwitchInlineQuery = switchInlineQuery };
+            => new InlineKeyboardSwitchCallbackQueryButton(text, switchInlineQuery);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
@@ -153,7 +143,7 @@ namespace Telegram.Bot.Types
         /// <param name="text">Text of the button</param>
         /// <param name="switchInlineQueryCurrentChat">Pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot’s username will be inserted.</param>
         public static InlineKeyboardButton WithSwitchInlineQueryCurrentChat(string text, string switchInlineQueryCurrentChat = "")
-            => new InlineKeyboardButton(text) { SwitchInlineQueryCurrentChat = switchInlineQueryCurrentChat };
+            => new InlineKeyboardSwitchCallbackQueryCurrentChatButton(text, switchInlineQueryCurrentChat);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
@@ -161,6 +151,6 @@ namespace Telegram.Bot.Types
         /// <param name="text">Text of the button</param>
         /// <param name="callbackGame">Description of the game that will be launched when the user presses the button.</param>
         public static InlineKeyboardButton WithCallBackGame(string text, CallbackGame callbackGame)
-            => new InlineKeyboardButton(text, callbackGame);
+            => new InlineKeyboardCallbackGameButton(text, callbackGame);
     }
 }
