@@ -83,7 +83,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="text">The text.</param>
         /// <param name="callbackData">The callback data.</param>
-        public InlineKeyboardButton(string text, string callbackData) : this(text)
+        public InlineKeyboardButton(string text, string callbackData = null) : this(text)
         {
             CallbackData = callbackData;
         }
