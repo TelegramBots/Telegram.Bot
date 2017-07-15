@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `VideoNote` property `Length`
 - Type `Chat`properties `Photo`, `Description`, `InviteLink`
 - Type `ChatMember` properties `UntilDate`, `Can*`
-- Type `ChatPhoto` 
+- Type `ChatPhoto`
 
 ### Changed
 - User and Chat Ids reverted to base types
@@ -28,8 +28,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fix
 - Inline messge editing
+- InlineQueryResult* `ThumbHight` and `ThumbWidth`
 - Method `SetWebHookAsync` parameter `max_connections`
-- Type `CallbackQuery` Property `Data` optimal 
+- Type `CallbackQuery` Property `Data` optimal
 - Type `Message` can now be a `VideoNoteMessage`
 
 ## [12.0.0] - Beta only
