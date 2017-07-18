@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Telegram.Bot.Types
+namespace Telegram.Bot.Types.InlineKeyboardButtons
 {
     /// <summary>
     /// This object represents one button of an inline keyboard that opens an url when pressed.
