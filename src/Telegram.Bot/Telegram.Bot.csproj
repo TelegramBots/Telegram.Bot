@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Product>Telegram Bot API</Product>
     <Title>Telegram Bot API</Title>
-    <Description>Telegram Bot Library supporting Bot Api 3.1, Payments, Inline, Group &nbsp; Channel management</Description>
+    <Description>Telegram Bot Library supporting Bot Api 3.1, Payments, Inline, Group &amp; Channel management</Description>
     <Authors>Robin Müller</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
