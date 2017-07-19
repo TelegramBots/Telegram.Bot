@@ -165,7 +165,7 @@ namespace Telegram.Bot
             _token = token;
             _httpClient = httpClient ?? new HttpClient();
         }
-        
+
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance behind a proxy.
         /// </summary>
@@ -186,7 +186,7 @@ namespace Telegram.Bot
             _token = token;
             _httpClient = new HttpClient(httpClientHander);
         }
-        
+
         #region Helpers
 
         /// <summary>
@@ -1046,7 +1046,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#restrictchatmember"/>
         public Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilDate = default(DateTime),
             bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
-            bool? canAddWebPagePreviews = null, 
+            bool? canAddWebPagePreviews = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
@@ -1557,7 +1557,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited Message</returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
-        public Task<Message> SetGameScoreAsync(int userId, int score, string inlineMessageId,
+        public async Task<Message> SetGameScoreAsync(int userId, int score, string inlineMessageId,
             bool force = false,
             bool disableEditMessage = false,
             bool editMessage = false,
@@ -1573,7 +1573,28 @@ namespace Telegram.Bot
                 {"edit_message", editMessage}
             };
 
-            return SendWebRequestAsync<Message>("setGameScore", parameters, cancellationToken);
+            object response = await SendWebRequestAsync<object>("setGameScore", parameters, cancellationToken)
+                .ConfigureAwait(false);
+
+            Message message;
+
+            if (response is Message)
+            {
+                message = response as Message;
+            }
+            else if (response is bool)
+            {
+                if ((bool)response)
+                    message = default(Message);
+                else
+                    throw new ApiRequestException("API responded with false");
+            }
+            else
+            {
+                throw new Exception("Unexpected response");
+            }
+
+            return message;
         }
 
         /// <summary>
@@ -1635,7 +1656,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns exported invite link as String on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#exportchatinvitelink"/>
-        public Task<string> ExportChatInviteLinkAsync(ChatId chatId, 
+        public Task<string> ExportChatInviteLinkAsync(ChatId chatId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
