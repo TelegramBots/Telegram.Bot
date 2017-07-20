@@ -1577,23 +1577,17 @@ namespace Telegram.Bot
                 .ConfigureAwait(false);
 
             Message message;
-
-            if (response is Message)
+            switch (response)
             {
-                message = response as Message;
-            }
-            else if (response is bool)
-            {
-                if ((bool)response)
+                case Message m:
+                    message = m;
+                    break;
+                case bool b when b:
                     message = default(Message);
-                else
-                    throw new ApiRequestException("API responded with false");
+                    break;
+                default:
+                    throw new Exception($"Unexpected response: {response}");
             }
-            else
-            {
-                throw new Exception("Unexpected response");
-            }
-
             return message;
         }
 
@@ -1765,7 +1759,7 @@ namespace Telegram.Bot
             };
 
             if (disableNotification)
-                parameters.Add("disable_notification", disableNotification);
+                parameters.Add("disable_notification", true);
 
             return SendWebRequestAsync<bool>("pinChatMessage", parameters, cancellationToken);
         }
