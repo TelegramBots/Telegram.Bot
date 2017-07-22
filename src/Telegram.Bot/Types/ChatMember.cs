@@ -24,7 +24,7 @@ namespace Telegram.Bot.Types
         public ChatMemberStatus Status { get; set; }
 
         /// <summary>
-        /// Optional. Restictred and kicked only. Date when restrictions will be lifted for this user, UTC time
+        /// Optional. Restricted and kicked only. Date when restrictions will be lifted for this user, UTC time
         /// </summary>
         [JsonProperty(PropertyName = "until_date", Required = Required.Default)]
         [JsonConverter(typeof(UnixDateTimeConverter))]

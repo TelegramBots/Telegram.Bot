@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// Contains information about why a request was unsuccessfull.
+    /// Contains information about why a request was unsuccessful.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
     public class ResponseParameters
