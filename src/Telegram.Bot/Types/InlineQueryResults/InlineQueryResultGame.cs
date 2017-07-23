@@ -33,11 +33,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbWidth { get; set; }
+        public new int ThumbWidth { get; set; }
 
         [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbHeight { get; set; }
+        public new int ThumbHeight { get; set; }
 #pragma warning restore 1591
     }
 }

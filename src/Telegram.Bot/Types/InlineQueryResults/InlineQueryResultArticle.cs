@@ -17,7 +17,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Optional. Pass <c>true</c>, if you don't want the URL to be shown in the message
         /// </summary>
         [JsonProperty("hide_url", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public bool HideUrl { get; set; } = false;
+        public bool HideUrl { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result

@@ -34,7 +34,7 @@ namespace Telegram.Bot.Types
         public int Code { get; set; }
 
         /// <summary>
-        /// Contains information about why a request was unsuccessfull.
+        /// Contains information about why a request was unsuccessful.
         /// </summary>
         [JsonProperty("parameters")]
         public ResponseParameters Parameters { get; set; }

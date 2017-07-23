@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types.ReplyMarkups
 {
     /// <summary>
-    /// Defines how clients display a reply intreface to the user
+    /// Defines how clients display a reply interface to the user
     /// </summary>
     /// <seealso cref="Telegram.Bot.Types.ReplyMarkups.IReplyMarkup" />
     public abstract class ReplyMarkup : IReplyMarkup

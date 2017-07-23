@@ -35,7 +35,7 @@ namespace Telegram.Bot.Types.Enums
         ChosenInlineResultUpdate,
 
         /// <summary>
-        /// The <see cref="Update"/> contins a <see cref="CallbackQuery"/>
+        /// The <see cref="Update"/> contains a <see cref="CallbackQuery"/>
         /// </summary>
         [EnumMember(Value = "callback_query")]
         CallbackQueryUpdate,
