@@ -57,8 +57,8 @@ namespace Telegram.Bot
         /// </summary>
         public TimeSpan Timeout
         {
-            get { return _httpClient.Timeout; }
-            set { _httpClient.Timeout = value; }
+            get => _httpClient.Timeout;
+            set => _httpClient.Timeout = value;
         }
 
         /// <summary>
@@ -1847,7 +1847,8 @@ namespace Telegram.Bot
             };
 
             if (isMasks)
-                parameters.Add("is_masks", isMasks);
+                parameters.Add("is_masks", true);
+
             if (maskPosition != null)
                 parameters.Add("mask_position", maskPosition);
 
