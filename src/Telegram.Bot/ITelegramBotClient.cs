@@ -901,6 +901,78 @@ namespace Telegram.Bot
 
         #endregion Games
 
+        #region Stickers
+        /// <summary>
+        /// Use this method to get a sticker set.
+        /// </summary>
+        /// <param name="name">Short name of the sticker set that is used in t.me/addstickers/ URLs (e.g., animals)</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, a StickerSet object is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#getstickerset"/>
+        Task<StickerSet> GetStickerSetAsync(string name, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
+        /// </summary>
+        /// <param name="userId">User indentifier of sticker file owner</param>
+        /// <param name="pngSticker">Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns the uploaded File on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
+        Task<File> UploadStickerFileAsync(int userId, FileToSend pngSticker,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set. 
+        /// </summary>
+        /// <param name="userId">User identifier of created sticker set owner</param>
+        /// <param name="name">Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_&lt;bot_username&gt;”. &lt;bot_username&gt; is case insensitive. 1-64 characters.</param>
+        /// <param name="title">Sticker set title, 1-64 characters</param>
+        /// <param name="pngSticker">Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px.</param>
+        /// <param name="emojis">One or more emoji corresponding to the sticker</param>
+        /// <param name="isMasks">Pass True, if a set of mask stickers should be created</param>
+        /// <param name="maskPosition">Position where the mask should be placed on faces</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
+        Task<bool> CreateNewStickerSetAsnyc(int userId, string name, string title, FileToSend pngSticker,
+            string emojis, bool isMasks = false, MaskPosition maskPosition = null,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to add a new sticker to a set created by the bot.
+        /// </summary>
+        /// <param name="userId">User identifier of sticker set owner</param>
+        /// <param name="name">Sticker set name</param>
+        /// <param name="pngSticker">Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px.</param>
+        /// <param name="emojis">One or more emoji corresponding to the sticker</param>
+        /// <param name="maskPosition">Position where the mask should be placed on faces</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>True on success</returns>
+        /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
+        Task<bool> AddStickerToSetAsync(int userId, string name, FileToSend pngSticker, string emojis, MaskPosition maskPosition = null,
+            CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to move a sticker in a set created by the bot to a specific position.
+        /// </summary>
+        /// <param name="sticker">File identifier of the sticker</param>
+        /// <param name="position">New sticker position in the set, zero-based</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>True on success</returns>
+        /// <see href="https://core.telegram.org/bots/api#setstickerpositioninset"/>
+        Task<bool> SetStickerPositionInSetAsync(string sticker, int position, CancellationToken cancellationToken = default(CancellationToken));
+
+        /// <summary>
+        /// Use this method to delete a sticker from a set created by the bot.
+        /// </summary>
+        /// <param name="sticker">File identifier of the sticker</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#deletestickerfromset"/>
+        Task<bool> DeleteStickerFromSetAsync(string sticker, CancellationToken cancellationToken = default(CancellationToken));
+        #endregion
+
         #region Group and channel management
         /// <summary>
         /// Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
