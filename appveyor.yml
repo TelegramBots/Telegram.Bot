@@ -9,6 +9,7 @@ configuration: Debug
 before_build:
   - nuget restore Telegram.Bot.sln
 build:
+  project: Telegram.Bot.sln
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: normal
@@ -22,4 +23,4 @@ deploy:
       secure: Dl2/cPfGdESLPBMd7Y+CIQomwOgNQ2+rUTylGGzMb0FaJaL4WgPPf5lzkY5KD4V6
     symbol_server: https://www.myget.org/F/telegram-bot/api/v2/package
     on:
-      branch: master
+      branch: develop
