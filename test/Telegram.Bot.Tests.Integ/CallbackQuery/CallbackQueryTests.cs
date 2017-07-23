@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
@@ -31,9 +32,9 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 "Click on *OK* button");
 
             const string callbackQueryData = "ok btn";
-            var replyMarkup = new InlineKeyboardMarkup(new[]
+            var replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {
-                new InlineKeyboardButton("OK", callbackQueryData),
+                new InlineKeyboardCallbackButton("OK", callbackQueryData),
             });
 
             Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId,
@@ -58,9 +59,9 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 "Click on *Notify* button");
 
             const string callbackQueryData = "Show Notification";
-            var replyMarkup = new InlineKeyboardMarkup(new[]
+            var replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {
-                new InlineKeyboardButton("Notify", callbackQueryData),
+                new InlineKeyboardCallbackButton("Notify", callbackQueryData),
             });
 
             Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId,
