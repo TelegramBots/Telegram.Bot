@@ -17,23 +17,17 @@ namespace Telegram.Bot.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value == null)
+            switch (value)
             {
-                writer.WriteNull();
-                return;
+                case null:
+                    writer.WriteNull();
+                    break;
+                case DateTime dateTime:
+                    writer.WriteValue(dateTime.ToUnixTime());
+                    break;
+                default:
+                    throw new Exception("Expected date object value.");
             }
-
-            long val;
-            if (value is DateTime || value is Nullable<DateTime>)
-            {
-                val = ((DateTime)value).ToUnixTime();
-            }
-            else
-            {
-                throw new Exception("Expected date object value.");
-            }
-
-            writer.WriteValue(val);
         }
 
         /// <summary>
