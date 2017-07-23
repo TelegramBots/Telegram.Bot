@@ -82,7 +82,6 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The update type.
         /// </value>
-        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         [JsonIgnore]
         public UpdateType Type
         {

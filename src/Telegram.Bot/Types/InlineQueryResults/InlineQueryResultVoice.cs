@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to a voice recording in an .ogg container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InlineQueryResult.InputMessageContent"/> to send a message with the specified content instead of the the voice message.
+    /// Represents a link to a voice recording in an .ogg container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InlineQueryResult.InputMessageContent"/> to send a message with the specified content instead of the voice message.
     /// </summary>
     /// <remarks>
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
@@ -37,13 +37,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbWidth { get; set; }
+        public new int ThumbWidth { get; set; }
 
         /// <summary>
         /// Optional. Thumbnail height
         /// </summary>
         [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbHeight { get; set; }
+        public new int ThumbHeight { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types
         /// Unique identifier for this chat, not exceeding 1e13 by absolute value
         /// </summary>
         [JsonProperty(PropertyName = "id", Required = Required.Always)]
-        public ChatId Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Type of chat

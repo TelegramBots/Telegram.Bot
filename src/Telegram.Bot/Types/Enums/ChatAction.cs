@@ -22,7 +22,7 @@ namespace Telegram.Bot.Types.Enums
         UploadPhoto,
 
         /// <summary>
-        /// Recodring a <see cref="Video"/>
+        /// Recording a <see cref="Video"/>
         /// </summary>
         [EnumMember(Value = "record_video")]
         RecordVideo,

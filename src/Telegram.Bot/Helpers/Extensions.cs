@@ -1,4 +1,3 @@
-#if !NET46
 using System;
 
 namespace Telegram.Bot.Helpers
@@ -14,25 +13,26 @@ namespace Telegram.Bot.Helpers
         ///   Convert a long into a DateTime
         /// </summary>
         public static DateTime FromUnixTime(this long dateTime) 
-            => UnixStart.AddSeconds(dateTime);
+            => UnixStart.AddSeconds(dateTime).ToLocalTime();
 
         /// <summary>
         ///   Convert a DateTime into a long
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
+        /// <exception cref="OverflowException"></exception>
         public static long ToUnixTime(this DateTime dateTime)
         {
-            if (dateTime == DateTime.MinValue)
+            var utcDateTime = dateTime.ToUniversalTime();
+
+            if (utcDateTime == DateTime.MinValue)
                 return 0;
 
             var delta = dateTime - UnixStart;
 
             if (delta.TotalSeconds < 0)
-                throw new ArgumentOutOfRangeException(nameof(dateTime), "Unix epoc starts January 1st, 1970");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "Unix epoch starts January 1st, 1970");
 
-            return (long)delta.TotalSeconds;
+            return Convert.ToInt64(delta.TotalSeconds);
         }
     }
 }
-
-#endif

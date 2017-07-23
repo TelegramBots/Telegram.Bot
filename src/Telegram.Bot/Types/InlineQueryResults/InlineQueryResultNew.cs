@@ -18,12 +18,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Optional. Thumbnail width
         /// </summary>
         [JsonProperty("thumb_width", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string ThumbWidth { get; set; }
+        public int ThumbWidth { get; set; }
 
         /// <summary>
         /// Optional. Thumbnail height
         /// </summary>
         [JsonProperty("thumb_height", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string ThumbHeight { get; set; }
+        public int ThumbHeight { get; set; }
     }
 }
