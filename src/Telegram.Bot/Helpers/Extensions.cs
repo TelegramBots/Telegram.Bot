@@ -30,7 +30,7 @@ namespace Telegram.Bot.Helpers
             var delta = dateTime - UnixStart;
 
             if (delta.TotalSeconds < 0)
-                throw new ArgumentOutOfRangeException(nameof(dateTime), "Unix epoc starts January 1st, 1970");
+                throw new ArgumentOutOfRangeException(nameof(dateTime), "Unix epoch starts January 1st, 1970");
 
             return Convert.ToInt64(delta.TotalSeconds);
         }

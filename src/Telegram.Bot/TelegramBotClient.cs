@@ -62,7 +62,7 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Indecates if receiving updates
+        /// Indicates if receiving updates
         /// </summary>
         public bool IsReceiving { get; set; }
 
@@ -115,7 +115,7 @@ namespace Telegram.Bot
         public event EventHandler<UpdateEventArgs> OnUpdate;
 
         /// <summary>
-        /// Occurs when a <see cref="Message"/> is recieved.
+        /// Occurs when a <see cref="Message"/> is received.
         /// </summary>
         public event EventHandler<MessageEventArgs> OnMessage;
 
@@ -140,12 +140,12 @@ namespace Telegram.Bot
         public event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
 
         /// <summary>
-        /// Occurs when an error occures during the background update pooling.
+        /// Occurs when an error occurs during the background update pooling.
         /// </summary>
         public event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
 
         /// <summary>
-        /// Occurs when an error occures during the background update pooling.
+        /// Occurs when an error occurs during the background update pooling.
         /// </summary>
         public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
 
@@ -156,7 +156,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="token">API token</param>
         /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invvalid</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, HttpClient httpClient = null)
         {
             if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
@@ -171,7 +171,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="token">API token</param>
         /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invvalid</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, IWebProxy webProxy)
         {
             if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
@@ -824,7 +824,7 @@ namespace Telegram.Bot
         /// <param name="fileId">File identifier</param>
         /// <param name="destination">The destination stream</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The File object. If <paramref name="destination"/> is empty stream ist embedded in the <see cref="File"/> Object</returns>
+        /// <returns>The File object. If <paramref name="destination"/> stream in not provided, stream is embedded in the <see cref="File"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getfile"/>
         public async Task<File> GetFileAsync(string fileId, Stream destination = null,
             CancellationToken cancellationToken = default(CancellationToken))
@@ -1778,7 +1778,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="additionalParameters">Optional. if additional Parameters could bei send i.e. "disable_web_page_preview" in for a TextMessage</param>
+        /// <param name="additionalParameters">Optional. if additional Parameters could be send i.e. "disable_web_page_preview" in for a TextMessage</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         private Task<Message> SendMessageAsync(MessageType type, ChatId chatId, object content,

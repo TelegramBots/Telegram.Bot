@@ -25,7 +25,7 @@ namespace Telegram.Bot
         TimeSpan Timeout { get; set; }
 
         /// <summary>
-        /// Indecates if receiving updates
+        /// Indicates if receiving updates
         /// </summary>
         bool IsReceiving { get; }
 
@@ -43,7 +43,7 @@ namespace Telegram.Bot
         event EventHandler<UpdateEventArgs> OnUpdate;
 
         /// <summary>
-        /// Occurs when a <see cref="Message"/> is recieved.
+        /// Occurs when a <see cref="Message"/> is received.
         /// </summary>
         event EventHandler<MessageEventArgs> OnMessage;
 
@@ -68,12 +68,12 @@ namespace Telegram.Bot
         event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
 
         /// <summary>
-        /// Occurs when an error occures during the background update pooling.
+        /// Occurs when an error occurs during the background update pooling.
         /// </summary>
         event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
 
         /// <summary>
-        /// Occurs when an error occures during the background update pooling.
+        /// Occurs when an error occurs during the background update pooling.
         /// </summary>
         event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
 
@@ -466,7 +466,7 @@ namespace Telegram.Bot
         /// <param name="fileId">File identifier</param>
         /// <param name="destination">The destination stream</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The File object. If <paramref name="destination"/> is empty stream ist embedded in the <see cref="File"/> Object</returns>
+        /// <returns>The File object. If <paramref name="destination"/> stream in not provided, stream is embedded in the <see cref="File"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getfile"/>
         Task<File> GetFileAsync(string fileId, Stream destination = null,
             CancellationToken cancellationToken = default(CancellationToken));
