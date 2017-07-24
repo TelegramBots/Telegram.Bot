@@ -1797,7 +1797,7 @@ namespace Telegram.Bot
                 { "name", name }
             };
 
-            return SendWebRequestAsync<StickerSet>("getStickers", parameters, cancellationToken);
+            return SendWebRequestAsync<StickerSet>("getStickerSet", parameters, cancellationToken);
         }
 
         /// <summary>

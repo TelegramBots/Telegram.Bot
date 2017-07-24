@@ -27,6 +27,8 @@
             public const string AdminBots = "Group Admin";
 
             public const string ChatMemberAdministration = "Chat Member Administration";
+
+            public const string Stickers = "Stickers";
         }
 
         public static class TelegramBotApiMethods
@@ -66,6 +68,8 @@
             public const string RestrictChatMember = "restrictChatMember";
 
             public const string PromoteChatMember = "promoteChatMember";
+
+            public const string GetStickerSet = "getStickerSet";
         }
     }
 }

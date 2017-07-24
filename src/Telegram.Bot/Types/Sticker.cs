@@ -13,13 +13,13 @@ namespace Telegram.Bot.Types
         /// Sticker width
         /// </summary>
         [JsonProperty(PropertyName = "width", Required = Required.Always)]
-        public string Width { get; set; }
+        public int Width { get; set; }
 
         /// <summary>
         /// Sticker height
         /// </summary>
         [JsonProperty(PropertyName = "height", Required = Required.Always)]
-        public string Height { get; set; }
+        public int Height { get; set; }
 
         /// <summary>
         /// Sticker thumbnail in .webp or .jpg format
