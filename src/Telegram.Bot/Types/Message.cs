@@ -174,7 +174,6 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. A new member was added to the group, information about them (this member may be bot itself)
         /// </summary>
-        [Obsolete("Use the NewChatMembers property")]
         [JsonProperty("new_chat_member", Required = Required.Default)]
         public User NewChatMember { get; set; }
 
