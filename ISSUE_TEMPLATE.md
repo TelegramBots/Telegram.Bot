@@ -10,10 +10,10 @@
 ### Environment data
 
 
-*NuGet Package Version:* (e.g. 10.3.0)
+*NuGet Package Version:* (e.g. 13.0.1)
 
-*.NET Version:* (e.g. 4.6, Core RTM, Mono, etc.)
+*.NET Version:* (e.g. 4.7, Core RTM, Mono, etc.)
 
-*IDE:* (e.g. VS2015, VS Code, etc.)
+*IDE:* (e.g. VS2017, VS Code, etc.)
 
 *App:* (e.g. Desktop, iOS, Android, etc.)

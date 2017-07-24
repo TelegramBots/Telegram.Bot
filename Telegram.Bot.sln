@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3F08204D-0100-468B-91A7-807ADC4E33EB}"
 EndProject
@@ -19,6 +19,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{10BAC644-5AF6-4BAA-8B8E-E2246B97BFF7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.Tests.Integ", "test\Telegram.Bot.Tests.Integ\Telegram.Bot.Tests.Integ.csproj", "{C696D617-1D84-4DDC-B4F6-2AC939F7358B}"
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Telegram.Bot.Documentation", "src\Telegram.Bot.Documentation\Telegram.Bot.Documentation.shfbproj", "{E67B6051-0559-49E1-B954-189110FEEA2D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5EE00727-14EC-409C-BF31-5B3084A99D1F} = {5EE00727-14EC-409C-BF31-5B3084A99D1F}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +38,8 @@ Global
 		{C696D617-1D84-4DDC-B4F6-2AC939F7358B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C696D617-1D84-4DDC-B4F6-2AC939F7358B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C696D617-1D84-4DDC-B4F6-2AC939F7358B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E67B6051-0559-49E1-B954-189110FEEA2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E67B6051-0559-49E1-B954-189110FEEA2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,5 +47,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5EE00727-14EC-409C-BF31-5B3084A99D1F} = {3F08204D-0100-468B-91A7-807ADC4E33EB}
 		{C696D617-1D84-4DDC-B4F6-2AC939F7358B} = {10BAC644-5AF6-4BAA-8B8E-E2246B97BFF7}
+		{E67B6051-0559-49E1-B954-189110FEEA2D} = {3F08204D-0100-468B-91A7-807ADC4E33EB}
 	EndGlobalSection
 EndGlobal

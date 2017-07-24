@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics>
+  <Topic id="a1e90301-b42e-4945-babf-77aaa2affa51" visible="True" isDefault="true" isSelected="true" title="Welcome to the Telegram Bot API C# Library">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="Welcome" />
+    </HelpKeywords>
+  </Topic>
+</Topics>
