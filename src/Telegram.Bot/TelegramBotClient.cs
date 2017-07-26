@@ -1847,7 +1847,7 @@ namespace Telegram.Bot
             };
 
             if (isMasks)
-                parameters.Add("is_masks", true);
+                parameters.Add("contains_masks", isMasks);
 
             if (maskPosition != null)
                 parameters.Add("mask_position", maskPosition);
