@@ -36,7 +36,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             using (var stream = new FileStream("Files/Photo/t_logo.png", FileMode.Open))
             {
-                message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId, stream.ToFileToSend("logo.png"));
+                message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId, stream.ToFileToSend("logo.png"),
+                    "👆 This is:\nTelegram's Logo");
             }
             message2 = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
                 new FileToSend(message.Photo.First().FileId));
