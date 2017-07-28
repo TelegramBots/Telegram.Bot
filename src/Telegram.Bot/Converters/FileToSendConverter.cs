@@ -18,6 +18,9 @@ namespace Telegram.Bot.Converters
                 case FileType.Url:
                     writer.WriteValue(fts.Url);
                     break;
+                case FileType.Stream:
+                    writer.WriteValue(null as object); // To prevent exceptions on serialization
+                    break;
                 default:
                     throw new NotSupportedException("File Type not supported");
             }

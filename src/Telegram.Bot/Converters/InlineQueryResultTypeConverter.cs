@@ -23,7 +23,6 @@ namespace Telegram.Bot.Converters
         }
 
         public override bool CanConvert(Type objectType)
-            => objectType == typeof (InlineQueryResultType);
-
+            => objectType == typeof(InlineQueryResultType);
     }
 }
