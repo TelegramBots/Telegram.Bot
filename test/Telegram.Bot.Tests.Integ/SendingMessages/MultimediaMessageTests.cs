@@ -104,6 +104,37 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         #endregion
 
+        #region 3. Sending documents
+
+        [Fact(DisplayName = FactTitles.ShouldSendPdf)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendDocument)]
+        [ExecutionOrder(3.1)]
+        public async Task Should_Send_Pdf_Document()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPdf);
+
+            const string caption = "The Tragedy of Hamlet,\nPrince of Denmark";
+            const string mimeType = "application/pdf";
+            const string fileName = "hamlet.pdf";
+            const int fileSize = 253736;
+
+            Message message;
+            using (var stream = new FileStream("Files/Document/hamlet.pdf", FileMode.Open))
+            {
+                message = await BotClient.SendDocumentAsync(_fixture.SuperGroupChatId,
+                    new FileToSend(fileName, stream), caption);
+            }
+
+            Assert.Equal(MessageType.DocumentMessage, message.Type);
+            Assert.Equal(fileName, message.Document.FileName);
+            Assert.Equal(mimeType, message.Document.MimeType);
+            Assert.Equal(fileSize, message.Document.FileSize);
+            Assert.InRange(message.Document.FileId.Length, 20, 40);
+            Assert.Equal(caption, message.Caption);
+        }
+
+        #endregion
+
         private static class FactTitles
         {
             public const string ShouldSendPhotoUsingFileId = "Should Send the same photo twice using file_id";
@@ -111,6 +142,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             public const string ShouldSendVideo = "Should send a video with caption";
 
             public const string ShouldSendVideoNote = "Should send a video note";
+
+            public const string ShouldSendPdf = "Should send a pdf document with caption";
         }
     }
 }

@@ -78,6 +78,8 @@
             public const string SendVideo = "sendVideo";
 
             public const string SendVideoNote = "sendVideoNote";
+
+            public const string SendDocument = "sendDocument";
         }
     }
 }
