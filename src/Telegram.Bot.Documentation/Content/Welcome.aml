@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<topic id="a1e90301-b42e-4945-babf-77aaa2affa51" revisionNumber="1">
+	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+		<introduction>
+			<para>C# library to talk to Telegrams Bot API</para>
+		</introduction>
+
+		<section>
+			<title>Getting Started</title>
+			<content>
+				<para>To get started, read the offcial docs on https://core.telegram.org/bots and some examples on GitHub https://github.com/TelegramBots/telegram.bot.examples</para>
+			</content>
+		</section>
+
+		<relatedTopics>
+    </relatedTopics>
+	</developerConceptualDocument>
+</topic>
