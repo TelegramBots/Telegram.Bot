@@ -1803,12 +1803,12 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
         /// </summary>
-        /// <param name="userId">User indentifier of sticker file owner</param>
+        /// <param name="userId">User identifier of sticker file owner</param>
         /// <param name="pngSticker">Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns the uploaded File on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
-        public Task<File> UploadStickerFileAsync(int userId, FileToSend pngSticker, 
+        public Task<File> UploadStickerFileAsync(int userId, FileToSend pngSticker,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
@@ -1834,7 +1834,7 @@ namespace Telegram.Bot
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
         public Task<bool> CreateNewStickerSetAsnyc(int userId, string name, string title, FileToSend pngSticker,
-            string emojis, bool isMasks = false, MaskPosition maskPosition = null, 
+            string emojis, bool isMasks = false, MaskPosition maskPosition = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
