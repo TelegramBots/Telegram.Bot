@@ -38,7 +38,6 @@ namespace Telegram.Bot.Converters
         }
 
         public override bool CanConvert(Type objectType)
-            => (typeof(FileToSend) == objectType);
-
+            => typeof(FileToSend) == objectType;
     }
 }

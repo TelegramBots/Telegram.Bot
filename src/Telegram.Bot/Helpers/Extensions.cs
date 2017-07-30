@@ -12,7 +12,7 @@ namespace Telegram.Bot.Helpers
         /// <summary>
         ///   Convert a long into a DateTime
         /// </summary>
-        public static DateTime FromUnixTime(this long dateTime) 
+        public static DateTime FromUnixTime(this long dateTime)
             => UnixStart.AddSeconds(dateTime).ToLocalTime();
 
         /// <summary>
