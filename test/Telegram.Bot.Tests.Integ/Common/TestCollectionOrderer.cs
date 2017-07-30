@@ -10,10 +10,12 @@ namespace Telegram.Bot.Tests.Integ.Common
     {
         private readonly string[] _orderedCollections = {
             CommonConstants.TestCollections.GettingUpdates,
-            CommonConstants.TestCollections.SendingMessages,
+            CommonConstants.TestCollections.TextMessage,
+            CommonConstants.TestCollections.MultimediaMessage,
             CommonConstants.TestCollections.CallbackQuery,
             CommonConstants.TestCollections.InlineQuery,
             CommonConstants.TestCollections.Payment,
+            CommonConstants.TestCollections.Stickers,
             CommonConstants.TestCollections.AdminBots,
             CommonConstants.TestCollections.ChatMemberAdministration,
         };

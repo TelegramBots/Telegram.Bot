@@ -14,7 +14,7 @@
         {
             public const string GettingUpdates = "Getting Updates";
 
-            public const string SendingMessages = "Sending Messages";
+            public const string TextMessage = "Sending Text Messages";
 
             public const string CallbackQuery = "Callback Query";
 
@@ -27,6 +27,10 @@
             public const string AdminBots = "Group Admin";
 
             public const string ChatMemberAdministration = "Chat Member Administration";
+
+            public const string Stickers = "Stickers";
+
+            public const string MultimediaMessage = "Sending Multimedia Messages";
         }
 
         public static class TelegramBotApiMethods
@@ -66,6 +70,16 @@
             public const string RestrictChatMember = "restrictChatMember";
 
             public const string PromoteChatMember = "promoteChatMember";
+
+            public const string GetStickerSet = "getStickerSet";
+
+            public const string SendPhoto = "sendPhoto";
+
+            public const string SendVideo = "sendVideo";
+
+            public const string SendVideoNote = "sendVideoNote";
+
+            public const string SendDocument = "sendDocument";
         }
     }
 }

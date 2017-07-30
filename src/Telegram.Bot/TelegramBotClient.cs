@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1797,7 +1796,7 @@ namespace Telegram.Bot
                 { "name", name }
             };
 
-            return SendWebRequestAsync<StickerSet>("getStickers", parameters, cancellationToken);
+            return SendWebRequestAsync<StickerSet>("getStickerSet", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -2053,15 +2052,22 @@ namespace Telegram.Bot
 
         private static HttpContent ConvertParameterValue(object value)
         {
-            var typeName = value.GetType().GetTypeInfo().Name;
+            HttpContent httpContent;
 
-            switch (typeName)
+            switch (value)
             {
-                case "FileToSend":
-                    return new StreamContent(((FileToSend)value).Content);
+                case string str: // Prevent escaping back-slash character: "\r\n" should not be "\\r\\n"
+                    httpContent = new StringContent(str);
+                    break;
+                case FileToSend fileToSend:
+                    httpContent = new StreamContent(fileToSend.Content);
+                    break;
                 default:
-                    return new StringContent(JsonConvert.SerializeObject(value, SerializerSettings).Trim('"'));
+                    httpContent = new StringContent(JsonConvert.SerializeObject(value, SerializerSettings).Trim('"'));
+                    break;
             }
+
+            return httpContent;
         }
         #endregion
     }

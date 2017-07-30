@@ -25,8 +25,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// True, if the sticker set contains masks
         /// </summary>
-        [JsonProperty(PropertyName = "is_masks", Required = Required.Always)]
-        public bool IsMasks { get; set; }
+        [JsonProperty(PropertyName = "contains_masks", Required = Required.Always)]
+        public bool ContainsMasks { get; set; }
 
         /// <summary>
         /// List of all set stickers
