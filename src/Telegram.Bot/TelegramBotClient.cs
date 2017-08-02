@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -1797,18 +1796,18 @@ namespace Telegram.Bot
                 { "name", name }
             };
 
-            return SendWebRequestAsync<StickerSet>("getStickers", parameters, cancellationToken);
+            return SendWebRequestAsync<StickerSet>("getStickerSet", parameters, cancellationToken);
         }
 
         /// <summary>
         /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
         /// </summary>
-        /// <param name="userId">User indentifier of sticker file owner</param>
+        /// <param name="userId">User identifier of sticker file owner</param>
         /// <param name="pngSticker">Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns the uploaded File on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
-        public Task<File> UploadStickerFileAsync(int userId, FileToSend pngSticker, 
+        public Task<File> UploadStickerFileAsync(int userId, FileToSend pngSticker,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
@@ -1834,7 +1833,7 @@ namespace Telegram.Bot
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
         public Task<bool> CreateNewStickerSetAsnyc(int userId, string name, string title, FileToSend pngSticker,
-            string emojis, bool isMasks = false, MaskPosition maskPosition = null, 
+            string emojis, bool isMasks = false, MaskPosition maskPosition = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
@@ -2053,15 +2052,22 @@ namespace Telegram.Bot
 
         private static HttpContent ConvertParameterValue(object value)
         {
-            var typeName = value.GetType().GetTypeInfo().Name;
+            HttpContent httpContent;
 
-            switch (typeName)
+            switch (value)
             {
-                case "FileToSend":
-                    return new StreamContent(((FileToSend)value).Content);
+                case string str: // Prevent escaping back-slash character: "\r\n" should not be "\\r\\n"
+                    httpContent = new StringContent(str);
+                    break;
+                case FileToSend fileToSend:
+                    httpContent = new StreamContent(fileToSend.Content);
+                    break;
                 default:
-                    return new StringContent(JsonConvert.SerializeObject(value, SerializerSettings).Trim('"'));
+                    httpContent = new StringContent(JsonConvert.SerializeObject(value, SerializerSettings).Trim('"'));
+                    break;
             }
+
+            return httpContent;
         }
         #endregion
     }
