@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
@@ -18,6 +19,7 @@ namespace Telegram.Bot.Types
         /// Username of the channel (in the format @channelusername)
         /// </summary>
         public readonly string Username;
+
 
         /// <summary>
         /// Create a <see cref="ChatId"/> using an identifier
@@ -84,6 +86,18 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="username">The user name</param>
         public static implicit operator ChatId(string username) => new ChatId(username);
+
+        /// <summary>
+        /// Create a <c>long</c> out of a <see cref="ChatId"/>
+        /// </summary>
+        /// <param name="chatid">The <see cref="ChatId"/></param>
+        public static implicit operator long(ChatId chatid) => chatid.Identifier;
+
+        /// <summary>
+        /// Create a <c>int</c> out of a <see cref="ChatId"/>
+        /// </summary>
+        /// <param name="chatid">The <see cref="ChatId"/></param>
+        public static implicit operator int(ChatId chatid) => return Convert.ToInt32(chatId.Identifier);
 
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
