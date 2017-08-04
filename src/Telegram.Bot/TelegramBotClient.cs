@@ -1994,7 +1994,14 @@ namespace Telegram.Bot
 
                             if (parameter.Value is FileToSend)
                             {
-                                form.Add(content, parameter.Key, ((FileToSend)parameter.Value).Filename);
+                                var fts = (FileToSend)parameter.Value;
+                                content.Headers.Add("Content-Type", "application/octet-stream");
+                                string headerValue = $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
+                                byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
+                                headerValue = string.Join("", bytes.Select(b => (char)b));
+                                content.Headers.Add("Content-Disposition", headerValue);
+
+                                form.Add(content, parameter.Key, fts.Filename);
                             }
                             else
                             {
