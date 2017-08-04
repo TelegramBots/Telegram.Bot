@@ -54,6 +54,7 @@ namespace Telegram.Bot.Types
         {
             Filename = filename;
             Content = content;
+            Content.Position = 0;	 
 
             Url = null;
             FileId = null;
