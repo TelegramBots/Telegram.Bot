@@ -33,6 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             while (!cancellationToken.IsCancellationRequested)
             {
                 var updates = await _botClient.GetUpdatesAsync(offset,
+                    allowedUpdates: new UpdateType[0],
                     cancellationToken: cancellationToken);
 
                 if (updates.Any())

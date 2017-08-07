@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             #endregion
 
-            var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));
+            var source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             BotClient.SendTextMessageAsync(SuperGroupChatId,
                 "```\nTest execution is starting...\n```",
                 ParseMode.Markdown,
@@ -109,7 +109,10 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public void Dispose()
         {
-            var source = new CancellationTokenSource(TimeSpan.FromSeconds(6));
+            var source = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+            UpdateReceiver.DiscardNewUpdatesAsync(source.Token).Wait(source.Token);
+
+            source = new CancellationTokenSource(TimeSpan.FromSeconds(10));
             BotClient.SendTextMessageAsync(SuperGroupChatId,
                 "```\nTest execution is finished.\n```",
                 ParseMode.Markdown,
