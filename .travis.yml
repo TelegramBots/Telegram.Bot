@@ -1,18 +1,29 @@
 language: csharp
-solution: Telegram.Bot.sln
-
-matrix:
-  include:
-    - os: linux
-      dist: trusty
-      sudo: required
-      dotnet: 1.0.0-preview2-003131
-      mono: none
-    - os: osx
-      osx_image: xcode7.3
-      dotnet: 1.0.0-preview2-003121
-      mono: none
-
+dist: trusty
+mono: none
+dotnet: 1.0.4
+branches:
+  only:
+  - master
+  - develop
 script:
   - dotnet restore
-  - dotnet build ./src/Telegram.Bot -f .NETStandard,Version=v1.1
+  - dotnet build --configuration Release
+  - sh -c "dotnet test test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj --configuration Release --no-build --list-tests"
+  - sh -c "dotnet test test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj --configuration Release --no-build"
+notifications:
+  email: false
+
+## Notes:
+### Limit concurrent jobs to only 1
+
+## Environment Variables:
+
+# TelegramBot_ApiToken                      test-bot-api-token
+# TelegramBot_AllowedUserNames              main_tester,some_other_user
+# TelegramBot_SuperGroupChatId              -1234
+# TelegramBot_PaymentProviderToken          token-from-stripe-test-bot
+# TelegramBot_TesterPrivateChatId           1234
+# TelegramBot_RegularMemberUserId           9876
+# TelegramBot_RegularMemberUserName         main_tester
+# TelegramBot_RegularMemberPrivateChatId    9876

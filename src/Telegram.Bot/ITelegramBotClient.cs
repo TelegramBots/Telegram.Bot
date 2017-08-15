@@ -914,7 +914,7 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
         /// </summary>
-        /// <param name="userId">User indentifier of sticker file owner</param>
+        /// <param name="userId">User identifier of sticker file owner</param>
         /// <param name="pngSticker">Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns the uploaded File on success.</returns>
@@ -992,7 +992,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
-        Task<bool> SetChatPhotoAsync(ChatId chatId, FileToSend photo, 
+        Task<bool> SetChatPhotoAsync(ChatId chatId, FileToSend photo,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>

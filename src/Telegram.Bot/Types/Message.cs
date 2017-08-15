@@ -30,7 +30,7 @@ namespace Telegram.Bot.Types
         /// Date the message was sent
         /// </summary>
         [JsonProperty("date", Required = Required.Always)]
-        [JsonConverter(typeof (UnixDateTimeConverter))]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Date { get; set; }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Types
         /// Optional. For forwarded messages, date the original message was sent in Unix time
         /// </summary>
         [JsonProperty("forward_date", Required = Required.Default)]
-        [JsonConverter(typeof (UnixDateTimeConverter))]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? ForwardDate { get; set; }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Telegram.Bot.Types
         /// </value>
         [JsonIgnore]
         public List<string> EntityValues
-            => Entities.ToList().Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
+            => Entities.Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
 
         /// <summary>
         /// Optional. Message is an audio file, information about the file
@@ -174,7 +174,6 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. A new member was added to the group, information about them (this member may be bot itself)
         /// </summary>
-        [Obsolete("Use the NewChatMembers property")]
         [JsonProperty("new_chat_member", Required = Required.Default)]
         public User NewChatMember { get; set; }
 
