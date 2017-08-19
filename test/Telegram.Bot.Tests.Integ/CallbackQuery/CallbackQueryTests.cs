@@ -23,12 +23,13 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldReceiveCallbackQuery)]
+        [Fact(DisplayName = FactTitles.ShouldReceiveAnswerCallbackQuery)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerCallbackQuery)]
         [ExecutionOrder(1.1)]
-        public async Task ShouldReceiveCallbackQuery()
+        public async Task Should_Answer_With_Notification()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveCallbackQuery,
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveAnswerCallbackQuery,
                 "Click on *OK* button");
 
             const string callbackQueryData = "ok btn";
@@ -44,18 +45,21 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
             Update responseUpdate = await WaitForCallbackQueryUpdate(message.MessageId);
 
+            bool result = await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "You clicked on OK");
+
             Assert.Equal(UpdateType.CallbackQueryUpdate, responseUpdate.Type);
             Assert.Equal(message.MessageId, responseUpdate.CallbackQuery.Message.MessageId);
             Assert.Equal(callbackQueryData, responseUpdate.CallbackQuery.Data);
+            Assert.True(result);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerCallbackQuery)]
+        [Fact(DisplayName = FactTitles.ShouldAnswerCallbackQueryWithAlert)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerCallbackQuery)]
         [ExecutionOrder(1.2)]
-        public async Task ShouldAnswerCallbackQuery()
+        public async Task Should_Answer_With_Alert()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerCallbackQuery,
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerCallbackQueryWithAlert,
                 "Click on *Notify* button");
 
             const string callbackQueryData = "Show Notification";
@@ -71,9 +75,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
             Update responseUpdate = await WaitForCallbackQueryUpdate(message.MessageId);
 
-            bool result = await BotClient.AnswerCallbackQueryAsync(
-                responseUpdate.CallbackQuery.Id,
-                "Got it!");
+            bool result = await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "Got it!", true);
 
             Assert.True(result);
         }
@@ -95,9 +97,9 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
         private static class FactTitles
         {
-            public const string ShouldReceiveCallbackQuery = "Should send a message with inline buttons and receive callback query result";
+            public const string ShouldReceiveAnswerCallbackQuery = "Should receive and answer callback query result with a notification";
 
-            public const string ShouldAnswerCallbackQuery = "Should send a message with inline buttons and answer to its callback query with a notification";
+            public const string ShouldAnswerCallbackQueryWithAlert = "Should receive and answer callback query result with an alert";
         }
     }
 }

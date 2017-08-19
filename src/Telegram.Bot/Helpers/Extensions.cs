@@ -7,13 +7,13 @@ namespace Telegram.Bot.Helpers
     /// </summary>
     public static class Extensions
     {
-        private static readonly DateTime UnixStart = new DateTime(1970, 1, 1);
+        private static readonly DateTime UnixStart = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         ///   Convert a long into a DateTime
         /// </summary>
-        public static DateTime FromUnixTime(this long dateTime)
-            => UnixStart.AddSeconds(dateTime).ToLocalTime();
+        public static DateTime FromUnixTime(this long unixTime)
+            => UnixStart.AddSeconds(unixTime).ToLocalTime();
 
         /// <summary>
         ///   Convert a DateTime into a long
@@ -22,17 +22,17 @@ namespace Telegram.Bot.Helpers
         /// <exception cref="OverflowException"></exception>
         public static long ToUnixTime(this DateTime dateTime)
         {
-            var utcDateTime = dateTime.ToUniversalTime();
-
-            if (utcDateTime == DateTime.MinValue)
+            if (dateTime == DateTime.MinValue)
                 return 0;
 
-            var delta = dateTime - UnixStart;
+            var utcDateTime = dateTime.ToUniversalTime();
 
-            if (delta.TotalSeconds < 0)
+            var delta = (utcDateTime - UnixStart).TotalSeconds;
+
+            if (delta < 0)
                 throw new ArgumentOutOfRangeException(nameof(dateTime), "Unix epoch starts January 1st, 1970");
 
-            return Convert.ToInt64(delta.TotalSeconds);
+            return Convert.ToInt64(delta);
         }
     }
 }
