@@ -1,4 +1,4 @@
-version: 13.1.0-ci-{build}
+version: 13.2.0-ci-{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:
@@ -15,6 +15,8 @@ build:
   publish_nuget_symbols: true
   verbosity: normal
 after_build:
+  - ps: "dotnet test test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj --list-tests"
+  - ps: "dotnet test test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj --no-build"
   - ps: "Get-ChildItem *.nupkg -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
 test: off
 deploy:
