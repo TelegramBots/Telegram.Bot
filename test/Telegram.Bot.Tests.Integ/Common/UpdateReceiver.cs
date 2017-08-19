@@ -92,7 +92,44 @@ namespace Telegram.Bot.Tests.Integ.Common
             return matchingUpdates;
         }
 
-        private async Task<Update[]> GetOnlyAllowedUpdatesAsync(int offset, CancellationToken cToken, params UpdateType[] types)
+        public async Task<Update> GetCallbackQueryUpdateAsync(int? messageId = null, bool discardNewUpdates = true,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            Func<Update, bool> predicate = null;
+            if (messageId != null)
+                predicate = u => u.CallbackQuery.Message.MessageId == messageId;
+
+            var updates = await GetUpdatesAsync(predicate,
+                cancellationToken: cancellationToken,
+                updateTypes: UpdateType.CallbackQueryUpdate);
+
+            if (discardNewUpdates)
+            {
+                await DiscardNewUpdatesAsync(cancellationToken);
+            }
+
+            var update = updates.First();
+            return update;
+        }
+
+        public async Task<Update> GetInlineQueryUpdateAsync(bool discardNewUpdates = true,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var updates = await GetUpdatesAsync(
+                cancellationToken: cancellationToken,
+                updateTypes: UpdateType.InlineQueryUpdate);
+
+            if (discardNewUpdates)
+            {
+                await DiscardNewUpdatesAsync(cancellationToken);
+            }
+
+            var update = updates.First();
+            return update;
+        }
+
+        private async Task<Update[]> GetOnlyAllowedUpdatesAsync(int offset, CancellationToken cToken,
+            params UpdateType[] types)
         {
             var updates = await _botClient.GetUpdatesAsync(offset,
                 allowedUpdates: types,

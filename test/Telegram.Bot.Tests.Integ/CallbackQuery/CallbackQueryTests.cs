@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
@@ -45,7 +46,8 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
             Update responseUpdate = await WaitForCallbackQueryUpdate(message.MessageId);
 
-            bool result = await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "You clicked on OK");
+            bool result =
+                await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "You clicked on OK");
 
             Assert.Equal(UpdateType.CallbackQueryUpdate, responseUpdate.Type);
             Assert.Equal(message.MessageId, responseUpdate.CallbackQuery.Message.MessageId);
@@ -80,11 +82,14 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
             Assert.True(result);
         }
 
-        private async Task<Update> WaitForCallbackQueryUpdate(int messageId, CancellationToken cancellationToken = default(CancellationToken))
+        [Obsolete]
+        private async Task<Update> WaitForCallbackQueryUpdate(int messageId,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             Update update;
 
-            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(u => u.CallbackQuery.Message.MessageId == messageId,
+            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+                u => u.CallbackQuery.Message.MessageId == messageId,
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.CallbackQueryUpdate);
 
@@ -97,9 +102,11 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
         private static class FactTitles
         {
-            public const string ShouldReceiveAnswerCallbackQuery = "Should receive and answer callback query result with a notification";
+            public const string ShouldReceiveAnswerCallbackQuery =
+                "Should receive and answer callback query result with a notification";
 
-            public const string ShouldAnswerCallbackQueryWithAlert = "Should receive and answer callback query result with an alert";
+            public const string ShouldAnswerCallbackQueryWithAlert =
+                "Should receive and answer callback query result with an alert";
         }
     }
 }

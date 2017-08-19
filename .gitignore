@@ -209,3 +209,6 @@ appsettings.*.json
 
 # Documentation project
 src/Telegram.Bot.Documentation/
+
+# Rider IDE
+.idea

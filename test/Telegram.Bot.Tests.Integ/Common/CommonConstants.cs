@@ -31,6 +31,8 @@
             public const string Stickers = "Stickers";
 
             public const string MultimediaMessage = "Sending Multimedia Messages";
+
+            public const string UpdateMessage = "Updating messages";
         }
 
         public static class TelegramBotApiMethods
@@ -80,6 +82,8 @@
             public const string SendVideoNote = "sendVideoNote";
 
             public const string SendDocument = "sendDocument";
+
+            public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
@@ -53,6 +54,7 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
             Assert.True(result);
         }
 
+        [Obsolete]
         private async Task<Update> GetInlineQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
