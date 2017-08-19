@@ -17,6 +17,8 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public ChatId SuperGroupChatId { get; }
 
+        public Message GiveMessageToNextTest { get; set; }
+
         public TestsFixture()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;

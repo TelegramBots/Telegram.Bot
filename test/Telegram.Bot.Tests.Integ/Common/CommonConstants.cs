@@ -10,6 +10,8 @@
 
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
+        public const string JsonConvert = "Newtonsoft.Json.JsonConvert";
+
         public static class TestCollections
         {
             public const string GettingUpdates = "Getting Updates";
