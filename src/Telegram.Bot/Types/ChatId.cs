@@ -62,13 +62,13 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
-        public override bool Equals(object obj) => ((string) this).Equals(obj);
+        public override bool Equals(object obj) => ((string)this).Equals(obj);
 
         /// <summary>
         /// Gets the hash code of this object 
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
-        public override int GetHashCode() => ((string) this).GetHashCode();
+        public override int GetHashCode() => ((string)this).GetHashCode();
 
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
@@ -105,6 +105,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="chat"></param>
         public static implicit operator ChatId(Chat chat) =>
-            chat.Id != default(long) ? chat.Id : (ChatId) ("@" + chat.Username);
+            chat.Id != default(long) ? chat.Id : (ChatId)("@" + chat.Username);
     }
 }

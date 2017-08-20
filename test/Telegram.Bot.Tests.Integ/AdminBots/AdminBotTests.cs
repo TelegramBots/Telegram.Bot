@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldSetChatTitle)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetChatTitle)]
         [ExecutionOrder(1)]
-        public async Task ShouldSetChatTitle()
+        public async Task Should_Set_Chat_Title()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatTitle);
 
@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldSetChatDescription)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetChatDescription)]
         [ExecutionOrder(2.1)]
-        public async Task ShouldSetChatDescription()
+        public async Task Should_Set_Chat_Description()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatDescription);
 
@@ -53,7 +53,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldDeleteChatDescription)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetChatDescription)]
         [ExecutionOrder(2.2)]
-        public async Task ShouldDeleteChatDescription()
+        public async Task Should_Delete_Chat_Description()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
 
@@ -69,7 +69,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldPinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PinChatMessage)]
         [ExecutionOrder(3.1)]
-        public async Task ShouldPinMessage()
+        public async Task Should_Pin_Message()
         {
             Message msg = await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPinMessage);
 
@@ -81,7 +81,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldUnpinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UnpinChatMessage)]
         [ExecutionOrder(3.2)]
-        public async Task ShouldUnpinMessage()
+        public async Task Should_Unpin_Message()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnpinMessage);
 
@@ -97,7 +97,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldSetChatPhoto)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetChatPhoto)]
         [ExecutionOrder(4.1)]
-        public async Task ShouldSetChatPhoto()
+        public async Task Should_Set_Chat_Photo()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatPhoto);
             bool result;
@@ -114,7 +114,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldDeleteChatPhoto)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.DeleteChatPhoto)]
         [ExecutionOrder(4.2)]
-        public async Task ShouldDeleteChatPhoto()
+        public async Task Should_Delete_Chat_Photo()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatPhoto);
 
@@ -126,7 +126,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldThrowOnDeletingChatDeletedPhoto)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.DeleteChatPhoto)]
         [ExecutionOrder(4.3)]
-        public async Task ShouldThrowOnDeletingChatDeletedPhoto()
+        public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
 

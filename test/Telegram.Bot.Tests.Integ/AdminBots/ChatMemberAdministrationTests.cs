@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldKickChatMemberForEver)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.KickChatMember)]
         [ExecutionOrder(1.1)]
-        public async Task ShouldKickChatMemberForEver()
+        public async Task Should_Kick_Chat_Member_For_Ever()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberForEver);
 
@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldUnbanChatMember)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UnbanChatMember)]
         [ExecutionOrder(1.2)]
-        public async Task ShouldUnbanChatMember()
+        public async Task Should_Unban_Chat_Member()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnbanChatMember);
 
@@ -53,7 +53,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldExportChatInviteLink)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.ExportChatInviteLink)]
         [ExecutionOrder(1.3)]
-        public async Task ShouldExportChatInviteLink()
+        public async Task Should_Export_Chat_Invite_Link()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldExportChatInviteLink);
 
@@ -66,7 +66,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         [Fact(DisplayName = FactTitles.ShouldReceiveNewChatMemberNotification)]
         [ExecutionOrder(1.4)]
-        public async Task ShouldReceiveNewChatMemberNotification()
+        public async Task Should_Receive_New_Chat_Member_Notification()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveNewChatMemberNotification,
                 $"@{_classFixture.RegularMemberUserName} should join the group using invite link sent to " +
@@ -98,7 +98,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldPromoteUserToChangeChatInfo)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PromoteChatMember)]
         [ExecutionOrder(2.1)]
-        public async Task ShouldPromoteUserToChangeChatInfo()
+        public async Task Should_Promote_User_To_Change_Chat_Info()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPromoteUserToChangeChatInfo);
 
@@ -113,7 +113,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldRestrictSendingStickersTemporarily)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.RestrictChatMember)]
         [ExecutionOrder(2.2)]
-        public async Task ShouldRestrictSendingStickersTemporarily()
+        public async Task Should_Restrict_Sending_Stickers_Temporarily()
         {
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRestrictSendingStickersTemporarily);
@@ -136,7 +136,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         [Fact(DisplayName = FactTitles.ShouldKickChatMemberTemporarily)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.KickChatMember)]
         [ExecutionOrder(3)]
-        public async Task ShouldKickChatMemberTemporarily()
+        public async Task Should_Kick_Chat_Member_Temporarily()
         {
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberTemporarily,

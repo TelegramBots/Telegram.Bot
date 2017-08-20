@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [Fact(DisplayName = FactTitles.ShouldSendInvoice)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
         [ExecutionOrder(1.1)]
-        public async Task ShouldSendInvoice()
+        public async Task Should_Send_Invoice()
         {
             await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInvoice);
 
@@ -66,7 +66,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerShippingQuery)]
         [ExecutionOrder(1.2)]
-        public async Task ShouldAnswerShippingQueryWithOk()
+        public async Task Should_Answer_Shipping_Query_With_Ok()
         {
             await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerShippingQueryWithOk,
                 "Click on *Pay <amount>* and send your shipping address. You should see shipment options afterwards.");
@@ -135,7 +135,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         [ExecutionOrder(1.3)]
-        public async Task ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption()
+        public async Task Should_Answer_PreCheckout_Query_With_Ok_For_No_Shipment_Option()
         {
             await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
                 "Click on *Pay <amount>* and confirm payment. Transaction should be completed.");
@@ -182,7 +182,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             Assert.Null(query.OrderInfo);
             Assert.True(result);
         }
-        // todo another method: receive successful payment
+        // ToDo: another method: receive successful payment
 
         private async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
         {

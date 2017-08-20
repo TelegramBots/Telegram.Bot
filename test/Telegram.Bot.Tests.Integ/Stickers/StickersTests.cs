@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         [Fact(DisplayName = FactTitles.ShouldGetStickerSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetStickerSet)]
         [ExecutionOrder(1.1)]
-        public async Task ShouldGetStickerSet()
+        public async Task Should_Get_Sticker_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetStickerSet);
             const string setName = "EvilMinds";

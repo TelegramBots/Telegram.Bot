@@ -25,7 +25,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         [Fact(DisplayName = FactTitles.ShouldSendTextMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1)]
-        public async Task ShouldSendTextMessage()
+        public async Task Should_Send_Text_Message()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessage);
 
@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         [Fact(DisplayName = FactTitles.ShouldParseMessageEntities)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(2.1)]
-        public async Task ShouldParseMessageEntities()
+        public async Task Should_Parse_Message_Entities()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageEntities);
 
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         [Fact(DisplayName = FactTitles.ShouldPaseMessageEntitiesIntoValues)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(2.2)]
-        public async Task ShouldPaseMessageEntitiesIntoValues()
+        public async Task Should_Pase_Message_Entities_Into_Values()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPaseMessageEntitiesIntoValues);
 

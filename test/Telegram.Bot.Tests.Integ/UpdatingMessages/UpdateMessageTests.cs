@@ -30,8 +30,7 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
         [ExecutionOrder(1.3)]
         public async Task Should_Edit_Message_Markup()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageMarkup,
-                "Post an inline query result to chat and click on its inline button");
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageMarkup);
 
             var initialMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {

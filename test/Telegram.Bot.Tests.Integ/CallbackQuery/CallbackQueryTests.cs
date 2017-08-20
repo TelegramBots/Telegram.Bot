@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
@@ -33,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveAnswerCallbackQuery,
                 "Click on *OK* button");
 
-            const string callbackQueryData = "ok btn";
+            string callbackQueryData = new Random().Next(5_000).ToString();
             var replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {
                 new InlineKeyboardCallbackButton("OK", callbackQueryData),
@@ -44,7 +42,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 ParseMode.Markdown,
                 replyMarkup: replyMarkup);
 
-            Update responseUpdate = await WaitForCallbackQueryUpdate(message.MessageId);
+            Update responseUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId, false);
 
             bool result =
                 await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "You clicked on OK");
@@ -64,7 +62,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerCallbackQueryWithAlert,
                 "Click on *Notify* button");
 
-            const string callbackQueryData = "Show Notification";
+            string callbackQueryData = new Random().Next(5_000).ToString();
             var replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {
                 new InlineKeyboardCallbackButton("Notify", callbackQueryData),
@@ -75,29 +73,12 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 ParseMode.Markdown,
                 replyMarkup: replyMarkup);
 
-            Update responseUpdate = await WaitForCallbackQueryUpdate(message.MessageId);
+            Update responseUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId, false);
 
             bool result = await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "Got it!", true);
 
             Assert.True(result);
-        }
-
-        [Obsolete]
-        private async Task<Update> WaitForCallbackQueryUpdate(int messageId,
-            CancellationToken cancellationToken = default(CancellationToken))
-        {
-            Update update;
-
-            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                u => u.CallbackQuery.Message.MessageId == messageId,
-                cancellationToken: cancellationToken,
-                updateTypes: UpdateType.CallbackQueryUpdate);
-
-            update = updates.Single();
-
-            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
-
-            return update;
+            Assert.Equal(callbackQueryData, responseUpdate.CallbackQuery.Data);
         }
 
         private static class FactTitles

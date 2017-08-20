@@ -1,10 +1,6 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Xunit;
@@ -27,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithArticle)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1.1)]
-        public async Task ShouldAnswerInlineQueryWithArticle()
+        public async Task Should_Answer_Inline_Query_With_Article()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
                 "Start an inline query with bot. For example, type `@bot_user_name` in chat and wait.");
@@ -45,27 +41,13 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
                     },
                 },
             };
-            Update update = await GetInlineQueryUpdate();
+            Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             bool result = await BotClient.AnswerInlineQueryAsync(
                 update.InlineQuery.Id,
                 results, 0);
 
             Assert.True(result);
-        }
-
-        [Obsolete]
-        private async Task<Update> GetInlineQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                cancellationToken: cancellationToken,
-                updateTypes: UpdateType.InlineQueryUpdate);
-
-            var update = updates.Single();
-
-            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
-
-            return update;
         }
 
         private static class FactTitles
