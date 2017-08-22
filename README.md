@@ -12,7 +12,7 @@ C# library to talk to Telegrams [Bot API](https://core.telegram.org/bots/api)
 ```C#
 static async void testApiAsync()
 {
-    var Bot = new Telegram.Bot.Api("your API access Token");
+    var Bot = new Telegram.Bot.TelegramBotClient("your API access Token");
     var me = await Bot.GetMeAsync();
     System.Console.WriteLine("Hello my name is " + me.FirstName);
 }
