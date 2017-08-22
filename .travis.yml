@@ -16,6 +16,7 @@ notifications:
 
 ## Notes:
 ### Limit concurrent jobs to only 1
+### Disable building PRs (might expose env vars)
 
 ## Environment Variables:
 
