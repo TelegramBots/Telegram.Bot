@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 
 namespace Telegram.Bot.Types
 {
@@ -18,13 +19,13 @@ namespace Telegram.Bot.Types
         /// Optional. If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
         /// </summary>
         [JsonProperty("request_contact", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public bool RequestContact { get; set; } = false;
+        public bool RequestContact { get; set; }
 
         /// <summary>
         /// Optional. If <c>true</c>, the user's current location will be sent when the button is pressed. Available in private chats only
         /// </summary>
         [JsonProperty("request_location", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public bool RequestLocation { get; set; } = false;
+        public bool RequestLocation { get; set; }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="string"/> to <see cref="KeyboardButton"/>.

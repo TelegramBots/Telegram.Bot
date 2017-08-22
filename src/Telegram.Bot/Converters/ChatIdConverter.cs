@@ -29,6 +29,6 @@ namespace Telegram.Bot.Converters
         }
 
         public override bool CanConvert(Type objectType)
-            => (typeof(ChatId) == objectType);
+            => typeof(ChatId) == objectType;
     }
 }

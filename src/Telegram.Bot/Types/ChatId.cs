@@ -9,8 +9,15 @@ namespace Telegram.Bot.Types
     [JsonConverter(typeof(ChatIdConverter))]
     public class ChatId
     {
-        internal long Identifier;
-        internal string Username;
+        /// <summary>
+        /// Unique identifier for the chat
+        /// </summary>
+        public readonly long Identifier;
+
+        /// <summary>
+        /// Username of the channel (in the format @channelusername)
+        /// </summary>
+        public readonly string Username;
 
         /// <summary>
         /// Create a <see cref="ChatId"/> using an identifier
@@ -19,6 +26,15 @@ namespace Telegram.Bot.Types
         public ChatId(long identifier)
         {
             Identifier = identifier;
+        }
+
+        /// <summary>
+        /// Create a <see cref="ChatId"/> using an identifier
+        /// </summary>
+        /// <param name="chatId">The Identifier</param>
+        public ChatId(int chatId)
+        {
+            Identifier = chatId;
         }
 
         /// <summary>
@@ -31,14 +47,27 @@ namespace Telegram.Bot.Types
             {
                 Username = username;
             }
+            else if (int.TryParse(username, out int chatId))
+            {
+                Identifier = chatId;
+            }
             else if (long.TryParse(username, out long identifier))
             {
                 Identifier = identifier;
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object obj) => ((string)this).Equals(obj);
 
+        /// <summary>
+        /// Gets the hash code of this object 
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode() => ((string)this).GetHashCode();
 
         /// <summary>
@@ -54,6 +83,12 @@ namespace Telegram.Bot.Types
         public static implicit operator ChatId(long identifier) => new ChatId(identifier);
 
         /// <summary>
+        /// Create a <see cref="ChatId"/> out of an identifier
+        /// </summary>
+        /// <param name="chatId">The identifier</param>
+        public static implicit operator ChatId(int chatId) => new ChatId(chatId);
+
+        /// <summary>
         /// Create a <see cref="ChatId"/> out of an user name
         /// </summary>
         /// <param name="username">The user name</param>
@@ -62,7 +97,14 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
         /// </summary>
-        /// <param name="chatid">The <see cref="ChatId"/></param>
+        /// <param name="chatid">The <see cref="ChatId"/>The ChatId</param>
         public static implicit operator string(ChatId chatid) => chatid.Username ?? chatid.Identifier.ToString();
+
+        /// <summary>
+        /// Convert a Chat Object to a <see cref="ChatId"/>
+        /// </summary>
+        /// <param name="chat"></param>
+        public static implicit operator ChatId(Chat chat) =>
+            chat.Id != default(long) ? chat.Id : (ChatId)("@" + chat.Username);
     }
 }

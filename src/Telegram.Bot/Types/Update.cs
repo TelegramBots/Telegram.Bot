@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
 
@@ -82,7 +81,6 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The update type.
         /// </value>
-        /// <exception cref="System.ArgumentOutOfRangeException"></exception>
         [JsonIgnore]
         public UpdateType Type
         {

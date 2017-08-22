@@ -203,3 +203,12 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
+
+# Settings for different environments
+appsettings.*.json
+
+# Documentation project
+src/Telegram.Bot.Documentation/
+
+# Rider IDE
+.idea

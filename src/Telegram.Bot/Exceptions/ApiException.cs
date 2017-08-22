@@ -15,7 +15,7 @@ namespace Telegram.Bot.Exceptions
         public int ErrorCode { get; set; }
 
         /// <summary>
-        /// Contains information about why a request was unsuccessfull.
+        /// Contains information about why a request was unsuccessful.
         /// </summary>
         public ResponseParameters Parameters { get; set; }
 
@@ -69,6 +69,5 @@ namespace Telegram.Bot.Exceptions
                 Parameters = apiResponse.Parameters
             };
         }
-
     }
 }

@@ -3,9 +3,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-#if !NET46
 using Telegram.Bot.Helpers;
-#endif
 
 namespace Telegram.Bot.Converters
 {
@@ -19,27 +17,17 @@ namespace Telegram.Bot.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value == null)
+            switch (value)
             {
-                writer.WriteNull();
-                return;
+                case null:
+                    writer.WriteNull();
+                    break;
+                case DateTime dateTime:
+                    writer.WriteValue(dateTime.ToUnixTime());
+                    break;
+                default:
+                    throw new Exception("Expected date object value.");
             }
-
-            long val;
-            if (value is DateTime || value is Nullable<DateTime>)
-            {
-#if NET46
-                val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
-#else
-                val = ((DateTime)value).ToUnixTime();
-#endif
-            }
-            else
-            {
-                throw new Exception("Expected date object value.");
-            }
-
-            writer.WriteValue(val);
         }
 
         /// <summary>
@@ -66,11 +54,7 @@ namespace Telegram.Bot.Converters
 
             var ticks = (long)reader.Value;
 
-#if NET46
-            return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
-#else
             return ticks.FromUnixTime();
-#endif
         }
 
         /// <summary>

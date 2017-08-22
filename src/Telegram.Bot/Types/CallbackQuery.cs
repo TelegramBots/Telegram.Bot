@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 
 namespace Telegram.Bot.Types
 {
@@ -44,7 +45,7 @@ namespace Telegram.Bot.Types
         /// <remarks>
         /// Be aware that a bad client can send arbitrary data in this field.
         /// </remarks>
-        [JsonProperty("data", Required = Required.Always)]
+        [JsonProperty("data", Required = Required.Default)]
         public string Data { get; set; }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace Telegram.Bot.Types
         public string GameShortName { get; set; }
 
         /// <summary>
-        /// Idecates if the User requests a Game
+        /// Indicates if the User requests a Game
         /// </summary>
         [JsonIgnore]
         public bool IsGameQuery => GameShortName != null;

@@ -1,10 +1,77 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [12.0.0] - Upcomming
+## [Unreleased] [13.2.1]
+
+### Fixed
+
+- Sending wrong filenames containing non-ASCII characters
+- Deserialization of `PhotoSize`
+
+## [Unreleased] [13.2.0]
+
+### Added
+
+- Systems integrations test project
+
+### Changed
+
+- Sandcastle project moved to `docs` branch
+- TravisCI configurations to run systems integrations tests
+
+### Fixed
+
+- Quoting the string containing channel ids
+- Double escaping the escape character in the caption of messages
+- Serialization errors of `PhotoSize`
+
+## [13.1.0] - 23.07.2017
+### Added
+- Method `KickChatMemberAsync` parameter `untilDate`
+- Method `RestrictChatMemberAsync`
+- Method `PromoteChatMemberAsync`
+- Method `ExportChatInviteLinkAsync`
+- Method `SetChatPhotoAsync`
+- Method `DeleteChatPhotoAsync`
+- Method `SetChatTitleAsync`
+- Method `SetChatDescriptionAsync`
+- Method `PinChatMessageAsync`
+- Method `UnpinChatMessageAsync`
+- Method `SendVideoNoteAsync` parameter `length`
+- Method `GetStickerSetAsync`
+- Method `UploadStickerFileAsync`
+- Method `CreateNewStickerSetAsync`
+- Method `AddStickerToSetAsync`
+- Method `SetStickerPositionInSetAsync`
+- Method `DeleteStickerFromSetAsync`
+- Type `VideoNote` property `Length`
+- Type `Chat`properties `Photo`, `Description`, `InviteLink`
+- Type `ChatMember` properties `UntilDate`, `Can*`
+- Type `Sticker` properties `SetName` and `MaskPosition`
+- Type `MaskPosition`
+- Type `StickerSet`
+- Type `ChatPhoto`
+- Types `InlineKeyboard*Button`
+- Enum `MaskPositionPoint`
+
+### Changed
+- User and Chat Ids reverted to base types
+- DateTimes are now in local time zone
+- Splitedd Keyboardbuttons in `InlineKeyboardCallbackButton`, `InlineKeyboardCallbackGameButton`, `InlineKeyboardPayButton`, `InlineKeyboardSwitchCallbackQueryCurrentButton`, `InlineKeyboardSwitchInlineQueryButton` and `InlineKeyboardUrlButton`
+
+### Fixed
+- Inline messge editing
+- InlineQueryResult* `ThumbHight` and `ThumbWidth`
+- Method `SetWebHookAsync` parameter `max_connections`
+- Method `SetGameStoreAsync`
+- Type `CallbackQuery` Property `Data` optimal
+- Type `Message` can now be a `VideoNoteMessage`
+
+## [12.0.0] - Beta only
 ### Added
 - Method `DeleteMessageAsync`
 - Method `SendVideoNoteAsync`
