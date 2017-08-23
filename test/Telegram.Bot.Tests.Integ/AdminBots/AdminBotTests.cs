@@ -10,13 +10,18 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 {
     [Collection(CommonConstants.TestCollections.AdminBots)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    public class AdminBotTests
+    public class AdminBotTests : IClassFixture<AdminBotTestFixture>
     {
+        private readonly AdminBotTestFixture _classFixture;
+
         private readonly TestsFixture _fixture;
 
-        public AdminBotTests(TestsFixture assemblyFixture)
+        private ITelegramBotClient BotClient => _fixture.BotClient;
+
+        public AdminBotTests(AdminBotTestFixture classFixture)
         {
-            _fixture = assemblyFixture;
+            _classFixture = classFixture;
+            _fixture = _classFixture.TestsFixture;
         }
 
         #region 1. Changing Chat Title
@@ -28,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatTitle);
 
-            bool result = await _fixture.BotClient.SetChatTitleAsync(_fixture.SuperGroupChatId, "Test Chat Title");
+            bool result = await BotClient.SetChatTitleAsync(_fixture.SuperGroupChatId, _classFixture.ChatTitle);
 
             Assert.True(result);
         }
@@ -44,7 +49,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatDescription);
 
-            bool result = await _fixture.BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId,
+            bool result = await BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId,
                 "Test Chat Description");
 
             Assert.True(result);
@@ -57,7 +62,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
 
-            bool result = await _fixture.BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId);
+            bool result = await BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId);
 
             Assert.True(result);
         }
@@ -73,21 +78,53 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             Message msg = await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPinMessage);
 
-            bool result = await _fixture.BotClient.PinChatMessageAsync(_fixture.SuperGroupChatId, msg.MessageId);
+            bool result = await BotClient.PinChatMessageAsync(_fixture.SuperGroupChatId, msg.MessageId);
 
             Assert.True(result);
+            _classFixture.PinnedMessage = msg;
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldGetChatPinnedMessage)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetChat)]
+        [ExecutionOrder(3.2)]
+        public async Task Should_Get_Chat_Pinned_Message()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatPinnedMessage);
+
+            Message pinnedMsg = _classFixture.PinnedMessage;
+            if (pinnedMsg is null)
+            {
+                throw new NullReferenceException("Pinned message should have been set in the preceding test");
+            }
+
+            Chat chat = await BotClient.GetChatAsync(_fixture.SuperGroupChatId);
+
+            Assert.Equal(pinnedMsg.MessageId, chat.PinnedMessage.MessageId);
+            Assert.Equal(pinnedMsg.Text, chat.PinnedMessage.Text);
         }
 
         [Fact(DisplayName = FactTitles.ShouldUnpinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UnpinChatMessage)]
-        [ExecutionOrder(3.2)]
+        [ExecutionOrder(3.3)]
         public async Task Should_Unpin_Message()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnpinMessage);
 
-            bool result = await _fixture.BotClient.UnpinChatMessageAsync(_fixture.SuperGroupChatId);
+            bool result = await BotClient.UnpinChatMessageAsync(_fixture.SuperGroupChatId);
 
             Assert.True(result);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldGetChatWithNoPinnedMessage)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetChat)]
+        [ExecutionOrder(3.4)]
+        public async Task Should_Get_Chat_With_No_Pinned_Message()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatWithNoPinnedMessage);
+
+            Chat chat = await BotClient.GetChatAsync(_fixture.SuperGroupChatId);
+
+            Assert.Null(chat.PinnedMessage);
         }
 
         #endregion
@@ -104,7 +141,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             using (var stream = new FileStream("Files/Photo/t_logo.png", FileMode.Open))
             {
-                result = await _fixture.BotClient.SetChatPhotoAsync(_fixture.SuperGroupChatId,
+                result = await BotClient.SetChatPhotoAsync(_fixture.SuperGroupChatId,
                     new FileToSend("photo.png", stream));
             }
 
@@ -118,7 +155,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatPhoto);
 
-            bool result = await _fixture.BotClient.DeleteChatPhotoAsync(_fixture.SuperGroupChatId);
+            bool result = await BotClient.DeleteChatPhotoAsync(_fixture.SuperGroupChatId);
 
             Assert.True(result);
         }
@@ -131,7 +168,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
 
             Exception e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-                _fixture.BotClient.DeleteChatPhotoAsync(_fixture.SuperGroupChatId));
+                BotClient.DeleteChatPhotoAsync(_fixture.SuperGroupChatId));
 
             Assert.IsType<ApiRequestException>(e);
             Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
@@ -149,7 +186,11 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             public const string ShouldPinMessage = "Should pin chat message";
 
+            public const string ShouldGetChatPinnedMessage = "Should get chat's pinned message";
+
             public const string ShouldUnpinMessage = "Should unpin chat message";
+
+            public const string ShouldGetChatWithNoPinnedMessage = "Should get the chat info without a pinned message";
 
             public const string ShouldSetChatPhoto = "Should set chat photo";
 

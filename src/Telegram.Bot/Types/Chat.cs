@@ -68,5 +68,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "invite_link", Required = Required.Default)]
         public string InviteLink { get; set; }
+
+        /// <summary>
+        /// Optional. Pinned message, for supergroups. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(PropertyName = "pinned_message", Required = Required.Default)]
+        public Message PinnedMessage { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.AdminBots
 {
-    public class ChatAdministrationFixture
+    public class ChatMemberAdministrationTestFixture
     {
         public TestsFixture TestsFixture { get; }
 
@@ -19,7 +19,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         public string GroupInviteLink { get; set; }
 
-        public ChatAdministrationFixture(TestsFixture testsFixture)
+        public ChatMemberAdministrationTestFixture(TestsFixture testsFixture)
         {
             TestsFixture = testsFixture;
 

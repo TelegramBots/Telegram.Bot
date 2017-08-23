@@ -33,6 +33,8 @@
             public const string MultimediaMessage = "Sending Multimedia Messages";
 
             public const string UpdateMessage = "Updating messages";
+            
+            public const string ChatInformation = "Chat Information";
         }
 
         public static class TelegramBotApiMethods
@@ -84,6 +86,8 @@
             public const string SendDocument = "sendDocument";
 
             public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
+            
+            public const string GetChat = "getChat";
         }
     }
 }
