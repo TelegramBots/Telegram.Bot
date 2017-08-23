@@ -2,4 +2,4 @@
 
 ## Tests
 
-[Integration tests](./tests/integ-tests.md) in this project are a great way to explore bot API methods.
+[Systems Integration tests](./tests/sys-integ-tests.md) in this project are a great way to explore Bot API methods.
