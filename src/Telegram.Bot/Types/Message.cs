@@ -58,6 +58,12 @@ namespace Telegram.Bot.Types
         public int ForwardFromMessageId { get; set; }
 
         /// <summary>
+        /// Optional. For messages forwarded from channels, signature of the post author if present
+        /// </summary>
+        [JsonProperty("forward_signature", Required = Required.Default)]
+        public string ForwardSignature { get; set; }
+
+        /// <summary>
         /// Optional. For forwarded messages, date the original message was sent in Unix time
         /// </summary>
         [JsonProperty("forward_date", Required = Required.Default)]
@@ -76,6 +82,12 @@ namespace Telegram.Bot.Types
         [JsonProperty("edit_date", Required = Required.Default)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? EditDate { get; set; }
+
+        /// <summary>
+        /// Optional. Signature of the post author for messages in channels
+        /// </summary>
+        [JsonProperty("author_signature", Required = Required.Default)]
+        public string AuthorSignature { get; set; }
 
         /// <summary>
         /// Optional. For text messages, the actual UTF-8 text of the message
