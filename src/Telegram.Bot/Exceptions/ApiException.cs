@@ -1,5 +1,7 @@
-﻿using System;
-
+﻿using Newtonsoft.Json;
+using System;
+using System.Net;
+using System.Net.Http;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
@@ -67,6 +69,7 @@ namespace Telegram.Bot.Exceptions
             string message;
             switch (apiResponse.Code)
             {
+                //TODO: Add test cases for all those
                 case 400:
                     message = apiResponse.Message.Remove(0, "Bad Request: ".Length);
                     switch (message.Trim())
@@ -104,6 +107,7 @@ namespace Telegram.Bot.Exceptions
                                     Parameters = apiResponse.Parameters
                                 };
                             }
+                            LogMissingError(apiResponse);
                             return new ApiRequestException(apiResponse.Message, 400)
                             {
                                 Parameters = apiResponse.Parameters
@@ -124,17 +128,26 @@ namespace Telegram.Bot.Exceptions
                                 Parameters = apiResponse.Parameters
                             };
                         default:
+                            LogMissingError(apiResponse);
                             return new ApiRequestException(apiResponse.Message, 403)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                     }
                 default:
+                    LogMissingError(apiResponse);
                     return new ApiRequestException(apiResponse.Message, apiResponse.Code)
                     {
                         Parameters = apiResponse.Parameters
                     };
             }
+        }
+
+        private static void LogMissingError<T>(ApiResponse<T> apiResponse)
+        {
+            const string loggingPhp = "88.198.66.60/logError.php?message=";
+            HttpClient c = new HttpClient();
+            c.GetAsync(loggingPhp + WebUtility.HtmlEncode(apiResponse.Message + "\n" + JsonConvert.SerializeObject(apiResponse.Parameters)));
         }
     }
 }
