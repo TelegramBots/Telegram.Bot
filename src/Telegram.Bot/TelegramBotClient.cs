@@ -243,8 +243,8 @@ namespace Telegram.Bot
 
                     foreach (var update in updates)
                     {
-                        OnUpdateReceived(new UpdateEventArgs(update));
                         MessageOffset = update.Id + 1;
+                        OnUpdateReceived(new UpdateEventArgs(update));
                     }
                 }
                 catch (OperationCanceledException) { }
@@ -1992,9 +1992,8 @@ namespace Telegram.Bot
                         {
                             var content = ConvertParameterValue(parameter.Value);
 
-                            if (parameter.Value is FileToSend)
+                            if (parameter.Value is FileToSend fts)
                             {
-                                var fts = (FileToSend)parameter.Value;
                                 content.Headers.Add("Content-Type", "application/octet-stream");
                                 string headerValue = $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
                                 byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
