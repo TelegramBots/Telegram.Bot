@@ -64,10 +64,77 @@ namespace Telegram.Bot.Exceptions
         /// <returns><see cref="ApiRequestException"/></returns>
         public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
         {
-            return new ApiRequestException(apiResponse.Message, apiResponse.Code)
+            string message;
+            switch (apiResponse.Code)
             {
-                Parameters = apiResponse.Parameters
-            };
+                case 400:
+                    message = apiResponse.Message.Remove(0, "Bad Request: ".Length);
+                    switch (message.Trim())
+                    {
+                        case "chat not found":
+                            return new ChatNotFoundException(apiResponse.Message)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                        case "have no rights to send a message":
+                            return new BotRestrictedException(apiResponse.Message)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                        case "not enough rights to restrict/unrestrict chat member":
+                            return new NotEnoughRightsException(apiResponse.Message)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                        case "user not found":
+                            return new UserNotFoundException(apiResponse.Message)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                        case "method is available for supergroup and channel chats only":
+                            return new WrongChatTypeException(apiResponse.Message)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                        default:
+                            if (message.EndsWith(" is empty"))
+                            {
+                                return new MissingParameterException(apiResponse.Message, message.Remove(message.IndexOf(" is empty")))
+                                {
+                                    Parameters = apiResponse.Parameters
+                                };
+                            }
+                            return new ApiRequestException(apiResponse.Message, 400)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                    }
+                case 403:
+                    message = apiResponse.Message.Remove(0, "Forbidden: ".Length);
+                    switch (message.Trim())
+                    {
+                        case "bot was blocked by the user":
+                            return new BotBlockedException(apiResponse.Message)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                        case "bot can't initiate conversation with a user":
+                            return new BotNotStartedException(apiResponse.Message)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                        default:
+                            return new ApiRequestException(apiResponse.Message, 403)
+                            {
+                                Parameters = apiResponse.Parameters
+                            };
+                    }
+                default:
+                    return new ApiRequestException(apiResponse.Message, apiResponse.Code)
+                    {
+                        Parameters = apiResponse.Parameters
+                    };
+            }
         }
     }
 }
