@@ -49,7 +49,7 @@ namespace Telegram.Bot.Tests.Integ.ThrowingExceptions
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowUserNotFoundException);
 
             Exception e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
-                _fixture.BotClient.PromoteChatMemberAsync(_fixture.SuperGroupChatId, 0));
+                _fixture.BotClient.PromoteChatMemberAsync(_fixture.SuperGroupChatId, 123456));
             Assert.IsType<UserNotFoundException>(e);
         }
 
