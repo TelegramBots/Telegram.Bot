@@ -19,6 +19,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             CommonConstants.TestCollections.Stickers,
             CommonConstants.TestCollections.AdminBots,
             CommonConstants.TestCollections.ChatMemberAdministration,
+            CommonConstants.TestCollections.Exceptions,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

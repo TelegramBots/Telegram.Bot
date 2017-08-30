@@ -33,6 +33,8 @@
             public const string MultimediaMessage = "Sending Multimedia Messages";
 
             public const string UpdateMessage = "Updating messages";
+
+            public const string Exceptions = "Throwing exceptions";
         }
 
         public static class TelegramBotApiMethods
