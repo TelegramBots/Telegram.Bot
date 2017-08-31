@@ -34,7 +34,7 @@
 
             public const string UpdateMessage = "Updating messages";
 
-            public const string Exceptions = "Throwing exceptions";
+            public const string Exceptions = "Bot API Exceptions";
         }
 
         public static class TelegramBotApiMethods

@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Net;
-using System.Net.Http;
+﻿using System;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
@@ -145,9 +142,9 @@ namespace Telegram.Bot.Exceptions
 
         private static void LogMissingError<T>(ApiResponse<T> apiResponse)
         {
-            const string loggingPhp = "88.198.66.60/logError.php?message=";
-            HttpClient c = new HttpClient();
-            c.GetAsync(loggingPhp + WebUtility.HtmlEncode(apiResponse.Message + "\n" + JsonConvert.SerializeObject(apiResponse.Parameters)));
+            //const string loggingPhp = "88.198.66.60/logError.php?message=";
+            //HttpClient c = new HttpClient();
+            //c.GetAsync(loggingPhp + WebUtility.HtmlEncode(apiResponse.Message + "\n" + JsonConvert.SerializeObject(apiResponse.Parameters)));
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
     {
         private readonly TestsFixture _fixture;
 
+        private ITelegramBotClient BotClient => _fixture.BotClient;
+
         public StickersTests(TestsFixture assemblyFixture)
         {
             _fixture = assemblyFixture;
@@ -25,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetStickerSet);
             const string setName = "EvilMinds";
-            StickerSet stickerSet = await _fixture.BotClient.GetStickerSetAsync(setName);
+            StickerSet stickerSet = await BotClient.GetStickerSetAsync(setName);
 
             Assert.Equal(setName, stickerSet.Name);
             Assert.Equal("Evil Minds", stickerSet.Title);
