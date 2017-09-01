@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Telegram.Bot.Exceptions
+﻿namespace Telegram.Bot.Exceptions
 {
     /// <summary>
-    /// Reperesents an api exception for a missing parameter.
+    /// Represents an api exception for a missing parameter.
     /// </summary>
     public class MissingParameterException : ApiRequestException
     {
         /// <summary>
         /// The missing parameter.
         /// </summary>
-        public string MissingParameter { get; set; }
+        public string MissingParameter { get; }
+
         /// <summary>
         /// Initializes a new object of the <see cref="MissingParameterException"/> class
         /// </summary>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Telegram.Bot.Exceptions
+﻿namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// THis represents an api error when the bot is restricted in a group.
@@ -13,6 +9,6 @@ namespace Telegram.Bot.Exceptions
         /// Initializes a new object of the <see cref="BotRestrictedException"/> class.
         /// </summary>
         /// <param name="message">The error message.</param>
-        public BotRestrictedException(string message) : base (message, 400) { }
+        public BotRestrictedException(string message) : base(message, 400) { }
     }
 }

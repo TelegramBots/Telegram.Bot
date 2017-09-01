@@ -2051,7 +2051,7 @@ namespace Telegram.Bot
                 responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
 
             if (!responseObject.Ok)
-                throw ApiRequestException.FromApiResponse(responseObject);
+                throw ApiExceptionParser.Parse(responseObject);
 
             return responseObject.ResultObject;
         }
