@@ -69,6 +69,5 @@ namespace Telegram.Bot.Exceptions
                 Parameters = apiResponse.Parameters
             };
         }
-
     }
 }

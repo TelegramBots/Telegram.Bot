@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Document thumbnail as defined by sender
         /// </summary>
-        [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
+        [JsonProperty(PropertyName = "thumb", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
         public PhotoSize Thumb { get; set; }
 
         /// <summary>

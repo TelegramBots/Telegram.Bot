@@ -1,8 +1,33 @@
 # Change Log
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [Unreleased] [13.2.1]
+
+### Fixed
+
+- Sending wrong filenames containing non-ASCII characters
+- Deserialization of `PhotoSize`
+
+## [Unreleased] [13.2.0]
+
+### Added
+
+- Systems integrations test project
+
+### Changed
+
+- Sandcastle project moved to `docs` branch
+- TravisCI configurations to run systems integrations tests
+
+### Fixed
+
+- Quoting the string containing channel ids
+- Double escaping the escape character in the caption of messages
+- Serialization errors of `PhotoSize`
 
 ## [13.1.0] - 23.07.2017
 ### Added
@@ -38,7 +63,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - DateTimes are now in local time zone
 - Splitedd Keyboardbuttons in `InlineKeyboardCallbackButton`, `InlineKeyboardCallbackGameButton`, `InlineKeyboardPayButton`, `InlineKeyboardSwitchCallbackQueryCurrentButton`, `InlineKeyboardSwitchInlineQueryButton` and `InlineKeyboardUrlButton`
 
-### Fix
+### Fixed
 - Inline messge editing
 - InlineQueryResult* `ThumbHight` and `ThumbWidth`
 - Method `SetWebHookAsync` parameter `max_connections`

@@ -57,8 +57,17 @@ namespace Telegram.Bot.Types
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object obj) => ((string)this).Equals(obj);
 
+        /// <summary>
+        /// Gets the hash code of this object 
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode() => ((string)this).GetHashCode();
 
         /// <summary>
@@ -95,6 +104,7 @@ namespace Telegram.Bot.Types
         /// Convert a Chat Object to a <see cref="ChatId"/>
         /// </summary>
         /// <param name="chat"></param>
-        public static implicit operator ChatId(Chat chat) => chat.Id != default(long) ? (ChatId)chat.Id : (ChatId)("@"+chat.Username);
+        public static implicit operator ChatId(Chat chat) =>
+            chat.Id != default(long) ? chat.Id : (ChatId)("@" + chat.Username);
     }
 }
