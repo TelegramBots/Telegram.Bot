@@ -59,7 +59,6 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
 
         #endregion
 
-
         #region 2. Updating inline messages(sent via the bot)
 
         [Fact(DisplayName = FactTitles.ShouldEditInlineMessageMarkup)]
