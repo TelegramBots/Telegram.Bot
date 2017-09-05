@@ -28,6 +28,7 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
             User botUser = await BotClient.GetMeAsync();
 
             Assert.NotNull(botUser);
+            Assert.True(botUser.IsBot);
             Assert.True(botUser.Username.EndsWith("bot", StringComparison.OrdinalIgnoreCase));
         }
 

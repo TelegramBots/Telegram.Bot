@@ -54,6 +54,7 @@ namespace Telegram.Bot.Tests.Unit
                 ""message_id"": 1234,
                 ""from"": {
                     ""id"": 123456789,
+                    ""is_bot"": false,
                     ""first_name"": ""TelegramBots"",
                     ""last_name"": null,
                     ""username"": ""Telegram_Bots"",

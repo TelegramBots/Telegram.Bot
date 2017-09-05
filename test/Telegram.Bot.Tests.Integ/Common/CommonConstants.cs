@@ -36,6 +36,8 @@
 
             public const string Exceptions = "Bot API Exceptions";
 
+            public const string ChatInformation = "Chat information";
+
             public const string MessageReplyMarkup = "Messages with Keyboard Reply Markup";
         }
 
@@ -62,6 +64,8 @@
             public const string ExportChatInviteLink = "exportChatInviteLink";
 
             public const string PinChatMessage = "pinChatMessage";
+
+            public const string GetChat = "getChat";
 
             public const string UnpinChatMessage = "unpinChatMessage";
 

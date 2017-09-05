@@ -10,15 +10,15 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 {
     [Collection(CommonConstants.TestCollections.ChatMemberAdministration)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    public class ChatMemberAdministrationTests : IClassFixture<ChatAdministrationFixture>
+    public class ChatMemberAdministrationTests : IClassFixture<ChatMemberAdministrationTestFixture>
     {
         private readonly TestsFixture _fixture;
 
-        private readonly ChatAdministrationFixture _classFixture;
+        private readonly ChatMemberAdministrationTestFixture _classFixture;
 
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
-        public ChatMemberAdministrationTests(ChatAdministrationFixture classFixture)
+        public ChatMemberAdministrationTests(ChatMemberAdministrationTestFixture classFixture)
         {
             _classFixture = classFixture;
             _fixture = classFixture.TestsFixture;
