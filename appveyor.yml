@@ -1,4 +1,4 @@
-version: 13.2.0-ci-{build}
+version: 13.2.2-ci-{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:
@@ -21,9 +21,9 @@ after_build:
 test: off
 deploy:
   - provider: NuGet
-    server: https://www.myget.org/F/telegram-bot-core/api/v2/package
+    server: https://www.myget.org/F/telegram-bot/api/v2/package
     api_key:
-      secure: gSQ82eM3mJYkPfEF2qPLvzEw45dS6C/VAwLHTMn3mRpVMhVybLzBUCWDnP5lAmp6
-    symbol_server: https://www.myget.org/F/telegram-bot-core/api/v2/package
+      secure: Dl2/cPfGdESLPBMd7Y+CIQomwOgNQ2+rUTylGGzMb0FaJaL4WgPPf5lzkY5KD4V6
+    symbol_server: https://www.myget.org/F/telegram-bot/api/v2/package
     on:
       branch: develop
