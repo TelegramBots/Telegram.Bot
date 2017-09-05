@@ -10,6 +10,7 @@ namespace Telegram.Bot.Exceptions
         private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
+            new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
         };

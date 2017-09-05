@@ -4,6 +4,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Exceptions
@@ -67,6 +68,25 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ChatNotInitiatedException>(e);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(4)]
+        public async Task Should_Throw_Exception_ContactRequestException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionContactRequestException);
+
+            var replyMarkup = new ReplyKeyboardMarkup(new[]
+            {
+                new KeyboardButton("Share Contact") { RequestContact = true },
+            });
+
+            var e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+                BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId, "You should never see this message",
+                replyMarkup: replyMarkup));
+
+            Assert.IsType<ContactRequestException>(e);
+        }
+
         private static class FactTitles
         {
             public const string ShouldThrowChatNotFoundException =
@@ -76,7 +96,12 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "Should throw UserNotFoundException while trying to promote an invalid user id";
 
             public const string ShouldThrowExceptionChatNotInitiatedException =
-                "Should throw ChatNotInitiatedException while trying to send message to a user who hasn't started a chat with bot but bot knows about him/her.";
+                "Should throw ChatNotInitiatedException while trying to send message to a user who hasn't " +
+                "started a chat with bot but bot knows about him/her.";
+
+            public const string ShouldThrowExceptionContactRequestException =
+                "Should throw ContactRequestException while asking for user's phone number in non-private " +
+                "chat via reply keyboard markup";
         }
     }
 }
