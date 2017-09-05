@@ -35,7 +35,7 @@ static async Task TestApiAsync()
 
 ## Learning More
 
-If you don't know how to use this project or what is available for a Telegram bot, check the [Systems Integration tests](./test/Telegram.Bot.Tests.Integ/) which are running examples of API methods.
+If you don't know how to use this project or what is available for a Telegram bot, check the self-documented [Systems Integration tests](./test/Telegram.Bot.Tests.Integ/) which are runnable examples of API methods.
 
 Before submitting issues please consult following resources:
 
