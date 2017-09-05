@@ -30,8 +30,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 throw new ArgumentException("Payment provider token is too short.", nameof(PaymentProviderToken));
             }
 
-            string privateChatId = ConfigurationProvider.TestConfigurations.TesterPrivateChatId;
-            if (string.IsNullOrWhiteSpace(privateChatId))
+            var privateChatId = ConfigurationProvider.TestConfigurations.TesterPrivateChatId;
+            if (privateChatId is null)
             {
                 TestsFixture.SendTestCollectionNotificationAsync(
                         CommonConstants.TestCollections.Payment,

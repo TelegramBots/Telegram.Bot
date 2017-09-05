@@ -142,7 +142,7 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         private bool IsAllowed(Update update)
         {
-            if (_allowedUsernames?.All(string.IsNullOrWhiteSpace) == true)
+            if (_allowedUsernames is null || _allowedUsernames.All(string.IsNullOrWhiteSpace))
             {
                 return true;
             }
@@ -179,7 +179,7 @@ namespace Telegram.Bot.Tests.Integ.Common
                     isAllowed = false;
                     break;
                 case UpdateType.UnknownUpdate:
-                    throw new ArgumentException("Unkown update found!");
+                    throw new ArgumentException("Unknown update found!");
                 default:
                     throw new ArgumentOutOfRangeException();
             }

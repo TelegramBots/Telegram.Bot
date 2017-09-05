@@ -12,6 +12,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             CommonConstants.TestCollections.GettingUpdates,
             CommonConstants.TestCollections.TextMessage,
             CommonConstants.TestCollections.MultimediaMessage,
+            CommonConstants.TestCollections.MessageReplyMarkup,
             CommonConstants.TestCollections.InlineQuery,
             CommonConstants.TestCollections.CallbackQuery,
             CommonConstants.TestCollections.UpdateMessage,
