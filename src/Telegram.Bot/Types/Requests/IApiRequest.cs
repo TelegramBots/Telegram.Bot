@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
+using System.Net.Http;
 
 namespace Telegram.Bot.Types.Requests
 {
     /// <summary>
     /// Represents a request to be sent to telegrams bot API
     /// </summary>
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public interface IApiRequest
     {
         /// <summary>
@@ -34,5 +35,10 @@ namespace Telegram.Bot.Types.Requests
         /// The parameter name of the file. Only present if <see cref="FileStream"/> is present.
         /// </summary>
         string FileParameterName { get; set; }
+        /// <summary>
+        /// Returns this request as a HttpResponseMessage for a webhook
+        /// </summary>
+        /// <returns><see cref="HttpResponseMessage"/></returns>
+        HttpResponseMessage AsHttpResponseMessage();
     }
 }
