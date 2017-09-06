@@ -30,6 +30,10 @@ namespace Telegram.Bot.Types.Requests
         /// The name of the file. Only present if <see cref="FileStream"/> is present.
         /// </summary>
         public string FileName { get; set; }
+        /// <summary>
+        /// The parameter name of the file. Only present if <see cref="FileStream"/> is present.
+        /// </summary>
+        public string FileParameterName { get; set; }
     }
 
     /// <summary>

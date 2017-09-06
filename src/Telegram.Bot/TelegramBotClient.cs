@@ -21,6 +21,7 @@ using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 
 using File = Telegram.Bot.Types.File;
+using Telegram.Bot.Types.Requests;
 
 namespace Telegram.Bot
 {
@@ -2029,6 +2030,87 @@ namespace Telegram.Bot
                                                     .ConfigureAwait(false);
 
                 responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString, SerializerSettings);
+
+                response.EnsureSuccessStatusCode();
+            }
+            catch (HttpRequestException e) when (e.Message.Contains("401"))
+            {
+                _invalidToken = true;
+                throw new ApiRequestException("Invalid token", 401, e);
+            }
+            catch (TaskCanceledException e)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                    throw;
+
+                throw new ApiRequestException("Request timed out", 408, e);
+            }
+            catch (HttpRequestException e)
+                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
+            { }
+
+            if (responseObject == null)
+                responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
+
+            if (!responseObject.Ok)
+                throw ApiRequestException.FromApiResponse(responseObject);
+
+            return responseObject.ResultObject;
+        }
+
+        private async Task<T> SendWebRequestAsync<T>(IApiRequest request, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (_invalidToken)
+                throw new ApiRequestException("Invalid token", 401);
+
+            var uri = new Uri(BaseUrl + _token + "/" + request.Method);
+
+            ApiResponse<T> responseObject = null;
+            try
+            {
+                HttpResponseMessage response;
+
+                switch (request.Encoding)
+                {
+                    case RequestEncoding.Multipart:
+                        using (var form = new MultipartFormDataContent())
+                        {
+                            var fContent = new StreamContent(request.FileStream);
+                            fContent.Headers.Add("Content-Type", "application/octet-stream");
+                            string headerValue = $"form-data; name=\"{request.FileParameterName}\"; filename=\"{request.FileName}\"";
+                            byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
+                            headerValue = string.Join("", bytes.Select(b => (char)b));
+                            fContent.Headers.Add("Content-Disposition", headerValue);
+                            form.Add(fContent, request.FileParameterName, request.FileName);
+
+                            foreach (var parameter in request.Parameters.Where(parameter => parameter.Value != null))
+                            {
+                                var content = ConvertParameterValue(parameter.Value);
+                                form.Add(content, parameter.Key);
+                            }
+
+                            response = await _httpClient.PostAsync(uri, form, cancellationToken)
+                                                .ConfigureAwait(false);
+                        }
+                        break;
+                    case RequestEncoding.Json:
+                    default:
+                        if (request.Parameters.Count < 1)
+                        {
+                            response = await _httpClient.GetAsync(uri, cancellationToken)
+                                            .ConfigureAwait(false);
+                        }
+                        else
+                        {
+                            var payload = JsonConvert.SerializeObject(request.Parameters, SerializerSettings);
+
+                            var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
+
+                            response = await _httpClient.PostAsync(uri, httpContent, cancellationToken)
+                                                    .ConfigureAwait(false);
+                        }
+                        break;
+                }
 
                 response.EnsureSuccessStatusCode();
             }
