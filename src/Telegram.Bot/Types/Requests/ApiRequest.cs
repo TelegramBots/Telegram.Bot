@@ -61,10 +61,10 @@ namespace Telegram.Bot.Types.Requests
             Parameters = parameters ?? new Dictionary<string, object>();
         }
         /// <summary>
-        /// Returns this request as a HttpResponseMessage for a webhook
+        /// Returns this request as a HttpResponseMessage for a webhook. Not recommended if you are expecting a response, because you won't get any by this.
         /// </summary>
         /// <returns><see cref="HttpResponseMessage"/></returns>
-        public HttpResponseMessage AsHttpResponseMessage()
+        public HttpResponseMessage AsWebhookResponse()
         {
             var resp = new HttpResponseMessage(HttpStatusCode.OK);
             switch (Encoding)

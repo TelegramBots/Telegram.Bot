@@ -1,11 +1,23 @@
 ﻿using System.Collections.Generic;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.Requests
 {
+    /// <summary>
+    /// Represents a request to telegrams bot API to send a contact
+    /// </summary>
     public class SendContactRequest : ApiRequest
     {
+        /// <summary>
+        /// Intitializes a new instance of the <see cref="SendContactRequest"/> class
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="phoneNumber">Contact's phone number</param>
+        /// <param name="firstName">Contact's first name</param>
+        /// <param name="lastName">Contact's last name</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         public SendContactRequest(ChatId chatId, string phoneNumber, 
             string firstName, string lastName = null,
             bool disableNotification = false,

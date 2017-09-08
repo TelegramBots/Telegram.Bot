@@ -39,6 +39,6 @@ namespace Telegram.Bot.Types.Requests
         /// Returns this request as a HttpResponseMessage for a webhook
         /// </summary>
         /// <returns><see cref="HttpResponseMessage"/></returns>
-        HttpResponseMessage AsHttpResponseMessage();
+        HttpResponseMessage AsWebhookResponse();
     }
 }
