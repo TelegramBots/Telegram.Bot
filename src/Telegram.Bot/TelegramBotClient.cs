@@ -310,19 +310,7 @@ namespace Telegram.Bot
         public Task<Update[]> GetUpdatesAsync(int offset = 0, int limit = 100, int timeout = 0,
             UpdateType[] allowedUpdates = null,
             CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"offset", offset},
-                {"limit", limit},
-                {"timeout", timeout}
-            };
-
-            if (allowedUpdates != null && !allowedUpdates.Contains(UpdateType.All))
-                parameters.Add("allowed_updates", allowedUpdates);
-
-            return SendWebRequestAsync<Update[]>("getUpdates", parameters, cancellationToken);
-        }
+            => SendWebRequestAsync<Update[]>(new GetUpdatesRequest(offset, limit, timeout, allowedUpdates), cancellationToken);
 
         /// <summary>
         /// Use this method to specify a url and receive incoming updates via an outgoing webhook.
@@ -360,21 +348,7 @@ namespace Telegram.Bot
             int maxConnections = 40,
             UpdateType[] allowedUpdates = null,
             CancellationToken cancellationToken = default(CancellationToken))
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"url", url},
-                {"max_connections", maxConnections}
-            };
-
-            if (allowedUpdates != null && !allowedUpdates.Contains(UpdateType.All))
-                parameters.Add("allowed_updates", allowedUpdates);
-
-            if (certificate != null)
-                parameters.Add("certificate", certificate);
-
-            return SendWebRequestAsync<bool>("setWebhook", parameters, cancellationToken);
-        }
+            => SendWebRequestAsync<bool>(new SetWebhookRequest(url, certificate, maxConnections, allowedUpdates), cancellationToken);
 
         /// <summary>
         /// Use this method to remove webhook integration if you decide to switch back to getUpdates.
@@ -383,7 +357,7 @@ namespace Telegram.Bot
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletewebhook"/>
         public Task<bool> DeleteWebhookAsync(CancellationToken cancellationToken = default(CancellationToken))
-            => SendWebRequestAsync<bool>("deleteWebhook", null, cancellationToken);
+            => SendWebRequestAsync<bool>(new DeleteWebhookRequest(), cancellationToken);
 
         /// <summary>
         /// Use this method to get current webhook status.
@@ -392,7 +366,7 @@ namespace Telegram.Bot
         /// <returns>On success, returns <see cref="WebhookInfo"/>.</returns>
         /// <see href="https://core.telegram.org/bots/api#getwebhookinfo"/>
         public Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = default(CancellationToken))
-            => SendWebRequestAsync<WebhookInfo>("getWebhookInfo", null, cancellationToken);
+            => SendWebRequestAsync<WebhookInfo>(new GetWebhookInfoRequest(), cancellationToken);
 
         #endregion Getting updates
 
@@ -1362,7 +1336,7 @@ namespace Telegram.Bot
 
         #region Support Methods - Private
 
-        /// <summary>
+        /*/// <summary>
         /// Use this method to send any messages. On success, the sent Message is returned.
         /// </summary>
         /// <param name="type">The <see cref="MessageType"/></param>
@@ -1496,7 +1470,7 @@ namespace Telegram.Bot
                 throw ApiRequestException.FromApiResponse(responseObject);
 
             return responseObject.ResultObject;
-        }
+        }*/
 
         private async Task<T> SendWebRequestAsync<T>(IApiRequest request, CancellationToken cancellationToken = default(CancellationToken))
         {
