@@ -76,6 +76,10 @@ namespace Telegram.Bot
 
         #region Events
 
+        public event EventHandler<HttpContent> OnMakingRequest;
+
+        public event EventHandler<HttpResponseMessage> OnResponseReceived;
+
         /// <summary>
         /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>, <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and <see cref="OnCallbackQuery"/> events.
         /// </summary>
@@ -1970,15 +1974,15 @@ namespace Telegram.Bot
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
 
-            ApiResponse<T> responseObject = null;
+            ApiResponse<T> responseObject;
             try
             {
                 HttpResponseMessage response;
-
                 if (parameters == null || parameters.Count == 0)
                 {
                     // Request with no parameters
 
+                    OnMakingRequest?.Invoke(this, null); // ToDo: Use a struct to hold values such as URI
                     response = await _httpClient.GetAsync(uri, cancellationToken)
                                             .ConfigureAwait(false);
                 }
@@ -1992,9 +1996,8 @@ namespace Telegram.Bot
                         {
                             var content = ConvertParameterValue(parameter.Value);
 
-                            if (parameter.Value is FileToSend)
+                            if (parameter.Value is FileToSend fts)
                             {
-                                var fts = (FileToSend)parameter.Value;
                                 content.Headers.Add("Content-Type", "application/octet-stream");
                                 string headerValue = $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
                                 byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
@@ -2009,6 +2012,7 @@ namespace Telegram.Bot
                             }
                         }
 
+                        OnMakingRequest?.Invoke(this, form);
                         response = await _httpClient.PostAsync(uri, form, cancellationToken)
                                                 .ConfigureAwait(false);
                     }
@@ -2021,32 +2025,43 @@ namespace Telegram.Bot
 
                     var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
+                    OnMakingRequest?.Invoke(this, httpContent);
                     response = await _httpClient.PostAsync(uri, httpContent, cancellationToken)
                                             .ConfigureAwait(false);
                 }
 
-                var responseString = await response.Content.ReadAsStringAsync()
-                                                    .ConfigureAwait(false);
+                string responseString = await response.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                // ToDo: Read response content and then fire event with a custom struct containing Request URI, Response status code, and response raw payload
+                OnResponseReceived?.Invoke(this, response);
+
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        break;
+                    case HttpStatusCode.Unauthorized:
+                        _invalidToken = true;
+                        throw new ApiRequestException("Invalid token", 401);
+                    case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseString):
+                    case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseString):
+                    case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseString):
+                        // Do NOT throw here, an ApiRequestException will be thrown next
+                        break;
+                    default:
+                        response.EnsureSuccessStatusCode();
+                        break;
+                }
 
                 responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString, SerializerSettings);
-
-                response.EnsureSuccessStatusCode();
-            }
-            catch (HttpRequestException e) when (e.Message.Contains("401"))
-            {
-                _invalidToken = true;
-                throw new ApiRequestException("Invalid token", 401, e);
             }
             catch (TaskCanceledException e)
             {
                 if (cancellationToken.IsCancellationRequested)
                     throw;
 
-                throw new ApiRequestException("Request timed out", 408, e);
+                throw new ApiRequestException("Request timed out", 408, e); // ToDo: Put breakpoint, then disconnect from the net and try this
             }
-            catch (HttpRequestException e)
-                when (e.Message.Contains("400") || e.Message.Contains("403") || e.Message.Contains("409"))
-            { }
 
             if (responseObject == null)
                 responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };

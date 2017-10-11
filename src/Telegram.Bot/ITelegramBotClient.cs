@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -37,6 +38,13 @@ namespace Telegram.Bot
         #endregion  Config Properties
 
         #region Events
+        
+        // ToDo
+        event EventHandler<HttpContent> OnMakingRequest;
+
+        // ToDo
+        event EventHandler<HttpResponseMessage> OnResponseReceived;
+
         /// <summary>
         /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
