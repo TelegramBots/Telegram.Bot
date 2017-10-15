@@ -71,7 +71,9 @@ namespace Telegram.Bot.Tests.Unit
                     ""all_members_are_administrators"": false,
                     ""photo"": null,
                     ""description"": null,
-                    ""invite_link"": null
+                    ""invite_link"": null,
+                    ""sticker_set_name"": null,
+                    ""can_set_sticker_set"": null
                 },
                 ""forward_from"": null,
                 ""forward_from_chat"": null,
@@ -81,6 +83,7 @@ namespace Telegram.Bot.Tests.Unit
                 ""edit_date"": null,
                 ""text"": null,
                 ""entities"": [],
+                ""caption_entities"": [],
                 ""audio"": null,
                 ""document"": {
                     ""file_name"": ""test_file.txt"",

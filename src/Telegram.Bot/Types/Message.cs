@@ -112,6 +112,22 @@ namespace Telegram.Bot.Types
             => Entities.Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
 
         /// <summary>
+        /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
+        /// </summary>
+        [JsonProperty("caption_entities", Required = Required.Default)]
+        public List<MessageEntity> CaptionEntities { get; set; } = new List<MessageEntity>();
+
+        /// <summary>
+        /// Gets the caption entity values.
+        /// </summary>
+        /// <value>
+        /// The caption entity contents.
+        /// </value>
+        [JsonIgnore]
+        public List<string> CaptionEntityValues
+            => CaptionEntities.Select(entity => Caption.Substring(entity.Offset, entity.Length)).ToList();
+
+        /// <summary>
         /// Optional. Message is an audio file, information about the file
         /// </summary>
         [JsonProperty("audio", Required = Required.Default)]

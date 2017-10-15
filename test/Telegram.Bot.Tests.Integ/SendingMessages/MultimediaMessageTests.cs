@@ -163,6 +163,36 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         #endregion
 
+        #region 4. Parsing caption entities
+
+        [Fact(DisplayName = FactTitles.ShouldParseMessageCaptionEntitiesIntoValues)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendPhoto)]
+        [ExecutionOrder(4)]
+        public async Task Should_Parse_Message_Caption_Entities_Into_Values()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
+
+            string[] values =
+            {
+                "#TelegramBots",
+                "@BotFather",
+                "http://github.com/TelegramBots",
+                "email@example.org",
+                "/test"
+            };
+
+            Message message;
+            using (var stream = new FileStream("Files/Photo/t_logo.png", FileMode.Open))
+            {
+                message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
+                    new FileToSend("t_logo.png", stream), string.Join("\n", values));
+            }
+
+            Assert.Equal(values, message.CaptionEntityValues);
+        }
+
+        #endregion
+
         private static class FactTitles
         {
             public const string ShouldSendPhotoUsingFileId = "Should Send the same photo twice using file_id";
@@ -174,6 +204,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             public const string ShouldSendPdf = "Should send a pdf document with caption";
 
             public const string ShouldSendDocumentWithNonAsciiName = "Should send a pdf document having a Farsi(non-ASCII) file name";
+
+            public const string ShouldParseMessageCaptionEntitiesIntoValues = "Should send photo message and parse its caption entity values";
         }
     }
 }
