@@ -26,7 +26,8 @@ namespace Telegram.Bot.Tests.Unit
                 {
                     Id = -9_877_654_320_000,
                     Title = "Test Chat",
-                    Type = ChatType.Supergroup
+                    Type = ChatType.Supergroup,
+                    CanSetStickerSet = true
                 },
                 Document = new Document
                 {
@@ -44,6 +45,7 @@ namespace Telegram.Bot.Tests.Unit
             Assert.NotNull(json);
             Assert.True(json.Length > 100);
             Assert.Contains(@"""file_id"":""KLAHCVUydfS_jHIBildtwpmvxZg""", json);
+            Assert.Contains(@"""can_set_sticker_set"":true", json);
         }
 
         [Fact(DisplayName = "Should deserialize a document message")]
@@ -123,6 +125,7 @@ namespace Telegram.Bot.Tests.Unit
 
             Assert.Equal(MessageType.DocumentMessage, message.Type);
             Assert.Equal("test_file.txt", message.Document.FileName);
+            Assert.Null(message.Chat.CanSetStickerSet);
         }
 
         #endregion
