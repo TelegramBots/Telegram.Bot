@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
@@ -114,7 +115,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
         /// </summary>
-        [JsonProperty("caption_entities", Required = Required.Default)]
+        [JsonProperty(NamingStrategyType = typeof(SnakeCaseNamingStrategy), Required = Required.Default)]
         public List<MessageEntity> CaptionEntities { get; set; } = new List<MessageEntity>();
 
         /// <summary>
@@ -124,8 +125,8 @@ namespace Telegram.Bot.Types
         /// The caption entity contents.
         /// </value>
         [JsonIgnore]
-        public List<string> CaptionEntityValues
-            => CaptionEntities.Select(entity => Caption.Substring(entity.Offset, entity.Length)).ToList();
+        public IEnumerable<string> CaptionEntityValues => CaptionEntities
+            .Select(entity => Caption.Substring(entity.Offset, entity.Length));
 
         /// <summary>
         /// Optional. Message is an audio file, information about the file

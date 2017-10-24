@@ -101,7 +101,8 @@ namespace Telegram.Bot
         /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="Exceptions.ApiRequestException"> Thrown if token is invalid</exception>
-        void StartReceiving(UpdateType[] allowedUpdates = null, CancellationToken cancellationToken = default(CancellationToken));
+        void StartReceiving(UpdateType[] allowedUpdates = null,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Stop update receiving
@@ -279,7 +280,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendaudio"/>
-        Task<Message> SendAudioAsync(ChatId chatId, FileToSend audio, string caption, int duration, string performer, string title,
+        Task<Message> SendAudioAsync(ChatId chatId, FileToSend audio, string caption, int duration, string performer,
+            string title,
             bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
@@ -774,7 +776,6 @@ namespace Telegram.Bot
         Task<bool> DeleteMessageAsync(ChatId chatId, int messageId,
             CancellationToken cancellationToken = default(CancellationToken));
 
-
         #endregion Updating messages
 
         #region Inline mode
@@ -912,7 +913,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited <see cref="Message"/></returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
-        Task<Message> SetGameScoreAsync(int userId, int score, ChatId chatId, int messageId, bool force = false, bool disableEditMessage = false, bool editMessage = false,
+        Task<Message> SetGameScoreAsync(int userId, int score, ChatId chatId, int messageId, bool force = false,
+            bool disableEditMessage = false, bool editMessage = false,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -961,11 +963,13 @@ namespace Telegram.Bot
         /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
-        Task<GameHighScore[]> GetGameHighScoresAsync(int userId, string inlineMessageId, CancellationToken cancellationToken = default(CancellationToken));
+        Task<GameHighScore[]> GetGameHighScoresAsync(int userId, string inlineMessageId,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion Games
 
         #region Stickers
+
         /// <summary>
         /// Use this method to get a sticker set.
         /// </summary>
@@ -973,7 +977,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, a StickerSet object is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getstickerset"/>
-        Task<StickerSet> GetStickerSetAsync(string name, CancellationToken cancellationToken = default(CancellationToken));
+        Task<StickerSet> GetStickerSetAsync(string name,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
@@ -1014,7 +1019,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
-        Task<bool> AddStickerToSetAsync(int userId, string name, FileToSend pngSticker, string emojis, MaskPosition maskPosition = null,
+        Task<bool> AddStickerToSetAsync(int userId, string name, FileToSend pngSticker, string emojis,
+            MaskPosition maskPosition = null,
             CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
@@ -1025,7 +1031,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#setstickerpositioninset"/>
-        Task<bool> SetStickerPositionInSetAsync(string sticker, int position, CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> SetStickerPositionInSetAsync(string sticker, int position,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Use this method to delete a sticker from a set created by the bot.
@@ -1034,10 +1041,13 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletestickerfromset"/>
-        Task<bool> DeleteStickerFromSetAsync(string sticker, CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> DeleteStickerFromSetAsync(string sticker,
+            CancellationToken cancellationToken = default(CancellationToken));
+
         #endregion
 
         #region Group and channel management
+
         /// <summary>
         /// Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
         /// </summary>
@@ -1066,7 +1076,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
-        Task<bool> DeleteChatPhotoAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> DeleteChatPhotoAsync(ChatId chatId,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1109,7 +1120,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
-        Task<bool> UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> UnpinChatMessageAsync(ChatId chatId,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         /// <summary>
         /// Use this method to set a new group sticker set for a supergroup.
@@ -1129,7 +1141,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
-        Task<bool> DeleteChatStickerSetAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken));
+        Task<bool> DeleteChatStickerSetAsync(ChatId chatId,
+            CancellationToken cancellationToken = default(CancellationToken));
 
         #endregion
     }

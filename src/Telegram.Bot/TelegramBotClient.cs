@@ -8,9 +8,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Newtonsoft.Json;
-
 using Telegram.Bot.Args;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Exceptions;
@@ -19,7 +17,6 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
-
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
@@ -30,10 +27,13 @@ namespace Telegram.Bot
     public class TelegramBotClient : ITelegramBotClient
     {
         private const string BaseUrl = "https://api.telegram.org/bot";
+
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
         private readonly string _token;
+
         private bool _invalidToken;
+
         private readonly HttpClient _httpClient;
 
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
@@ -217,7 +217,8 @@ namespace Telegram.Bot
         /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
-        public void StartReceiving(UpdateType[] allowedUpdates = null, CancellationToken cancellationToken = default(CancellationToken))
+        public void StartReceiving(UpdateType[] allowedUpdates = null,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             if (_invalidToken)
                 throw new ApiRequestException("Invalid token", 401);
@@ -230,7 +231,8 @@ namespace Telegram.Bot
         }
 
 #pragma warning disable AsyncFixer03 // Avoid fire & forget async void methods
-        private async void ReceiveAsync(UpdateType[] allowedUpdates, CancellationToken cancellationToken = default(CancellationToken))
+        private async void ReceiveAsync(UpdateType[] allowedUpdates,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             IsReceiving = true;
 
@@ -242,8 +244,9 @@ namespace Telegram.Bot
                 {
                     var updates =
                         await
-                        GetUpdatesAsync(MessageOffset, timeout: timeout, allowedUpdates: allowedUpdates, cancellationToken: cancellationToken)
-                            .ConfigureAwait(false);
+                            GetUpdatesAsync(MessageOffset, timeout: timeout, allowedUpdates: allowedUpdates,
+                                    cancellationToken: cancellationToken)
+                                .ConfigureAwait(false);
 
                     foreach (var update in updates)
                     {
@@ -251,7 +254,9 @@ namespace Telegram.Bot
                         MessageOffset = update.Id + 1;
                     }
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
                 catch (ApiRequestException apiException)
                 {
                     OnReceiveError?.Invoke(this, apiException);
@@ -277,7 +282,6 @@ namespace Telegram.Bot
         #endregion Helpers
 
         #region Getting updates
-
 
         /// <summary>
         /// Use this method to receive incoming updates using long polling (wiki).
@@ -512,7 +516,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendaudio"/>
-        public Task<Message> SendAudioAsync(ChatId chatId, FileToSend audio, string caption, int duration, string performer, string title,
+        public Task<Message> SendAudioAsync(ChatId chatId, FileToSend audio, string caption, int duration,
+            string performer, string title,
             bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
@@ -523,7 +528,7 @@ namespace Telegram.Bot
                 {"duration", duration},
                 {"performer", performer},
                 {"title", title},
-                {"caption", caption }
+                {"caption", caption}
             };
 
             return SendMessageAsync(MessageType.AudioMessage, chatId, audio, disableNotification, replyToMessageId,
@@ -554,7 +559,8 @@ namespace Telegram.Bot
                 {"caption", caption}
             };
 
-            return SendMessageAsync(MessageType.DocumentMessage, chatId, document, disableNotification, replyToMessageId,
+            return SendMessageAsync(MessageType.DocumentMessage, chatId, document, disableNotification,
+                replyToMessageId,
                 replyMarkup, additionalParameters, cancellationToken);
         }
 
@@ -678,9 +684,9 @@ namespace Telegram.Bot
             if (length > 0)
                 additionalParameters.Add("length", length);
 
-            return SendMessageAsync(MessageType.VideoNoteMessage, chatId, videoNote, disableNotification, replyToMessageId,
+            return SendMessageAsync(MessageType.VideoNoteMessage, chatId, videoNote, disableNotification,
+                replyToMessageId,
                 replyMarkup, additionalParameters, cancellationToken);
-
         }
 
 
@@ -714,7 +720,8 @@ namespace Telegram.Bot
                 additionalParameters.Add("live_period", livePeriod);
             }
 
-            return SendMessageAsync(MessageType.LocationMessage, chatId, latitude, disableNotification, replyToMessageId,
+            return SendMessageAsync(MessageType.LocationMessage, chatId, latitude, disableNotification,
+                replyToMessageId,
                 replyMarkup, additionalParameters, cancellationToken);
         }
 
@@ -733,7 +740,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvenue"/>
-        public Task<Message> SendVenueAsync(ChatId chatId, float latitude, float longitude, string title, string address,
+        public Task<Message> SendVenueAsync(ChatId chatId, float latitude, float longitude, string title,
+            string address,
             string foursquareId = null,
             bool disableNotification = false,
             int replyToMessageId = 0,
@@ -767,7 +775,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Message is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendcontact"/>
-        public Task<Message> SendContactAsync(ChatId chatId, string phoneNumber, string firstName, string lastName = null,
+        public Task<Message> SendContactAsync(ChatId chatId, string phoneNumber, string firstName,
+            string lastName = null,
             bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
@@ -845,18 +854,19 @@ namespace Telegram.Bot
             };
 
             var fileInfo = await SendWebRequestAsync<File>("getFile", parameters, cancellationToken)
-                          .ConfigureAwait(false);
+                .ConfigureAwait(false);
 
             var fileUri = new Uri(BaseFileUrl + _token + "/" + fileInfo.FilePath);
 
             if (destination == null)
                 destination = fileInfo.FileStream = new MemoryStream();
 
-            using (var response = await _httpClient.GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                                    .ConfigureAwait(false))
+            using (var response = await _httpClient
+                .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                .ConfigureAwait(false))
             {
                 await response.Content.CopyToAsync(destination)
-                                .ConfigureAwait(false);
+                    .ConfigureAwait(false);
                 destination.Position = 0;
             }
 
@@ -895,7 +905,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#leavechat"/>
-        public Task<bool> LeaveChatAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<bool> LeaveChatAsync(ChatId chatId,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1061,8 +1072,8 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId },
-                { "user_id", userId }
+                {"chat_id", chatId},
+                {"user_id", userId}
             };
 
             if (untilDate != default(DateTime))
@@ -1104,8 +1115,8 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId },
-                { "user_id", userId }
+                {"chat_id", chatId},
+                {"user_id", userId}
             };
 
             if (canChangeInfo != null)
@@ -1545,7 +1556,8 @@ namespace Telegram.Bot
             if (isFlexible)
                 parameters.Add("is_flexible", true);
 
-            return SendMessageAsync(MessageType.Invoice, chatId, title, disableNotification, replyToMessageId, replyMarkup, parameters, cancellationToken);
+            return SendMessageAsync(MessageType.Invoice, chatId, title, disableNotification, replyToMessageId,
+                replyMarkup, parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1624,7 +1636,8 @@ namespace Telegram.Bot
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
             CancellationToken cancellationToken = default(CancellationToken))
-            => SendMessageAsync(MessageType.GameMessage, chatId, gameShortName, disableNotification, replyToMessageId, replyMarkup, null, cancellationToken);
+            => SendMessageAsync(MessageType.GameMessage, chatId, gameShortName, disableNotification, replyToMessageId,
+                replyMarkup, null, cancellationToken);
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
@@ -1649,7 +1662,7 @@ namespace Telegram.Bot
             {
                 {"user_id", userId},
                 {"score", score},
-                {"force", force },
+                {"force", force},
                 {"disable_edit_message", disableEditMessage},
                 {"chat_id", chatId},
                 {"message_id", messageId},
@@ -1743,7 +1756,8 @@ namespace Telegram.Bot
         /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
-        public Task<GameHighScore[]> GetGameHighScoresAsync(int userId, string inlineMessageId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<GameHighScore[]> GetGameHighScoresAsync(int userId, string inlineMessageId,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1757,6 +1771,7 @@ namespace Telegram.Bot
         #endregion Games
 
         #region Group and channel management
+
         /// <summary>
         /// Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
         /// </summary>
@@ -1769,7 +1784,7 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId }
+                {"chat_id", chatId}
             };
 
             return SendWebRequestAsync<string>("exportChatInviteLink", parameters, cancellationToken);
@@ -1788,8 +1803,8 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId },
-                { "photo", photo }
+                {"chat_id", chatId},
+                {"photo", photo}
             };
 
             return SendWebRequestAsync<bool>("setChatPhoto", parameters, cancellationToken);
@@ -1802,11 +1817,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
-        public Task<bool> DeleteChatPhotoAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<bool> DeleteChatPhotoAsync(ChatId chatId,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId }
+                {"chat_id", chatId}
             };
 
             return SendWebRequestAsync<bool>("deleteChatPhoto", parameters, cancellationToken);
@@ -1825,8 +1841,8 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId },
-                { "title", title }
+                {"chat_id", chatId},
+                {"title", title}
             };
 
             return SendWebRequestAsync<bool>("setChatTitle", parameters, cancellationToken);
@@ -1845,7 +1861,7 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId }
+                {"chat_id", chatId}
             };
 
             if (!string.IsNullOrEmpty(description))
@@ -1868,8 +1884,8 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId },
-                { "message_id", messageId }
+                {"chat_id", chatId},
+                {"message_id", messageId}
             };
 
             if (disableNotification)
@@ -1885,11 +1901,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
-        public Task<bool> UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<bool> UnpinChatMessageAsync(ChatId chatId,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "chat_id", chatId }
+                {"chat_id", chatId}
             };
 
             return SendWebRequestAsync<bool>("unpinChatMessage", parameters, cancellationToken);
@@ -1906,10 +1923,10 @@ namespace Telegram.Bot
         public Task<bool> SetChatStickerSetAsync(ChatId chatId, string stickerSetName,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>
             {
-                { "chat_id", chatId },
-                { "sticker_set_name", stickerSetName }
+                {"chat_id", chatId},
+                {"sticker_set_name", stickerSetName}
             };
 
             return SendWebRequestAsync<bool>("setChatStickerSet", parameters, cancellationToken);
@@ -1925,16 +1942,18 @@ namespace Telegram.Bot
         public Task<bool> DeleteChatStickerSetAsync(ChatId chatId,
             CancellationToken cancellationToken = default(CancellationToken))
         {
-            var parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>
             {
-                { "chat_id", chatId }
+                {"chat_id", chatId}
             };
 
             return SendWebRequestAsync<bool>("deleteChatStickerSet", parameters, cancellationToken);
         }
+
         #endregion
 
         #region Stickers
+
         /// <summary>
         /// Use this method to get a sticker set.
         /// </summary>
@@ -1942,11 +1961,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, a StickerSet object is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getstickerset"/>
-        public Task<StickerSet> GetStickerSetAsync(string name, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<StickerSet> GetStickerSetAsync(string name,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "name", name }
+                {"name", name}
             };
 
             return SendWebRequestAsync<StickerSet>("getStickerSet", parameters, cancellationToken);
@@ -1965,8 +1985,8 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "user_id", userId },
-                { "png_sticker", pngSticker }
+                {"user_id", userId},
+                {"png_sticker", pngSticker}
             };
 
             return SendWebRequestAsync<File>("uploadStickerFile", parameters, cancellationToken);
@@ -1991,11 +2011,11 @@ namespace Telegram.Bot
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "user_id", userId },
-                { "name", name },
-                { "title", title },
-                { "png_sticker", pngSticker },
-                { "emojis", emojis }
+                {"user_id", userId},
+                {"name", name},
+                {"title", title},
+                {"png_sticker", pngSticker},
+                {"emojis", emojis}
             };
 
             if (isMasks)
@@ -2018,15 +2038,16 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
-        public Task<bool> AddStickerToSetAsync(int userId, string name, FileToSend pngSticker, string emojis, MaskPosition maskPosition = null,
+        public Task<bool> AddStickerToSetAsync(int userId, string name, FileToSend pngSticker, string emojis,
+            MaskPosition maskPosition = null,
             CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "user_id", userId },
-                { "name", name },
-                { "png_sticker", pngSticker },
-                { "emojis", emojis }
+                {"user_id", userId},
+                {"name", name},
+                {"png_sticker", pngSticker},
+                {"emojis", emojis}
             };
 
             if (maskPosition != null)
@@ -2043,12 +2064,13 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#setstickerpositioninset"/>
-        public Task<bool> SetStickerPositionInSetAsync(string sticker, int position, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<bool> SetStickerPositionInSetAsync(string sticker, int position,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "sticker", sticker },
-                { "position", position }
+                {"sticker", sticker},
+                {"position", position}
             };
 
             return SendWebRequestAsync<bool>("setStickerPositionInSet", parameters, cancellationToken);
@@ -2061,15 +2083,17 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletestickerfromset"/>
-        public Task<bool> DeleteStickerFromSetAsync(string sticker, CancellationToken cancellationToken = default(CancellationToken))
+        public Task<bool> DeleteStickerFromSetAsync(string sticker,
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var parameters = new Dictionary<string, object>()
             {
-                { "sticker", sticker }
+                {"sticker", sticker}
             };
 
             return SendWebRequestAsync<bool>("deleteStickerFromSet", parameters, cancellationToken);
         }
+
         #endregion
 
         #region Support Methods - Private
@@ -2133,9 +2157,9 @@ namespace Telegram.Bot
 
                     OnMakingRequest?.Invoke(this, null); // ToDo: Use a struct to hold values such as URI
                     response = await _httpClient.GetAsync(uri, cancellationToken)
-                                            .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
-                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
+                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend) p.Value).Type == FileType.Stream))
                 {
                     // Request including a file
 
@@ -2148,9 +2172,10 @@ namespace Telegram.Bot
                             if (parameter.Value is FileToSend fts)
                             {
                                 content.Headers.Add("Content-Type", "application/octet-stream");
-                                string headerValue = $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
+                                string headerValue =
+                                    $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
                                 byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
-                                headerValue = string.Join("", bytes.Select(b => (char)b));
+                                headerValue = string.Join("", bytes.Select(b => (char) b));
                                 content.Headers.Add("Content-Disposition", headerValue);
 
                                 form.Add(content, parameter.Key, fts.Filename);
@@ -2163,7 +2188,7 @@ namespace Telegram.Bot
 
                         OnMakingRequest?.Invoke(this, form);
                         response = await _httpClient.PostAsync(uri, form, cancellationToken)
-                                                .ConfigureAwait(false);
+                            .ConfigureAwait(false);
                     }
                 }
                 else
@@ -2176,7 +2201,7 @@ namespace Telegram.Bot
 
                     OnMakingRequest?.Invoke(this, httpContent);
                     response = await _httpClient.PostAsync(uri, httpContent, cancellationToken)
-                                            .ConfigureAwait(false);
+                        .ConfigureAwait(false);
                 }
 
                 string responseString = await response.Content.ReadAsStringAsync()
@@ -2209,11 +2234,12 @@ namespace Telegram.Bot
                 if (cancellationToken.IsCancellationRequested)
                     throw;
 
-                throw new ApiRequestException("Request timed out", 408, e); // ToDo: Put breakpoint, then disconnect from the net and try this
+                throw new ApiRequestException("Request timed out", 408,
+                    e); // ToDo: Put breakpoint, then disconnect from the net and try this
             }
 
             if (responseObject == null)
-                responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
+                responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
 
             if (!responseObject.Ok)
                 throw ApiRequestException.FromApiResponse(responseObject);
@@ -2240,6 +2266,7 @@ namespace Telegram.Bot
 
             return httpContent;
         }
+
         #endregion
     }
 }
