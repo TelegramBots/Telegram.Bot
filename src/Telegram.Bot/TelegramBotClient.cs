@@ -298,7 +298,7 @@ namespace Telegram.Bot
         /// <param name="allowedUpdates">
         /// List the <see cref="UpdateType"/> of updates you want your bot to receive. See <see cref="UpdateType"/> for a complete list of available update types. Specify an empty list to receive all updates regardless of type (default).
         /// If not specified, the previous setting will be used.
-        /// 
+        ///
         /// Please note that this parameter doesn't affect updates created before the call to the <see cref="GetUpdatesAsync"/>, so unwanted updates may be received for a short period of time.
         /// </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -346,7 +346,7 @@ namespace Telegram.Bot
         /// <param name="allowedUpdates">
         /// List the <see cref="UpdateType"/> of updates you want your bot to receive. See <see cref="UpdateType"/> for a complete list of available update types. Specify an empty list to receive all updates regardless of type (default).
         /// If not specified, the previous setting will be used.
-        /// 
+        ///
         /// Please note that this parameter doesn't affect updates created before the call to the <see cref="GetUpdatesAsync"/>, so unwanted updates may be received for a short period of time.
         /// </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -355,7 +355,7 @@ namespace Telegram.Bot
         /// 1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
         /// 2. We currently do not support self-signed certificates.
         /// 3. For the moment, the only supported port for Webhooks is 443. We may support additional ports later.
-        /// 
+        ///
         /// If you're having any trouble setting up webhooks, please check out this <see href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</see>.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#setwebhook"/>
@@ -690,6 +690,7 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="latitude">Latitude of location</param>
         /// <param name="longitude">Longitude of location</param>
+        /// <param name="livePeriod">Period in seconds for which the location will be updated. Should be between 60 and 86400.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
@@ -697,6 +698,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent Message is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendlocation"/>
         public Task<Message> SendLocationAsync(ChatId chatId, float latitude, float longitude,
+            int livePeriod = 0,
             bool disableNotification = false,
             int replyToMessageId = 0,
             IReplyMarkup replyMarkup = null,
@@ -706,6 +708,11 @@ namespace Telegram.Bot
             {
                 {"longitude", longitude},
             };
+
+            if (livePeriod != 0)
+            {
+                additionalParameters.Add("live_period", livePeriod);
+            }
 
             return SendMessageAsync(MessageType.LocationMessage, chatId, latitude, disableNotification, replyToMessageId,
                 replyMarkup, additionalParameters, cancellationToken);
@@ -899,7 +906,7 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work. 
+        /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
@@ -1121,6 +1128,54 @@ namespace Telegram.Bot
             return SendWebRequestAsync<bool>("promoteChatMember", parameters, cancellationToken);
         }
 
+        /// <summary>
+        /// Use this method to stop updating a live location message sent by the bot before live_period expires.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success the sent <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#stopmessagelivelocation"/>
+        public Task<Message> StopMessageLiveLocationAsync(ChatId chatId, int messageId,
+            IReplyMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"message_id", messageId},
+            };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
+
+            return SendWebRequestAsync<Message>("stopMessageLiveLocation", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to stop updating a live location message sent via the bot (for inline bots) before live_period expires.
+        /// </summary>
+        /// <param name="inlineMessageId">Identifier of the inline message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#stopmessagelivelocation"/>
+        public Task<bool> StopMessageLiveLocationAsync(string inlineMessageId,
+            IReplyMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"inline_message_id", inlineMessageId},
+            };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
+
+            return SendWebRequestAsync<bool>("stopMessageLiveLocation", parameters, cancellationToken);
+        }
+
         #endregion Available methods
 
         #region Updating messages
@@ -1169,7 +1224,7 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>><c>true</c> on success.</returns>
+        /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
         public Task<bool> EditInlineMessageTextAsync(string inlineMessageId, string text,
             ParseMode parseMode = ParseMode.Default,
@@ -1227,7 +1282,7 @@ namespace Telegram.Bot
         /// <param name="caption">New caption of the message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>><c>true</c> on success.</returns>
+        /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
         public Task<bool> EditInlineMessageCaptionAsync(string inlineMessageId, string caption,
             IReplyMarkup replyMarkup = null,
@@ -1276,7 +1331,7 @@ namespace Telegram.Bot
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>><c>true</c> on success.</returns>
+        /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
         public Task<bool> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
             IReplyMarkup replyMarkup = null,
@@ -1291,6 +1346,62 @@ namespace Telegram.Bot
                 parameters.Add("reply_markup", replyMarkup);
 
             return SendWebRequestAsync<bool>("editMessageReplyMarkup", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to edit live location messages sent by the bot.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="latitude">Latitude of location</param>
+        /// <param name="longitude">Longitude of location</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
+        public Task<Message> EditMessageLiveLocationAsync(ChatId chatId, int messageId, float latitude, float longitude,
+            IReplyMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"chat_id", chatId},
+                {"message_id", messageId},
+                {"latitude", latitude},
+                {"longitude", longitude}
+            };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
+
+            return SendWebRequestAsync<Message>("editMessageLiveLocation", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to edit live location messages sent via the bot (for inline bots).
+        /// </summary>
+        /// <param name="inlineMessageId">Unique identifier of the sent message</param>
+        /// <param name="latitude">Latitude of location</param>
+        /// <param name="longitude">Longitude of location</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
+        public Task<bool> EditMessageLiveLocationAsync(string inlineMessageId, float latitude, float longitude,
+            IReplyMarkup replyMarkup = null,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>
+            {
+                {"inline_message_id", inlineMessageId},
+                {"latitude", latitude},
+                {"longitude", longitude}
+            };
+
+            if (replyMarkup != null)
+                parameters.Add("reply_markup", replyMarkup);
+
+            return SendWebRequestAsync<bool>("editMessageLiveLocation", parameters, cancellationToken);
         }
 
         /// <summary>
@@ -1783,6 +1894,44 @@ namespace Telegram.Bot
 
             return SendWebRequestAsync<bool>("unpinChatMessage", parameters, cancellationToken);
         }
+
+        /// <summary>
+        /// Use this method to set a new group sticker set for a supergroup.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)</param>
+        /// <param name="stickerSetName">Name of the sticker set to be set as the group sticker set</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns true on success</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchatstickerset"/>
+        public Task<bool> SetChatStickerSetAsync(ChatId chatId, string stickerSetName,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId },
+                { "sticker_set_name", stickerSetName }
+            };
+
+            return SendWebRequestAsync<bool>("setChatStickerSet", parameters, cancellationToken);
+        }
+
+        /// <summary>
+        /// Use this method to delete a group sticker set from a supergroup.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format @supergroupusername)</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns true on success</returns>
+        /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
+        public Task<bool> DeleteChatStickerSetAsync(ChatId chatId,
+            CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { "chat_id", chatId }
+            };
+
+            return SendWebRequestAsync<bool>("deleteChatStickerSet", parameters, cancellationToken);
+        }
         #endregion
 
         #region Stickers
@@ -1824,7 +1973,7 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set. 
+        /// Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.
         /// </summary>
         /// <param name="userId">User identifier of created sticker set owner</param>
         /// <param name="name">Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_&lt;bot_username&gt;”. &lt;bot_username&gt; is case insensitive. 1-64 characters.</param>

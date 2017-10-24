@@ -22,5 +22,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty("longitude", Required = Required.Always)]
         public float Longitude { get; set; }
+
+        /// <summary>
+        /// Longitude of the location in degrees
+        /// </summary>
+        [JsonProperty("live_period", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int LivePeriod { get; set; }
     }
 }

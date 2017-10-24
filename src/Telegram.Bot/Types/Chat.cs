@@ -74,5 +74,17 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(PropertyName = "pinned_message", Required = Required.Default)]
         public Message PinnedMessage { get; set; }
+
+        /// <summary>
+        /// Optional. For supergroups, name of group sticker set. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(PropertyName = "sticker_set_name", Required = Required.Default)]
+        public string StickerSetName { get; set; }
+
+        /// <summary>
+        /// Optional. True, if the bot can change the group sticker set. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(PropertyName = "can_set_sticker_set", Required = Required.Default)]
+        public bool? CanSetStickerSet { get; set; }
     }
 }
