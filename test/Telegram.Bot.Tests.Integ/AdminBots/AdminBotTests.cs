@@ -167,11 +167,35 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
 
-            Exception e = await Assert.ThrowsAsync<ApiRequestException>(() =>
+            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
                 BotClient.DeleteChatPhotoAsync(_fixture.SuperGroupChatId));
 
             Assert.IsType<ApiRequestException>(e);
             Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
+        }
+
+        #endregion
+
+        #region 5. Chat Sticker Set
+
+        [Fact(DisplayName = FactTitles.ShouldThrowOnSettingChatStickerSet)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetChatStickerSet)]
+        [ExecutionOrder(5)]
+        public async Task Should_Throw_On_Setting_Chat_Sticker_Set()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnSettingChatStickerSet);
+
+            const string setName = "EvilMinds";
+
+            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
+                _fixture.BotClient.SetChatStickerSetAsync(_fixture.SuperGroupChatId, setName)
+            );
+
+            Assert.IsType<ApiRequestException>(e);
+
+            var requestException = (ApiRequestException) e;
+            Assert.Equal(400, requestException.ErrorCode);
+            Assert.Equal("Bad Request: can't set channel sticker set", requestException.Message);
         }
 
         #endregion
@@ -198,6 +222,9 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             public const string ShouldThrowOnDeletingChatDeletedPhoto =
                 "Should throw exception in deleting chat photo with no photo currently set";
+
+            public const string ShouldThrowOnSettingChatStickerSet =
+                "Should throw exception when trying to set sticker set for a chat with less than 100 members";
         }
     }
 }

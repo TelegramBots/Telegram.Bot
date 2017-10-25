@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -21,13 +20,10 @@
     <Version Condition="'$(APPVEYOR)' == 'True'">13.2.2-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
     <VersionPrefix>13.2.2</VersionPrefix>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin/Debug/documentation.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
-
 </Project>

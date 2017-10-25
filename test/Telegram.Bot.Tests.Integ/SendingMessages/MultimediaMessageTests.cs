@@ -13,7 +13,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     public class MultimediaMessageTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 

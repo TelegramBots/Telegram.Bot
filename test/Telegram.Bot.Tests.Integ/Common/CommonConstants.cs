@@ -96,6 +96,8 @@
             public const string EditMessageLiveLocation = "editMessageLiveLocation";
 
             public const string StopMessageLiveLocation = "stopMessageLiveLocation";
+            
+            public const string SetChatStickerSet = "setChatStickerSet";
         }
     }
 }
