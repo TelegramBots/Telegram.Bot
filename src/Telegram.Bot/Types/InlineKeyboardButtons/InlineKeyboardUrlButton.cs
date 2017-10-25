@@ -12,7 +12,7 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         /// <summary>
         /// Optional. HTTP url to be opened when button is pressed
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty]
         public string Url { get; set; }
 
         /// <summary>
