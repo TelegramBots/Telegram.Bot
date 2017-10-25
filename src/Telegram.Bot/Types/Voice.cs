@@ -11,13 +11,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Duration of the audio in seconds as defined by sender
         /// </summary>
-        [JsonProperty(PropertyName = "duration", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Duration { get; set; }
 
         /// <summary>
         /// Optional. MIME type of the file as defined by sender
         /// </summary>
-        [JsonProperty(PropertyName = "mime_type", Required = Required.Default)]
+        [JsonProperty]
         public string MimeType { get; set; }
     }
 }

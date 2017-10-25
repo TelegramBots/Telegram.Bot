@@ -17,7 +17,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty("description", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Description { get; set; }
     }
 }

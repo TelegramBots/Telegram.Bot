@@ -1,6 +1,5 @@
-using System.ComponentModel;
-
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -19,14 +18,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Title of the result
         /// </summary>
-        [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Title { get; set; }
 
         /// <summary>
         /// Optional. Caption of the result to be sent, 0-200 characters
         /// </summary>
-        [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Caption { get; set; }
     }

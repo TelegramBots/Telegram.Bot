@@ -1,6 +1,5 @@
-using System.ComponentModel;
-
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -28,21 +27,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Url of the thumbnail for the result
         /// </summary>
-        [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new string ThumbUrl { get; set; }
 
         /// <summary>
         /// Optional. Thumbnail width
         /// </summary>
-        [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new int ThumbWidth { get; set; }
 
         /// <summary>
         /// Optional. Thumbnail height
         /// </summary>
-        [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new int ThumbHeight { get; set; }
     }

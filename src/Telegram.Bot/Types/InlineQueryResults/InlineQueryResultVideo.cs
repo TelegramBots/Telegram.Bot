@@ -5,6 +5,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <summary>
     /// Represents link to a page containing an embedded video player or a video file.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class InlineQueryResultVideo : InlineQueryResultNew
     {
         /// <summary>
@@ -16,37 +17,37 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Mime type of the content of video url, i.e. "text/html" or "video/mp4"
         /// </summary>
-        [JsonProperty("mime_type", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string MimeType { get; set; }
 
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty("video_width", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("video_width", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public int Width { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty("video_height", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("video_height", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Video duration in seconds
         /// </summary>
-        [JsonProperty("video_duration", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("video_duration", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public int Duration { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty("description", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Description { get; set; }
 
         /// <summary>
         /// Optional. Caption of the photo to be sent
         /// </summary>
-        [JsonProperty("caption", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Caption { get; set; }
     }
 }

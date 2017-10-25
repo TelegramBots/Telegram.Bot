@@ -3,7 +3,7 @@
 namespace Telegram.Bot.Types.InlineKeyboardButtons
 {
     /// <summary>
-    /// This object represents one button of an inline keyboard that asks the user to switch to a chat 
+    /// This object represents one button of an inline keyboard that asks the user to switch to a chat
     /// and starts an inline query there
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
@@ -15,7 +15,7 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         /// <remarks>
         /// Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switchPm[...] parameters (see <see cref="TelegramBotClient.AnswerInlineQueryAsync"/>)  – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
         /// </remarks>
-        [JsonProperty(PropertyName = "switch_inline_query", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string SwitchInlineQuery { get; set; }
 
         /// <summary>

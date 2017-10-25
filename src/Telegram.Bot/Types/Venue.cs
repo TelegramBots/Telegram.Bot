@@ -11,25 +11,25 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Venue location
         /// </summary>
-        [JsonProperty("location", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public Location Location { get; set; }
 
         /// <summary>
         /// Title of the result
         /// </summary>
-        [JsonProperty("title", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
 
         /// <summary>
         /// Address of the venue
         /// </summary>
-        [JsonProperty("address", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Address { get; set; }
 
         /// <summary>
         /// Optional. Foursquare identifier of the venue
         /// </summary>
-        [JsonProperty("foursquare_id", Required = Required.Default)]
+        [JsonProperty]
         public string FoursquareId { get; set; }
     }
 }

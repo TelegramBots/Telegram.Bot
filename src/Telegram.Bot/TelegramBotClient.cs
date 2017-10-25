@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Args;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Exceptions;
@@ -47,6 +48,10 @@ namespace Telegram.Bot
                 new PhotoSizeConverter(),
                 new UnixDateTimeConverter(),
             },
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new SnakeCaseNamingStrategy()
+            }
         };
 
         #region Config Properties

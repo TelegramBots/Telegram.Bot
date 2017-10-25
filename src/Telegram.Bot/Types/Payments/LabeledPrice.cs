@@ -12,13 +12,13 @@ namespace Telegram.Bot.Types.Payments
         /// <summary>
         /// Portion label
         /// </summary>
-        [JsonProperty("label", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Label { get; set; }
 
         /// <summary>
         /// Price of the product in the smallest units of the <see href="https://core.telegram.org/bots/payments#supported-currencies">currency</see>.
         /// </summary>
-        [JsonProperty("amount", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Amount { get; set; }
     }
 }

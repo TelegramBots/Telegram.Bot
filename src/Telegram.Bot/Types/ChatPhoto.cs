@@ -11,12 +11,12 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// File id of the big version of this <see cref="ChatPhoto"/>
         /// </summary>
-        [JsonProperty(PropertyName = "big_file_id", Required = Required.Default)]
+        [JsonProperty]
         public string BigFileId { get; set; }
         /// <summary>
         /// File id of the small version of this <see cref="ChatPhoto"/>
         /// </summary>
-        [JsonProperty(PropertyName = "small_file_id", Required = Required.Default)]
+        [JsonProperty]
         public string SmallFileId { get; set; }
     }
 }

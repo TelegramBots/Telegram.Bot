@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace Telegram.Bot.Types.InlineKeyboardButtons
 {
@@ -12,7 +12,7 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         /// <summary>
         /// Optional. HTTP url to be opened when button is pressed
         /// </summary>
-        [JsonProperty(PropertyName = "url", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Url { get; set; }
 
         /// <summary>
