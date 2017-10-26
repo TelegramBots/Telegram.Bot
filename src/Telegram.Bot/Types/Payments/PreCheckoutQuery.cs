@@ -41,7 +41,7 @@ namespace Telegram.Bot.Types.Payments
         /// <summary>
         /// Optional. Identifier of the shipping option chosen by the user
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [JsonProperty]
         public string ShippingOptionId { get; set; }
 
         /// <summary>
