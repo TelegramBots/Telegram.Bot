@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
@@ -6,59 +7,70 @@ using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.UpdatingMessages
+namespace Telegram.Bot.Tests.Integ.LiveLocation
 {
-    [Collection(CommonConstants.TestCollections.LiveLocation)]
+    [Collection(CommonConstants.TestCollections.LiveLocations)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    public class LiveLocationTests
+    public class LiveLocationsTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        public LiveLocationTests(TestsFixture fixture)
+        public LiveLocationsTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendLiveLocation)]
+        [Fact(DisplayName = FactTitles.ShouldSendLiveLocations)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendLocation)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.EditMessageLiveLocation)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.StopMessageLiveLocation)]
         [ExecutionOrder(1.1)]
         public async Task Should_Send_Live_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendLiveLocation);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendLiveLocations);
 
-            var livePeriod = 60;
-            var initialLocation = new Location { Latitude = 60, Longitude = 30 };
-
-            var subsequentLocations = new[]
+            const int livePeriod = 60;
+            Location[] locations =
             {
-                new Location {Latitude = 60, Longitude = 31},
-                new Location {Latitude = 60, Longitude = 32},
-                new Location {Latitude = 60, Longitude = 33}
+                new Location {Latitude = 52.5200f, Longitude = 13.4050f}, // Berlin
+                new Location {Latitude = 43.6532f, Longitude = -79.3832f}, // Toronto
+                new Location {Latitude = 59.9343f, Longitude = 30.3351f}, // Saint Petersburg
+                new Location {Latitude = 35.6892f, Longitude = 51.3890f}, // Tehran
             };
 
-            var message = await BotClient.SendLocationAsync(_fixture.SuperGroupChatId, initialLocation.Latitude,
-                initialLocation.Longitude, livePeriod);
+            Message message = await BotClient.SendLocationAsync(
+                _fixture.SuperGroupChatId,
+                locations[0].Latitude,
+                locations[0].Longitude,
+                livePeriod
+            );
 
-            await Task.Delay(500);
-
-            foreach (var subsequentLocation in subsequentLocations)
+            foreach (Location newLocation in locations.Skip(1))
             {
-                var editedMessage =
-                    await BotClient.EditMessageLiveLocationAsync(message.Chat.Id, message.MessageId,
-                        subsequentLocation.Latitude, subsequentLocation.Longitude);
+                await Task.Delay(1_500);
+
+                Message editedMessage = await BotClient.EditMessageLiveLocationAsync(
+                    message.Chat.Id,
+                    message.MessageId,
+                    newLocation.Latitude,
+                    newLocation.Longitude
+                );
 
                 Assert.Equal(message.MessageId, editedMessage.MessageId);
-
-                await Task.Delay(500);
+                Assert.Equal(newLocation.Latitude, editedMessage.Location.Latitude, 3);
+                Assert.Equal(newLocation.Longitude, editedMessage.Location.Longitude, 3);
             }
 
-            var stopedLocationMessage = await BotClient.StopMessageLiveLocationAsync(message.Chat.Id, message.MessageId);
+            Message stopedLocationMessage = await BotClient.StopMessageLiveLocationAsync(
+                message.Chat.Id,
+                message.MessageId
+            );
 
             Assert.Equal(message.MessageId, stopedLocationMessage.MessageId);
+            Assert.Equal(locations.Last().Latitude, stopedLocationMessage.Location.Latitude, 3);
+            Assert.Equal(locations.Last().Longitude, stopedLocationMessage.Location.Longitude, 3);
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithLiveLocation)]
@@ -72,7 +84,7 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
                 "Start an inline query, post its result to chat, click on the inline button and wait");
 
             var livePeriod = 60;
-            var initialLocation = new Location { Latitude = 60, Longitude = 30 };
+            var initialLocation = new Location {Latitude = 60, Longitude = 30};
 
             var initialMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {
@@ -114,16 +126,20 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
                 await Task.Delay(1000);
             }
 
-            var stopSuccess = await BotClient.StopMessageLiveLocationAsync(callbackUpdate.CallbackQuery.InlineMessageId);
+            var stopSuccess =
+                await BotClient.StopMessageLiveLocationAsync(callbackUpdate.CallbackQuery.InlineMessageId);
 
             Assert.True(stopSuccess);
         }
 
         private static class FactTitles
         {
-            public const string ShouldSendLiveLocation = "Should send a live location with a few location updates and then stop live location";
+            public const string ShouldSendLiveLocations =
+                "Should send a live location, update it 3 times, and stop live locations";
 
-            public const string ShouldAnswerInlineQueryWithLiveLocation = "Should answer inline query with a live location with a few location updates and then stop live location";
+            public const string ShouldAnswerInlineQueryWithLiveLocation =
+                    "Should answer inline query with a live location with a few location updates and then stop live location"
+                ;
         }
     }
 }

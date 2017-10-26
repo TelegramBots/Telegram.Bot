@@ -32,11 +32,11 @@
 
             public const string MultimediaMessage = "Sending Multimedia Messages";
 
-            public const string UpdateMessage = "Updating messages";
+            public const string UpdateMessage = "Updating Messages";
 
             public const string ChatInformation = "Chat Information";
 
-            public const string LiveLocation = "Live location";
+            public const string LiveLocations = "Live locations";
         }
 
         public static class TelegramBotApiMethods
