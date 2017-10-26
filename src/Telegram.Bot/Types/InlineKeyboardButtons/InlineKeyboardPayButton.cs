@@ -14,7 +14,7 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         /// <remarks>
         /// Note: This type of button must always be the first button in the first row.
         /// </remarks>
-        [JsonProperty("pay", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool Pay { get; set; }
 
         /// <summary>

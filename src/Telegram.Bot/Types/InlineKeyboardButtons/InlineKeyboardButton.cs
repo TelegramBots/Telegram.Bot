@@ -1,5 +1,5 @@
-using System;
 using Newtonsoft.Json;
+using System;
 
 namespace Telegram.Bot.Types.InlineKeyboardButtons
 {
@@ -12,7 +12,7 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         /// <summary>
         /// Label text on the button
         /// </summary>
-        [JsonProperty(PropertyName = "text", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Text { get; set; }
 
         /// <summary>

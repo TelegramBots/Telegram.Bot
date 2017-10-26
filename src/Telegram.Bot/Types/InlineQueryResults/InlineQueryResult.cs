@@ -1,6 +1,6 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -9,6 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <summary>
     /// Base Class for inline results send in response to an <see cref="InlineQuery"/>
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class InlineQueryResult
     {
         private static readonly Dictionary<Type, InlineQueryResultType> TypeMap =
@@ -40,31 +41,31 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Unique identifier of this result
         /// </summary>
-        [JsonProperty("id", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Id { get; set; }
 
         /// <summary>
         /// Type of the result
         /// </summary>
-        [JsonProperty("type", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public InlineQueryResultType Type => TypeMap[GetType()];
 
         /// <summary>
         /// Title of the result
         /// </summary>
-        [JsonProperty("title", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Title { get; set; }
 
         /// <summary>
         /// Content of the message to be sent
         /// </summary>
-        [JsonProperty("input_message_content", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public InputMessageContent InputMessageContent { get; set; }
 
         /// <summary>
         /// Inline keyboard attached to the message
         /// </summary>
-        [JsonProperty("reply_markup", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
     }
 }

@@ -12,31 +12,31 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unique identifier for this query
         /// </summary>
-        [JsonProperty("id", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Id { get; set; }
 
         /// <summary>
         /// Sender
         /// </summary>
-        [JsonProperty("from", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public User From { get; set; }
 
         /// <summary>
         /// Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
         /// </summary>
-        [JsonProperty("message", Required = Required.Default)]
+        [JsonProperty]
         public Message Message { get; set; }
 
         /// <summary>
         /// Optional. Identifier of the message sent via the bot in inline mode, that originated the query
         /// </summary>
-        [JsonProperty("inline_message_id", Required = Required.Default)]
+        [JsonProperty]
         public string InlineMessageId { get; set; }
 
         /// <summary>
         /// Identifier, uniquely corresponding to the chat to which the message with the callback button was sent. Useful for high scores in games.
         /// </summary>
-        [JsonProperty("chat_instance", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string ChatInstance { get; set; }
 
         /// <summary>
@@ -45,19 +45,18 @@ namespace Telegram.Bot.Types
         /// <remarks>
         /// Be aware that a bad client can send arbitrary data in this field.
         /// </remarks>
-        [JsonProperty("data", Required = Required.Default)]
+        [JsonProperty]
         public string Data { get; set; }
 
         /// <summary>
         /// Optional. Short name of a <see cref="Game"/> to be returned, serves as the unique identifier for the game.
         /// </summary>
-        [JsonProperty("game_short_name", Required = Required.Default)]
+        [JsonProperty]
         public string GameShortName { get; set; }
 
         /// <summary>
         /// Indicates if the User requests a Game
         /// </summary>
-        [JsonIgnore]
         public bool IsGameQuery => GameShortName != null;
     }
 }
