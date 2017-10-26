@@ -11,25 +11,25 @@ namespace Telegram.Bot.Types.Payments
         /// <summary>
         /// Optional. User name
         /// </summary>
-        [JsonProperty("name")]
+        [JsonProperty]
         public string Name { get; set; }
 
         /// <summary>
         /// Optional. User's phone number
         /// </summary>
-        [JsonProperty("phone_number")]
+        [JsonProperty]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Optional. User email
         /// </summary>
-        [JsonProperty("email")]
+        [JsonProperty]
         public string Email { get; set; }
 
         /// <summary>
         /// Optional. User shipping address
         /// </summary>
-        [JsonProperty("shipping_address")]
+        [JsonProperty]
         public ShippingAddress ShippingAddress { get; set; }
     }
 }

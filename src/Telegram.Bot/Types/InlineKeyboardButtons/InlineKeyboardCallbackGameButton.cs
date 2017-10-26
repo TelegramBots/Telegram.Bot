@@ -14,9 +14,9 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         /// <remarks>
         /// Note: This type of button must always be the first button in the first row.
         /// </remarks>
-        [JsonProperty("callback_game", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty]
         public CallbackGame CallbackGame { get; set; }
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
         /// </summary>

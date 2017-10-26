@@ -12,31 +12,31 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Gets a value indicating whether the request was successful.
         /// </summary>
-        [JsonProperty("ok", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public bool Ok { get; set; }
 
         /// <summary>
         /// Gets the result object.
         /// </summary>
-        [JsonProperty("result", Required = Required.Default)]
+        [JsonProperty("result")]
         public T ResultObject { get; set; }
 
         /// <summary>
         /// Gets the error message.
         /// </summary>
-        [JsonProperty("description", Required = Required.Default)]
+        [JsonProperty("description")]
         public string Message { get; set; }
 
         /// <summary>
         /// Gets the error code.
         /// </summary>
-        [JsonProperty("error_code", Required = Required.Default)]
+        [JsonProperty("error_code")]
         public int Code { get; set; }
 
         /// <summary>
         /// Contains information about why a request was unsuccessful.
         /// </summary>
-        [JsonProperty("parameters")]
+        [JsonProperty]
         public ResponseParameters Parameters { get; set; }
     }
 }

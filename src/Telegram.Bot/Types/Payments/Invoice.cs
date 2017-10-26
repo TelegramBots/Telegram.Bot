@@ -12,31 +12,31 @@ namespace Telegram.Bot.Types.Payments
         /// <summary>
         /// Product name
         /// </summary>
-        [JsonProperty("title", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
 
         /// <summary>
         /// Product description
         /// </summary>
-        [JsonProperty("description", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Description { get; set; }
 
         /// <summary>
         /// Unique bot deep-linking parameter that can be used to generate this invoice
         /// </summary>
-        [JsonProperty("start_parameter", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string StartParameter { get; set; }
 
         /// <summary>
         /// Three-letter ISO 4217 currency code
         /// </summary>
-        [JsonProperty("currency", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Currency { get; set; }
 
         /// <summary>
         /// Total price in the smallest units of the currency.
         /// </summary>
-        [JsonProperty("total_amount", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int TotalAmount { get; set; }
     }
 }

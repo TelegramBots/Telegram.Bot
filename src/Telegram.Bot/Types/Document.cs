@@ -11,19 +11,19 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Document thumbnail as defined by sender
         /// </summary>
-        [JsonProperty(PropertyName = "thumb", Required = Required.Default, NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public PhotoSize Thumb { get; set; }
 
         /// <summary>
         /// Optional. Original filename as defined by sender
         /// </summary>
-        [JsonProperty(PropertyName = "file_name", Required = Required.Default)]
+        [JsonProperty]
         public string FileName { get; set; }
 
         /// <summary>
         /// Optional. MIME type of the file as defined by sender
         /// </summary>
-        [JsonProperty(PropertyName = "mime_type", Required = Required.Default)]
+        [JsonProperty]
         public string MimeType { get; set; }
     }
 }

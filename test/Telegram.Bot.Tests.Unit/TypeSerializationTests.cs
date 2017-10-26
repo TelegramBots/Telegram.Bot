@@ -1,5 +1,6 @@
 using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -40,7 +41,15 @@ namespace Telegram.Bot.Tests.Unit
                 Caption = "Test Document Message"
             };
 
-            string json = JsonConvert.SerializeObject(documentMessage);
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                }
+            };
+
+            string json = JsonConvert.SerializeObject(documentMessage, serializerSettings);
 
             Assert.NotNull(json);
             Assert.True(json.Length > 100);
@@ -121,7 +130,15 @@ namespace Telegram.Bot.Tests.Unit
             }
             ";
 
-            var message = JsonConvert.DeserializeObject<Message>(json);
+            var serializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy()
+                }
+            };
+
+            var message = JsonConvert.DeserializeObject<Message>(json, serializerSettings);
 
             Assert.Equal(MessageType.DocumentMessage, message.Type);
             Assert.Equal("test_file.txt", message.Document.FileName);

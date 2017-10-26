@@ -11,19 +11,19 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Position in high score table for the game.
         /// </summary>
-        [JsonProperty("position", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Position { get; set; }
 
         /// <summary>
         /// User.
         /// </summary>
-        [JsonProperty("user", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public User User { get; set; }
 
         /// <summary>
         /// Score.
         /// </summary>
-        [JsonProperty("score", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Score { get; set; }
     }
 }

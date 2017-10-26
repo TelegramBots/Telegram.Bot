@@ -24,55 +24,55 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. New incoming message of any kind — text, photo, sticker, etc.
         /// </summary>
-        [JsonProperty("message", Required = Required.Default)]
+        [JsonProperty]
         public Message Message { get; set; }
 
         /// <summary>
         /// Optional. New version of a message that is known to the bot and was edited
         /// </summary>
-        [JsonProperty("edited_message", Required = Required.Default)]
+        [JsonProperty]
         public Message EditedMessage { get; set; }
 
         /// <summary>
         /// Optional. New incoming inline query
         /// </summary>
-        [JsonProperty("inline_query", Required = Required.Default)]
+        [JsonProperty]
         public InlineQuery InlineQuery { get; set; }
 
         /// <summary>
         /// Optional. The result of a inline query that was chosen by a user and sent to their chat partner
         /// </summary>
-        [JsonProperty("chosen_inline_result", Required = Required.Default)]
+        [JsonProperty]
         public ChosenInlineResult ChosenInlineResult { get; set; }
 
         /// <summary>
         /// Optional. New incoming callback query
         /// </summary>
-        [JsonProperty("callback_query", Required = Required.Default)]
+        [JsonProperty]
         public CallbackQuery CallbackQuery { get; set; }
 
         /// <summary>
         /// Optional. New incoming channel post of any kind — text, photo, sticker, etc.
         /// </summary>
-        [JsonProperty("channel_post", Required = Required.Default)]
+        [JsonProperty]
         public Message ChannelPost { get; set; }
 
         /// <summary>
         /// Optional. New version of a channel post that is known to the bot and was edited
         /// </summary>
-        [JsonProperty("edited_channel_post", Required = Required.Default)]
+        [JsonProperty]
         public Message EditedChannelPost { get; set; }
 
         /// <summary>
         /// Optional. New incoming shipping query. Only for invoices with flexible price
         /// </summary>
-        [JsonProperty("shipping_query")]
+        [JsonProperty]
         public ShippingQuery ShippingQuery { get; set; }
 
         /// <summary>
         /// Optional. New incoming pre-checkout query. Contains full information about checkout
         /// </summary>
-        [JsonProperty("pre_checkout_query")]
+        [JsonProperty]
         public PreCheckoutQuery PreCheckoutQuery { get; set; }
 
         /// <summary>
@@ -81,7 +81,6 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The update type.
         /// </value>
-        [JsonIgnore]
         public UpdateType Type
         {
             get

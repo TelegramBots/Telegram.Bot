@@ -1,5 +1,5 @@
-﻿using System.IO;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.IO;
 
 namespace Telegram.Bot.Types
 {
@@ -12,19 +12,19 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unique identifier for this file
         /// </summary>
-        [JsonProperty(PropertyName = "file_id", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string FileId { get; set; }
 
         /// <summary>
         /// Optional. File size, if known
         /// </summary>
-        [JsonProperty(PropertyName = "file_size", Required = Required.Default)]
+        [JsonProperty]
         public int FileSize { get; set; }
 
         /// <summary>
         /// File path. Use <see cref="TelegramBotClient.GetFileAsync"/> to get the file.
         /// </summary>
-        [JsonProperty(PropertyName = "file_path", Required = Required.Default)]
+        [JsonProperty]
         public string FilePath { get; set; }
 
         /// <summary>
