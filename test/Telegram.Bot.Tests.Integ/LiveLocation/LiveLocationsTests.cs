@@ -78,58 +78,65 @@ namespace Telegram.Bot.Tests.Integ.LiveLocation
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.EditMessageLiveLocation)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.StopMessageLiveLocation)]
         [ExecutionOrder(1.2)]
-        public async Task Should_Answer_Inline_Query_With_Live_Location()
+        public async Task Should_Answer_Inline_Query_With_Live_Locations()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithLiveLocation,
-                "Start an inline query, post its result to chat, click on the inline button and wait");
+                "Start an inline query, post its result to chat, and click on the inline button");
 
-            var livePeriod = 60;
-            var initialLocation = new Location {Latitude = 60, Longitude = 30};
+            const int livePeriod = 60;
 
-            var initialMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
+            Location[] locations =
             {
-                new InlineKeyboardCallbackButton("Click me", "start-live-location"),
-            });
-
-            var editedMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[0]);
-
-            var subsequentLocations = new[]
-            {
-                new Location {Latitude = 60, Longitude = 31},
-                new Location {Latitude = 60, Longitude = 32},
-                new Location {Latitude = 60, Longitude = 33}
+                new Location {Latitude = 40.7128f, Longitude = -74.0060f}, // New York
+                new Location {Latitude = 39.9042f, Longitude = 116.4074f}, // Beijing
             };
 
-            var inlineQueryResults = new InlineQueryResult[]
+            InlineKeyboardMarkup initialMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
+            {
+                new InlineKeyboardCallbackButton("Start live locations", "start-live-location"),
+            });
+
+            InlineQueryResult[] inlineQueryResults =
             {
                 new InlineQueryResultLocation
                 {
                     Id = "live-location",
-                    Title = "Live location test",
-                    Latitude = initialLocation.Latitude,
-                    Longitude = initialLocation.Longitude,
+                    Title = "Live Locations Test",
+                    Latitude = locations[0].Latitude,
+                    Longitude = locations[0].Longitude,
                     LivePeriod = livePeriod,
                     ReplyMarkup = initialMarkup
                 },
             };
 
-            var iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            string inlineQueryId = (await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync()).InlineQuery.Id;
 
-            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
-            var callbackUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId,
+                inlineQueryResults,
+                cacheTime: 0
+            );
 
-            foreach (var subsequentLocation in subsequentLocations)
+            string inlineMessageId = (await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync())
+                .CallbackQuery.InlineMessageId;
+
+            foreach (Location newLocation in locations.Skip(1))
             {
-                await BotClient.EditMessageLiveLocationAsync(callbackUpdate.CallbackQuery.InlineMessageId,
-                    subsequentLocation.Latitude, subsequentLocation.Longitude, editedMarkup);
+                await Task.Delay(15_00);
 
-                await Task.Delay(1000);
+                bool result = await BotClient.EditMessageLiveLocationAsync(
+                    inlineMessageId,
+                    newLocation.Latitude,
+                    newLocation.Longitude,
+                    new InlineKeyboardMarkup(new InlineKeyboardButton[0])
+                );
+
+                Assert.True(result);
             }
 
-            var stopSuccess =
-                await BotClient.StopMessageLiveLocationAsync(callbackUpdate.CallbackQuery.InlineMessageId);
+            bool stopResult = await BotClient.StopMessageLiveLocationAsync(inlineMessageId);
 
-            Assert.True(stopSuccess);
+            Assert.True(stopResult);
         }
 
         private static class FactTitles
@@ -138,8 +145,7 @@ namespace Telegram.Bot.Tests.Integ.LiveLocation
                 "Should send a live location, update it 3 times, and stop live locations";
 
             public const string ShouldAnswerInlineQueryWithLiveLocation =
-                    "Should answer inline query with a live location with a few location updates and then stop live location"
-                ;
+                "Should answer inline query with live locations, update it, and stop live locations";
         }
     }
 }
