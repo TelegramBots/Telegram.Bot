@@ -4,7 +4,6 @@ mono: none
 dotnet: 2.0.0
 branches:
   only:
-  - master
   - develop
 script:
   - sh -c "dotnet test test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj --configuration Release --list-tests"
