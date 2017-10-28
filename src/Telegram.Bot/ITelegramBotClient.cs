@@ -39,11 +39,9 @@ namespace Telegram.Bot
 
         #region Events
 
-        // ToDo
-        event EventHandler<HttpContent> OnMakingRequest;
+        event EventHandler<ApiRequestEventArgs> MakingApiRequest;
 
-        // ToDo
-        event EventHandler<HttpResponseMessage> OnResponseReceived;
+        event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
 
         /// <summary>
         /// Occurs when an <see cref="Update"/> is received.

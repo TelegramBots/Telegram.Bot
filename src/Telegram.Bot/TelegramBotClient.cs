@@ -81,9 +81,9 @@ namespace Telegram.Bot
 
         #region Events
 
-        public event EventHandler<HttpContent> OnMakingRequest;
+        public event EventHandler<ApiRequestEventArgs> MakingApiRequest;
 
-        public event EventHandler<HttpResponseMessage> OnResponseReceived;
+        public event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
 
         /// <summary>
         /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>, <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and <see cref="OnCallbackQuery"/> events.
@@ -2151,6 +2151,7 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Invalid token", 401);
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
+            var apiRequestDataEventArgs = new ApiRequestEventArgs {Uri = uri.ToString()};
 
             ApiResponse<T> responseObject;
             try
@@ -2160,7 +2161,7 @@ namespace Telegram.Bot
                 {
                     // Request with no parameters
 
-                    OnMakingRequest?.Invoke(this, null); // ToDo: Use a struct to hold values such as URI
+                    MakingApiRequest?.Invoke(this, apiRequestDataEventArgs);
                     response = await _httpClient.GetAsync(uri, cancellationToken)
                         .ConfigureAwait(false);
                 }
@@ -2191,7 +2192,8 @@ namespace Telegram.Bot
                             }
                         }
 
-                        OnMakingRequest?.Invoke(this, form);
+                        apiRequestDataEventArgs.HttpContent = form;
+                        MakingApiRequest?.Invoke(this, apiRequestDataEventArgs);
                         response = await _httpClient.PostAsync(uri, form, cancellationToken)
                             .ConfigureAwait(false);
                     }
@@ -2204,7 +2206,8 @@ namespace Telegram.Bot
 
                     var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
 
-                    OnMakingRequest?.Invoke(this, httpContent);
+                    apiRequestDataEventArgs.HttpContent = httpContent;
+                    MakingApiRequest?.Invoke(this, apiRequestDataEventArgs);
                     response = await _httpClient.PostAsync(uri, httpContent, cancellationToken)
                         .ConfigureAwait(false);
                 }
@@ -2212,8 +2215,12 @@ namespace Telegram.Bot
                 string responseString = await response.Content.ReadAsStringAsync()
                     .ConfigureAwait(false);
 
-                // ToDo: Read response content and then fire event with a custom struct containing Request URI, Response status code, and response raw payload
-                OnResponseReceived?.Invoke(this, response);
+                ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
+                {
+                    ResponseMessage = response,
+                    Payload = responseString,
+                    ApiRequestEventArgs = apiRequestDataEventArgs
+                });
 
                 switch (response.StatusCode)
                 {
@@ -2239,8 +2246,7 @@ namespace Telegram.Bot
                 if (cancellationToken.IsCancellationRequested)
                     throw;
 
-                throw new ApiRequestException("Request timed out", 408,
-                    e); // ToDo: Put breakpoint, then disconnect from the net and try this
+                throw new ApiRequestException("Request timed out", 408, e);
             }
 
             if (responseObject == null)

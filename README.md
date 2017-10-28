@@ -60,8 +60,8 @@ For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-
 
 ## API Coverage
 
+* [Bot API 3.4](https://core.telegram.org/bots/api-changelog)
 * [Inline Mode](https://core.telegram.org/bots/inline)
-* [Bot API 3.3](https://core.telegram.org/bots/api-changelog)
 * [Payments](https://core.telegram.org/bots/payments) (Needs some testing)
 * [Games](https://core.telegram.org/bots/games)
 
