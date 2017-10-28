@@ -1,4 +1,4 @@
-version: 13.3.0-ci-{build}
+version: 13.3.0-rc1-ci-{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:
