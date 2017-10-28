@@ -1,7 +1,5 @@
-using System.ComponentModel;
-
 using Newtonsoft.Json;
-
+using System.ComponentModel;
 using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
@@ -15,7 +13,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Short name of the game.
         /// </summary>
-        [JsonProperty("game_short_name", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string GameShortName { get; set; }
 
 #pragma warning disable 1591

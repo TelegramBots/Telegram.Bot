@@ -11,19 +11,19 @@ namespace Telegram.Bot.Types.InputMessageContents
         /// <summary>
         /// Contact's phone number
         /// </summary>
-        [JsonProperty("phone_number", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Contact's first name
         /// </summary>
-        [JsonProperty("first_name", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Optional. Contact's last name
         /// </summary>
-        [JsonProperty("last_name", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string LastName { get; set; }
     }
 }

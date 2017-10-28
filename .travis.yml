@@ -1,15 +1,13 @@
 language: csharp
 dist: trusty
 mono: none
-dotnet: 1.0.4
+dotnet: 2.0.0
 branches:
   only:
   - master
   - develop
 script:
-  - dotnet restore
-  - dotnet build --configuration Release
-  - sh -c "dotnet test test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj --configuration Release --no-build --list-tests"
+  - sh -c "dotnet test test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj --configuration Release --list-tests"
   - sh -c "dotnet test test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj --configuration Release --no-build"
 notifications:
   email: false

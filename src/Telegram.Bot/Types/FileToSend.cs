@@ -39,9 +39,9 @@ namespace Telegram.Bot.Types
             get
             {
                 if (Content != null) return FileType.Stream;
-                else if (FileId != null) return FileType.Id;
-                else if (Url != null) return FileType.Url;
-                else return FileType.Unknown;
+                if (FileId != null) return FileType.Id;
+                if (Url != null) return FileType.Url;
+                return FileType.Unknown;
             }
         }
 

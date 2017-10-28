@@ -12,31 +12,31 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the entity
         /// </summary>
-        [JsonProperty("type", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public MessageEntityType Type { get; set; }
 
         /// <summary>
         /// Offset in UTF-16 code units to the start of the entity
         /// </summary>
-        [JsonProperty("offset", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Offset { get; set; }
 
         /// <summary>
         /// Length of the entity in UTF-16 code units
         /// </summary>
-        [JsonProperty("length", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Length { get; set; }
 
         /// <summary>
         /// Optional. For "text_link" only, url that will be opened after user taps on the text
         /// </summary>
-        [JsonProperty("url", Required = Required.Default)]
+        [JsonProperty]
         public string Url { get; set; }
 
         /// <summary>
         /// Optional. For "text_mention" only, the mentioned user (for users without usernames)
         /// </summary>
-        [JsonProperty("user", Required = Required.Default)]
+        [JsonProperty]
         public User User { get; set; }
     }
 }

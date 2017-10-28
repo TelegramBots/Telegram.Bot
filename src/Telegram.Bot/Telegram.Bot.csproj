@@ -1,33 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard1.1</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Product>Telegram Bot API</Product>
-    <Title>Telegram Bot API</Title>
-    <Description>Telegram Bot Library supporting Bot Api 3.2, Payments, Inline, Group &amp; Channel management</Description>
-    <Authors>Robin Müller</Authors>
+    <Title>Telegram Bot API Client</Title>
+    <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
+    <Authors>RoundRobin,Poulad</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt</PackageLicenseUrl>
-    <PackageReleaseNotes>Bot API 3.2</PackageReleaseNotes>
+    <PackageReleaseNotes>Bot API v3.4</PackageReleaseNotes>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
     <IncludeSource>True</IncludeSource>
     <Company />
     <Product>Telegram Bot API</Product>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
-    <Version Condition="'$(APPVEYOR)' == 'True'">13.2.1-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
-    <VersionPrefix>13.2.1</VersionPrefix>
+    <Version Condition="'$(APPVEYOR)' == 'True'">13.3.0-rc1-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
+    <VersionPrefix>13.3.0-rc1</VersionPrefix>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin/Debug/documentation.xml</DocumentationFile>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
-
 </Project>
