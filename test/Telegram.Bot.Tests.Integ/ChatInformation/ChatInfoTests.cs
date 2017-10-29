@@ -10,7 +10,7 @@ namespace Telegram.Bot.Tests.Integ.ChatInformation
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     public class ChatInfoTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.ChatInformation
 
         [Fact(DisplayName = FactTitles.ShouldGetSupergroupChatInfo)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetChat)]
-        [ExecutionOrder(1.1)]
+        [ExecutionOrder(1)]
         public async Task Should_Get_Supergroup_Chat_Info()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChatInfo);

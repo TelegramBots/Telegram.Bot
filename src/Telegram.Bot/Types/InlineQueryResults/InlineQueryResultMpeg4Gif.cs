@@ -1,6 +1,5 @@
-using System.ComponentModel;
-
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -9,6 +8,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// By default, this animated MPEG-4 file will be sent by the user with optional caption.
     /// Alternatively, you can provide message_text to send it instead of the animation.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn)]
     public class InlineQueryResultMpeg4Gif : InlineQueryResultNew
     {
         /// <summary>
@@ -38,20 +38,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Caption of the MPEG-4 file to be sent
         /// </summary>
-        [JsonProperty("caption", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Caption { get; set; }
 
         /// <summary>
         /// Optional. Thumbnail width
         /// </summary>
-        [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new int ThumbWidth { get; set; }
 
         /// <summary>
         /// Optional. Thumbnail height
         /// </summary>
-        [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new int ThumbHeight { get; set; }
     }

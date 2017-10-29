@@ -39,6 +39,8 @@
             public const string ChatInformation = "Chat information";
 
             public const string MessageReplyMarkup = "Messages with Keyboard Reply Markup";
+
+            public const string LiveLocations = "Live locations";
         }
 
         public static class TelegramBotApiMethods
@@ -92,6 +94,14 @@
             public const string SendDocument = "sendDocument";
 
             public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
+
+            public const string SendLocation = "sendLocation";
+
+            public const string EditMessageLiveLocation = "editMessageLiveLocation";
+
+            public const string StopMessageLiveLocation = "stopMessageLiveLocation";
+
+            public const string SetChatStickerSet = "setChatStickerSet";
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Caption of the document to be sent, 0-200 characters
         /// </summary>
-        [JsonProperty("caption", Required = Required.Default)]
+        [JsonProperty]
         public string Caption { get; set; }
 
         /// <summary>
@@ -26,13 +26,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Mime type of the content of the file, either “application/pdf” or “application/zip”
         /// </summary>
-        [JsonProperty("mime_type", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string MimeType { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty("description", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Description { get; set; }
     }
 }

@@ -11,19 +11,19 @@ namespace Telegram.Bot.Types.Payments
         /// <summary>
         /// Shipping option identifier
         /// </summary>
-        [JsonProperty("id")]
+        [JsonProperty]
         public string Id { get; set; }
 
         /// <summary>
         /// Option title
         /// </summary>
-        [JsonProperty("title")]
+        [JsonProperty]
         public string Title { get; set; }
 
         /// <summary>
         /// List of price portions
         /// </summary>
-        [JsonProperty("prices")]
-        public LabeledPrice[] Prices { get; set; } 
+        [JsonProperty]
+        public LabeledPrice[] Prices { get; set; }
     }
 }

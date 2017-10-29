@@ -12,19 +12,19 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Text of the button. If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
         /// </summary>
-        [JsonProperty("text", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Text { get; set; }
 
         /// <summary>
         /// Optional. If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
         /// </summary>
-        [JsonProperty("request_contact", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool RequestContact { get; set; }
 
         /// <summary>
         /// Optional. If <c>true</c>, the user's current location will be sent when the button is pressed. Available in private chats only
         /// </summary>
-        [JsonProperty("request_location", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool RequestLocation { get; set; }
 
         /// <summary>

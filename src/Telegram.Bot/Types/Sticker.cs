@@ -12,37 +12,37 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Sticker width
         /// </summary>
-        [JsonProperty(PropertyName = "width", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Width { get; set; }
 
         /// <summary>
         /// Sticker height
         /// </summary>
-        [JsonProperty(PropertyName = "height", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Height { get; set; }
 
         /// <summary>
         /// Sticker thumbnail in .webp or .jpg format
         /// </summary>
-        [JsonProperty(PropertyName = "thumb", Required = Required.Default)]
+        [JsonProperty]
         public PhotoSize Thumb { get; set; }
 
         /// <summary>
         /// Emoji associated with the sticker
         /// </summary>
-        [JsonProperty(PropertyName = "emoji", Required = Required.Default)]
+        [JsonProperty]
         public string Emoji { get; set; }
 
         /// <summary>
         /// Optional. Name of the sticker set to which the sticker belongs
         /// </summary>
-        [JsonProperty(PropertyName = "set_name", Required = Required.Default)]
+        [JsonProperty]
         public string SetName { get; set; }
 
         /// <summary>
         /// Optional. For mask stickers, the position where the mask should be placed
         /// </summary>
-        [JsonProperty(PropertyName = "mask_position", Required = Required.Default)]
+        [JsonProperty]
         public MaskPosition MaskPosition { get; set; }
     }
 }

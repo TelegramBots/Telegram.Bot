@@ -11,21 +11,19 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <summary>
         /// Array of button rows, each represented by an Array of KeyboardButton objects
         /// </summary>
-        [JsonProperty(PropertyName = "keyboard", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public KeyboardButton[][] Keyboard { get; set; }
 
         /// <summary>
         /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of <see cref="KeyboardButton"/>). Defaults to <c>false</c>, in which case the custom keyboard is always of the same height as the app's standard keyboard.
         /// </summary>
-        [JsonProperty(PropertyName = "resize_keyboard", Required = Required.Default,
-            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool ResizeKeyboard { get; set; }
 
         /// <summary>
         /// Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to <c>false</c>.
         /// </summary>
-        [JsonProperty(PropertyName = "one_time_keyboard", Required = Required.Default,
-            DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool OneTimeKeyboard { get; set; }
 
         /// <summary>

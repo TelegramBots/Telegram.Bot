@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Video width and height as defined by sender
         /// </summary>
-        [JsonProperty("Length", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Length { get; set; }
 
         /// <summary>
@@ -27,13 +27,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Duration of the video in seconds as defined by sender
         /// </summary>
-        [JsonProperty("duration", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public int Duration { get; set; }
 
         /// <summary>
         /// Optional. Video thumbnail
         /// </summary>
-        [JsonProperty("thumb")]
+        [JsonProperty]
         public PhotoSize Thumb { get; set; }
     }
 }

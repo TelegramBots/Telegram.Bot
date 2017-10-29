@@ -13,6 +13,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
     public class PaymentTests : IClassFixture<PaymentTestsFixture>
     {
+        private ITelegramBotClient BotClient => _fixture.BotClient;
+
         private readonly TestsFixture _fixture;
 
         private readonly PaymentTestsFixture _classFixture;
@@ -32,7 +34,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             const string payload = "my-payload";
 
-            LabeledPrice[] prices = {
+            LabeledPrice[] prices =
+            {
                 new LabeledPrice() {Amount = 150, Label = "One dollar 50 cents"},
                 new LabeledPrice() {Amount = 2029, Label = "20 dollars 29 cents"},
             };
@@ -45,7 +48,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            Message message = await _fixture.BotClient.SendInvoiceAsync(_classFixture.TesterPrivateChatId,
+            Message message = await BotClient.SendInvoiceAsync(_classFixture.TesterPrivateChatId,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -53,7 +56,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 startParameter: invoice.StartParameter,
                 currency: invoice.Currency,
                 prices: prices
-                );
+            );
 
             Assert.Equal(MessageType.Invoice, message.Type);
             Assert.Equal(invoice.Title, message.Invoice.Title);
@@ -73,7 +76,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             const string payload = "shippingquery-ok-payload";
 
-            LabeledPrice[] productPrices = {
+            LabeledPrice[] productPrices =
+            {
                 new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
                 new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
             };
@@ -86,15 +90,17 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            LabeledPrice[] shippingPrices = {
+            LabeledPrice[] shippingPrices =
+            {
                 new LabeledPrice {Amount = 500, Label = "SHIPPING1: 500"},
                 new LabeledPrice {Amount = 299, Label = "SHIPPING2: 299"},
             };
 
-            ShippingOption[] shippingOptions = {
+            ShippingOption[] shippingOptions =
+            {
                 new ShippingOption
                 {
-                    Id= "option1",
+                    Id = "option1",
                     Title = "OPTION-1",
                     Prices = shippingPrices,
                 }
@@ -137,12 +143,14 @@ namespace Telegram.Bot.Tests.Integ.Payment
         [ExecutionOrder(1.3)]
         public async Task Should_Answer_PreCheckout_Query_With_Ok_For_No_Shipment_Option()
         {
-            await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
+            await _classFixture.SendTestCaseNotificationAsync(
+                FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption,
                 "Click on *Pay <amount>* and confirm payment. Transaction should be completed.");
 
             const string payload = "precheckout-ok-payload";
 
-            LabeledPrice[] productPrices = {
+            LabeledPrice[] productPrices =
+            {
                 new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
                 new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
             };
@@ -184,7 +192,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
         }
         // ToDo: another method: receive successful payment
 
-        private async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<Update> GetShippingQueryUpdate(
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -197,7 +206,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
             return update;
         }
 
-        private async Task<Update> GetPreCheckoutQueryUpdate(CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<Update> GetPreCheckoutQueryUpdate(
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -210,7 +220,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
             return update;
         }
 
-        private async Task<Update> GetSuccessfulPaymentUpdate(CancellationToken cancellationToken = default(CancellationToken))
+        private async Task<Update> GetSuccessfulPaymentUpdate(
+            CancellationToken cancellationToken = default(CancellationToken))
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 predicate: u => u.Message.Type == MessageType.SuccessfulPayment,
@@ -228,7 +239,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
         {
             public const string ShouldSendInvoice = "Should send an invoice";
 
-            public const string ShouldAnswerShippingQueryWithOk = "Should receive shipping address query and reply with shipping options";
+            public const string ShouldAnswerShippingQueryWithOk =
+                "Should receive shipping address query and reply with shipping options";
 
             public const string ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption =
                 "Should send invoice for no shipment option, and reply pre-checkout query with OK.";

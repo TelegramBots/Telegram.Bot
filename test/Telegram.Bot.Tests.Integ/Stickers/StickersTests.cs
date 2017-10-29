@@ -42,10 +42,10 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         // ToDo: Send one of the stickers retrieved to chat
 
         #endregion
-
+        
         private static class FactTitles
         {
-            public const string ShouldGetStickerSet = "Should get sticker set";
+            public const string ShouldGetStickerSet = "Should get sticker set";            
         }
     }
 }
