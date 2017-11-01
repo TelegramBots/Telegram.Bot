@@ -105,6 +105,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="chat"></param>
         public static implicit operator ChatId(Chat chat) =>
-            chat.Id != default(long) ? chat.Id : (ChatId)("@" + chat.Username);
+            chat.Id != default ? chat.Id : (ChatId)("@" + chat.Username);
     }
 }

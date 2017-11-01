@@ -343,8 +343,8 @@ namespace Telegram.Bot.Types
                     GroupChatCreated ||
                     SupergroupChatCreated ||
                     ChannelChatCreated ||
-                    MigrateFromChatId == default(long) ||
-                    MigrateToChatId == default(long))
+                    MigrateFromChatId == default ||
+                    MigrateToChatId == default)
                     return MessageType.ServiceMessage;
 
                 return MessageType.UnknownMessage;
