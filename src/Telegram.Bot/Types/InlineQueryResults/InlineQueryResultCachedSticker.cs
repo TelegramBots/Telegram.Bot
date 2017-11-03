@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -14,10 +15,16 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty("sticker_file_id", Required = Required.Always)]
         public string FileId { get; set; }
 
-        [JsonIgnore]
+        /// <summary>
+        /// Title of the result
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Title { get; set; }
 
-        [JsonIgnore]
+        /// <summary>
+        /// Optional. Caption of the result to be sent, 0-200 characters
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Caption { get; set; }
     }
 }

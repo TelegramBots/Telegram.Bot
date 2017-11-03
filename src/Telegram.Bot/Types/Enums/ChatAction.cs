@@ -22,7 +22,7 @@ namespace Telegram.Bot.Types.Enums
         UploadPhoto,
 
         /// <summary>
-        /// Recodring a <see cref="Video"/>
+        /// Recording a <see cref="Video"/>
         /// </summary>
         [EnumMember(Value = "record_video")]
         RecordVideo,
@@ -56,6 +56,18 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "find_location")]
         FindLocation,
+
+        /// <summary>
+        /// Recording a <see cref="VideoNote"/>
+        /// </summary>
+        [EnumMember(Value = "record_video_note")]
+        RecordVideoNote,
+        
+        /// <summary>
+        /// Uploading a <see cref="VideoNote"/>
+        /// </summary>
+        [EnumMember(Value = "upload_video_note")]
+        UploadVideoNote,
     }
 
     internal static class ChatActionExtensions

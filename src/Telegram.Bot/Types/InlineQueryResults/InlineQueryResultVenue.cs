@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -14,25 +14,25 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Latitude of the location in degrees
         /// </summary>
-        [JsonProperty("latitude", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public float Latitude { get; set; }
 
         /// <summary>
         /// Longitude of the location in degrees
         /// </summary>
-        [JsonProperty("longitude", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public float Longitude { get; set; }
 
         /// <summary>
         /// Address of the venue
         /// </summary>
-        [JsonProperty("address", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public string Address { get; set; }
 
         /// <summary>
         /// Optional. Foursquare identifier of the venue if known
         /// </summary>
-        [JsonProperty("foursquare_id", Required = Required.Default)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string FoursquareId { get; set; }
     }
 }

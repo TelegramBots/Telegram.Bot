@@ -1,28 +1,22 @@
-version: 10.0.0-alpha-{build}
+version: 13.3.0-rc1-ci-{build}
 pull_requests:
   do_not_increment_build_number: true
 branches:
   except:
     - gh-pages
-image: Visual Studio 2015
-init:
-  - ps: git config --global core.autocrlf input
-cache:
-  - "C:\\Users\\appveyor\\.nuget\\packages -> **\\project.json"
+    - docs
+image: Visual Studio 2017
 configuration: Debug
 before_build:
-  - ps: $projectJson = Get-ChildItem project.json -Recurse
-  - ps: $json = ConvertFrom-Json (Get-Content $projectJson.FullName -Raw -Encoding UTF8)
-  - ps: $json.version = $env:APPVEYOR_BUILD_VERSION
-  - ps: $json.buildOptions.xmlDoc = $False
-  - ps: Set-Content -Value (ConvertTo-Json $json -Depth 10) -Path $projectJson.FullName -Encoding UTF8
-  - ps: dotnet restore
+  - nuget restore Telegram.Bot.sln
 build:
+  project: Telegram.Bot.sln
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: normal
 after_build:
-  - ps: "dotnet pack .\\src\\Telegram.Bot -c Debug"
+  - ps: "dotnet test test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj --list-tests"
+  - ps: "dotnet test test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj --no-build"
   - ps: "Get-ChildItem *.nupkg -Recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }"
 test: off
 deploy:
@@ -32,4 +26,4 @@ deploy:
       secure: Dl2/cPfGdESLPBMd7Y+CIQomwOgNQ2+rUTylGGzMb0FaJaL4WgPPf5lzkY5KD4V6
     symbol_server: https://www.myget.org/F/telegram-bot/api/v2/package
     on:
-      branch: master
+      branch: develop

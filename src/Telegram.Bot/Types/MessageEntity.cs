@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
@@ -13,32 +12,31 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the entity
         /// </summary>
-        [JsonProperty("type", Required = Required.Always)]
-        [JsonConverter(typeof(StringEnumConverter))]
-        public MessageEntityType Type { get; internal set; }
+        [JsonProperty(Required = Required.Always)]
+        public MessageEntityType Type { get; set; }
 
         /// <summary>
         /// Offset in UTF-16 code units to the start of the entity
         /// </summary>
-        [JsonProperty("offset", Required = Required.Always)]
-        public int Offset { get; internal set; }
+        [JsonProperty(Required = Required.Always)]
+        public int Offset { get; set; }
 
         /// <summary>
         /// Length of the entity in UTF-16 code units
         /// </summary>
-        [JsonProperty("length", Required = Required.Always)]
-        public int Length { get; internal set; }
+        [JsonProperty(Required = Required.Always)]
+        public int Length { get; set; }
 
         /// <summary>
         /// Optional. For "text_link" only, url that will be opened after user taps on the text
         /// </summary>
-        [JsonProperty("url", Required = Required.Default)]
-        public string Url { get; internal set; }
+        [JsonProperty]
+        public string Url { get; set; }
 
         /// <summary>
-        /// Optional. For "text_mention" only, the mentioned user
+        /// Optional. For "text_mention" only, the mentioned user (for users without usernames)
         /// </summary>
-        [JsonProperty("user", Required = Required.Default)]
-        public User User { get; internal set; }
+        [JsonProperty]
+        public User User { get; set; }
     }
 }

@@ -1,10 +1,9 @@
-﻿using System;
+using System;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-#if NET45
 using Telegram.Bot.Helpers;
-#endif
 
 namespace Telegram.Bot.Converters
 {
@@ -18,26 +17,17 @@ namespace Telegram.Bot.Converters
         /// <param name="serializer">The calling serializer.</param>
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            if (value == null)
+            switch (value)
             {
-                writer.WriteNull();
-                return;
+                case null:
+                    writer.WriteNull();
+                    break;
+                case DateTime dateTime:
+                    writer.WriteValue(dateTime.ToUnixTime());
+                    break;
+                default:
+                    throw new Exception("Expected date object value.");
             }
-
-            long val;
-            if (value is DateTime)
-            {
-#if NET45
-                val = ((DateTime)value).ToUnixTime();
-#else
-                val = new DateTimeOffset((DateTime)value).ToUnixTimeSeconds();
-#endif
-            }
-            else
-            {
-                throw new Exception("Expected date object value.");
-            }
-            writer.WriteValue(val);
         }
 
         /// <summary>
@@ -53,8 +43,9 @@ namespace Telegram.Bot.Converters
         {
             if (reader.TokenType == JsonToken.Null)
             {
-                if (objectType == typeof(DateTime))
+                if (Nullable.GetUnderlyingType(objectType) != null)
                     return default(DateTime);
+
                 return null;
             }
 
@@ -63,11 +54,7 @@ namespace Telegram.Bot.Converters
 
             var ticks = (long)reader.Value;
 
-#if NET45
             return ticks.FromUnixTime();
-#else
-            return DateTimeOffset.FromUnixTimeSeconds(ticks).DateTime;
-#endif
         }
 
         /// <summary>
@@ -77,6 +64,7 @@ namespace Telegram.Bot.Converters
         /// <returns>
         /// 	<c>true</c> if this instance can convert the specified object type; otherwise, <c>false</c>.
         /// </returns>
-        public override bool CanConvert(Type objectType) => objectType == typeof(DateTime) || objectType == typeof(DateTime?);
+        public override bool CanConvert(Type objectType)
+            => objectType == typeof(DateTime) || objectType == typeof(DateTime?);
     }
 }

@@ -1,10 +1,13 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// ChatMember status
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ChatMemberStatus
     {
         /// <summary>
@@ -36,5 +39,11 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "kicked")]
         Kicked,
+
+        /// <summary>
+        /// A <see cref="User"/> who is restricted in the <see cref="Chat"/>
+        /// </summary>
+        [EnumMember(Value = "restricted")]
+        Restricted
     }
 }

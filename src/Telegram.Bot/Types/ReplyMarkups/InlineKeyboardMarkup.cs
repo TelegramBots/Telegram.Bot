@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Telegram.Bot.Types.InlineKeyboardButtons;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <summary>
         /// Array of <see cref="InlineKeyboardButton"/> rows, each represented by an Array of <see cref="InlineKeyboardButton"/>.
         /// </summary>
-        [JsonProperty("inline_keyboard", Required = Required.Always)]
+        [JsonProperty(Required = Required.Always)]
         public InlineKeyboardButton[][] InlineKeyboard { get; set; }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Telegram.Bot.Args
         /// <value>
         /// The callback query.
         /// </value>
-        public CallbackQuery CallbackQuery { get; private set; }
+        public CallbackQuery CallbackQuery { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CallbackQueryEventArgs"/> class.

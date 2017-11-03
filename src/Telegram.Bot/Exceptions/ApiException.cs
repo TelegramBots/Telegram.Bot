@@ -1,5 +1,7 @@
 ﻿using System;
 
+using Telegram.Bot.Types;
+
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
@@ -10,10 +12,12 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Gets the error code.
         /// </summary>
-        /// <value>
-        /// The error code.
-        /// </value>
-        public int ErrorCode { get; internal set; }
+        public int ErrorCode { get; set; }
+
+        /// <summary>
+        /// Contains information about why a request was unsuccessful.
+        /// </summary>
+        public ResponseParameters Parameters { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestException"/> class.
@@ -51,6 +55,19 @@ namespace Telegram.Bot.Exceptions
         public ApiRequestException(string message, int errorCode, Exception innerException) : base(message, innerException)
         {
             ErrorCode = errorCode;
+        }
+
+        /// <summary>
+        /// Returns a new instance of the <see cref="ApiRequestException"/> class.
+        /// </summary>
+        /// <param name="apiResponse">The API response.</param>
+        /// <returns><see cref="ApiRequestException"/></returns>
+        public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
+        {
+            return new ApiRequestException(apiResponse.Message, apiResponse.Code)
+            {
+                Parameters = apiResponse.Parameters
+            };
         }
     }
 }
