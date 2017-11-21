@@ -812,6 +812,7 @@ namespace Telegram.Bot
         /// <param name="providerToken">Payments provider token, obtained via Botfather</param>
         /// <param name="startParameter">Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter</param>
         /// <param name="currency">Three-letter ISO 4217 currency code, see more on currencies</param>
+        /// <param name="providerData">JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
         /// <param name="photoUrl">URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.</param>
         /// <param name="photoSize">Photo size</param>
@@ -834,6 +835,7 @@ namespace Telegram.Bot
             string startParameter,
             string currency,
             LabeledPrice[] prices,
+            string providerData = null,
             string photoUrl = null,
             int photoSize = 0,
             int photoWidth = 0,

@@ -70,7 +70,7 @@ namespace Telegram.Bot
         /// </summary>
         public bool IsReceiving { get; set; }
 
-        private CancellationTokenSource _receivingCancellationTokenSource = default;
+        private CancellationTokenSource _receivingCancellationTokenSource;
 
         /// <summary>
         /// The current message offset
@@ -1501,6 +1501,7 @@ namespace Telegram.Bot
         /// <param name="startParameter">Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter</param>
         /// <param name="currency">Three-letter ISO 4217 currency code, see more on currencies</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
+        /// <param name="providerData">JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.</param>
         /// <param name="photoUrl">URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.</param>
         /// <param name="photoSize">Photo size</param>
         /// <param name="photoWidth">Photo width</param>
@@ -1518,7 +1519,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
         public Task<Message> SendInvoiceAsync(ChatId chatId, string title, string description,
             string payload, string providerToken, string startParameter, string currency,
-            LabeledPrice[] prices, string photoUrl = null, int photoSize = 0, int photoWidth = 0,
+            LabeledPrice[] prices, string providerData = null, string photoUrl = null, int photoSize = 0, int photoWidth = 0,
             int photoHeight = 0, bool needName = false, bool needPhoneNumber = false,
             bool needEmail = false, bool needShippingAddress = false, bool isFlexible = false,
             bool disableNotification = false, int replyToMessageId = 0, InlineKeyboardMarkup replyMarkup = null,
@@ -1533,6 +1534,9 @@ namespace Telegram.Bot
                 {"currency", currency},
                 {"prices", prices},
             };
+
+            if (!string.IsNullOrEmpty(providerData))
+                parameters.Add("provider_data", providerData);
 
             if (photoUrl != null)
                 parameters.Add("photo_url", photoUrl);
@@ -2151,7 +2155,7 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Invalid token", 401);
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
-            var apiRequestDataEventArgs = new ApiRequestEventArgs {Uri = uri.ToString()};
+            var apiRequestDataEventArgs = new ApiRequestEventArgs { Uri = uri.ToString() };
 
             ApiResponse<T> responseObject;
             try
@@ -2165,7 +2169,7 @@ namespace Telegram.Bot
                     response = await _httpClient.GetAsync(uri, cancellationToken)
                         .ConfigureAwait(false);
                 }
-                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend) p.Value).Type == FileType.Stream))
+                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
                 {
                     // Request including a file
 
@@ -2181,7 +2185,7 @@ namespace Telegram.Bot
                                 string headerValue =
                                     $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
                                 byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
-                                headerValue = string.Join("", bytes.Select(b => (char) b));
+                                headerValue = string.Join("", bytes.Select(b => (char)b));
                                 content.Headers.Add("Content-Disposition", headerValue);
 
                                 form.Add(content, parameter.Key, fts.Filename);
@@ -2250,7 +2254,7 @@ namespace Telegram.Bot
             }
 
             if (responseObject == null)
-                responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+                responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
 
             if (!responseObject.Ok)
                 throw ApiRequestException.FromApiResponse(responseObject);
