@@ -10,15 +10,15 @@
     <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt</PackageLicenseUrl>
-    <PackageReleaseNotes>Bot API v3.4</PackageReleaseNotes>
+    <PackageReleaseNotes>Bot API v3.5</PackageReleaseNotes>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
     <IncludeSource>True</IncludeSource>
     <Company />
     <Product>Telegram Bot API</Product>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
-    <Version Condition="'$(APPVEYOR)' == 'True'">13.3.0-rc1-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
-    <VersionPrefix>13.3.0-rc1</VersionPrefix>
+    <Version Condition="'$(APPVEYOR)' == 'True'">13.4.0-rc1-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
+    <VersionPrefix>13.4.0-rc1</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin/Debug/documentation.xml</DocumentationFile>
