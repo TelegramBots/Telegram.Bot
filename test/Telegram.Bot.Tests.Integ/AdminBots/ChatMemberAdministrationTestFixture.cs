@@ -60,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
                 TestsFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
 
                 TestsFixture.BotClient.SendTextMessageAsync(TestsFixture.SuperGroupChatId,
-                    $"Now, {RegularMemberUserName} should send bot /me command in his/her private chat with bot",
+                    $"Now, @{RegularMemberUserName} should send bot /me command in his/her private chat with bot",
                     ParseMode.Markdown,
                     replyToMessageId: replyInGroup.MessageId).Wait();
 
