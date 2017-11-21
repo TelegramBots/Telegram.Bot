@@ -24,7 +24,9 @@
 
             public const string Payment = "Payment";
 
-            public const string AdminBots = "Group Admin";
+            public const string SuperGroupAdminBots = "Super Group Admin Bot";
+
+            public const string ChannelAdminBots = "Channel Admin Bot";
 
             public const string ChatMemberAdministration = "Chat Member Administration";
 
@@ -96,7 +98,7 @@
             public const string EditMessageLiveLocation = "editMessageLiveLocation";
 
             public const string StopMessageLiveLocation = "stopMessageLiveLocation";
-            
+
             public const string SetChatStickerSet = "setChatStickerSet";
         }
     }

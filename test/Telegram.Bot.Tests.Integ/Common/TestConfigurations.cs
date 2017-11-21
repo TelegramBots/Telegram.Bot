@@ -30,6 +30,8 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public string SuperGroupChatId { get; set; }
 
+        public string ChannelChatId { get; set; }
+
         public string RegularMemberUserId { get; set; }
 
         public string RegularMemberUserName { get; set; }

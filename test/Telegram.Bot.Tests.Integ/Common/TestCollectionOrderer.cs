@@ -19,7 +19,8 @@ namespace Telegram.Bot.Tests.Integ.Common
             CommonConstants.TestCollections.Payment,
             CommonConstants.TestCollections.Stickers,
             CommonConstants.TestCollections.ChatInformation,
-            CommonConstants.TestCollections.AdminBots,
+            CommonConstants.TestCollections.SuperGroupAdminBots,
+            CommonConstants.TestCollections.ChannelAdminBots,
             CommonConstants.TestCollections.ChatMemberAdministration,
         };
 

@@ -7,6 +7,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
     {
         public TestsFixture TestsFixture { get; }
 
+        public ChatId ChatId { get; set; }
+
         public string ChatTitle { get; set; } = "Test Chat Title";
 
         public Message PinnedMessage { get; set; }
