@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object describes the position on faces where a mask should be placed by default.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class MaskPosition
     {
         /// <summary>

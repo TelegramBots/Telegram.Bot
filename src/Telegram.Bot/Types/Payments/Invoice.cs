@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.Payments
 {
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types.Payments
     /// This object contains basic information about an invoice.
     /// </summary>
     /// <seealso href="https://core.telegram.org/bots/api#invoice"/>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Invoice
     {
         /// <summary>

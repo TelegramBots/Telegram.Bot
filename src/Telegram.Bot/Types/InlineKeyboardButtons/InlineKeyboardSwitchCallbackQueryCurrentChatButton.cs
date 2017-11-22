@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.InlineKeyboardButtons
 {
     /// <summary>
     /// This object represents one button of an inline keyboard. Pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardSwitchInlineQueryCurrentChatButton : InlineKeyboardButton
     {
         /// <summary>

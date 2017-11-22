@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.InlineKeyboardButtons
 {
     /// <summary>
     /// This object represents one button of an inline keyboard that sends a callback query to the bot when pressed.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardCallbackButton : InlineKeyboardButton
     {
         /// <summary>

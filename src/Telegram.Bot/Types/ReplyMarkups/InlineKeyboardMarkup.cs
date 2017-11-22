@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 
 namespace Telegram.Bot.Types.ReplyMarkups
@@ -9,7 +10,8 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// <remarks>
     /// Inline keyboards are currently being tested and are not available in channels yet. For now, feel free to use them in one-on-one chats or groups.
     /// </remarks>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardMarkup : IReplyMarkup
     {
         /// <summary>

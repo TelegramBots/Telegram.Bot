@@ -1,11 +1,13 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Represents link to a page containing an embedded video player or a video file.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultVideo : InlineQueryResultNew
     {
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -7,7 +8,8 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// By default, custom keyboards are displayed until a new keyboard is sent by a bot.
     /// An exception is made for one-time keyboards that are hidden immediately after the user presses a button
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ReplyKeyboardRemove : ReplyMarkup
     {
         /// <summary>

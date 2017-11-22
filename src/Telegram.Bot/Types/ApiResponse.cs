@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
 {
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types
     /// The Api Response
     /// </summary>
     /// <typeparam name="T">The resultant object</typeparam>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ApiResponse<T>
     {
         /// <summary>

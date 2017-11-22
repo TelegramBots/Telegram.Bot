@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class MessageEntity
     {
         /// <summary>
