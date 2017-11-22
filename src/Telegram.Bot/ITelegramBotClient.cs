@@ -829,26 +829,30 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
-        Task<Message> SendInvoiceAsync(ChatId chatId, string title, string description,
+        Task<Message> SendInvoiceAsync(
+            ChatId chatId,
+            string title,
+            string description,
             string payload,
             string providerToken,
             string startParameter,
             string currency,
             LabeledPrice[] prices,
-            string providerData = null,
-            string photoUrl = null,
-            int photoSize = 0,
-            int photoWidth = 0,
-            int photoHeight = 0,
-            bool needName = false,
-            bool needPhoneNumber = false,
-            bool needEmail = false,
-            bool needShippingAddress = false,
-            bool isFlexible = false,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            InlineKeyboardMarkup replyMarkup = null,
-            CancellationToken cancellationToken = default);
+            string photoUrl = default,
+            int photoSize = default,
+            int photoWidth = default,
+            int photoHeight = default,
+            bool needName = default,
+            bool needPhoneNumber = default,
+            bool needEmail = default,
+            bool needShippingAddress = default,
+            bool isFlexible = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default,
+            string providerData = default
+        );
 
         /// <summary>
         /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.
