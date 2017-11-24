@@ -39,6 +39,8 @@
             public const string ChatInformation = "Chat Information";
 
             public const string LiveLocations = "Live locations";
+
+            public const string AlbumMessage = "Sending Album Messages";
         }
 
         public static class TelegramBotApiMethods

@@ -63,11 +63,9 @@ namespace Telegram.Bot.Exceptions
         /// <param name="apiResponse">The API response.</param>
         /// <returns><see cref="ApiRequestException"/></returns>
         public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
-        {
-            return new ApiRequestException(apiResponse.Message, apiResponse.Code)
+            => new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode)
             {
                 Parameters = apiResponse.Parameters
             };
-        }
     }
 }

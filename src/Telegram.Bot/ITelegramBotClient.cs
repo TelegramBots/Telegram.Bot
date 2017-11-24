@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -86,6 +86,12 @@ namespace Telegram.Bot
         #endregion Events
 
         #region Helpers
+
+        Task<TResponse> MakeRequestAsync<TResponse>(
+            IRequest<TResponse> request,
+            CancellationToken cancellationToken = default
+        )
+            where TResponse : IResponse;
 
         /// <summary>
         /// Test the API token
@@ -378,13 +384,34 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
-        Task<Message> SendVideoNoteAsync(ChatId chatId, FileToSend videoNote,
-            int duration = 0,
-            int length = 0,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
-            CancellationToken cancellationToken = default);
+        Task<Message> SendVideoNoteAsync(
+            ChatId chatId,
+            FileToSend videoNote,
+            int duration = default,
+            int length = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        );
+
+        /// <summary>
+        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="media">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
+        Task<Message[]> SendMediaGroupAsync(
+            ChatId chatId,
+            IEnumerable<InputMediaBase> media,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            CancellationToken cancellationToken = default
+        );
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.

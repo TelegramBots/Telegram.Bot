@@ -18,6 +18,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.Requests;
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
@@ -31,6 +32,8 @@ namespace Telegram.Bot
 
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
+        private readonly string _baseRequestUrl;
+
         private readonly string _token;
 
         private bool _invalidToken;
@@ -39,7 +42,7 @@ namespace Telegram.Bot
 
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
-            Converters = new List<JsonConverter>
+            Converters = new List<JsonConverter> // ToDo is required?
             {
                 new ChatIdConverter(),
                 new FileToSendConverter(),
@@ -51,7 +54,8 @@ namespace Telegram.Bot
             ContractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new SnakeCaseNamingStrategy()
-            }
+            },
+            NullValueHandling = NullValueHandling.Ignore
         };
 
         #region Config Properties
@@ -171,6 +175,7 @@ namespace Telegram.Bot
                 throw new ArgumentException("Invalid token format", nameof(token));
 
             _token = token;
+            _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
         }
 
@@ -192,10 +197,92 @@ namespace Telegram.Bot
             };
 
             _token = token;
+            _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = new HttpClient(httpClientHander);
         }
 
         #region Helpers
+
+        // ToDo: test with request with no parameters
+        // ToDo: test with other requests including files
+        public async Task<TResponse> MakeRequestAsync<TResponse>(
+            IRequest<TResponse> request,
+            CancellationToken cancellationToken = default
+        )
+            where TResponse : IResponse
+        {
+            if (_invalidToken)
+                throw new ApiRequestException("Invalid token", 401);
+
+            string url = _baseRequestUrl + request.MethodName;
+
+            var httpRequest = new HttpRequestMessage(request.Method, url)
+            {
+                Content = request.ToHttpContent(SerializerSettings)
+            };
+
+            var reqDataArgs = new ApiRequestEventArgs
+            {
+                MethodName = request.MethodName,
+                HttpContent = httpRequest.Content,
+            };
+            MakingApiRequest?.Invoke(this, reqDataArgs);
+
+            HttpResponseMessage httpResponse;
+            try
+            {
+                httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (TaskCanceledException e)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                    throw;
+
+                throw new ApiRequestException("Request timed out", 408, e);
+            }
+
+            // required since user might be able to set new status code using following event arg
+            var actualResponseStatusCode = httpResponse.StatusCode;
+            string responseJson = await httpResponse.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
+            {
+                ResponseMessage = httpResponse,
+                ApiRequestEventArgs = reqDataArgs
+            });
+
+            switch (actualResponseStatusCode)
+            {
+                case HttpStatusCode.OK:
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    _invalidToken = true;
+                    throw new ApiRequestException("Invalid token", 401);
+                case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
+                case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
+                case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
+                    // Do NOT throw here, an ApiRequestException will be thrown next
+                    break;
+                default:
+                    httpResponse.EnsureSuccessStatusCode();
+                    break;
+            }
+
+            var apiResponse =
+                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson, SerializerSettings)
+                    ?? new ApiResponse<TResponse> // ToDo is required? unit test
+                    {
+                        Ok = false,
+                        Description = "No response received"
+                    };
+
+            if (!apiResponse.Ok)
+                throw ApiRequestException.FromApiResponse(apiResponse);
+
+            return apiResponse.Result;
+        }
 
         /// <summary>
         /// Test the API token
@@ -673,13 +760,16 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
-        public Task<Message> SendVideoNoteAsync(ChatId chatId, FileToSend videoNote,
-            int duration = 0,
-            int length = 0,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
-            CancellationToken cancellationToken = default)
+        public Task<Message> SendVideoNoteAsync(
+            ChatId chatId,
+            FileToSend videoNote,
+            int duration = default,
+            int length = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        )
         {
             var additionalParameters = new Dictionary<string, object>();
 
@@ -694,6 +784,28 @@ namespace Telegram.Bot
                 replyMarkup, additionalParameters, cancellationToken);
         }
 
+        /// <summary>
+        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="media">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
+        public Task<Message[]> SendMediaGroupAsync(
+            ChatId chatId,
+            IEnumerable<InputMediaBase> media,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            CancellationToken cancellationToken = default
+        )
+        {
+            var request = new SendMediaGroupRequest(chatId, media);
+            return MakeRequestAsync(request, cancellationToken)
+                .ContinueWith(t => t.Result.ToArray(), cancellationToken);
+        }
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.
@@ -2172,7 +2284,7 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Invalid token", 401);
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
-            var apiRequestDataEventArgs = new ApiRequestEventArgs { Uri = uri.ToString() };
+            var apiRequestDataEventArgs = new ApiRequestEventArgs();
 
             ApiResponse<T> responseObject;
             try
@@ -2239,7 +2351,6 @@ namespace Telegram.Bot
                 ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
                 {
                     ResponseMessage = response,
-                    Payload = responseString,
                     ApiRequestEventArgs = apiRequestDataEventArgs
                 });
 
@@ -2271,12 +2382,12 @@ namespace Telegram.Bot
             }
 
             if (responseObject == null)
-                responseObject = new ApiResponse<T> { Ok = false, Message = "No response received" };
+                responseObject = new ApiResponse<T> { Ok = false, Description = "No response received" };
 
             if (!responseObject.Ok)
                 throw ApiRequestException.FromApiResponse(responseObject);
 
-            return responseObject.ResultObject;
+            return responseObject.Result;
         }
 
         private static HttpContent ConvertParameterValue(object value)
@@ -2289,6 +2400,9 @@ namespace Telegram.Bot
                     httpContent = new StringContent(str);
                     break;
                 case FileToSend fileToSend:
+                    httpContent = new StreamContent(fileToSend.Content);
+                    break;
+                case InputFileBase fileToSend:
                     httpContent = new StreamContent(fileToSend.Content);
                     break;
                 default:

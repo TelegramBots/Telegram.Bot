@@ -5,7 +5,7 @@ namespace Telegram.Bot.Args
 {
     public class ApiRequestEventArgs : EventArgs
     {
-        public string Uri { get; internal set; }
+        public string MethodName { get; internal set; }
 
         public HttpContent HttpContent { get; internal set; }
     }
