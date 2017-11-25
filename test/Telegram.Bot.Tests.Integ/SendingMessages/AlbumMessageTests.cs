@@ -25,6 +25,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             _fixture = _classFixture.TestsFixture;
         }
 
+        #region Photo-Only Albums
+
         [Fact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMediaGroup)]
         [ExecutionOrder(1.1)]
@@ -54,7 +56,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
                 messages = await BotClient.SendMediaGroupAsync(
                     chatId: _fixture.SuperGroupChatId,
-                    media: inputMedia
+                    media: inputMedia,
+                    disableNotification: true
                 );
             }
 
@@ -98,26 +101,90 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
-            const int maxCount = 5;
             const string url = "http://lorempixel.com/400/600";
-            int replyToMessageId = 746;// _classFixture.PhotoMessages.First().MessageId;
+            int replyToMessageId = _classFixture.PhotoMessages.First().MessageId;
 
             Random rnd = new Random();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
                 chatId: _fixture.SuperGroupChatId,
-                media: Enumerable.Range(0, rnd.Next(2, maxCount + 1))
-                    .Select(_ => new InputMediaPhoto
+                media: Enumerable.Range(0, 2)
+                    .Select(_ => rnd.Next(100_000_000))
+                    // Use [redundant] query string to make sure tg doesn't use cached images
+                    .Select(number => new InputMediaPhoto
                     {
-                        Media = new InputMediaType($"{url}?q={rnd.Next(100_000_000)}")
+
+                        Media = new InputMediaType($"{url}?q={number}")
                     }),
                 replyToMessageId: replyToMessageId
             );
 
-            Assert.InRange(messages.Length, 2, maxCount);
+            Assert.Equal(2, messages.Length);
             Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
+
+        #endregion
+
+        #region Video Albums
+
+        [Fact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMediaGroup)]
+        [ExecutionOrder(2.1)]
+        public async Task Should_Upload_2_Videos_Album()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
+
+            string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
+
+            // for "Golden Ratio" video
+            const int duration = 28;
+            const int widthAndHeight = 240;
+
+            Message[] messages;
+            using (Stream
+                stream0 = new FileStream("Files/Video/golden-ratio-240px.mp4", FileMode.Open),
+                stream1 = new FileStream("Files/Video/moon-landing.mp4", FileMode.Open),
+                stream2 = new FileStream("Files/Photo/bot.gif", FileMode.Open)
+            )
+            {
+                InputMediaBase[] inputMedia = {
+                    new InputMediaVideo
+                    {
+                        Media = new InputMediaType(captions[0], stream0),
+                        Caption = captions[0],
+                        Height = widthAndHeight,
+                        Width = widthAndHeight,
+                        Duration = duration
+                    },
+                    new InputMediaVideo
+                    {
+                        Media = new InputMediaType(captions[1], stream1),
+                        Caption = captions[1]
+                    },
+                    new InputMediaPhoto
+                    {
+                        Media = new InputMediaType("bot", stream2),
+                        Caption = captions[2]
+                    },
+                };
+
+                messages = await BotClient.SendMediaGroupAsync(
+                    chatId: _fixture.SuperGroupChatId,
+                    media: inputMedia
+                );
+            }
+
+            Assert.Equal(3, messages.Length);
+            Assert.All(messages.Take(2), msg => Assert.Equal(MessageType.VideoMessage, msg.Type));
+            Assert.Equal(MessageType.PhotoMessage, messages.Last().Type);
+            Assert.Equal(captions, messages.Select(msg => msg.Caption));
+            Assert.Equal(widthAndHeight, messages.First().Video.Width);
+            Assert.Equal(widthAndHeight, messages.First().Video.Height);
+            Assert.Equal(duration, messages.First().Video.Duration);
+        }
+
+        #endregion
 
         private static class FactTitles
         {
@@ -126,6 +193,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             public const string ShouldSendFileIdPhotosInAlbum = "Should send an album with 3 photos using their file_id";
 
             public const string ShouldSendUrlPhotosInAlbum = "Should send an album using http urls in reply to 1st album message";
+
+            public const string ShouldUploadVideosInAlbum = "Should upload 2 videos with captions and send them in an album";
         }
     }
 }

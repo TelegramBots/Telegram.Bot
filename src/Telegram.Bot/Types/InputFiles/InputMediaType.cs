@@ -28,10 +28,5 @@ namespace Telegram.Bot.Types
             FileName = fileName;
             Content = content;
         }
-
-        public override string ToString()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
