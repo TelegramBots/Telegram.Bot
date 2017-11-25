@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Types.Enums;
 
@@ -15,9 +16,9 @@ namespace Telegram.Bot.Types.Requests
 
         public IEnumerable<InputMediaBase> Media { get; set; }
 
-        public bool? DisableNotification { get; set; }
+        public bool DisableNotification { get; set; }
 
-        public int? ReplyToMessageId { get; set; }
+        public int ReplyToMessageId { get; set; }
 
         public SendMediaGroupRequest(ChatId chatId, IEnumerable<InputMediaBase> media)
             : this()
@@ -57,6 +58,16 @@ namespace Telegram.Bot.Types.Requests
                 };
 
                 multipartContent.Add(mediaPartContent, inputMediaType.FileName, inputMediaType.FileName);
+            }
+
+            string GetSankeCasedName(string name) => new SnakeCaseNamingStrategy().GetPropertyName(name, false);
+            if (DisableNotification)
+            {
+                multipartContent.Add(new StringContent(true + ""), GetSankeCasedName(nameof(DisableNotification)));
+            }
+            if (ReplyToMessageId != default)
+            {
+                multipartContent.Add(new StringContent(ReplyToMessageId + ""), GetSankeCasedName(nameof(ReplyToMessageId)));
             }
 
             return multipartContent;

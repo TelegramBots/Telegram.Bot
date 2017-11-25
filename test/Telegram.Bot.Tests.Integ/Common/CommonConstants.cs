@@ -102,6 +102,8 @@
             public const string StopMessageLiveLocation = "stopMessageLiveLocation";
 
             public const string SetChatStickerSet = "setChatStickerSet";
+
+            public const string SendMediaGroup = "sendMediaGroup";
         }
     }
 }

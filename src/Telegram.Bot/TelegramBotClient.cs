@@ -801,12 +801,14 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             CancellationToken cancellationToken = default
-        )
-        {
-            var request = new SendMediaGroupRequest(chatId, media);
-            return MakeRequestAsync(request, cancellationToken)
-                .ContinueWith(t => t.Result.ToArray(), cancellationToken);
-        }
+        ) =>
+            MakeRequestAsync(new SendMediaGroupRequest(chatId, media)
+            {
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+            }, cancellationToken)
+            .ContinueWith(t => t.Result.ToArray(), cancellationToken)
+        ;
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.

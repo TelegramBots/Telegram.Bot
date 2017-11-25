@@ -9,6 +9,20 @@ namespace Telegram.Bot.Types
     [JsonConverter(typeof(InputMediaTypeConverter))]
     public class InputMediaType : InputFileBase
     {
+        // file_id or http(s) url
+        public InputMediaType(string value)
+        {
+            bool isUrl = Uri.TryCreate(value, UriKind.Absolute, out Uri _);
+            if (isUrl)
+            {
+                Url = value;
+            }
+            else
+            {
+                FileId = value;
+            }
+        }
+
         public InputMediaType(string fileName, Stream content)
         {
             FileName = fileName;
