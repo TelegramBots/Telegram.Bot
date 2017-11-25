@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Text;
 
 namespace Telegram.Bot.Helpers
 {
@@ -34,5 +36,8 @@ namespace Telegram.Bot.Helpers
 
             return Convert.ToInt64(delta);
         }
+
+        internal static string EncodeUtf8(this string value) =>
+            string.Join(string.Empty, Encoding.UTF8.GetBytes(value).Select(Convert.ToChar));
     }
 }

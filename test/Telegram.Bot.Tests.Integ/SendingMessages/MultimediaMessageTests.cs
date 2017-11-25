@@ -35,10 +35,10 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             Message message, message2;
 
-            using (var stream = new FileStream("Files/Photo/t_logo.png", FileMode.Open))
+            using (var stream = new FileStream("Files/Photo/bot.gif", FileMode.Open))
             {
                 message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId, stream.ToFileToSend("logo.png"),
-                    "👆 This is:\nTelegram's Logo");
+                    "👆 This is a\nTelegram Bot");
             }
             message2 = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
                 new FileToSend(message.Photo.First().FileId));
@@ -182,10 +182,10 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             };
 
             Message message;
-            using (var stream = new FileStream("Files/Photo/t_logo.png", FileMode.Open))
+            using (var stream = new FileStream("Files/Photo/logo.png", FileMode.Open))
             {
                 message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
-                    new FileToSend("t_logo.png", stream), string.Join("\n", values));
+                    new FileToSend("logo.png", stream), string.Join("\n", values));
             }
 
             Assert.Equal(values, message.CaptionEntityValues);

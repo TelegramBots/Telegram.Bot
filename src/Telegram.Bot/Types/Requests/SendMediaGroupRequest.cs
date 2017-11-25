@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.Requests
@@ -42,12 +43,9 @@ namespace Telegram.Bot.Types.Requests
 
             foreach (var inputMediaType in Media.Where(m => m.Media.FileType == FileType.Stream).Select(m => m.Media))
             {
-                // ToDo escape " character in file name
-                string contentDisposision = "form-data; " +
-                                     $"name=\"{inputMediaType.FileName}\"; " +
-                                     $"filename=\"{inputMediaType.FileName}\"";
-                byte[] bytes = Encoding.UTF8.GetBytes(contentDisposision);
-                contentDisposision = string.Join("", bytes.Select(b => (char)b));
+                string contentDisposision =
+                    $"form-data; name=\"{inputMediaType.FileName}\"; filename=\"{inputMediaType.FileName}\""
+                    .EncodeUtf8();
 
                 HttpContent mediaPartContent = new StreamContent(inputMediaType.Content)
                 {
@@ -58,7 +56,7 @@ namespace Telegram.Bot.Types.Requests
                     }
                 };
 
-                multipartContent.Add(mediaPartContent);
+                multipartContent.Add(mediaPartContent, inputMediaType.FileName, inputMediaType.FileName);
             }
 
             return multipartContent;

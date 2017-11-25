@@ -13,6 +13,7 @@ using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Args;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -2311,11 +2312,10 @@ namespace Telegram.Bot
                             if (parameter.Value is FileToSend fts)
                             {
                                 content.Headers.Add("Content-Type", "application/octet-stream");
-                                string headerValue =
-                                    $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
-                                byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
-                                headerValue = string.Join("", bytes.Select(b => (char)b));
-                                content.Headers.Add("Content-Disposition", headerValue);
+                                string contentDisposision =
+                                    $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\""
+                                    .EncodeUtf8();
+                                content.Headers.Add("Content-Disposition", contentDisposision);
 
                                 form.Add(content, parameter.Key, fts.Filename);
                             }
