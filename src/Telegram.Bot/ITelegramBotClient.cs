@@ -39,8 +39,14 @@ namespace Telegram.Bot
 
         #region Events
 
+        /// <summary>
+        /// Occurs before sending a request to API
+        /// </summary>
         event EventHandler<ApiRequestEventArgs> MakingApiRequest;
 
+        /// <summary>
+        /// Occurs after receiving the response to an API request
+        /// </summary>
         event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
 
         /// <summary>
@@ -87,6 +93,13 @@ namespace Telegram.Bot
 
         #region Helpers
 
+        /// <summary>
+        /// Send a request to Bot API
+        /// </summary>
+        /// <typeparam name="TResponse">Type of expected result in the response object</typeparam>
+        /// <param name="request">API request object</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Result of the API request</returns>
         Task<TResponse> MakeRequestAsync<TResponse>(
             IRequest<TResponse> request,
             CancellationToken cancellationToken = default
@@ -96,6 +109,7 @@ namespace Telegram.Bot
         /// <summary>
         /// Test the API token
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns><c>true</c> if token is valid</returns>
         Task<bool> TestApiAsync(CancellationToken cancellationToken = default);
 
