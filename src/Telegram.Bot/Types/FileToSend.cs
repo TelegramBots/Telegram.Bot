@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
 using Telegram.Bot.Converters;
@@ -9,6 +10,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// Represents information for a file to be sent
     /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     [JsonConverter(typeof(FileToSendConverter))]
     public struct FileToSend
     {

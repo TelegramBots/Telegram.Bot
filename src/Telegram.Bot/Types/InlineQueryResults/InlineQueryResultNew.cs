@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Base class for uncached <see cref="InlineQueryResult"/>
     /// </summary>
     /// <seealso cref="Telegram.Bot.Types.InlineQueryResults.InlineQueryResult" />
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultNew : InlineQueryResult
     {
         /// <summary>

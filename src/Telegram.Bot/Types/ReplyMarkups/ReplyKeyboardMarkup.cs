@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
     /// <summary>
     /// This object represents a custom keyboard with reply options (see Introduction to bots for details and examples).
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ReplyKeyboardMarkup : ReplyMarkup
     {
         /// <summary>

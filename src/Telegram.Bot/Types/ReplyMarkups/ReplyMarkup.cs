@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -6,6 +7,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// Defines how clients display a reply interface to the user
     /// </summary>
     /// <seealso cref="Telegram.Bot.Types.ReplyMarkups.IReplyMarkup" />
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class ReplyMarkup : IReplyMarkup
     {
         /// <summary>

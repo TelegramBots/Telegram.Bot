@@ -1,11 +1,13 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.InputMessageContents
 {
     /// <summary>
     /// Represents the content of a contact message to be sent as the result of an <see cref="InlineQuery"/>.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputContactMessageContent : InputMessageContent
     {
         /// <summary>

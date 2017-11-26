@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 
 namespace Telegram.Bot.Types.InlineKeyboardButtons
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
     /// <summary>
     /// This object represents one button of an inline keyboard that opens an url when pressed.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardUrlButton : InlineKeyboardButton
     {
         /// <summary>

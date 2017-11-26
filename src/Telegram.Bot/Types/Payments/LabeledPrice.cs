@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.Payments
 {
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types.Payments
     /// This object represents a portion of the price for goods or services.
     /// </summary>
     /// <see href="https://core.telegram.org/bots/api#labeledprice"/>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class LabeledPrice
     {
         /// <summary>
