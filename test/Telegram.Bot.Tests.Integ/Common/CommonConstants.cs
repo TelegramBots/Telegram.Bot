@@ -24,7 +24,9 @@
 
             public const string Payment = "Payment";
 
-            public const string AdminBots = "Group Admin";
+            public const string SuperGroupAdminBots = "Super Group Admin Bot";
+
+            public const string ChannelAdminBots = "Channel Admin Bot";
 
             public const string ChatMemberAdministration = "Chat Member Administration";
 
@@ -37,6 +39,8 @@
             public const string ChatInformation = "Chat Information";
 
             public const string LiveLocations = "Live locations";
+
+            public const string AlbumMessage = "Sending Album Messages";
         }
 
         public static class TelegramBotApiMethods
@@ -96,8 +100,10 @@
             public const string EditMessageLiveLocation = "editMessageLiveLocation";
 
             public const string StopMessageLiveLocation = "stopMessageLiveLocation";
-            
+
             public const string SetChatStickerSet = "setChatStickerSet";
+
+            public const string SendMediaGroup = "sendMediaGroup";
         }
     }
 }

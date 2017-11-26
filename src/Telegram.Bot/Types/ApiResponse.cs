@@ -3,11 +3,11 @@
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// The Api Response
+    /// Represents bot API response
     /// </summary>
-    /// <typeparam name="T">The resultant object</typeparam>
+    /// <typeparam name="TResult">Expected type of operation result</typeparam>
     [JsonObject(MemberSerialization.OptIn)]
-    public class ApiResponse<T>
+    public class ApiResponse<TResult> : IResponse
     {
         /// <summary>
         /// Gets a value indicating whether the request was successful.
@@ -18,20 +18,20 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Gets the result object.
         /// </summary>
-        [JsonProperty("result")]
-        public T ResultObject { get; set; }
+        [JsonProperty]
+        public TResult Result { get; set; }
 
         /// <summary>
         /// Gets the error message.
         /// </summary>
-        [JsonProperty("description")]
-        public string Message { get; set; }
+        [JsonProperty]
+        public string Description { get; set; }
 
         /// <summary>
         /// Gets the error code.
         /// </summary>
-        [JsonProperty("error_code")]
-        public int Code { get; set; }
+        [JsonProperty]
+        public int ErrorCode { get; set; }
 
         /// <summary>
         /// Contains information about why a request was unsuccessful.

@@ -24,7 +24,7 @@ Nobody likes to see bugs so please use the following template to ensure maintain
 
 *NuGet Package Version:* (e.g. 13.0.1)
 
-*.NET Version:* (e.g. 4.7, Core RTM, Mono, etc.)
+*.NET Version:* (e.g. 4.7, Core 1.1, Mono, etc.)
 
 *IDE:* (e.g. VS2017, VS Code, etc.)
 

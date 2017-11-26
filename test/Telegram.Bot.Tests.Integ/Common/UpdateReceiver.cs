@@ -20,9 +20,9 @@ namespace Telegram.Bot.Tests.Integ.Common
             _allowedUsernames = allowedUsernames;
         }
 
-        public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
         {
-            if (cancellationToken == default(CancellationToken))
+            if (cancellationToken == default)
             {
                 var source = new CancellationTokenSource(TimeSpan.FromSeconds(30));
                 cancellationToken = source.Token;
@@ -50,10 +50,10 @@ namespace Telegram.Bot.Tests.Integ.Common
         public async Task<Update[]> GetUpdatesAsync(
             Func<Update, bool> predicate = null,
             int offset = 0,
-            CancellationToken cancellationToken = default(CancellationToken),
+            CancellationToken cancellationToken = default,
             params UpdateType[] updateTypes)
         {
-            if (cancellationToken == default(CancellationToken))
+            if (cancellationToken == default)
             {
                 var source = new CancellationTokenSource(TimeSpan.FromMinutes(2));
                 cancellationToken = source.Token;
@@ -93,7 +93,7 @@ namespace Telegram.Bot.Tests.Integ.Common
         }
 
         public async Task<Update> GetCallbackQueryUpdateAsync(int? messageId = null, bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             Func<Update, bool> predicate = null;
             if (messageId != null)
@@ -113,7 +113,7 @@ namespace Telegram.Bot.Tests.Integ.Common
         }
 
         public async Task<Update> GetInlineQueryUpdateAsync(bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             var updates = await GetUpdatesAsync(
                 cancellationToken: cancellationToken,

@@ -1,6 +1,6 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -39,8 +39,14 @@ namespace Telegram.Bot
 
         #region Events
 
+        /// <summary>
+        /// Occurs before sending a request to API
+        /// </summary>
         event EventHandler<ApiRequestEventArgs> MakingApiRequest;
 
+        /// <summary>
+        /// Occurs after receiving the response to an API request
+        /// </summary>
         event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
 
         /// <summary>
@@ -88,8 +94,22 @@ namespace Telegram.Bot
         #region Helpers
 
         /// <summary>
+        /// Send a request to Bot API
+        /// </summary>
+        /// <typeparam name="TResponse">Type of expected result in the response object</typeparam>
+        /// <param name="request">API request object</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Result of the API request</returns>
+        Task<TResponse> MakeRequestAsync<TResponse>(
+            IRequest<TResponse> request,
+            CancellationToken cancellationToken = default
+        )
+            where TResponse : IResponse;
+
+        /// <summary>
         /// Test the API token
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns><c>true</c> if token is valid</returns>
         Task<bool> TestApiAsync(CancellationToken cancellationToken = default);
 
@@ -378,13 +398,34 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
-        Task<Message> SendVideoNoteAsync(ChatId chatId, FileToSend videoNote,
-            int duration = 0,
-            int length = 0,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
-            CancellationToken cancellationToken = default);
+        Task<Message> SendVideoNoteAsync(
+            ChatId chatId,
+            FileToSend videoNote,
+            int duration = default,
+            int length = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        );
+
+        /// <summary>
+        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="media">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
+        Task<Message[]> SendMediaGroupAsync(
+            ChatId chatId,
+            IEnumerable<InputMediaBase> media,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            CancellationToken cancellationToken = default
+        );
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.
@@ -812,6 +853,7 @@ namespace Telegram.Bot
         /// <param name="providerToken">Payments provider token, obtained via Botfather</param>
         /// <param name="startParameter">Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter</param>
         /// <param name="currency">Three-letter ISO 4217 currency code, see more on currencies</param>
+        /// <param name="providerData">JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
         /// <param name="photoUrl">URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.</param>
         /// <param name="photoSize">Photo size</param>
@@ -828,25 +870,30 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
-        Task<Message> SendInvoiceAsync(ChatId chatId, string title, string description,
+        Task<Message> SendInvoiceAsync(
+            ChatId chatId,
+            string title,
+            string description,
             string payload,
             string providerToken,
             string startParameter,
             string currency,
             LabeledPrice[] prices,
-            string photoUrl = null,
-            int photoSize = 0,
-            int photoWidth = 0,
-            int photoHeight = 0,
-            bool needName = false,
-            bool needPhoneNumber = false,
-            bool needEmail = false,
-            bool needShippingAddress = false,
-            bool isFlexible = false,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            InlineKeyboardMarkup replyMarkup = null,
-            CancellationToken cancellationToken = default);
+            string photoUrl = default,
+            int photoSize = default,
+            int photoWidth = default,
+            int photoHeight = default,
+            bool needName = default,
+            bool needPhoneNumber = default,
+            bool needEmail = default,
+            bool needShippingAddress = default,
+            bool isFlexible = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default,
+            string providerData = default
+        );
 
         /// <summary>
         /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.

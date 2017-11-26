@@ -14,12 +14,14 @@ namespace Telegram.Bot.Tests.Integ.Common
             CommonConstants.TestCollections.MultimediaMessage,
             CommonConstants.TestCollections.InlineQuery,
             CommonConstants.TestCollections.CallbackQuery,
+            CommonConstants.TestCollections.AlbumMessage,
             CommonConstants.TestCollections.UpdateMessage,
             CommonConstants.TestCollections.LiveLocations,
             CommonConstants.TestCollections.Payment,
             CommonConstants.TestCollections.Stickers,
             CommonConstants.TestCollections.ChatInformation,
-            CommonConstants.TestCollections.AdminBots,
+            CommonConstants.TestCollections.SuperGroupAdminBots,
+            CommonConstants.TestCollections.ChannelAdminBots,
             CommonConstants.TestCollections.ChatMemberAdministration,
         };
 

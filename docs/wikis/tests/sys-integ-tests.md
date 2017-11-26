@@ -4,7 +4,7 @@ Systems Integration tests are meant to test the project with real data from Tele
 
 ## Sample Test Diagnostics Output
 
-All the test output goes into the supergroup/private chats specified in configurations or interactively during test execution. You can see some samples of test output below.
+All the test output goes into supergroup, channel, and private chats specified in configurations or interactively during test execution. You can see some samples of test output below.
 
 Admin bots can change chat photo.
 
@@ -27,7 +27,7 @@ test execution. If super group chat has other members that are not listed as tes
 messages during test execution. Testers must have user names assigned and their user names should be set
 in test configurations before hand.
 
-All the tests happen in two chats. A Super Group chat and a Private chat with one of the testers.
+All the tests happen in 3 kind of chats. Super Group, Channel, and a Private chat with one of the testers.
 
 Test cases that need tester's interaction to continue, have a limit of usually 2 minues to wait for receving an expected update from API.
 
@@ -35,7 +35,7 @@ Tests could be run individually, in collections, or all at once. All the test co
 
 ## Test Environment Setup
 
-Create a Super Group and add bot to it. Promote bot to admin and make sure it has all the permissions. This group needs to have another regular(non-admin) member to be used in tests for chat administration methods(such as Kick, Restrict, Unban). A super group with 2 testers in it, one admin and the other non-admin member, is enough.
+Create a Super Group and a Channel. Add bot to them and promote bot to admin with all the permissions. The super group needs to have another regular(non-admin) member to be used in tests for chat administration methods(such as Kick, Restrict, Unban). A super group with 2 testers in it, one admin and the other non-admin member, is enough.
 
 Bot should have some features enabled, usually through BotFather, in order to pass tests. These features are listed below:
 
@@ -102,6 +102,20 @@ If not set, before starting any test method, bot waits for a tester to send it a
 {
     /* ... */
     "SuperGroupChatId": -1234567890
+    /* ... */
+}
+```
+
+#### Channel Chat Id
+
+Id of the private or public channel on which bot has admin rights.
+
+If not set, before starting any test method, bot waits for a tester to send it a `/test` command in a channel chat (that bot is also a member of).
+
+```json
+{
+    /* ... */
+    "ChannelChatId": -1234567890
     /* ... */
 }
 ```

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -55,7 +56,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
                 providerToken: _classFixture.PaymentProviderToken,
                 startParameter: invoice.StartParameter,
                 currency: invoice.Currency,
-                prices: prices
+                prices: prices,
+                providerData: "{}"
             );
 
             Assert.Equal(MessageType.Invoice, message.Type);
@@ -192,8 +194,47 @@ namespace Telegram.Bot.Tests.Integ.Payment
         }
         // ToDo: another method: receive successful payment
 
+        [Fact(DisplayName = FactTitles.ShouldThrowWhenSendInvoiceInvalidJson)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
+        [ExecutionOrder(2.1)]
+        public async Task Should_Throw_When_Send_Invoice_Invalid_Provider_Data()
+        {
+            await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowWhenSendInvoiceInvalidJson);
+
+            const string payload = "my-payload";
+
+            LabeledPrice[] prices =
+            {
+                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
+                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
+            };
+            Invoice invoice = new Invoice
+            {
+                Title = "PRODUCT_TITLE",
+                Currency = "CAD",
+                StartParameter = "start_param",
+                TotalAmount = prices.Sum(p => p.Amount),
+                Description = "PRODUCT_DESCRIPTION",
+            };
+
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                BotClient.SendInvoiceAsync(_classFixture.TesterPrivateChatId,
+                    title: invoice.Title,
+                    description: invoice.Description,
+                    payload: payload,
+                    providerToken: _classFixture.PaymentProviderToken,
+                    startParameter: invoice.StartParameter,
+                    currency: invoice.Currency,
+                    prices: prices,
+                    providerData: "INVALID-JSON"
+            ));
+
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Equal("Bad Request: DATA_JSON_INVALID", exception.Message);
+        }
+
         private async Task<Update> GetShippingQueryUpdate(
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -207,7 +248,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         }
 
         private async Task<Update> GetPreCheckoutQueryUpdate(
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -221,7 +262,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         }
 
         private async Task<Update> GetSuccessfulPaymentUpdate(
-            CancellationToken cancellationToken = default(CancellationToken))
+            CancellationToken cancellationToken = default)
         {
             var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 predicate: u => u.Message.Type == MessageType.SuccessfulPayment,
@@ -244,6 +285,9 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             public const string ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption =
                 "Should send invoice for no shipment option, and reply pre-checkout query with OK.";
+
+            public const string ShouldThrowWhenSendInvoiceInvalidJson =
+                "Should throw exception when sending invoice with invalid provider data";
         }
     }
 }

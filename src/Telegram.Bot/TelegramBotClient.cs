@@ -13,11 +13,13 @@ using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Args;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.Requests;
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
@@ -31,6 +33,8 @@ namespace Telegram.Bot
 
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
+        private readonly string _baseRequestUrl;
+
         private readonly string _token;
 
         private bool _invalidToken;
@@ -39,7 +43,7 @@ namespace Telegram.Bot
 
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
-            Converters = new List<JsonConverter>
+            Converters = new List<JsonConverter> // ToDo is required?
             {
                 new ChatIdConverter(),
                 new FileToSendConverter(),
@@ -51,7 +55,8 @@ namespace Telegram.Bot
             ContractResolver = new DefaultContractResolver
             {
                 NamingStrategy = new SnakeCaseNamingStrategy()
-            }
+            },
+            NullValueHandling = NullValueHandling.Ignore
         };
 
         #region Config Properties
@@ -70,7 +75,7 @@ namespace Telegram.Bot
         /// </summary>
         public bool IsReceiving { get; set; }
 
-        private CancellationTokenSource _receivingCancellationTokenSource = default;
+        private CancellationTokenSource _receivingCancellationTokenSource;
 
         /// <summary>
         /// The current message offset
@@ -81,8 +86,14 @@ namespace Telegram.Bot
 
         #region Events
 
+        /// <summary>
+        /// Occurs before sending a request to API
+        /// </summary>
         public event EventHandler<ApiRequestEventArgs> MakingApiRequest;
 
+        /// <summary>
+        /// Occurs after receiving the response to an API request
+        /// </summary>
         public event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
 
         /// <summary>
@@ -171,6 +182,7 @@ namespace Telegram.Bot
                 throw new ArgumentException("Invalid token format", nameof(token));
 
             _token = token;
+            _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
         }
 
@@ -192,10 +204,99 @@ namespace Telegram.Bot
             };
 
             _token = token;
+            _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = new HttpClient(httpClientHander);
         }
 
         #region Helpers
+
+        // ToDo: test with request with no parameters
+        // ToDo: test with other requests including files
+        /// <summary>
+        /// Send a request to Bot API
+        /// </summary>
+        /// <typeparam name="TResponse">Type of expected result in the response object</typeparam>
+        /// <param name="request">API request object</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Result of the API request</returns>
+        public async Task<TResponse> MakeRequestAsync<TResponse>(
+            IRequest<TResponse> request,
+            CancellationToken cancellationToken = default
+        )
+            where TResponse : IResponse
+        {
+            if (_invalidToken)
+                throw new ApiRequestException("Invalid token", 401);
+
+            string url = _baseRequestUrl + request.MethodName;
+
+            var httpRequest = new HttpRequestMessage(request.Method, url)
+            {
+                Content = request.ToHttpContent(SerializerSettings)
+            };
+
+            var reqDataArgs = new ApiRequestEventArgs
+            {
+                MethodName = request.MethodName,
+                HttpContent = httpRequest.Content,
+            };
+            MakingApiRequest?.Invoke(this, reqDataArgs);
+
+            HttpResponseMessage httpResponse;
+            try
+            {
+                httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (TaskCanceledException e)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                    throw;
+
+                throw new ApiRequestException("Request timed out", 408, e);
+            }
+
+            // required since user might be able to set new status code using following event arg
+            var actualResponseStatusCode = httpResponse.StatusCode;
+            string responseJson = await httpResponse.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
+            {
+                ResponseMessage = httpResponse,
+                ApiRequestEventArgs = reqDataArgs
+            });
+
+            switch (actualResponseStatusCode)
+            {
+                case HttpStatusCode.OK:
+                    break;
+                case HttpStatusCode.Unauthorized:
+                    _invalidToken = true;
+                    throw new ApiRequestException("Invalid token", 401);
+                case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
+                case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
+                case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
+                    // Do NOT throw here, an ApiRequestException will be thrown next
+                    break;
+                default:
+                    httpResponse.EnsureSuccessStatusCode();
+                    break;
+            }
+
+            var apiResponse =
+                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson, SerializerSettings)
+                    ?? new ApiResponse<TResponse> // ToDo is required? unit test
+                    {
+                        Ok = false,
+                        Description = "No response received"
+                    };
+
+            if (!apiResponse.Ok)
+                throw ApiRequestException.FromApiResponse(apiResponse);
+
+            return apiResponse.Result;
+        }
 
         /// <summary>
         /// Test the API token
@@ -673,13 +774,16 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
-        public Task<Message> SendVideoNoteAsync(ChatId chatId, FileToSend videoNote,
-            int duration = 0,
-            int length = 0,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
-            CancellationToken cancellationToken = default)
+        public Task<Message> SendVideoNoteAsync(
+            ChatId chatId,
+            FileToSend videoNote,
+            int duration = default,
+            int length = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        )
         {
             var additionalParameters = new Dictionary<string, object>();
 
@@ -694,6 +798,30 @@ namespace Telegram.Bot
                 replyMarkup, additionalParameters, cancellationToken);
         }
 
+        /// <summary>
+        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="media">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
+        public Task<Message[]> SendMediaGroupAsync(
+            ChatId chatId,
+            IEnumerable<InputMediaBase> media,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendMediaGroupRequest(chatId, media)
+            {
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+            }, cancellationToken)
+            .ContinueWith(t => t.Result.ToArray(), cancellationToken)
+        ;
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Message is returned.
@@ -1501,6 +1629,7 @@ namespace Telegram.Bot
         /// <param name="startParameter">Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter</param>
         /// <param name="currency">Three-letter ISO 4217 currency code, see more on currencies</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
+        /// <param name="providerData">JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.</param>
         /// <param name="photoUrl">URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.</param>
         /// <param name="photoSize">Photo size</param>
         /// <param name="photoWidth">Photo width</param>
@@ -1516,13 +1645,30 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
-        public Task<Message> SendInvoiceAsync(ChatId chatId, string title, string description,
-            string payload, string providerToken, string startParameter, string currency,
-            LabeledPrice[] prices, string photoUrl = null, int photoSize = 0, int photoWidth = 0,
-            int photoHeight = 0, bool needName = false, bool needPhoneNumber = false,
-            bool needEmail = false, bool needShippingAddress = false, bool isFlexible = false,
-            bool disableNotification = false, int replyToMessageId = 0, InlineKeyboardMarkup replyMarkup = null,
-            CancellationToken cancellationToken = default)
+        public Task<Message> SendInvoiceAsync(
+            ChatId chatId,
+            string title,
+            string description,
+            string payload,
+            string providerToken,
+            string startParameter,
+            string currency,
+            LabeledPrice[] prices,
+            string photoUrl = default,
+            int photoSize = default,
+            int photoWidth = default,
+            int photoHeight = default,
+            bool needName = default,
+            bool needPhoneNumber = default,
+            bool needEmail = default,
+            bool needShippingAddress = default,
+            bool isFlexible = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default,
+            string providerData = default
+        )
         {
             var parameters = new Dictionary<string, object>
             {
@@ -1533,6 +1679,9 @@ namespace Telegram.Bot
                 {"currency", currency},
                 {"prices", prices},
             };
+
+            if (!string.IsNullOrEmpty(providerData))
+                parameters.Add("provider_data", providerData);
 
             if (photoUrl != null)
                 parameters.Add("photo_url", photoUrl);
@@ -2151,7 +2300,7 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Invalid token", 401);
 
             var uri = new Uri(BaseUrl + _token + "/" + method);
-            var apiRequestDataEventArgs = new ApiRequestEventArgs {Uri = uri.ToString()};
+            var apiRequestDataEventArgs = new ApiRequestEventArgs();
 
             ApiResponse<T> responseObject;
             try
@@ -2165,7 +2314,7 @@ namespace Telegram.Bot
                     response = await _httpClient.GetAsync(uri, cancellationToken)
                         .ConfigureAwait(false);
                 }
-                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend) p.Value).Type == FileType.Stream))
+                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
                 {
                     // Request including a file
 
@@ -2178,11 +2327,10 @@ namespace Telegram.Bot
                             if (parameter.Value is FileToSend fts)
                             {
                                 content.Headers.Add("Content-Type", "application/octet-stream");
-                                string headerValue =
-                                    $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\"";
-                                byte[] bytes = Encoding.UTF8.GetBytes(headerValue);
-                                headerValue = string.Join("", bytes.Select(b => (char) b));
-                                content.Headers.Add("Content-Disposition", headerValue);
+                                string contentDisposision =
+                                    $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\""
+                                    .EncodeUtf8();
+                                content.Headers.Add("Content-Disposition", contentDisposision);
 
                                 form.Add(content, parameter.Key, fts.Filename);
                             }
@@ -2218,7 +2366,6 @@ namespace Telegram.Bot
                 ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
                 {
                     ResponseMessage = response,
-                    Payload = responseString,
                     ApiRequestEventArgs = apiRequestDataEventArgs
                 });
 
@@ -2250,12 +2397,12 @@ namespace Telegram.Bot
             }
 
             if (responseObject == null)
-                responseObject = new ApiResponse<T> {Ok = false, Message = "No response received"};
+                responseObject = new ApiResponse<T> { Ok = false, Description = "No response received" };
 
             if (!responseObject.Ok)
                 throw ApiRequestException.FromApiResponse(responseObject);
 
-            return responseObject.ResultObject;
+            return responseObject.Result;
         }
 
         private static HttpContent ConvertParameterValue(object value)
@@ -2268,6 +2415,9 @@ namespace Telegram.Bot
                     httpContent = new StringContent(str);
                     break;
                 case FileToSend fileToSend:
+                    httpContent = new StreamContent(fileToSend.Content);
+                    break;
+                case InputFileBase fileToSend:
                     httpContent = new StreamContent(fileToSend.Content);
                     break;
                 default:
