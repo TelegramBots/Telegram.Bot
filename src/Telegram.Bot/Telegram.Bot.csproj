@@ -17,8 +17,8 @@
     <Product>Telegram Bot API</Product>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
-    <Version Condition="'$(APPVEYOR)' == 'True'">13.4.0-rc1-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
-    <VersionPrefix>13.4.0-rc1</VersionPrefix>
+    <Version Condition="'$(APPVEYOR)' == 'True'">13.4.0-rc2-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
+    <VersionPrefix>13.4.0-rc2</VersionPrefix>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin/Debug/documentation.xml</DocumentationFile>
