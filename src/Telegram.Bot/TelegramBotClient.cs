@@ -9,17 +9,16 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Args;
-using Telegram.Bot.Converters;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Helpers;
+using Telegram.Bot.Requests;
+using Telegram.Bot.Responses;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.Requests;
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
@@ -43,19 +42,6 @@ namespace Telegram.Bot
 
         private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
         {
-            Converters = new List<JsonConverter> // ToDo is required?
-            {
-                new ChatIdConverter(),
-                new FileToSendConverter(),
-                new InlineQueryResultTypeConverter(),
-                new ParseModeConverter(),
-                new PhotoSizeConverter(),
-                new UnixDateTimeConverter(),
-            },
-            ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            },
             NullValueHandling = NullValueHandling.Ignore
         };
 
@@ -452,7 +438,7 @@ namespace Telegram.Bot
         /// Upload your public key certificate so that the root certificate in use can be checked.
         /// See the <see href="https://core.telegram.org/bots/self-signed">self-signed guide</see> for details.
         /// </param>
-        /// <param name="maxConnections">Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot‘s server, and higher values to increase your bot’s throughput.</param>
+        /// <param name="maxConnections">Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot‘s server, and higher values to increase your bot's throughput.</param>
         /// <param name="allowedUpdates">
         /// List the <see cref="UpdateType"/> of updates you want your bot to receive. See <see cref="UpdateType"/> for a complete list of available update types. Specify an empty list to receive all updates regardless of type (default).
         /// If not specified, the previous setting will be used.
@@ -1719,8 +1705,8 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
         /// <param name="ok">Specify True if delivery to the specified address is possible and False if there are any problems</param>
-        /// <param name="shippingOptions">Required if ok is True.</param>
-        /// <param name="errorMessage">Required if ok is False. Error message in human readable form that explains why it is impossible to complete the order </param>
+        /// <param name="shippingOptions">Required ifOKis True.</param>
+        /// <param name="errorMessage">Required ifOKis False. Error message in human readable form that explains why it is impossible to complete the order </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, True is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
@@ -1749,7 +1735,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
         /// <param name="ok">Specify True if everything is alright</param>
-        /// <param name="errorMessage">Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout</param>
+        /// <param name="errorMessage">Required ifOKis False. Error message in human readable form that explains the reason for failure to proceed with the checkout</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, True is returned.</returns>
         /// <remarks>Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</remarks>
@@ -1936,7 +1922,7 @@ namespace Telegram.Bot
         public Task<string> ExportChatInviteLinkAsync(ChatId chatId,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>
             {
                 {"chat_id", chatId}
             };
@@ -2415,9 +2401,6 @@ namespace Telegram.Bot
                     httpContent = new StringContent(str);
                     break;
                 case FileToSend fileToSend:
-                    httpContent = new StreamContent(fileToSend.Content);
-                    break;
-                case InputFileBase fileToSend:
                     httpContent = new StreamContent(fileToSend.Content);
                     break;
                 default:

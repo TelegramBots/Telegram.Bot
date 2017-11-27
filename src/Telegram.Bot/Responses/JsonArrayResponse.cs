@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Telegram.Bot.Types;
 
-namespace Telegram.Bot.Types.Responses
+namespace Telegram.Bot.Responses
 {
     /// <summary>
     /// Represents an API response with JSON serialized array results

@@ -1,8 +1,7 @@
-﻿using Telegram.Bot.Types.Requests;
-using Telegram.Bot.Types.Responses;
+﻿using Telegram.Bot.Requests;
+using Telegram.Bot.Types;
 
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Types
+namespace Telegram.Bot.Responses
 {
     /// <summary>
     /// Response of <see cref="SendMediaGroupRequest"/> request

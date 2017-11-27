@@ -1,5 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Types
+﻿namespace Telegram.Bot.Responses
 {
     /// <summary>
     /// Marker for API responses

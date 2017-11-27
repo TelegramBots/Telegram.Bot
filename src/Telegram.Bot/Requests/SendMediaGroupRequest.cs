@@ -6,9 +6,11 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
+using Telegram.Bot.Responses;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Types.Requests
+namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.

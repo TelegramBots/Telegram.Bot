@@ -137,9 +137,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
 
-            // for "Golden Ratio" video
-            const int duration = 28;
-            const int widthAndHeight = 240;
+            const int firstMediaDuration = 28;
+            const int firstMediaWidthAndHeight = 240;
 
             Message[] messages;
             using (Stream
@@ -153,9 +152,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                     {
                         Media = new InputMediaType(captions[0], stream0),
                         Caption = captions[0],
-                        Height = widthAndHeight,
-                        Width = widthAndHeight,
-                        Duration = duration
+                        Height = firstMediaWidthAndHeight,
+                        Width = firstMediaWidthAndHeight,
+                        Duration = firstMediaDuration
                     },
                     new InputMediaVideo
                     {
@@ -179,9 +178,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.All(messages.Take(2), msg => Assert.Equal(MessageType.VideoMessage, msg.Type));
             Assert.Equal(MessageType.PhotoMessage, messages.Last().Type);
             Assert.Equal(captions, messages.Select(msg => msg.Caption));
-            Assert.Equal(widthAndHeight, messages.First().Video.Width);
-            Assert.Equal(widthAndHeight, messages.First().Video.Height);
-            Assert.Equal(duration, messages.First().Video.Duration);
+            Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Width);
+            Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Height);
+            Assert.InRange(messages.First().Video.Duration, firstMediaDuration - 2, firstMediaDuration + 2);
         }
 
         #endregion

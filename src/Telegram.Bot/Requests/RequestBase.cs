@@ -1,9 +1,9 @@
 ﻿using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using Telegram.Bot.Responses;
 
-// ReSharper disable once CheckNamespace
-namespace Telegram.Bot.Types
+namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Represents a API request
