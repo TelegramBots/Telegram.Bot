@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [13.4.0-rc2] - 2017-11-26
+
+### Fixed
+
+- Default snake-cased property name serialization
+
 ## [13.4.0-rc1] - 2017-11-26
 
 ### Added
