@@ -103,6 +103,8 @@
 
             public const string SetChatStickerSet = "setChatStickerSet";
 
+            public const string SendSticker = "sendSticker";
+
             public const string SendMediaGroup = "sendMediaGroup";
         }
     }
