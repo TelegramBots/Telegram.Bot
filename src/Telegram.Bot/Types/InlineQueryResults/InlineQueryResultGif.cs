@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
 
 namespace Telegram.Bot.Types.InlineQueryResults
@@ -8,7 +9,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// By default, this animated GIF file will be sent by the user with optional caption.
     /// Alternatively, you can provide message_text to send it instead of the animation.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultGif : InlineQueryResultNew
     {
         /// <summary>

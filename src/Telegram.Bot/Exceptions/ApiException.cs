@@ -4,7 +4,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
-    /// Represents an api error
+    /// Represents an API error
     /// </summary>
     public class ApiRequestException : Exception
     {
@@ -16,7 +16,7 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Contains information about why a request was unsuccessful.
         /// </summary>
-        public ResponseParameters Parameters { get; }
+        public ResponseParameters Parameters { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestException"/> class.
@@ -73,7 +73,7 @@ namespace Telegram.Bot.Exceptions
             ErrorCode = errorCode;
             Parameters = parameters;
         }
-        /*
+
         /// <summary>
         /// Returns a new instance of the <see cref="ApiRequestException"/> class.
         /// </summary>
@@ -81,83 +81,84 @@ namespace Telegram.Bot.Exceptions
         /// <returns><see cref="ApiRequestException"/></returns>
         public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
         {
-            return ApiExceptionParser.Parse(apiResponse.Message);
+            return ApiExceptionParser.Parse<T>(apiResponse);
+            /*
             string message;
-            switch (apiResponse.Code)
+            switch (apiResponse.ErrorCode)
             {
                 //TODO: Add test cases for all those
                 case 400:
-                    message = apiResponse.Message.Remove(0, "Bad Request: ".Length);
+                    message = apiResponse.Description.Remove(0, "Bad Request: ".Length);
                     switch (message.Trim())
                     {
                         case "chat not found":
-                            return new ChatNotFoundException(apiResponse.Message)
+                            return new ChatNotFoundException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                         case "have no rights to send a message":
-                            return new BotRestrictedException(apiResponse.Message)
+                            return new BotRestrictedException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                         case "not enough rights to restrict/unrestrict chat member":
-                            return new NotEnoughRightsException(apiResponse.Message)
+                            return new NotEnoughRightsException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                         case "user not found":
-                            return new UserNotFoundException(apiResponse.Message)
+                            return new UserNotFoundException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                         case "method is available for supergroup and channel chats only":
-                            return new WrongChatTypeException(apiResponse.Message)
+                            return new WrongChatTypeException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                         default:
                             if (message.EndsWith(" is empty"))
                             {
-                                return new MissingParameterException(apiResponse.Message, message.Remove(message.IndexOf(" is empty")))
+                                return new MissingParameterException(apiResponse.Description, message.Remove(message.IndexOf(" is empty")))
                                 {
                                     Parameters = apiResponse.Parameters
                                 };
                             }
                             LogMissingError(apiResponse);
-                            return new ApiRequestException(apiResponse.Message, 400)
+                            return new ApiRequestException(apiResponse.Description, 400)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                     }
                 case 403:
-                    message = apiResponse.Message.Remove(0, "Forbidden: ".Length);
+                    message = apiResponse.Description.Remove(0, "Forbidden: ".Length);
                     switch (message.Trim())
                     {
                         case "bot was blocked by the user":
-                            return new BotBlockedException(apiResponse.Message)
+                            return new BotBlockedException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                         case "bot can't initiate conversation with a user":
-                            return new ChatNotInitiatedException(apiResponse.Message)
+                            return new ChatNotInitiatedException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                         default:
                             LogMissingError(apiResponse);
-                            return new ApiRequestException(apiResponse.Message, 403)
+                            return new ApiRequestException(apiResponse.Description, 403)
                             {
                                 Parameters = apiResponse.Parameters
                             };
                     }
                 default:
                     LogMissingError(apiResponse);
-                    return new ApiRequestException(apiResponse.Message, apiResponse.Code)
+                    return new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode)
                     {
                         Parameters = apiResponse.Parameters
                     };
             }
+            */
         }
-        */
     }
 }

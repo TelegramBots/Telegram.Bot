@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a message.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Message
     {
         /// <summary>
@@ -76,7 +78,7 @@ namespace Telegram.Bot.Types
         public DateTime? ForwardDate { get; set; }
 
         /// <summary>
-        /// Optional. For replies, the original message. Note that the Message object in this field will not contain further reply_to_message fields even if it itself is a reply.
+        /// Optional. For replies, the original message. Note that the Description object in this field will not contain further reply_to_message fields even if it itself is a reply.
         /// </summary>
         [JsonProperty]
         public Message ReplyToMessage { get; set; }
@@ -131,49 +133,49 @@ namespace Telegram.Bot.Types
             .Select(entity => Caption.Substring(entity.Offset, entity.Length));
 
         /// <summary>
-        /// Optional. Message is an audio file, information about the file
+        /// Optional. Description is an audio file, information about the file
         /// </summary>
         [JsonProperty]
         public Audio Audio { get; set; }
 
         /// <summary>
-        /// Optional. Message is a general file, information about the file
+        /// Optional. Description is a general file, information about the file
         /// </summary>
         [JsonProperty]
         public Document Document { get; set; }
 
         /// <summary>
-        /// Message is a game, information about the game.
+        /// Description is a game, information about the game.
         /// </summary>
         [JsonProperty]
         public Game Game { get; set; }
 
         /// <summary>
-        /// Optional. Message is a photo, available sizes of the photo
+        /// Optional. Description is a photo, available sizes of the photo
         /// </summary>
         [JsonProperty]
         public PhotoSize[] Photo { get; set; }
 
         /// <summary>
-        /// Optional. Message is a sticker, information about the sticker
+        /// Optional. Description is a sticker, information about the sticker
         /// </summary>
         [JsonProperty]
         public Sticker Sticker { get; set; }
 
         /// <summary>
-        /// Optional. Message is a video, information about the video
+        /// Optional. Description is a video, information about the video
         /// </summary>
         [JsonProperty]
         public Video Video { get; set; }
 
         /// <summary>
-        /// Message is a voice message, information about the file
+        /// Description is a voice message, information about the file
         /// </summary>
         [JsonProperty]
         public Voice Voice { get; set; }
 
         /// <summary>
-        /// Optional. Message is a <see cref="VideoNote"/>, information about the video message
+        /// Optional. Description is a <see cref="VideoNote"/>, information about the video message
         /// </summary>
         [JsonProperty]
         public VideoNote VideoNote { get; set; }
@@ -185,19 +187,19 @@ namespace Telegram.Bot.Types
         public string Caption { get; set; }
 
         /// <summary>
-        /// Optional. Message is a shared contact, information about the contact
+        /// Optional. Description is a shared contact, information about the contact
         /// </summary>
         [JsonProperty]
         public Contact Contact { get; set; }
 
         /// <summary>
-        /// Optional. Message is a shared location, information about the location
+        /// Optional. Description is a shared location, information about the location
         /// </summary>
         [JsonProperty]
         public Location Location { get; set; }
 
         /// <summary>
-        /// Optional. Message is a venue, information about the venue
+        /// Optional. Description is a venue, information about the venue
         /// </summary>
         [JsonProperty]
         public Venue Venue { get; set; }
@@ -269,19 +271,19 @@ namespace Telegram.Bot.Types
         public long MigrateFromChatId { get; set; }
 
         /// <summary>
-        /// Optional. Specified message was pinned. Note that the Message object in this field will not contain further reply_to_message fields even if it is itself a reply
+        /// Optional. Specified message was pinned. Note that the Description object in this field will not contain further reply_to_message fields even if it is itself a reply
         /// </summary>
         [JsonProperty]
         public Message PinnedMessage { get; set; }
 
         /// <summary>
-        /// Optional. Message is an invoice for a payment
+        /// Optional. Description is an invoice for a payment
         /// </summary>
         [JsonProperty]
         public Invoice Invoice { get; set; }
 
         /// <summary>
-        /// Optional. Message is a service message about a successful payment
+        /// Optional. Description is a service message about a successful payment
         /// </summary>
         [JsonProperty]
         public SuccessfulPayment SuccessfulPayment { get; set; }
@@ -348,8 +350,8 @@ namespace Telegram.Bot.Types
                     GroupChatCreated ||
                     SupergroupChatCreated ||
                     ChannelChatCreated ||
-                    MigrateFromChatId == default(long) ||
-                    MigrateToChatId == default(long))
+                    MigrateFromChatId == default ||
+                    MigrateToChatId == default)
                     return MessageType.ServiceMessage;
 
                 return MessageType.UnknownMessage;

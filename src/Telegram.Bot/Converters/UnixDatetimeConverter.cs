@@ -44,7 +44,7 @@ namespace Telegram.Bot.Converters
             if (reader.TokenType == JsonToken.Null)
             {
                 if (Nullable.GetUnderlyingType(objectType) != null)
-                    return default(DateTime);
+                    return default;
 
                 return null;
             }

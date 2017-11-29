@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
 
             Assert.NotNull(botUser);
             Assert.True(botUser.IsBot);
-            Assert.True(botUser.Username.EndsWith("bot", StringComparison.OrdinalIgnoreCase));
+            Assert.EndsWith("bot", botUser.Username, StringComparison.OrdinalIgnoreCase);
         }
 
         private static class FactTitles

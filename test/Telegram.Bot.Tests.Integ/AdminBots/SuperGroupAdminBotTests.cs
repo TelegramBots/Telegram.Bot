@@ -8,9 +8,9 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.AdminBots
 {
-    [Collection(CommonConstants.TestCollections.AdminBots)]
+    [Collection(CommonConstants.TestCollections.SuperGroupAdminBots)]
     [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
-    public class AdminBotTests : IClassFixture<AdminBotTestFixture>
+    public class SuperGroupAdminBotTests : IClassFixture<AdminBotTestFixture>
     {
         private readonly AdminBotTestFixture _classFixture;
 
@@ -18,10 +18,11 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
-        public AdminBotTests(AdminBotTestFixture classFixture)
+        public SuperGroupAdminBotTests(AdminBotTestFixture classFixture)
         {
             _classFixture = classFixture;
             _fixture = _classFixture.TestsFixture;
+            _classFixture.ChatId = _fixture.SuperGroupChatId;
         }
 
         #region 1. Changing Chat Title
@@ -33,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatTitle);
 
-            bool result = await BotClient.SetChatTitleAsync(_fixture.SuperGroupChatId, _classFixture.ChatTitle);
+            bool result = await BotClient.SetChatTitleAsync(_classFixture.ChatId, _classFixture.ChatTitle);
 
             Assert.True(result);
         }
@@ -49,7 +50,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatDescription);
 
-            bool result = await BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId,
+            bool result = await BotClient.SetChatDescriptionAsync(_classFixture.ChatId,
                 "Test Chat Description");
 
             Assert.True(result);
@@ -62,14 +63,14 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
 
-            bool result = await BotClient.SetChatDescriptionAsync(_fixture.SuperGroupChatId);
+            bool result = await BotClient.SetChatDescriptionAsync(_classFixture.ChatId);
 
             Assert.True(result);
         }
 
         #endregion
 
-        #region 3. Pinning Chat Message
+        #region 3. Pinning Chat Description
 
         [Fact(DisplayName = FactTitles.ShouldPinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PinChatMessage)]
@@ -78,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             Message msg = await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPinMessage);
 
-            bool result = await BotClient.PinChatMessageAsync(_fixture.SuperGroupChatId, msg.MessageId);
+            bool result = await BotClient.PinChatMessageAsync(_classFixture.ChatId, msg.MessageId);
 
             Assert.True(result);
             _classFixture.PinnedMessage = msg;
@@ -97,7 +98,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
                 throw new NullReferenceException("Pinned message should have been set in the preceding test");
             }
 
-            Chat chat = await BotClient.GetChatAsync(_fixture.SuperGroupChatId);
+            Chat chat = await BotClient.GetChatAsync(_classFixture.ChatId);
 
             Assert.Equal(pinnedMsg.MessageId, chat.PinnedMessage.MessageId);
             Assert.Equal(pinnedMsg.Text, chat.PinnedMessage.Text);
@@ -110,7 +111,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnpinMessage);
 
-            bool result = await BotClient.UnpinChatMessageAsync(_fixture.SuperGroupChatId);
+            bool result = await BotClient.UnpinChatMessageAsync(_classFixture.ChatId);
 
             Assert.True(result);
         }
@@ -122,7 +123,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatWithNoPinnedMessage);
 
-            Chat chat = await BotClient.GetChatAsync(_fixture.SuperGroupChatId);
+            Chat chat = await BotClient.GetChatAsync(_classFixture.ChatId);
 
             Assert.Null(chat.PinnedMessage);
         }
@@ -139,9 +140,9 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatPhoto);
             bool result;
 
-            using (var stream = new FileStream("Files/Photo/t_logo.png", FileMode.Open))
+            using (var stream = new FileStream("Files/Photo/logo.png", FileMode.Open))
             {
-                result = await BotClient.SetChatPhotoAsync(_fixture.SuperGroupChatId,
+                result = await BotClient.SetChatPhotoAsync(_classFixture.ChatId,
                     new FileToSend("photo.png", stream));
             }
 
@@ -155,7 +156,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatPhoto);
 
-            bool result = await BotClient.DeleteChatPhotoAsync(_fixture.SuperGroupChatId);
+            bool result = await BotClient.DeleteChatPhotoAsync(_classFixture.ChatId);
 
             Assert.True(result);
         }
@@ -168,7 +169,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
 
             Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
-                BotClient.DeleteChatPhotoAsync(_fixture.SuperGroupChatId));
+                BotClient.DeleteChatPhotoAsync(_classFixture.ChatId));
 
             Assert.IsType<ApiRequestException>(e);
             Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
@@ -187,15 +188,12 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             const string setName = "EvilMinds";
 
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
-                _fixture.BotClient.SetChatStickerSetAsync(_fixture.SuperGroupChatId, setName)
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                _fixture.BotClient.SetChatStickerSetAsync(_classFixture.ChatId, setName)
             );
 
-            Assert.IsType<ApiRequestException>(e);
-
-            var requestException = (ApiRequestException) e;
-            Assert.Equal(400, requestException.ErrorCode);
-            Assert.Equal("Bad Request: can't set channel sticker set", requestException.Message);
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Equal("Bad Request: can't set channel sticker set", exception.Message);
         }
 
         #endregion

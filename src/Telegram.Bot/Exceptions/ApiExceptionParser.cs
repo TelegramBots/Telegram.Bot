@@ -9,10 +9,16 @@ namespace Telegram.Bot.Exceptions
     {
         private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
-            new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
+            new BadRequestExceptionInfo<UserNotFoundException>("USER_ID_INVALID"),
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
+
+            #region Changed in API
+
+            new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
+            
+            #endregion
         };
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
@@ -20,12 +26,12 @@ namespace Telegram.Bot.Exceptions
             ApiRequestException exception;
 
             var typeInfo = ExceptionInfos
-                .SingleOrDefault(info => apiResponse.Message.Contains(info.ErrorMessage));
+                .SingleOrDefault(info => apiResponse.Description.Contains(info.ErrorMessage));
 
             if (typeInfo is null)
             {
-                Debug.WriteLine($"Exception type info not found. {apiResponse.Code} - {apiResponse.Message}");
-                exception = new ApiRequestException(apiResponse.Message, apiResponse.Code, apiResponse.Parameters);
+                Debug.WriteLine($"Exception type info not found. {apiResponse.ErrorCode} - {apiResponse.Description}");
+                exception = new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
             }
             else
             {
@@ -34,11 +40,11 @@ namespace Telegram.Bot.Exceptions
 
                 if (isBadRequestError)
                 {
-                    errorMessage = TruncateBadRequestErrorDescription(apiResponse.Message);
+                    errorMessage = TruncateBadRequestErrorDescription(apiResponse.Description);
                 }
                 else
                 {
-                    errorMessage = TruncateForbiddenErrorDescription(apiResponse.Message);
+                    errorMessage = TruncateForbiddenErrorDescription(apiResponse.Description);
                 }
 
                 exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;

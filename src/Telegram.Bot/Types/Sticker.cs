@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
 {
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types
     /// This object represents a sticker.
     /// <see href="https://core.telegram.org/bots/api#sticker"/>
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Sticker : File
     {
         /// <summary>

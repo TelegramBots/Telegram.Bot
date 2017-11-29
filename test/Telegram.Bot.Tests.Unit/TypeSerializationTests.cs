@@ -1,6 +1,5 @@
 using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -9,7 +8,7 @@ namespace Telegram.Bot.Tests.Unit
 {
     public class TypeSerializationTests
     {
-        #region Message type
+        #region Description type
 
         [Fact(DisplayName = "Should serialize a document message")]
         public void Should_Serialize_DocumentMessage()
@@ -38,18 +37,10 @@ namespace Telegram.Bot.Tests.Unit
                     MimeType = "plain/text"
                 },
                 Date = DateTime.Now,
-                Caption = "Test Document Message"
+                Caption = "Test Document Description"
             };
 
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                }
-            };
-
-            string json = JsonConvert.SerializeObject(documentMessage, serializerSettings);
+            string json = JsonConvert.SerializeObject(documentMessage);
 
             Assert.NotNull(json);
             Assert.True(json.Length > 100);
@@ -109,7 +100,7 @@ namespace Telegram.Bot.Tests.Unit
                 ""video"": null,
                 ""voice"": null,
                 ""video_note"": null,
-                ""caption"": ""Test Document Message"",
+                ""caption"": ""Test Document Description"",
                 ""contact"": null,
                 ""location"": null,
                 ""venue"": null,
@@ -130,15 +121,7 @@ namespace Telegram.Bot.Tests.Unit
             }
             ";
 
-            var serializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new DefaultContractResolver
-                {
-                    NamingStrategy = new SnakeCaseNamingStrategy()
-                }
-            };
-
-            var message = JsonConvert.DeserializeObject<Message>(json, serializerSettings);
+            var message = JsonConvert.DeserializeObject<Message>(json);
 
             Assert.Equal(MessageType.DocumentMessage, message.Type);
             Assert.Equal("test_file.txt", message.Document.FileName);

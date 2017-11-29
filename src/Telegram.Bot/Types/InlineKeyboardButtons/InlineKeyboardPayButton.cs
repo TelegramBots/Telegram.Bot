@@ -1,11 +1,13 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.InlineKeyboardButtons
 {
     /// <summary>
     /// This object represents one button of an inline keyboard that ask the user to pay a certain amount when pressed. This button always MUST be the first button in a row.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardPayButton : InlineKeyboardButton
     {
         /// <summary>

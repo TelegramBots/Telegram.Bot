@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.InputMessageContents
@@ -6,7 +7,8 @@ namespace Telegram.Bot.Types.InputMessageContents
     /// <summary>
     /// Represents the content of a text message to be sent as the result of an <see cref="InlineQuery"/>.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputTextMessageContent : InputMessageContent
     {
         /// <summary>

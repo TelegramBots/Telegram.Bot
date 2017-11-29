@@ -2,13 +2,15 @@
 using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 using System;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
 {
     /// <summary>
     /// This object contains information about one member of the chat.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ChatMember
     {
         /// <summary>

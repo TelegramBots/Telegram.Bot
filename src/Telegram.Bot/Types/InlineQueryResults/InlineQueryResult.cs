@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using Telegram.Bot.Types.InputMessageContents;
@@ -9,7 +10,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <summary>
     /// Base Class for inline results send in response to an <see cref="InlineQuery"/>
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResult
     {
         private static readonly Dictionary<Type, InlineQueryResultType> TypeMap =

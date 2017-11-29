@@ -2,13 +2,15 @@ using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 using System;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
 {
     /// <summary>
     /// Contains information about the current status of a webhook.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class WebhookInfo
     {
         /// <summary>

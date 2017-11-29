@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
 using Telegram.Bot.Types.InputMessageContents;
 
@@ -8,6 +9,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Represents a <see cref="Game"/>.
     /// </summary>
     /// <seealso cref="InlineQueryResultNew" />
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
+                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultGame : InlineQueryResultNew
     {
         /// <summary>
