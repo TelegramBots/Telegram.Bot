@@ -5,11 +5,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 {
     public class StickersTestsFixture
     {
-        public TestsFixture TestsFixture { get; }
-
-        public ChatId ChatId { get; set; }
-
         public StickerSet StickerSet { get; set; }
+
+        public TestsFixture TestsFixture { get; }
 
         public StickersTestsFixture(TestsFixture testsFixture)
         {

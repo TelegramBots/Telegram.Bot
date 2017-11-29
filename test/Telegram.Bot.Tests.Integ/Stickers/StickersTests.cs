@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
-using Xunit;
-using System.Linq;
 using Telegram.Bot.Types.Enums;
+using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Stickers
 {
@@ -19,7 +18,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             _classFixture = classFixture;
             _fixture = _classFixture.TestsFixture;
-            _classFixture.ChatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
         }
 
         #region 1. Get and send stickers from a set
@@ -51,13 +49,11 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendSticker);
             FileToSend stickerFile = new FileToSend(_classFixture.StickerSet.Stickers[0].FileId);
 
-            Message message = await _fixture.BotClient.SendStickerAsync(_classFixture.ChatId, stickerFile);
+            Message message = await _fixture.BotClient.SendStickerAsync(_fixture.SuperGroupChatId, stickerFile);
 
             Assert.Equal(MessageType.StickerMessage, message.Type);
             Assert.Equal(stickerFile.FileId, message.Sticker.FileId);
         }
-
-        // ToDo: Send one of the stickers retrieved to chat
         #endregion
 
         private static class FactTitles
