@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.Common
                 ApiToken = configuration[nameof(TestConfigurations.ApiToken)],
                 AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)],
                 PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
-                TesterPrivateChatId = configuration[nameof(TestConfigurations.TesterPrivateChatId)],
+                TesterPrivateChatId = long.Parse(configuration[nameof(TestConfigurations.TesterPrivateChatId)]),
                 SuperGroupChatId = configuration[nameof(TestConfigurations.SuperGroupChatId)],
                 ChannelChatId = configuration[nameof(TestConfigurations.ChannelChatId)],
                 RegularMemberUserId = configuration[nameof(TestConfigurations.RegularMemberUserId)],

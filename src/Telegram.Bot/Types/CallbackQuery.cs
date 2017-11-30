@@ -24,7 +24,7 @@ namespace Telegram.Bot.Types
         public User From { get; set; }
 
         /// <summary>
-        /// Optional. Message with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
+        /// Optional. Description with the callback button that originated the query. Note that message content and message date will not be available if the message is too old
         /// </summary>
         [JsonProperty]
         public Message Message { get; set; }

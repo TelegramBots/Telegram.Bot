@@ -34,9 +34,13 @@
 
             public const string MultimediaMessage = "Sending Multimedia Messages";
 
-            public const string UpdateMessage = "Updating Messages";
+            public const string UpdateMessage = "Updating messages";
 
-            public const string ChatInformation = "Chat Information";
+            public const string Exceptions = "Bot API Exceptions";
+
+            public const string ChatInformation = "Chat information";
+
+            public const string MessageReplyMarkup = "Messages with Keyboard Reply Markup";
 
             public const string LiveLocations = "Live locations";
 
@@ -67,6 +71,8 @@
 
             public const string PinChatMessage = "pinChatMessage";
 
+            public const string GetChat = "getChat";
+
             public const string UnpinChatMessage = "unpinChatMessage";
 
             public const string SetChatPhoto = "setChatPhoto";
@@ -93,8 +99,6 @@
 
             public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
 
-            public const string GetChat = "getChat";
-
             public const string SendLocation = "sendLocation";
 
             public const string EditMessageLiveLocation = "editMessageLiveLocation";
@@ -106,6 +110,16 @@
             public const string SendSticker = "sendSticker";
 
             public const string SendMediaGroup = "sendMediaGroup";
+
+            public const string UploadStickerFile = "uploadStickerFile";
+
+            public const string CreateNewStickerSet = "createNewStickerSet";
+
+            public const string AddStickerToSet = "addStickerToSet";
+
+            public const string SetStickerPositionInSet = "setStickerPositionInSet";
+
+            public const string DeleteStickerFromSet = "deleteStickerFromSet";
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithArticle)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(1.1)]
+        [ExecutionOrder(1)]
         public async Task Should_Answer_Inline_Query_With_Article()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,

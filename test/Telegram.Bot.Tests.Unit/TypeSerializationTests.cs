@@ -8,7 +8,7 @@ namespace Telegram.Bot.Tests.Unit
 {
     public class TypeSerializationTests
     {
-        #region Message type
+        #region Description type
 
         [Fact(DisplayName = "Should serialize a document message")]
         public void Should_Serialize_DocumentMessage()
@@ -37,7 +37,7 @@ namespace Telegram.Bot.Tests.Unit
                     MimeType = "plain/text"
                 },
                 Date = DateTime.Now,
-                Caption = "Test Document Message"
+                Caption = "Test Document Description"
             };
 
             string json = JsonConvert.SerializeObject(documentMessage);
@@ -100,7 +100,7 @@ namespace Telegram.Bot.Tests.Unit
                 ""video"": null,
                 ""voice"": null,
                 ""video_note"": null,
-                ""caption"": ""Test Document Message"",
+                ""caption"": ""Test Document Description"",
                 ""contact"": null,
                 ""location"": null,
                 ""venue"": null,

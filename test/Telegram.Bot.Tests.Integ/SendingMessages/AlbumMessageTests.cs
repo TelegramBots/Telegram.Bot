@@ -191,7 +191,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             public const string ShouldSendFileIdPhotosInAlbum = "Should send an album with 3 photos using their file_id";
 
-            public const string ShouldSendUrlPhotosInAlbum = "Should send an album using http urls in reply to 1st album message";
+            public const string ShouldSendUrlPhotosInAlbum = "Should send an album using HTTP urls in reply to 1st album message";
 
             public const string ShouldUploadVideosInAlbum = "Should upload 2 videos with captions and send them in an album";
         }

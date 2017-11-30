@@ -14,6 +14,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         private readonly TestsFixture _fixture;
 
+        private ITelegramBotClient BotClient => _fixture.BotClient;
+
         public StickersTests(StickersTestsFixture classFixture)
         {
             _classFixture = classFixture;
@@ -29,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetStickerSet);
             const string setName = "EvilMinds";
-            StickerSet stickerSet = await _fixture.BotClient.GetStickerSetAsync(setName);
+            StickerSet stickerSet = await BotClient.GetStickerSetAsync(setName);
 
             Assert.Equal(setName, stickerSet.Name);
             Assert.Equal("Evil Minds", stickerSet.Title);
@@ -56,10 +58,63 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
         #endregion
 
+        #region 2. Create sticker set
+
+        [Fact(DisplayName = FactTitles.ShouldUploadStickerFile)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UploadStickerFile)]
+        [ExecutionOrder(2.1)]
+        public async Task Should_Upload_Stickers()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
+
+            File file;
+            using (var stream = System.IO.File.OpenRead("Files/photo/gnu.png"))
+            {
+                file = await BotClient.UploadStickerFileAsync(
+                    _fixture.BotUser.Id,
+                    stream.ToFileToSend("GNU")
+                );
+            }
+
+            Assert.NotEmpty(file.FileId);
+            Assert.True(file.FileSize > 0);
+
+            _classFixture.UploadedSticker = file;
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [ExecutionOrder(2.2)]
+        public async Task Should_Create_New_Sticker_Set()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldCreateNewStickerSet);
+            FileToSend stickerFile = new FileToSend(_classFixture.UploadedSticker.FileId);
+
+            bool result = await BotClient.CreateNewStickerSetAsnyc(
+                 _classFixture.BotUser.Id,
+                 _classFixture.StickerPackName,
+                 _classFixture.StickerPackName,
+                 stickerFile,
+                 _classFixture.StickerPackEmoji);
+
+            Assert.True(result);
+        }
+
+        // ToDo: add more stickers to set
+        // ToDo: Create sticker with mask positions
+        // ToDo: Keep file_id of all sent stickers and delete them from sticker set at the end of tests
+
+        #endregion
+
         private static class FactTitles
         {
             public const string ShouldGetStickerSet = "Should get sticker set";
+
             public const string ShouldSendSticker = "Should send sticker";
+
+            public const string ShouldUploadStickerFile = "Should upload a sticker file to get file_id";
+
+            public const string ShouldCreateNewStickerSet = "Should create new sticker set with file sent";
         }
     }
 }

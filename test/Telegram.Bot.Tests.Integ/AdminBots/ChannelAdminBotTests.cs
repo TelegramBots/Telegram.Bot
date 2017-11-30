@@ -70,7 +70,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         #endregion
 
-        #region 3. Pinning Chat Message
+        #region 3. Pinning Chat Description
 
         [Fact(DisplayName = FactTitles.ShouldPinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PinChatMessage)]
@@ -79,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPinMessage);
 
-            Message msg = await BotClient.SendTextMessageAsync(_classFixture.ChatId, "Message to pin");
+            Message msg = await BotClient.SendTextMessageAsync(_classFixture.ChatId, "Description to pin");
 
             bool result = await BotClient.PinChatMessageAsync(_classFixture.ChatId, msg.MessageId);
 

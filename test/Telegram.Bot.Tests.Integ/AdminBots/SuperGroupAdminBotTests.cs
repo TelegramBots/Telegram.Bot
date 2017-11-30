@@ -70,7 +70,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         #endregion
 
-        #region 3. Pinning Chat Message
+        #region 3. Pinning Chat Description
 
         [Fact(DisplayName = FactTitles.ShouldPinMessage)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PinChatMessage)]

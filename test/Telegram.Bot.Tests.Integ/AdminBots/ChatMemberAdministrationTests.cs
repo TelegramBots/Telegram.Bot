@@ -14,12 +14,14 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
     {
         private readonly TestsFixture _fixture;
 
-        private readonly ChatMemberAdministrationTestFixture _classTestFixture;
+        private readonly ChatMemberAdministrationTestFixture _classFixture;
 
-        public ChatMemberAdministrationTests(ChatMemberAdministrationTestFixture classTestFixture)
+        private ITelegramBotClient BotClient => _fixture.BotClient;
+
+        public ChatMemberAdministrationTests(ChatMemberAdministrationTestFixture classFixture)
         {
-            _classTestFixture = classTestFixture;
-            _fixture = classTestFixture.TestsFixture;
+            _classFixture = classFixture;
+            _fixture = classFixture.TestsFixture;
         }
 
         #region 1. Kick, Unban, and Invite chat member back
@@ -31,8 +33,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberForEver);
 
-            bool result = await _fixture.BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
-                _classTestFixture.RegularMemberUserId);
+            bool result = await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
+                _classFixture.RegularMemberUserId);
 
             Assert.True(result);
         }
@@ -44,8 +46,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnbanChatMember);
 
-            bool result = await _fixture.BotClient.UnbanChatMemberAsync(_fixture.SuperGroupChatId,
-                _classTestFixture.RegularMemberUserId);
+            bool result = await BotClient.UnbanChatMemberAsync(_fixture.SuperGroupChatId,
+                _classFixture.RegularMemberUserId);
 
             Assert.True(result);
         }
@@ -57,11 +59,11 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldExportChatInviteLink);
 
-            string result = await _fixture.BotClient.ExportChatInviteLinkAsync(_fixture.SuperGroupChatId);
+            string result = await BotClient.ExportChatInviteLinkAsync(_fixture.SuperGroupChatId);
 
             Assert.StartsWith("https://t.me/joinchat/", result);
 
-            _classTestFixture.GroupInviteLink = result;
+            _classFixture.GroupInviteLink = result;
         }
 
         [Fact(DisplayName = FactTitles.ShouldReceiveNewChatMemberNotification)]
@@ -69,13 +71,13 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         public async Task Should_Receive_New_Chat_Member_Notification()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveNewChatMemberNotification,
-                $"@{_classTestFixture.RegularMemberUserName} should join the group using invite link sent to " +
+                $"@{_classFixture.RegularMemberUserName} should join the group using invite link sent to " +
                 "him/her in private chat");
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            await _fixture.BotClient.SendTextMessageAsync(_classTestFixture.RegularMemberPrivateChatId,
-                _classTestFixture.GroupInviteLink);
+            await BotClient.SendTextMessageAsync(_classFixture.RegularMemberPrivateChatId,
+                _classFixture.GroupInviteLink);
 
             Update update = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Supergroup &&
@@ -87,8 +89,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             Message serviceMsg = update.Message;
 
-            Assert.Equal(_classTestFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMember.Id.ToString());
-            Assert.Equal(_classTestFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMembers.Single().Id.ToString());
+            Assert.Equal(_classFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMember.Id.ToString());
+            Assert.Equal(_classFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMembers.Single().Id.ToString());
         }
 
         #endregion
@@ -102,9 +104,9 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPromoteUserToChangeChatInfo);
 
-            bool result = await _fixture.BotClient.PromoteChatMemberAsync(
+            bool result = await BotClient.PromoteChatMemberAsync(
                 _fixture.SuperGroupChatId,
-                _classTestFixture.RegularMemberUserId,
+                _classFixture.RegularMemberUserId,
                 canChangeInfo: false);
 
             Assert.True(result);
@@ -118,9 +120,9 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRestrictSendingStickersTemporarily);
 
-            bool result = await _fixture.BotClient.RestrictChatMemberAsync(
+            bool result = await BotClient.RestrictChatMemberAsync(
                 _fixture.SuperGroupChatId,
-                _classTestFixture.RegularMemberUserId,
+                _classFixture.RegularMemberUserId,
                 DateTime.UtcNow.AddSeconds(banSeconds),
                 canSendMessages: true,
                 canSendMediaMessages: true,
@@ -140,11 +142,11 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberTemporarily,
-                $"@{_classTestFixture.RegularMemberUserName} should be able to join again in *{banSeconds} seconds* " +
+                $"@{_classFixture.RegularMemberUserName} should be able to join again in *{banSeconds} seconds* " +
                 "via the link shared in private chat with him/her");
 
-            bool result = await _fixture.BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
-                _classTestFixture.RegularMemberUserId, DateTime.UtcNow.AddSeconds(banSeconds));
+            bool result = await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
+                _classFixture.RegularMemberUserId, DateTime.UtcNow.AddSeconds(banSeconds));
 
             Assert.True(result);
         }
