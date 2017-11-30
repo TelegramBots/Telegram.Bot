@@ -36,19 +36,27 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 new KeyboardButton("Share Contact") { RequestContact = true },
             }, true, true);
 
-            Message message = await BotClient.SendTextMessageAsync(_classFixture.TesterPrivateChatId,
-                "Share your contact info using the keyboard reply markup provided.",
-                ParseMode.Markdown,
-                replyMarkup: replyMarkup);
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.TesterPrivateChatId,
+                text: "Share your contact info using the keyboard reply markup provided.",
+                parseMode: ParseMode.Markdown,
+                replyMarkup: replyMarkup
+            );
 
             Message contactMessage = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.ReplyToMessage.MessageId == message.MessageId &&
+                    u.Message.ReplyToMessage?.MessageId == message.MessageId &&
                     u.Message.Type == MessageType.ContactMessage,
                 updateTypes: UpdateType.MessageUpdate)).First().Message;
 
             Assert.NotEmpty(contactMessage.Contact.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
             Assert.Equal(int.Parse(_classFixture.TesterPrivateChatId), contactMessage.Contact.UserId);
+
+            await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.TesterPrivateChatId,
+                text: "Got it. Removing reply keyboard markup...",
+                replyMarkup: new ReplyKeyboardRemove()
+            );
         }
 
         private static class FactTitles
