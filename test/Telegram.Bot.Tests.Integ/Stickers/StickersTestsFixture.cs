@@ -7,6 +7,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
     {
         public StickerSet StickerSet { get; set; }
 
+        public File UploadedSticker { get; set; }
+
         public TestsFixture TestsFixture { get; }
 
         public StickersTestsFixture(TestsFixture testsFixture)

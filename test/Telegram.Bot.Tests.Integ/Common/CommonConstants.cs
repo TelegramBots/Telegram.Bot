@@ -110,6 +110,8 @@
             public const string SendSticker = "sendSticker";
 
             public const string SendMediaGroup = "sendMediaGroup";
+
+            public const string UploadStickerFile = "uploadStickerFile";
         }
     }
 }

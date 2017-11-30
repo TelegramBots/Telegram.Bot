@@ -58,10 +58,44 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
         #endregion
 
+        #region 2. Create sticker set
+
+        [Fact(DisplayName = FactTitles.ShouldUploadStickerFile)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UploadStickerFile)]
+        [ExecutionOrder(2.1)]
+        public async Task Should_Upload_Stickers()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
+
+            File file;
+            using (var stream = System.IO.File.OpenRead("Files/photo/gnu.png"))
+            {
+                file = await BotClient.UploadStickerFileAsync(
+                    _fixture.BotUser.Id,
+                    stream.ToFileToSend("GNU")
+                );
+            }
+
+            Assert.NotEmpty(file.FileId);
+            Assert.True(file.FileSize > 0);
+
+            _classFixture.UploadedSticker = file;
+        }
+
+        // ToDo: Create sticker with file sent
+        // ToDo: add more stickers to set
+        // ToDo: Create sticker with mask positions
+        // ToDo: Keep file_id of all sent stickers and delete them from sticker set at the end of tests
+
+        #endregion
+
         private static class FactTitles
         {
             public const string ShouldGetStickerSet = "Should get sticker set";
+
             public const string ShouldSendSticker = "Should send sticker";
+
+            public const string ShouldUploadStickerFile = "Should upload a sticker file to get file_id";
         }
     }
 }

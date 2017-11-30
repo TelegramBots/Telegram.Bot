@@ -30,7 +30,7 @@ namespace Telegram.Bot.Types
         public string FilePath { get; set; }
 
         /// <summary>
-        /// Gets the file stream.
+        /// Gets the file stream
         /// </summary>
         public Stream FileStream { get; set; }
     }
