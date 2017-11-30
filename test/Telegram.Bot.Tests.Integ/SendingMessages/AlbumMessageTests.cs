@@ -101,7 +101,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
-            const string url = "http://lorempixel.com/400/600";
+            const string url = "https://loremflickr.com/400/600";
             int replyToMessageId = _classFixture.PhotoMessages.First().MessageId;
 
             Random rnd = new Random();
