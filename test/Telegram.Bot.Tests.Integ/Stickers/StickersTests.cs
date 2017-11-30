@@ -70,11 +70,11 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
 
             File file;
-            using (var stream = System.IO.File.OpenRead("Files/photo/gnu.png"))
+            using (var stream = System.IO.File.OpenRead("Files/photo/lincoln.png"))
             {
                 file = await BotClient.UploadStickerFileAsync(
                     _fixture.BotUser.Id,
-                    stream.ToFileToSend("GNU")
+                    stream.ToFileToSend("lincoln")
                 );
             }
 
