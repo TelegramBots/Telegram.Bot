@@ -82,7 +82,24 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             _classFixture.UploadedSticker = file;
         }
 
-        // ToDo: Create sticker with file sent
+        [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [ExecutionOrder(2.2)]
+        public async Task Should_Create_New_Sticker_Set()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldCreateNewStickerSet);
+            FileToSend stickerFile = new FileToSend(_classFixture.UploadedSticker.FileId);
+
+            bool result = await BotClient.CreateNewStickerSetAsnyc(
+                 _classFixture.BotUser.Id,
+                 _classFixture.StickerPackName,
+                 _classFixture.StickerPackName,
+                 stickerFile,
+                 _classFixture.StickerPackEmoji);
+
+            Assert.True(result);
+        }
+
         // ToDo: add more stickers to set
         // ToDo: Create sticker with mask positions
         // ToDo: Keep file_id of all sent stickers and delete them from sticker set at the end of tests
@@ -96,6 +113,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             public const string ShouldSendSticker = "Should send sticker";
 
             public const string ShouldUploadStickerFile = "Should upload a sticker file to get file_id";
+
+            public const string ShouldCreateNewStickerSet = "Should create new sticker set with file sent";
         }
     }
 }
