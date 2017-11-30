@@ -10,13 +10,13 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         public File UploadedSticker { get; set; }
 
-        public bool ShouldCreateStickerPack { get; set; } = false;
+        //public bool ShouldCreateStickerPack { get; set; } = false;
 
-        public User BotUser { get; }
+        //public User BotUser { get; }
 
-        public string StickerPackName => string.Format(Constants.StickerPackName, BotUser.Username);
+        public string StickerPackName { get; set; }
 
-        public readonly string StickerPackEmoji = Constants.SmilingFaceEmoji;
+        //public readonly string StickerPackEmoji = Constants.SmilingFaceEmoji;
 
         public TestsFixture TestsFixture { get; }
 
@@ -24,21 +24,16 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             TestsFixture = testsFixture;
 
-            BotUser = TestsFixture.BotClient.GetMeAsync().Result;
+            //BotUser = TestsFixture.BotClient.GetMeAsync().Result;
 
+            /*
             try
             {
                 StickerSet stickerSet = TestsFixture.BotClient.GetStickerSetAsync(StickerPackName).Result;
                 ShouldCreateStickerPack = stickerSet != default(StickerSet);
             }
-            catch (Exception e){ throw e; }
-            }
-
-        public static class Constants
-        {
-            public const string StickerPackName = "test_by_{0}";
-
-            public const string SmilingFaceEmoji = "\u263A"; // ☺
+            catch (Exception e) { throw e; }
+            */
         }
     }
 }
