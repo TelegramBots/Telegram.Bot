@@ -1,6 +1,5 @@
 ﻿using System.Net.Http;
 using Newtonsoft.Json;
-using Telegram.Bot.Responses;
 
 // ReSharper disable once UnusedTypeParameter
 namespace Telegram.Bot.Requests
@@ -10,7 +9,6 @@ namespace Telegram.Bot.Requests
     /// </summary>
     /// <typeparam name="TResponse">Type of result expected in result</typeparam>
     public interface IRequest<TResponse>
-        where TResponse : IResponse
     {
         /// <summary>
         /// HTTP method of request

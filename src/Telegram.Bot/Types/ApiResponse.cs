@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Responses;
 
 namespace Telegram.Bot.Types
 {
@@ -10,7 +9,7 @@ namespace Telegram.Bot.Types
     /// <typeparam name="TResult">Expected type of operation result</typeparam>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
         NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class ApiResponse<TResult> : IResponse
+    public class ApiResponse<TResult>
     {
         /// <summary>
         /// Gets a value indicating whether the request was successful.

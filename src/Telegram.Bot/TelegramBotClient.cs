@@ -13,7 +13,6 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Responses;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -207,9 +206,7 @@ namespace Telegram.Bot
         /// <returns>Result of the API request</returns>
         public async Task<TResponse> MakeRequestAsync<TResponse>(
             IRequest<TResponse> request,
-            CancellationToken cancellationToken = default
-        )
-            where TResponse : IResponse
+            CancellationToken cancellationToken = default)
         {
             if (_invalidToken)
                 throw new ApiRequestException("Invalid token", 401);

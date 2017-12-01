@@ -1,7 +1,6 @@
 ﻿using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
-using Telegram.Bot.Responses;
 
 namespace Telegram.Bot.Requests
 {
@@ -10,7 +9,6 @@ namespace Telegram.Bot.Requests
     /// </summary>
     /// <typeparam name="TResponse">Type of result expected in result</typeparam>
     public abstract class RequestBase<TResponse> : IRequest<TResponse>
-        where TResponse : IResponse
     {
         /// <inheritdoc />
         [JsonIgnore]
