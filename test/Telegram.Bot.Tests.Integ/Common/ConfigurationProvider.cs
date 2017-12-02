@@ -22,10 +22,15 @@ namespace Telegram.Bot.Tests.Integ.Common
             {
                 ApiToken = configuration[nameof(TestConfigurations.ApiToken)],
                 AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)],
-                PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
-                TesterPrivateChatId = long.Parse(configuration[nameof(TestConfigurations.TesterPrivateChatId)]),
+
                 SuperGroupChatId = configuration[nameof(TestConfigurations.SuperGroupChatId)],
                 ChannelChatId = configuration[nameof(TestConfigurations.ChannelChatId)],
+
+                PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
+                TesterPrivateChatId = long.Parse(configuration[nameof(TestConfigurations.TesterPrivateChatId)]),
+
+                StickerOwnerUserId = int.Parse(configuration[nameof(TestConfigurations.StickerOwnerUserId)]),
+
                 RegularMemberUserId = configuration[nameof(TestConfigurations.RegularMemberUserId)],
                 RegularMemberUserName = configuration[nameof(TestConfigurations.RegularMemberUserName)],
                 RegularMemberPrivateChatId = configuration[nameof(TestConfigurations.RegularMemberPrivateChatId)],
