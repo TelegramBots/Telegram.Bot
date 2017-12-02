@@ -150,6 +150,32 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Assert.IsType<InvalidStickerEmojisException>(exception);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerDimensionsException)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [ExecutionOrder(2.4)]
+        public async Task Should_Throw_InvalidStickerDimensionsException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerDimensionsException);
+
+            string stickerSetName = $"test_stickers_by_{_fixture.BotUser.Username}";
+
+            BadRequestException exception;
+            using (System.IO.Stream stream = System.IO.File.OpenRead("Files/photo/logo.png"))
+            {
+                exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+                    BotClient.CreateNewStickerSetAsnyc(
+                        userId: _classFixture.OwnerUserId,
+                        name: stickerSetName,
+                        title: "Sticker Set Title",
+                        pngSticker: stream.ToFileToSend("sticker"),
+                        emojis: "😁"
+                    )
+                );
+            }
+
+            Assert.IsType<InvalidStickerDimensionsException>(exception);
+        }
+
         [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
         [ExecutionOrder(2.4)]
@@ -333,11 +359,14 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
             public const string ShouldUploadStickerFile = "Should upload a sticker file to get file_id";
 
+            public const string ShouldThrowInvalidStickerSetNameException =
+                "Should throw InvalidStickerSetNameException while trying to create sticker set with name not ending in _by_<bot username>";
+
             public const string ShouldThrowInvalidStickerEmojisException =
                 "Should throw InvalidStickerEmojisException while trying to create sticker with invalid emoji";
 
-            public const string ShouldThrowInvalidStickerSetNameException =
-                "Should throw InvalidStickerSetNameException while trying to create sticker set with name not ending in _by_<bot username>";
+            public const string ShouldThrowInvalidStickerDimensionsException =
+                "Should throw InvalidStickerDimensionsException while trying to create sticker with invalid dimensions";
 
             public const string ShouldCreateNewStickerSet = "Should create new sticker set with file sent";
 

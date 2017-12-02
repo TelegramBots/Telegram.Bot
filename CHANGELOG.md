@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `StickerOwnerUserId` parameter to Systems Integration Tests configs
 - Exception `InvalidStickerSetNameException`
 - Exception `InvalidStickerEmojisException`
+- Exception `InvalidStickerDimensionsException`
 
 ## [13.4.0-rc2] - 2017-11-26
 
