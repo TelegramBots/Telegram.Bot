@@ -94,6 +94,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
         }
 
+        /// <remarks>
+        /// URLs have a redundant query string to make sure Telegram doesn't use cached images
+        /// </remarks>
         [Fact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMediaGroup)]
         [ExecutionOrder(1.3)]
@@ -101,7 +104,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
-            const string url = "http://lorempixel.com/400/600";
+            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
             int replyToMessageId = _classFixture.PhotoMessages.First().MessageId;
 
             Random rnd = new Random();
@@ -110,10 +113,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 chatId: _fixture.SuperGroupChatId,
                 media: Enumerable.Range(0, 2)
                     .Select(_ => rnd.Next(100_000_000))
-                    // Use [redundant] query string to make sure tg doesn't use cached images
                     .Select(number => new InputMediaPhoto
                     {
-
                         Media = new InputMediaType($"{url}?q={number}")
                     }),
                 replyToMessageId: replyToMessageId
