@@ -12,6 +12,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
             new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
             new BadRequestExceptionInfo<InvalidStickerSetNameException>("sticker set name invalid"),
+            new BadRequestExceptionInfo<InvalidStickerEmojisException>("invalid sticker emojis"),
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),

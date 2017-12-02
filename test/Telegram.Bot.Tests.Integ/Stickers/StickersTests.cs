@@ -8,6 +8,8 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
+// ToDo: Put all "Throws Exception" test cases in another sticker collection
+
 namespace Telegram.Bot.Tests.Integ.Stickers
 {
     [Collection(CommonConstants.TestCollections.Stickers)]
@@ -113,16 +115,12 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerSetNameException);
 
-            FileToSend stickerFile = new FileToSend(_classFixture.UploadedStickers.First().FileId);
-            const string stickerSetName = "Test_Sticker_Set";
-            const string stickerSetTitle = "Title_" + stickerSetName;
-
             BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.CreateNewStickerSetAsnyc(
                     userId: _classFixture.OwnerUserId,
-                    name: stickerSetName,
-                    title: stickerSetTitle,
-                    pngSticker: stickerFile,
+                    name: "Test_Sticker_Set",
+                    title: "Sticker Set Title",
+                    pngSticker: new FileToSend(_classFixture.UploadedStickers.First().FileId),
                     emojis: "😀"
                 )
             );
@@ -130,9 +128,65 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Assert.IsType<InvalidStickerSetNameException>(exception);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerEmojisException)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [ExecutionOrder(2.3)]
+        public async Task Should_Throw_InvalidStickerEmojisException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerEmojisException);
+
+            string stickerSetName = $"test_stickers_by_{_fixture.BotUser.Username}";
+
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+                BotClient.CreateNewStickerSetAsnyc(
+                    userId: _classFixture.OwnerUserId,
+                    name: stickerSetName,
+                    title: "Sticker Set Title",
+                    pngSticker: new FileToSend(_classFixture.UploadedStickers.First().FileId),
+                    emojis: "☺"
+                )
+            );
+
+            Assert.IsType<InvalidStickerEmojisException>(exception);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [ExecutionOrder(2.4)]
+        public async Task Should_Create_New_Sticker_Set()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldCreateNewStickerSet);
+
+            const string stickerSetTitle = "Test Sticker Set";
+            string stickerSetName = $"test_by_{_fixture.BotUser.Username}";
+            FileToSend gnuStickerFile = new FileToSend(_classFixture.UploadedStickers.First().FileId);
+            const string gnuStickerEmoji = "😁";
+
+            bool result;
+            try
+            {
+                result = await BotClient.CreateNewStickerSetAsnyc(
+                    userId: _classFixture.OwnerUserId,
+                    name: stickerSetName,
+                    title: stickerSetTitle,
+                    pngSticker: gnuStickerFile,
+                    emojis: gnuStickerEmoji
+                );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            Assert.True(result);
+
+            //Assert.Equal("Bad Request: sticker set name is already occupied", e.Message);
+        }
+
         [Fact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [ExecutionOrder(2.2)]
+        [ExecutionOrder(5.3)]
         public async Task Should_Throw_StickerSetNameExistsException2()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowStickerSetNameExistsException);
@@ -155,10 +209,10 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         }
 
-        [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
+        //[Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [ExecutionOrder(2.2)]
-        public async Task Should_Create_New_Sticker_Set()
+        [ExecutionOrder(5.2)]
+        public async Task Should_Create_New_Sticker_Set2()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldCreateNewStickerSet);
 
@@ -214,10 +268,11 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
         */
 
+
         // ToDo: add more stickers to set
         [Fact(DisplayName = FactTitles.ShouldAddStickerToSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AddStickerToSet)]
-        [ExecutionOrder(2.3)]
+        [ExecutionOrder(5.3)]
         public async Task Should_Add_Sticker_To_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAddStickerToSet);
@@ -233,7 +288,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         [Fact(DisplayName = FactTitles.ShouldSetStickerPositionInSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetStickerPositionInSet)]
-        [ExecutionOrder(2.4)]
+        [ExecutionOrder(5.4)]
         public async Task Should_Should_Set_Sticker_Position_In_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetStickerPositionInSet);
@@ -278,12 +333,15 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
             public const string ShouldUploadStickerFile = "Should upload a sticker file to get file_id";
 
+            public const string ShouldThrowInvalidStickerEmojisException =
+                "Should throw InvalidStickerEmojisException while trying to create sticker with invalid emoji";
+
             public const string ShouldThrowInvalidStickerSetNameException =
                 "Should throw InvalidStickerSetNameException while trying to create sticker set with name not ending in _by_<bot username>";
 
-            public const string ShouldThrowStickerSetNameExistsException = "Should throw StickerSetNameExistsException while trying to create sticker set with the same name";
-
             public const string ShouldCreateNewStickerSet = "Should create new sticker set with file sent";
+
+            public const string ShouldThrowStickerSetNameExistsException = "Should throw StickerSetNameExistsException while trying to create sticker set with the same name";
 
             public const string ShouldCreateNewMasksStickerSet = "Should create new masks sticker set with file sent";
 
