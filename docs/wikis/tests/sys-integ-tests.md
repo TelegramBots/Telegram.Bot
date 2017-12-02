@@ -126,7 +126,7 @@ If not set, before starting any test method, bot waits for a tester to send it a
 
 This token is **required** for any test case regarding payments and must be provided before starting tests.
 
-Consult Telegram API documentations and talk to BotFather to get a test token from a payment provider.
+Consult Telegram API documentations and talk to BotFather to get a test token from a payment provider. An easy way to setup a test account might be using the [Stripe TEST Mode](https://core.telegram.org/bots/payments#testing-payments-the-stripe-test-mode-provider).
 
 ```json
 {
