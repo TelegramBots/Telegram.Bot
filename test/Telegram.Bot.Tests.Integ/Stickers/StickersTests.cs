@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Common;
@@ -27,47 +26,11 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             _fixture = _classFixture.TestsFixture;
         }
 
-        #region 1. Get and send stickers from a set
-
-        [Fact(DisplayName = FactTitles.ShouldGetStickerSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetStickerSet)]
-        [ExecutionOrder(1.1)]
-        public async Task Should_Get_Sticker_Set()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetStickerSet);
-            const string setName = "EvilMinds";
-            StickerSet stickerSet = await BotClient.GetStickerSetAsync(setName);
-
-            Assert.Equal(setName, stickerSet.Name);
-            Assert.Equal("Evil Minds", stickerSet.Title);
-            Assert.False(stickerSet.ContainsMasks);
-            Assert.NotEmpty(stickerSet.Stickers);
-            Assert.True(20 < stickerSet.Stickers.Count);
-            // ToDo: Add more asserts
-
-            _classFixture.StickerSet = stickerSet;
-        }
-
-        [Fact(DisplayName = FactTitles.ShouldSendSticker)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendSticker)]
-        [ExecutionOrder(1.2)]
-        public async Task Should_Send_Sticker()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendSticker);
-            FileToSend stickerFile = new FileToSend(_classFixture.StickerSet.Stickers[0].FileId);
-
-            Message message = await _fixture.BotClient.SendStickerAsync(_fixture.SuperGroupChatId, stickerFile);
-
-            Assert.Equal(MessageType.StickerMessage, message.Type);
-            Assert.Equal(stickerFile.FileId, message.Sticker.FileId);
-        }
-        #endregion
-
-        #region 2. Create sticker set
+        #region 1. Create sticker set
 
         [Fact(DisplayName = FactTitles.ShouldUploadStickerFile)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UploadStickerFile)]
-        [ExecutionOrder(2.1)]
+        [ExecutionOrder(1.1)]
         public async Task Should_Upload_Stickers()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
@@ -83,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 using (var stream = System.IO.File.OpenRead(stikers[stickerName]))
                 {
                     file = await BotClient.UploadStickerFileAsync(
-                        _classFixture.UserId,
+                        _classFixture.ChatId,
                         stream.ToFileToSend(stickerName)
                     ).ConfigureAwait(false);
                 }
@@ -97,22 +60,23 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [ExecutionOrder(2.2)]
+        [ExecutionOrder(1.2)]
         public async Task Should_Create_New_Sticker_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldCreateNewStickerSet);
 
             try
             {
-                FileToSend stickerFile = new FileToSend(_classFixture.UploadedStickers[0].FileId);
-                _classFixture.StickerPackName = $"stickers_test_by_{_fixture.BotUser.Username}";
+                var stickerFile = new FileToSend(_classFixture.UploadedStickers[0].FileId);
+                var stickerPackName = string.Format(Constants.StickerPackName, _fixture.BotUser.Username);
+                var stickerPackTitle = string.Format(Constants.StickerPackTitle, _fixture.BotUser.Username);
 
                 bool result = await BotClient.CreateNewStickerSetAsnyc(
-                     _classFixture.UserId,
-                     _classFixture.StickerPackName,
-                     _classFixture.StickerPackName,
-                     stickerFile,
-                     Constants.SmilingFaceEmoji);
+                    _classFixture.ChatId,
+                    stickerPackName,
+                    stickerPackTitle,
+                    stickerFile,
+                    Constants.SmilingFaceEmoji);
 
                 Assert.True(result);
             }
@@ -123,7 +87,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             }
         }
 
-        // ToDo: Create sticker with mask positions
         /*
         [Fact(DisplayName = FactTitles.ShouldCreateNewMasksStickerSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
@@ -154,60 +117,113 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
         */
 
-        // ToDo: add more stickers to set
         [Fact(DisplayName = FactTitles.ShouldAddStickerToSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AddStickerToSet)]
-        [ExecutionOrder(2.3)]
+        [ExecutionOrder(1.4)]
         public async Task Should_Add_Sticker_To_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAddStickerToSet);
-            FileToSend stickerFile = new FileToSend(_classFixture.UploadedStickers[1].FileId);
 
-            bool result = await BotClient.AddStickerToSetAsync(
-                 _classFixture.UserId,
-                 _classFixture.StickerPackName,
-                 stickerFile,
-                 Constants.ThinkingFaceEmoji);
-            Assert.True(result);
+            foreach (var sticker in _classFixture.UploadedStickers)
+            {
+                var stickerFile = new FileToSend(sticker.FileId);
+                var stickerPackName = string.Format(Constants.StickerPackName, _fixture.BotUser.Username);
+
+                bool result = await BotClient.AddStickerToSetAsync(
+                    _classFixture.ChatId,
+                    stickerPackName,
+                    stickerFile,
+                    Constants.ThinkingFaceEmoji);
+
+                Assert.True(result);
+            }
+            await Task.Delay(30_000);
         }
+
+        #endregion
+
+        #region 2. Get and send stickers from a set
+
+        [Fact(DisplayName = FactTitles.ShouldGetStickerSet)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetStickerSet)]
+        [ExecutionOrder(2.1)]
+        public async Task Should_Get_Sticker_Set()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetStickerSet);
+            var stickerPackName = string.Format(Constants.StickerPackName, _fixture.BotUser.Username);
+            var stickerPackTitle = string.Format(Constants.StickerPackTitle, _fixture.BotUser.Username);
+
+            StickerSet stickerSet = await BotClient.GetStickerSetAsync(stickerPackName);
+
+            Assert.Equal(stickerPackName, stickerSet.Name);
+            Assert.Equal(stickerPackTitle, stickerSet.Title);
+            Assert.False(stickerSet.ContainsMasks);
+            Assert.NotEmpty(stickerSet.Stickers);
+            Assert.True(2 <= stickerSet.Stickers.Count);
+            // ToDo: Add more asserts
+
+            _classFixture.StickerSet = stickerSet;
+            await BotClient.SendTextMessageAsync(
+                _classFixture.TesterPrivateChatId,
+                $"User sticker set: https://t.me/addstickers/{stickerSet.Name}");
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldSendSticker)]
+        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendSticker)]
+        [ExecutionOrder(2.2)]
+        public async Task Should_Send_Sticker()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendSticker);
+
+            Assert.NotNull(_classFixture.StickerSet);
+
+            var sticker = new FileToSend(_classFixture.StickerSet.Stickers[0].FileId);
+
+            Message message = await _fixture.BotClient.SendStickerAsync(_classFixture.TesterPrivateChatId, sticker);
+
+            Assert.Equal(MessageType.StickerMessage, message.Type);
+            Assert.Equal(sticker.FileId, message.Sticker.FileId);
+        }
+
+        #endregion
+
+        #region 3. Set position and delete stickers from a set
 
         [Fact(DisplayName = FactTitles.ShouldSetStickerPositionInSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetStickerPositionInSet)]
-        [ExecutionOrder(2.4)]
+        [ExecutionOrder(3.1)]
         public async Task Should_Should_Set_Sticker_Position_In_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetStickerPositionInSet);
 
+            Assert.NotNull(_classFixture.StickerSet);
+
+            var sticker = _classFixture.StickerSet.Stickers[1].FileId;
+
             bool result = await BotClient.SetStickerPositionInSetAsync(
-                _classFixture.UploadedStickers[1].FileId,
+                sticker,
                 0);
 
             Assert.True(result);
         }
 
-        // ToDo: Keep file_id of all sent stickers and delete them from sticker set at the end of tests
-        /*
         [Fact(DisplayName = FactTitles.ShouldDeleteStickerFromSet)]
         [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.DeleteStickerFromSet)]
-        [ExecutionOrder(2.5)]
+        [ExecutionOrder(3.2)]
         public async Task Should_Delete_Sticker_From_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteStickerFromSet).ConfigureAwait(false);
 
-            foreach (var stickerFile in _classFixture.UploadedStickers)
+            Assert.NotNull(_classFixture.StickerSet);
+
+            foreach (var sticker in _classFixture.StickerSet.Stickers)
             {
-                try
-                {
-                    string stickerFileId = stickerFile.FileId;
+                bool result = await BotClient.DeleteStickerFromSetAsync(sticker.FileId).ConfigureAwait(false);
 
-                    bool result = await BotClient.DeleteStickerFromSetAsync(stickerFileId).ConfigureAwait(false);
-
-                    Assert.True(result);
-                }
-                catch (ApiRequestException e) { }
+                Assert.True(result);
             }
         }
-        */
+
         #endregion
 
         private static class FactTitles
@@ -231,7 +247,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         private static class Constants
         {
-            //public const string StickerPackName = "test_by_{0}";
+            public const string StickerPackName = "stickers_test_2_by_{0}";
+
+            public const string StickerPackTitle = "Stickers Test by {0}";
 
             public const string SmilingFaceEmoji = "😀";
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Stickers
 {
@@ -10,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         public List<File> UploadedStickers { get; set; } = new List<File>();
 
-        public string StickerPackName { get; set; }
+        public int ChatId => (int)TesterPrivateChatId.Identifier;
 
-        public int UserId { get; }
+        public ChatId TesterPrivateChatId { get; }
 
         public TestsFixture TestsFixture { get; }
 
@@ -20,7 +21,25 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             TestsFixture = testsFixture;
 
-            UserId = (int)ConfigurationProvider.TestConfigurations.TesterPrivateChatId;
+            var privateChatId = ConfigurationProvider.TestConfigurations.TesterPrivateChatId;
+            if (privateChatId is null)
+            {
+                TestsFixture.SendTestCollectionNotificationAsync(
+                        CommonConstants.TestCollections.Stickers,
+                        "A tester should send /test command in a private chat to begin")
+                    .Wait();
+
+                TestsFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
+                TesterPrivateChatId = TestsFixture.GetChatIdFromTesterAsync(ChatType.Private).Result;
+            }
+            else
+            {
+                TesterPrivateChatId = privateChatId;
+
+                TestsFixture.SendTestCollectionNotificationAsync(CommonConstants.TestCollections.Stickers,
+                    "All messages for this collection will be sent in private chat")
+                    .Wait();
+            }
         }
     }
 }
