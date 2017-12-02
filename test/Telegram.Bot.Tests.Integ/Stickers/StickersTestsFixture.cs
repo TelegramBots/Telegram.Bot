@@ -6,11 +6,13 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 {
     public class StickersTestsFixture
     {
-        public StickerSet StickerSet { get; set; }
+        public StickerSet EvilMindsStickerSet { get; set; }
 
         public IEnumerable<File> UploadedStickers { get; set; }
 
-        public string StickerSetName { get; set; }
+        public string TestStickerSetName { get; }
+
+        public StickerSet TestStickerSet { get; set; }
 
         public int OwnerUserId { get; }
 
@@ -20,6 +22,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             TestsFixture = testsFixture;
 
+            TestStickerSetName = $"test0_by_{testsFixture.BotUser.Username}";
             int? ownerUserId = ConfigurationProvider.TestConfigurations.StickerOwnerUserId;
             if (ownerUserId == default)
             {

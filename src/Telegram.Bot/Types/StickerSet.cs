@@ -34,6 +34,6 @@ namespace Telegram.Bot.Types
         /// List of all set stickers
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public List<Sticker> Stickers { get; set; } = new List<Sticker>();
+        public List<Sticker> Stickers { get; set; } = new List<Sticker>(); // ToDo: To IEnumerable
     }
 }

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Exception `InvalidStickerSetNameException`
 - Exception `InvalidStickerEmojisException`
 - Exception `InvalidStickerDimensionsException`
+- Exception `StickerSetNameExistsException`
 
 ## [13.4.0-rc2] - 2017-11-26
 
