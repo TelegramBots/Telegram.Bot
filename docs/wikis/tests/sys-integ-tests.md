@@ -29,9 +29,9 @@ in test configurations before hand.
 
 All the tests happen in 3 kind of chats. Super Group, Channel, and a Private chat with one of the testers.
 
-Test cases that need tester's interaction to continue, have a limit of usually 2 minues to wait for receving an expected update from API.
+Test cases that need tester's interaction to continue, have a limit of usually 2 minutes to wait for receiving an expected update from API.
 
-Tests could be run individually, in collections, or all at once. All the test collection and test cases whithin them are ordered and tests will not run in parallel.
+Tests could be run individually, in collections, or all at once. All the test collection and test cases within them are ordered and tests will not run in parallel.
 
 ## Test Environment Setup
 
@@ -148,9 +148,21 @@ Invoices could only be sent to private chats. If not set, bot will wait for a te
 }
 ```
 
+#### Stickers
+
+Sticker sets need to have an owner. Owner is usually the main tester in group that can then manage his/her sticker sets using `@Stickers` bot.
+
+```json
+{
+    /* ... */
+    "StickerOwnerUserId": 1234567890
+    /* ... */
+}
+```
+
 #### Chat Administration
 
-For this type of tests, bot should be a priviledged admin of that super group. Methods such as kick or unban will be performed on a regular (non-admin) tester in that chat.
+For this type of tests, bot should be a privileged admin of that super group. Methods such as kick or unban will be performed on a regular (non-admin) tester in that chat.
 
 If the following 3 settings are not set, bot will ask a tester to send it `/me` command in a private chat with bot.
 

@@ -110,6 +110,16 @@
             public const string SendSticker = "sendSticker";
 
             public const string SendMediaGroup = "sendMediaGroup";
+
+            public const string UploadStickerFile = "uploadStickerFile";
+
+            public const string CreateNewStickerSet = "createNewStickerSet";
+
+            public const string AddStickerToSet = "addStickerToSet";
+
+            public const string SetStickerPositionInSet = "setStickerPositionInSet";
+
+            public const string DeleteStickerFromSet = "deleteStickerFromSet";
         }
     }
 }

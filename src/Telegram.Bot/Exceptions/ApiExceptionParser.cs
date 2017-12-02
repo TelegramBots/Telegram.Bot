@@ -9,16 +9,21 @@ namespace Telegram.Bot.Exceptions
     {
         private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
-            new BadRequestExceptionInfo<UserNotFoundException>("USER_ID_INVALID"),
+            new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
+            new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
+
+            #region Stickers
+
+            new BadRequestExceptionInfo<InvalidStickerSetNameException>("sticker set name invalid"),
+            new BadRequestExceptionInfo<InvalidStickerEmojisException>("invalid sticker emojis"),
+            new BadRequestExceptionInfo<InvalidStickerDimensionsException>("STICKER_PNG_DIMENSIONS"),
+            new BadRequestExceptionInfo<StickerSetNameExistsException>("sticker set name is already occupied"),
+
+            #endregion
+
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
-
-            #region Changed in API
-
-            new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
-            
-            #endregion
         };
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)

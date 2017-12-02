@@ -2,15 +2,15 @@
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when the chat does not exist
+    /// The exception that is thrown when the sticker set is invalid
     /// </summary>
-    public class ContactRequestException : BadRequestException
+    public class InvalidStickerEmojisException : BadRequestException
     {
         /// <summary>
-        /// Initializes a new object of the <see cref="ChatNotFoundException"/> class
+        /// Initializes a new object of the <see cref="InvalidStickerEmojisException"/> class
         /// </summary>
         /// <param name="message">The error message of this exception.</param>
-        public ContactRequestException(string message)
+        public InvalidStickerEmojisException(string message)
             : base(message)
         {
         }

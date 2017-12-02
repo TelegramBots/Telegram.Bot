@@ -24,13 +24,15 @@ namespace Telegram.Bot.Tests.Integ.Common
             }
         }
 
+        public string SuperGroupChatId { get; set; }
+
+        public string ChannelChatId { get; set; }
+
         public string PaymentProviderToken { get; set; }
 
         public long? TesterPrivateChatId { get; set; }
 
-        public string SuperGroupChatId { get; set; }
-
-        public string ChannelChatId { get; set; }
+        public int? StickerOwnerUserId { get; set; }
 
         public string RegularMemberUserId { get; set; }
 

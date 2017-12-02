@@ -1,4 +1,5 @@
-﻿namespace Telegram.Bot.Exceptions
+﻿// ReSharper disable once CheckNamespace
+namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when the user does not exist
