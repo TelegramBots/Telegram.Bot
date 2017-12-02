@@ -9,6 +9,10 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         public File UploadedSticker { get; set; }
 
+        //public bool ShouldCreateStickerPack { get; set; } = false;
+
+        public string StickerPackName { get; set; }
+
         public TestsFixture TestsFixture { get; }
 
         public StickersTestsFixture(TestsFixture testsFixture)

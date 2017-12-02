@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             );
 
             Message contactMessage = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.ReplyToMessage?.MessageId == message.MessageId &&
+                    u.Message.Chat.Id == _classFixture.TesterPrivateChatId.Identifier &&
                     u.Message.Type == MessageType.ContactMessage,
                 updateTypes: UpdateType.MessageUpdate)).First().Message;
 
