@@ -9,22 +9,22 @@ namespace Telegram.Bot.Tests.Integ.Common
     public class TestCollectionOrderer : ITestCollectionOrderer
     {
         private readonly string[] _orderedCollections = {
-            CommonConstants.TestCollections.GettingUpdates,
-            CommonConstants.TestCollections.TextMessage,
-            CommonConstants.TestCollections.MultimediaMessage,
-            CommonConstants.TestCollections.MessageReplyMarkup,
-            CommonConstants.TestCollections.InlineQuery,
-            CommonConstants.TestCollections.CallbackQuery,
-            CommonConstants.TestCollections.AlbumMessage,
-            CommonConstants.TestCollections.UpdateMessage,
-            CommonConstants.TestCollections.LiveLocations,
-            CommonConstants.TestCollections.Payment,
-            CommonConstants.TestCollections.Stickers,
-            CommonConstants.TestCollections.ChatInformation,
-            CommonConstants.TestCollections.SuperGroupAdminBots,
-            CommonConstants.TestCollections.ChannelAdminBots,
-            CommonConstants.TestCollections.ChatMemberAdministration,
-            CommonConstants.TestCollections.Exceptions,
+            Constants.TestCollections.GettingUpdates,
+            Constants.TestCollections.TextMessage,
+            Constants.TestCollections.MultimediaMessage,
+            Constants.TestCollections.MessageReplyMarkup,
+            Constants.TestCollections.InlineQuery,
+            Constants.TestCollections.CallbackQuery,
+            Constants.TestCollections.AlbumMessage,
+            Constants.TestCollections.UpdateMessage,
+            Constants.TestCollections.LiveLocations,
+            Constants.TestCollections.Payment,
+            Constants.TestCollections.Stickers,
+            Constants.TestCollections.ChatInformation,
+            Constants.TestCollections.SuperGroupAdminBots,
+            Constants.TestCollections.ChannelAdminBots,
+            Constants.TestCollections.ChatMemberAdministration,
+            Constants.TestCollections.Exceptions,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

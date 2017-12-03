@@ -1,6 +1,6 @@
 ﻿namespace Telegram.Bot.Tests.Integ.Common
 {
-    public static class CommonConstants
+    public static class Constants
     {
         public const string CategoryTraitName = "Category";
 
@@ -45,6 +45,40 @@
             public const string LiveLocations = "Live locations";
 
             public const string AlbumMessage = "Sending Album Messages";
+        }
+
+        public static class FileNames
+        {
+            private const string FilesDir = "Files/";
+
+            public static class Documents
+            {
+                private const string DocumentDir = FilesDir + "Document/";
+
+                public const string Hamlet = DocumentDir + "hamlet.pdf";
+            }
+
+            public static class Photos
+            {
+                private const string PhotoDir = FilesDir + "Photo/";
+
+                public const string Bot = PhotoDir + "bot.gif";
+
+                public const string Logo = PhotoDir + "logo.png";
+
+                public const string Gnu = PhotoDir + "gnu.png";
+
+                public const string Tux = PhotoDir + "tux.png";
+            }
+
+            public static class Videos
+            {
+                private const string VideoDir = FilesDir + "Video/";
+
+                public const string GoldenRatio = VideoDir + "golden-ratio-240px.mp4";
+
+                public const string MoonLanding = VideoDir + "moon-landing.mp4";
+            }
         }
 
         public static class TelegramBotApiMethods

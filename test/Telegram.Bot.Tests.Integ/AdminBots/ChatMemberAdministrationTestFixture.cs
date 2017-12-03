@@ -44,12 +44,12 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
                 RegularMemberPrivateChatId = ConfigurationProvider.TestConfigurations.RegularMemberPrivateChatId;
 
                 TestsFixture.SendTestCollectionNotificationAsync(
-                    CommonConstants.TestCollections.ChatMemberAdministration).Wait();
+                    Constants.TestCollections.ChatMemberAdministration).Wait();
             }
             else
             {
                 TestsFixture.SendTestCollectionNotificationAsync(
-                        CommonConstants.TestCollections.ChatMemberAdministration,
+                        Constants.TestCollections.ChatMemberAdministration,
                         "A non-admin chat member should send /me command so bot can use his/her user id during tests")
                     .Wait();
 
@@ -71,7 +71,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         private async Task<Message> GetRegularGroupChatMemberUserIdAsync()
         {
-            var update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
+            Update update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Supergroup &&
                     u.Message.Text?.StartsWith("/me", StringComparison.OrdinalIgnoreCase) == true,
                 updateTypes: UpdateType.MessageUpdate)).Single();
@@ -83,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         private async Task<Message> GetRegularMemberPrivateChatIdAsync(ChatId userid)
         {
-            var update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
+            Update update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Private &&
                     u.Message.From.Id.ToString() == userid.ToString() &&
                     u.Message.Text?.StartsWith("/me", StringComparison.OrdinalIgnoreCase) == true,

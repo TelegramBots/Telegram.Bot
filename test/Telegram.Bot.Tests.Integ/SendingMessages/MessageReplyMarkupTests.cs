@@ -8,8 +8,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
-    [Collection(CommonConstants.TestCollections.MessageReplyMarkup)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.MessageReplyMarkup)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class MessageReplyMarkupTests : IClassFixture<MessageReplyMarkupTestsFixture>
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -25,7 +25,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         }
 
         [Fact(DisplayName = FactTitles.ShouldReceiveContactInfo)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1)]
         public async Task Should_Receive_Contact_Info()
         {

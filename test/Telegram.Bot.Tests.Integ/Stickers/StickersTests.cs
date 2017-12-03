@@ -11,8 +11,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Stickers
 {
-    [Collection(CommonConstants.TestCollections.Stickers)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.Stickers)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class StickersTests : IClassFixture<StickersTestsFixture>
     {
         private readonly StickersTestsFixture _classFixture;
@@ -30,7 +30,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         #region 1. Get and send stickers from a set
 
         [Fact(DisplayName = FactTitles.ShouldGetStickerSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [ExecutionOrder(1.1)]
         public async Task Should_Get_Sticker_Set()
         {
@@ -51,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendSticker)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendSticker)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendSticker)]
         [ExecutionOrder(1.2)]
         public async Task Should_Send_Sticker()
         {
@@ -80,14 +80,14 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         #region 2. Create sticker set
 
         [Fact(DisplayName = FactTitles.ShouldUploadStickerFile)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UploadStickerFile)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UploadStickerFile)]
         [ExecutionOrder(2.1)]
         public async Task Should_Upload_Stickers()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
 
             List<File> stickerFiles = new List<File>(2);
-            foreach (string pngFile in new[] { "Files/photo/gnu.png", "Files/photo/tux.png" })
+            foreach (string pngFile in new[] { Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux })
             {
                 File file;
                 using (System.IO.Stream stream = System.IO.File.OpenRead(pngFile))
@@ -108,7 +108,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerSetNameException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         [ExecutionOrder(2.2)]
         public async Task Should_Throw_InvalidStickerSetNameException()
         {
@@ -128,7 +128,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerEmojisException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         [ExecutionOrder(2.3)]
         public async Task Should_Throw_InvalidStickerEmojisException()
         {
@@ -148,14 +148,14 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerDimensionsException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         [ExecutionOrder(2.4)]
         public async Task Should_Throw_InvalidStickerDimensionsException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerDimensionsException);
 
             BadRequestException exception;
-            using (System.IO.Stream stream = System.IO.File.OpenRead("Files/photo/logo.png"))
+            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
                 exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                     BotClient.CreateNewStickerSetAsnyc(
@@ -172,8 +172,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
 
         [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [ExecutionOrder(2.5)]
         public async Task Should_Create_New_Sticker_Set()
         {
@@ -214,7 +214,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         [ExecutionOrder(2.6)]
         public async Task Should_Throw_StickerSetNameExistsException()
         {
@@ -238,7 +238,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         #region 3. Edit sticker set
 
         [Fact(DisplayName = FactTitles.ShouldAddStickerFileToSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AddStickerToSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AddStickerToSet)]
         [ExecutionOrder(3.1)]
         public async Task Should_Add_Uploaded_Sticker_File_To_Set()
         {
@@ -257,7 +257,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         // ToDo: 3.2: add a sticker from EvilMinds to Test set
 
         //[Fact(DisplayName = FactTitles.ShouldSetStickerPositionInSet)]
-        //[Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SetStickerPositionInSet)]
+        //[Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetStickerPositionInSet)]
         //[ExecutionOrder(3.3)]
         //public async Task Should_Should_Set_Sticker_Position_In_Set()
         //{
@@ -271,7 +271,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         //}
 
         [Fact(DisplayName = FactTitles.ShouldRemoveStickersFromSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.DeleteStickerFromSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
         [ExecutionOrder(3.5)]
         public async Task Remove_All_Stickers_From_Set()
         {
@@ -292,7 +292,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         // ToDo: Create sticker with mask positions
         /*
         [Fact(DisplayName = FactTitles.ShouldCreateNewMasksStickerSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.CreateNewStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         [ExecutionOrder(2.3)]
         public async Task Should_Create_New_Masks_Sticker_Set()
         {
@@ -322,7 +322,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         // ToDo: Keep file_id of all sent stickers and delete them from sticker set at the end of tests
         /*
         [Fact(DisplayName = FactTitles.ShouldRemoveStickersFromSet)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.DeleteStickerFromSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
         [ExecutionOrder(2.5)]
         public async Task Should_Delete_Sticker_From_Set()
         {

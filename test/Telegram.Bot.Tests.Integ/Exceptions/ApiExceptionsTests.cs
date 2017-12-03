@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Exceptions
 {
-    [Collection(CommonConstants.TestCollections.Exceptions)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.Exceptions)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(2)]
         public async Task Should_Throw_Exception_InvalidUserIdException()
         {
@@ -49,7 +49,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionChatNotInitiatedException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(3)]
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
@@ -69,7 +69,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(4)]
         public async Task Should_Throw_Exception_ContactRequestException()
         {
