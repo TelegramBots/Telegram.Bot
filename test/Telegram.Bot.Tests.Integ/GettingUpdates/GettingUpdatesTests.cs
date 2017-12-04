@@ -6,8 +6,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.GettingUpdates
 {
-    [Collection(CommonConstants.TestCollections.GettingUpdates)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.GettingUpdates)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class GettingUpdatesTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;

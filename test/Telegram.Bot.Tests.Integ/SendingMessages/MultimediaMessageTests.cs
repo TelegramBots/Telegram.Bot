@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
-    [Collection(CommonConstants.TestCollections.MultimediaMessage)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.MultimediaMessage)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class MultimediaMessageTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         // ToDo: Should Send Photo. Add its file_id to class fixture to be used in the next test
 
         [Fact(DisplayName = FactTitles.ShouldSendPhotoUsingFileId)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendPhoto)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         [ExecutionOrder(1)]
         public async Task Should_Send_Photo_Using_FileId()
         {
@@ -35,9 +35,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             Message message, message2;
 
-            using (var stream = new FileStream("Files/Photo/bot.gif", FileMode.Open))
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
             {
-                message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId, stream.ToFileToSend("logo.png"),
+                message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId, stream.ToFileToSend("bot.gif"),
                     "👆 This is a\nTelegram Bot");
             }
             message2 = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
@@ -52,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         #region 2. Sending videos
 
         [Fact(DisplayName = FactTitles.ShouldSendVideo)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendVideo)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideo)]
         [ExecutionOrder(2.1)]
         public async Task Should_Send_Video()
         {
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             const string mimeType = "video/mp4";
 
             Message message;
-            using (var stream = new FileStream("Files/Video/moon-landing.mp4", FileMode.Open))
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding))
             {
                 message = await BotClient.SendVideoAsync(_fixture.SuperGroupChatId,
                     new FileToSend("moon-landing.mp4", stream), duration, width, height, caption);
@@ -80,7 +80,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendVideoNote)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendVideoNote)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideoNote)]
         [ExecutionOrder(2.2)]
         public async Task Should_Send_Video_Note()
         {
@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             const int widthAndHeight = 240;
 
             Message message;
-            using (var stream = new FileStream("Files/Video/golden-ratio-240px.mp4", FileMode.Open))
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio))
             {
                 message = await BotClient.SendVideoNoteAsync(_fixture.SuperGroupChatId,
                     new FileToSend("golden-ratio.mp4", stream), duration, widthAndHeight);
@@ -108,7 +108,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         #region 3. Sending documents
 
         [Fact(DisplayName = FactTitles.ShouldSendPdf)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendDocument)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
         [ExecutionOrder(3.1)]
         public async Task Should_Send_Pdf_Document()
         {
@@ -120,7 +120,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             const int fileSize = 256984;
 
             Message message;
-            using (var stream = new FileStream("Files/Document/hamlet.pdf", FileMode.Open))
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
             {
                 message = await BotClient.SendDocumentAsync(_fixture.SuperGroupChatId,
                     new FileToSend(fileName, stream), caption);
@@ -135,7 +135,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendDocumentWithNonAsciiName)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendDocument)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
         [ExecutionOrder(3.1)]
         public async Task Should_Send_Document_With_Farsi_Name()
         {
@@ -147,7 +147,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             const int fileSize = 256984;
 
             Message message;
-            using (var stream = new FileStream("Files/Document/hamlet.pdf", FileMode.Open))
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
             {
                 message = await BotClient.SendDocumentAsync(_fixture.SuperGroupChatId,
                     new FileToSend(fileName, stream), caption);
@@ -166,7 +166,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         #region 4. Parsing caption entities
 
         [Fact(DisplayName = FactTitles.ShouldParseMessageCaptionEntitiesIntoValues)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendPhoto)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         [ExecutionOrder(4)]
         public async Task Should_Parse_Message_Caption_Entities_Into_Values()
         {
@@ -182,7 +182,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             };
 
             Message message;
-            using (var stream = new FileStream("Files/Photo/logo.png", FileMode.Open))
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
                 message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
                     new FileToSend("logo.png", stream), string.Join("\n", values));

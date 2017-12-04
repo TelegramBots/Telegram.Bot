@@ -6,8 +6,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.ChatInformation
 {
-    [Collection(CommonConstants.TestCollections.ChatInformation)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.ChatInformation)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChatInfoTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.ChatInformation
         }
 
         [Fact(DisplayName = FactTitles.ShouldGetSupergroupChatInfo)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.GetChat)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         [ExecutionOrder(1)]
         public async Task Should_Get_Supergroup_Chat_Info()
         {

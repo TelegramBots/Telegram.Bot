@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
-    [Collection(CommonConstants.TestCollections.AlbumMessage)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.AlbumMessage)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class AlbumMessageTests : IClassFixture<AlbumsTestFixture>
     {
         private readonly AlbumsTestFixture _classFixture;
@@ -28,7 +28,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         #region Photo-Only Albums
 
         [Fact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMediaGroup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         [ExecutionOrder(1.1)]
         public async Task Should_Upload_2_Photos_Album()
         {
@@ -38,8 +38,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             Message[] messages;
             using (Stream
-                stream1 = new FileStream("Files/Photo/logo.png", FileMode.Open),
-                stream2 = new FileStream("Files/Photo/bot.gif", FileMode.Open))
+                stream1 = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo),
+                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+            )
             {
                 InputMediaBase[] inputMedia = {
                     new InputMediaPhoto
@@ -70,7 +71,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMediaGroup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         [ExecutionOrder(1.2)]
         public async Task Should_Send_3_Photos_Album_Using_FileId()
         {
@@ -94,14 +95,17 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
         }
 
+        /// <remarks>
+        /// URLs have a redundant query string to make sure Telegram doesn't use cached images
+        /// </remarks>
         [Fact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMediaGroup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         [ExecutionOrder(1.3)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
-            const string url = "http://lorempixel.com/400/600";
+            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
             int replyToMessageId = _classFixture.PhotoMessages.First().MessageId;
 
             Random rnd = new Random();
@@ -110,10 +114,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 chatId: _fixture.SuperGroupChatId,
                 media: Enumerable.Range(0, 2)
                     .Select(_ => rnd.Next(100_000_000))
-                    // Use [redundant] query string to make sure tg doesn't use cached images
                     .Select(number => new InputMediaPhoto
                     {
-
                         Media = new InputMediaType($"{url}?q={number}")
                     }),
                 replyToMessageId: replyToMessageId
@@ -129,7 +131,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         #region Video Albums
 
         [Fact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMediaGroup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         [ExecutionOrder(2.1)]
         public async Task Should_Upload_2_Videos_Album()
         {
@@ -142,9 +144,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             Message[] messages;
             using (Stream
-                stream0 = new FileStream("Files/Video/golden-ratio-240px.mp4", FileMode.Open),
-                stream1 = new FileStream("Files/Video/moon-landing.mp4", FileMode.Open),
-                stream2 = new FileStream("Files/Photo/bot.gif", FileMode.Open)
+                stream0 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
+                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding),
+                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
             )
             {
                 InputMediaBase[] inputMedia = {

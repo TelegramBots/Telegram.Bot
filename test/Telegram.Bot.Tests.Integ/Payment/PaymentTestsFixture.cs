@@ -34,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             if (privateChatId is null)
             {
                 TestsFixture.SendTestCollectionNotificationAsync(
-                        CommonConstants.TestCollections.Payment,
+                        Constants.TestCollections.Payment,
                         "A tester should send /test command in a private chat to begin")
                     .Wait();
 
@@ -45,11 +45,11 @@ namespace Telegram.Bot.Tests.Integ.Payment
             {
                 TesterPrivateChatId = privateChatId;
 
-                TestsFixture.SendTestCollectionNotificationAsync(CommonConstants.TestCollections.Payment,
+                TestsFixture.SendTestCollectionNotificationAsync(Constants.TestCollections.Payment,
                     "All messages for this collection will be sent in private chat")
                     .Wait();
 
-                TestsFixture.SendTestCollectionNotificationAsync(CommonConstants.TestCollections.Payment, chatid: TesterPrivateChatId)
+                TestsFixture.SendTestCollectionNotificationAsync(Constants.TestCollections.Payment, chatid: TesterPrivateChatId)
                     .Wait();
             }
         }

@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.UpdatingMessages
 {
-    [Collection(CommonConstants.TestCollections.UpdateMessage)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.UpdateMessage)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class UpdateMessageTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -25,8 +25,8 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
         #region 1. Updating messages sent by the bot
 
         [Fact(DisplayName = FactTitles.ShouldEditMessageMarkup)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.EditMessageReplyMarkup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         [ExecutionOrder(1.3)]
         public async Task Should_Edit_Message_Markup()
         {
@@ -62,8 +62,8 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
         #region 2. Updating inline messages(sent via the bot)
 
         [Fact(DisplayName = FactTitles.ShouldEditInlineMessageMarkup)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerInlineQuery)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.EditMessageReplyMarkup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         [ExecutionOrder(2.1)]
         public async Task Should_Edit_Inline_Message_Markup()
         {

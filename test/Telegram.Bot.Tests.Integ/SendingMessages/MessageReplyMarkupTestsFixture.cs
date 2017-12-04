@@ -18,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             if (privateChatId is null)
             {
                 TestsFixture.SendTestCollectionNotificationAsync(
-                        CommonConstants.TestCollections.MessageReplyMarkup,
+                        Constants.TestCollections.MessageReplyMarkup,
                         "A tester should send /test command in a private chat to begin")
                     .Wait();
 
@@ -29,11 +29,11 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             {
                 TesterPrivateChatId = privateChatId;
 
-                TestsFixture.SendTestCollectionNotificationAsync(CommonConstants.TestCollections.MessageReplyMarkup,
+                TestsFixture.SendTestCollectionNotificationAsync(Constants.TestCollections.MessageReplyMarkup,
                     "All messages for this collection will be sent in private chat")
                     .Wait();
 
-                TestsFixture.SendTestCollectionNotificationAsync(CommonConstants.TestCollections.MessageReplyMarkup, chatid: TesterPrivateChatId)
+                TestsFixture.SendTestCollectionNotificationAsync(Constants.TestCollections.MessageReplyMarkup, chatid: TesterPrivateChatId)
                     .Wait();
             }
         }

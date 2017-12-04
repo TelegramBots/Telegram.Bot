@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.LiveLocation
 {
-    [Collection(CommonConstants.TestCollections.LiveLocations)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.LiveLocations)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class LiveLocationsTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,9 +23,9 @@ namespace Telegram.Bot.Tests.Integ.LiveLocation
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendLiveLocations)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendLocation)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.EditMessageLiveLocation)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.StopMessageLiveLocation)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendLocation)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
         [ExecutionOrder(1.1)]
         public async Task Should_Send_Live_Location()
         {
@@ -74,9 +74,9 @@ namespace Telegram.Bot.Tests.Integ.LiveLocation
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithLiveLocation)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerInlineQuery)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.EditMessageLiveLocation)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.StopMessageLiveLocation)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
         [ExecutionOrder(1.2)]
         public async Task Should_Answer_Inline_Query_With_Live_Locations()
         {

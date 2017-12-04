@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.CallbackQuery
 {
-    [Collection(CommonConstants.TestCollections.CallbackQuery)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.CallbackQuery)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class CallbackQueryTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,8 +23,8 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
         }
 
         [Fact(DisplayName = FactTitles.ShouldReceiveAnswerCallbackQuery)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerCallbackQuery)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         [ExecutionOrder(1.1)]
         public async Task Should_Answer_With_Notification()
         {
@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 "Click on *OK* button");
 
             string callbackQueryData = new Random().Next(5_000).ToString();
-            var replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
+            IReplyMarkup replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {
                 new InlineKeyboardCallbackButton("OK", callbackQueryData),
             });
@@ -54,8 +54,8 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerCallbackQueryWithAlert)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerCallbackQuery)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         [ExecutionOrder(1.2)]
         public async Task Should_Answer_With_Alert()
         {
@@ -63,7 +63,7 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
                 "Click on *Notify* button");
 
             string callbackQueryData = new Random().Next(5_000).ToString();
-            var replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
+            IReplyMarkup replyMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
             {
                 new InlineKeyboardCallbackButton("Notify", callbackQueryData),
             });

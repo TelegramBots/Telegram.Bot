@@ -9,8 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Exceptions
 {
-    [Collection(CommonConstants.TestCollections.Exceptions)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.Exceptions)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,33 +23,33 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowChatNotFoundException);
 
-            var e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.SendTextMessageAsync(0, "test"));
 
             Assert.IsType<ChatNotFoundException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowUserNotFoundException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Fact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(2)]
-        public async Task Should_Throw_Exception_UserNotFoundException()
+        public async Task Should_Throw_Exception_InvalidUserIdException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowUserNotFoundException);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
 
-            var e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.PromoteChatMemberAsync(_fixture.SuperGroupChatId, 123456));
 
-            Assert.IsType<UserNotFoundException>(e);
+            Assert.IsType<InvalidUserIdException>(e);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionChatNotInitiatedException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(3)]
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            var e = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
+            ForbiddenException e = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
                 BotClient.SendTextMessageAsync(forwardedMessageUpdate.Message.ForwardFrom.Id,
                 $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"));
 
@@ -69,18 +69,18 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(4)]
         public async Task Should_Throw_Exception_ContactRequestException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionContactRequestException);
 
-            var replyMarkup = new ReplyKeyboardMarkup(new[]
+            ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup(new[]
             {
                 new KeyboardButton("Share Contact") { RequestContact = true },
             });
 
-            var e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId, "You should never see this message",
                 replyMarkup: replyMarkup));
 
@@ -92,8 +92,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             public const string ShouldThrowChatNotFoundException =
                 "Should throw ChatNotFoundException while trying to send message to an invalid chat";
 
-            public const string ShouldThrowUserNotFoundException =
-                "Should throw UserNotFoundException while trying to promote an invalid user id";
+            public const string ShouldThrowInvalidUserIdException =
+                "Should throw InvalidUserIdException while trying to promote an invalid user id";
 
             public const string ShouldThrowExceptionChatNotInitiatedException =
                 "Should throw ChatNotInitiatedException while trying to send message to a user who hasn't " +
