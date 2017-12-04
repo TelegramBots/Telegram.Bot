@@ -71,7 +71,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         public async Task Should_Receive_New_Chat_Member_Notification()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveNewChatMemberNotification,
-                $"@{_classFixture.RegularMemberUserName} should join the group using invite link sent to " +
+                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should join the group using invite link sent to " +
                 "him/her in private chat");
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
@@ -142,7 +142,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberTemporarily,
-                $"@{_classFixture.RegularMemberUserName} should be able to join again in *{banSeconds} seconds* " +
+                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in *{banSeconds} seconds* " +
                 "via the link shared in private chat with him/her");
 
             bool result = await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
