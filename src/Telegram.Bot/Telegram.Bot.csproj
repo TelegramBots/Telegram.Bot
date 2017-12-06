@@ -19,13 +19,8 @@
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <Version Condition="'$(APPVEYOR)' == 'True'">13.4.0-rc2-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
     <VersionPrefix>13.4.0-rc2</VersionPrefix>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin/Debug/documentation.xml</DocumentationFile>
     <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>latest</LangVersion>
+    <DocumentationFile>$(BaseOutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
