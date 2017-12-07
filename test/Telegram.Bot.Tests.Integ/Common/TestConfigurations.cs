@@ -32,6 +32,25 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public long? TesterPrivateChatId { get; set; }
 
+        public string Currency { get; set; }
+
+        public string Prices { get; set; }
+
+        public int[] PricesArray {
+            get
+            {
+                if (_prices == null)
+                {
+                    _prices = Prices
+                        .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                        .Select(price => int.Parse(price.Trim()))
+                        .ToArray();
+                }
+
+                return _prices;
+            }
+        }
+
         public int? StickerOwnerUserId { get; set; }
 
         public string RegularMemberUserId { get; set; }
@@ -41,5 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Common
         public string RegularMemberPrivateChatId { get; set; }
 
         private string[] _allowedUsers;
+
+        private int[] _prices;
     }
 }
