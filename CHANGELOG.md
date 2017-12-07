@@ -7,15 +7,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [13.4.0] - 2017-12-07
+
 ### Added
 
 - `Stickers` test cases
-- `StickerOwnerUserId` parameter to Systems Integration Tests configs
+- `StickerOwnerUserId` parameter to Systems Integration Tests settings
+- Exception `ChatNotFoundException`
+- Exception `ContactRequestException`
+- Exception `InvalidUserIdException`
+- Exception `UserNotFoundException`
 - Exception `InvalidStickerSetNameException`
 - Exception `InvalidStickerEmojisException`
 - Exception `InvalidStickerDimensionsException`
 - Exception `StickerSetNameExistsException`
 - Exception `StickerSetNotModifiedException`
+
+### Changed
+
+- Include XML docs in NuGet package
 
 ## [13.4.0-rc2] - 2017-11-26
 
