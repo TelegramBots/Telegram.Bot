@@ -54,6 +54,13 @@ namespace Telegram.Bot.Tests.Integ.XunitExtensions
                                                                    ITestCollection testCollection,
                                                                    IEnumerable<IXunitTestCase> testCases,
                                                                    CancellationTokenSource cancellationTokenSource)
-            => new XunitTestCollectionRunnerWithAssemblyFixture(assemblyFixtureMappings, testCollection, testCases, DiagnosticMessageSink, messageBus, TestCaseOrderer, new ExceptionAggregator(Aggregator), cancellationTokenSource).RunAsync();
+        {
+            var TestRunner = new XunitTestCollectionRunnerWithAssemblyFixture(assemblyFixtureMappings, testCollection, testCases, DiagnosticMessageSink, messageBus, TestCaseOrderer, new ExceptionAggregator(Aggregator), cancellationTokenSource).RunAsync();
+
+            foreach (var fixture in assemblyFixtureMappings.Values.OfType<TestsFixture>())
+                fixture.TestsSummary = TestRunner.Result;
+
+            return TestRunner;
+        }
     }
 }

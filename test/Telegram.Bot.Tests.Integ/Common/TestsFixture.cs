@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Common
 {
@@ -18,6 +19,8 @@ namespace Telegram.Bot.Tests.Integ.Common
         public string[] AllowedUserNames { get; }
 
         public ChatId SuperGroupChatId { get; }
+
+        public RunSummary TestsSummary { get; set; }
 
         public TestsFixture()
         {
@@ -124,6 +127,20 @@ namespace Telegram.Bot.Tests.Integ.Common
                 ParseMode.Markdown,
                 cancellationToken: source.Token
             ).GetAwaiter().GetResult();
+
+            if (TestsSummary != null)
+            {
+                source = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+                BotClient.SendTextMessageAsync(
+                    SuperGroupChatId,
+                    string.Format(
+                        Constants.TestExecutionResult,
+                        TestsSummary.Total,
+                        TestsSummary.Total - TestsSummary.Failed, ((double)TestsSummary.Total - TestsSummary.Failed) / TestsSummary.Total,
+                        TestsSummary.Failed, (double)TestsSummary.Failed / TestsSummary.Total),
+                    ParseMode.Markdown,
+                    cancellationToken: source.Token).GetAwaiter().GetResult();
+            }
         }
 
         private static class Constants
@@ -133,6 +150,11 @@ namespace Telegram.Bot.Tests.Integ.Common
             public const string StartTestCaseMessageFormat = "🔹 Test Case:\n*{0}*";
 
             public const string InstructionsMessageFormat = "👉 _Instructions_: 👈\n{0}";
+
+            public const string TestExecutionResult =
+                "Total: {0} tests\n" +
+                "✅ {1} passed{2:P1})\n" +
+                "❎ {3} failed({4:P1})";
         }
     }
 }
