@@ -18,6 +18,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<InvalidStickerEmojisException>("invalid sticker emojis"),
             new BadRequestExceptionInfo<InvalidStickerDimensionsException>("STICKER_PNG_DIMENSIONS"),
             new BadRequestExceptionInfo<StickerSetNameExistsException>("sticker set name is already occupied"),
+            new BadRequestExceptionInfo<StickerSetNotModifiedException>("STICKERSET_NOT_MODIFIED"),
 
             #endregion
 

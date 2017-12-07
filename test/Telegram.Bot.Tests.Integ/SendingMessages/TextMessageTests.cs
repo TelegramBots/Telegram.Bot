@@ -7,8 +7,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
-    [Collection(CommonConstants.TestCollections.TextMessage)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.TextMessage)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class TextMessageTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         #region 1. Sending text message
 
         [Fact(DisplayName = FactTitles.ShouldSendTextMessage)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1)]
         public async Task Should_Send_Text_Message()
         {
@@ -42,7 +42,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         #region 2. Parsing text message entities
 
         [Fact(DisplayName = FactTitles.ShouldParseMessageEntities)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(2.1)]
         public async Task Should_Parse_Message_Entities()
         {
@@ -63,7 +63,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         }
 
         [Fact(DisplayName = FactTitles.ShouldPaseMessageEntitiesIntoValues)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(2.2)]
         public async Task Should_Pase_Message_Entities_Into_Values()
         {

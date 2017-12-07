@@ -22,7 +22,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             TestsFixture = testsFixture;
 
-            TestStickerSetName = $"test0_by_{testsFixture.BotUser.Username}";
+            TestStickerSetName = $"test14_by_{testsFixture.BotUser.Username}";
             int? ownerUserId = ConfigurationProvider.TestConfigurations.StickerOwnerUserId;
             if (ownerUserId == default)
             {

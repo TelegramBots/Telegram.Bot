@@ -8,8 +8,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.AdminBots
 {
-    [Collection(CommonConstants.TestCollections.ChatMemberAdministration)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.ChatMemberAdministration)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChatMemberAdministrationTests : IClassFixture<ChatMemberAdministrationTestFixture>
     {
         private readonly TestsFixture _fixture;
@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         #region 1. Kick, Unban, and Invite chat member back
 
         [Fact(DisplayName = FactTitles.ShouldKickChatMemberForEver)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.KickChatMember)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         [ExecutionOrder(1.1)]
         public async Task Should_Kick_Chat_Member_For_Ever()
         {
@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         }
 
         [Fact(DisplayName = FactTitles.ShouldUnbanChatMember)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.UnbanChatMember)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnbanChatMember)]
         [ExecutionOrder(1.2)]
         public async Task Should_Unban_Chat_Member()
         {
@@ -53,7 +53,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         }
 
         [Fact(DisplayName = FactTitles.ShouldExportChatInviteLink)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.ExportChatInviteLink)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
         [ExecutionOrder(1.3)]
         public async Task Should_Export_Chat_Invite_Link()
         {
@@ -71,7 +71,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         public async Task Should_Receive_New_Chat_Member_Notification()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveNewChatMemberNotification,
-                $"@{_classFixture.RegularMemberUserName} should join the group using invite link sent to " +
+                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should join the group using invite link sent to " +
                 "him/her in private chat");
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
@@ -98,7 +98,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         #region 2. Promote and Restrict Chat Member
 
         [Fact(DisplayName = FactTitles.ShouldPromoteUserToChangeChatInfo)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.PromoteChatMember)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         [ExecutionOrder(2.1)]
         public async Task Should_Promote_User_To_Change_Chat_Info()
         {
@@ -113,7 +113,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         }
 
         [Fact(DisplayName = FactTitles.ShouldRestrictSendingStickersTemporarily)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.RestrictChatMember)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RestrictChatMember)]
         [ExecutionOrder(2.2)]
         public async Task Should_Restrict_Sending_Stickers_Temporarily()
         {
@@ -136,13 +136,13 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         #region 3. Kick chat member temporarily
 
         [Fact(DisplayName = FactTitles.ShouldKickChatMemberTemporarily)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.KickChatMember)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         [ExecutionOrder(3)]
         public async Task Should_Kick_Chat_Member_Temporarily()
         {
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberTemporarily,
-                $"@{_classFixture.RegularMemberUserName} should be able to join again in *{banSeconds} seconds* " +
+                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in *{banSeconds} seconds* " +
                 "via the link shared in private chat with him/her");
 
             bool result = await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,

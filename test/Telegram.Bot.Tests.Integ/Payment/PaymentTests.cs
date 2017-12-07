@@ -10,8 +10,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Payment
 {
-    [Collection(CommonConstants.TestCollections.Payment)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.Payment)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PaymentTests : IClassFixture<PaymentTestsFixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendInvoice)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [ExecutionOrder(1.1)]
         public async Task Should_Send_Invoice()
         {
@@ -68,8 +68,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithOk)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerShippingQuery)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
         [ExecutionOrder(1.2)]
         public async Task Should_Answer_Shipping_Query_With_Ok()
         {
@@ -140,8 +140,8 @@ namespace Telegram.Bot.Tests.Integ.Payment
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         [ExecutionOrder(1.3)]
         public async Task Should_Answer_PreCheckout_Query_With_Ok_For_No_Shipment_Option()
         {
@@ -195,7 +195,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
         // ToDo: another method: receive successful payment
 
         [Fact(DisplayName = FactTitles.ShouldThrowWhenSendInvoiceInvalidJson)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendInvoice)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [ExecutionOrder(2.1)]
         public async Task Should_Throw_When_Send_Invoice_Invalid_Provider_Data()
         {
@@ -236,11 +236,11 @@ namespace Telegram.Bot.Tests.Integ.Payment
         private async Task<Update> GetShippingQueryUpdate(
             CancellationToken cancellationToken = default)
         {
-            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.ShippingQueryUpdate);
 
-            var update = updates.Single();
+            Update update = updates.Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
@@ -250,11 +250,11 @@ namespace Telegram.Bot.Tests.Integ.Payment
         private async Task<Update> GetPreCheckoutQueryUpdate(
             CancellationToken cancellationToken = default)
         {
-            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.PreCheckoutQueryUpdate);
 
-            var update = updates.Single();
+            Update update = updates.Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
@@ -264,12 +264,12 @@ namespace Telegram.Bot.Tests.Integ.Payment
         private async Task<Update> GetSuccessfulPaymentUpdate(
             CancellationToken cancellationToken = default)
         {
-            var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 predicate: u => u.Message.Type == MessageType.SuccessfulPayment,
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.MessageUpdate);
 
-            var update = updates.Single();
+            Update update = updates.Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 

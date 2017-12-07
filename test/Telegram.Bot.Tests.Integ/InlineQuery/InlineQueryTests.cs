@@ -7,8 +7,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.InlineQuery
 {
-    [Collection(CommonConstants.TestCollections.InlineQuery)]
-    [TestCaseOrderer(CommonConstants.TestCaseOrderer, CommonConstants.AssemblyName)]
+    [Collection(Constants.TestCollections.InlineQuery)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class InlineQueryTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -21,14 +21,14 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithArticle)]
-        [Trait(CommonConstants.MethodTraitName, CommonConstants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(1)]
         public async Task Should_Answer_Inline_Query_With_Article()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
                 "Start an inline query with bot. For example, type `@bot_user_name` in chat and wait.");
 
-            var results = new InlineQueryResult[]
+            InlineQueryResult[] results = new InlineQueryResult[]
             {
                 new InlineQueryResultArticle
                 {
