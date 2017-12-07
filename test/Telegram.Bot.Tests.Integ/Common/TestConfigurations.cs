@@ -43,7 +43,13 @@ namespace Telegram.Bot.Tests.Integ.Common
                 {
                     _prices = Prices
                         .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                        .Select(price => int.Parse(price.Trim()))
+                        .Select(p =>
+                        {
+                            var isParsed = int.TryParse(p.Trim(), out var price);
+                            return (isParsed, price);
+                        })
+                        .Where(p => p.isParsed)
+                        .Select(p => p.price)
                         .ToArray();
                 }
 
