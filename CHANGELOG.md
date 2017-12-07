@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- `Currency` parameter to Systems Integration Tests settings
+- `Prices` parameter to Systems Integration Tests settings
+
 ## [13.4.0] - 2017-12-07
 
 ### Added
