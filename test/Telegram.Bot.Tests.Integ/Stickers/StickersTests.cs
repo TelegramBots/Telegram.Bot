@@ -108,7 +108,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
 
             List<File> stickerFiles = new List<File>(2);
-            foreach (string pngFile in new[] { "Files/photo/gnu.png", "Files/photo/tux.png" })
+            foreach (string pngFile in new[] { Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux })
             {
                 File file;
                 using (System.IO.Stream stream = System.IO.File.OpenRead(pngFile))
@@ -176,7 +176,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerDimensionsException);
 
             BadRequestException exception;
-            using (System.IO.Stream stream = System.IO.File.OpenRead("Files/photo/logo.png"))
+            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
                 exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                     BotClient.CreateNewStickerSetAsnyc(
