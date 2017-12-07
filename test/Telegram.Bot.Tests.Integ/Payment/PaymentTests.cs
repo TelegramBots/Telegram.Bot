@@ -35,15 +35,14 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             const string payload = "my-payload";
 
-            LabeledPrice[] prices =
-            {
-                new LabeledPrice() {Amount = 150, Label = "One dollar 50 cents"},
-                new LabeledPrice() {Amount = 2029, Label = "20 dollars 29 cents"},
-            };
+            LabeledPrice[] prices = _classFixture.Prices
+                .Select(price => new LabeledPrice {Amount = price, Label = $"{price}"})
+                .ToArray();
+
             Invoice invoice = new Invoice
             {
                 Title = "PRODUCT_TITLE",
-                Currency = "CAD",
+                Currency = _classFixture.Currency,
                 StartParameter = "start_param",
                 TotalAmount = prices.Sum(p => p.Amount),
                 Description = "PRODUCT_DESCRIPTION",
@@ -78,25 +77,36 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             const string payload = "shippingquery-ok-payload";
 
-            LabeledPrice[] productPrices =
-            {
-                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
-                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
-            };
+            LabeledPrice[] productPrices = _classFixture.Prices
+                .Select(price => new LabeledPrice {Amount = price, Label = $"{price}"})
+                .ToArray();
+
             Invoice invoice = new Invoice
             {
                 Title = "PRODUCT_TITLE",
-                Currency = "CAD",
+                Currency = _classFixture.Currency,
                 StartParameter = "start_param",
                 TotalAmount = productPrices.Sum(p => p.Amount),
                 Description = "PRODUCT_DESCRIPTION",
             };
 
-            LabeledPrice[] shippingPrices =
-            {
-                new LabeledPrice {Amount = 500, Label = "SHIPPING1: 500"},
-                new LabeledPrice {Amount = 299, Label = "SHIPPING2: 299"},
-            };
+
+
+//            LabeledPrice[] shippingPrices =
+//            {
+//                new LabeledPrice {Amount = 500, Label = "SHIPPING1: 500"},
+//                new LabeledPrice {Amount = 299, Label = "SHIPPING2: 299"},
+//            };
+
+
+
+            LabeledPrice[] shippingPrices = _classFixture.Prices
+                .Select((price, index) => new LabeledPrice {Amount = price, Label = $"SHIPPING{index}: {price}"})
+                .ToArray();
+
+
+
+
 
             ShippingOption[] shippingOptions =
             {
@@ -151,15 +161,21 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             const string payload = "precheckout-ok-payload";
 
-            LabeledPrice[] productPrices =
-            {
-                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
-                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
-            };
+//            LabeledPrice[] productPrices =
+//            {
+//                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
+//                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
+//            };
+            LabeledPrice[] productPrices = _classFixture.Prices
+                .Select(price => new LabeledPrice {Amount = price, Label = $"{price}"})
+                .ToArray();
+
+
+
             Invoice invoice = new Invoice
             {
                 Title = "PRODUCT_TITLE",
-                Currency = "USD",
+                Currency = _classFixture.Currency,
                 StartParameter = "start_param",
                 TotalAmount = productPrices.Sum(p => p.Amount),
                 Description = "PRODUCT_DESCRIPTION",
@@ -202,16 +218,22 @@ namespace Telegram.Bot.Tests.Integ.Payment
             await _classFixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowWhenSendInvoiceInvalidJson);
 
             const string payload = "my-payload";
+//
+//            LabeledPrice[] prices =
+//            {
+//                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
+//                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
+//            };
 
-            LabeledPrice[] prices =
-            {
-                new LabeledPrice {Amount = 150, Label = "One dollar 50 cents"},
-                new LabeledPrice {Amount = 2029, Label = "20 dollars 29 cents"},
-            };
+            LabeledPrice[] prices = _classFixture.Prices
+                .Select(price => new LabeledPrice {Amount = price, Label = $"{price}"})
+                .ToArray();
+
+
             Invoice invoice = new Invoice
             {
                 Title = "PRODUCT_TITLE",
-                Currency = "CAD",
+                Currency = _classFixture.Currency,
                 StartParameter = "start_param",
                 TotalAmount = prices.Sum(p => p.Amount),
                 Description = "PRODUCT_DESCRIPTION",
