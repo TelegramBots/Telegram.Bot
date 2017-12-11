@@ -408,21 +408,21 @@ namespace Telegram.Bot
         /// </remarks>
         /// <returns>An Array of <see cref="Update"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getupdates"/>
-        public Task<Update[]> GetUpdatesAsync(int offset = 0, int limit = 100, int timeout = 0,
-            UpdateType[] allowedUpdates = null,
+        public async Task<Update[]> GetUpdatesAsync(
+            int offset = default,
+            int limit = default,
+            int timeout = default,
+            IEnumerable<UpdateType> allowedUpdates = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var getUpdateRequest = new GetUpdatesRequest
             {
-                {"offset", offset},
-                {"limit", limit},
-                {"timeout", timeout}
+                Offset = offset,
+                Limit = limit,
+                Timeout = timeout
             };
 
-            if (allowedUpdates != null && !allowedUpdates.Contains(UpdateType.All))
-                parameters.Add("allowed_updates", allowedUpdates);
-
-            return SendWebRequestAsync<Update[]>("getUpdates", parameters, cancellationToken);
+            return await MakeRequestAsync(getUpdateRequest, cancellationToken);
         }
 
         /// <summary>

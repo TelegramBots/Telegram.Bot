@@ -161,8 +161,11 @@ namespace Telegram.Bot
         /// </remarks>
         /// <returns>An Array of <see cref="Update"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getupdates"/>
-        Task<Update[]> GetUpdatesAsync(int offset = 0, int limit = 100, int timeout = 0,
-            UpdateType[] allowedUpdates = null,
+        Task<Update[]> GetUpdatesAsync(
+            int offset = default,
+            int limit = default,
+            int timeout = default,
+            IEnumerable<UpdateType> allowedUpdates = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
