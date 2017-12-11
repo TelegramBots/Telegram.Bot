@@ -1051,16 +1051,14 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#unbanchatmember"/>
-        public Task<bool> UnbanChatMemberAsync(ChatId chatId, int userId,
+        public async Task<bool> UnbanChatMemberAsync(
+            ChatId chatId,
+            int userId,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId},
-                {"user_id", userId}
-            };
+            var request = new UnbanChatMemberRequest(chatId, userId);
 
-            return SendWebRequestAsync<bool>("unbanChatMember", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
