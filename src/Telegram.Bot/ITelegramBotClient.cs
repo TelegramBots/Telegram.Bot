@@ -432,8 +432,7 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
-        );
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.

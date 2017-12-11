@@ -779,7 +779,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
-        public Task<Message> SendVideoNoteAsync(
+        public async Task<Message> SendVideoNoteAsync(
             ChatId chatId,
             FileToSend videoNote,
             int duration = default,
@@ -787,20 +787,18 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
-        )
+            CancellationToken cancellationToken = default)
         {
-            var additionalParameters = new Dictionary<string, object>();
+            var request = new SendVideoNoteRequest(chatId, videoNote)
+            {
+                Duration = duration,
+                Length = length,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
+            };
 
-            if (duration > 0)
-                additionalParameters.Add("duration", duration);
-
-            if (length > 0)
-                additionalParameters.Add("length", length);
-
-            return SendMessageAsync(MessageType.VideoNoteMessage, chatId, videoNote, disableNotification,
-                replyToMessageId,
-                replyMarkup, additionalParameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
