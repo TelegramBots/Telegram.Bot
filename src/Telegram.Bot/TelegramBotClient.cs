@@ -1991,16 +1991,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
-        public Task<bool> UnpinChatMessageAsync(ChatId chatId,
-            CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>()
-            {
-                {"chat_id", chatId}
-            };
-
-            return SendWebRequestAsync<bool>("unpinChatMessage", parameters, cancellationToken);
-        }
+        public async Task<bool> UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new UnpinChatMessageRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to set a new group sticker set for a supergroup.
