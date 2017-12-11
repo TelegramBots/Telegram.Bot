@@ -1931,16 +1931,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
-        public Task<bool> DeleteChatPhotoAsync(ChatId chatId,
-            CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>()
-            {
-                {"chat_id", chatId}
-            };
-
-            return SendWebRequestAsync<bool>("deleteChatPhoto", parameters, cancellationToken);
-        }
+        public async Task<bool> DeleteChatPhotoAsync(ChatId chatId, CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new DeleteChatPhotoRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
