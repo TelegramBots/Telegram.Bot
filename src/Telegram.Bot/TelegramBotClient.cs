@@ -479,8 +479,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletewebhook"/>
-        public Task<bool> DeleteWebhookAsync(CancellationToken cancellationToken = default)
-            => SendWebRequestAsync<bool>("deleteWebhook", null, cancellationToken);
+        public async Task<bool> DeleteWebhookAsync(CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new DeleteWebhookRequest(), cancellationToken);
 
         /// <summary>
         /// Use this method to get current webhook status.
