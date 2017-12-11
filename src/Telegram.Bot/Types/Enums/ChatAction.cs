@@ -1,12 +1,13 @@
-﻿using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// Type of action the Bot is performing
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ChatAction
     {
         /// <summary>
@@ -62,22 +63,11 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "record_video_note")]
         RecordVideoNote,
-        
+
         /// <summary>
         /// Uploading a <see cref="VideoNote"/>
         /// </summary>
         [EnumMember(Value = "upload_video_note")]
         UploadVideoNote,
-    }
-
-    internal static class ChatActionExtensions
-    {
-        internal static string ToActionString(this ChatAction action)
-        {
-            return action.GetType()
-                .GetRuntimeField(action.ToString())
-                .GetCustomAttributes(typeof(EnumMemberAttribute), true)
-                .Select(a => ((EnumMemberAttribute)a).Value).FirstOrDefault();
-        }
     }
 }

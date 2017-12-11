@@ -936,17 +936,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.</remarks>
         /// <see href="https://core.telegram.org/bots/api#sendchataction"/>
-        public Task SendChatActionAsync(ChatId chatId, ChatAction chatAction,
+        public async Task SendChatActionAsync(
+            ChatId chatId,
+            ChatAction chatAction,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId},
-                {"action", chatAction.ToActionString()}
-            };
-
-            return SendWebRequestAsync<bool>("sendChatAction", parameters, cancellationToken);
-        }
+            => await MakeRequestAsync(new SendChatActionRequest(chatId, chatAction), cancellationToken);
 
         /// <summary>
         /// Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
