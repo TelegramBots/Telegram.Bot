@@ -1093,17 +1093,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a ChatMember object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmember"/>
-        public Task<ChatMember> GetChatMemberAsync(ChatId chatId, int userId,
+        public async Task<ChatMember> GetChatMemberAsync(
+            ChatId chatId,
+            int userId,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId},
-                {"user_id", userId}
-            };
-
-            return SendWebRequestAsync<ChatMember>("getChatMember", parameters, cancellationToken);
-        }
+            => await MakeRequestAsync(new GetChatMemberRequest(chatId, userId), cancellationToken);
 
         /// <summary>
         /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
