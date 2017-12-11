@@ -1195,8 +1195,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchattitle"/>
-        Task<bool> SetChatTitleAsync(ChatId chatId, string title,
-            CancellationToken cancellationToken = default);
+        Task<bool> SetChatTitleAsync(ChatId chatId, string title, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to change the description of a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
