@@ -801,8 +801,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
-        Task<Message> EditMessageLiveLocationAsync(ChatId chatId, int messageId, float latitude, float longitude,
-            IReplyMarkup replyMarkup = null,
+        Task<Message> EditMessageLiveLocationAsync(
+            ChatId chatId,
+            int messageId,
+            float latitude,
+            float longitude,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>

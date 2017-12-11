@@ -1503,22 +1503,20 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
-        public Task<Message> EditMessageLiveLocationAsync(ChatId chatId, int messageId, float latitude, float longitude,
-            IReplyMarkup replyMarkup = null,
+        public async Task<Message> EditMessageLiveLocationAsync(
+            ChatId chatId,
+            int messageId,
+            float latitude,
+            float longitude,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
             {
-                {"chat_id", chatId},
-                {"message_id", messageId},
-                {"latitude", latitude},
-                {"longitude", longitude}
+                ReplyMarkup = replyMarkup
             };
 
-            if (replyMarkup != null)
-                parameters.Add("reply_markup", replyMarkup);
-
-            return SendWebRequestAsync<Message>("editMessageLiveLocation", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
