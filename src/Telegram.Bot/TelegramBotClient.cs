@@ -811,20 +811,18 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
-        public Task<Message[]> SendMediaGroupAsync(
+        public async Task<Message[]> SendMediaGroupAsync(
             ChatId chatId,
             IEnumerable<InputMediaBase> media,
             bool disableNotification = default,
             int replyToMessageId = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SendMediaGroupRequest(chatId, media)
+            await MakeRequestAsync(new SendMediaGroupRequest(chatId, media)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
-            }, cancellationToken)
-            .ContinueWith(t => t.Result.ToArray(), cancellationToken)
-        ;
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Description is returned.

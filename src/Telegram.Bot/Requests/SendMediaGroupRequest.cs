@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -14,7 +13,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
     /// </summary>
-    public class SendMediaGroupRequest : RequestBase<List<Message>>
+    public class SendMediaGroupRequest : RequestBase<Message[]>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -53,8 +52,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public SendMediaGroupRequest()
             : base("sendMediaGroup")
-        {
-        }
+        { }
 
         /// <summary>
         /// Generate content of HTTP message
@@ -65,38 +63,26 @@ namespace Telegram.Bot.Requests
         {
             var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks)
             {
-                { new StringContent(ChatId), "chat_id" }
+                { new StringContent(ChatId), nameof(ChatId).ToSnakeCased() }
             };
 
             string mediaJsonArray = JsonConvert.SerializeObject(Media, serializerSettings);
-            multipartContent.Add(new StringContent(mediaJsonArray, Encoding.UTF8, "application/json"), "media");
+            multipartContent.Add(
+                new StringContent(mediaJsonArray, Encoding.UTF8, "application/json"),
+                nameof(Media).ToSnakeCased());
 
             foreach (var inputMediaType in Media.Where(m => m.Media.FileType == FileType.Stream).Select(m => m.Media))
             {
-                string contentDisposision =
-                    $"form-data; name=\"{inputMediaType.FileName}\"; filename=\"{inputMediaType.FileName}\""
-                    .EncodeUtf8();
-
-                HttpContent mediaPartContent = new StreamContent(inputMediaType.Content)
-                {
-                    Headers =
-                    {
-                        { "Content-Type", "application/octet-stream" },
-                        { "Content-Disposition", contentDisposision }
-                    }
-                };
-
-                multipartContent.Add(mediaPartContent, inputMediaType.FileName, inputMediaType.FileName);
+                multipartContent.AddStreamContent(inputMediaType.Content, inputMediaType.FileName);
             }
 
-            string GetSankeCasedName(string name) => new SnakeCaseNamingStrategy().GetPropertyName(name, false);
             if (DisableNotification)
             {
-                multipartContent.Add(new StringContent(true + ""), GetSankeCasedName(nameof(DisableNotification)));
+                multipartContent.Add(new StringContent(true + ""), nameof(DisableNotification).ToSnakeCased());
             }
             if (ReplyToMessageId != default)
             {
-                multipartContent.Add(new StringContent(ReplyToMessageId + ""), GetSankeCasedName(nameof(ReplyToMessageId)));
+                multipartContent.Add(new StringContent(ReplyToMessageId + ""), nameof(ReplyToMessageId).ToSnakeCased());
             }
 
             return multipartContent;

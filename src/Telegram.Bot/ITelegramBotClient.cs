@@ -449,8 +449,7 @@ namespace Telegram.Bot
             IEnumerable<InputMediaBase> media,
             bool disableNotification = default,
             int replyToMessageId = default,
-            CancellationToken cancellationToken = default
-        );
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Description is returned.
