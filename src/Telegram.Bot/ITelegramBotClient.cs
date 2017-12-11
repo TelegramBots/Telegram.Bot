@@ -543,7 +543,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a <see cref="UserProfilePhotos"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getuserprofilephotos"/>
-        Task<UserProfilePhotos> GetUserProfilePhotosAsync(int userId, int? offset = null, int limit = 100,
+        Task<UserProfilePhotos> GetUserProfilePhotosAsync(
+            int userId,
+            int offset = default,
+            int limit = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
