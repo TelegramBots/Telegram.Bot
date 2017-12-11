@@ -488,8 +488,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, returns <see cref="WebhookInfo"/>.</returns>
         /// <see href="https://core.telegram.org/bots/api#getwebhookinfo"/>
-        public Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = default)
-            => SendWebRequestAsync<WebhookInfo>("getWebhookInfo", null, cancellationToken);
+        public async Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new GetWebhookInfoRequest(), cancellationToken);
 
         #endregion Getting updates
 
