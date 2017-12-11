@@ -1070,16 +1070,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, returns an Array of <see cref="ChatMember"/> objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatadministrators"/>
-        public Task<ChatMember[]> GetChatAdministratorsAsync(ChatId chatId,
+        public async Task<ChatMember[]> GetChatAdministratorsAsync(
+            ChatId chatId,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId}
-            };
-
-            return SendWebRequestAsync<ChatMember[]>("getChatAdministrators", parameters, cancellationToken);
-        }
+            => await MakeRequestAsync(new GetChatAdministratorsRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to get the number of members in a chat.
