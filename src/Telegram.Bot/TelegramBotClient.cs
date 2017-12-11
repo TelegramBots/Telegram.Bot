@@ -705,29 +705,30 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideo"/>
-        public Task<Message> SendVideoAsync(ChatId chatId, FileToSend video, int duration = 0,
-            int width = 0,
-            int height = 0,
-            string caption = "",
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
+        public async Task<Message> SendVideoAsync(
+            ChatId chatId,
+            FileToSend video,
+            int duration = default,
+            int width = default,
+            int height = default,
+            string caption = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
         {
-            var additionalParameters = new Dictionary<string, object>
+            var request = new SendVideoRequest(chatId, video)
             {
-                {"duration", duration},
-                {"caption", caption}
+                Duration = duration,
+                Width = width,
+                Height = height,
+                Caption = caption,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
             };
 
-            if (width > 0)
-                additionalParameters.Add("width", width);
-
-            if (height > 0)
-                additionalParameters.Add("height", height);
-
-            return SendMessageAsync(MessageType.VideoMessage, chatId, video, disableNotification, replyToMessageId,
-                replyMarkup, additionalParameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
