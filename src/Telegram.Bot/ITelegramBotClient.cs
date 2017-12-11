@@ -401,12 +401,14 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvoice"/>
-        Task<Message> SendVoiceAsync(ChatId chatId, FileToSend voice,
-            string caption = "",
-            int duration = 0,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
+        Task<Message> SendVoiceAsync(
+            ChatId chatId,
+            FileToSend voice,
+            string caption = default,
+            int duration = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
