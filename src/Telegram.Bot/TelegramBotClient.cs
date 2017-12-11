@@ -501,8 +501,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns basic information about the bot in form of <see cref="User"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getme"/>
-        public Task<User> GetMeAsync(CancellationToken cancellationToken = default)
-            => SendWebRequestAsync<User>("getMe", cancellationToken: cancellationToken);
+        public async Task<User> GetMeAsync(CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new GetMeRequest(), cancellationToken);
 
         /// <summary>
         /// Use this method to send text messages. On success, the sent Description is returned.
