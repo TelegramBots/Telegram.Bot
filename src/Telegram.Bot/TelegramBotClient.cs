@@ -1011,20 +1011,18 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
-        public Task<bool> KickChatMemberAsync(ChatId chatId, int userId,
+        public async Task<bool> KickChatMemberAsync(
+            ChatId chatId,
+            int userId,
             DateTime untilDate = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new KickChatMemberRequest(chatId, userId)
             {
-                {"chat_id", chatId},
-                {"user_id", userId},
+                UntilDate = untilDate
             };
 
-            if (untilDate != default)
-                parameters.Add("until_date", untilDate);
-
-            return SendWebRequestAsync<bool>("kickChatMember", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
