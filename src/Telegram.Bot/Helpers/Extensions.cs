@@ -1,6 +1,9 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Helpers
 {
@@ -39,5 +42,34 @@ namespace Telegram.Bot.Helpers
 
         internal static string EncodeUtf8(this string value) =>
             string.Join(string.Empty, Encoding.UTF8.GetBytes(value).Select(Convert.ToChar));
+
+        internal static void AddStreamContent(
+            this MultipartFormDataContent multipartContent,
+            Stream content,
+            string name)
+            => AddStreamContent(multipartContent, content, name, name);
+
+        internal static void AddStreamContent(
+            this MultipartFormDataContent multipartContent,
+            Stream content,
+            string name,
+            string fileName)
+        {
+            var contentDisposision = $"form-data; name=\"{name}\"; filename=\"{fileName}\"" .EncodeUtf8();
+
+            HttpContent mediaPartContent = new StreamContent(content)
+            {
+                Headers =
+                {
+                    { "Content-Type", "application/octet-stream" },
+                    { "Content-Disposition", contentDisposision }
+                }
+            };
+
+            multipartContent.Add(mediaPartContent, name, fileName);
+        }
+
+        internal static string ToSnakeCased(this string value)
+            => new SnakeCaseNamingStrategy().GetPropertyName(value, false);
     }
 }

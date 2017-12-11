@@ -200,9 +200,11 @@ namespace Telegram.Bot
         /// If you're having any trouble setting up webhooks, please check out this <see href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</see>.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#setwebhook"/>
-        Task SetWebhookAsync(string url = "", FileToSend? certificate = null,
-            int maxConnections = 40,
-            UpdateType[] allowedUpdates = null,
+        Task<bool> SetWebhookAsync(
+            string url = "",
+            Stream certificate = default,
+            int maxConnections = default,
+            IEnumerable<UpdateType> allowedUpdates = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
