@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Tests.Integ.XunitExtensions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Common
 {
-    public class TestsFixture : IDisposable
+    public class TestsFixture : IDisposable, IAcceptRunSummary
     {
         public ITelegramBotClient BotClient { get; }
 
@@ -153,8 +154,8 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             public const string TestExecutionResult =
                 "Total: {0} tests\n" +
-                "✅ {1} passed{2:P1})\n" +
-                "❎ {3} failed({4:P1})";
+                "✅ {1} passed ({2:P1})\n" +
+                "❎ {3} failed ({4:P1})";
         }
     }
 }

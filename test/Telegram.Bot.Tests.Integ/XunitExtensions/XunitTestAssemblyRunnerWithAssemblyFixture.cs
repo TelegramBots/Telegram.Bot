@@ -57,7 +57,7 @@ namespace Telegram.Bot.Tests.Integ.XunitExtensions
         {
             var TestRunner = new XunitTestCollectionRunnerWithAssemblyFixture(assemblyFixtureMappings, testCollection, testCases, DiagnosticMessageSink, messageBus, TestCaseOrderer, new ExceptionAggregator(Aggregator), cancellationTokenSource).RunAsync();
 
-            foreach (var fixture in assemblyFixtureMappings.Values.OfType<TestsFixture>())
+            foreach (var fixture in assemblyFixtureMappings.Values.OfType<IAcceptRunSummary>())
                 fixture.TestsSummary = TestRunner.Result;
 
             return TestRunner;
