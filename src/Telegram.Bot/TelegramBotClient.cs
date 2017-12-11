@@ -1967,17 +1967,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatstickerset"/>
-        public Task<bool> SetChatStickerSetAsync(ChatId chatId, string stickerSetName,
+        public async Task<bool> SetChatStickerSetAsync(
+            ChatId chatId,
+            string stickerSetName,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId},
-                {"sticker_set_name", stickerSetName}
-            };
-
-            return SendWebRequestAsync<bool>("setChatStickerSet", parameters, cancellationToken);
-        }
+            => await MakeRequestAsync(new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken);
 
         /// <summary>
         /// Use this method to delete a group sticker set from a supergroup.
