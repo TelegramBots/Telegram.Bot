@@ -1176,8 +1176,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
-        Task<bool> SetChatPhotoAsync(ChatId chatId, FileToSend photo,
-            CancellationToken cancellationToken = default);
+        Task<bool> SetChatPhotoAsync(ChatId chatId, Stream photo, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.

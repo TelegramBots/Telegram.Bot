@@ -144,8 +144,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
-                result = await BotClient.SetChatPhotoAsync(_classFixture.ChatId,
-                    new FileToSend("photo.png", stream));
+                result = await BotClient.SetChatPhotoAsync(_classFixture.ChatId, stream);
             }
 
             Assert.True(result);
