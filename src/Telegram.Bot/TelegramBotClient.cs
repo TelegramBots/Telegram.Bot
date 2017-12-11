@@ -1060,15 +1060,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchat"/>
-        public Task<Chat> GetChatAsync(ChatId chatId, CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId}
-            };
-
-            return SendWebRequestAsync<Chat>("getChat", parameters, cancellationToken);
-        }
+        public async Task<Chat> GetChatAsync(ChatId chatId, CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new GetChatRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to get a list of administrators in a chat.
