@@ -576,19 +576,24 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendphoto"/>
-        public Task<Message> SendPhotoAsync(ChatId chatId, FileToSend photo, string caption = "",
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
+        public async Task<Message> SendPhotoAsync(
+            ChatId chatId,
+            FileToSend photo,
+            string caption = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
         {
-            var additionalParameters = new Dictionary<string, object>
+            var request = new SendPhotoRequest(chatId, photo)
             {
-                {"caption", caption}
+                Caption = caption,
+                ReplyToMessageId = replyToMessageId,
+                DisableNotification = disableNotification,
+                ReplyMarkup = replyMarkup
             };
 
-            return SendMessageAsync(MessageType.PhotoMessage, chatId, photo, disableNotification, replyToMessageId,
-                replyMarkup, additionalParameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
