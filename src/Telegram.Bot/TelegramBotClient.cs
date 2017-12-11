@@ -873,26 +873,26 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvenue"/>
-        public Task<Message> SendVenueAsync(ChatId chatId, float latitude, float longitude, string title,
+        public async Task<Message> SendVenueAsync(
+            ChatId chatId,
+            float latitude,
+            float longitude,
+            string title,
             string address,
-            string foursquareId = null,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
+            string foursquareId = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
-                {"longitude", longitude},
-                {"title", title},
-                {"address", address}
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
             };
 
-            if (!string.IsNullOrWhiteSpace(foursquareId))
-                parameters.Add("foursquare_id", foursquareId);
-
-            return SendMessageAsync(MessageType.VenueMessage, chatId, latitude, disableNotification, replyToMessageId,
-                replyMarkup, parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
