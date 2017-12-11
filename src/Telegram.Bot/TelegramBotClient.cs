@@ -1082,16 +1082,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns Int on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmemberscount"/>
-        public Task<int> GetChatMembersCountAsync(ChatId chatId,
-            CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId}
-            };
-
-            return SendWebRequestAsync<int>("getChatMembersCount", parameters, cancellationToken);
-        }
+        public async Task<int> GetChatMembersCountAsync(ChatId chatId, CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new GetChatMembersCountRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to get information about a member of a chat.
