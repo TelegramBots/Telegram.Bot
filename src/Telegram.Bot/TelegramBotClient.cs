@@ -1032,16 +1032,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#leavechat"/>
-        public Task<bool> LeaveChatAsync(ChatId chatId,
-            CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId}
-            };
-
-            return SendWebRequestAsync<bool>("leaveChat", parameters, cancellationToken);
-        }
+        public async Task<bool> LeaveChatAsync(ChatId chatId, CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new LeaveChatRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work.
