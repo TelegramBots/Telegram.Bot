@@ -908,24 +908,24 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendcontact"/>
-        public Task<Message> SendContactAsync(ChatId chatId, string phoneNumber, string firstName,
-            string lastName = null,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
+        public async Task<Message> SendContactAsync(
+            ChatId chatId,
+            string phoneNumber,
+            string firstName,
+            string lastName = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new SendContactRequest(chatId, phoneNumber, firstName, lastName)
             {
-                {"first_name", firstName}
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
             };
 
-            if (!string.IsNullOrWhiteSpace(lastName))
-                parameters.Add("last_name", lastName);
-
-            return SendMessageAsync(MessageType.ContactMessage, chatId, phoneNumber, disableNotification,
-                replyToMessageId,
-                replyMarkup, parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
