@@ -268,8 +268,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#forwardmessage"/>
-        Task<Message> ForwardMessageAsync(ChatId chatId, ChatId fromChatId, int messageId,
-            bool disableNotification = false,
+        Task<Message> ForwardMessageAsync(
+            ChatId chatId,
+            ChatId fromChatId,
+            int messageId,
+            bool disableNotification = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
