@@ -1229,35 +1229,32 @@ namespace Telegram.Bot
         /// <returns>Returns True on success.</returns>
         /// <remarks>Pass False for all boolean parameters to demote a user.</remarks>
         /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
-        public Task<bool> PromoteChatMemberAsync(ChatId chatId, int userId, bool? canChangeInfo = null,
-            bool? canPostMessages = null, bool? canEditMessages = null, bool? canDeleteMessages = null,
-            bool? canInviteUsers = null, bool? canRestrictMembers = null, bool? canPinMessages = null,
-            bool? canPromoteMembers = null, CancellationToken cancellationToken = default)
+        public async Task<bool> PromoteChatMemberAsync(
+            ChatId chatId,
+            int userId,
+            bool? canChangeInfo = default,
+            bool? canPostMessages = default,
+            bool? canEditMessages = default,
+            bool? canDeleteMessages = default,
+            bool? canInviteUsers = default,
+            bool? canRestrictMembers = default,
+            bool? canPinMessages = default,
+            bool? canPromoteMembers = default,
+            CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>()
+            var request = new PromoteChatMemberRequest(chatId, userId)
             {
-                {"chat_id", chatId},
-                {"user_id", userId}
+                CanChangeInfo = canChangeInfo,
+                CanPostMessages = canPostMessages,
+                CanEditMessages = canEditMessages,
+                CanDeleteMessages = canDeleteMessages,
+                CanInviteUsers = canInviteUsers,
+                CanRestrictMembers = canRestrictMembers,
+                CanPinMessages = canPinMessages,
+                CanPromoteMembers = canPromoteMembers
             };
 
-            if (canChangeInfo != null)
-                parameters.Add("can_change_info", canChangeInfo.Value);
-            if (canPostMessages != null)
-                parameters.Add("can_post_messages", canPostMessages.Value);
-            if (canEditMessages != null)
-                parameters.Add("can_edit_messages", canEditMessages.Value);
-            if (canDeleteMessages != null)
-                parameters.Add("can_delete_messages", canDeleteMessages.Value);
-            if (canInviteUsers != null)
-                parameters.Add("can_invite_users", canInviteUsers.Value);
-            if (canRestrictMembers != null)
-                parameters.Add("can_restrict_members", canRestrictMembers.Value);
-            if (canPinMessages != null)
-                parameters.Add("can_pin_messages", canPinMessages.Value);
-            if (canPromoteMembers != null)
-                parameters.Add("can_promote_members", canPromoteMembers.Value);
-
-            return SendWebRequestAsync<bool>("promoteChatMember", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>

@@ -702,10 +702,18 @@ namespace Telegram.Bot
         /// <returns>Returns True on success.</returns>
         /// <remarks>Pass False for all boolean parameters to demote a user.</remarks>
         /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
-        Task<bool> PromoteChatMemberAsync(ChatId chatId, int userId, bool? canChangeInfo = null,
-            bool? canPostMessages = null, bool? canEditMessages = null, bool? canDeleteMessages = null,
-            bool? canInviteUsers = null, bool? canRestrictMembers = null, bool? canPinMessages = null,
-            bool? canPromoteMembers = null, CancellationToken cancellationToken = default);
+        Task<bool> PromoteChatMemberAsync(
+            ChatId chatId,
+            int userId,
+            bool? canChangeInfo = default,
+            bool? canPostMessages = default,
+            bool? canEditMessages = default,
+            bool? canDeleteMessages = default,
+            bool? canInviteUsers = default,
+            bool? canRestrictMembers = default,
+            bool? canPinMessages = default,
+            bool? canPromoteMembers = default,
+            CancellationToken cancellationToken = default);
 
         #endregion Available methods
 
