@@ -1205,7 +1205,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatdescription"/>
-        Task<bool> SetChatDescriptionAsync(ChatId chatId, string description = "",
+        Task<bool> SetChatDescriptionAsync(
+            ChatId chatId,
+            string description = "",
             CancellationToken cancellationToken = default);
 
         /// <summary>

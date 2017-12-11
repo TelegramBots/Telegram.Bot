@@ -1956,19 +1956,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatdescription"/>
-        public Task<bool> SetChatDescriptionAsync(ChatId chatId, string description = "",
+        public async Task<bool> SetChatDescriptionAsync(
+            ChatId chatId,
+            string description = "",
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>()
-            {
-                {"chat_id", chatId}
-            };
-
-            if (!string.IsNullOrEmpty(description))
-                parameters.Add("description", description);
-
-            return SendWebRequestAsync<bool>("setChatDescription", parameters, cancellationToken);
-        }
+            => await MakeRequestAsync(new SetChatDescriptionRequest(chatId, description), cancellationToken);
 
         /// <summary>
         /// Use this method to pin a message in a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
