@@ -675,9 +675,14 @@ namespace Telegram.Bot
         /// <returns>On success, <c>true</c> is returned</returns>
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
         /// <see href="https://core.telegram.org/bots/api#restrictchatmember"/>
-        Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilDate = default,
-            bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
-            bool? canAddWebPagePreviews = null,
+        Task<bool> RestrictChatMemberAsync(
+            ChatId chatId,
+            int userId,
+            DateTime untilDate = default,
+            bool? canSendMessages = default,
+            bool? canSendMediaMessages = default,
+            bool? canSendOtherMessages = default,
+            bool? canAddWebPagePreviews = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>

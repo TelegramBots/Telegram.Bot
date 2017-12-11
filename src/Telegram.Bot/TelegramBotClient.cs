@@ -1190,30 +1190,26 @@ namespace Telegram.Bot
         /// <returns>On success, <c>true</c> is returned</returns>
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
         /// <see href="https://core.telegram.org/bots/api#restrictchatmember"/>
-        public Task<bool> RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilDate = default,
-            bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null,
-            bool? canAddWebPagePreviews = null,
+        public async Task<bool> RestrictChatMemberAsync(
+            ChatId chatId,
+            int userId,
+            DateTime untilDate = default,
+            bool? canSendMessages = default,
+            bool? canSendMediaMessages = default,
+            bool? canSendOtherMessages = default,
+            bool? canAddWebPagePreviews = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>()
+            var request = new RestrictChatMemberRequest(chatId, userId)
             {
-                {"chat_id", chatId},
-                {"user_id", userId}
+                CanSendMessages = canSendMessages,
+                CanSendMediaMessages = canSendMediaMessages,
+                CanSendOtherMessages = canSendOtherMessages,
+                CanAddWebPagePreviews = canAddWebPagePreviews,
+                UntilDate = untilDate
             };
 
-            if (untilDate != default)
-                parameters.Add("until_date", untilDate);
-
-            if (canSendMessages != null)
-                parameters.Add("can_send_messages", canSendMessages.Value);
-            if (canSendMediaMessages != null)
-                parameters.Add("can_send_media_messages", canSendMediaMessages.Value);
-            if (canSendOtherMessages != null)
-                parameters.Add("can_send_other_messages", canSendOtherMessages.Value);
-            if (canAddWebPagePreviews != null)
-                parameters.Add("can_add_web_page_previews", canAddWebPagePreviews.Value);
-
-            return SendWebRequestAsync<bool>("restrictChatMember", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
