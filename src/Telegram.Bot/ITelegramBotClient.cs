@@ -1219,7 +1219,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#pinchatmessage"/>
-        Task<bool> PinChatMessageAsync(ChatId chatId, int messageId, bool disableNotification = false,
+        Task<bool> PinChatMessageAsync(
+            ChatId chatId,
+            int messageId,
+            bool disableNotification = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>

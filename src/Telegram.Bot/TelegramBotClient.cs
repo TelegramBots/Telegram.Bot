@@ -1971,19 +1971,17 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#pinchatmessage"/>
-        public Task<bool> PinChatMessageAsync(ChatId chatId, int messageId, bool disableNotification = false,
+        public async Task<bool> PinChatMessageAsync(
+            ChatId chatId,
+            int messageId,
+            bool disableNotification = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>()
+            var request = new PinChatMessageRequest(chatId, messageId)
             {
-                {"chat_id", chatId},
-                {"message_id", messageId}
+                DisableNotification = disableNotification
             };
-
-            if (disableNotification)
-                parameters.Add("disable_notification", true);
-
-            return SendWebRequestAsync<bool>("pinChatMessage", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
