@@ -1910,16 +1910,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns exported invite link as String on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#exportchatinvitelink"/>
-        public Task<string> ExportChatInviteLinkAsync(ChatId chatId,
-            CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId}
-            };
-
-            return SendWebRequestAsync<string>("exportChatInviteLink", parameters, cancellationToken);
-        }
+        public async Task<string> ExportChatInviteLinkAsync(ChatId chatId, CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new ExportChatInviteLinkRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
