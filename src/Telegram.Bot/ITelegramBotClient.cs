@@ -717,8 +717,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#stopmessagelivelocation"/>
-        Task<Message> StopMessageLiveLocationAsync(ChatId chatId, int messageId,
-            IReplyMarkup replyMarkup = null,
+        Task<Message> StopMessageLiveLocationAsync(
+            ChatId chatId,
+            int messageId,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
