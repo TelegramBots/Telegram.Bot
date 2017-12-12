@@ -11,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send audio files, if you want Telegram clients to display the file as a playable voice message
     /// </summary>
-    public class SendVoiceRequest : FileRequestBase<Message>
+    public class SendVoiceRequest : FileRequestBase<Message>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -35,9 +35,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
-        /// <summary>
-        /// Sends the message silently. Users will receive a notification with no sound.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 

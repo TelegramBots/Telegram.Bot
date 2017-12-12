@@ -7,7 +7,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send point on the map
     /// </summary>
-    public class SendLocationRequest : RequestBase<Message>
+    public class SendLocationRequest : RequestBase<Message>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
@@ -30,9 +30,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int LivePeriod { get; set; }
 
-        /// <summary>
-        /// Sends the message silently. Users will receive a notification with no sound.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 

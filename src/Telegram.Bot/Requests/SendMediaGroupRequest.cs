@@ -13,7 +13,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
     /// </summary>
-    public class SendMediaGroupRequest : RequestBase<Message[]>
+    public class SendMediaGroupRequest : RequestBase<Message[]>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -25,9 +25,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public IEnumerable<InputMediaBase> Media { get; set; }
 
-        /// <summary>
-        /// Sends the messages silently. Users will receive a notification with no sound.
-        /// </summary>
+        /// <inheritdoc />
         public bool DisableNotification { get; set; }
 
         /// <summary>

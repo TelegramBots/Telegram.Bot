@@ -11,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send photos
     /// </summary>
-    public class SendPhotoRequest : FileRequestBase<Message>
+    public class SendPhotoRequest : FileRequestBase<Message>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -35,9 +35,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 
-        /// <summary>
-        /// Sends the message silently. Users will receive a notification with no sound
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
@@ -57,8 +55,8 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with chatId and photo
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel.</param>
-        /// <param name="photo">Photo to send.</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="photo">Photo to send</param>
         public SendPhotoRequest(ChatId chatId, FileToSend photo)
             : this()
         {

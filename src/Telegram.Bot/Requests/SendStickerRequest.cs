@@ -11,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send .webp stickers. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
-    public class SendStickerRequest : FileRequestBase<Message>
+    public class SendStickerRequest : FileRequestBase<Message>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -23,9 +23,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public FileToSend Sticker { get; set; }
 
-        /// <summary>
-        /// Sends the message silently. Users will receive a notification with no sound.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 

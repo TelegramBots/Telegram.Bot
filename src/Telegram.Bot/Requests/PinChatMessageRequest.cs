@@ -6,7 +6,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Pin a message in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.
     /// </summary>
-    public class PinChatMessageRequest : RequestBase<bool>
+    public class PinChatMessageRequest : RequestBase<bool>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -18,9 +18,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public int MessageId { get; set; }
 
-        /// <summary>
-        /// Pass True, if it is not necessary to send a notification to all chat members about the new pinned message. Notifications are always disabled in channels.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 

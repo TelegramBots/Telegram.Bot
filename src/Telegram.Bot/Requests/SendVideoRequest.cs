@@ -11,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send video files, Telegram clients support mp4 videos
     /// </summary>
-    public class SendVideoRequest : FileRequestBase<Message>
+    public class SendVideoRequest : FileRequestBase<Message>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -47,9 +47,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
-        /// <summary>
-        /// Sends the message silently. Users will receive a notification with no sound.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 

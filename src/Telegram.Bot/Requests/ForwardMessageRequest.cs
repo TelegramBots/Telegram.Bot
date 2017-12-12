@@ -6,7 +6,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Forward messages of any kind
     /// </summary>
-    public class ForwardMessageRequest : RequestBase<Message>
+    public class ForwardMessageRequest : RequestBase<Message>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -18,9 +18,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public ChatId FromChatId { get; set; }
 
-        /// <summary>
-        /// Sends the message silently. Users will receive a notification with no sound.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 

@@ -11,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send rounded video messages
     /// </summary>
-    public class SendVideoNoteRequest : FileRequestBase<Message>
+    public class SendVideoNoteRequest : FileRequestBase<Message>, INotifiableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -35,9 +35,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Length { get; set; }
 
-        /// <summary>
-        /// Sends the message silently. Users will receive a notification with no sound.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
