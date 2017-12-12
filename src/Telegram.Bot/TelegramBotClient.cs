@@ -1306,26 +1306,21 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
-        public Task<bool> EditInlineMessageTextAsync(string inlineMessageId, string text,
-            ParseMode parseMode = ParseMode.Default,
-            bool disableWebPagePreview = false,
-            IReplyMarkup replyMarkup = null,
+        public async Task<bool> EditInlineMessageTextAsync(
+            string inlineMessageId,
+            string text,
+            ParseMode parseMode = default,
+            bool disableWebPagePreview = default,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new EditInlineMessageTextRequest(inlineMessageId, text)
             {
-                {"inline_message_id", inlineMessageId},
-                {"text", text},
-                {"disable_web_page_preview", disableWebPagePreview},
+                DisableWebPagePreview = disableWebPagePreview,
+                ReplyMarkup = replyMarkup
             };
 
-            if (replyMarkup != null)
-                parameters.Add("reply_markup", replyMarkup);
-
-            if (parseMode != ParseMode.Default)
-                parameters.Add("parse_mode", parseMode.ToModeString());
-
-            return SendWebRequestAsync<bool>("editMessageText", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>

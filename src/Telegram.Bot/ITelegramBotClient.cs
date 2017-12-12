@@ -778,10 +778,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
-        Task<bool> EditInlineMessageTextAsync(string inlineMessageId, string text,
-            ParseMode parseMode = ParseMode.Default,
-            bool disableWebPagePreview = false,
-            IReplyMarkup replyMarkup = null,
+        Task<bool> EditInlineMessageTextAsync(
+            string inlineMessageId,
+            string text,
+            ParseMode parseMode = default,
+            bool disableWebPagePreview = default,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
