@@ -1277,27 +1277,22 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the edited Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
-        public Task<Message> EditMessageTextAsync(ChatId chatId, int messageId, string text,
-            ParseMode parseMode = ParseMode.Default,
-            bool disableWebPagePreview = false,
-            IReplyMarkup replyMarkup = null,
+        public async Task<Message> EditMessageTextAsync(
+            ChatId chatId,
+            int messageId,
+            string text,
+            ParseMode parseMode = default,
+            bool disableWebPagePreview = default,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new EditMessageTextRequest(chatId, messageId, text)
             {
-                {"chat_id", chatId},
-                {"message_id", messageId},
-                {"text", text},
-                {"disable_web_page_preview", disableWebPagePreview},
+                ParseMode = parseMode,
+                DisableWebPagePreview = disableWebPagePreview,
+                ReplyMarkup = replyMarkup
             };
-
-            if (replyMarkup != null)
-                parameters.Add("reply_markup", replyMarkup);
-
-            if (parseMode != ParseMode.Default)
-                parameters.Add("parse_mode", parseMode.ToModeString());
-
-            return SendWebRequestAsync<Message>("editMessageText", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
