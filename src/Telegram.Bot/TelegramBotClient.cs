@@ -681,14 +681,24 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendsticker"/>
-        public Task<Message> SendStickerAsync(ChatId chatId, FileToSend sticker,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
+        public async Task<Message> SendStickerAsync(
+            ChatId chatId,
+            FileToSend sticker,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
-            =>
-                SendMessageAsync(MessageType.StickerMessage, chatId, sticker, disableNotification, replyToMessageId,
-                    replyMarkup, cancellationToken: cancellationToken);
+        {
+            var request = new SendStickerRequest(chatId, sticker)
+            {
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
+            };
+
+            return await MakeRequestAsync(request, cancellationToken);
+        }
+
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Description is returned. Bots can send video files of up to 50 MB in size.
