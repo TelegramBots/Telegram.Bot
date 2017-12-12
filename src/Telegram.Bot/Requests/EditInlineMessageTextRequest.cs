@@ -8,11 +8,10 @@ namespace Telegram.Bot.Requests
     /// Edit text and game messages sent via the bot (for inline bots). On success True is returned.
     /// </summary>
     public class EditInlineMessageTextRequest : RequestBase<bool>,
-                                                IFormattableMessage
+                                                IFormattableMessage,
+                                                IInlineMessage
     {
-        /// <summary>
-        /// Identifier of the inline message
-        /// </summary>
+        /// <inheritdoc />
         public string InlineMessageId { get; set; }
 
         /// <summary>

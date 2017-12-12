@@ -6,11 +6,10 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Edit captions and game messages sent via the bot. On success the edited True is returned.
     /// </summary>
-    public class EditInlineMessageCaptionRequest : RequestBase<bool>
+    public class EditInlineMessageCaptionRequest : RequestBase<bool>,
+                                                   IInlineMessage
     {
-        /// <summary>
-        /// Identifier of the inline message
-        /// </summary>
+        /// <inheritdoc />
         public string InlineMessageId { get; set; }
 
         /// <summary>

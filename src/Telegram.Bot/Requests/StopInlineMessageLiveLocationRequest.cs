@@ -6,11 +6,10 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Stop updating a live location message sent via the bot (for inline bots) before live period expires
     /// </summary>
-    public class StopInlineMessageLiveLocationRequest : RequestBase<bool>
+    public class StopInlineMessageLiveLocationRequest : RequestBase<bool>,
+                                                        IInlineMessage
     {
-        /// <summary>
-        /// Identifier of the inline message
-        /// </summary>
+        /// <inheritdoc />
         public string InlineMessageId { get; set; }
 
         /// <summary>

@@ -6,11 +6,10 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Edit live location messages sent via the bot (for inline bots)
     /// </summary>
-    public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
+    public class EditInlineMessageLiveLocationRequest : RequestBase<bool>,
+                                                        IInlineMessage
     {
-        /// <summary>
-        /// Identifier of the inline message
-        /// </summary>
+        /// <inheritdoc />
         public string InlineMessageId { get; set; }
 
         /// <summary>

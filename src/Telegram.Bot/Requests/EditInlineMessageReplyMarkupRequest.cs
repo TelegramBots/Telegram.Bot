@@ -6,11 +6,10 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Edit only the reply markup of messages sent via the bot. On success the edited True is returned.
     /// </summary>
-    public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
+    public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>,
+                                                       IInlineMessage
     {
-        /// <summary>
-        /// Identifier of the inline message
-        /// </summary>
+        /// <inheritdoc />
         public string InlineMessageId { get; set; }
 
         /// <summary>
