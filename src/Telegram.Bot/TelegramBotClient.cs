@@ -1117,28 +1117,23 @@ namespace Telegram.Bot
         /// Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#answercallbackquery"/>
-        public Task<bool> AnswerCallbackQueryAsync(string callbackQueryId, string text = null,
-            bool showAlert = false,
-            string url = null,
-            int cacheTime = 0,
+        public async Task<bool> AnswerCallbackQueryAsync(
+            string callbackQueryId,
+            string text = default,
+            bool showAlert = default,
+            string url = default,
+            int cacheTime = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new AnswerCallbackQueryRequest(callbackQueryId)
             {
-                {"callback_query_id", callbackQueryId},
-                {"show_alert", showAlert},
+                Text = text,
+                ShowAlert = showAlert,
+                Url = url,
+                CacheTime = cacheTime
             };
 
-            if (!string.IsNullOrEmpty(text))
-                parameters.Add("text", text);
-
-            if (!string.IsNullOrEmpty(url))
-                parameters.Add("url", url);
-
-            if (cacheTime != 0)
-                parameters.Add("cache_time", cacheTime);
-
-            return SendWebRequestAsync<bool>("answerCallbackQuery", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>

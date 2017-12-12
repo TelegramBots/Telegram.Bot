@@ -652,10 +652,12 @@ namespace Telegram.Bot
         /// Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#answercallbackquery"/>
-        Task<bool> AnswerCallbackQueryAsync(string callbackQueryId, string text = null,
-            bool showAlert = false,
-            string url = null,
-            int cacheTime = 0,
+        Task<bool> AnswerCallbackQueryAsync(
+            string callbackQueryId,
+            string text = default,
+            bool showAlert = default,
+            string url = default,
+            int cacheTime = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
