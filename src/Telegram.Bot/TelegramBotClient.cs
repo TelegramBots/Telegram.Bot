@@ -1957,16 +1957,8 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, a StickerSet object is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getstickerset"/>
-        public Task<StickerSet> GetStickerSetAsync(string name,
-            CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>()
-            {
-                {"name", name}
-            };
-
-            return SendWebRequestAsync<StickerSet>("getStickerSet", parameters, cancellationToken);
-        }
+        public async Task<StickerSet> GetStickerSetAsync(string name, CancellationToken cancellationToken = default)
+            => await MakeRequestAsync(new GetStickerSetRequest(name), cancellationToken);
 
         /// <summary>
         /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
