@@ -827,8 +827,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the edited Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
-        Task<Message> EditMessageReplyMarkupAsync(ChatId chatId, int messageId,
-            IReplyMarkup replyMarkup = null,
+        Task<Message> EditMessageReplyMarkupAsync(
+            ChatId chatId,
+            int messageId,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>

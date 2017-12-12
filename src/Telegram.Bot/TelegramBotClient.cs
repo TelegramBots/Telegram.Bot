@@ -1370,21 +1370,15 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the edited Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
-        public Task<Message> EditMessageReplyMarkupAsync(ChatId chatId, int messageId,
-            IReplyMarkup replyMarkup = null,
+        public async Task<Message> EditMessageReplyMarkupAsync(
+            ChatId chatId,
+            int messageId,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId},
-                {"message_id", messageId},
-            };
-
-            if (replyMarkup != null)
-                parameters.Add("reply_markup", replyMarkup);
-
-            return SendWebRequestAsync<Message>("editMessageReplyMarkup", parameters, cancellationToken);
-        }
+            =>
+                await MakeRequestAsync(
+                    new EditMessageReplyMarkupRequest(chatId, messageId, replyMarkup),
+                    cancellationToken);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
