@@ -10,7 +10,8 @@ namespace Telegram.Bot.Requests
     /// </summary>
     public class SendMessageRequest : RequestBase<Message>,
                                       INotifiableMessage,
-                                      IReplyMessage
+                                      IReplyMessage,
+                                      IFormattableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
@@ -22,9 +23,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public string Text { get; set; }
 
-        /// <summary>
-        /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
 

@@ -7,7 +7,8 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Edit text and game messages sent via the bot (for inline bots). On success True is returned.
     /// </summary>
-    public class EditInlineMessageTextRequest : RequestBase<bool>
+    public class EditInlineMessageTextRequest : RequestBase<bool>,
+                                                IFormattableMessage
     {
         /// <summary>
         /// Identifier of the inline message
@@ -19,9 +20,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public string Text { get; set; }
 
-        /// <summary>
-        /// Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
 
