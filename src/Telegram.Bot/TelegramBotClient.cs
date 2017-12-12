@@ -1544,15 +1544,15 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
-        public Task<Message> SendInvoiceAsync(
-            ChatId chatId,
+        public async Task<Message> SendInvoiceAsync(
+            long chatId,
             string title,
             string description,
             string payload,
             string providerToken,
             string startParameter,
             string currency,
-            LabeledPrice[] prices,
+            IEnumerable<LabeledPrice> prices,
             string photoUrl = default,
             int photoSize = default,
             int photoWidth = default,
@@ -1566,51 +1566,34 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            string providerData = default
-        )
+            string providerData = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new SendInvoiceRequest
             {
-                {"description", description},
-                {"payload", payload},
-                {"provider_token", providerToken},
-                {"start_parameter", startParameter},
-                {"currency", currency},
-                {"prices", prices},
+                ChatId = chatId,
+                Title = title,
+                Description = description,
+                Payload = payload,
+                ProviderToken = providerToken,
+                StartParameter = startParameter,
+                Currency = currency,
+                Prices = prices,
+                ProviderData = providerData,
+                PhotoUrl = photoUrl,
+                PhotoSize = photoSize,
+                PhotoWidth = photoWidth,
+                PhotoHeight = photoHeight,
+                NeedName = needName,
+                NeedPhoneNumber = needPhoneNumber,
+                NeedEmail = needEmail,
+                NeedShippingAddress = needShippingAddress,
+                IsFlexible = isFlexible,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
             };
 
-            if (!string.IsNullOrEmpty(providerData))
-                parameters.Add("provider_data", providerData);
-
-            if (photoUrl != null)
-                parameters.Add("photo_url", photoUrl);
-
-            if (photoSize != 0)
-                parameters.Add("photo_size", photoSize);
-
-            if (photoWidth != 0)
-                parameters.Add("photo_width", photoWidth);
-
-            if (photoHeight != 0)
-                parameters.Add("photo_height", photoHeight);
-
-            if (needName)
-                parameters.Add("need_name", true);
-
-            if (needPhoneNumber)
-                parameters.Add("need_phone_number", true);
-
-            if (needEmail)
-                parameters.Add("need_email", true);
-
-            if (needShippingAddress)
-                parameters.Add("need_shipping_address", true);
-
-            if (isFlexible)
-                parameters.Add("is_flexible", true);
-
-            return SendMessageAsync(MessageType.Invoice, chatId, title, disableNotification, replyToMessageId,
-                replyMarkup, parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>

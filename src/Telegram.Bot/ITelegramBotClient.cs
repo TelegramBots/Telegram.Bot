@@ -954,14 +954,14 @@ namespace Telegram.Bot
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
         Task<Message> SendInvoiceAsync(
-            ChatId chatId,
+            long chatId,
             string title,
             string description,
             string payload,
             string providerToken,
             string startParameter,
             string currency,
-            LabeledPrice[] prices,
+            IEnumerable<LabeledPrice> prices,
             string photoUrl = default,
             int photoSize = default,
             int photoWidth = default,

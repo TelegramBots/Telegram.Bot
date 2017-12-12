@@ -10,7 +10,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
     {
         public TestsFixture TestsFixture { get; }
 
-        public ChatId TesterPrivateChatId { get; }
+        public long TesterPrivateChatId { get; }
 
         public string PaymentProviderToken { get; }
 
@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             }
             else
             {
-                TesterPrivateChatId = privateChatId;
+                TesterPrivateChatId = privateChatId.Value;
 
                 TestsFixture.SendTestCollectionNotificationAsync(Constants.TestCollections.Payment,
                     "All messages for this collection will be sent in private chat")

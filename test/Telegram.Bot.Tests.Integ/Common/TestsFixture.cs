@@ -70,7 +70,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             return msg;
         }
 
-        public async Task<ChatId> GetChatIdFromTesterAsync(ChatType chatType)
+        public async Task<long> GetChatIdFromTesterAsync(ChatType chatType)
         {
             var update = (await UpdateReceiver.GetUpdatesAsync(u =>
                     u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true &&
@@ -79,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            ChatId chatid = update.Message.Chat.Id;
+            long chatid = update.Message.Chat.Id;
             return chatid;
         }
 
