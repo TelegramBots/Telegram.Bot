@@ -8,7 +8,9 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send text messages
     /// </summary>
-    public class SendMessageRequest : RequestBase<Message>, INotifiableMessage
+    public class SendMessageRequest : RequestBase<Message>,
+                                      INotifiableMessage,
+                                      IReplyMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
@@ -36,9 +38,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
-        /// <summary>
-        /// If the message is a reply, ID of the original message
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 

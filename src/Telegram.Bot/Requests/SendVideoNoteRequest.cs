@@ -11,7 +11,9 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send rounded video messages
     /// </summary>
-    public class SendVideoNoteRequest : FileRequestBase<Message>, INotifiableMessage
+    public class SendVideoNoteRequest : FileRequestBase<Message>,
+                                        INotifiableMessage,
+                                        IReplyMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -39,9 +41,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
-        /// <summary>
-        /// If the message is a reply, ID of the original message
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 

@@ -11,7 +11,9 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send video files, Telegram clients support mp4 videos
     /// </summary>
-    public class SendVideoRequest : FileRequestBase<Message>, INotifiableMessage
+    public class SendVideoRequest : FileRequestBase<Message>,
+                                    INotifiableMessage,
+                                    IReplyMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -51,9 +53,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
-        /// <summary>
-        /// If the message is a reply, ID of the original message
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 

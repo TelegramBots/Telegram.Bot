@@ -11,7 +11,9 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send photos
     /// </summary>
-    public class SendPhotoRequest : FileRequestBase<Message>, INotifiableMessage
+    public class SendPhotoRequest : FileRequestBase<Message>,
+                                    INotifiableMessage,
+                                    IReplyMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -29,9 +31,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
-        /// <summary>
-        /// If the message is a reply, ID of the original message
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 

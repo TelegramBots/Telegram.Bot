@@ -13,7 +13,9 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
     /// </summary>
-    public class SendMediaGroupRequest : RequestBase<Message[]>, INotifiableMessage
+    public class SendMediaGroupRequest : RequestBase<Message[]>,
+                                         INotifiableMessage,
+                                         IReplyMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -28,9 +30,7 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         public bool DisableNotification { get; set; }
 
-        /// <summary>
-        /// If the messages are a reply, ID of the original message
-        /// </summary>
+        /// <inheritdoc />
         public int ReplyToMessageId { get; set; }
 
         /// <summary>
