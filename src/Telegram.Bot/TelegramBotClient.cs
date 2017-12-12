@@ -1388,20 +1388,14 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
-        public Task<bool> EditInlineMessageReplyMarkupAsync(string inlineMessageId,
-            IReplyMarkup replyMarkup = null,
+        public async Task<bool> EditInlineMessageReplyMarkupAsync(
+            string inlineMessageId,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"inline_message_id", inlineMessageId},
-            };
-
-            if (replyMarkup != null)
-                parameters.Add("reply_markup", replyMarkup);
-
-            return SendWebRequestAsync<bool>("editMessageReplyMarkup", parameters, cancellationToken);
-        }
+            =>
+                await MakeRequestAsync(
+                    new EditInlineMessageReplyMarkupRequest(inlineMessageId, replyMarkup),
+                    cancellationToken);
 
         /// <summary>
         /// Use this method to edit live location messages sent by the bot.
