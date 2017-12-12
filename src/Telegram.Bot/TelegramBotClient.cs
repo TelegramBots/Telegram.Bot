@@ -2052,17 +2052,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#setstickerpositioninset"/>
-        public Task<bool> SetStickerPositionInSetAsync(string sticker, int position,
+        public async Task<bool> SetStickerPositionInSetAsync(
+            string sticker,
+            int position,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>()
-            {
-                {"sticker", sticker},
-                {"position", position}
-            };
-
-            return SendWebRequestAsync<bool>("setStickerPositionInSet", parameters, cancellationToken);
-        }
+            => await MakeRequestAsync(new SetStickerPositionInSetRequest(sticker, position), cancellationToken);
 
         /// <summary>
         /// Use this method to delete a sticker from a set created by the bot.
