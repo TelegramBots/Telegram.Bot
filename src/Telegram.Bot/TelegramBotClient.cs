@@ -1630,20 +1630,17 @@ namespace Telegram.Bot
         /// <returns>On success, True is returned.</returns>
         /// <remarks>Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</remarks>
         /// <see href="https://core.telegram.org/bots/api#answerprecheckoutquery"/>
-        public Task<bool> AnswerPreCheckoutQueryAsync(string preCheckoutQueryId, bool ok,
-            string errorMessage = null,
+        public async Task<bool> AnswerPreCheckoutQueryAsync(
+            string preCheckoutQueryId,
+            bool ok,
+            string errorMessage = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
-            {
-                {"pre_checkout_query_id", preCheckoutQueryId},
-                {"ok", ok}
-            };
+            var request = ok
+                ? new AnswerPreCheckoutQueryRequest(preCheckoutQueryId)
+                : new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage);
 
-            if (!ok)
-                parameters.Add("error_message", errorMessage);
-
-            return SendWebRequestAsync<bool>("answerPreCheckoutQuery", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         #endregion Payments
