@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Requests

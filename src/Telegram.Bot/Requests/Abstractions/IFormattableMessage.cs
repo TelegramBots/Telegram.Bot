@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Requests
+namespace Telegram.Bot.Requests.Abstractions
 {
     public interface IFormattableMessage
     {

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests
+﻿namespace Telegram.Bot.Requests.Abstractions
 {
     public interface IInlineMessage
     {
