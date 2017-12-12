@@ -1986,26 +1986,23 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
-        public Task<bool> CreateNewStickerSetAsnyc(int userId, string name, string title, FileToSend pngSticker,
-            string emojis, bool isMasks = false, MaskPosition maskPosition = null,
+        public async Task<bool> CreateNewStickerSetAsnyc(
+            int userId,
+            string name,
+            string title,
+            FileToSend pngSticker,
+            string emojis,
+            bool isMasks = default,
+            MaskPosition maskPosition = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>()
+            var request = new CreateNewStickerSetRequest(userId, name, title, pngSticker, emojis)
             {
-                {"user_id", userId},
-                {"name", name},
-                {"title", title},
-                {"png_sticker", pngSticker},
-                {"emojis", emojis}
+                ContainsMasks = isMasks,
+                MaskPosition = maskPosition
             };
 
-            if (isMasks)
-                parameters.Add("is_masks", true);
-
-            if (maskPosition != null)
-                parameters.Add("mask_position", maskPosition);
-
-            return SendWebRequestAsync<bool>("createNewStickerSet", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
