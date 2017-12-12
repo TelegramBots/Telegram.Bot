@@ -988,9 +988,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, True is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
-        Task<bool> AnswerShippingQueryAsync(string shippingQueryId, bool ok,
-            ShippingOption[] shippingOptions = null,
-            string errorMessage = null,
+        Task<bool> AnswerShippingQueryAsync(
+            string shippingQueryId,
+            bool ok,
+            IEnumerable<ShippingOption> shippingOptions = default,
+            string errorMessage = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>

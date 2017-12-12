@@ -1606,24 +1606,18 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, True is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
-        public Task<bool> AnswerShippingQueryAsync(string shippingQueryId, bool ok,
-            ShippingOption[] shippingOptions = null,
-            string errorMessage = null,
+        public async Task<bool> AnswerShippingQueryAsync(
+            string shippingQueryId,
+            bool ok,
+            IEnumerable<ShippingOption> shippingOptions = default,
+            string errorMessage = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
-            {
-                {"shipping_query_id", shippingQueryId},
-                {"ok", ok}
-            };
+            var request = ok
+                ? new AnswerShippingQueryRequest(shippingQueryId, shippingOptions)
+                : new AnswerShippingQueryRequest(shippingQueryId, errorMessage);
 
-            if (shippingOptions != null)
-                parameters.Add("shipping_options", shippingOptions);
-
-            if (!ok)
-                parameters.Add("error_message", errorMessage);
-
-            return SendWebRequestAsync<bool>("answerShippingQuery", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         /// <summary>
