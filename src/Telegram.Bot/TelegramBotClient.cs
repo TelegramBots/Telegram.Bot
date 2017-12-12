@@ -1457,17 +1457,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletemessage"/>
-        public Task<bool> DeleteMessageAsync(ChatId chatId, int messageId,
+        public async Task<bool> DeleteMessageAsync(
+            ChatId chatId,
+            int messageId,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>
-            {
-                {"chat_id", chatId},
-                {"message_id", messageId}
-            };
-
-            return SendWebRequestAsync<bool>("deleteMessage", parameters, cancellationToken);
-        }
+            => await MakeRequestAsync(new DeleteMessageRequest(chatId, messageId), cancellationToken);
 
         #endregion Updating messages
 
