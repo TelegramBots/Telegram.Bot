@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -7,7 +8,8 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Stop updating a live location message sent by the bot
     /// </summary>
-    public class StopMessageLiveLocationRequest : RequestBase<Message>
+    public class StopMessageLiveLocationRequest : RequestBase<Message>,
+                                                  IInlineReplyMarkupMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
@@ -19,9 +21,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public int MessageId { get; set; }
 
-        /// <summary>
-        /// Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 

@@ -8,14 +8,13 @@ namespace Telegram.Bot.Requests
     /// Edit only the reply markup of messages sent via the bot. On success the edited True is returned.
     /// </summary>
     public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>,
-                                                       IInlineMessage
+                                                       IInlineMessage,
+                                                       IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
         public string InlineMessageId { get; set; }
 
-        /// <summary>
-        /// A JSON-serialized object for an inline keyboard
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 

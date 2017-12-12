@@ -12,7 +12,8 @@ namespace Telegram.Bot.Requests
     public class SendMessageRequest : RequestBase<Message>,
                                       INotifiableMessage,
                                       IReplyMessage,
-                                      IFormattableMessage
+                                      IFormattableMessage,
+                                      IReplyMarkupMessage<IReplyMarkup>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
@@ -42,9 +43,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 
-        /// <summary>
-        /// Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IReplyMarkup ReplyMarkup { get; set; }
 

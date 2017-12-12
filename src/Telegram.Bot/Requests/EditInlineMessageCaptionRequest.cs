@@ -8,7 +8,8 @@ namespace Telegram.Bot.Requests
     /// Edit captions and game messages sent via the bot. On success the edited True is returned.
     /// </summary>
     public class EditInlineMessageCaptionRequest : RequestBase<bool>,
-                                                   IInlineMessage
+                                                   IInlineMessage,
+                                                   IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
         public string InlineMessageId { get; set; }
@@ -19,9 +20,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
-        /// <summary>
-        /// A JSON-serialized object for an inline keyboard
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 

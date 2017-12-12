@@ -14,7 +14,8 @@ namespace Telegram.Bot.Requests
     /// </summary>
     public class SendPhotoRequest : FileRequestBase<Message>,
                                     INotifiableMessage,
-                                    IReplyMessage
+                                    IReplyMessage,
+                                    IReplyMarkupMessage<IReplyMarkup>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -40,9 +41,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
-        /// <summary>
-        /// Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IReplyMarkup ReplyMarkup { get; set; }
 

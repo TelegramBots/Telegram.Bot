@@ -8,7 +8,8 @@ namespace Telegram.Bot.Requests
     /// Edit live location messages sent via the bot (for inline bots)
     /// </summary>
     public class EditInlineMessageLiveLocationRequest : RequestBase<bool>,
-                                                        IInlineMessage
+                                                        IInlineMessage,
+                                                        IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
         public string InlineMessageId { get; set; }
@@ -23,9 +24,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public float Longitude { get; set; }
 
-        /// <summary>
-        /// Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 

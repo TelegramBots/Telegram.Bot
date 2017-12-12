@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -7,7 +8,8 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Edit only the reply markup of messages sent by the bot. On success the edited <see cref="Message"/> is returned.
     /// </summary>
-    public class EditMessageReplyMarkupRequest : RequestBase<Message>
+    public class EditMessageReplyMarkupRequest : RequestBase<Message>,
+                                                 IInlineReplyMarkupMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -19,9 +21,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public int MessageId { get; set; }
 
-        /// <summary>
-        /// A JSON-serialized object for an inline keyboard
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 

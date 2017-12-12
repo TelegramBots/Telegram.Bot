@@ -10,7 +10,8 @@ namespace Telegram.Bot.Requests
     /// </summary>
     public class EditInlineMessageTextRequest : RequestBase<bool>,
                                                 IFormattableMessage,
-                                                IInlineMessage
+                                                IInlineMessage,
+                                                IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
         public string InlineMessageId { get; set; }
@@ -30,9 +31,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableWebPagePreview { get; set; }
 
-        /// <summary>
-        /// A JSON-serialized object for an inline keyboard
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 

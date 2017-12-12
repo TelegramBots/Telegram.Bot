@@ -8,14 +8,13 @@ namespace Telegram.Bot.Requests
     /// Stop updating a live location message sent via the bot (for inline bots) before live period expires
     /// </summary>
     public class StopInlineMessageLiveLocationRequest : RequestBase<bool>,
-                                                        IInlineMessage
+                                                        IInlineMessage,
+                                                        IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
         public string InlineMessageId { get; set; }
 
-        /// <summary>
-        /// Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 

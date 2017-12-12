@@ -10,7 +10,8 @@ namespace Telegram.Bot.Requests
     /// Edit text and game messages sent by the bot. On success the edited <see cref="Message"/> is returned.
     /// </summary>
     public class EditMessageTextRequest : RequestBase<Message>,
-                                          IFormattableMessage
+                                          IFormattableMessage,
+                                          IInlineReplyMarkupMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -37,9 +38,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableWebPagePreview { get; set; }
 
-        /// <summary>
-        /// A JSON-serialized object for an inline keyboard
-        /// </summary>
+        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 
