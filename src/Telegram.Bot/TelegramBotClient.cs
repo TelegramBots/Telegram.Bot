@@ -1490,33 +1490,26 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answerinlinequery"/>
-        public Task<bool> AnswerInlineQueryAsync(string inlineQueryId, InlineQueryResult[] results,
-            int? cacheTime = null,
-            bool isPersonal = false, string nextOffset = null,
-            string switchPmText = null,
-            string switchPmParameter = null,
+        public async Task<bool> AnswerInlineQueryAsync(
+            string inlineQueryId,
+            IEnumerable<InlineQueryResult> results,
+            int? cacheTime = default,
+            bool isPersonal = default,
+            string nextOffset = default,
+            string switchPmText = default,
+            string switchPmParameter = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
+            var request = new AnswerInlineQueryRequest(inlineQueryId, results)
             {
-                {"inline_query_id", inlineQueryId},
-                {"results", results},
-                {"is_personal", isPersonal}
+                CacheTime = cacheTime,
+                IsPersonal = isPersonal,
+                NextOffset = nextOffset,
+                SwitchPmText = switchPmText,
+                SwitchPmParameter = switchPmParameter
             };
 
-            if (cacheTime.HasValue)
-                parameters.Add("cache_time", cacheTime);
-
-            if (!string.IsNullOrWhiteSpace(nextOffset))
-                parameters.Add("next_offset", nextOffset);
-
-            if (!string.IsNullOrWhiteSpace(switchPmText))
-                parameters.Add("switch_pm_text", switchPmText);
-
-            if (!string.IsNullOrWhiteSpace(switchPmParameter))
-                parameters.Add("switch_pm_parameter", switchPmParameter);
-
-            return SendWebRequestAsync<bool>("answerInlineQuery", parameters, cancellationToken);
+            return await MakeRequestAsync(request, cancellationToken);
         }
 
         # endregion Inline mode

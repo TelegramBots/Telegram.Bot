@@ -911,11 +911,14 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answerinlinequery"/>
-        Task<bool> AnswerInlineQueryAsync(string inlineQueryId, InlineQueryResult[] results,
-            int? cacheTime = null,
-            bool isPersonal = false, string nextOffset = null,
-            string switchPmText = null,
-            string switchPmParameter = null,
+        Task<bool> AnswerInlineQueryAsync(
+            string inlineQueryId,
+            IEnumerable<InlineQueryResult> results,
+            int? cacheTime = default,
+            bool isPersonal = default,
+            string nextOffset = default,
+            string switchPmText = default,
+            string switchPmParameter = default,
             CancellationToken cancellationToken = default);
 
         #endregion Inline mode
