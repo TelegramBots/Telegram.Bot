@@ -1251,8 +1251,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
-        Task<bool> DeleteChatStickerSetAsync(ChatId chatId,
-            CancellationToken cancellationToken = default);
+        Task<bool> DeleteChatStickerSetAsync(ChatId chatId, CancellationToken cancellationToken = default);
 
         #endregion
     }
