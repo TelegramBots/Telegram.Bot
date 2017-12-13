@@ -1063,14 +1063,15 @@ namespace Telegram.Bot
         /// <param name="inlineMessageId">Identifier of the inline message.</param>
         /// <param name="force">Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters</param>
         /// <param name="disableEditMessage">Pass True, if the game message should not be automatically edited to include the current scoreboard</param>
-        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, if the message was sent by the bot, returns the edited Description</returns>
+        /// <returns>On success returns True</returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
-        Task<Message> SetGameScoreAsync(int userId, int score, string inlineMessageId,
-            bool force = false,
-            bool disableEditMessage = false,
-            bool editMessage = false,
+        Task<bool> SetGameScoreAsync(
+            int userId,
+            int score,
+            string inlineMessageId,
+            bool force = default,
+            bool disableEditMessage = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
