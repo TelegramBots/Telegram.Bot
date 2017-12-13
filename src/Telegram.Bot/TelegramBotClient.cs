@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +10,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
-using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -2007,142 +2004,6 @@ namespace Telegram.Bot
             string sticker,
             CancellationToken cancellationToken = default)
             => await MakeRequestAsync(new DeleteStickerFromSetRequest(sticker), cancellationToken);
-
-        #endregion
-
-        #region Support Methods - Private
-
-        private async Task<T> SendWebRequestAsync<T>(string method, Dictionary<string, object> parameters = null,
-            CancellationToken cancellationToken = default)
-        {
-            if (_invalidToken)
-                throw new ApiRequestException("Invalid token", 401);
-
-            var uri = new Uri(BaseUrl + _token + "/" + method);
-            var apiRequestDataEventArgs = new ApiRequestEventArgs();
-
-            ApiResponse<T> responseObject;
-            try
-            {
-                HttpResponseMessage response;
-                if (parameters == null || parameters.Count == 0)
-                {
-                    // Request with no parameters
-
-                    MakingApiRequest?.Invoke(this, apiRequestDataEventArgs);
-                    response = await _httpClient.GetAsync(uri, cancellationToken)
-                        .ConfigureAwait(false);
-                }
-                else if (parameters.Any(p => p.Value is FileToSend && ((FileToSend)p.Value).Type == FileType.Stream))
-                {
-                    // Request including a file
-
-                    using (var form = new MultipartFormDataContent())
-                    {
-                        foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
-                        {
-                            var content = ConvertParameterValue(parameter.Value);
-
-                            if (parameter.Value is FileToSend fts)
-                            {
-                                content.Headers.Add("Content-Type", "application/octet-stream");
-                                string contentDisposision =
-                                    $"form-data; name=\"{parameter.Key}\"; filename=\"{fts.Filename}\""
-                                    .EncodeUtf8();
-                                content.Headers.Add("Content-Disposition", contentDisposision);
-
-                                form.Add(content, parameter.Key, fts.Filename);
-                            }
-                            else
-                            {
-                                form.Add(content, parameter.Key);
-                            }
-                        }
-
-                        apiRequestDataEventArgs.HttpContent = form;
-                        MakingApiRequest?.Invoke(this, apiRequestDataEventArgs);
-                        response = await _httpClient.PostAsync(uri, form, cancellationToken)
-                            .ConfigureAwait(false);
-                    }
-                }
-                else
-                {
-                    // Request with JSON data
-
-                    var payload = JsonConvert.SerializeObject(parameters, SerializerSettings);
-
-                    var httpContent = new StringContent(payload, Encoding.UTF8, "application/json");
-
-                    apiRequestDataEventArgs.HttpContent = httpContent;
-                    MakingApiRequest?.Invoke(this, apiRequestDataEventArgs);
-                    response = await _httpClient.PostAsync(uri, httpContent, cancellationToken)
-                        .ConfigureAwait(false);
-                }
-
-                string responseString = await response.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
-                ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
-                {
-                    ResponseMessage = response,
-                    ApiRequestEventArgs = apiRequestDataEventArgs
-                });
-
-                switch (response.StatusCode)
-                {
-                    case HttpStatusCode.OK:
-                        break;
-                    case HttpStatusCode.Unauthorized:
-                        _invalidToken = true;
-                        throw new ApiRequestException("Invalid token", 401);
-                    case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseString):
-                    case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseString):
-                    case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseString):
-                        // Do NOT throw here, an ApiRequestException will be thrown next
-                        break;
-                    default:
-                        response.EnsureSuccessStatusCode();
-                        break;
-                }
-
-                responseObject = JsonConvert.DeserializeObject<ApiResponse<T>>(responseString, SerializerSettings);
-            }
-            catch (TaskCanceledException e)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                    throw;
-
-                throw new ApiRequestException("Request timed out", 408, e);
-            }
-
-            if (responseObject == null)
-                responseObject = new ApiResponse<T> { Ok = false, Description = "No response received" };
-
-            if (!responseObject.Ok)
-                throw ApiExceptionParser.Parse(responseObject);
-
-            return responseObject.Result;
-        }
-
-        private static HttpContent ConvertParameterValue(object value)
-        {
-            HttpContent httpContent;
-
-            switch (value)
-            {
-                case string str: // Prevent escaping back-slash character: "\r\n" should not be "\\r\\n"
-                    httpContent = new StringContent(str);
-                    break;
-                case FileToSend fileToSend:
-                    httpContent = new StreamContent(fileToSend.Content);
-                    break;
-                default:
-                    httpContent = new StringContent(JsonConvert.SerializeObject(value, SerializerSettings).Trim('"'));
-                    break;
-            }
-
-            return httpContent;
-        }
 
         #endregion
     }
