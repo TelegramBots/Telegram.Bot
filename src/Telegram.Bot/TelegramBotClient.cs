@@ -1916,17 +1916,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns the uploaded File on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
-        public Task<File> UploadStickerFileAsync(int userId, FileToSend pngSticker,
+        public async Task<File> UploadStickerFileAsync(
+            int userId,
+            Stream pngSticker,
             CancellationToken cancellationToken = default)
-        {
-            var parameters = new Dictionary<string, object>()
-            {
-                {"user_id", userId},
-                {"png_sticker", pngSticker}
-            };
-
-            return SendWebRequestAsync<File>("uploadStickerFile", parameters, cancellationToken);
-        }
+            =>
+                await MakeRequestAsync(new UploadStickerFileRequest(userId, pngSticker), cancellationToken);
 
         /// <summary>
         /// Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.

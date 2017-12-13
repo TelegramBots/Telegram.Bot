@@ -1133,7 +1133,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns the uploaded File on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
-        Task<File> UploadStickerFileAsync(int userId, FileToSend pngSticker,
+        Task<File> UploadStickerFileAsync(
+            int userId,
+            Stream pngSticker,
             CancellationToken cancellationToken = default);
 
         /// <summary>

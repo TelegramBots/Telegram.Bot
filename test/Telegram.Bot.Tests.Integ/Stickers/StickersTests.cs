@@ -115,7 +115,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 {
                     file = await BotClient.UploadStickerFileAsync(
                         userId: _classFixture.OwnerUserId,
-                        pngSticker: stream.ToFileToSend(fileName: "sticker")
+                        pngSticker: stream
                     );
                 }
 
