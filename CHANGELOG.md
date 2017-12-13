@@ -120,6 +120,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Replace method `EditInlineMessageTextAsync` with overload for `EditMessageTextAsync`
 - Replace method `EditInlineMessageCaptionAsync` with overload for `EditMessageCaptionAsync`
 - Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
+- Request methods in `TelegramBotClient` annotated as `async`
 
 ### Removed
 
