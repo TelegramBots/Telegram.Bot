@@ -1039,16 +1039,20 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="userId">Unique identifier of the target user.</param>
         /// <param name="score">The score.</param>
-        /// <param name="chatId"><see cref="ChatId"/> for the target chat.</param>
+        /// <param name="chatId">Unique identifier of the target chat.</param>
         /// <param name="messageId">Unique identifier of the sent message.</param>
         /// <param name="force">Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters</param>
         /// <param name="disableEditMessage">Pass True, if the game message should not be automatically edited to include the current scoreboard</param>
-        /// <param name="editMessage">Pass True, if the game message should be automatically edited to include the current scoreboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, if the message was sent by the bot, returns the edited <see cref="Message"/></returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
-        Task<Message> SetGameScoreAsync(int userId, int score, ChatId chatId, int messageId, bool force = false,
-            bool disableEditMessage = false, bool editMessage = false,
+        Task<Message> SetGameScoreAsync(
+            int userId,
+            int score,
+            long chatId,
+            int messageId,
+            bool force = default,
+            bool disableEditMessage = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
