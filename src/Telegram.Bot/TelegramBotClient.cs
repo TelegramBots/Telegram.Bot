@@ -985,15 +985,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>The File object. If <paramref name="destination"/> stream in not provided, stream is embedded in the <see cref="File"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getfile"/>
-        public async Task<File> GetFileAsync(string fileId, Stream destination = null,
+        public async Task<File> GetFileAsync(
+            string fileId,
+            Stream destination = default,
             CancellationToken cancellationToken = default)
         {
-            var parameters = new Dictionary<string, object>
-            {
-                {"file_id", fileId}
-            };
-
-            var fileInfo = await SendWebRequestAsync<File>("getFile", parameters, cancellationToken)
+            var fileInfo = await MakeRequestAsync(new GetFileRequest(fileId), cancellationToken)
                 .ConfigureAwait(false);
 
             var fileUri = new Uri(BaseFileUrl + _token + "/" + fileInfo.FilePath);
