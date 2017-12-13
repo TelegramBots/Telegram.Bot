@@ -1018,7 +1018,7 @@ namespace Telegram.Bot
         /// <summary>
         /// Use this method to send a game.
         /// </summary>
-        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="chatId">Unique identifier of the target chat</param>
         /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -1026,10 +1026,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendgame"/>
-        Task<Message> SendGameAsync(ChatId chatId, string gameShortName,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
+        Task<Message> SendGameAsync(
+            long chatId,
+            string gameShortName,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
