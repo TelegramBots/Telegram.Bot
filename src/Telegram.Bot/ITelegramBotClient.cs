@@ -1078,7 +1078,7 @@ namespace Telegram.Bot
         /// Use this method to get data for high score tables.
         /// </summary>
         /// <param name="userId">Unique identifier of the target user.</param>
-        /// <param name="chatId"><see cref="ChatId"/> for the target chat.</param>
+        /// <param name="chatId">Unique identifier of the target chat.</param>
         /// <param name="messageId">Unique identifier of the sent message.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects</returns>
@@ -1087,7 +1087,10 @@ namespace Telegram.Bot
         /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
-        Task<GameHighScore[]> GetGameHighScoresAsync(int userId, ChatId chatId, int messageId,
+        Task<GameHighScore[]> GetGameHighScoresAsync(
+            int userId,
+            long chatId,
+            int messageId,
             CancellationToken cancellationToken = default);
 
         /// <summary>
