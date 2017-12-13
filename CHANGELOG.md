@@ -7,6 +7,143 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Request classes
+    - Type `GetUpdatesRequest`
+    - Type `SetWebhookRequest`
+    - Type `DeleteWebhookRequest`
+    - Type `GetWebhookInfoRequest`
+    - Type `GetMeRequest`
+    - Type `SendMessageRequest`
+    - Type `ForwardMessageRequest`
+    - Type `SendPhotoRequest`
+    - Type `SendAudioRequest`
+    - Type `SendDocumentRequest`
+    - Type `SendVideoRequest`
+    - Type `SendVoiceRequest`
+    - Type `SendVideoNoteRequest`
+    - Type `SendLocationRequest`
+    - Type `EditMessageLiveLocationRequest`
+    - Type `EditInlineMessageLiveLocationRequest`
+    - Type `StopMessageLiveLocationRequest`
+    - Type `StopInlineMessageLiveLocationRequest`
+    - Type `SendVenueRequest`
+    - Type `SendContactRequest`
+    - Type `SendChatActionRequest`
+    - Type `GetUserProfilePicturesRequest`
+    - Type `KickChatMemberRequest`
+    - Type `UnbanChatmemberRequest`
+    - Type `RestrictChatMemberRequest`
+    - Type `PromoteChatMemberRequest`
+    - Type `ExportChatInviteLinkRequest`
+    - Type `SetChatPhotoRequest`
+    - Type `DeleteChatPhotoRequest`
+    - Type `SetChatTitleRequest`
+    - Type `SetChatDescriptionRequest`
+    - Type `PinChatMessageRequest`
+    - Type `UnpinChatMessageRequest`
+    - Type `LeaveChatRequest`
+    - Type `GetChatRequest`
+    - Type `GetChatAdministratorsRequest`
+    - Type `GetChatMembersCountRequest`
+    - Type `GetChatMemberRequest`
+    - Type `SetChatStickerSetRequest`
+    - Type `DeleteChatStickerSetRequest`
+    - Type `AnswerCallbackQueryRequest`
+    - Type `EditMessageTextRequest`
+    - Type `EditInlineMessageTextRequest`
+    - Type `EditMessageCaptionRequest`
+    - Type `EditInlineMessageCaptionRequest`
+    - Type `EditMessageReplyMarkupRequest`
+    - Type `EditInlineMessageReplyMarkupRequest`
+    - Type `DeleteMessageRequest`
+    - Type `SendStickerRequest`
+    - Type `GetStickerSetRequest`
+    - Type `SetStickerPositionInSetRequest`
+    - Type `AnswerInlineQueryRequest`
+    - Type `DeleteStickerFromSetRequest`
+    - Type `AddStickerToSetRequest`
+    - Type `CreateNewStickerSetRequest`
+    - Type `SendInvoiceRequest`
+    - Type `AnswerShippingQueryRequest`
+    - Type `AnswerPreCheckoutQueryRequest`
+    - Type `SendGameRequest`
+    - Type `SetGameScoreRequest`
+    - Type `SetInlineGameScoreRequest`
+    - Type `GetGameHighScoresRequest`
+    - Type `GetInlineGameHighScoresRequest`
+    - Type `GetFileRequest`
+    - Type `FileRequestBase`
+    - Type `UploadStickerFileRequest`
+    - Interface `INotifiableMessage`
+    - Interface `IReplyMessage`
+    - Interface `IFormattableMessage`
+    - Interface `IInlineMessage`
+    - Interface `IReplyMarkupMessage`
+    - Interface `IInlineReplyMarkupMessage`
+
+### Changed
+
+- Type of parameter `certificate` in method `SetWebhookAsync` changed to `Stream`
+- Type of parameter `allowedUpdates` in method `SetWebhookAsync` changed to `IEnumerable<UpdateType>`
+- Type of parameter `allowedUpdates` in method `GetUpdatesAsync` changed to `IEnumerable<UpdateType>`
+- Type of parameter `offset` in method `GetUserProfilePhotosAsync` changed to `int`
+- Type of parameter `photo` in method `SetChatPhotoAsync` changed to `Stream`
+- Type of parameter `replyMarkup` in methods `EditMessageLiveLocationAsync` changed to `InlineKeyboardMarkup`
+- Type of parameter `replyMarkup` in methods `StopMessageLiveLocationAsync` changed to `InlineKeyboardMarkup`
+- Type of parameter `replyMarkup` in method `EditMessageTextAsync` changed to `InlineKeyboardMarkup`
+- Type of parameter `replyMarkup` in method `EditMessageCaptionAsync` changed to `InlineKeyboardMarkup`
+- Type of parameter `replyMarkup` in method `EditMessageReplyMarkupAsync` changed to `InlineKeyboardMarkup`
+- Type of parameter `replyMarkup` in method `SendGameAsync` changed to `InlineKeyboardMarkup`
+- Type of parameter `replyMarkup` in method `SendInvoiceAsync` changed to `InlineKeyboardMarkup`
+- Type of parameter `prices` in method `SendInvoiceAsync` changed to `IEnumerable<LabeledPrice>`
+- Type of parameter `shippingOptions` in method `AnswerShippingQueryAsync` changed to `IEnumerable<ShippingOption>`
+- Type of parameter `chatId` in method `SendInvoiceAsync` changed to `long`
+- Type of parameter `chatId` in method `SendGameAsync` changed to `long`
+- Type of parameter `chatId` in methods `SetGameScoreAsync` changed to `long`
+- Type of parameter `chatId` in methods `GetGameHighScoresAsync` changed to `long`
+- Default value of parameter `maxConnection` in method `SetWebhookAsync` changed to `default` keyword
+- Default value of parameter `limit` in method `GetUpdatesAsync` changed to `default` keyword
+- Default value of parameter `parseMode` in method `SendTextMessageAsync` changed to `default` keyword
+- Default value of parameter `caption` in method `SendVideoAsync` changed to `default` keyword
+- Default value of parameter `caption` in method `SendDocumentAsync` changed to `default` keyword
+- Default value of parameter `caption` in method `SendPhotoAsync` changed to `default` keyword
+- Default value of parameter `caption` in method `SendVoiceAsync` changed to `default` keyword
+- Default value of parameter `limit` in method `GetUserProfilePhotosAsync` changed to `default` keyword
+- Default value of parameter `parseMode` in method `EditMessageTextAsync` changed to `default` keyword
+- Default value of parameter `pngSticker` in method `UploadStickerFileAsync` changed to `Stream`
+- Literal default values in interface `ITelegramBotClient` replaced with `default` keyword
+- Type parameter of type `SendMediaGroupRequest` changed to `Message[]`
+- Return type of method `GetChatIdFromTesterAsync` in `TestFixture` changed to `Task<long>`
+- Type of propery `TesterPrivateChatId` on type `PaymentTestsFixture` changed to `long`
+- Replace method `EditInlineMessageTextAsync` with overload for `EditMessageTextAsync`
+- Replace method `EditInlineMessageCaptionAsync` with overload for `EditMessageCaptionAsync`
+- Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
+
+### Removed
+
+- Interface `IResponse`
+- Type parameter constraint from interface `IRequest`
+- Redundant parameter `editMessage` in methods `SetGameScoreAsync`
+
+### Fixed
+
+- Method `SetWebhookAsync` interface `ITelegramBotClient` returns `bool` on success
+- Passing wrong `chatId` value in method `GetGameHighScoresAsync`
+- Passing wrong `chatId` value in method `SendGameAsync`
+- Passing wrong `chatId` value in method `SendInvoiceAsync`
+- Passing wrong `replyMarkup` value in method `SendGameAsync`
+- Passing wrong `replyMarkup` value in method `SendInvoiceAsync`
+- Passing wrong `replyMarkup` value in method `EditMessageLiveLocationAsync`
+- Passing wrong `replyMarkup` value in method `EditMessageReplyMarkupAsync`
+- Passing wrong `replyMarkup` value in method `EditMessageCaptionAsync`
+- Passing wrong `replyMarkup` value in method `EditMessageTextAsync`
+- Passing wrong `replyMarkup` value in method `StopMessageLiveLocationAsync`
+- Passing wrong `pngSticker` value in method `UploadStickerFileAsync`
+- Passing wrong `photo` value in method `SetChatPhotoAsync`
+- Passing wrong `certificate` value in method `SetWebhookAsync`
+
 ## [13.4.0] - 2017-12-07
 
 ### Added
