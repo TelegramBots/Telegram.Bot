@@ -2020,47 +2020,6 @@ namespace Telegram.Bot
 
         #region Support Methods - Private
 
-        /// <summary>
-        /// Use this method to send any messages. On success, the sent Description is returned.
-        /// </summary>
-        /// <param name="type">The <see cref="MessageType"/></param>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
-        /// <param name="content">The content of the message. Could be a text, photo, audio, sticker, document, video or location</param>
-        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
-        /// <param name="replyToMessageId">Optional. If the message is a reply, ID of the original message</param>
-        /// <param name="replyMarkup">Optional. Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="additionalParameters">Optional. if additional Parameters could be send i.e. "disable_web_page_preview" in for a TextMessage</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, the sent Description is returned.</returns>
-        private Task<Message> SendMessageAsync(MessageType type, ChatId chatId, object content,
-            bool disableNotification = false,
-            int replyToMessageId = 0,
-            IReplyMarkup replyMarkup = null,
-            Dictionary<string, object> additionalParameters = null,
-            CancellationToken cancellationToken = default)
-        {
-            if (additionalParameters == null)
-                additionalParameters = new Dictionary<string, object>();
-
-            var typeInfo = type.ToKeyValue();
-
-            additionalParameters.Add("chat_id", chatId);
-
-            if (disableNotification)
-                additionalParameters.Add("disable_notification", true);
-
-            if (replyMarkup != null)
-                additionalParameters.Add("reply_markup", replyMarkup);
-
-            if (replyToMessageId != 0)
-                additionalParameters.Add("reply_to_message_id", replyToMessageId);
-
-            if (!string.IsNullOrEmpty(typeInfo.Value))
-                additionalParameters.Add(typeInfo.Value, content);
-
-            return SendWebRequestAsync<Message>(typeInfo.Key, additionalParameters, cancellationToken);
-        }
-
         private async Task<T> SendWebRequestAsync<T>(string method, Dictionary<string, object> parameters = null,
             CancellationToken cancellationToken = default)
         {
