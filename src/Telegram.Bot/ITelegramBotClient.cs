@@ -1105,7 +1105,9 @@ namespace Telegram.Bot
         /// Will also return the top three users if the user and his neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
-        Task<GameHighScore[]> GetGameHighScoresAsync(int userId, string inlineMessageId,
+        Task<GameHighScore[]> GetGameHighScoresAsync(
+            int userId,
+            string inlineMessageId,
             CancellationToken cancellationToken = default);
 
         #endregion Games
