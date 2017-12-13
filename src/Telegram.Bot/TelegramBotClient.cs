@@ -417,7 +417,8 @@ namespace Telegram.Bot
             {
                 Offset = offset,
                 Limit = limit,
-                Timeout = timeout
+                Timeout = timeout,
+                AllowedUpdates = allowedUpdates
             };
 
             return await MakeRequestAsync(getUpdateRequest, cancellationToken);
