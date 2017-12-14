@@ -5,6 +5,7 @@ using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Exceptions
@@ -77,7 +78,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup(new[]
             {
-                new KeyboardButton("Share Contact") { RequestContact = true },
+                new RequestContactButton("Share Contact"),
             });
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>

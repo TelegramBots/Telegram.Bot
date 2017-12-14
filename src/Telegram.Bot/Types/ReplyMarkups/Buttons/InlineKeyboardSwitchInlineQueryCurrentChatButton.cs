@@ -1,15 +1,26 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Telegram.Bot.Types.InlineKeyboardButtons
+namespace Telegram.Bot.Types.ReplyMarkups.Buttons
 {
     /// <summary>
     /// This object represents one button of an inline keyboard. Pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field.
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+        NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardSwitchInlineQueryCurrentChatButton : InlineKeyboardButton
     {
+        ///  <summary>
+        /// Initializes a new instance of the <see cref="InlineKeyboardSwitchInlineQueryButton"/> class
+        ///  </summary>
+        /// <param name="switchInlineQueryCurrentChat"></param>
+        /// <param name="text"></param>
+        public InlineKeyboardSwitchInlineQueryCurrentChatButton(string text, string switchInlineQueryCurrentChat = null)
+            : base(text)
+        {
+            SwitchInlineQueryCurrentChat = switchInlineQueryCurrentChat;
+        }
+
         /// <summary>
         /// Optional. If set, pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot’s username will be inserted.
         /// </summary>
@@ -18,15 +29,5 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         /// </remarks>
         [JsonProperty]
         public string SwitchInlineQueryCurrentChat { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
-        /// </summary>
-        /// <param name="text">Text of the button</param>
-        /// <param name="switchInlineQueryCurrentChat">Pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot’s username will be inserted.</param>
-        public InlineKeyboardSwitchInlineQueryCurrentChatButton(string text, string switchInlineQueryCurrentChat = null) : base(text)
-        {
-            SwitchInlineQueryCurrentChat = switchInlineQueryCurrentChat;
-        }
     }
 }

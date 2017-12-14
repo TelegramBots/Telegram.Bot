@@ -4,6 +4,7 @@ using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
@@ -33,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             var replyMarkup = new ReplyKeyboardMarkup(new[]
             {
-                new KeyboardButton("Share Contact") { RequestContact = true },
+                new RequestContactButton("Share Contact"),
             }, true, true);
 
             Message message = await BotClient.SendTextMessageAsync(

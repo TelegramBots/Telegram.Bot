@@ -2,9 +2,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.LiveLocation
