@@ -22,7 +22,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardPayButton"/> class.
         /// </summary>
-        /// <param name="text">The text on the button.</param>
+        /// <param name="text">Label text on the button</param>
         public InlineKeyboardPayButton(string text)
             : base(text) { }
     }

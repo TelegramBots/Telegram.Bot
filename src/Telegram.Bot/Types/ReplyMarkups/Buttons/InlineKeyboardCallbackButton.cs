@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardCallbackButton"/> class.
         /// </summary>
-        /// <param name="textAndCallbackData">The text.</param>
+        /// <param name="textAndCallbackData">The label text on the button and callback data.</param>
         public InlineKeyboardCallbackButton(string textAndCallbackData)
             : this(textAndCallbackData, textAndCallbackData)
         { }
@@ -21,8 +21,8 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardCallbackButton"/> class.
         /// </summary>
-        /// <param name="text">The text.</param>
-        /// <param name="callbackData">The callback data.</param>
+        /// <param name="text">Label text on the button</param>
+        /// <param name="callbackData">The callback data</param>
         public InlineKeyboardCallbackButton(string text, string callbackData)
             : base(text)
         {

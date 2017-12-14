@@ -14,7 +14,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         ///  <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardSwitchInlineQueryButton"/> class
         ///  </summary>
-        /// <param name="switchInlineQuery"></param>
+        /// <param name="switchInlineQuery">Input query that will be inserted with the bot's username. Can be empty, in which case just the bot’s username will be inserted.</param>
         /// <param name="text"></param>
         public InlineKeyboardSwitchInlineQueryButton(string text, string switchInlineQuery = "")
             : base(text)

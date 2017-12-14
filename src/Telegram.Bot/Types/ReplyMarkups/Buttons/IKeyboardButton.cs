@@ -6,7 +6,7 @@
     public interface IKeyboardButton
     {
         /// <summary>
-        /// Text of the button
+        /// Label text on the button
         /// </summary>
         string Text { get; set; }
     }

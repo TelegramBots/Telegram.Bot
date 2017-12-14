@@ -11,9 +11,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class InlineKeyboardButton : IKeyboardButton
     {
-        /// <summary>
-        /// Label text on the button
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public string Text { get; set; }
 
@@ -37,7 +35,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         protected InlineKeyboardButton(string text)
         {
             Text = text;
@@ -46,7 +44,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardUrlButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="url">HTTP url to be opened when button is pressed</param>
         public static InlineKeyboardButton WithUrl(string text, string url)
             => new InlineKeyboardUrlButton(text, url);
@@ -54,7 +52,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardUrlButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="url">HTTP url to be opened when button is pressed</param>
         public static InlineKeyboardButton WithUrl(string text, Uri url)
             => new InlineKeyboardUrlButton(text, url);
@@ -69,7 +67,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardCallbackButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="callbackData">Data to be sent in a <see cref="CallbackQuery"/> to the bot when button is pressed, 1-64 bytes</param>
         public static InlineKeyboardButton WithCallbackData(string text, string callbackData)
             => new InlineKeyboardCallbackButton(text, callbackData);
@@ -77,7 +75,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardSwitchInlineQueryButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="switchInlineQuery">Pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot's username will be inserted.</param>
         /// <returns></returns>
         public static InlineKeyboardButton WithSwitchInlineQuery(string text, string switchInlineQuery = "")
@@ -86,7 +84,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardSwitchInlineQueryCurrentChatButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="switchInlineQueryCurrentChat">Pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot's username will be inserted.</param>
         public static InlineKeyboardButton WithSwitchInlineQueryCurrentChat(string text, string switchInlineQueryCurrentChat = "")
             => new InlineKeyboardSwitchInlineQueryCurrentChatButton(text, switchInlineQueryCurrentChat);
@@ -94,7 +92,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardCallbackGameButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="callbackGame">Description of the game that will be launched when the user presses the button.</param>
         public static InlineKeyboardButton WithCallBackGame(string text, CallbackGame callbackGame)
             => new InlineKeyboardCallbackGameButton(text, callbackGame);
@@ -102,7 +100,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardPayButton"/> class.
         /// </summary>
-        /// <param name="text">The text on the button.</param>
+        /// <param name="text">Label text on the button</param>
         public static InlineKeyboardButton WithPayment(string text)
             => new InlineKeyboardPayButton(text);
     }

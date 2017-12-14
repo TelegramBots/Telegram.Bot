@@ -22,7 +22,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardCallbackGameButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="callbackGame">Description of the game that will be launched when the user presses the button.</param>
         public InlineKeyboardCallbackGameButton(string text, CallbackGame callbackGame)
             : base(text)

@@ -10,11 +10,11 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardSwitchInlineQueryCurrentChatButton : InlineKeyboardButton
     {
-        ///  <summary>
+        /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardSwitchInlineQueryButton"/> class
-        ///  </summary>
-        /// <param name="switchInlineQueryCurrentChat"></param>
-        /// <param name="text"></param>
+        /// </summary>
+        /// <param name="switchInlineQueryCurrentChat">Inline query that will be inserted with bot's username in the current chat. Can be empty, in which case only the bot’s username will be inserted.</param>
+        /// <param name="text">Label text on the button</param>
         public InlineKeyboardSwitchInlineQueryCurrentChatButton(string text, string switchInlineQueryCurrentChat = null)
             : base(text)
         {

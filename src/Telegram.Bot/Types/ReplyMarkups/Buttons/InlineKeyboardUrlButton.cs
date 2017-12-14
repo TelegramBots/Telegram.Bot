@@ -30,7 +30,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardUrlButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="url">HTTP url to be opened when button is pressed</param>
         public InlineKeyboardUrlButton(string text, Uri url)
             : base(text)

@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestLocationButton"/> class.
         /// </summary>
-        /// <param name="text">The texton on the button</param>
+        /// <param name="text">Label text on the button</param>
         public RequestLocationButton(string text)
             : base(text)
         { }
