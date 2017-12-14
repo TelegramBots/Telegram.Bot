@@ -184,8 +184,11 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Message message;
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
-                message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
-                    new FileToSend("logo.png", stream), string.Join("\n", values));
+                message = await BotClient.SendPhotoAsync(
+                    chatId: _fixture.SuperGroupChatId,
+                    photo: new FileToSend("logo.png", stream),
+                    caption: string.Join("\n", values)
+                );
             }
 
             Assert.Equal(values, message.CaptionEntityValues);
