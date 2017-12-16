@@ -15,13 +15,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- All keyboard buttons classes inherit `IKeyboardButton` interface
-- All keyboard buttons moved to `Telegram.Bot.Types.ReplyMarkups.Buttons` namespace
+- All keyboard button classes inherit `IKeyboardButton` interface
+- All keyboard buttons moved to namespace `Telegram.Bot.Types.ReplyMarkups.Buttons` 
 
 ### Removed
 
 - Type `KeyboardButton` property `RequestContact`
 - Type `KeyboardButton` property `RequestLocation`
+- Type `InlineKeyboardPayButton` property `Pay` setter
 
 ## [13.4.0] - 2017-12-07
 
