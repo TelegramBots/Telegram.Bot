@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Interface `IKeyboardButton`
+- Type `RequestContactButton`
+- Type `RequestLocationButton`
+
+### Changed
+
+- All keyboard buttons classes inherit `IKeyboardButton` interface
+- All keyboard buttons moved to `Telegram.Bot.Types.ReplyMarkups.Buttons` namespace
+
+### Removed
+
+- Type `KeyboardButton` property `RequestContact`
+- Type `KeyboardButton` property `RequestLocation`
+
 ## [13.4.0] - 2017-12-07
 
 ### Added
