@@ -127,6 +127,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Interface `IResponse`
 - Type parameter constraint from interface `IRequest`
 - Redundant parameter `editMessage` in methods `SetGameScoreAsync`
+- Redundant custom converter `ParseModeConverter`
 
 ### Fixed
 
