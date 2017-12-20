@@ -121,6 +121,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Replace method `EditInlineMessageCaptionAsync` with overload for `EditMessageCaptionAsync`
 - Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
 - Request methods in `TelegramBotClient` annotated as `async`
+- Method `CreateNewStickerSetAsnyc` renamed to `CreateNewStickerSetAsync`
 
 ### Removed
 
@@ -145,6 +146,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Passing wrong `pngSticker` value in method `UploadStickerFileAsync`
 - Passing wrong `photo` value in method `SetChatPhotoAsync`
 - Passing wrong `certificate` value in method `SetWebhookAsync`
+- Incorrect spelling of the method `CreateNewStickerSetAsync`
 
 ## [13.4.0] - 2017-12-07
 
