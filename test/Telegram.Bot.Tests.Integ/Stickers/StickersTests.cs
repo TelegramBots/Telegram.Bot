@@ -136,7 +136,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerSetNameException);
 
             BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.CreateNewStickerSetAsnyc(
+                BotClient.CreateNewStickerSetAsync(
                     userId: _classFixture.OwnerUserId,
                     name: "Invalid_Sticker_Set_Name",
                     title: "Sticker Set Title",
@@ -156,7 +156,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerEmojisException);
 
             BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.CreateNewStickerSetAsnyc(
+                BotClient.CreateNewStickerSetAsync(
                     userId: _classFixture.OwnerUserId,
                     name: "valid_name" + _classFixture.TestStickerSetName,
                     title: "Sticker Set Title",
@@ -179,7 +179,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
                 exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                    BotClient.CreateNewStickerSetAsnyc(
+                    BotClient.CreateNewStickerSetAsync(
                         userId: _classFixture.OwnerUserId,
                         name: "valid_name" + _classFixture.TestStickerSetName,
                         title: "Sticker Set Title",
@@ -209,7 +209,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             bool result;
             try
             {
-                result = await BotClient.CreateNewStickerSetAsnyc(
+                result = await BotClient.CreateNewStickerSetAsync(
                     userId: _classFixture.OwnerUserId,
                     name: _classFixture.TestStickerSetName,
                     title: "Test Sticker Set",
@@ -248,7 +248,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Ruby))
             {
                 exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                    BotClient.CreateNewStickerSetAsnyc(
+                    BotClient.CreateNewStickerSetAsync(
                         userId: _classFixture.OwnerUserId,
                         name: _classFixture.TestStickerSet.Name,
                         title: "Another Test Sticker Set",

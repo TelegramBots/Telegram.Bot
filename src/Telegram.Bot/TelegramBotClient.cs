@@ -1934,7 +1934,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
-        public async Task<bool> CreateNewStickerSetAsnyc(
+        public async Task<bool> CreateNewStickerSetAsync(
             int userId,
             string name,
             string title,
