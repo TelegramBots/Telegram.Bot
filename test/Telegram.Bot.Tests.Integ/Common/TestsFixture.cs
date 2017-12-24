@@ -129,11 +129,8 @@ namespace Telegram.Bot.Tests.Integ.Common
                     Constants.TestExecutionResultMessageFormat,
                     RunSummary.Total,
                     passed,
-                    1.0 * passed / RunSummary.Total,
                     RunSummary.Skipped,
-                    1.0 * RunSummary.Skipped / RunSummary.Total,
-                    RunSummary.Failed,
-                    1.0 * RunSummary.Failed / RunSummary.Total
+                    RunSummary.Failed
                 ),
                 ParseMode.Markdown,
                 cancellationToken: source.Token
@@ -151,9 +148,9 @@ namespace Telegram.Bot.Tests.Integ.Common
             public const string TestExecutionResultMessageFormat =
                 "```\nTest execution is finished.\n```" +
                 "Total: {0} tests\n" +
-                "✅ `{1:00} passed  ({2:P1})`\n" +
-                "⚠ `{3:00} skipped ({4:P1})`\n" +
-                "❎ `{5:00} failed  ({6:P1})`";
+                "✅ `{1} passed`\n" +
+                "⚠ `{2} skipped`\n" +
+                "❎ `{3} failed`";
         }
     }
 }

@@ -6,9 +6,9 @@ branches:
   only:
   - develop
 script:
-  - sh -c "dotnet test test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj --configuration Release --list-tests"
   - cd "test/Telegram.Bot.Tests.Integ"
-  - sh -c "dotnet xunit -configuration Release -no-build -stoponfail"
+  - sh -c "dotnet test --configuration Release --list-tests"
+  - sh -c "dotnet xunit -configuration Release -nobuild -stoponfail"
 notifications:
   email: false
 
