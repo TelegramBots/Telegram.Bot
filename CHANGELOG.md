@@ -122,6 +122,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
 - Request methods in `TelegramBotClient` annotated as `async`
 - Method `CreateNewStickerSetAsnyc` renamed to `CreateNewStickerSetAsync`
+- Type `ITelegramBotClient` method `DeleteWebhookAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `KickChatMemberAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `LeaveChatAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `UnbanChatMemberAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `AnswerCallbackQueryAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `RestrictChatMemberAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `PromoteChatMemberAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `StopMessageLiveLocationAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `EditMessageTextAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `EditMessageCaptionAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `EditMessageReplyMarkupAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `EditMessageLiveLocationAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `DeleteMessageAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `AnswerInlineQueryAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `AnswerShippingQueryAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `AnswerPreCheckoutQueryAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `SetGameScoreAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `CreateNewStickerSetAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `AddStickerToSetAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `SetStickerPositionInSetAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `DeleteStickerFromSetAsync` return type changedfrom `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `SetChatPhotoAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `DeleteChatPhotoAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `SetChatTitleAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `SetChatDescriptionAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `PinChatMessageAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `UnpinChatMessageAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `SetChatStickerSetAsync` return type changed from `Task<bool>` to `Task`
+- Type `ITelegramBotClient` method `DeleteChatStickerSetAsync` return type changed from `Task<bool>` to `Task`
 
 ### Removed
 
