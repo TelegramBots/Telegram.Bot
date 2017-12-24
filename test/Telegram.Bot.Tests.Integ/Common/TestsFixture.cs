@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Common
 {
@@ -18,6 +19,8 @@ namespace Telegram.Bot.Tests.Integ.Common
         public string[] AllowedUserNames { get; }
 
         public ChatId SuperGroupChatId { get; }
+
+        public readonly RunSummary RunSummary = new RunSummary();
 
         public TestsFixture()
         {
@@ -118,9 +121,17 @@ namespace Telegram.Bot.Tests.Integ.Common
             UpdateReceiver.DiscardNewUpdatesAsync(source.Token).GetAwaiter().GetResult();
 
             source = new CancellationTokenSource(TimeSpan.FromSeconds(20));
+            int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Skipped;
+
             BotClient.SendTextMessageAsync(
                 SuperGroupChatId,
-                "```\nTest execution is finished.\n```",
+                string.Format(
+                    Constants.TestExecutionResultMessageFormat,
+                    RunSummary.Total,
+                    passed,
+                    RunSummary.Skipped,
+                    RunSummary.Failed
+                ),
                 ParseMode.Markdown,
                 cancellationToken: source.Token
             ).GetAwaiter().GetResult();
@@ -133,6 +144,13 @@ namespace Telegram.Bot.Tests.Integ.Common
             public const string StartTestCaseMessageFormat = "🔹 Test Case:\n*{0}*";
 
             public const string InstructionsMessageFormat = "👉 _Instructions_: 👈\n{0}";
+
+            public const string TestExecutionResultMessageFormat =
+                "```\nTest execution is finished.\n```" +
+                "Total: {0} tests\n" +
+                "✅ `{1} passed`\n" +
+                "⚠ `{2} skipped`\n" +
+                "❎ `{3} failed`";
         }
     }
 }
