@@ -34,9 +34,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatTitle);
 
-            bool result = await BotClient.SetChatTitleAsync(_classFixture.ChatId, _classFixture.ChatTitle);
-
-            Assert.True(result);
+            await BotClient.SetChatTitleAsync(_classFixture.ChatId, _classFixture.ChatTitle);
         }
 
         #endregion
@@ -50,10 +48,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatDescription);
 
-            bool result = await BotClient.SetChatDescriptionAsync(_classFixture.ChatId,
+            await BotClient.SetChatDescriptionAsync(_classFixture.ChatId,
                 "Test Chat Description");
-
-            Assert.True(result);
         }
 
         [Fact(DisplayName = FactTitles.ShouldDeleteChatDescription)]
@@ -63,9 +59,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
 
-            bool result = await BotClient.SetChatDescriptionAsync(_classFixture.ChatId);
-
-            Assert.True(result);
+            await BotClient.SetChatDescriptionAsync(_classFixture.ChatId);
         }
 
         #endregion
@@ -81,9 +75,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
             Message msg = await BotClient.SendTextMessageAsync(_classFixture.ChatId, "Description to pin");
 
-            bool result = await BotClient.PinChatMessageAsync(_classFixture.ChatId, msg.MessageId);
+            await BotClient.PinChatMessageAsync(_classFixture.ChatId, msg.MessageId);
 
-            Assert.True(result);
             _classFixture.PinnedMessage = msg;
         }
 
@@ -113,9 +106,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnpinMessage);
 
-            bool result = await BotClient.UnpinChatMessageAsync(_classFixture.ChatId);
-
-            Assert.True(result);
+            await BotClient.UnpinChatMessageAsync(_classFixture.ChatId);
         }
 
         [Fact(DisplayName = FactTitles.ShouldGetChatWithNoPinnedMessage)]
@@ -140,14 +131,11 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         public async Task Should_Set_Chat_Photo()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatPhoto);
-            bool result;
 
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
-                result = await BotClient.SetChatPhotoAsync(_classFixture.ChatId, stream);
+                await BotClient.SetChatPhotoAsync(_classFixture.ChatId, stream);
             }
-
-            Assert.True(result);
         }
 
         [Fact(DisplayName = FactTitles.ShouldDeleteChatPhoto)]
@@ -157,9 +145,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatPhoto);
 
-            bool result = await BotClient.DeleteChatPhotoAsync(_classFixture.ChatId);
-
-            Assert.True(result);
+            await BotClient.DeleteChatPhotoAsync(_classFixture.ChatId);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowOnDeletingChatDeletedPhoto)]

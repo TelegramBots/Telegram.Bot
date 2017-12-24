@@ -33,10 +33,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberForEver);
 
-            bool result = await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
-                _classFixture.RegularMemberUserId);
-
-            Assert.True(result);
+            await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId, _classFixture.RegularMemberUserId);
         }
 
         [Fact(DisplayName = FactTitles.ShouldUnbanChatMember)]
@@ -46,10 +43,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnbanChatMember);
 
-            bool result = await BotClient.UnbanChatMemberAsync(_fixture.SuperGroupChatId,
+            await BotClient.UnbanChatMemberAsync(_fixture.SuperGroupChatId,
                 _classFixture.RegularMemberUserId);
-
-            Assert.True(result);
         }
 
         [Fact(DisplayName = FactTitles.ShouldExportChatInviteLink)]
@@ -104,12 +99,10 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPromoteUserToChangeChatInfo);
 
-            bool result = await BotClient.PromoteChatMemberAsync(
+            await BotClient.PromoteChatMemberAsync(
                 _fixture.SuperGroupChatId,
                 _classFixture.RegularMemberUserId,
                 canChangeInfo: false);
-
-            Assert.True(result);
         }
 
         [Fact(DisplayName = FactTitles.ShouldRestrictSendingStickersTemporarily)]
@@ -120,15 +113,13 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRestrictSendingStickersTemporarily);
 
-            bool result = await BotClient.RestrictChatMemberAsync(
+            await BotClient.RestrictChatMemberAsync(
                 _fixture.SuperGroupChatId,
                 _classFixture.RegularMemberUserId,
                 DateTime.UtcNow.AddSeconds(banSeconds),
                 canSendMessages: true,
                 canSendMediaMessages: true,
                 canSendOtherMessages: false);
-
-            Assert.True(result);
         }
 
         #endregion
@@ -145,10 +136,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
                 $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in *{banSeconds} seconds* " +
                 "via the link shared in private chat with him/her");
 
-            bool result = await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
+            await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
                 _classFixture.RegularMemberUserId, DateTime.UtcNow.AddSeconds(banSeconds));
-
-            Assert.True(result);
         }
 
         #endregion

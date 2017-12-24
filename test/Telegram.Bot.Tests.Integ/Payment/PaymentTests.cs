@@ -122,7 +122,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
 
             Update shippingUpdate = await GetShippingQueryUpdate();
 
-            bool result = await _fixture.BotClient.AnswerShippingQueryAsync(
+            await _fixture.BotClient.AnswerShippingQueryAsync(
                 shippingUpdate.ShippingQuery.Id,
                 true,
                 shippingOptions
@@ -135,8 +135,6 @@ namespace Telegram.Bot.Tests.Integ.Payment
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.State);
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.StreetLine1);
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.PostCode);
-
-            Assert.True(result);
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithOkForNoShipmentOption)]
@@ -178,7 +176,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
             Update precheckoutUpdate = await GetPreCheckoutQueryUpdate();
             PreCheckoutQuery query = precheckoutUpdate.PreCheckoutQuery;
 
-            bool result = await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
+            await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
                 query.Id,
                 true
             );
@@ -190,7 +188,6 @@ namespace Telegram.Bot.Tests.Integ.Payment
             Assert.Equal(invoice.Currency, query.Currency);
             Assert.Contains(query.From.Username, _fixture.AllowedUserNames);
             Assert.Null(query.OrderInfo);
-            Assert.True(result);
         }
         // ToDo: another method: receive successful payment
 

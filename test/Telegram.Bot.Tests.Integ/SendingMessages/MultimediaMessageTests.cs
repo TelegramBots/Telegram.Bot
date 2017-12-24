@@ -136,7 +136,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         [Fact(DisplayName = FactTitles.ShouldSendDocumentWithNonAsciiName)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
-        [ExecutionOrder(3.1)]
+        [ExecutionOrder(3.2)]
         public async Task Should_Send_Document_With_Farsi_Name()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendDocumentWithNonAsciiName);

@@ -43,11 +43,9 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
             };
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            bool result = await BotClient.AnswerInlineQueryAsync(
+            await BotClient.AnswerInlineQueryAsync(
                 update.InlineQuery.Id,
                 results, 0);
-
-            Assert.True(result);
         }
 
         private static class FactTitles

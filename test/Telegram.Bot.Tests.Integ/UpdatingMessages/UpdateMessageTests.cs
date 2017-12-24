@@ -96,12 +96,11 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
             var iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
             await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
             var callbackUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
-            bool result = await BotClient.EditMessageReplyMarkupAsync(
+            await BotClient.EditMessageReplyMarkupAsync(
                 callbackUpdate.CallbackQuery.InlineMessageId,
                 editedMarkup);
 
             Assert.Equal(data, callbackUpdate.CallbackQuery.Data);
-            Assert.True(result);
         }
 
         #endregion

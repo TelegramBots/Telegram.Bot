@@ -124,19 +124,15 @@ namespace Telegram.Bot.Tests.Integ.LiveLocation
             {
                 await Task.Delay(15_00);
 
-                bool result = await BotClient.EditMessageLiveLocationAsync(
+                await BotClient.EditMessageLiveLocationAsync(
                     inlineMessageId,
                     newLocation.Latitude,
                     newLocation.Longitude,
                     new InlineKeyboardMarkup(new InlineKeyboardButton[0])
                 );
-
-                Assert.True(result);
             }
 
-            bool stopResult = await BotClient.StopMessageLiveLocationAsync(inlineMessageId);
-
-            Assert.True(stopResult);
+            await BotClient.StopMessageLiveLocationAsync(inlineMessageId);
         }
 
         private static class FactTitles

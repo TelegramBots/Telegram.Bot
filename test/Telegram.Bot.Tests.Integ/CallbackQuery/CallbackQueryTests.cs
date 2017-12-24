@@ -44,13 +44,11 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
             Update responseUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId, false);
 
-            bool result =
-                await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "You clicked on OK");
+            await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "You clicked on OK");
 
             Assert.Equal(UpdateType.CallbackQueryUpdate, responseUpdate.Type);
             Assert.Equal(message.MessageId, responseUpdate.CallbackQuery.Message.MessageId);
             Assert.Equal(callbackQueryData, responseUpdate.CallbackQuery.Data);
-            Assert.True(result);
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerCallbackQueryWithAlert)]
@@ -75,9 +73,8 @@ namespace Telegram.Bot.Tests.Integ.CallbackQuery
 
             Update responseUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId, false);
 
-            bool result = await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "Got it!", true);
+            await BotClient.AnswerCallbackQueryAsync(responseUpdate.CallbackQuery.Id, "Got it!", true);
 
-            Assert.True(result);
             Assert.Equal(callbackQueryData, responseUpdate.CallbackQuery.Data);
         }
 
