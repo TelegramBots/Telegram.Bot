@@ -175,7 +175,6 @@ namespace Telegram.Bot.Tests.Integ.Common
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
-                case UpdateType.All:
                     isAllowed = false;
                     break;
                 case UpdateType.UnknownUpdate:

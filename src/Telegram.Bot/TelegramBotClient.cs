@@ -405,7 +405,8 @@ namespace Telegram.Bot
                 Limit = limit,
                 Timeout = timeout,
                 AllowedUpdates = allowedUpdates
-            }, cancellationToken);
+            }, cancellationToken)
+            .ContinueWith(t => t.Result.ToArray());
 
         /// <summary>
         /// Use this method to specify a url and receive incoming updates via an outgoing webhook.

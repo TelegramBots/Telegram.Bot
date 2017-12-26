@@ -158,6 +158,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type parameter constraint from interface `IRequest`
 - Redundant parameter `editMessage` in methods `SetGameScoreAsync`
 - Redundant custom converter `ParseModeConverter`
+- Value `All` from `UpdateType` enum
 
 ### Fixed
 

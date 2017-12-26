@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -12,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// Receive incoming updates using long polling. An Array of <see cref="Update" /> objects is returned.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class GetUpdatesRequest : RequestBase<Update[]>
+    public class GetUpdatesRequest : RequestBase<List<Update>>
     {
         /// <summary>
         /// Identifier of the first update to be returned
@@ -36,15 +35,7 @@ namespace Telegram.Bot.Requests
         /// List the types of updates you want your bot to receive. Specify an empty list to receive all updates regardless of type (default). If not specified, the previous setting will be used.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IEnumerable<UpdateType> AllowedUpdates
-        {
-            get => _allowedUpdateTypes;
-            set => _allowedUpdateTypes = value?.Contains(UpdateType.All) == false
-                ? value
-                : _allowedUpdateTypes;
-        }
-
-        private IEnumerable<UpdateType> _allowedUpdateTypes;
+        public IEnumerable<UpdateType> AllowedUpdates { get; set; }
 
         /// <summary>
         /// Initializes a new GetUpdates request

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Types.Enums;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
@@ -14,8 +14,6 @@ namespace Telegram.Bot.Requests
     /// </summary>
     public class SetWebhookRequest : RequestBase<bool>
     {
-        private IEnumerable<UpdateType> _allowedUpdateTypes;
-
         /// <summary>
         /// HTTPS url to send updates to. Use an empty string to remove webhook integration.
         /// </summary>
@@ -38,17 +36,7 @@ namespace Telegram.Bot.Requests
         /// List the types of updates you want your bot to receive
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IEnumerable<UpdateType> AllowedUpdates
-        {
-            get => _allowedUpdateTypes;
-            set
-            {
-                if (value != null && value.All(u => u != UpdateType.All))
-                {
-                    _allowedUpdateTypes = value;
-                }
-            }
-        }
+        public IEnumerable<UpdateType> AllowedUpdates { get; set; }
 
         /// <summary>
         /// Initializes a new request with uri
