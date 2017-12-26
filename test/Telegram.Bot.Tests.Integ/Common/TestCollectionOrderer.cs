@@ -10,6 +10,7 @@ namespace Telegram.Bot.Tests.Integ.Common
     {
         private readonly string[] _orderedCollections = {
             Constants.TestCollections.GettingUpdates,
+            Constants.TestCollections.Webhook,
             Constants.TestCollections.TextMessage,
             Constants.TestCollections.MultimediaMessage,
             Constants.TestCollections.MessageReplyMarkup,

@@ -201,7 +201,7 @@ namespace Telegram.Bot
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#setwebhook"/>
         Task SetWebhookAsync(
-            string url = "",
+            string url,
             Stream certificate = default,
             int maxConnections = default,
             IEnumerable<UpdateType> allowedUpdates = default,

@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
+using Telegram.Bot.Types.InputFiles;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -10,7 +11,7 @@ namespace Telegram.Bot.Types
     /// Media to send in request that could be a file_id, HTTP url, or a file
     /// </summary>
     [JsonConverter(typeof(InputMediaTypeConverter))]
-    public class InputMediaType : InputFileBase
+    public class InputMediaType : InputOnlineFile
     {
         /// <summary>
         /// Initializes media with either a file_id or a HTTP url

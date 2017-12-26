@@ -76,12 +76,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Type `GetFileRequest`
   - Type `FileRequestBase`
   - Type `UploadStickerFileRequest`
-  - Interface `INotifiableMessage`
-  - Interface `IReplyMessage`
-  - Interface `IFormattableMessage`
-  - Interface `IInlineMessage`
-  - Interface `IReplyMarkupMessage`
-  - Interface `IInlineReplyMarkupMessage`
+  - Type `INotifiableMessage`
+  - Type `IReplyMessage`
+  - Type `IFormattableMessage`
+  - Type `IInlineMessage`
+  - Type `IReplyMarkupMessage`
+  - Type `IInlineReplyMarkupMessage`
+- Type `IInputFile`
+- Type `InputFileStream`
+- Type `InputTelegramFile`
+- Type `InputOnlineFile`
 
 ### Changed
 
@@ -159,6 +163,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Redundant parameter `editMessage` in methods `SetGameScoreAsync`
 - Redundant custom converter `ParseModeConverter`
 - Value `All` from `UpdateType` enum
+- Default value of parameter `url` of mehtod `SetWebhookAsync`
 
 ### Fixed
 

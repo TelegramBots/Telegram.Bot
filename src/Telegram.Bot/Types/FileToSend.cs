@@ -10,6 +10,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// Represents information for a file to be sent
     /// </summary>
+    [Obsolete]
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     [JsonConverter(typeof(FileToSendConverter))]
     public struct FileToSend
@@ -37,7 +38,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of file to send
         /// </summary>
-        public FileType Type {
+        public FileType Type
+        {
             get
             {
                 if (Content != null) return FileType.Stream;

@@ -45,6 +45,8 @@
             public const string LiveLocations = "Live locations";
 
             public const string AlbumMessage = "Sending Album Messages";
+
+            public const string Webhook = "Webhook";
         }
 
         public static class FileNames
@@ -82,6 +84,13 @@
                 public const string GoldenRatio = VideoDir + "golden-ratio-240px.mp4";
 
                 public const string MoonLanding = VideoDir + "moon-landing.mp4";
+            }
+
+            public static class Certificate
+            {
+                private const string CertificateDir = FilesDir + "Certificate/";
+
+                public const string PublicKey = CertificateDir + "public-key.pem";
             }
         }
 
@@ -158,6 +167,10 @@
             public const string SetStickerPositionInSet = "setStickerPositionInSet";
 
             public const string DeleteStickerFromSet = "deleteStickerFromSet";
+
+            public const string SetWebhook = "setWebhook";
+
+            public const string DeleteWebhook = "deleteWebhook";
         }
     }
 }
