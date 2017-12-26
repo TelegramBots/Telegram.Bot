@@ -44,7 +44,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="serializerSettings">JSON serialization setting</param>
         /// <returns>Content of HTTP request</returns>
-        public virtual HttpContent ToHttpContent(JsonSerializerSettings serializerSettings)
+        public virtual HttpContent ToHttpContent(JsonSerializerSettings serializerSettings = default)
         {
             string payload = JsonConvert.SerializeObject(this, serializerSettings);
             return new StringContent(payload, Encoding.UTF8, "application/json");

@@ -25,6 +25,6 @@ namespace Telegram.Bot.Requests.Abstractions
         /// </summary>
         /// <param name="serializerSettings">JSON serialization setting</param>
         /// <returns>Content of HTTP request</returns>
-        HttpContent ToHttpContent(JsonSerializerSettings serializerSettings);
+        HttpContent ToHttpContent(JsonSerializerSettings serializerSettings = default);
     }
 }

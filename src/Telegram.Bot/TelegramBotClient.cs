@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
@@ -37,15 +36,6 @@ namespace Telegram.Bot
         private bool _invalidToken;
 
         private readonly HttpClient _httpClient;
-
-        private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings
-        {
-            NullValueHandling = NullValueHandling.Ignore,
-            ContractResolver = new DefaultContractResolver
-            {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            }
-        };
 
         #region Config Properties
 
@@ -198,8 +188,6 @@ namespace Telegram.Bot
 
         #region Helpers
 
-        // ToDo: test with request with no parameters
-        // ToDo: test with other requests including files
         /// <summary>
         /// Send a request to Bot API
         /// </summary>
@@ -218,7 +206,7 @@ namespace Telegram.Bot
 
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
-                Content = request.ToHttpContent(SerializerSettings)
+                Content = request.ToHttpContent()
             };
 
             var reqDataArgs = new ApiRequestEventArgs
@@ -271,7 +259,7 @@ namespace Telegram.Bot
             }
 
             var apiResponse =
-                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson, SerializerSettings)
+                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
                     ?? new ApiResponse<TResponse> // ToDo is required? unit test
                     {
                         Ok = false,

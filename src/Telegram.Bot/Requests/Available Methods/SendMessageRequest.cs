@@ -1,14 +1,17 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send text messages
     /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendMessageRequest : RequestBase<Message>,
                                       INotifiableMessage,
                                       IReplyMessage,
@@ -18,11 +21,13 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; set; }
 
         /// <summary>
         /// Text of the message to be sent
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public string Text { get; set; }
 
         /// <inheritdoc />

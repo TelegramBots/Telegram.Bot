@@ -1,18 +1,19 @@
 using System.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Receive incoming updates using long polling. An Array of <see cref="Update" /> objects is returned.
     /// </summary>
+    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetUpdatesRequest : RequestBase<Update[]>
     {
-        private IEnumerable<UpdateType> _allowedUpdateTypes;
-
         /// <summary>
         /// Identifier of the first update to be returned
         /// </summary>
@@ -32,20 +33,18 @@ namespace Telegram.Bot.Requests
         public int Timeout { get; set; }
 
         /// <summary>
-        /// List the types of updates you want your bot to receive.
+        /// List the types of updates you want your bot to receive. Specify an empty list to receive all updates regardless of type (default). If not specified, the previous setting will be used.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IEnumerable<UpdateType> AllowedUpdates
         {
             get => _allowedUpdateTypes;
-            set
-            {
-                if (value != null && value.All(u => u != UpdateType.All))
-                {
-                    _allowedUpdateTypes = value;
-                }
-            }
+            set => _allowedUpdateTypes = value?.Contains(UpdateType.All) == false
+                ? value
+                : _allowedUpdateTypes;
         }
+
+        private IEnumerable<UpdateType> _allowedUpdateTypes;
 
         /// <summary>
         /// Initializes a new GetUpdates request

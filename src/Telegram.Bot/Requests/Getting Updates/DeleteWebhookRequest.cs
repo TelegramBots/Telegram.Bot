@@ -1,4 +1,5 @@
-﻿namespace Telegram.Bot.Requests
+﻿// ReSharper disable once CheckNamespace
+namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Remove webhook integration if you decide to switch back to getUpdates.
