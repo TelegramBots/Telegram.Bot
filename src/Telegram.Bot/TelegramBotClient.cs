@@ -409,18 +409,15 @@ namespace Telegram.Bot
             int limit = default,
             int timeout = default,
             IEnumerable<UpdateType> allowedUpdates = default,
-            CancellationToken cancellationToken = default)
-        {
-            var getUpdateRequest = new GetUpdatesRequest
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetUpdatesRequest
             {
                 Offset = offset,
                 Limit = limit,
                 Timeout = timeout,
                 AllowedUpdates = allowedUpdates
-            };
-
-            return MakeRequestAsync(getUpdateRequest, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to specify a url and receive incoming updates via an outgoing webhook.
@@ -519,19 +516,16 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendMessageRequest(chatId, text)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendMessageRequest(chatId, text)
             {
                 ParseMode = parseMode,
                 DisableWebPagePreview = disableWebPagePreview,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Description is returned.
@@ -548,15 +542,12 @@ namespace Telegram.Bot
             ChatId fromChatId,
             int messageId,
             bool disableNotification = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new ForwardMessageRequest(chatId, fromChatId, messageId)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new ForwardMessageRequest(chatId, fromChatId, messageId)
             {
                 DisableNotification = disableNotification
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send photos. On success, the sent Description is returned.
@@ -577,18 +568,15 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendPhotoRequest(chatId, photo)
-            {
-                Caption = caption,
-                ReplyToMessageId = replyToMessageId,
-                DisableNotification = disableNotification,
-                ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            CancellationToken cancellationToken = default
+        ) =>
+           MakeRequestAsync(new SendPhotoRequest(chatId, photo)
+           {
+               Caption = caption,
+               ReplyToMessageId = replyToMessageId,
+               DisableNotification = disableNotification,
+               ReplyMarkup = replyMarkup
+           }, cancellationToken);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. On success, the sent Description is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
@@ -615,9 +603,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendAudioRequest(chatId, audio)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendAudioRequest(chatId, audio)
             {
                 Caption = caption,
                 Duration = duration,
@@ -626,11 +614,7 @@ namespace Telegram.Bot
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
-
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Description is returned. Bots can send files of any type of up to 50 MB in size.
@@ -651,18 +635,15 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendDocumentRequest(chatId, document)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
                 Caption = caption,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Description is returned.
@@ -681,18 +662,14 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendStickerRequest(chatId, sticker)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendStickerRequest(chatId, sticker)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
-
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Description is returned. Bots can send video files of up to 50 MB in size.
@@ -719,9 +696,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendVideoRequest(chatId, video)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendVideoRequest(chatId, video)
             {
                 Duration = duration,
                 Width = width,
@@ -730,10 +707,7 @@ namespace Telegram.Bot
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Description is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -756,19 +730,16 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendVoiceRequest(chatId, voice)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendVoiceRequest(chatId, voice)
             {
                 Caption = caption,
                 Duration = duration,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.
@@ -791,19 +762,16 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendVideoNoteRequest(chatId, videoNote)
-            {
-                Duration = duration,
-                Length = length,
-                DisableNotification = disableNotification,
-                ReplyToMessageId = replyToMessageId,
-                ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            CancellationToken cancellationToken = default
+        ) =>
+           MakeRequestAsync(new SendVideoNoteRequest(chatId, videoNote)
+           {
+               Duration = duration,
+               Length = length,
+               DisableNotification = disableNotification,
+               ReplyToMessageId = replyToMessageId,
+               ReplyMarkup = replyMarkup
+           }, cancellationToken);
 
         /// <summary>
         /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
@@ -849,18 +817,15 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendLocationRequest(chatId, latitude, longitude)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendLocationRequest(chatId, latitude, longitude)
             {
                 LivePeriod = livePeriod,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send information about a venue.
@@ -887,17 +852,14 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendVenueRequest(chatId, latitude, longitude, title, address)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to send phone contacts.
@@ -920,17 +882,14 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendContactRequest(chatId, phoneNumber, firstName, lastName)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName, lastName)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
@@ -943,8 +902,9 @@ namespace Telegram.Bot
         public Task SendChatActionAsync(
             ChatId chatId,
             ChatAction chatAction,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new SendChatActionRequest(chatId, chatAction), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendChatActionRequest(chatId, chatAction), cancellationToken);
 
         /// <summary>
         /// Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
@@ -959,16 +919,13 @@ namespace Telegram.Bot
             int userId,
             int offset = default,
             int limit = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new GetUserProfilePhotosRequest(userId)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetUserProfilePhotosRequest(userId)
             {
                 Offset = offset,
                 Limit = limit
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to download a file. For the moment, bots can download files of up to 20MB in size.
@@ -1030,8 +987,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#leavechat"/>
-        public Task LeaveChatAsync(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new LeaveChatRequest(chatId), cancellationToken);
+        public Task LeaveChatAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new LeaveChatRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work.
@@ -1055,8 +1015,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchat"/>
-        public Task<Chat> GetChatAsync(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new GetChatRequest(chatId), cancellationToken);
+        public Task<Chat> GetChatAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetChatRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to get a list of administrators in a chat.
@@ -1067,8 +1030,9 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#getchatadministrators"/>
         public Task<ChatMember[]> GetChatAdministratorsAsync(
             ChatId chatId,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new GetChatAdministratorsRequest(chatId), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetChatAdministratorsRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to get the number of members in a chat.
@@ -1077,8 +1041,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns Int on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmemberscount"/>
-        public Task<int> GetChatMembersCountAsync(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new GetChatMembersCountRequest(chatId), cancellationToken);
+        public Task<int> GetChatMembersCountAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetChatMembersCountRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to get information about a member of a chat.
@@ -1091,8 +1058,9 @@ namespace Telegram.Bot
         public Task<ChatMember> GetChatMemberAsync(
             ChatId chatId,
             int userId,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new GetChatMemberRequest(chatId, userId), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetChatMemberRequest(chatId, userId), cancellationToken);
 
         /// <summary>
         /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
@@ -1216,15 +1184,12 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new StopMessageLiveLocationRequest(chatId, messageId)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new StopMessageLiveLocationRequest(chatId, messageId)
             {
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to stop updating a live location message sent via the bot (for inline bots) before live_period expires.
@@ -1267,16 +1232,14 @@ namespace Telegram.Bot
             ParseMode parseMode = default,
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new EditMessageTextRequest(chatId, messageId, text)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditMessageTextRequest(chatId, messageId, text)
             {
                 ParseMode = parseMode,
                 DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup
-            };
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
@@ -1318,8 +1281,9 @@ namespace Telegram.Bot
             int messageId,
             string caption,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
                 new EditMessageCaptionRequest(chatId, messageId, caption, replyMarkup),
                 cancellationToken);
 
@@ -1336,8 +1300,9 @@ namespace Telegram.Bot
             string inlineMessageId,
             string caption,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
                 new EditInlineMessageCaptionRequest(inlineMessageId, caption, replyMarkup),
                 cancellationToken);
 
@@ -1354,11 +1319,11 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-            =>
-                MakeRequestAsync(
-                    new EditMessageReplyMarkupRequest(chatId, messageId, replyMarkup),
-                    cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
+                new EditMessageReplyMarkupRequest(chatId, messageId, replyMarkup),
+                cancellationToken);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
@@ -1371,11 +1336,11 @@ namespace Telegram.Bot
         public Task EditMessageReplyMarkupAsync(
             string inlineMessageId,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-            =>
-                MakeRequestAsync(
-                    new EditInlineMessageReplyMarkupRequest(inlineMessageId, replyMarkup),
-                    cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
+                new EditInlineMessageReplyMarkupRequest(inlineMessageId, replyMarkup),
+                cancellationToken);
 
         /// <summary>
         /// Use this method to edit live location messages sent by the bot.
@@ -1394,15 +1359,12 @@ namespace Telegram.Bot
             float latitude,
             float longitude,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
             {
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to edit live location messages sent via the bot (for inline bots).
@@ -1437,8 +1399,9 @@ namespace Telegram.Bot
         public Task DeleteMessageAsync(
             ChatId chatId,
             int messageId,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new DeleteMessageRequest(chatId, messageId), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new DeleteMessageRequest(chatId, messageId), cancellationToken);
 
         #endregion Updating messages
 
@@ -1529,9 +1492,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            string providerData = default)
-        {
-            var request = new SendInvoiceRequest
+            string providerData = default
+        ) =>
+            MakeRequestAsync(new SendInvoiceRequest
             {
                 ChatId = chatId,
                 Title = title,
@@ -1554,10 +1517,7 @@ namespace Telegram.Bot
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.
@@ -1623,17 +1583,14 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SendGameRequest(chatId, gameShortName)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendGameRequest(chatId, gameShortName)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
@@ -1654,16 +1611,13 @@ namespace Telegram.Bot
             int messageId,
             bool force = default,
             bool disableEditMessage = default,
-            CancellationToken cancellationToken = default)
-        {
-            var request = new SetGameScoreRequest(chatId, userId, messageId, score)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetGameScoreRequest(chatId, userId, messageId, score)
             {
                 Force = force,
                 DisableEditMessage = disableEditMessage
-            };
-
-            return MakeRequestAsync(request, cancellationToken);
-        }
+            }, cancellationToken);
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
@@ -1707,11 +1661,11 @@ namespace Telegram.Bot
             int userId,
             long chatId,
             int messageId,
-            CancellationToken cancellationToken = default)
-            =>
-                MakeRequestAsync(
-                    new GetGameHighScoresRequest(userId, chatId, messageId),
-                    cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
+                new GetGameHighScoresRequest(userId, chatId, messageId),
+                cancellationToken);
 
         /// <summary>
         /// Use this method to get data for high score tables.
@@ -1728,11 +1682,11 @@ namespace Telegram.Bot
         public Task<GameHighScore[]> GetGameHighScoresAsync(
             int userId,
             string inlineMessageId,
-            CancellationToken cancellationToken = default)
-            =>
-                MakeRequestAsync(
-                    new GetInlineGameHighScoresRequest(userId, inlineMessageId),
-                    cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
+                new GetInlineGameHighScoresRequest(userId, inlineMessageId),
+                cancellationToken);
 
         #endregion Games
 
@@ -1745,8 +1699,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns exported invite link as String on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#exportchatinvitelink"/>
-        public Task<string> ExportChatInviteLinkAsync(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new ExportChatInviteLinkRequest(chatId), cancellationToken);
+        public Task<string> ExportChatInviteLinkAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new ExportChatInviteLinkRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1756,8 +1713,12 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
-        public Task SetChatPhotoAsync(ChatId chatId, Stream photo, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new SetChatPhotoRequest(chatId, photo), cancellationToken);
+        public Task SetChatPhotoAsync(
+            ChatId chatId,
+            Stream photo,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatPhotoRequest(chatId, photo), cancellationToken);
 
         /// <summary>
         /// Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1766,8 +1727,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
-        public Task DeleteChatPhotoAsync(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new DeleteChatPhotoRequest(chatId), cancellationToken);
+        public Task DeleteChatPhotoAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new DeleteChatPhotoRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1780,8 +1744,9 @@ namespace Telegram.Bot
         public Task SetChatTitleAsync(
             ChatId chatId,
             string title,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new SetChatTitleRequest(chatId, title), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatTitleRequest(chatId, title), cancellationToken);
 
         /// <summary>
         /// Use this method to change the description of a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1794,8 +1759,9 @@ namespace Telegram.Bot
         public Task SetChatDescriptionAsync(
             ChatId chatId,
             string description = "",
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new SetChatDescriptionRequest(chatId, description), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatDescriptionRequest(chatId, description), cancellationToken);
 
         /// <summary>
         /// Use this method to pin a message in a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1824,8 +1790,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
-        public Task UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new UnpinChatMessageRequest(chatId), cancellationToken);
+        public Task UnpinChatMessageAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new UnpinChatMessageRequest(chatId), cancellationToken);
 
         /// <summary>
         /// Use this method to set a new group sticker set for a supergroup.
@@ -1838,8 +1807,9 @@ namespace Telegram.Bot
         public Task SetChatStickerSetAsync(
             ChatId chatId,
             string stickerSetName,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken);
 
         /// <summary>
         /// Use this method to delete a group sticker set from a supergroup.
@@ -1848,8 +1818,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
-        public Task DeleteChatStickerSetAsync(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new DeleteChatStickerSetRequest(chatId), cancellationToken);
+        public Task DeleteChatStickerSetAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new DeleteChatStickerSetRequest(chatId), cancellationToken);
 
         #endregion
 
@@ -1862,8 +1835,11 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, a StickerSet object is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getstickerset"/>
-        public Task<StickerSet> GetStickerSetAsync(string name, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new GetStickerSetRequest(name), cancellationToken);
+        public Task<StickerSet> GetStickerSetAsync(
+            string name,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetStickerSetRequest(name), cancellationToken);
 
         /// <summary>
         /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
@@ -1876,9 +1852,9 @@ namespace Telegram.Bot
         public Task<File> UploadStickerFileAsync(
             int userId,
             Stream pngSticker,
-            CancellationToken cancellationToken = default)
-            =>
-                MakeRequestAsync(new UploadStickerFileRequest(userId, pngSticker), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new UploadStickerFileRequest(userId, pngSticker), cancellationToken);
 
         /// <summary>
         /// Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.
@@ -1944,8 +1920,9 @@ namespace Telegram.Bot
         public Task SetStickerPositionInSetAsync(
             string sticker,
             int position,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new SetStickerPositionInSetRequest(sticker, position), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetStickerPositionInSetRequest(sticker, position), cancellationToken);
 
         /// <summary>
         /// Use this method to delete a sticker from a set created by the bot.
@@ -1956,8 +1933,9 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#deletestickerfromset"/>
         public Task DeleteStickerFromSetAsync(
             string sticker,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new DeleteStickerFromSetRequest(sticker), cancellationToken);
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new DeleteStickerFromSetRequest(sticker), cancellationToken);
 
         #endregion
     }
