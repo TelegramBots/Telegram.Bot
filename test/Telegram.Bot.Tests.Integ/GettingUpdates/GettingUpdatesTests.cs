@@ -19,12 +19,37 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetBotUser)]
+        [Fact(DisplayName = FactTitles.ShouldPassApiTokenTest)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
         [ExecutionOrder(1.1)]
+        public async Task Should_Pass_Test_Api_Token()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPassApiTokenTest);
+
+            bool result = await BotClient.TestApiAsync();
+
+            Assert.True(result);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldFailApiTokenTest)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
+        [ExecutionOrder(1.2)]
+        public async Task Should_Fail_Test_Api_Token()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldFailApiTokenTest);
+
+            ITelegramBotClient botClient = new TelegramBotClient("0:1this_is_an-invalid-token_for_tests");
+            bool result = await botClient.TestApiAsync();
+
+            Assert.False(result);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldGetBotUser)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
+        [ExecutionOrder(2.1)]
         public async Task Should_Get_Bot_User()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetBotUser);
-            // todo set botuser on fixture so other tests (inline query instructions) can use it 
             User botUser = await BotClient.GetMeAsync();
 
             Assert.NotNull(botUser);
@@ -34,6 +59,10 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
 
         private static class FactTitles
         {
+            public const string ShouldPassApiTokenTest = "Should pass API Token test with valid token";
+
+            public const string ShouldFailApiTokenTest = "Should pass API Token test with invalid token";
+
             public const string ShouldGetBotUser = "Should get bot user info";
         }
     }

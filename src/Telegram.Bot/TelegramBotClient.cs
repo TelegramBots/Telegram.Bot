@@ -292,15 +292,13 @@ namespace Telegram.Bot
         {
             try
             {
-                await GetMeAsync(cancellationToken)
-                    .ConfigureAwait(false);
+                await GetMeAsync(cancellationToken).ConfigureAwait(false);
+                return true;
             }
-            catch (ApiRequestException e) when (e.ErrorCode == 401)
+            catch (HttpRequestException e) when (e.Message.EndsWith("404 (Not Found)."))
             {
                 return false;
             }
-
-            return true;
         }
 
         /// <summary>

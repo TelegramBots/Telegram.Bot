@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public ChatId SuperGroupChatId { get; }
 
-        public readonly RunSummary RunSummary = new RunSummary();
+        public RunSummary RunSummary { get; } = new RunSummary();
 
         public TestsFixture()
         {
@@ -89,15 +89,9 @@ namespace Telegram.Bot.Tests.Integ.Common
         private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
             string instructions = null, ChatId chatid = null)
         {
-            string textFormat;
-            if (isForCollection)
-            {
-                textFormat = Constants.StartCollectionMessageFormat;
-            }
-            else
-            {
-                textFormat = Constants.StartTestCaseMessageFormat;
-            }
+            var textFormat = isForCollection
+                ? Constants.StartCollectionMessageFormat
+                : Constants.StartTestCaseMessageFormat;
 
             string text = string.Format(textFormat, name);
 
