@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
@@ -9,8 +10,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// Contains information about the current status of a webhook.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class WebhookInfo
     {
         /// <summary>
@@ -34,26 +34,26 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unix time for the most recent error that happened when trying to deliver an update via webhook
         /// </summary>
-        [JsonProperty]
         [JsonConverter(typeof(UnixDateTimeConverter))]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime LastErrorDate { get; set; }
 
         /// <summary>
         /// Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastErrorMessage { get; set; }
 
         /// <summary>
         /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int MaxConnections { get; set; }
 
         /// <summary>
         /// A list of update types the bot is subscribed to. Defaults to all update types
         /// </summary>
-        [JsonProperty]
-        public UpdateType[] AllowedUpdates { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public List<UpdateType> AllowedUpdates { get; set; }
     }
 }

@@ -155,6 +155,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `ITelegramBotClient` method `UnpinChatMessageAsync` return type changed from `Task<bool>` to `Task`
 - Type `ITelegramBotClient` method `SetChatStickerSetAsync` return type changed from `Task<bool>` to `Task`
 - Type `ITelegramBotClient` method `DeleteChatStickerSetAsync` return type changed from `Task<bool>` to `Task`
+- Changed deserialized `IEnumerable<T>` member to `List<T>`
+  - `WebhookInfo.AllowedUpdates`
 
 ### Removed
 

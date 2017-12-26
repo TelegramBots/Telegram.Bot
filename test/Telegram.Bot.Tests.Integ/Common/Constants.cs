@@ -171,6 +171,8 @@
             public const string SetWebhook = "setWebhook";
 
             public const string DeleteWebhook = "deleteWebhook";
+
+            public const string GetWebhookInfo = "getWebhookInfo";
         }
     }
 }

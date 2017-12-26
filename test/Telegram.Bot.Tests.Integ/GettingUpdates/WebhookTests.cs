@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 using File = System.IO.File;
@@ -62,19 +63,31 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
 
         [Fact(DisplayName = FactTitles.ShouldSetWebhookWithCertificate)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetWebhookInfo)]
         [ExecutionOrder(1.3)]
         public async Task Should_Set_Webhook_With_SelfSigned_Cert()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetWebhookWithCertificate);
 
+            const string url = "https://www.telegram.org/";
+            const int maxConnections = 5;
+
             using (var stream = File.OpenRead(Constants.FileNames.Certificate.PublicKey))
             {
                 await BotClient.SetWebhookAsync(
-                    url: "https://www.telegram.org/",
+                    url: url,
                     certificate: stream,
+                    maxConnections: maxConnections,
                     allowedUpdates: new UpdateType[0]
                 );
             }
+
+            WebhookInfo info = await BotClient.GetWebhookInfoAsync();
+
+            Assert.Equal(url, info.Url);
+            Assert.True(info.HasCustomCertificate);
+            Assert.Equal(maxConnections, info.MaxConnections);
+            Assert.Null(info.AllowedUpdates);
 
             await BotClient.DeleteWebhookAsync();
         }
@@ -89,6 +102,21 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
             await BotClient.DeleteWebhookAsync();
         }
 
+        [Fact(DisplayName = FactTitles.ShouldGetDeletedWebhookInfo)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetWebhookInfo)]
+        [ExecutionOrder(1.6)]
+        public async Task Should_Get_Deleted_Webhook_Info()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetDeletedWebhookInfo);
+
+            WebhookInfo info = await BotClient.GetWebhookInfoAsync();
+
+            Assert.Empty(info.Url);
+            Assert.False(info.HasCustomCertificate);
+            Assert.Equal(default, info.MaxConnections);
+            Assert.Equal(default, info.AllowedUpdates);
+        }
+
         private static class FactTitles
         {
             public const string ShouldSetWebhook = "Should set webhook";
@@ -100,6 +128,8 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
             public const string ShouldSetWebhookWithCertificate = "Should set webhook with self-signed certificate";
 
             public const string ShouldDeleteWebhook = "Should delete webhook";
+
+            public const string ShouldGetDeletedWebhookInfo = "Should get info of deleted webhook";
         }
     }
 }
