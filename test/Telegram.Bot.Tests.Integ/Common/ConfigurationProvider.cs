@@ -13,7 +13,6 @@ namespace Telegram.Bot.Tests.Integ.Common
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
                 .AddJsonFile("appsettings.Development.json", true)
                 .AddEnvironmentVariables("TelegramBot_")
                 .Build();

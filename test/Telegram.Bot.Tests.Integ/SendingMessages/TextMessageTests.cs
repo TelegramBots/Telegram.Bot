@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
@@ -68,49 +69,98 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         #region 2. Parsing text message entities
 
-        [Fact(DisplayName = FactTitles.ShouldParseMessageEntities)]
+        [Fact(DisplayName = FactTitles.ShouldParseMarkDownEntities)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(2.1)]
-        public async Task Should_Parse_Message_Entities()
+        public async Task Should_Parse_MarkDown_Entities()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageEntities);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMarkDownEntities);
 
-            MessageEntityType[] types = {
-                MessageEntityType.Bold,
-                MessageEntityType.Italic,
-                MessageEntityType.Code,
-                MessageEntityType.Pre,
+            var entityValueMappings = new Dictionary<MessageEntityType, string>
+            {
+                { MessageEntityType.Bold, "*bold*" },
+                { MessageEntityType.Italic, "_italic_" },
+                { MessageEntityType.TextLink, "[inline url to Telegram.org](https://telegram.org/)" },
+                {
+                    MessageEntityType.TextMention,
+                    $"[{_fixture.BotUser.Username}](tg://user?id={_fixture.BotUser.Id})"
+                },
+                { MessageEntityType.Code, @"inline ""`fixed-width code`""" },
+                { MessageEntityType.Pre, "```pre-formatted fixed-width code block```" },
             };
 
-            Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId,
-                string.Join("\n", $"*{types[0]}*", $"_{types[1]}_", $"`{types[2]}`", $"```{types[3]}```"),
-                ParseMode.Markdown);
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SuperGroupChatId,
+                text: string.Join("\n", entityValueMappings.Values),
+                parseMode: ParseMode.Markdown,
+                disableWebPagePreview: true
+            );
 
-            Assert.Equal(types, message.Entities.Select(e => e.Type));
+            Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldParseHtmlEntities)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(2.2)]
+        public async Task Should_Parse_HTML_Entities()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseHtmlEntities);
+
+            var entityValueMappings = new(MessageEntityType Type, string Value)[]
+            {
+                ( MessageEntityType.Bold, "<b>bold</b>" ),
+                ( MessageEntityType.Bold, "<strong>&lt;strong&gt;</strong>" ),
+                ( MessageEntityType.Italic, "<i>italic</i>" ),
+                ( MessageEntityType.Italic, "<em>&lt;em&gt;</em>" ),
+                ( MessageEntityType.TextLink, @"<a href=""https://telegram.org/"">inline url to Telegram.org</a>" ),
+                (
+                    MessageEntityType.TextMention,
+                    $@"<a href=""tg://user?id={_fixture.BotUser.Id}"">{_fixture.BotUser.Username}</a>"
+                ),
+                ( MessageEntityType.Code, @"inline <code>""fixed-width code""</code>" ),
+                ( MessageEntityType.Pre, "<pre>pre-formatted fixed-width code block</pre>" ),
+            };
+
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SuperGroupChatId,
+                text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
+                parseMode: ParseMode.Html,
+                disableWebPagePreview: true
+            );
+
+            Assert.Equal(
+                entityValueMappings.Select(tuple => tuple.Type),
+                message.Entities.Select(e => e.Type)
+            );
         }
 
         [Fact(DisplayName = FactTitles.ShouldPaseMessageEntitiesIntoValues)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2.2)]
-        public async Task Should_Pase_Message_Entities_Into_Values()
+        [ExecutionOrder(2.3)]
+        public async Task Should_Parse_Message_Entities_Into_Values()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPaseMessageEntitiesIntoValues);
 
-            string[] values =
+            var entityValueMappings = new(MessageEntityType Type, string Value)[]
             {
-                "#TelegramBots",
-                "@BotFather",
-                "http://github.com/TelegramBots",
-                "email@example.org",
-                "/test",
-                // "/test@" + _fixture.Bot.Username // ToDo
-                // "text_link" // ToDo What is text_link type?
+                ( MessageEntityType.Hashtag, "#TelegramBots" ),
+                ( MessageEntityType.Mention, "@BotFather" ),
+                ( MessageEntityType.Url, "http://github.com/TelegramBots" ),
+                ( MessageEntityType.Email, "security@telegram.org" ),
+                ( MessageEntityType.BotCommand, "/test" ),
+                ( MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}" ),
             };
 
-            Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId,
-                string.Join("\n", values));
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SuperGroupChatId,
+                text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
+            );
 
-            Assert.Equal(values, message.EntityValues);
+            Assert.Equal(
+                entityValueMappings.Select(t => t.Type),
+                message.Entities.Select(e => e.Type)
+            );
+            Assert.Equal(entityValueMappings.Select(t => t.Value), message.EntityValues);
         }
 
         #endregion
@@ -121,7 +171,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             public const string ShouldSendTextMessageToChannel = "Should send text message to channel";
 
-            public const string ShouldParseMessageEntities = "Should send markdown formatted text message and parse its entities";
+            public const string ShouldParseMarkDownEntities = "Should send markdown formatted text message and parse its entities. Link preview should not appear.";
+
+            public const string ShouldParseHtmlEntities = "Should send HTML formatted text message and parse its entities. Link preview should not appear.";
 
             public const string ShouldPaseMessageEntitiesIntoValues = "Should send text message and parse its entity values";
         }
