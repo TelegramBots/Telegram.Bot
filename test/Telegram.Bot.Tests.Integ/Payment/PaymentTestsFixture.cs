@@ -39,7 +39,7 @@ namespace Telegram.Bot.Tests.Integ.Payment
                     .Wait();
 
                 TestsFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
-                TesterPrivateChatId = TestsFixture.GetChatIdFromTesterAsync(ChatType.Private).Result;
+                TesterPrivateChatId = TestsFixture.GetChatFromTesterAsync(ChatType.Private).GetAwaiter().GetResult().Id;
             }
             else
             {

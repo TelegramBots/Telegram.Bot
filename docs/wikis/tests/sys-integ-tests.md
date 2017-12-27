@@ -108,9 +108,9 @@ If not set, before starting any test method, bot waits for a tester to send it a
 
 #### Channel Chat Id
 
-Id of the private or public channel on which bot has admin rights.
+Id of the private or public channel on which bot has admin rights. It also could be the username of a public channel e.g. `@publicChannel`.
 
-If not set, before starting any test method, bot waits for a tester to send it a `/test` command in a channel chat (that bot is also a member of).
+If not set, before starting any test collection requiring this, bot waits for a tester to forward it a message from channel that bot administers.
 
 ```json
 {

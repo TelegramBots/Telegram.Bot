@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
@@ -7,7 +6,6 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// Represents a ChatId
     /// </summary>
-    [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     [JsonConverter(typeof(ChatIdConverter))]
     public class ChatId
     {

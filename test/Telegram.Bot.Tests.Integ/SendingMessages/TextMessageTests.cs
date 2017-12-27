@@ -9,32 +9,59 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
     [Collection(Constants.TestCollections.TextMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class TextMessageTests
+    public class TextMessageTests : IClassFixture<TextMessageTestsFixture>
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        public TextMessageTests(TestsFixture fixture)
+        private readonly TextMessageTestsFixture _classFixture;
+
+        public TextMessageTests(TextMessageTestsFixture classFixture)
         {
-            _fixture = fixture;
+            _classFixture = classFixture;
+            _fixture = classFixture.TestsFixture;
         }
 
         #region 1. Sending text message
 
         [Fact(DisplayName = FactTitles.ShouldSendTextMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(1)]
+        [ExecutionOrder(1.0)]
         public async Task Should_Send_Text_Message()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessage);
 
             const string text = "Hello world!";
-            Message message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId, text);
+
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SuperGroupChatId,
+                text: text
+            );
 
             Assert.Equal(text, message.Text);
             Assert.Equal(MessageType.TextMessage, message.Type);
             Assert.Equal(_fixture.SuperGroupChatId.ToString(), message.Chat.Id.ToString());
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldSendTextMessageToChannel)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(1.1)]
+        public async Task Should_Send_Text_Message_To_Channel()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessageToChannel);
+
+            string text = $"Hello members of channel {_classFixture.ChannelChatId}";
+
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.ChannelChatId,
+                text: text
+            );
+
+            Assert.Equal(text, message.Text);
+            Assert.Equal(MessageType.TextMessage, message.Type);
+            Assert.Equal(_classFixture.ChannelChat.Id, message.Chat.Id);
+            Assert.Equal(_classFixture.ChannelChat.Username, message.Chat.Username);
         }
 
         #endregion
@@ -91,6 +118,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         private static class FactTitles
         {
             public const string ShouldSendTextMessage = "Should send text message";
+
+            public const string ShouldSendTextMessageToChannel = "Should send text message to channel";
 
             public const string ShouldParseMessageEntities = "Should send markdown formatted text message and parse its entities";
 

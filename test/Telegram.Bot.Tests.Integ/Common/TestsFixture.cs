@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             if (string.IsNullOrWhiteSpace(superGroupChatId))
             {
                 UpdateReceiver.DiscardNewUpdatesAsync().GetAwaiter().GetResult();
-                SuperGroupChatId = GetChatIdFromTesterAsync(ChatType.Supergroup).GetAwaiter().GetResult();
+                SuperGroupChatId = GetChatFromTesterAsync(ChatType.Supergroup).GetAwaiter().GetResult().Id;
             }
             else
             {
@@ -73,17 +73,25 @@ namespace Telegram.Bot.Tests.Integ.Common
             return msg;
         }
 
-        public async Task<long> GetChatIdFromTesterAsync(ChatType chatType)
+        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType)
         {
-            var update = (await UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true &&
-                    u.Message.Chat.Type == chatType,
-                updateTypes: UpdateType.MessageUpdate)).Single();
+            bool IsMatch(Update u) => (
+                    u.Message.Chat.Type == chatType &&
+                    u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true
+                ) || (
+                    ChatType.Channel == chatType &&
+                    ChatType.Channel == u.Message.ForwardFromChat?.Type
+                );
+
+            var update = await UpdateReceiver
+                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.MessageUpdate)
+                .ContinueWith(t => t.Result.Single());
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            long chatid = update.Message.Chat.Id;
-            return chatid;
+            return chatType == ChatType.Channel
+                ? update.Message.ForwardFromChat
+                : update.Message.Chat;
         }
 
         private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,

@@ -48,8 +48,8 @@ namespace Telegram.Bot.Tests.Integ.Common
         }
 
         public async Task<Update[]> GetUpdatesAsync(
-            Func<Update, bool> predicate = null,
-            int offset = 0,
+            Func<Update, bool> predicate = default,
+            int offset = default,
             CancellationToken cancellationToken = default,
             params UpdateType[] updateTypes)
         {
@@ -59,13 +59,13 @@ namespace Telegram.Bot.Tests.Integ.Common
                 cancellationToken = source.Token;
             }
 
-            Update[] matchingUpdates = null;
+            Update[] matchingUpdates = default;
 
             while (!cancellationToken.IsCancellationRequested)
             {
                 IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
 
-                if (predicate is null)
+                if (predicate is default)
                 {
                     updates = updates.Where(u => updateTypes.Contains(u.Type));
                 }
@@ -128,12 +128,12 @@ namespace Telegram.Bot.Tests.Integ.Common
             return update;
         }
 
-        private async Task<Update[]> GetOnlyAllowedUpdatesAsync(int offset, CancellationToken cToken,
-            params UpdateType[] types)
+        private async Task<Update[]> GetOnlyAllowedUpdatesAsync(
+            int offset, CancellationToken cancellationToken, params UpdateType[] types)
         {
             var updates = await _botClient.GetUpdatesAsync(offset,
                 allowedUpdates: types,
-                cancellationToken: cToken);
+                cancellationToken: cancellationToken);
 
             var allowedUpdates = updates.Where(IsAllowed).ToArray();
 
