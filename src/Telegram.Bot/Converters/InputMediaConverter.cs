@@ -1,25 +1,24 @@
 using System;
+using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters
 {
-    // ToDo: Unit test serialize/deserialize
-    internal class InputMediaTypeConverter : JsonConverter
+    internal class InputMediaConverter : InputFileConverter
     {
-        public override bool CanConvert(Type objectType) => typeof(InputMediaType) == objectType;
+        public override bool CanConvert(Type objectType) => typeof(InputMedia) == objectType;
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var inputMediaType = (InputMediaType)value;
+            var inputMediaType = (InputMedia)value;
             switch (inputMediaType.FileType)
             {
                 case FileType.Id:
-                    writer.WriteValue(inputMediaType.FileId);
-                    break;
                 case FileType.Url:
-                    writer.WriteValue(inputMediaType.Url);
+                    base.WriteJson(writer, value, serializer);
                     break;
                 case FileType.Stream:
                     writer.WriteValue($"attach://{inputMediaType.FileName}");
@@ -31,16 +30,10 @@ namespace Telegram.Bot.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            var value = reader.ReadAsString();
-
-            if (Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out Uri uri))
-            {
-                return new FileToSend(uri);
-            }
-            else
-            {
-                return new FileToSend(value);
-            }
+            string value = JToken.ReadFrom(reader).Value<string>();
+            return value?.StartsWith("attach://") == true
+                    ? new InputMedia(Stream.Null, value.Substring(9))
+                    : new InputMedia(value);
         }
     }
 }

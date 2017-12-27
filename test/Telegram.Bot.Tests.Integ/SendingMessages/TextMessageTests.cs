@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -8,7 +10,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
-    [Collection(Constants.TestCollections.TextMessage)]
+    [Collection(Constants.TestCollections.SendTextMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class TextMessageTests : IClassFixture<TextMessageTestsFixture>
     {
@@ -43,6 +45,10 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.Equal(text, message.Text);
             Assert.Equal(MessageType.TextMessage, message.Type);
             Assert.Equal(_fixture.SuperGroupChatId.ToString(), message.Chat.Id.ToString());
+            Assert.InRange(message.Date, DateTime.Now.AddSeconds(-5), DateTime.Now);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser), JToken.FromObject(message.From)
+            ));
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendTextMessageToChannel)]

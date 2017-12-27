@@ -4,7 +4,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Remove webhook integration if you decide to switch back to getUpdates.
     /// </summary>
-    public class DeleteWebhookRequest : RequestBase<bool>
+    public class DeleteWebhookRequest : ParameterlessRequest<bool>
     {
         /// <summary>
         /// Initializes a new request

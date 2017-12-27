@@ -11,7 +11,8 @@ namespace Telegram.Bot.Tests.Integ.Common
         private readonly string[] _orderedCollections = {
             Constants.TestCollections.GettingUpdates,
             Constants.TestCollections.Webhook,
-            Constants.TestCollections.TextMessage,
+            Constants.TestCollections.SendTextMessage,
+            Constants.TestCollections.SendPhotoMessage,
             Constants.TestCollections.MultimediaMessage,
             Constants.TestCollections.MessageReplyMarkup,
             Constants.TestCollections.InlineQuery,

@@ -12,11 +12,9 @@ namespace Telegram.Bot.Requests
     public abstract class RequestBase<TResponse> : IRequest<TResponse>
     {
         /// <inheritdoc />
-        [JsonIgnore]
         public HttpMethod Method { get; }
 
         /// <inheritdoc />
-        [JsonIgnore]
         public string MethodName { get; protected set; }
 
         /// <summary>
@@ -25,8 +23,7 @@ namespace Telegram.Bot.Requests
         /// <param name="methodName">Bot API method</param>
         protected RequestBase(string methodName)
             : this(methodName, HttpMethod.Post)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes an instance of request
@@ -42,11 +39,10 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
-        /// <param name="serializerSettings">JSON serialization setting</param>
         /// <returns>Content of HTTP request</returns>
-        public virtual HttpContent ToHttpContent(JsonSerializerSettings serializerSettings = default)
+        public virtual HttpContent ToHttpContent()
         {
-            string payload = JsonConvert.SerializeObject(this, serializerSettings);
+            string payload = JsonConvert.SerializeObject(this);
             return new StringContent(payload, Encoding.UTF8, "application/json");
         }
     }

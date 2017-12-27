@@ -4,12 +4,10 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Unit
+namespace Telegram.Bot.Tests.Unit.Serialization
 {
-    public class TypeSerializationTests
+    public class DocumentSerializationTests
     {
-        #region Description type
-
         [Fact(DisplayName = "Should serialize a document message")]
         public void Should_Serialize_DocumentMessage()
         {
@@ -127,7 +125,5 @@ namespace Telegram.Bot.Tests.Unit
             Assert.Equal("test_file.txt", message.Document.FileName);
             Assert.Null(message.Chat.CanSetStickerSet);
         }
-
-        #endregion
     }
 }

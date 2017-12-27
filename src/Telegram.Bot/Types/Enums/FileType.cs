@@ -1,15 +1,10 @@
 ﻿namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
-    /// Type of a <see cref="FileToSend"/>
+    /// Type of a <see cref="IInputFile"/>
     /// </summary>
     public enum FileType
     {
-        /// <summary>
-        /// Unknown FileType
-        /// </summary>
-        Unknown,
-
         /// <summary>
         /// FileStream
         /// </summary>

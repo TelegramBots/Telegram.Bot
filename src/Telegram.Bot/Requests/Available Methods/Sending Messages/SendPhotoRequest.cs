@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send photos
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendPhotoRequest : FileRequestBase<Message>,
                                     INotifiableMessage,
                                     IReplyMessage,
@@ -20,12 +22,14 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; set; }
 
         /// <summary>
         /// Photo to send
         /// </summary>
-        public FileToSend Photo { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public InputOnlineFile Photo { get; set; }
 
         /// <summary>
         /// Photo caption (may also be used when resending photos by file_id), 0-200 characters
@@ -57,50 +61,17 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="photo">Photo to send</param>
-        public SendPhotoRequest(ChatId chatId, FileToSend photo)
+        public SendPhotoRequest(ChatId chatId, InputOnlineFile photo)
             : this()
         {
             ChatId = chatId;
             Photo = photo;
         }
 
-        /// <summary>
-        /// Generate content of HTTP message
-        /// </summary>
-        /// <param name="serializerSettings">JSON serialization setting</param>
-        /// <returns>Content of HTTP request</returns>
-        public override HttpContent ToHttpContent(JsonSerializerSettings serializerSettings)
-        {
-            HttpContent content;
-
-            if (Photo.Type == FileType.Stream)
-            {
-                var parameters = new Dictionary<string, object>
-                {
-                    { nameof(ChatId).ToSnakeCased(), ChatId},
-                    { nameof(Photo).ToSnakeCased(), Photo },
-                    { nameof(Caption).ToSnakeCased(), Caption },
-                    { nameof(ReplyMarkup).ToSnakeCased(), ReplyMarkup }
-                };
-
-                if (ReplyToMessageId != default)
-                {
-                    parameters.Add(nameof(ReplyToMessageId).ToSnakeCased(), ReplyToMessageId);
-                }
-
-                if (DisableNotification != default)
-                {
-                    parameters.Add(nameof(DisableNotification).ToSnakeCased(), DisableNotification);
-                }
-
-                content = GetMultipartContent(parameters, serializerSettings);
-            }
-            else
-            {
-                content = base.ToHttpContent(serializerSettings);
-            }
-
-            return content;
-        }
+        /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
+        public override HttpContent ToHttpContent() =>
+            Photo.FileType == FileType.Stream
+                ? ToMultipartFormDataContent("photo", Photo)
+                : base.ToHttpContent();
     }
 }

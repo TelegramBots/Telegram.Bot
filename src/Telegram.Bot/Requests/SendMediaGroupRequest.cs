@@ -14,7 +14,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
     /// </summary>
-    public class SendMediaGroupRequest : RequestBase<Message[]>,
+    public class SendMediaGroupRequest : FileRequestBase<Message[]>,
                                          INotifiableMessage,
                                          IReplyMessage
     {
@@ -56,16 +56,17 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
-        /// <param name="serializerSettings">JSON serialization setting</param>
         /// <returns>Content of HTTP request</returns>
-        public override HttpContent ToHttpContent(JsonSerializerSettings serializerSettings)
+        public override HttpContent ToHttpContent()
         {
+            // ToDo: base.GenerateMultipartFormDataContent();
+
             var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks)
             {
                 { new StringContent(ChatId), nameof(ChatId).ToSnakeCased() }
             };
 
-            string mediaJsonArray = JsonConvert.SerializeObject(Media, serializerSettings);
+            string mediaJsonArray = JsonConvert.SerializeObject(Media);
             multipartContent.Add(
                 new StringContent(mediaJsonArray, Encoding.UTF8, "application/json"),
                 nameof(Media).ToSnakeCased());

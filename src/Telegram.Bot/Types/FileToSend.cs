@@ -45,7 +45,7 @@ namespace Telegram.Bot.Types
                 if (Content != null) return FileType.Stream;
                 if (FileId != null) return FileType.Id;
                 if (Url != null) return FileType.Url;
-                return FileType.Unknown;
+                throw new InvalidOperationException("File Type is invalid");
             }
         }
 

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Helpers;
-using Telegram.Bot.Types;
+using Telegram.Bot.Types.InputFiles;
 
 namespace Telegram.Bot.Requests
 {
-
     /// <summary>
     /// Represents an API request with a file
     /// </summary>
@@ -33,48 +32,54 @@ namespace Telegram.Bot.Requests
         { }
 
         /// <summary>
-        /// Creates MultipartFormData request
+        /// ToDo
         /// </summary>
-        /// <param name="parameters">Request parameters</param>
-        /// <param name="serializerSettings">JSON serialization setting</param>
-        /// <returns>Content of HTTP request</returns>
-        protected HttpContent GetMultipartContent(
-            IDictionary<string, object> parameters,
-            JsonSerializerSettings serializerSettings)
+        /// <param name="fileParameterName"></param>
+        /// <param name="inputFile"></param>
+        /// <returns></returns>
+        protected MultipartFormDataContent ToMultipartFormDataContent(string fileParameterName, InputFileStream inputFile)
         {
-            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
+            var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
 
-            foreach (var parameter in parameters.Where(parameter => parameter.Value != null))
-            {
-                if (parameter.Value is FileToSend fts)
-                {
-                    multipartContent.AddStreamContent(fts.Content, parameter.Key, fts.Filename);
-                }
-                else
-                {
-                    var content = ConvertParameterValue(parameter.Value, serializerSettings);
-                    multipartContent.Add(content, parameter.Key);
-                }
-            }
+            if (inputFile.FileName is default)
+                multipartContent.AddStreamContent(inputFile.Content, fileParameterName);
+            else
+                multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
 
             return multipartContent;
         }
 
-        private static HttpContent ConvertParameterValue(object value, JsonSerializerSettings serializerSettings)
+        /// <summary>
+        /// ToDo
+        /// </summary>
+        /// <param name="exceptPropertyNames"></param>
+        /// <returns></returns>
+        protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
         {
-            HttpContent httpContent;
+            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
 
-            switch (value)
-            {
-                case string str: // Prevent escaping back-slash character: "\r\n" should not be "\\r\\n"
-                    httpContent = new StringContent(str);
-                    break;
-                default:
-                    httpContent = new StringContent(JsonConvert.SerializeObject(value, serializerSettings).Trim('"'));
-                    break;
-            }
+            var stringContents = JObject.FromObject(this)
+                .Properties()
+                .Where(prop => exceptPropertyNames?.Contains(prop.Name) == false)
+                .Select(prop => new
+                {
+                    prop.Name,
+                    Content = new StringContent(prop.Value.ToString())
+                });
+            foreach (var strContent in stringContents)
+                multipartContent.Add(strContent.Content, strContent.Name);
 
-            return httpContent;
+            return multipartContent;
+        }
+
+        /// <summary>
+        /// Creates MultipartFormData request
+        /// </summary>
+        /// <param name="parameters">Request parameters</param>
+        /// <returns>Content of HTTP request</returns>
+        protected HttpContent GetMultipartContent(IDictionary<string, object> parameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
@@ -21,33 +20,6 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         {
             _fixture = fixture;
         }
-
-        #region 1. Sending photos
-
-        // ToDo: Should Send Photo. Add its file_id to class fixture to be used in the next test
-
-        [Fact(DisplayName = FactTitles.ShouldSendPhotoUsingFileId)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
-        [ExecutionOrder(1)]
-        public async Task Should_Send_Photo_Using_FileId()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPhotoUsingFileId);
-
-            Message message, message2;
-
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
-            {
-                message = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId, stream.ToFileToSend("bot.gif"),
-                    "👆 This is a\nTelegram Bot");
-            }
-            message2 = await BotClient.SendPhotoAsync(_fixture.SuperGroupChatId,
-                new FileToSend(message.Photo.First().FileId));
-
-            Assert.Equal(message.Photo.Select(ps => ps.FileId), message2.Photo.Select(ps => ps.FileId));
-            // ToDo: Add more asserts
-        }
-
-        #endregion
 
         #region 2. Sending videos
 
@@ -163,43 +135,8 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         #endregion
 
-        #region 4. Parsing caption entities
-
-        [Fact(DisplayName = FactTitles.ShouldParseMessageCaptionEntitiesIntoValues)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
-        [ExecutionOrder(4)]
-        public async Task Should_Parse_Message_Caption_Entities_Into_Values()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
-
-            string[] values =
-            {
-                "#TelegramBots",
-                "@BotFather",
-                "http://github.com/TelegramBots",
-                "email@example.org",
-                "/test"
-            };
-
-            Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
-            {
-                message = await BotClient.SendPhotoAsync(
-                    chatId: _fixture.SuperGroupChatId,
-                    photo: new FileToSend("logo.png", stream),
-                    caption: string.Join("\n", values)
-                );
-            }
-
-            Assert.Equal(values, message.CaptionEntityValues);
-        }
-
-        #endregion
-
         private static class FactTitles
         {
-            public const string ShouldSendPhotoUsingFileId = "Should Send the same photo twice using file_id";
-
             public const string ShouldSendVideo = "Should send a video with caption";
 
             public const string ShouldSendVideoNote = "Should send a video note";
@@ -207,8 +144,6 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             public const string ShouldSendPdf = "Should send a pdf document with caption";
 
             public const string ShouldSendDocumentWithNonAsciiName = "Should send a pdf document having a Farsi(non-ASCII) file name";
-
-            public const string ShouldParseMessageCaptionEntitiesIntoValues = "Should send photo message and parse its caption entity values";
         }
     }
 }

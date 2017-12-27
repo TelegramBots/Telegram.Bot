@@ -1,5 +1,4 @@
 ﻿using System.Net.Http;
-using Newtonsoft.Json;
 
 // ReSharper disable once UnusedTypeParameter
 namespace Telegram.Bot.Requests.Abstractions
@@ -23,8 +22,7 @@ namespace Telegram.Bot.Requests.Abstractions
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
-        /// <param name="serializerSettings">JSON serialization setting</param>
         /// <returns>Content of HTTP request</returns>
-        HttpContent ToHttpContent(JsonSerializerSettings serializerSettings = default);
+        HttpContent ToHttpContent();
     }
 }

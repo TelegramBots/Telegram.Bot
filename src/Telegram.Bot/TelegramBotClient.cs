@@ -14,6 +14,7 @@ using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
@@ -442,7 +443,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#setwebhook"/>
         public Task SetWebhookAsync(
             string url,
-            Stream certificate = default,
+            InputFileStream certificate = default,
             int maxConnections = default,
             IEnumerable<UpdateType> allowedUpdates = default,
             CancellationToken cancellationToken = default
@@ -552,7 +553,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendphoto"/>
         public Task<Message> SendPhotoAsync(
             ChatId chatId,
-            FileToSend photo,
+            InputOnlineFile photo,
             string caption = default,
             bool disableNotification = default,
             int replyToMessageId = default,

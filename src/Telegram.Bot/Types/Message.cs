@@ -12,8 +12,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a message.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Message
     {
         /// <summary>

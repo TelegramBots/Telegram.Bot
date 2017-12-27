@@ -64,9 +64,8 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
-        /// <param name="serializerSettings">JSON serialization setting</param>
         /// <returns>Content of HTTP request</returns>
-        public override HttpContent ToHttpContent(JsonSerializerSettings serializerSettings)
+        public override HttpContent ToHttpContent()
         {
             HttpContent content;
 
@@ -81,11 +80,11 @@ namespace Telegram.Bot.Requests
                     { nameof(MaskPosition).ToSnakeCased(), MaskPosition },
                 };
 
-                content = GetMultipartContent(parameters, serializerSettings);
+                content = GetMultipartContent(parameters);
             }
             else
             {
-                content = base.ToHttpContent(serializerSettings);
+                content = base.ToHttpContent();
             }
 
             return content;

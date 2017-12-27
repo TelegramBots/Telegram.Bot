@@ -5,6 +5,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters
 {
+    [Obsolete]
     internal class FileToSendConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

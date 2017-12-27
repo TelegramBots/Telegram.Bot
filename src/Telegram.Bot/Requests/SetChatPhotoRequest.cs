@@ -44,9 +44,8 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
-        /// <param name="serializerSettings">JSON serialization setting</param>
         /// <returns>Content of HTTP request</returns>
-        public override HttpContent ToHttpContent(JsonSerializerSettings serializerSettings)
+        public override HttpContent ToHttpContent()
         {
             var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks)
             {

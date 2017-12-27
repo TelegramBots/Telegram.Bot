@@ -14,7 +14,7 @@
         {
             public const string GettingUpdates = "Getting Updates";
 
-            public const string TextMessage = "Sending Text Messages";
+            public const string SendTextMessage = "Sending Text Messages";
 
             public const string CallbackQuery = "Callback Query";
 
@@ -33,6 +33,8 @@
             public const string Stickers = "Stickers";
 
             public const string MultimediaMessage = "Sending Multimedia Messages";
+
+            public const string SendPhotoMessage = "Sending Photo Messages";
 
             public const string UpdateMessage = "Updating messages";
 

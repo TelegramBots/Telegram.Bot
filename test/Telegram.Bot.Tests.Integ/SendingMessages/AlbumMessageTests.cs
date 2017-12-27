@@ -45,12 +45,12 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 InputMediaBase[] inputMedia = {
                     new InputMediaPhoto
                     {
-                        Media = new InputMediaType("logo", stream1),
+                        Media = new InputMedia(stream1, "logo"),
                         Caption = captions[0]
                     },
                     new InputMediaPhoto
                     {
-                        Media = new InputMediaType("bot", stream2),
+                        Media = new InputMedia(stream2, "bot"),
                         Caption = captions[1]
                     },
                 };
@@ -85,9 +85,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 chatId: _fixture.SuperGroupChatId,
                 media: new[]
                 {
-                    new InputMediaPhoto { Media = new InputMediaType(fileIds[0])},
-                    new InputMediaPhoto { Media = new InputMediaType(fileIds[1])},
-                    new InputMediaPhoto { Media = new InputMediaType(fileIds[0])},
+                    new InputMediaPhoto { Media = new InputMedia(fileIds[0])},
+                    new InputMediaPhoto { Media = new InputMedia(fileIds[1])},
+                    new InputMediaPhoto { Media = new InputMedia(fileIds[0])},
                 }
             );
 
@@ -116,7 +116,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                     .Select(_ => rnd.Next(100_000_000))
                     .Select(number => new InputMediaPhoto
                     {
-                        Media = new InputMediaType($"{url}?q={number}")
+                        Media = new InputMedia($"{url}?q={number}")
                     }),
                 replyToMessageId: replyToMessageId
             );
@@ -152,7 +152,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 InputMediaBase[] inputMedia = {
                     new InputMediaVideo
                     {
-                        Media = new InputMediaType(captions[0], stream0),
+                        Media = new InputMedia(stream0, captions[0]),
                         Caption = captions[0],
                         Height = firstMediaWidthAndHeight,
                         Width = firstMediaWidthAndHeight,
@@ -160,12 +160,12 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                     },
                     new InputMediaVideo
                     {
-                        Media = new InputMediaType(captions[1], stream1),
+                        Media = new InputMedia(stream1, captions[1]),
                         Caption = captions[1]
                     },
                     new InputMediaPhoto
                     {
-                        Media = new InputMediaType("bot", stream2),
+                        Media = new InputMedia(stream2, "bot"),
                         Caption = captions[2]
                     },
                 };

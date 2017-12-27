@@ -1,4 +1,7 @@
 ﻿using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.InputFiles
@@ -6,6 +9,8 @@ namespace Telegram.Bot.Types.InputFiles
     /// <summary>
     /// ToDo
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonConverter(typeof(InputFileConverter))]
     public class InputFileStream : IInputFile
     {
         /// <summary> 
@@ -51,6 +56,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// </summary>
         /// <param name="stream"></param>
         public static implicit operator InputFileStream(Stream stream)
-            => new InputFileStream(stream);
+            => stream is default
+                ? default
+                : new InputFileStream(stream);
     }
 }

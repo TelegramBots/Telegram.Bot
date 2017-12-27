@@ -5,7 +5,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
     public class TextMessageTestsFixture : ChannelChatFixture
     {
         public TextMessageTestsFixture(TestsFixture testsFixture)
-            : base(testsFixture, Constants.TestCollections.TextMessage)
+            : base(testsFixture, Constants.TestCollections.SendTextMessage)
         { }
     }
 }
