@@ -164,6 +164,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `Message.PhotoSize`
   - `Message.NewChatMembers`
   - `Message.NewChatPhoto`
+  - Return type of method `SendMediaGroupAsync`
 - Chnaged member type from `FileToSend` to an implementation of `IInputFile`
   - Parameter `certificate` of method `SetWebhookAsync`
   - Parameter `photo` of method `SendPhotoAsync`

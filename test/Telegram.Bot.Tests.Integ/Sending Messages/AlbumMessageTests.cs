@@ -3,33 +3,32 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Tests.Integ.Common.Fixtures;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.SendingMessages
+namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.AlbumMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class AlbumMessageTests : IClassFixture<AlbumsTestFixture>
+    public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
     {
-        private readonly AlbumsTestFixture _classFixture;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
+
+        private readonly EntitiesFixture<Message> _classFixture;
 
         private readonly TestsFixture _fixture;
 
-        private ITelegramBotClient BotClient => _fixture.BotClient;
-
-        public AlbumMessageTests(AlbumsTestFixture classFixture)
+        public AlbumMessageTests(TestsFixture testsFixture, EntitiesFixture<Message> classFixture)
         {
+            _fixture = testsFixture;
             _classFixture = classFixture;
-            _fixture = _classFixture.TestsFixture;
         }
-
-        #region Photo-Only Albums
 
         [Fact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(1.1)]
+        [ExecutionOrder(1)]
         public async Task Should_Upload_2_Photos_Album()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
@@ -56,7 +55,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    chatId: _fixture.SuperGroupChatId,
+                    chatId: _fixture.SupergroupChat.Id,
                     media: inputMedia,
                     disableNotification: true
                 );
@@ -67,22 +66,22 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.Equal(captions[0], messages[0].Caption);
             Assert.Equal(captions[1], messages[1].Caption);
 
-            _classFixture.PhotoMessages = messages;
+            _classFixture.Entities = messages.ToList();
         }
 
         [Fact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(1.2)]
+        [ExecutionOrder(2)]
         public async Task Should_Send_3_Photos_Album_Using_FileId()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendFileIdPhotosInAlbum);
 
-            string[] fileIds = _classFixture.PhotoMessages
+            string[] fileIds = _classFixture.Entities
                 .Select(msg => msg.Photo.First().FileId)
                 .ToArray();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                chatId: _fixture.SuperGroupChatId,
+                chatId: _fixture.SupergroupChat.Id,
                 media: new[]
                 {
                     new InputMediaPhoto { Media = new InputMedia(fileIds[0])},
@@ -100,18 +99,18 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         /// </remarks>
         [Fact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(1.3)]
+        [ExecutionOrder(3)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
             const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
-            int replyToMessageId = _classFixture.PhotoMessages.First().MessageId;
+            int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Random rnd = new Random();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                chatId: _fixture.SuperGroupChatId,
+                chatId: _fixture.SupergroupChat.Id,
                 media: Enumerable.Range(0, 2)
                     .Select(_ => rnd.Next(100_000_000))
                     .Select(number => new InputMediaPhoto
@@ -126,13 +125,9 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
 
-        #endregion
-
-        #region Video Albums
-
         [Fact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(2.1)]
+        [ExecutionOrder(4)]
         public async Task Should_Upload_2_Videos_Album()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
@@ -171,7 +166,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    chatId: _fixture.SuperGroupChatId,
+                    chatId: _fixture.SupergroupChat.Id,
                     media: inputMedia
                 );
             }
@@ -185,8 +180,6 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.InRange(messages.First().Video.Duration, firstMediaDuration - 2, firstMediaDuration + 2);
         }
 
-        #endregion
-
         private static class FactTitles
         {
             public const string ShouldUploadPhotosInAlbum = "Should upload 2 photos with captions and send them in an album";
@@ -195,7 +188,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
             public const string ShouldSendUrlPhotosInAlbum = "Should send an album using HTTP urls in reply to 1st album message";
 
-            public const string ShouldUploadVideosInAlbum = "Should upload 2 videos with captions and send them in an album";
+            public const string ShouldUploadVideosInAlbum = "Should upload 2 videos and a photo with captions and send them in an album";
         }
     }
 }

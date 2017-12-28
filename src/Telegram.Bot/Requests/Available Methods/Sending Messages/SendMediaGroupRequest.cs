@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendMediaGroupRequest : FileRequestBase<Message[]>,
                                          INotifiableMessage,
                                          IReplyMessage
@@ -21,17 +22,21 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; set; }
 
         /// <summary>
         /// A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public IEnumerable<InputMediaBase> Media { get; set; }
 
         /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 
         /// <summary>
@@ -46,9 +51,7 @@ namespace Telegram.Bot.Requests
             Media = media;
         }
 
-        /// <summary>
-        /// Initializes a new request
-        /// </summary>
+        /// <inheritdoc />
         public SendMediaGroupRequest()
             : base("sendMediaGroup")
         { }
@@ -59,33 +62,18 @@ namespace Telegram.Bot.Requests
         /// <returns>Content of HTTP request</returns>
         public override HttpContent ToHttpContent()
         {
-            // ToDo: base.GenerateMultipartFormDataContent();
+            var httpContent = GenerateMultipartFormDataContent();
 
-            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks)
+            var inputFiles = Media
+                .Select(m => m.Media)
+                .Where(input => input.FileType == FileType.Stream);
+
+            foreach (var input in inputFiles)
             {
-                { new StringContent(ChatId), nameof(ChatId).ToSnakeCased() }
-            };
-
-            string mediaJsonArray = JsonConvert.SerializeObject(Media);
-            multipartContent.Add(
-                new StringContent(mediaJsonArray, Encoding.UTF8, "application/json"),
-                nameof(Media).ToSnakeCased());
-
-            foreach (var inputMediaType in Media.Where(m => m.Media.FileType == FileType.Stream).Select(m => m.Media))
-            {
-                multipartContent.AddStreamContent(inputMediaType.Content, inputMediaType.FileName);
+                httpContent.AddStreamContent(input.Content, input.FileName);
             }
 
-            if (DisableNotification)
-            {
-                multipartContent.Add(new StringContent(true + ""), nameof(DisableNotification).ToSnakeCased());
-            }
-            if (ReplyToMessageId != default)
-            {
-                multipartContent.Add(new StringContent(ReplyToMessageId + ""), nameof(ReplyToMessageId).ToSnakeCased());
-            }
-
-            return multipartContent;
+            return httpContent;
         }
     }
 }

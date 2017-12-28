@@ -29,6 +29,9 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public RunSummary RunSummary { get; } = new RunSummary();
 
+        private CancellationToken CancellationToken =>
+            new CancellationTokenSource(TimeSpan.FromSeconds(45)).Token;
+
         public TestsFixture()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
@@ -59,17 +62,35 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             #endregion
 
-            var source = new CancellationTokenSource(TimeSpan.FromSeconds(20));
             BotClient.SendTextMessageAsync(
                 SupergroupChat.Id,
                 "```\nTest execution is starting...\n```",
                 ParseMode.Markdown,
-                cancellationToken: source.Token
+                cancellationToken: CancellationToken
             ).GetAwaiter().GetResult();
         }
 
-        public async Task<Message> SendTestCaseNotificationAsync(string testcase, string instructions = null,
-            ChatId chatid = null)
+        public void Dispose()
+        {
+            UpdateReceiver.DiscardNewUpdatesAsync(CancellationToken).GetAwaiter().GetResult();
+
+            int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Skipped;
+
+            BotClient.SendTextMessageAsync(
+                SupergroupChat.Id,
+                string.Format(
+                    Constants.TestExecutionResultMessageFormat,
+                    RunSummary.Total,
+                    passed,
+                    RunSummary.Skipped,
+                    RunSummary.Failed
+                ),
+                ParseMode.Markdown,
+                cancellationToken: CancellationToken
+            ).GetAwaiter().GetResult();
+        }
+
+        public async Task<Message> SendTestCaseNotificationAsync(string testcase, string instructions = default, ChatId chatid = default)
         {
             Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid);
             return msg;
@@ -120,28 +141,6 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
             return task;
-        }
-
-        public void Dispose()
-        {
-            var source = new CancellationTokenSource(TimeSpan.FromSeconds(15));
-            UpdateReceiver.DiscardNewUpdatesAsync(source.Token).GetAwaiter().GetResult();
-
-            source = new CancellationTokenSource(TimeSpan.FromSeconds(20));
-            int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Skipped;
-
-            BotClient.SendTextMessageAsync(
-                SupergroupChat.Id,
-                string.Format(
-                    Constants.TestExecutionResultMessageFormat,
-                    RunSummary.Total,
-                    passed,
-                    RunSummary.Skipped,
-                    RunSummary.Failed
-                ),
-                ParseMode.Markdown,
-                cancellationToken: source.Token
-            ).GetAwaiter().GetResult();
         }
 
         private static class Constants
