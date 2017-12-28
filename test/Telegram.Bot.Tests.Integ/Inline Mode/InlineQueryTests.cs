@@ -5,7 +5,7 @@ using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.InlineMode
+namespace Telegram.Bot.Tests.Integ.Inline_Mode
 {
     [Collection(Constants.TestCollections.InlineQuery)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]

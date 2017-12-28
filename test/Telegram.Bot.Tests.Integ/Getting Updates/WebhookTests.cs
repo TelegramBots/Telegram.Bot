@@ -5,7 +5,7 @@ using Telegram.Bot.Types.Enums;
 using Xunit;
 using File = System.IO.File;
 
-namespace Telegram.Bot.Tests.Integ.GettingUpdates
+namespace Telegram.Bot.Tests.Integ.Getting_Updates
 {
     /// <remarks>
     /// Webhooks should be immediately disabled because test framework uses getUpdates method

@@ -92,11 +92,13 @@ namespace Telegram.Bot.Tests.Integ.Common
             return matchingUpdates;
         }
 
-        public async Task<Update> GetCallbackQueryUpdateAsync(int? messageId = null, bool discardNewUpdates = true,
+        public async Task<Update> GetCallbackQueryUpdateAsync(
+            int messageId = default,
+            bool discardNewUpdates = true,
             CancellationToken cancellationToken = default)
         {
             Func<Update, bool> predicate = null;
-            if (messageId != null)
+            if (messageId != default)
                 predicate = u => u.CallbackQuery.Message.MessageId == messageId;
 
             var updates = await GetUpdatesAsync(predicate,

@@ -7,7 +7,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.SendingMessages
+namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendDocumentMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
@@ -38,7 +38,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
             {
                 message = await BotClient.SendDocumentAsync(
-                    chatId: _fixture.SuperGroupChatId,
+                    chatId: _fixture.SupergroupChat.Id,
                     document: new InputOnlineFile(stream, fileName),
                     caption: caption
                 );
@@ -69,7 +69,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
             {
                 message = await BotClient.SendDocumentAsync(
-                    chatId: _fixture.SuperGroupChatId,
+                    chatId: _fixture.SupergroupChat.Id,
                     document: new InputOnlineFile(stream, fileName),
                     caption: caption
                 );

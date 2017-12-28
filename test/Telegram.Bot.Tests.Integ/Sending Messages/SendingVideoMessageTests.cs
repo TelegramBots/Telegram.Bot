@@ -5,7 +5,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.SendingMessages
+namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendVideoMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
@@ -37,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding))
             {
                 message = await BotClient.SendVideoAsync(
-                    _fixture.SuperGroupChatId,
+                    _fixture.SupergroupChat.Id,
                     stream,
                     duration,
                     width,
@@ -72,7 +72,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio))
             {
                 message = await BotClient.SendVideoNoteAsync(
-                    chatId: _fixture.SuperGroupChatId,
+                    chatId: _fixture.SupergroupChat.Id,
                     videoNote: stream,
                     duration: duration,
                     length: widthAndHeight

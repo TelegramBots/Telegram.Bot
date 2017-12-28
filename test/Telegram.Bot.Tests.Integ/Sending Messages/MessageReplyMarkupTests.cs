@@ -7,7 +7,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.SendingMessages
+namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.MessageReplyMarkup)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]

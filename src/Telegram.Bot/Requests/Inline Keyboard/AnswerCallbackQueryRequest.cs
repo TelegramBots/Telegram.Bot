@@ -1,15 +1,19 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send answers to callback queries sent from inline keyboards
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class AnswerCallbackQueryRequest : RequestBase<bool>
     {
         /// <summary>
         /// Unique identifier for the query to be answered
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public string CallbackQueryId { get; set; }
 
         /// <summary>

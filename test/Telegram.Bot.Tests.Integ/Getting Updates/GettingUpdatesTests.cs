@@ -4,7 +4,7 @@ using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.GettingUpdates
+namespace Telegram.Bot.Tests.Integ.Getting_Updates
 {
     [Collection(Constants.TestCollections.GettingUpdates)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]

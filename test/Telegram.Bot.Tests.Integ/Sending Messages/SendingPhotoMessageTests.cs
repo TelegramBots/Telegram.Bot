@@ -9,7 +9,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.SendingMessages
+namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendPhotoMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
@@ -38,7 +38,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
             {
                 message = await BotClient.SendPhotoAsync(
-                    chatId: _fixture.SuperGroupChatId,
+                    chatId: _fixture.SupergroupChat.Id,
                     photo: stream,
                     caption: "👆 This is a\n" +
                              "Telegram Bot"
@@ -66,7 +66,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             string fileId = uploadedPhoto.First().FileId;
 
             Message message = await BotClient.SendPhotoAsync(
-                chatId: _fixture.SuperGroupChatId,
+                chatId: _fixture.SupergroupChat.Id,
                 photo: fileId
             );
 
@@ -97,7 +97,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
             {
                 message = await BotClient.SendPhotoAsync(
-                    chatId: _fixture.SuperGroupChatId,
+                    chatId: _fixture.SupergroupChat.Id,
                     photo: stream,
                     caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
                 );

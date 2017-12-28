@@ -9,7 +9,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.SendingMessages
+namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendTextMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
@@ -39,13 +39,13 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             const string text = "Hello world!";
 
             Message message = await BotClient.SendTextMessageAsync(
-                chatId: _fixture.SuperGroupChatId,
+                chatId: _fixture.SupergroupChat.Id,
                 text: text
             );
 
             Assert.Equal(text, message.Text);
             Assert.Equal(MessageType.TextMessage, message.Type);
-            Assert.Equal(_fixture.SuperGroupChatId.ToString(), message.Chat.Id.ToString());
+            Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
             Assert.InRange(message.Date, DateTime.Now.AddSeconds(-5), DateTime.Now);
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(_fixture.BotUser), JToken.FromObject(message.From)
@@ -97,7 +97,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             };
 
             Message message = await BotClient.SendTextMessageAsync(
-                chatId: _fixture.SuperGroupChatId,
+                chatId: _fixture.SupergroupChat.Id,
                 text: string.Join("\n", entityValueMappings.Values),
                 parseMode: ParseMode.Markdown,
                 disableWebPagePreview: true
@@ -129,7 +129,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             };
 
             Message message = await BotClient.SendTextMessageAsync(
-                chatId: _fixture.SuperGroupChatId,
+                chatId: _fixture.SupergroupChat.Id,
                 text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
                 parseMode: ParseMode.Html,
                 disableWebPagePreview: true
@@ -159,7 +159,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             };
 
             Message message = await BotClient.SendTextMessageAsync(
-                chatId: _fixture.SuperGroupChatId,
+                chatId: _fixture.SupergroupChat.Id,
                 text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
             );
 
