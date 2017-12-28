@@ -14,7 +14,7 @@ namespace Telegram.Bot.Requests
         /// Unique identifier for the query to be answered
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string CallbackQueryId { get; set; }
+        public string CallbackQueryId { get; }
 
         /// <summary>
         /// Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters.
@@ -41,18 +41,11 @@ namespace Telegram.Bot.Requests
         public int CacheTime { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public AnswerCallbackQueryRequest()
-            : base("answerCallbackQuery")
-        { }
-
-        /// <summary>
         /// Initializes a new request with callbackQueryId
         /// </summary>
         /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
         public AnswerCallbackQueryRequest(string callbackQueryId)
-            : this()
+            : base("answerCallbackQuery")
         {
             CallbackQueryId = callbackQueryId;
         }

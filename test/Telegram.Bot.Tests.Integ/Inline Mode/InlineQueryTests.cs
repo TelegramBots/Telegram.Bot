@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Article()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
-                $"Start an inline query with bot. For example, type `@{_fixture.BotUser.Username}` in chat and wait.");
+                startInlineQuery: true);
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 

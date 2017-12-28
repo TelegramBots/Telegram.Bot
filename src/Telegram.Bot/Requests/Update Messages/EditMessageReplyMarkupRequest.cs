@@ -1,36 +1,34 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Edit only the reply markup of messages sent by the bot. On success the edited <see cref="Message"/> is returned.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditMessageReplyMarkupRequest : RequestBase<Message>,
                                                  IInlineReplyMarkupMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
-        public ChatId ChatId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Identifier of the sent message
         /// </summary>
-        public int MessageId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public int MessageId { get; }
 
         /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
-
-        /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public EditMessageReplyMarkupRequest()
-            : base("editMessageReplyMarkup")
-        { }
 
         /// <summary>
         /// Initializes a new request with chatId, messageId and new inline keyboard
@@ -42,7 +40,7 @@ namespace Telegram.Bot.Requests
             ChatId chatId,
             int messageId,
             InlineKeyboardMarkup replyMarkup = default)
-            : this()
+            : base("editMessageReplyMarkup")
         {
             ChatId = chatId;
             MessageId = messageId;

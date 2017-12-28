@@ -1,84 +1,74 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineKeyboardButtons;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.UpdatingMessages
+namespace Telegram.Bot.Tests.Integ.Update_Messages
 {
     [Collection(Constants.TestCollections.UpdateMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class UpdateMessageTests
+    public class EditReplyMarkupTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        public UpdateMessageTests(TestsFixture fixture)
+        public EditReplyMarkupTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }
 
-        #region 1. Updating messages sent by the bot
-
         [Fact(DisplayName = FactTitles.ShouldEditMessageMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
-        [ExecutionOrder(1.3)]
+        [ExecutionOrder(1)]
         public async Task Should_Edit_Message_Markup()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageMarkup);
 
-            var initialMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
-            {
-                new InlineKeyboardCallbackButton("Original markup", "data")
-            });
-            var editedMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
-            {
-                new InlineKeyboardCallbackButton("Keyboard button edited", "editedData")
-            });
-
-            var message = await BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId,
-                "Inline keyboard will be updated shortly", replyMarkup: initialMarkup);
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                text: "Inline keyboard will be updated shortly",
+                replyMarkup: (InlineKeyboardMarkup)"Original markup"
+            );
 
             await Task.Delay(500);
 
-            var editedMessage =
-                await BotClient.EditMessageReplyMarkupAsync(message.Chat.Id, message.MessageId, editedMarkup);
+            Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
+                chatId: message.Chat.Id,
+                messageId: message.MessageId,
+                replyMarkup: "Edited 👍"
+            );
 
-            Assert.Equal(message.MessageId, editedMessage.MessageId);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(message), JToken.FromObject(editedMessage)
+            ));
         }
-
-        // ToDo: edit text
-        // ToDo: Remove markup
-        // ToDo: edit/remove caption
-        // ToDo: delete message
-
-        #endregion
-
-        #region 2. Updating inline messages(sent via the bot)
 
         [Fact(DisplayName = FactTitles.ShouldEditInlineMessageMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
-        [ExecutionOrder(2.1)]
+        [ExecutionOrder(2)]
         public async Task Should_Edit_Inline_Message_Markup()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageMarkup,
-                "Start an inline query, post its result to chat, and click on the inline button");
+                startInlineQuery: true);
+
+            #region Answer Inline Query with an Article
+
+            Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             string data = "change-me" + new Random().Next(2_000);
-            var initialMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
-            {
-                new InlineKeyboardCallbackButton("Click here to change this button", data)
+            InlineKeyboardMarkup initialMarkup = new InlineKeyboardMarkup(new[] {
+                InlineKeyboardButton.WithCallbackData("Click here to change this button", data)
             });
-            var editedMarkup = new InlineKeyboardMarkup(new InlineKeyboardButton[]
-            {
-                new InlineKeyboardCallbackButton("Keyboard button edited", "edited")
-            });
+
             var inlineQueryResults = new InlineQueryResult[]
             {
                 new InlineQueryResultArticle
@@ -93,17 +83,21 @@ namespace Telegram.Bot.Tests.Integ.UpdatingMessages
                     ReplyMarkup = initialMarkup,
                 },
             };
-            var iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
-            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
-            var callbackUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
+
+            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+
+            #endregion
+
+            Update callbackQUpdate = await _fixture.UpdateReceiver
+                .GetCallbackQueryUpdateAsync(data: data);
+
             await BotClient.EditMessageReplyMarkupAsync(
-                callbackUpdate.CallbackQuery.InlineMessageId,
-                editedMarkup);
+                inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+                replyMarkup: "✌ Edited 👌"
+            );
 
-            Assert.Equal(data, callbackUpdate.CallbackQuery.Data);
+            Assert.Equal(data, callbackQUpdate.CallbackQuery.Data);
         }
-
-        #endregion
 
         private static class FactTitles
         {

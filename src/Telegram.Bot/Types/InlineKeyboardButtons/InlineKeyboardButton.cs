@@ -7,15 +7,14 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
     /// <summary>
     /// This object represents one button of an inline keyboard.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class InlineKeyboardButton
     {
         /// <summary>
         /// Label text on the button
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Text { get; set; }
+        public string Text { get; }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/>.

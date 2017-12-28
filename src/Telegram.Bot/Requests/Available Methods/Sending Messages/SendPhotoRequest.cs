@@ -23,13 +23,13 @@ namespace Telegram.Bot.Requests
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Photo to send
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputOnlineFile Photo { get; set; }
+        public InputOnlineFile Photo { get; }
 
         /// <summary>
         /// Photo caption (may also be used when resending photos by file_id), 0-200 characters
@@ -50,19 +50,12 @@ namespace Telegram.Bot.Requests
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public SendPhotoRequest()
-            : base("sendPhoto")
-        { }
-
-        /// <summary>
         /// Initializes a new request with chatId and photo
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="photo">Photo to send</param>
         public SendPhotoRequest(ChatId chatId, InputOnlineFile photo)
-            : this()
+            : base("sendPhoto")
         {
             ChatId = chatId;
             Photo = photo;

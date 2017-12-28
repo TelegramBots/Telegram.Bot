@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineKeyboardButtons;
+using Telegram.Bot.Types.ReplyMarkups;
 using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Common
@@ -90,9 +92,12 @@ namespace Telegram.Bot.Tests.Integ.Common
             ).GetAwaiter().GetResult();
         }
 
-        public async Task<Message> SendTestCaseNotificationAsync(string testcase, string instructions = default, ChatId chatid = default)
+        public async Task<Message> SendTestCaseNotificationAsync(string testcase,
+            string instructions = default,
+            ChatId chatid = default,
+            bool startInlineQuery = default)
         {
-            Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid);
+            Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid, startInlineQuery);
             return msg;
         }
 
@@ -125,7 +130,7 @@ namespace Telegram.Bot.Tests.Integ.Common
         }
 
         private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
-            string instructions = default, ChatId chatid = default)
+            string instructions = default, ChatId chatid = default, bool switchInlineQuery = default)
         {
             var textFormat = isForCollection
                 ? Constants.StartCollectionMessageFormat
@@ -139,7 +144,15 @@ namespace Telegram.Bot.Tests.Integ.Common
                 text += "\n\n" + string.Format(Constants.InstructionsMessageFormat, instructions);
             }
 
-            var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
+            IReplyMarkup replyMarkup = switchInlineQuery
+                ? new InlineKeyboardMarkup(new[] {
+                    InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
+                })
+                : default;
+
+            var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown,
+                replyMarkup: replyMarkup,
+                cancellationToken: CancellationToken);
             return task;
         }
 

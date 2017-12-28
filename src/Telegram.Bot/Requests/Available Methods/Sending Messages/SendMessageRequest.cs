@@ -22,13 +22,13 @@ namespace Telegram.Bot.Requests
         /// Unique identifier for the target chat or username of the target channel
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Text of the message to be sent
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Text { get; set; }
+        public string Text { get; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -53,20 +53,12 @@ namespace Telegram.Bot.Requests
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public SendMessageRequest()
-            : base("sendMessage")
-        {
-        }
-
-        /// <summary>
         /// Initializes a new request with chatId and text
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="text">Text of the message to be sent</param>
         public SendMessageRequest(ChatId chatId, string text)
-            : this()
+            : base("sendMessage")
         {
             ChatId = chatId;
             Text = text;

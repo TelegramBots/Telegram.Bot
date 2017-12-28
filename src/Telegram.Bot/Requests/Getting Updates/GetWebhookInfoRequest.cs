@@ -6,7 +6,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Get current webhook status.
     /// </summary>
-    public class GetWebhookInfoRequest : RequestBase<WebhookInfo>
+    public class GetWebhookInfoRequest : ParameterlessRequest<WebhookInfo>
     {
         /// <summary>
         /// Initializes a new request

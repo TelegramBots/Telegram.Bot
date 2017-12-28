@@ -23,13 +23,13 @@ namespace Telegram.Bot.Requests
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public IEnumerable<InputMediaBase> Media { get; set; }
+        public IEnumerable<InputMediaBase> Media { get; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -45,16 +45,11 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">ID of target chat</param>
         /// <param name="media">Media items to send</param>
         public SendMediaGroupRequest(ChatId chatId, IEnumerable<InputMediaBase> media)
-            : this()
+            : base("sendMediaGroup")
         {
             ChatId = chatId;
             Media = media;
         }
-
-        /// <inheritdoc />
-        public SendMediaGroupRequest()
-            : base("sendMediaGroup")
-        { }
 
         /// <summary>
         /// Generate content of HTTP message
