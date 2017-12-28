@@ -4,33 +4,27 @@ using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
-    [Collection(Constants.TestCollections.MultimediaMessage)]
+    [Collection(Constants.TestCollections.SendDocumentMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class MultimediaMessageTests
+    public class SendingDocumentMessageTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        public MultimediaMessageTests(TestsFixture fixture)
+        public SendingDocumentMessageTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }
 
-        #region 2. Sending videos
-
-
-        #endregion
-
-        #region 3. Sending documents
-
         [Fact(DisplayName = FactTitles.ShouldSendPdf)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
-        [ExecutionOrder(3.1)]
+        [ExecutionOrder(1)]
         public async Task Should_Send_Pdf_Document()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPdf);
@@ -43,8 +37,11 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Message message;
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
             {
-                message = await BotClient.SendDocumentAsync(_fixture.SuperGroupChatId,
-                    new FileToSend(fileName, stream), caption);
+                message = await BotClient.SendDocumentAsync(
+                    chatId: _fixture.SuperGroupChatId,
+                    document: new InputOnlineFile(stream, fileName),
+                    caption: caption
+                );
             }
 
             Assert.Equal(MessageType.DocumentMessage, message.Type);
@@ -57,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         [Fact(DisplayName = FactTitles.ShouldSendDocumentWithNonAsciiName)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
-        [ExecutionOrder(3.2)]
+        [ExecutionOrder(2)]
         public async Task Should_Send_Document_With_Farsi_Name()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendDocumentWithNonAsciiName);
@@ -68,10 +65,14 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             const int fileSize = 256984;
 
             Message message;
+
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
             {
-                message = await BotClient.SendDocumentAsync(_fixture.SuperGroupChatId,
-                    new FileToSend(fileName, stream), caption);
+                message = await BotClient.SendDocumentAsync(
+                    chatId: _fixture.SuperGroupChatId,
+                    document: new InputOnlineFile(stream, fileName),
+                    caption: caption
+                );
             }
 
             Assert.Equal(MessageType.DocumentMessage, message.Type);
@@ -81,8 +82,6 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             Assert.InRange(message.Document.FileId.Length, 20, 40);
             Assert.Equal(caption, message.Caption);
         }
-
-        #endregion
 
         private static class FactTitles
         {

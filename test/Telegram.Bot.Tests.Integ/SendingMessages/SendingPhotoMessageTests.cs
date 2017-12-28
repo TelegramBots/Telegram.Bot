@@ -8,7 +8,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.SendingMessages.Photo
+namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
     [Collection(Constants.TestCollections.SendPhotoMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]

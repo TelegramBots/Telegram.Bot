@@ -169,6 +169,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Parameter `photo` of method `SendPhotoAsync`
   - Parameter `video` of method `SendVideoAsync`
   - Parameter `videoNote` of method `SendVideoNoteAsync`
+  - Parameter `document` of method `SendDocumentAsync`
 
 ### Removed
 

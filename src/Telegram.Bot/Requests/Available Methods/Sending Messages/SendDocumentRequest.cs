@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send documents
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendDocumentRequest : FileRequestBase<Message>,
                                        INotifiableMessage,
                                        IReplyMessage,
@@ -20,12 +22,14 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; set; }
 
         /// <summary>
         /// Document to send.
         /// </summary>
-        public FileToSend Document { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public InputOnlineFile Document { get; set; }
 
         /// <summary>
         /// Photo caption (may also be used when resending photos by file_id), 0-200 characters
@@ -57,49 +61,17 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="document">Document to send</param>
-        public SendDocumentRequest(ChatId chatId, FileToSend document)
+        public SendDocumentRequest(ChatId chatId, InputOnlineFile document)
             : this()
         {
             ChatId = chatId;
             Document = document;
         }
 
-        /// <summary>
-        /// Generate content of HTTP message
-        /// </summary>
-        /// <returns>Content of HTTP request</returns>
-        public override HttpContent ToHttpContent()
-        {
-            HttpContent content;
-
-            if (Document.Type == FileType.Stream)
-            {
-                var parameters = new Dictionary<string, object>
-                {
-                    { nameof(ChatId).ToSnakeCased(), ChatId},
-                    { nameof(Document).ToSnakeCased(), Document},
-                    { nameof(Caption).ToSnakeCased(), Caption },
-                    { nameof(ReplyMarkup).ToSnakeCased(), ReplyMarkup }
-                };
-
-                if (ReplyToMessageId != default)
-                {
-                    parameters.Add(nameof(ReplyToMessageId).ToSnakeCased(), ReplyToMessageId);
-                }
-
-                if (DisableNotification != default)
-                {
-                    parameters.Add(nameof(DisableNotification).ToSnakeCased(), DisableNotification);
-                }
-
-                content = GetMultipartContent(parameters);
-            }
-            else
-            {
-                content = base.ToHttpContent();
-            }
-
-            return content;
-        }
+        /// <inheritdoc />
+        public override HttpContent ToHttpContent() =>
+            Document.FileType == FileType.Stream
+                ? ToMultipartFormDataContent("document", Document)
+                : base.ToHttpContent();
     }
 }

@@ -620,7 +620,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
         public Task<Message> SendDocumentAsync(
             ChatId chatId,
-            FileToSend document,
+            InputOnlineFile document,
             string caption = default,
             bool disableNotification = default,
             int replyToMessageId = default,

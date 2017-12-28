@@ -32,11 +32,11 @@
 
             public const string Stickers = "Stickers";
 
-            public const string MultimediaMessage = "Sending Multimedia Messages";
-
             public const string SendPhotoMessage = "Sending Photo Messages";
 
             public const string SendVideoMessage = "Sending Video Messages";
+
+            public const string SendDocumentMessage = "Sending Document Messages";
 
             public const string UpdateMessage = "Updating messages";
 

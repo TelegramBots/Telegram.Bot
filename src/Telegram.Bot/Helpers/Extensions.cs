@@ -43,6 +43,7 @@ namespace Telegram.Bot.Helpers
         internal static string EncodeUtf8(this string value) =>
             string.Join(string.Empty, Encoding.UTF8.GetBytes(value).Select(Convert.ToChar));
 
+        [Obsolete]
         internal static void AddStreamContent(
             this MultipartFormDataContent multipartContent,
             Stream content,
@@ -55,7 +56,7 @@ namespace Telegram.Bot.Helpers
             string name,
             string fileName)
         {
-            var contentDisposision = $"form-data; name=\"{name}\"; filename=\"{fileName}\"" .EncodeUtf8();
+            var contentDisposision = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
 
             HttpContent mediaPartContent = new StreamContent(content)
             {
@@ -69,6 +70,7 @@ namespace Telegram.Bot.Helpers
             multipartContent.Add(mediaPartContent, name, fileName);
         }
 
+        [Obsolete]
         internal static string ToSnakeCased(this string value)
             => new SnakeCaseNamingStrategy().GetPropertyName(value, false);
     }
