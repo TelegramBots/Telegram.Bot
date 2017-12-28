@@ -43,20 +43,14 @@ namespace Telegram.Bot.Helpers
         internal static string EncodeUtf8(this string value) =>
             string.Join(string.Empty, Encoding.UTF8.GetBytes(value).Select(Convert.ToChar));
 
-        [Obsolete]
-        internal static void AddStreamContent(
-            this MultipartFormDataContent multipartContent,
-            Stream content,
-            string name)
-            => AddStreamContent(multipartContent, content, name, name);
-
         internal static void AddStreamContent(
             this MultipartFormDataContent multipartContent,
             Stream content,
             string name,
-            string fileName)
+            string fileName = default)
         {
-            var contentDisposision = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
+            fileName = fileName ?? name;
+            string contentDisposision = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
 
             HttpContent mediaPartContent = new StreamContent(content)
             {

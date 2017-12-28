@@ -82,13 +82,14 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
 
-            string[] values =
+            var entityValueMappings = new(MessageEntityType Type, string Value)[]
             {
-                "#TelegramBots",
-                "@BotFather",
-                "http://github.com/TelegramBots",
-                "email@example.org",
-                "/test"
+                ( MessageEntityType.Hashtag, "#TelegramBots" ),
+                ( MessageEntityType.Mention, "@BotFather" ),
+                ( MessageEntityType.Url, "http://github.com/TelegramBots" ),
+                ( MessageEntityType.Email, "security@telegram.org" ),
+                ( MessageEntityType.BotCommand, "/test" ),
+                ( MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}" ),
             };
 
             Message message;
@@ -97,11 +98,15 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
                 message = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SuperGroupChatId,
                     photo: stream,
-                    caption: string.Join("\n", values)
+                    caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
                 );
             }
 
-            Assert.Equal(values, message.CaptionEntityValues);
+            Assert.Equal(
+                entityValueMappings.Select(t => t.Type),
+                message.CaptionEntities.Select(e => e.Type)
+            );
+            Assert.Equal(entityValueMappings.Select(t => t.Value), message.CaptionEntityValues);
         }
 
         private static class FactTitles

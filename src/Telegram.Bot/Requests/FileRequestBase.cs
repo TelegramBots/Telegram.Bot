@@ -41,10 +41,7 @@ namespace Telegram.Bot.Requests
         {
             var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
 
-            if (inputFile.FileName is default)
-                multipartContent.Add(new StreamContent(inputFile.Content), fileParameterName);
-            else
-                multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
+            multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
 
             return multipartContent;
         }
