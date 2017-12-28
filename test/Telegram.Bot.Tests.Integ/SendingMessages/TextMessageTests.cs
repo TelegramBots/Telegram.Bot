@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Tests.Integ.Common.Fixtures;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -12,18 +13,18 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
     [Collection(Constants.TestCollections.SendTextMessage)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class TextMessageTests : IClassFixture<TextMessageTestsFixture>
+    public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        private readonly TextMessageTestsFixture _classFixture;
+        private readonly Fixture _classFixture;
 
-        public TextMessageTests(TextMessageTestsFixture classFixture)
+        public TextMessageTests(TestsFixture testsFixture, Fixture classFixture)
         {
+            _fixture = testsFixture;
             _classFixture = classFixture;
-            _fixture = classFixture.TestsFixture;
         }
 
         #region 1. Sending text message
@@ -182,6 +183,13 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
             public const string ShouldParseHtmlEntities = "Should send HTML formatted text message and parse its entities. Link preview should not appear.";
 
             public const string ShouldPaseMessageEntitiesIntoValues = "Should send text message and parse its entity values";
+        }
+
+        public class Fixture : ChannelChatFixture
+        {
+            public Fixture(TestsFixture testsFixture)
+                : base(testsFixture, Constants.TestCollections.SendTextMessage)
+            { }
         }
     }
 }

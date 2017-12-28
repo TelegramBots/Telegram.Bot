@@ -26,14 +26,20 @@ namespace Telegram.Bot.Tests.Integ.Common
                 ChannelChatId = configuration[nameof(TestConfigurations.ChannelChatId)],
 
                 PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
-                TesterPrivateChatId = long.Parse(configuration[nameof(TestConfigurations.TesterPrivateChatId)]),
-
-                StickerOwnerUserId = int.Parse(configuration[nameof(TestConfigurations.StickerOwnerUserId)]),
 
                 RegularMemberUserId = configuration[nameof(TestConfigurations.RegularMemberUserId)],
                 RegularMemberUserName = configuration[nameof(TestConfigurations.RegularMemberUserName)],
                 RegularMemberPrivateChatId = configuration[nameof(TestConfigurations.RegularMemberPrivateChatId)],
             };
+
+            if (long.TryParse(configuration[nameof(TestConfigurations.TesterPrivateChatId)], out long privateChat))
+            {
+                TestConfigurations.TesterPrivateChatId = privateChat;
+            }
+            if (int.TryParse(configuration[nameof(TestConfigurations.TesterPrivateChatId)], out int userId))
+            {
+                TestConfigurations.StickerOwnerUserId = userId;
+            }
 
             if (string.IsNullOrWhiteSpace(TestConfigurations.ApiToken))
                 throw new ArgumentNullException(nameof(TestConfigurations.ApiToken), "API token is not provided or is empty.");

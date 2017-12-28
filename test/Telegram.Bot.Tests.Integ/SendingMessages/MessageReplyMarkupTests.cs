@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Tests.Integ.Common.Fixtures;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -10,18 +11,18 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 {
     [Collection(Constants.TestCollections.MessageReplyMarkup)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class MessageReplyMarkupTests : IClassFixture<MessageReplyMarkupTestsFixture>
+    public class MessageReplyMarkupTests : IClassFixture<MessageReplyMarkupTests.Fixture>
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly MessageReplyMarkupTestsFixture _classFixture;
+        private readonly Fixture _classFixture;
 
         private readonly TestsFixture _fixture;
 
-        public MessageReplyMarkupTests(MessageReplyMarkupTestsFixture fixture)
+        public MessageReplyMarkupTests(TestsFixture testsFixture, Fixture fixture)
         {
+            _fixture = testsFixture;
             _classFixture = fixture;
-            _fixture = _classFixture.TestsFixture;
         }
 
         [Fact(DisplayName = FactTitles.ShouldReceiveContactInfo)]
@@ -31,37 +32,50 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveContactInfo);
 
-            var replyMarkup = new ReplyKeyboardMarkup(new[]
-            {
-                new KeyboardButton("Share Contact") { RequestContact = true },
-            }, true, true);
+            IReplyMarkup replyMarkup = new ReplyKeyboardMarkup(
+                keyboardRow: new[] { new KeyboardButton("Share Contact") { RequestContact = true } },
+                resizeKeyboard: true,
+                oneTimeKeyboard: true
+            );
 
-            Message message = await BotClient.SendTextMessageAsync(
-                chatId: _classFixture.TesterPrivateChatId,
+            await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: replyMarkup
             );
 
-            Message contactMessage = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.Chat.Id == _classFixture.TesterPrivateChatId.Identifier &&
-                    u.Message.Type == MessageType.ContactMessage,
-                updateTypes: UpdateType.MessageUpdate)).First().Message;
+            Message contactMessage = await GetContactMessageFromChat(_classFixture.PrivateChat.Id);
 
             Assert.NotEmpty(contactMessage.Contact.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
-            Assert.Equal(int.Parse(_classFixture.TesterPrivateChatId), contactMessage.Contact.UserId);
+            Assert.Equal(_classFixture.PrivateChat.Id, contactMessage.Contact.UserId);
 
             await BotClient.SendTextMessageAsync(
-                chatId: _classFixture.TesterPrivateChatId,
+                chatId: _classFixture.PrivateChat,
                 text: "Got it. Removing reply keyboard markup...",
                 replyMarkup: new ReplyKeyboardRemove()
             );
         }
 
+        private Task<Message> GetContactMessageFromChat(long chatId) =>
+            _fixture.UpdateReceiver.GetUpdatesAsync(
+                predicate: u => u.Message.Type == MessageType.ContactMessage &&
+                                u.Message.Chat.Id == chatId,
+                updateTypes: UpdateType.MessageUpdate
+            )
+            .ContinueWith(t => t.Result.Single().Message);
+
         private static class FactTitles
         {
             public const string ShouldReceiveContactInfo = "Should get contact info from keyboard reply markup";
+        }
+
+        public class Fixture : PrivateChatFixture
+        {
+            public Fixture(TestsFixture testsFixture)
+                : base(testsFixture, Constants.TestCollections.MessageReplyMarkup)
+            { }
         }
     }
 }

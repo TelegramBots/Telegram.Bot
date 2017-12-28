@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Tests.Integ.SendingMessages
+﻿namespace Telegram.Bot.Tests.Integ.Common.Fixtures
 {
     public class EntityFixture<TEntity>
     {

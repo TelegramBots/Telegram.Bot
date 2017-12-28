@@ -2,49 +2,49 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Tests.Integ.Common
+namespace Telegram.Bot.Tests.Integ.Common.Fixtures
 {
     public abstract class ChannelChatFixture
     {
-        public TestsFixture TestsFixture { get; }
-
         public Chat ChannelChat { get; }
 
         public string ChannelChatId { get; }
 
         private static Chat _chat;
 
+        private readonly TestsFixture _testsFixture;
+
         protected ChannelChatFixture(TestsFixture testsFixture, string collectionName)
         {
-            TestsFixture = testsFixture;
+            _testsFixture = testsFixture;
 
-            ChannelChat = GetChannelChat(collectionName, testsFixture.BotUser.Username)
-                .GetAwaiter().GetResult();
+            ChannelChat = GetChat(collectionName).GetAwaiter().GetResult();
 
             ChannelChatId = ChannelChat.Username is default
                 ? ChannelChat.Id.ToString()
                 : '@' + ChannelChat.Username;
         }
 
-        private async Task<Chat> GetChannelChat(string collectionName, string botUserName)
+        private async Task<Chat> GetChat(string collectionName)
         {
             if (_chat is default)
             {
                 string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
                 if (chatId is default)
                 {
-                    await TestsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
+                    await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-                    await TestsFixture.SendTestCollectionNotificationAsync(collectionName,
+                    string botUserName = _testsFixture.BotUser.Username;
+                    await _testsFixture.SendTestCollectionNotificationAsync(collectionName,
                         "No channel is set in test settings. Tester should forward a message from a channel " +
                         $"so bot can run tests there. @{botUserName} must be an admin in that channel."
                     );
 
-                    _chat = await TestsFixture.GetChatFromTesterAsync(ChatType.Channel);
+                    _chat = await _testsFixture.GetChatFromTesterAsync(ChatType.Channel);
                 }
                 else
                 {
-                    _chat = await TestsFixture.BotClient.GetChatAsync(chatId);
+                    _chat = await _testsFixture.BotClient.GetChatAsync(chatId);
                 }
             }
 
