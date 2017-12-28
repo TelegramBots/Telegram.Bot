@@ -10,7 +10,7 @@ namespace Telegram.Bot.Tests.Integ.GettingUpdates
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class GettingUpdatesTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 

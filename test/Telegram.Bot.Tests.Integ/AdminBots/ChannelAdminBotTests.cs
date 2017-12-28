@@ -138,9 +138,24 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             }
         }
 
+        [Fact(DisplayName = FactTitles.ShouldGetChatPhoto)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
+        [ExecutionOrder(4.2)]
+        public async Task Should_Get_Chat_Photo()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatPhoto);
+
+            Chat chat = await BotClient.GetChatAsync(
+                chatId: _classFixture.ChatId
+            );
+
+            Assert.NotEmpty(chat.Photo.BigFileId);
+            Assert.NotEmpty(chat.Photo.SmallFileId);
+        }
+
         [Fact(DisplayName = FactTitles.ShouldDeleteChatPhoto)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
-        [ExecutionOrder(4.2)]
+        [ExecutionOrder(4.3)]
         public async Task Should_Delete_Chat_Photo()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatPhoto);
@@ -150,7 +165,7 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
 
         [Fact(DisplayName = FactTitles.ShouldThrowOnDeletingChatDeletedPhoto)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
-        [ExecutionOrder(4.3)]
+        [ExecutionOrder(4.4)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
@@ -202,6 +217,8 @@ namespace Telegram.Bot.Tests.Integ.AdminBots
             public const string ShouldGetChatWithNoPinnedMessage = "Should get the chat info without a pinned message";
 
             public const string ShouldSetChatPhoto = "Should set chat photo";
+
+            public const string ShouldGetChatPhoto = "Should get chat photo";
 
             public const string ShouldDeleteChatPhoto = "Should delete chat photo";
 

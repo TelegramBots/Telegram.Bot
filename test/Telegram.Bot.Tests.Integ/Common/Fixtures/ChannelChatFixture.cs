@@ -8,9 +8,7 @@ namespace Telegram.Bot.Tests.Integ.Common.Fixtures
     {
         public Chat ChannelChat { get; }
 
-        public string ChannelChatId { get; }
-
-        private static Chat _chat;
+        public string ChannelChatId { get; private set; }
 
         private readonly TestsFixture _testsFixture;
 
@@ -18,37 +16,43 @@ namespace Telegram.Bot.Tests.Integ.Common.Fixtures
         {
             _testsFixture = testsFixture;
 
-            ChannelChat = GetChat(collectionName).GetAwaiter().GetResult();
+            if (_testsFixture.ChannelChat is default)
+            {
+                _testsFixture.ChannelChat = GetChat(collectionName).GetAwaiter().GetResult();
+            }
+            ChannelChat = _testsFixture.ChannelChat;
 
             ChannelChatId = ChannelChat.Username is default
                 ? ChannelChat.Id.ToString()
                 : '@' + ChannelChat.Username;
+
+            _testsFixture.SendTestCollectionNotificationAsync(
+                collectionName,
+                $"Tests will be executed in channel {ChannelChatId}"
+            ).GetAwaiter().GetResult();
         }
 
         private async Task<Chat> GetChat(string collectionName)
         {
-            if (_chat is default)
+            Chat chat;
+            string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
+            if (chatId is default)
             {
-                string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
-                if (chatId is default)
-                {
-                    await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
+                await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-                    string botUserName = _testsFixture.BotUser.Username;
-                    await _testsFixture.SendTestCollectionNotificationAsync(collectionName,
-                        "No channel is set in test settings. Tester should forward a message from a channel " +
-                        $"so bot can run tests there. @{botUserName} must be an admin in that channel."
-                    );
+                string botUserName = _testsFixture.BotUser.Username;
+                await _testsFixture.SendTestCollectionNotificationAsync(collectionName,
+                    "No channel is set in test settings. Tester should forward a message from a channel " +
+                    $"so bot can run tests there. @{botUserName} must be an admin in that channel."
+                );
 
-                    _chat = await _testsFixture.GetChatFromTesterAsync(ChatType.Channel);
-                }
-                else
-                {
-                    _chat = await _testsFixture.BotClient.GetChatAsync(chatId);
-                }
+                chat = await _testsFixture.GetChatFromTesterAsync(ChatType.Channel);
             }
-
-            return _chat;
+            else
+            {
+                chat = await _testsFixture.BotClient.GetChatAsync(chatId);
+            }
+            return chat;
         }
     }
 }

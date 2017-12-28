@@ -18,7 +18,14 @@ namespace Telegram.Bot.Tests.Integ.Common
 
         public string[] AllowedUserNames { get; }
 
+        [Obsolete("Use SupergroupChat.Id instead")]
         public ChatId SuperGroupChatId { get; }
+
+        public Chat SupergroupChat { get; }
+
+        public Chat PrivateChat { get; set; }
+
+        public Chat ChannelChat { get; set; }
 
         public RunSummary RunSummary { get; } = new RunSummary();
 
@@ -34,25 +41,27 @@ namespace Telegram.Bot.Tests.Integ.Common
             AllowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNamesArray;
             UpdateReceiver = new UpdateReceiver(BotClient, AllowedUserNames);
 
-            string superGroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
+            string supergroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
 
             #region Validations
 
-            if (string.IsNullOrWhiteSpace(superGroupChatId))
+            if (string.IsNullOrWhiteSpace(supergroupChatId))
             {
                 UpdateReceiver.DiscardNewUpdatesAsync().GetAwaiter().GetResult();
-                SuperGroupChatId = GetChatFromTesterAsync(ChatType.Supergroup).GetAwaiter().GetResult().Id;
+                SupergroupChat = GetChatFromTesterAsync(ChatType.Supergroup).GetAwaiter().GetResult();
             }
             else
             {
-                SuperGroupChatId = superGroupChatId;
+                SupergroupChat = BotClient.GetChatAsync(supergroupChatId)
+                    .GetAwaiter().GetResult();
             }
+            SuperGroupChatId = SupergroupChat.Id;
 
             #endregion
 
             var source = new CancellationTokenSource(TimeSpan.FromSeconds(20));
             BotClient.SendTextMessageAsync(
-                SuperGroupChatId,
+                SupergroupChat.Id,
                 "```\nTest execution is starting...\n```",
                 ParseMode.Markdown,
                 cancellationToken: source.Token
@@ -95,7 +104,7 @@ namespace Telegram.Bot.Tests.Integ.Common
         }
 
         private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
-            string instructions = null, ChatId chatid = null)
+            string instructions = default, ChatId chatid = default)
         {
             var textFormat = isForCollection
                 ? Constants.StartCollectionMessageFormat
@@ -103,14 +112,10 @@ namespace Telegram.Bot.Tests.Integ.Common
 
             string text = string.Format(textFormat, name);
 
-            if (instructions != null)
+            chatid = chatid ?? SupergroupChat.Id;
+            if (instructions != default)
             {
                 text += "\n\n" + string.Format(Constants.InstructionsMessageFormat, instructions);
-            }
-
-            if (chatid is null)
-            {
-                chatid = SuperGroupChatId;
             }
 
             var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown);
@@ -126,7 +131,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Skipped;
 
             BotClient.SendTextMessageAsync(
-                SuperGroupChatId,
+                SupergroupChat.Id,
                 string.Format(
                     Constants.TestExecutionResultMessageFormat,
                     RunSummary.Total,

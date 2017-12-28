@@ -14,7 +14,19 @@
         {
             public const string GettingUpdates = "Getting Updates";
 
+            public const string Webhook = "Webhook";
+
             public const string SendTextMessage = "Sending Text Messages";
+
+            public const string SendPhotoMessage = "Sending Photo Messages";
+
+            public const string SendVideoMessage = "Sending Video Messages";
+
+            public const string SendDocumentMessage = "Sending Document Messages";
+
+            public const string MessageReplyMarkup = "Messages with Keyboard Reply Markup";
+
+            public const string ChatInfo = "Getting Chat Info";
 
             public const string CallbackQuery = "Callback Query";
 
@@ -32,25 +44,13 @@
 
             public const string Stickers = "Stickers";
 
-            public const string SendPhotoMessage = "Sending Photo Messages";
-
-            public const string SendVideoMessage = "Sending Video Messages";
-
-            public const string SendDocumentMessage = "Sending Document Messages";
-
             public const string UpdateMessage = "Updating messages";
 
             public const string Exceptions = "Bot API Exceptions";
 
-            public const string ChatInformation = "Chat information";
-
-            public const string MessageReplyMarkup = "Messages with Keyboard Reply Markup";
-
             public const string LiveLocations = "Live locations";
 
             public const string AlbumMessage = "Sending Album Messages";
-
-            public const string Webhook = "Webhook";
         }
 
         public static class FileNames
