@@ -5,13 +5,13 @@ using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.InlineQuery
+namespace Telegram.Bot.Tests.Integ.InlineMode
 {
     [Collection(Constants.TestCollections.InlineQuery)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class InlineQueryTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
@@ -21,12 +21,14 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithArticle)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [ExecutionOrder(1)]
         public async Task Should_Answer_Inline_Query_With_Article()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
-                "Start an inline query with bot. For example, type `@bot_user_name` in chat and wait.");
+                $"Start an inline query with bot. For example, type `@{_fixture.BotUser.Username}` in chat and wait.");
+
+            Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             InlineQueryResult[] results = new InlineQueryResult[]
             {
@@ -41,11 +43,12 @@ namespace Telegram.Bot.Tests.Integ.InlineQuery
                     },
                 },
             };
-            Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             await BotClient.AnswerInlineQueryAsync(
-                update.InlineQuery.Id,
-                results, 0);
+                inlineQueryId: update.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
         }
 
         private static class FactTitles
