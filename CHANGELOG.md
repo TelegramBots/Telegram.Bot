@@ -159,11 +159,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Method `DeleteChatStickerSetAsync`
 - Type `InputMediaType` to `InputMedia`
 - Type `InputMediaTypeConverter` to `InputMediaConverter`
-- Changed deserialized `IEnumerable<T>` member to `List<T>`
+- Changed member type from any `IEnumerable<T>` to `List<T>`
   - `WebhookInfo.AllowedUpdates`
-- Chnaged member type from `FileToSend` to a derivant of `IInputFile`
+  - `Message.PhotoSize`
+  - `Message.NewChatMembers`
+  - `Message.NewChatPhoto`
+- Chnaged member type from `FileToSend` to an implementation of `IInputFile`
   - Parameter `certificate` of method `SetWebhookAsync`
   - Parameter `photo` of method `SendPhotoAsync`
+  - Parameter `video` of method `SendVideoAsync`
+  - Parameter `videoNote` of method `SendVideoNoteAsync`
 
 ### Removed
 
@@ -174,6 +179,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Value `All` from `UpdateType` enum
 - Value `Unknown` from `FileType` enum
 - Default value of parameter `url` of mehtod `SetWebhookAsync`
+- Property `Width` of `VideoNote`
+- Property `Height` of `VideoNote`
 
 ### Fixed
 

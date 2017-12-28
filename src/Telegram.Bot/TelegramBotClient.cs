@@ -678,7 +678,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendvideo"/>
         public Task<Message> SendVideoAsync(
             ChatId chatId,
-            FileToSend video,
+            InputOnlineFile video,
             int duration = default,
             int width = default,
             int height = default,
@@ -746,7 +746,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
         public Task<Message> SendVideoNoteAsync(
             ChatId chatId,
-            FileToSend videoNote,
+            InputTelegramFile videoNote,
             int duration = default,
             int length = default,
             bool disableNotification = default,

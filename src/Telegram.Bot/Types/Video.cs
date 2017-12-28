@@ -31,13 +31,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Video thumbnail
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PhotoSize Thumb { get; set; }
 
         /// <summary>
         /// Optional. Mime type of a file as defined by sender
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string MimeType { get; set; }
     }
 }

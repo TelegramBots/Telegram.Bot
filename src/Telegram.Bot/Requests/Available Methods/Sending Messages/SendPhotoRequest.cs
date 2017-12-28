@@ -68,7 +68,7 @@ namespace Telegram.Bot.Requests
             Photo = photo;
         }
 
-        /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
+        /// <inheritdoc />
         public override HttpContent ToHttpContent() =>
             Photo.FileType == FileType.Stream
                 ? ToMultipartFormDataContent("photo", Photo)

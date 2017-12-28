@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -60,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages.Photo
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPhotoUsingFileId);
 
-            PhotoSize[] uploadedPhoto = _classFixture.Entity.Photo;
+            List<PhotoSize> uploadedPhoto = _classFixture.Entity.Photo;
             string fileId = uploadedPhoto.First().FileId;
 
             Message message = await BotClient.SendPhotoAsync(

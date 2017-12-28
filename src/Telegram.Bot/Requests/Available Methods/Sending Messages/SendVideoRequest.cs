@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send video files, Telegram clients support mp4 videos
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendVideoRequest : FileRequestBase<Message>,
                                     INotifiableMessage,
                                     IReplyMessage,
@@ -20,12 +22,14 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; set; }
 
         /// <summary>
         /// Video file to send
         /// </summary>
-        public FileToSend Video { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public InputOnlineFile Video { get; set; }
 
         /// <summary>
         /// Duration of the video in seconds
@@ -75,64 +79,17 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="video">Video to send</param>
-        public SendVideoRequest(ChatId chatId, FileToSend video)
+        public SendVideoRequest(ChatId chatId, InputOnlineFile video)
             : this()
         {
             ChatId = chatId;
             Video = video;
         }
 
-        /// <summary>
-        /// Generate content of HTTP message
-        /// </summary>
-        /// <returns>Content of HTTP request</returns>
-        public override HttpContent ToHttpContent()
-        {
-            HttpContent content;
-
-            if (Video.Type == FileType.Stream)
-            {
-                var parameters = new Dictionary<string, object>
-                {
-                    { nameof(ChatId).ToSnakeCased(), ChatId},
-                    { nameof(Video).ToSnakeCased(), Video },
-                    { nameof(Caption).ToSnakeCased(), Caption },
-                    { nameof(ReplyMarkup).ToSnakeCased(), ReplyMarkup }
-                };
-
-                if (Width != default)
-                {
-                    parameters.Add(nameof(Width).ToSnakeCased(), Width);
-                }
-
-                if (Height != default)
-                {
-                    parameters.Add(nameof(Height).ToSnakeCased(), Height);
-                }
-
-                if (Duration != default)
-                {
-                    parameters.Add(nameof(Duration).ToSnakeCased(), Duration);
-                }
-
-                if (ReplyToMessageId != default)
-                {
-                    parameters.Add(nameof(ReplyToMessageId).ToSnakeCased(), ReplyToMessageId);
-                }
-
-                if (DisableNotification != default)
-                {
-                    parameters.Add(nameof(DisableNotification).ToSnakeCased(), DisableNotification);
-                }
-
-                content = GetMultipartContent(parameters);
-            }
-            else
-            {
-                content = base.ToHttpContent();
-            }
-
-            return content;
-        }
+        /// <inheritdoc />
+        public override HttpContent ToHttpContent() =>
+            Video.FileType == FileType.Stream
+                ? ToMultipartFormDataContent("video", Video)
+                : base.ToHttpContent();
     }
 }

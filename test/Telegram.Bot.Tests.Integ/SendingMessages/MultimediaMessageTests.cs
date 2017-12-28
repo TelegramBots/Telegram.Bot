@@ -23,57 +23,6 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         #region 2. Sending videos
 
-        [Fact(DisplayName = FactTitles.ShouldSendVideo)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideo)]
-        [ExecutionOrder(2.1)]
-        public async Task Should_Send_Video()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideo);
-
-            const int duration = 104;
-            const int width = 320;
-            const int height = 240;
-            const string caption = "Moon Landing";
-            const string mimeType = "video/mp4";
-
-            Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding))
-            {
-                message = await BotClient.SendVideoAsync(_fixture.SuperGroupChatId,
-                    new FileToSend("moon-landing.mp4", stream), duration, width, height, caption);
-            }
-
-            Assert.Equal(MessageType.VideoMessage, message.Type);
-            Assert.Equal(duration, message.Video.Duration);
-            Assert.Equal(width, message.Video.Width);
-            Assert.Equal(height, message.Video.Height);
-            Assert.Equal(mimeType, message.Video.MimeType);
-            Assert.NotNull(message.Video.Thumb);
-        }
-
-        [Fact(DisplayName = FactTitles.ShouldSendVideoNote)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideoNote)]
-        [ExecutionOrder(2.2)]
-        public async Task Should_Send_Video_Note()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoNote);
-
-            const int duration = 28;
-            const int widthAndHeight = 240;
-
-            Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio))
-            {
-                message = await BotClient.SendVideoNoteAsync(_fixture.SuperGroupChatId,
-                    new FileToSend("golden-ratio.mp4", stream), duration, widthAndHeight);
-            }
-
-            Assert.Equal(MessageType.VideoNoteMessage, message.Type);
-            Assert.Equal(duration, message.VideoNote.Duration);
-            Assert.Equal(widthAndHeight, message.VideoNote.Width);
-            Assert.Equal(widthAndHeight, message.VideoNote.Height);
-            Assert.NotNull(message.VideoNote.Thumb);
-        }
 
         #endregion
 
@@ -137,10 +86,6 @@ namespace Telegram.Bot.Tests.Integ.SendingMessages
 
         private static class FactTitles
         {
-            public const string ShouldSendVideo = "Should send a video with caption";
-
-            public const string ShouldSendVideoNote = "Should send a video note";
-
             public const string ShouldSendPdf = "Should send a pdf document with caption";
 
             public const string ShouldSendDocumentWithNonAsciiName = "Should send a pdf document having a Farsi(non-ASCII) file name";

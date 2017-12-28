@@ -13,6 +13,7 @@ namespace Telegram.Bot.Tests.Integ.Common
             Constants.TestCollections.Webhook,
             Constants.TestCollections.SendTextMessage,
             Constants.TestCollections.SendPhotoMessage,
+            Constants.TestCollections.SendVideoMessage,
             Constants.TestCollections.MultimediaMessage,
             Constants.TestCollections.MessageReplyMarkup,
             Constants.TestCollections.InlineQuery,

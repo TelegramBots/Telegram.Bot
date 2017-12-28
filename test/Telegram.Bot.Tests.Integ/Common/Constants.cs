@@ -36,6 +36,8 @@
 
             public const string SendPhotoMessage = "Sending Photo Messages";
 
+            public const string SendVideoMessage = "Sending Video Messages";
+
             public const string UpdateMessage = "Updating messages";
 
             public const string Exceptions = "Bot API Exceptions";
