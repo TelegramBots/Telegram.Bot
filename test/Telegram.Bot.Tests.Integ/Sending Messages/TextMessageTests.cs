@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(text, message.Text);
             Assert.Equal(MessageType.TextMessage, message.Type);
             Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
-            Assert.InRange(message.Date, DateTime.Now.AddSeconds(-5), DateTime.Now);
+            Assert.InRange(message.Date, DateTime.Now.AddSeconds(-10), DateTime.Now.AddSeconds(2));
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(_fixture.BotUser), JToken.FromObject(message.From)
             ));

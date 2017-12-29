@@ -90,11 +90,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Type of parameter `certificate` in method `SetWebhookAsync` changed to `Stream`
 - Type of parameter `allowedUpdates` in method `SetWebhookAsync` changed to `IEnumerable<UpdateType>`
 - Type of parameter `allowedUpdates` in method `GetUpdatesAsync` changed to `IEnumerable<UpdateType>`
 - Type of parameter `offset` in method `GetUserProfilePhotosAsync` changed to `int`
-- Type of parameter `photo` in method `SetChatPhotoAsync` changed to `Stream`
 - Type of parameter `replyMarkup` in methods `EditMessageLiveLocationAsync` changed to `InlineKeyboardMarkup`
 - Type of parameter `replyMarkup` in methods `StopMessageLiveLocationAsync` changed to `InlineKeyboardMarkup`
 - Type of parameter `replyMarkup` in method `EditMessageTextAsync` changed to `InlineKeyboardMarkup`
@@ -104,17 +102,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type of parameter `replyMarkup` in method `SendInvoiceAsync` changed to `InlineKeyboardMarkup`
 - Type of parameter `prices` in method `SendInvoiceAsync` changed to `IEnumerable<LabeledPrice>`
 - Type of parameter `shippingOptions` in method `AnswerShippingQueryAsync` changed to `IEnumerable<ShippingOption>`
-- Type of parameter `chatId` in method `SendInvoiceAsync` changed to `long`
+- Type of parameter `chatId` in method `SendInvoiceAsync` changed to `int`
 - Type of parameter `chatId` in method `SendGameAsync` changed to `long`
 - Type of parameter `chatId` in methods `SetGameScoreAsync` changed to `long`
 - Type of parameter `chatId` in methods `GetGameHighScoresAsync` changed to `long`
-- Default value of parameter `pngSticker` in method `UploadStickerFileAsync` changed to `Stream`
 - Type parameter of type `SendMediaGroupRequest` changed to `Message[]`
 - Return type of method `GetChatIdFromTesterAsync` in `TestFixture` changed to `Task<long>`
 - Type of propery `TesterPrivateChatId` on type `PaymentTestsFixture` changed to `long`
 - Replace method `EditInlineMessageTextAsync` with overload for `EditMessageTextAsync`
 - Replace method `EditInlineMessageCaptionAsync` with overload for `EditMessageCaptionAsync`
 - Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
+- Reorder parameters of method `SendInvoiceAsync`
+- Divide `AnswerShippingQueryAsync` method into two overloads
+- Divide `AnswerPreCheckoutQueryAsync` method into two overloads
 - Method `CreateNewStickerSetAsnyc` renamed to `CreateNewStickerSetAsync`
 - Method return type changed from `Task<bool>` to `Task`:
   - Method `DeleteWebhookAsync`
@@ -154,7 +154,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `Message.PhotoSize`
   - `Message.NewChatMembers`
   - `Message.NewChatPhoto`
-  - Return type of method `SendMediaGroupAsync`
 - Chnaged member type from `FileToSend` to an implementation of `IInputFile`
   - Parameter `certificate` of method `SetWebhookAsync`
   - Parameter `photo` of method `SendPhotoAsync`

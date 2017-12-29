@@ -973,7 +973,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
         Task<Message> SendInvoiceAsync(
-            long chatId,
+            int chatId,
             string title,
             string description,
             string payload,
@@ -981,6 +981,7 @@ namespace Telegram.Bot
             string startParameter,
             string currency,
             IEnumerable<LabeledPrice> prices,
+            string providerData = default,
             string photoUrl = default,
             int photoSize = default,
             int photoWidth = default,
@@ -993,32 +994,50 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            string providerData = default
-        );
+            CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.
+        /// Use this method to reply to shipping queries with success and shipping options. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot.
         /// </summary>
         /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
-        /// <param name="ok">Specify True if delivery to the specified address is possible and False if there are any problems</param>
         /// <param name="shippingOptions">Required if OK is True.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
+        Task AnswerShippingQueryAsync(
+            string shippingQueryId,
+            IEnumerable<ShippingOption> shippingOptions,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to reply to shipping queries with failure and error message. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot.
+        /// </summary>
+        /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
         /// <param name="errorMessage">Required if OK is False. Error message in human readable form that explains why it is impossible to complete the order </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, True is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
         Task AnswerShippingQueryAsync(
             string shippingQueryId,
-            bool ok,
-            IEnumerable<ShippingOption> shippingOptions = default,
-            string errorMessage = default,
+            string errorMessage,
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to respond to such pre-checkout queries.
+        /// Respond to a pre-checkout query with success
         /// </summary>
         /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
-        /// <param name="ok">Specify True if everything is alright</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <remarks>Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#answerprecheckoutquery"/>
+        Task AnswerPreCheckoutQueryAsync(
+            string preCheckoutQueryId,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Respond to a pre-checkout query with failure and error message
+        /// </summary>
+        /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
         /// <param name="errorMessage">Required if OK is False. Error message in human readable form that explains the reason for failure to proceed with the checkout</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, True is returned.</returns>
@@ -1026,8 +1045,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#answerprecheckoutquery"/>
         Task AnswerPreCheckoutQueryAsync(
             string preCheckoutQueryId,
-            bool ok,
-            string errorMessage = default,
+            string errorMessage,
             CancellationToken cancellationToken = default);
 
         #endregion Payments

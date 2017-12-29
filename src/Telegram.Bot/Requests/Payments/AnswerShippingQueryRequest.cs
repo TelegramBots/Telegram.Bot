@@ -1,23 +1,28 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Payments;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries. On success, True is returned.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class AnswerShippingQueryRequest : RequestBase<bool>
     {
         /// <summary>
         /// Unique identifier for the query to be answered
         /// </summary>
-        public string ShippingQueryId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string ShippingQueryId { get; }
 
         /// <summary>
         /// Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
         /// </summary>
-        public bool Ok { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public bool Ok { get; }
 
         /// <summary>
         /// Required if ok is True. A JSON-serialized array of available shipping options.
@@ -31,15 +36,12 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ErrorMessage { get; set; }
 
-        /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public AnswerShippingQueryRequest()
+        private AnswerShippingQueryRequest()
             : base("answerShippingQuery")
         { }
 
         /// <summary>
-        /// Initializes a new request with shippingQueryId and errorMessage
+        /// Initializes a new failing answerShippingQuery request with error message
         /// </summary>
         /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
         /// <param name="errorMessage">Error message in human readable form</param>
@@ -48,20 +50,18 @@ namespace Telegram.Bot.Requests
         {
             ShippingQueryId = shippingQueryId;
             ErrorMessage = errorMessage;
-            Ok = false;
         }
 
         /// <summary>
-        /// Initializes a new request with shippingQueryId and errorMessage
+        /// Initializes a new successful answerShippingQuery request with shipping options
         /// </summary>
         /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
         /// <param name="shippingOptions">A JSON-serialized array of available shipping options</param>
         public AnswerShippingQueryRequest(string shippingQueryId, IEnumerable<ShippingOption> shippingOptions)
-            : this()
+            : this(shippingQueryId, null as string)
         {
-            ShippingQueryId = shippingQueryId;
-            ShippingOptions = shippingOptions;
             Ok = true;
+            ShippingOptions = shippingOptions;
         }
     }
 }

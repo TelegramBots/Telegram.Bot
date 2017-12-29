@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.PromoteChatMemberAsync(_fixture.SuperGroupChatId, 123456));
+                BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456));
 
             Assert.IsType<InvalidUserIdException>(e);
         }
@@ -81,7 +81,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             });
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId, "You should never see this message",
+                BotClient.SendTextMessageAsync(_fixture.SupergroupChat.Id, "You should never see this message",
                 replyMarkup: replyMarkup));
 
             Assert.IsType<ContactRequestException>(e);

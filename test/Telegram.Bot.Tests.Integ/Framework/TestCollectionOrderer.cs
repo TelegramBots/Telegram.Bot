@@ -55,7 +55,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             if (order is null)
             {
-                throw new Exception($"Collection \"{collection.DisplayName}\" not found in execution list.");
+                throw new ArgumentException(
+                    $"Collection \"{collection.DisplayName}\" not found in execution list.", nameof(collection));
             }
 
             return (int)order;

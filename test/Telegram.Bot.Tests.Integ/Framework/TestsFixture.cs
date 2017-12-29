@@ -20,9 +20,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public string[] AllowedUserNames { get; }
 
-        [Obsolete("Use SupergroupChat.Id instead")]
-        public ChatId SuperGroupChatId { get; }
-
         public Chat SupergroupChat { get; }
 
         public Chat PrivateChat { get; set; }
@@ -60,7 +57,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 SupergroupChat = BotClient.GetChatAsync(supergroupChatId)
                     .GetAwaiter().GetResult();
             }
-            SuperGroupChatId = SupergroupChat.Id;
 
             #endregion
 
