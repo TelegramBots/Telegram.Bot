@@ -1704,7 +1704,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
         public Task SetChatPhotoAsync(
             ChatId chatId,
-            Stream photo,
+            InputFileStream photo,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SetChatPhotoRequest(chatId, photo), cancellationToken);
@@ -1747,7 +1747,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#setchatdescription"/>
         public Task SetChatDescriptionAsync(
             ChatId chatId,
-            string description = "",
+            string description = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SetChatDescriptionRequest(chatId, description), cancellationToken);

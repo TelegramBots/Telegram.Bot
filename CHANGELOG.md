@@ -165,6 +165,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Parameter `pngSticker` of method `UploadStickerFileAsync`
   - Parameter `pngSticker` of method `CreateNewStickerSetAsync`
   - Parameter `pngSticker` of method `AddStickerToSetAsync`
+  - Parameter `photo` of method `SetChatPhotoAsync`
 
 ### Removed
 

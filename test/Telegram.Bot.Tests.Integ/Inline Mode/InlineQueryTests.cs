@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;

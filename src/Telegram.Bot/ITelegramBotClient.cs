@@ -535,7 +535,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <remarks>We only recommend using this method when a response from the bot will take a noticeable amount of time to arrive.</remarks>
         /// <see href="https://core.telegram.org/bots/api#sendchataction"/>
-        Task SendChatActionAsync(ChatId chatId, ChatAction chatAction, CancellationToken cancellationToken = default);
+        Task SendChatActionAsync(
+            ChatId chatId,
+            ChatAction chatAction,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
@@ -587,7 +590,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#leavechat"/>
-        Task LeaveChatAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task LeaveChatAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work.
@@ -609,7 +614,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchat"/>
-        Task<Chat> GetChatAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task<Chat> GetChatAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to get a list of administrators in a chat.
@@ -618,7 +625,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, returns an Array of <see cref="ChatMember"/> objects that contains information about all chat administrators except other bots. If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatadministrators"/>
-        Task<ChatMember[]> GetChatAdministratorsAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task<ChatMember[]> GetChatAdministratorsAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to get the number of members in a chat.
@@ -627,7 +636,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns Int on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmemberscount"/>
-        Task<int> GetChatMembersCountAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task<int> GetChatMembersCountAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to get information about a member of a chat.
@@ -637,7 +648,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns a ChatMember object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmember"/>
-        Task<ChatMember> GetChatMemberAsync(ChatId chatId, int userId, CancellationToken cancellationToken = default);
+        Task<ChatMember> GetChatMemberAsync(
+            ChatId chatId,
+            int userId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
@@ -895,7 +909,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletemessage"/>
-        Task DeleteMessageAsync(ChatId chatId, int messageId, CancellationToken cancellationToken = default);
+        Task DeleteMessageAsync(
+            ChatId chatId,
+            int messageId,
+            CancellationToken cancellationToken = default);
 
         #endregion Updating messages
 
@@ -1123,7 +1140,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, a StickerSet object is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getstickerset"/>
-        Task<StickerSet> GetStickerSetAsync(string name, CancellationToken cancellationToken = default);
+        Task<StickerSet> GetStickerSetAsync(
+            string name,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times).
@@ -1200,7 +1219,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletestickerfromset"/>
-        Task DeleteStickerFromSetAsync(string sticker, CancellationToken cancellationToken = default);
+        Task DeleteStickerFromSetAsync(
+            string sticker,
+            CancellationToken cancellationToken = default);
 
         #endregion
 
@@ -1213,7 +1234,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns exported invite link as String on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#exportchatinvitelink"/>
-        Task<string> ExportChatInviteLinkAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task<string> ExportChatInviteLinkAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1223,7 +1246,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
-        Task SetChatPhotoAsync(ChatId chatId, Stream photo, CancellationToken cancellationToken = default);
+        Task SetChatPhotoAsync(
+            ChatId chatId,
+            InputFileStream photo,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1232,7 +1258,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
-        Task DeleteChatPhotoAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task DeleteChatPhotoAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1242,7 +1270,10 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchattitle"/>
-        Task SetChatTitleAsync(ChatId chatId, string title, CancellationToken cancellationToken = default);
+        Task SetChatTitleAsync(
+            ChatId chatId,
+            string title,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to change the description of a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1254,7 +1285,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#setchatdescription"/>
         Task SetChatDescriptionAsync(
             ChatId chatId,
-            string description = "",
+            string description = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -1301,7 +1332,9 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
-        Task DeleteChatStickerSetAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task DeleteChatStickerSetAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
 
         #endregion
     }
