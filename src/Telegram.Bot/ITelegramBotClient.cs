@@ -314,7 +314,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendaudio"/>
         Task<Message> SendAudioAsync(
             ChatId chatId,
-            FileToSend audio,
+            InputOnlineFile audio,
             string caption = default,
             int duration = default,
             string performer = default,
@@ -406,7 +406,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendvoice"/>
         Task<Message> SendVoiceAsync(
             ChatId chatId,
-            FileToSend voice,
+            InputOnlineFile voice,
             string caption = default,
             int duration = default,
             bool disableNotification = default,

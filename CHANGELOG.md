@@ -165,9 +165,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Parameter `pngSticker` of method `CreateNewStickerSetAsync`
   - Parameter `pngSticker` of method `AddStickerToSetAsync`
   - Parameter `photo` of method `SetChatPhotoAsync`
+  - Parameter `audio` of method `SendAudioAsync`
 
 ### Removed
 
+- Type `FileToSend`
 - Interface `IResponse`
 - Type parameter constraint from interface `IRequest`
 - Redundant parameter `editMessage` in methods `SetGameScoreAsync`

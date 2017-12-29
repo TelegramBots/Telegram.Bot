@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a general file (as opposed to <see cref="PhotoSize"/> and <see cref="Audio"/> files).
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Document : File
     {
         /// <summary>
@@ -19,13 +18,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. Original filename as defined by sender
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FileName { get; set; }
 
         /// <summary>
         /// Optional. MIME type of the file as defined by sender
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string MimeType { get; set; }
     }
 }

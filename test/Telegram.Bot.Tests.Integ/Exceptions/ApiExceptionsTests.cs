@@ -13,7 +13,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
@@ -53,6 +53,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [ExecutionOrder(3)]
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
+            //ToDo add exception. forward message from another bot. Forbidden: bot can't send messages to bots
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionChatNotInitiatedException,
                 "Forward a message to this chat from a user that never started a chat with this bot");
 

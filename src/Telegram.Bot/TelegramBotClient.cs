@@ -189,13 +189,7 @@ namespace Telegram.Bot
 
         #region Helpers
 
-        /// <summary>
-        /// Send a request to Bot API
-        /// </summary>
-        /// <typeparam name="TResponse">Type of expected result in the response object</typeparam>
-        /// <param name="request">API request object</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Result of the API request</returns>
+        /// <inheritdoc />
         public async Task<TResponse> MakeRequestAsync<TResponse>(
             IRequest<TResponse> request,
             CancellationToken cancellationToken = default)
@@ -462,7 +456,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task<Message> SendAudioAsync(
             ChatId chatId,
-            FileToSend audio,
+            InputOnlineFile audio,
             string caption = default,
             int duration = default,
             string performer = default,
@@ -544,7 +538,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task<Message> SendVoiceAsync(
             ChatId chatId,
-            FileToSend voice,
+            InputOnlineFile voice,
             string caption = default,
             int duration = default,
             bool disableNotification = default,
@@ -645,8 +639,9 @@ namespace Telegram.Bot
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName, lastName)
+            MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName)
             {
+                LastName = lastName,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup

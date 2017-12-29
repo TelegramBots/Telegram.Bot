@@ -1,13 +1,16 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send information about a venue
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendVenueRequest : RequestBase<Message>,
                                     INotifiableMessage,
                                     IReplyMessage,
@@ -16,27 +19,32 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
         /// </summary>
-        public ChatId ChatId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Latitude of the venue
         /// </summary>
-        public float Latitude { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public float Latitude { get; }
 
         /// <summary>
         /// Longitude of the venue
         /// </summary>
-        public float Longitude { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public float Longitude { get; }
 
         /// <summary>
         /// Name of the venue
         /// </summary>
-        public string Title { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; }
 
         /// <summary>
         /// Address of the venue
         /// </summary>
-        public string Address { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Address { get; }
 
         /// <summary>
         /// Foursquare identifier of the venue
@@ -57,13 +65,6 @@ namespace Telegram.Bot.Requests
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public SendVenueRequest()
-            : base("sendVenue")
-        { }
-
-        /// <summary>
         /// Initializes a new request with chatId, location, venue title and address
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
@@ -76,8 +77,9 @@ namespace Telegram.Bot.Requests
             float latitude,
             float longitude,
             string title,
-            string address)
-            : this()
+            string address
+        )
+            : base("sendVenue")
         {
             ChatId = chatId;
             Latitude = latitude;

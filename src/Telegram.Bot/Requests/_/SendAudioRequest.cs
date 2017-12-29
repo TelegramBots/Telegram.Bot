@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
-using Telegram.Bot.Helpers;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendAudioRequest : FileRequestBase<Message>,
                                     INotifiableMessage,
                                     IReplyMessage,
@@ -20,12 +22,14 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
-        public ChatId ChatId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Audio file to send
         /// </summary>
-        public FileToSend Audio { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public InputOnlineFile Audio { get; }
 
         /// <summary>
         /// Photo caption (may also be used when resending photos by file_id), 0-200 characters
@@ -64,67 +68,21 @@ namespace Telegram.Bot.Requests
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public SendAudioRequest()
-            : base("sendAudio")
-        { }
-
-        /// <summary>
         /// Initializes a new request with chatId and audio
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="audio">Audio to send</param>
-        public SendAudioRequest(ChatId chatId, FileToSend audio)
-            : this()
+        public SendAudioRequest(ChatId chatId, InputOnlineFile audio)
+            : base("sendAudio")
         {
             ChatId = chatId;
             Audio = audio;
         }
 
-        /// <summary>
-        /// Generate content of HTTP message
-        /// </summary>
-        /// <returns>Content of HTTP request</returns>
-        public override HttpContent ToHttpContent()
-        {
-            HttpContent content;
-
-            if (Audio.Type == FileType.Stream)
-            {
-                var parameters = new Dictionary<string, object>
-                {
-                    { nameof(ChatId).ToSnakeCased(), ChatId},
-                    { nameof(Audio).ToSnakeCased(), Audio },
-                    { nameof(Caption).ToSnakeCased(), Caption },
-                    { nameof(Performer).ToSnakeCased(), Performer },
-                    { nameof(Title).ToSnakeCased(), Title },
-                    { nameof(ReplyMarkup).ToSnakeCased(), ReplyMarkup }
-                };
-
-                if (Duration != default)
-                {
-                    parameters.Add(nameof(Duration).ToSnakeCased(), Duration);
-                }
-
-                if (ReplyToMessageId != default)
-                {
-                    parameters.Add(nameof(ReplyToMessageId).ToSnakeCased(), ReplyToMessageId);
-                }
-
-                if (DisableNotification != default)
-                {
-                    parameters.Add(nameof(DisableNotification).ToSnakeCased(), DisableNotification);
-                }
-
-                content = GetMultipartContent(parameters);
-            }
-            else
-            {
-                content = base.ToHttpContent();
-            }
-
-            return content;
-        }
+        /// <inheritdoc />
+        public override HttpContent ToHttpContent() =>
+            Audio.FileType == FileType.Stream
+                ? ToMultipartFormDataContent("audio", Audio)
+                : base.ToHttpContent();
     }
 }

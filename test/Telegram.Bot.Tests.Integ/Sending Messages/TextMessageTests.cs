@@ -83,11 +83,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMarkDownEntities);
 
+            const string url = "https://telegram.org/";
             var entityValueMappings = new Dictionary<MessageEntityType, string>
             {
                 { MessageEntityType.Bold, "*bold*" },
                 { MessageEntityType.Italic, "_italic_" },
-                { MessageEntityType.TextLink, "[inline url to Telegram.org](https://telegram.org/)" },
+                { MessageEntityType.TextLink, $"[inline url to Telegram.org]({url})" },
                 {
                     MessageEntityType.TextMention,
                     $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
@@ -104,6 +105,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
+            Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser),
+                JToken.FromObject(message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User)
+            ));
         }
 
         [Fact(DisplayName = FactTitles.ShouldParseHtmlEntities)]
@@ -113,13 +119,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseHtmlEntities);
 
+            const string url = "https://telegram.org/";
             var entityValueMappings = new(MessageEntityType Type, string Value)[]
             {
                 ( MessageEntityType.Bold, "<b>bold</b>" ),
                 ( MessageEntityType.Bold, "<strong>&lt;strong&gt;</strong>" ),
                 ( MessageEntityType.Italic, "<i>italic</i>" ),
                 ( MessageEntityType.Italic, "<em>&lt;em&gt;</em>" ),
-                ( MessageEntityType.TextLink, @"<a href=""https://telegram.org/"">inline url to Telegram.org</a>" ),
+                ( MessageEntityType.TextLink, $@"<a href=""{url}"">inline url to Telegram.org</a>" ),
                 (
                     MessageEntityType.TextMention,
                     $@"<a href=""tg://user?id={_fixture.BotUser.Id}"">{_fixture.BotUser.Username}</a>"
@@ -139,6 +146,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 entityValueMappings.Select(tuple => tuple.Type),
                 message.Entities.Select(e => e.Type)
             );
+            Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser),
+                JToken.FromObject(message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User)
+            ));
         }
 
         [Fact(DisplayName = FactTitles.ShouldPaseMessageEntitiesIntoValues)]

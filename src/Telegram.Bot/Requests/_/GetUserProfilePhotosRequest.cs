@@ -1,17 +1,21 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Get a list of profile pictures for a user
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>
     {
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
-        public int UserId{ get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public int UserId { get; }
 
         /// <summary>
         /// Sequential number of the first photo to be returned. By default, all photos are returned.
@@ -26,18 +30,11 @@ namespace Telegram.Bot.Requests
         public int Limit { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public GetUserProfilePhotosRequest()
-            : base("getUserProfilePhotos")
-        { }
-
-        /// <summary>
         /// Initializes a new request with user id
         /// </summary>
         /// <param name="userId">Unique identifier of the target user</param>
         public GetUserProfilePhotosRequest(int userId)
-            : this()
+            : base("getUserProfilePhotos")
         {
             UserId = userId;
         }
