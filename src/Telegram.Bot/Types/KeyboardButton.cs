@@ -7,8 +7,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents one button of the reply keyboard. For simple text buttons String can be used instead of this object to specify text of the button. Optional fields are mutually exclusive.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class KeyboardButton
     {
         /// <summary>
@@ -20,13 +19,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool RequestContact { get; set; }
 
         /// <summary>
         /// Optional. If <c>true</c>, the user's current location will be sent when the button is pressed. Available in private chats only
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool RequestLocation { get; set; }
 
         /// <summary>

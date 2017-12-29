@@ -105,7 +105,7 @@ namespace Telegram.Bot.Types
         /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<MessageEntity> Entities { get; set; } = new List<MessageEntity>();
+        public MessageEntity[] Entities { get; set; }
 
         /// <summary>
         /// Gets the entity values.
@@ -113,14 +113,14 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The entity contents.
         /// </value>
-        public List<string> EntityValues
-            => Entities.Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
+        public IEnumerable<string> EntityValues =>
+            Entities?.Select(entity => Text.Substring(entity.Offset, entity.Length));
 
         /// <summary>
         /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<MessageEntity> CaptionEntities { get; set; } = new List<MessageEntity>();
+        public MessageEntity[] CaptionEntities { get; set; }
 
         /// <summary>
         /// Gets the caption entity values.
@@ -128,8 +128,8 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The caption entity contents.
         /// </value>
-        public IEnumerable<string> CaptionEntityValues => CaptionEntities
-            .Select(entity => Caption.Substring(entity.Offset, entity.Length));
+        public IEnumerable<string> CaptionEntityValues =>
+            CaptionEntities?.Select(entity => Caption.Substring(entity.Offset, entity.Length));
 
         /// <summary>
         /// Optional. Description is an audio file, information about the file
@@ -153,7 +153,7 @@ namespace Telegram.Bot.Types
         /// Optional. Description is a photo, available sizes of the photo
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<PhotoSize> Photo { get; set; }
+        public PhotoSize[] Photo { get; set; }
 
         /// <summary>
         /// Optional. Description is a sticker, information about the sticker
@@ -213,7 +213,7 @@ namespace Telegram.Bot.Types
         /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<User> NewChatMembers { get; set; }
+        public User[] NewChatMembers { get; set; }
 
         /// <summary>
         /// Optional. A member was removed from the group, information about them (this member may be bot itself)
@@ -231,7 +231,7 @@ namespace Telegram.Bot.Types
         /// Optional. A group photo was change to this value
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public List<PhotoSize> NewChatPhoto { get; set; }
+        public PhotoSize[] NewChatPhoto { get; set; }
 
         /// <summary>
         /// Optional. Informs that the group photo was deleted

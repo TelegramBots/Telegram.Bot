@@ -146,15 +146,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Method `UnpinChatMessageAsync`
   - Method `SetChatStickerSetAsync`
   - Method `DeleteChatStickerSetAsync`
-- Type of member `StickerSet.Stickers` from `List<Sticker>` to `Sticker[]`
+- Type of `StickerSet.Stickers` from `List<Sticker>` to `Sticker[]`
 - Type of `ChatMember` properties to nullable e.g. `bool` to `bool?`
+- Type of `Message.Entities` from `List<MessageEntity>` to `MessageEntity[]`
+- Type of `Message.CaptionEntities` from `List<MessageEntity>` to `MessageEntity[]`
+- Type of `Message.EntityValues` from `List<string>` to `IEnumerable<string>`
 - Type `InputMediaType` to `InputMedia`
 - Type `InputMediaTypeConverter` to `InputMediaConverter`
-- **TODO: VALIDATE** Changed member type from any `IEnumerable<T>` to `List<T>`
-  - `WebhookInfo.AllowedUpdates`
-  - `Message.PhotoSize`
-  - `Message.NewChatMembers`
-  - `Message.NewChatPhoto`
 - Changed member type from `FileToSend` to an implementation of `IInputFile`
   - Parameter `certificate` of method `SetWebhookAsync`
   - Parameter `photo` of method `SendPhotoAsync`
