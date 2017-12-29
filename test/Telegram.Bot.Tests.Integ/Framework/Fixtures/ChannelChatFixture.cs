@@ -28,7 +28,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
             _testsFixture.SendTestCollectionNotificationAsync(
                 collectionName,
-                $"Tests will be executed in channel {ChannelChatId}"
+                $"Tests will be executed in channel {ChannelChatId.Replace("_", @"\_")}"
             ).GetAwaiter().GetResult();
         }
 

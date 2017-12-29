@@ -330,7 +330,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetStickerPositionInSet);
 
             StickerSet testStickerSet = await BotClient.GetStickerSetAsync(_classFixture.TestStickerSet.Name);
-            Sticker tuxSticker = testStickerSet.Stickers.ElementAt(1);
+            Sticker tuxSticker = testStickerSet.Stickers[1];
 
             await BotClient.SetStickerPositionInSetAsync(
                 sticker: tuxSticker.FileId,

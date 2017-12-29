@@ -27,9 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
                 PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
 
-                RegularMemberUserId = configuration[nameof(TestConfigurations.RegularMemberUserId)],
-                RegularMemberUserName = configuration[nameof(TestConfigurations.RegularMemberUserName)],
-                RegularMemberPrivateChatId = configuration[nameof(TestConfigurations.RegularMemberPrivateChatId)],
+                RegularGroupMemberId = configuration[nameof(TestConfigurations.RegularGroupMemberId)],
             };
 
             if (long.TryParse(configuration[nameof(TestConfigurations.TesterPrivateChatId)], out long privateChat))

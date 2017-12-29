@@ -1,22 +1,27 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class PromoteChatMemberRequest : RequestBase<bool>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
-        public ChatId ChatId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
-        public int UserId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public int UserId { get; }
 
         /// <summary>
         /// Pass True, if the administrator can change chat title, photo and other settings
@@ -67,19 +72,12 @@ namespace Telegram.Bot.Requests
         public bool? CanPromoteMembers { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public PromoteChatMemberRequest()
-            : base("promoteChatMember")
-        { }
-
-        /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
         public PromoteChatMemberRequest(ChatId chatId, int userId)
-            : this()
+            : base("promoteChatMember")
         {
             ChatId = chatId;
             UserId = userId;

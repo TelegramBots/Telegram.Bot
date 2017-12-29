@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot.Tests.Integ.Admin_Bot;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -13,16 +12,16 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChatMemberAdministrationTests : IClassFixture<ChatMemberAdministrationTestFixture>
     {
+        private ITelegramBotClient BotClient => _fixture.BotClient;
+
         private readonly TestsFixture _fixture;
 
         private readonly ChatMemberAdministrationTestFixture _classFixture;
 
-        private ITelegramBotClient BotClient => _fixture.BotClient;
-
-        public ChatMemberAdministrationTests(ChatMemberAdministrationTestFixture classFixture)
+        public ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdministrationTestFixture classFixture)
         {
+            _fixture = fixture;
             _classFixture = classFixture;
-            _fixture = classFixture.TestsFixture;
         }
 
         #region 1. Kick, Unban, and Invite chat member back
@@ -34,7 +33,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberForEver);
 
-            await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId, _classFixture.RegularMemberUserId);
+            await BotClient.KickChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId
+            );
         }
 
         [Fact(DisplayName = FactTitles.ShouldUnbanChatMember)]
@@ -44,8 +46,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnbanChatMember);
 
-            await BotClient.UnbanChatMemberAsync(_fixture.SuperGroupChatId,
-                _classFixture.RegularMemberUserId);
+            await BotClient.UnbanChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId
+            );
         }
 
         [Fact(DisplayName = FactTitles.ShouldExportChatInviteLink)]
@@ -55,7 +59,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldExportChatInviteLink);
 
-            string result = await BotClient.ExportChatInviteLinkAsync(_fixture.SuperGroupChatId);
+            string result = await BotClient.ExportChatInviteLinkAsync(_fixture.SupergroupChat.Id);
 
             Assert.StartsWith("https://t.me/joinchat/", result);
 
@@ -72,14 +76,18 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            await BotClient.SendTextMessageAsync(_classFixture.RegularMemberPrivateChatId,
-                _classFixture.GroupInviteLink);
+            await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.RegularMemberChat,
+                text: _classFixture.GroupInviteLink
+            );
 
-            Update update = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
+            Update update = (await _fixture.UpdateReceiver
+                .GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Supergroup &&
-                    u.Message.Chat.Id.ToString() == _fixture.SuperGroupChatId.ToString() &&
+                    u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
                     u.Message.Type == MessageType.ServiceMessage,
-                updateTypes: UpdateType.MessageUpdate)).Single();
+                updateTypes: UpdateType.MessageUpdate)
+            ).Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -98,29 +106,49 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [ExecutionOrder(2.1)]
         public async Task Should_Promote_User_To_Change_Chat_Info()
         {
+            //ToDo exception when user isn't in group. Bad Request: bots can't add new chat members
+
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPromoteUserToChangeChatInfo);
 
             await BotClient.PromoteChatMemberAsync(
-                _fixture.SuperGroupChatId,
-                _classFixture.RegularMemberUserId,
-                canChangeInfo: false);
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId,
+                canChangeInfo: true
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldDemoteUser)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
+        [ExecutionOrder(2.2)]
+        public async Task Should_Demote_User()
+        {
+            //ToDo exception when user isn't in group. Bad Request: USER_NOT_MUTUAL_CONTACT
+
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDemoteUser);
+
+            await BotClient.PromoteChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId,
+                canChangeInfo: false
+            );
         }
 
         [Fact(DisplayName = FactTitles.ShouldRestrictSendingStickersTemporarily)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RestrictChatMember)]
-        [ExecutionOrder(2.2)]
+        [ExecutionOrder(2.3)]
         public async Task Should_Restrict_Sending_Stickers_Temporarily()
         {
-            const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRestrictSendingStickersTemporarily);
+            const int banSeconds = 35;
 
             await BotClient.RestrictChatMemberAsync(
-                _fixture.SuperGroupChatId,
-                _classFixture.RegularMemberUserId,
-                DateTime.UtcNow.AddSeconds(banSeconds),
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId,
+                untilDate: DateTime.UtcNow.AddSeconds(banSeconds),
                 canSendMessages: true,
                 canSendMediaMessages: true,
-                canSendOtherMessages: false);
+                canSendOtherMessages: false
+            );
         }
 
         #endregion
@@ -134,11 +162,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             const int banSeconds = 35;
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberTemporarily,
-                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in *{banSeconds} seconds* " +
-                "via the link shared in private chat with him/her");
+                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in" +
+                $" *{banSeconds} seconds* via the link shared in private chat with him/her");
 
-            await BotClient.KickChatMemberAsync(_fixture.SuperGroupChatId,
-                _classFixture.RegularMemberUserId, DateTime.UtcNow.AddSeconds(banSeconds));
+            await BotClient.KickChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId,
+                untilDate: DateTime.UtcNow.AddSeconds(banSeconds)
+            );
         }
 
         #endregion
@@ -157,6 +188,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             public const string ShouldKickChatMemberTemporarily = "Should kick user from chat and ban him/her temporarily";
 
             public const string ShouldPromoteUserToChangeChatInfo = "Should promote chat member to change chat information";
+
+            public const string ShouldDemoteUser = "Should demote chat member by taking his/her only admin right: change_info";
 
             public const string ShouldRestrictSendingStickersTemporarily = "Should restrict chat member from sending stickers temporarily";
         }

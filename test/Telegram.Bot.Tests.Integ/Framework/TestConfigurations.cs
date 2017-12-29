@@ -34,11 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public int? StickerOwnerUserId { get; set; }
 
-        public string RegularMemberUserId { get; set; }
-
-        public string RegularMemberUserName { get; set; }
-
-        public string RegularMemberPrivateChatId { get; set; }
+        public string RegularGroupMemberId { get; set; }
 
         private string[] _allowedUsers;
     }

@@ -41,7 +41,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
-                parseMode: ParseMode.Markdown,
                 replyMarkup: replyMarkup
             );
 

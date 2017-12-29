@@ -77,9 +77,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
                 chatId: _fixture.SupergroupChat.Id,
                 text: "Please click on *Notify* button.",
                 parseMode: ParseMode.Markdown,
-                replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton[] {
-                    new InlineKeyboardCallbackButton("Notify", callbackQueryData)
-                })
+                replyMarkup: new InlineKeyboardMarkup(
+                    InlineKeyboardButton.WithCallbackData("Notify", callbackQueryData)
+                )
             );
 
             Update responseUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);

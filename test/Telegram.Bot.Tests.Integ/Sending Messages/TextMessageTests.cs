@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 { MessageEntityType.TextLink, "[inline url to Telegram.org](https://telegram.org/)" },
                 {
                     MessageEntityType.TextMention,
-                    $"[{_fixture.BotUser.Username}](tg://user?id={_fixture.BotUser.Id})"
+                    $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
                 },
                 { MessageEntityType.Code, @"inline ""`fixed-width code`""" },
                 { MessageEntityType.Pre, "```pre-formatted fixed-width code block```" },

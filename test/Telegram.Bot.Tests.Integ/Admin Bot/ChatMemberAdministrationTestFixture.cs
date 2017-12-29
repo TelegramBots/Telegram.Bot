@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -9,87 +8,61 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
     public class ChatMemberAdministrationTestFixture
     {
-        public TestsFixture TestsFixture { get; }
+        public Chat RegularMemberChat { get; }
 
         public int RegularMemberUserId { get; }
 
         public string RegularMemberUserName { get; }
 
-        public ChatId RegularMemberPrivateChatId { get; }
-
         public string GroupInviteLink { get; set; }
 
         public ChatMemberAdministrationTestFixture(TestsFixture testsFixture)
         {
-            TestsFixture = testsFixture;
+            string collectionName = Constants.TestCollections.ChatMemberAdministration;
 
-            bool isUserIdNull = string.IsNullOrWhiteSpace(ConfigurationProvider.TestConfigurations.RegularMemberUserId);
-            bool isUserNameNull =
-                string.IsNullOrWhiteSpace(ConfigurationProvider.TestConfigurations.RegularMemberUserName);
-            bool isChatIdNull = string.IsNullOrWhiteSpace(ConfigurationProvider.TestConfigurations
-                .RegularMemberPrivateChatId);
+            RegularMemberChat = GetChat(testsFixture, collectionName).GetAwaiter().GetResult();
 
-            // All must have values or all must be null
-            if (!(isUserIdNull == isUserNameNull && isUserNameNull == isChatIdNull))
+            testsFixture.SendTestCollectionNotificationAsync(
+                collectionName,
+                $"Chosen regular member is @{RegularMemberChat.Username.Replace("_", @"\_")}"
+            ).GetAwaiter().GetResult();
+
+            RegularMemberUserId = (int)RegularMemberChat.Id;
+            RegularMemberUserName = RegularMemberChat.Username;
+        }
+
+        private static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
+        {
+            Chat chat;
+            int.TryParse(ConfigurationProvider.TestConfigurations.RegularGroupMemberId, out int userId);
+            if (userId is default)
             {
-                throw new ArgumentException("All (or none) of Regular Chat Member configurations should be provided");
-            }
+                await testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            bool configValuesExist = !isUserIdNull;
+                string botUserName = testsFixture.BotUser.Username;
+                await testsFixture.SendTestCollectionNotificationAsync(collectionName,
+                    $"No value is set for `{nameof(ConfigurationProvider.TestConfigurations.RegularGroupMemberId)}` " +
+                    $"in test settings. A non-admin chat member should send /test command in private chat with " +
+                    $"@{botUserName.Replace("_", @"\_")}."
+                );
 
-            if (configValuesExist)
-            {
-                RegularMemberUserId = int.Parse(ConfigurationProvider.TestConfigurations.RegularMemberUserId);
-                RegularMemberUserName = ConfigurationProvider.TestConfigurations.RegularMemberUserName;
-                RegularMemberPrivateChatId = ConfigurationProvider.TestConfigurations.RegularMemberPrivateChatId;
-
-                TestsFixture.SendTestCollectionNotificationAsync(
-                    Constants.TestCollections.ChatMemberAdministration).Wait();
+                chat = await testsFixture.GetChatFromTesterAsync(ChatType.Private);
             }
             else
             {
-                TestsFixture.SendTestCollectionNotificationAsync(
-                        Constants.TestCollections.ChatMemberAdministration,
-                        "A non-admin chat member should send /me command so bot can use his/her user id during tests")
-                    .Wait();
-
-                Message replyInGroup = GetRegularGroupChatMemberUserIdAsync().Result;
-                RegularMemberUserId = replyInGroup.From.Id;
-                RegularMemberUserName = replyInGroup.From.Username;
-
-                TestsFixture.UpdateReceiver.DiscardNewUpdatesAsync().Wait();
-
-                TestsFixture.BotClient.SendTextMessageAsync(TestsFixture.SuperGroupChatId,
-                    $"Now, @{RegularMemberUserName} should send bot /me command in his/her private chat with bot",
-                    ParseMode.Markdown,
-                    replyToMessageId: replyInGroup.MessageId).Wait();
-
-                Message replyInPrivate = GetRegularMemberPrivateChatIdAsync(RegularMemberUserId).Result;
-                RegularMemberPrivateChatId = replyInPrivate.Chat.Id;
+                chat = await testsFixture.BotClient.GetChatAsync(userId);
             }
-        }
 
-        private async Task<Message> GetRegularGroupChatMemberUserIdAsync()
-        {
-            Update update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.Chat.Type == ChatType.Supergroup &&
-                    u.Message.Text?.StartsWith("/me", StringComparison.OrdinalIgnoreCase) == true,
-                updateTypes: UpdateType.MessageUpdate)).Single();
+            if (chat.Username is default)
+            {
+                await testsFixture.SendTestCollectionNotificationAsync(collectionName,
+                    $"[{chat.FirstName}](tg://user?id={chat.Id}) doesn't have a username.\n" +
+                    "❎ Failing tests...");
 
-            // todo: Validate user is non-admin
+                throw new ArgumentNullException(nameof(chat.Username), "Chat member doesn't have a username");
+            }
 
-            return update.Message;
-        }
-
-        private async Task<Message> GetRegularMemberPrivateChatIdAsync(ChatId userid)
-        {
-            Update update = (await TestsFixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.Chat.Type == ChatType.Private &&
-                    u.Message.From.Id.ToString() == userid.ToString() &&
-                    u.Message.Text?.StartsWith("/me", StringComparison.OrdinalIgnoreCase) == true,
-                updateTypes: UpdateType.MessageUpdate)).Single();
-
-            return update.Message;
+            return chat;
         }
     }
 }
