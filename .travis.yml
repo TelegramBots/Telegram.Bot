@@ -8,7 +8,7 @@ branches:
 script:
   - cd "test/Telegram.Bot.Tests.Integ"
   - sh -c "dotnet test --configuration Release --list-tests"
-  - sh -c "dotnet xunit -configuration Release -nobuild -stoponfail"
+  - sh -c "dotnet xunit -configuration Release -nobuild -stoponfail -verbose"
 notifications:
   email: false
 
