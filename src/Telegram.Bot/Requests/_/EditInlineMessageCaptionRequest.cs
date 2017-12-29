@@ -1,17 +1,21 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Edit captions and game messages sent via the bot. On success the edited True is returned.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditInlineMessageCaptionRequest : RequestBase<bool>,
                                                    IInlineMessage,
                                                    IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
         public string InlineMessageId { get; set; }
 
         /// <summary>
@@ -25,37 +29,15 @@ namespace Telegram.Bot.Requests
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public EditInlineMessageCaptionRequest()
-            : base("editMessageCaption")
-        { }
-
-        /// <summary>
         /// Initializes a new request with inlineMessageId and new caption
         /// </summary>
         /// <param name="inlineMessageId">InlineMessageId</param>
         /// <param name="caption">New caption of the message</param>
-        public EditInlineMessageCaptionRequest(string inlineMessageId, string caption)
-            : this()
+        public EditInlineMessageCaptionRequest(string inlineMessageId, string caption = default)
+            : base("editMessageCaption")
         {
             InlineMessageId = inlineMessageId;
             Caption = caption;
-        }
-
-        /// <summary>
-        /// Initializes a new request with inlineMessageId, new caption and new inline keyboard
-        /// </summary>
-        /// <param name="inlineMessageId">Identifier of the inline message</param>
-        /// <param name="caption">New caption of the message</param>
-        /// <param name="replyMarkup">New inline keyboard of the sent message</param>
-        public EditInlineMessageCaptionRequest(
-            string inlineMessageId,
-            string caption,
-            InlineKeyboardMarkup replyMarkup)
-            : this(inlineMessageId, caption)
-        {
-            ReplyMarkup = replyMarkup;
         }
     }
 }

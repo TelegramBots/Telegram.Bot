@@ -1,28 +1,27 @@
-﻿using Telegram.Bot.Requests.Abstractions;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Get data for high score tables. Will return the score of the specified user and several of his neighbors in a game. On success, returns an array of <see cref="GameHighScore"/>.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>,
                                                   IInlineMessage
     {
         /// <summary>
         /// User identifier
         /// </summary>
-        public int UserId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public int UserId { get; }
 
         /// <inheritdoc />
-        public string InlineMessageId { get; set; }
-
-        /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public GetInlineGameHighScoresRequest()
-            : base("getGameHighScores")
-        { }
+        [JsonProperty(Required = Required.Always)]
+        public string InlineMessageId { get; }
 
         /// <summary>
         /// Initializes a new request with userId and inlineMessageId
@@ -30,7 +29,7 @@ namespace Telegram.Bot.Requests
         /// <param name="userId">User identifier</param>
         /// <param name="inlineMessageId">Unique identifier of the inline message</param>
         public GetInlineGameHighScoresRequest(int userId, string inlineMessageId)
-            : this()
+            : base("getGameHighScores")
         {
             UserId = userId;
             InlineMessageId = inlineMessageId;

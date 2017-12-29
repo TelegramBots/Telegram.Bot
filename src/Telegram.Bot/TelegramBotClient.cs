@@ -880,9 +880,11 @@ namespace Telegram.Bot
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(
-                new EditMessageCaptionRequest(chatId, messageId, caption, replyMarkup),
-                cancellationToken);
+            MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId)
+            {
+                Caption = caption,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
 
         /// <inheritdoc />
         public Task EditMessageCaptionAsync(
@@ -891,9 +893,11 @@ namespace Telegram.Bot
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(
-                new EditInlineMessageCaptionRequest(inlineMessageId, caption, replyMarkup),
-                cancellationToken);
+            MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId)
+            {
+                Caption = caption,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> EditMessageReplyMarkupAsync(
@@ -1092,7 +1096,7 @@ namespace Telegram.Bot
             bool disableEditMessage = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SetGameScoreRequest(chatId, userId, messageId, score)
+            MakeRequestAsync(new SetGameScoreRequest(userId, score, chatId, messageId)
             {
                 Force = force,
                 DisableEditMessage = disableEditMessage
@@ -1107,7 +1111,7 @@ namespace Telegram.Bot
             bool disableEditMessage = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SetInlineGameScoreRequest(userId, inlineMessageId, score)
+            MakeRequestAsync(new SetInlineGameScoreRequest(userId, score, inlineMessageId)
             {
                 Force = force,
                 DisableEditMessage = disableEditMessage

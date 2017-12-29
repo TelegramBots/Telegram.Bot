@@ -1,5 +1,8 @@
-﻿using Telegram.Bot.Types;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
@@ -11,24 +14,20 @@ namespace Telegram.Bot.Requests
     /// - If the bot has can_delete_messages permission in a supergroup or a channel, it can delete any message there.
     /// Returns True on success.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class DeleteMessageRequest : RequestBase<bool>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
-        public ChatId ChatId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Identifier of the sent message
         /// </summary>
-        public int MessageId { get; set; }
-
-        /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public DeleteMessageRequest()
-            : base("deleteMessage")
-        { }
+        [JsonProperty(Required = Required.Always)]
+        public int MessageId { get; }
 
         /// <summary>
         /// Initializes a new request with chatId and messageId
@@ -36,7 +35,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="messageId">Identifier of the sent message</param>
         public DeleteMessageRequest(ChatId chatId, int messageId)
-            : this()
+            : base("deleteMessage")
         {
             ChatId = chatId;
             MessageId = messageId;

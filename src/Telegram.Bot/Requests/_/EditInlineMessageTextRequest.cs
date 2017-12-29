@@ -1,25 +1,30 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Edit text and game messages sent via the bot (for inline bots). On success True is returned.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditInlineMessageTextRequest : RequestBase<bool>,
                                                 IFormattableMessage,
                                                 IInlineMessage,
                                                 IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
-        public string InlineMessageId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string InlineMessageId { get; }
 
         /// <summary>
         /// New text of the message
         /// </summary>
-        public string Text { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Text { get; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -36,19 +41,12 @@ namespace Telegram.Bot.Requests
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public EditInlineMessageTextRequest()
-            : base("editMessageText")
-        { }
-
-        /// <summary>
         /// Initializes a new request with inlineMessageId and new text
         /// </summary>
         /// <param name="inlineMessageId"></param>
         /// <param name="text">New text of the message</param>
         public EditInlineMessageTextRequest(string inlineMessageId, string text)
-            : this()
+            : base("editMessageText")
         {
             InlineMessageId = inlineMessageId;
             Text = text;

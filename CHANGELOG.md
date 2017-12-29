@@ -108,7 +108,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type of parameter `chatId` in methods `GetGameHighScoresAsync` changed to `long`
 - Type parameter of type `SendMediaGroupRequest` changed to `Message[]`
 - Return type of method `GetChatIdFromTesterAsync` in `TestFixture` changed to `Task<long>`
-- Type of propery `TesterPrivateChatId` on type `PaymentTestsFixture` changed to `long`
+- Type of property `TesterPrivateChatId` on type `PaymentTestsFixture` changed to `long`
 - Replace method `EditInlineMessageTextAsync` with overload for `EditMessageTextAsync`
 - Replace method `EditInlineMessageCaptionAsync` with overload for `EditMessageCaptionAsync`
 - Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
@@ -147,14 +147,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Method `SetChatStickerSetAsync`
   - Method `DeleteChatStickerSetAsync`
 - Type of member `StickerSet.Stickers` from `List<Sticker>` to `Sticker[]`
+- Type of `ChatMember` properties to nullable e.g. `bool` to `bool?`
 - Type `InputMediaType` to `InputMedia`
 - Type `InputMediaTypeConverter` to `InputMediaConverter`
-- Changed member type from any `IEnumerable<T>` to `List<T>`
+- **TODO: VALIDATE** Changed member type from any `IEnumerable<T>` to `List<T>`
   - `WebhookInfo.AllowedUpdates`
   - `Message.PhotoSize`
   - `Message.NewChatMembers`
   - `Message.NewChatPhoto`
-- Chnaged member type from `FileToSend` to an implementation of `IInputFile`
+- Changed member type from `FileToSend` to an implementation of `IInputFile`
   - Parameter `certificate` of method `SetWebhookAsync`
   - Parameter `photo` of method `SendPhotoAsync`
   - Parameter `video` of method `SendVideoAsync`
@@ -176,7 +177,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Redundant custom converter `ParseModeConverter`
 - Value `All` from `UpdateType` enum
 - Value `Unknown` from `FileType` enum
-- Default value of parameter `url` of mehtod `SetWebhookAsync`
+- Default value of parameter `url` of method `SetWebhookAsync`
 - Property `Width` of `VideoNote`
 - Property `Height` of `VideoNote`
 - Property `Zoom` of `MaskPosition`

@@ -9,8 +9,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object contains information about one member of the chat.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ChatMember
     {
         /// <summary>
@@ -28,86 +27,86 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. Restricted and kicked only. Date when restrictions will be lifted for this user, UTC time
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime UntilDate { get; set; }
+        public DateTime? UntilDate { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the bot is allowed to edit administrator privileges of that user
         /// </summary>
-        [JsonProperty]
-        public bool CanBeEdited { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanBeEdited { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can change the chat title, photo and other settings
         /// </summary>
-        [JsonProperty]
-        public bool CanChangeInfo { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanChangeInfo { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can post in the channel, channels only
         /// </summary>
-        [JsonProperty]
-        public bool CanPostMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanPostMessages { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can edit messages of other users, channels only
         /// </summary>
-        [JsonProperty]
-        public bool CanEditMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanEditMessages { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can delete messages of other users
         /// </summary>
-        [JsonProperty]
-        public bool CanDeleteMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanDeleteMessages { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can invite new users to the chat
         /// </summary>
-        [JsonProperty]
-        public bool CanInviteUsers { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanInviteUsers { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can restrict, ban or unban chat members
         /// </summary>
-        [JsonProperty]
-        public bool CanRestrictMembers { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanRestrictMembers { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can pin messages, supergroups only
         /// </summary>
-        [JsonProperty]
-        public bool CanPinMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanPinMessages { get; set; }
 
         /// <summary>
         /// Optional. Administrators only. True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by the user)
         /// </summary>
-        [JsonProperty]
-        public bool CanPromoteMembers { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanPromoteMembers { get; set; }
 
         /// <summary>
         /// Optional. Restricted only. True, if the user can send text messages, contacts, locations and venues
         /// </summary>
-        [JsonProperty]
-        public bool CanSendMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanSendMessages { get; set; }
 
         /// <summary>
         /// Optional. Restricted only. True, if the user can send audios, documents, photos, videos, video notes and voice notes, implies <see cref="CanSendMessages"/>
         /// </summary>
-        [JsonProperty]
-        public bool CanSendMediaMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanSendMediaMessages { get; set; }
 
         /// <summary>
         /// Optional. Restricted only. True, if the user can send animations, games, stickers and use inline bots, implies <see cref="CanSendMediaMessages"/>
         /// </summary>
-        [JsonProperty]
-        public bool CanSendOtherMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanSendOtherMessages { get; set; }
 
         /// <summary>
         /// Optional. Restricted only. True, if user may add web page previews to his messages, implies <see cref="CanSendMediaMessages"/>
         /// </summary>
-        [JsonProperty]
-        public bool CanAddWebPagePreviews { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanAddWebPagePreviews { get; set; }
     }
 }
