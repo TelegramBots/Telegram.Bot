@@ -108,24 +108,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type of parameter `chatId` in method `SendGameAsync` changed to `long`
 - Type of parameter `chatId` in methods `SetGameScoreAsync` changed to `long`
 - Type of parameter `chatId` in methods `GetGameHighScoresAsync` changed to `long`
-- Default value of parameter `maxConnection` in method `SetWebhookAsync` changed to `default` keyword
-- Default value of parameter `limit` in method `GetUpdatesAsync` changed to `default` keyword
-- Default value of parameter `parseMode` in method `SendTextMessageAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendVideoAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendDocumentAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendPhotoAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendVoiceAsync` changed to `default` keyword
-- Default value of parameter `limit` in method `GetUserProfilePhotosAsync` changed to `default` keyword
-- Default value of parameter `parseMode` in method `EditMessageTextAsync` changed to `default` keyword
 - Default value of parameter `pngSticker` in method `UploadStickerFileAsync` changed to `Stream`
-- Literal default values in interface `ITelegramBotClient` replaced with `default` keyword
 - Type parameter of type `SendMediaGroupRequest` changed to `Message[]`
 - Return type of method `GetChatIdFromTesterAsync` in `TestFixture` changed to `Task<long>`
 - Type of propery `TesterPrivateChatId` on type `PaymentTestsFixture` changed to `long`
 - Replace method `EditInlineMessageTextAsync` with overload for `EditMessageTextAsync`
 - Replace method `EditInlineMessageCaptionAsync` with overload for `EditMessageCaptionAsync`
 - Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
-- Request methods in `TelegramBotClient` annotated as `async`
 - Method `CreateNewStickerSetAsnyc` renamed to `CreateNewStickerSetAsync`
 - Method return type changed from `Task<bool>` to `Task`:
   - Method `DeleteWebhookAsync`
@@ -157,6 +146,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Method `UnpinChatMessageAsync`
   - Method `SetChatStickerSetAsync`
   - Method `DeleteChatStickerSetAsync`
+- Type of member `StickerSet.Stickers` from `List<Sticker>` to `Sticker[]`
 - Type `InputMediaType` to `InputMedia`
 - Type `InputMediaTypeConverter` to `InputMediaConverter`
 - Changed member type from any `IEnumerable<T>` to `List<T>`
@@ -171,6 +161,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Parameter `video` of method `SendVideoAsync`
   - Parameter `videoNote` of method `SendVideoNoteAsync`
   - Parameter `document` of method `SendDocumentAsync`
+  - Parameter `sticker` of method `SendStickerAsync`
+  - Parameter `pngSticker` of method `UploadStickerFileAsync`
+  - Parameter `pngSticker` of method `CreateNewStickerSetAsync`
+  - Parameter `pngSticker` of method `AddStickerToSetAsync`
 
 ### Removed
 
@@ -183,6 +177,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Default value of parameter `url` of mehtod `SetWebhookAsync`
 - Property `Width` of `VideoNote`
 - Property `Height` of `VideoNote`
+- Property `Zoom` of `MaskPosition`
 
 ### Fixed
 

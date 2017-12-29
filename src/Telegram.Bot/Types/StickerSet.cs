@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Collections.Generic;
 
 namespace Telegram.Bot.Types
 {
@@ -8,8 +7,7 @@ namespace Telegram.Bot.Types
     /// This object represents a sticker set.
     /// <see href="https://core.telegram.org/bots/api#stickerset"/>
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class StickerSet
     {
         /// <summary>
@@ -34,6 +32,6 @@ namespace Telegram.Bot.Types
         /// List of all set stickers
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public List<Sticker> Stickers { get; set; } = new List<Sticker>(); // ToDo: To IEnumerable
+        public Sticker[] Stickers { get; set; }
     }
 }

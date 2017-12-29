@@ -358,7 +358,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#sendsticker"/>
         Task<Message> SendStickerAsync(
             ChatId chatId,
-            FileToSend sticker,
+            InputOnlineFile sticker,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -1135,7 +1135,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
         Task<File> UploadStickerFileAsync(
             int userId,
-            Stream pngSticker,
+            InputFileStream pngSticker,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -1155,7 +1155,7 @@ namespace Telegram.Bot
             int userId,
             string name,
             string title,
-            FileToSend pngSticker,
+            InputOnlineFile pngSticker,
             string emojis,
             bool isMasks = default,
             MaskPosition maskPosition = default,
@@ -1175,7 +1175,7 @@ namespace Telegram.Bot
         Task AddStickerToSetAsync(
             int userId,
             string name,
-            FileToSend pngSticker,
+            InputOnlineFile pngSticker,
             string emojis,
             MaskPosition maskPosition = default,
             CancellationToken cancellationToken = default);
