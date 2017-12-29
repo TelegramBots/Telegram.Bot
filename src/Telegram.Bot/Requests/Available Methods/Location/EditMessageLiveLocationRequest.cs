@@ -1,46 +1,46 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Edit live location messages sent by the bot
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditMessageLiveLocationRequest : RequestBase<Message>,
                                                   IInlineReplyMarkupMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
         /// </summary>
-        public ChatId ChatId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Identifier of the sent message
         /// </summary>
-        public int MessageId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public int MessageId { get; }
 
         /// <summary>
         /// Latitude of new location
         /// </summary>
-        public float Latitude { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public float Latitude { get; }
 
         /// <summary>
         /// Longitude of new location
         /// </summary>
-        public float Longitude { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public float Longitude { get; }
 
         /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
-
-        /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public EditMessageLiveLocationRequest()
-            : base("editMessageLiveLocation")
-        { }
 
         /// <summary>
         /// Initializes a new request with chatId and new location
@@ -50,7 +50,7 @@ namespace Telegram.Bot.Requests
         /// <param name="latitude">Latitude of new location</param>
         /// <param name="longitude">Longitude of new location</param>
         public EditMessageLiveLocationRequest(ChatId chatId, int messageId, float latitude, float longitude)
-            : this()
+            : base("editMessageLiveLocation")
         {
             ChatId = chatId;
             MessageId = messageId;

@@ -102,6 +102,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [ExecutionOrder(3)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
+            // ToDo add exception: Bad Request: failed to get HTTP URL content
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
             const string url = "https://loremflickr.com/600/400/history,culture,art,nature";

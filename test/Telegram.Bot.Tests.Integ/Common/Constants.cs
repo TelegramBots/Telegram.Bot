@@ -28,13 +28,21 @@
 
             public const string ChatInfo = "Getting Chat Info";
 
-            public const string CallbackQuery = "Callback Query";
-
             public const string InlineQuery = "Inline Query";
 
-            public const string Games = "Games";
+            public const string CallbackQuery = "Callback Query";
+
+            public const string AlbumMessage = "Sending Album Messages";
+
+            public const string EditReplyMarkup = "Edit Message Reply Markup";
+
+            public const string LiveLocation = "Live Location";
+
+            public const string InlineMessageLiveLocation = "Live Location for Inline Message";
 
             public const string Payment = "Payment";
+
+            public const string Stickers = "Stickers";
 
             public const string SuperGroupAdminBots = "Super Group Admin Bot";
 
@@ -42,15 +50,7 @@
 
             public const string ChatMemberAdministration = "Chat Member Administration";
 
-            public const string Stickers = "Stickers";
-
-            public const string UpdateMessage = "Updating messages";
-
             public const string Exceptions = "Bot API Exceptions";
-
-            public const string LiveLocations = "Live locations";
-
-            public const string AlbumMessage = "Sending Album Messages";
         }
 
         public static class FileNames

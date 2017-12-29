@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Update_Messages
 {
-    [Collection(Constants.TestCollections.UpdateMessage)]
+    [Collection(Constants.TestCollections.EditReplyMarkup)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class EditReplyMarkupTests
     {
