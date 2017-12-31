@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <Product>Telegram Bot API</Product>
+    <VersionPrefix>13.4.0</VersionPrefix>
+    <VersionSuffix></VersionSuffix>
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Telegram Bot API Client</Title>
     <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
     <Authors>RoundRobin,Poulad</Authors>
@@ -9,23 +13,25 @@
     <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt</PackageLicenseUrl>
-    <PackageReleaseNotes>Bot API v3.5</PackageReleaseNotes>
-    <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
-    <IncludeSource>True</IncludeSource>
-    <Company />
-    <Product>Telegram Bot API</Product>
-    <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
-    <Version Condition="'$(APPVEYOR)' == 'True'">13.4.0-ci-$([System.DateTime]::Now.ToString("yyyyMMdd-HHmmss"))</Version>
-    <VersionPrefix>13.4.0</VersionPrefix>
-    <LangVersion>latest</LangVersion>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Telegram.Bot.Core</PackageId>
+  </PropertyGroup>
+
+  <!-- when building develop branch on AppVeyor -->
+  <PropertyGroup Condition="'$(APPVEYOR)' == 'True' And '$(Configuration)' == 'Debug'">
+    <VersionSuffix>CI-$([System.DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))</VersionSuffix>  
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="System.Net.Http" />
   </ItemGroup>
+
 </Project>
