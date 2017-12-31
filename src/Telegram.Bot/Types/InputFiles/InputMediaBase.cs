@@ -13,19 +13,19 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the media
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(Required = Required.Always)]
         public string Type { get; protected set; }
 
         /// <summary>
         /// Media to send
         /// </summary>
-        [JsonProperty]
-        public InputMediaType Media { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public InputMedia Media { get; set; }
 
         /// <summary>
         /// Optional. Caption of the photo to be sent, 0-200 characters
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
     }
 }

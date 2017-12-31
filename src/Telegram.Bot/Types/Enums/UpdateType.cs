@@ -69,11 +69,5 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "pre_checkout_query")]
         PreCheckoutQueryUpdate,
-
-        /// <summary>
-        /// Receive all <see cref="Update"/> Types
-        /// </summary>
-        [EnumMember(Value = "")]
-        All = 255,
     }
 }

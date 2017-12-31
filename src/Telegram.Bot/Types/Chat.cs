@@ -7,8 +7,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a chat.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Chat
     {
         /// <summary>
@@ -26,67 +25,67 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. Title, for channels and group chats
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Title { get; set; }
 
         /// <summary>
         /// Optional. Username, for private chats and channels if available
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Username { get; set; }
 
         /// <summary>
         /// Optional. First name of the other party in a private chat
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Optional. Last name of the other party in a private chat
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastName { get; set; }
 
         /// <summary>
         /// Optional. True if a group has 'All Members Are Admins' enabled.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool AllMembersAreAdministrators { get; set; }
 
         /// <summary>
         /// Optional. Chat photo. Returned only in getChat.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ChatPhoto Photo { get; set; }
 
         /// <summary>
         /// Optional. Description, for supergroups and channel chats. Returned only in getChat.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <summary>
         /// Optional. Chat invite link, for supergroups and channel chats. Returned only in getChat.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string InviteLink { get; set; }
 
         /// <summary>
         /// Optional. Pinned message, for supergroups. Returned only in getChat.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message PinnedMessage { get; set; }
 
         /// <summary>
         /// Optional. For supergroups, name of group sticker set. Returned only in getChat.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string StickerSetName { get; set; }
 
         /// <summary>
         /// Optional. True, if the bot can change the group sticker set. Returned only in getChat.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanSetStickerSet { get; set; }
     }
 }

@@ -1,17 +1,16 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-using Telegram.Bot.Converters;
+using Newtonsoft.Json.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// Text parsing mode
-    /// 
+    ///
     /// The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline links and pre-formatted code in your bots' messages.
     /// Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.
     /// </summary>
     /// <see href="https://core.telegram.org/bots/api#formatting-options"/>
-    [JsonConverter(typeof(ParseModeConverter))]
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum ParseMode
     {
         /// <summary>
@@ -28,18 +27,5 @@ namespace Telegram.Bot.Types.Enums
         /// <see cref="Message.Text"/> is formated in HTML
         /// </summary>
         Html,
-    }
-
-    internal static class ParseModeExtensions
-    {
-        internal static readonly Dictionary<ParseMode, string> StringMap =
-            new Dictionary<ParseMode, string>
-            {
-                {ParseMode.Default, null },
-                {ParseMode.Markdown, "Markdown" },
-                {ParseMode.Html, "HTML" },
-            };
-
-        public static string ToModeString(this ParseMode mode) => StringMap[mode];
     }
 }

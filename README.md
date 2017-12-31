@@ -12,7 +12,11 @@
 
 Join our **super group on Telegram**: [`@tgbots_dotnet`](https://t.me/tgbots_dotnet)
 
-> Our official product is [`Telegram.Bot`](https://www.nuget.org/packages/Telegram.Bot) NuGet package but if you need the latest features, use [MyGet feed](https://www.myget.org/feed/telegram-bot/package/nuget/Telegram.Bot) (auto deployed from `develop` branch) until we update the NuGet package.
+> If you need the latest features(tested but unstable), use [MyGet feed](https://www.myget.org/feed/telegram-bot/package/nuget/Telegram.Bot) (auto deployed from `develop` branch) until we update the NuGet package with stable changes.
+
+## Migrate to v14
+
+In our latest package release, version 14, parts of the library are re-written and if you are planning to upgrade to this versoin, have a look at its [**migration wiki**](./docs/wikis/migration/v13-to-v14.md).
 
 ## Getting Started
 
@@ -23,7 +27,7 @@ static async Task TestApiAsync()
 {
     var botClient = new Telegram.Bot.TelegramBotClient("your API access Token");
     var me = await botClient.GetMeAsync();
-    System.Console.WriteLine("Hello! My name is " + me.FirstName);
+    System.Console.WriteLine($"Hello! My name is {me.FirstName}");
 }
 ```
 

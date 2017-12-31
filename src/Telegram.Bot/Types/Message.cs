@@ -12,8 +12,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a message.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Message
     {
         /// <summary>
@@ -25,7 +24,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Sender
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public User From { get; set; }
 
         /// <summary>
@@ -49,64 +48,64 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. For forwarded messages, sender of the original message
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public User ForwardFrom { get; set; }
 
         /// <summary>
         /// Optional. For messages forwarded from a channel, information about the original channel
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Chat ForwardFromChat { get; set; }
 
         /// <summary>
         /// Optional. For forwarded channel posts, identifier of the original message in the channel
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ForwardFromMessageId { get; set; }
 
         /// <summary>
         /// Optional. For messages forwarded from channels, signature of the post author if present
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ForwardSignature { get; set; }
 
         /// <summary>
         /// Optional. For forwarded messages, date the original message was sent in Unix time
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? ForwardDate { get; set; }
 
         /// <summary>
         /// Optional. For replies, the original message. Note that the Description object in this field will not contain further reply_to_message fields even if it itself is a reply.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message ReplyToMessage { get; set; }
 
         /// <summary>
         /// Optional. Date the message was last edited in Unix time
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? EditDate { get; set; }
 
         /// <summary>
         /// Optional. Signature of the post author for messages in channels
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string AuthorSignature { get; set; }
 
         /// <summary>
         /// Optional. For text messages, the actual UTF-8 text of the message
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Text { get; set; }
 
         /// <summary>
         /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
         /// </summary>
-        [JsonProperty]
-        public List<MessageEntity> Entities { get; set; } = new List<MessageEntity>();
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[] Entities { get; set; }
 
         /// <summary>
         /// Gets the entity values.
@@ -114,14 +113,14 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The entity contents.
         /// </value>
-        public List<string> EntityValues
-            => Entities.Select(entity => Text.Substring(entity.Offset, entity.Length)).ToList();
+        public IEnumerable<string> EntityValues =>
+            Entities?.Select(entity => Text.Substring(entity.Offset, entity.Length));
 
         /// <summary>
         /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
         /// </summary>
-        [JsonProperty]
-        public List<MessageEntity> CaptionEntities { get; set; } = new List<MessageEntity>();
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[] CaptionEntities { get; set; }
 
         /// <summary>
         /// Gets the caption entity values.
@@ -129,163 +128,163 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The caption entity contents.
         /// </value>
-        public IEnumerable<string> CaptionEntityValues => CaptionEntities
-            .Select(entity => Caption.Substring(entity.Offset, entity.Length));
+        public IEnumerable<string> CaptionEntityValues =>
+            CaptionEntities?.Select(entity => Caption.Substring(entity.Offset, entity.Length));
 
         /// <summary>
         /// Optional. Description is an audio file, information about the file
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Audio Audio { get; set; }
 
         /// <summary>
         /// Optional. Description is a general file, information about the file
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Document Document { get; set; }
 
         /// <summary>
         /// Description is a game, information about the game.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Game Game { get; set; }
 
         /// <summary>
         /// Optional. Description is a photo, available sizes of the photo
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PhotoSize[] Photo { get; set; }
 
         /// <summary>
         /// Optional. Description is a sticker, information about the sticker
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Sticker Sticker { get; set; }
 
         /// <summary>
         /// Optional. Description is a video, information about the video
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Video Video { get; set; }
 
         /// <summary>
         /// Description is a voice message, information about the file
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Voice Voice { get; set; }
 
         /// <summary>
         /// Optional. Description is a <see cref="VideoNote"/>, information about the video message
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public VideoNote VideoNote { get; set; }
 
         /// <summary>
         /// Caption for the photo or video
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
         /// <summary>
         /// Optional. Description is a shared contact, information about the contact
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Contact Contact { get; set; }
 
         /// <summary>
         /// Optional. Description is a shared location, information about the location
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Location Location { get; set; }
 
         /// <summary>
         /// Optional. Description is a venue, information about the venue
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Venue Venue { get; set; }
 
         /// <summary>
         /// Optional. A new member was added to the group, information about them (this member may be bot itself)
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public User NewChatMember { get; set; }
 
         /// <summary>
         /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public User[] NewChatMembers { get; set; }
 
         /// <summary>
         /// Optional. A member was removed from the group, information about them (this member may be bot itself)
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public User LeftChatMember { get; set; }
 
         /// <summary>
         /// Optional. A group title was changed to this value
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string NewChatTitle { get; set; }
 
         /// <summary>
         /// Optional. A group photo was change to this value
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PhotoSize[] NewChatPhoto { get; set; }
 
         /// <summary>
         /// Optional. Informs that the group photo was deleted
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DeleteChatPhoto { get; set; }
 
         /// <summary>
         /// Optional. Informs that the group has been created
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool GroupChatCreated { get; set; }
 
         /// <summary>
         /// Optional. Service message: the supergroup has been created
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool SupergroupChatCreated { get; set; }
 
         /// <summary>
         /// Optional. Service message: the channel has been created
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool ChannelChatCreated { get; set; }
 
         /// <summary>
         /// Optional. The group has been migrated to a supergroup with the specified identifier
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long MigrateToChatId { get; set; }
 
         /// <summary>
         /// Optional. The supergroup has been migrated from a group with the specified identifier
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public long MigrateFromChatId { get; set; }
 
         /// <summary>
         /// Optional. Specified message was pinned. Note that the Description object in this field will not contain further reply_to_message fields even if it is itself a reply
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message PinnedMessage { get; set; }
 
         /// <summary>
         /// Optional. Description is an invoice for a payment
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Invoice Invoice { get; set; }
 
         /// <summary>
         /// Optional. Description is a service message about a successful payment
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public SuccessfulPayment SuccessfulPayment { get; set; }
 
         /// <summary>
@@ -341,7 +340,7 @@ namespace Telegram.Bot.Types
                     return MessageType.VideoNoteMessage;
 
                 if (NewChatMember != null ||
-                    (NewChatMembers != null && NewChatMembers.Length > 0) ||
+                    (NewChatMembers?.Any() == true) ||
                     LeftChatMember != null ||
                     NewChatTitle != null ||
                     NewChatPhoto != null ||
