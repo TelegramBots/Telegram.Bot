@@ -87,6 +87,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `InputTelegramFile`
 - Type `InputOnlineFile`
 - Type `InputFileConverter`
+- More `PaymentTests` cases
 
 ### Changed
 
