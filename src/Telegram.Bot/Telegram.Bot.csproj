@@ -17,9 +17,10 @@
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
   </PropertyGroup>
 
-  <!-- when building develop branch on AppVeyor -->
-  <PropertyGroup Condition="'$(APPVEYOR)' == 'True' And '$(Configuration)' == 'Debug'">
-    <VersionSuffix>ci-$([System.DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))</VersionSuffix>  
+  <!-- when building on AppVeyor -->
+  <PropertyGroup Condition="'$(CI)' == 'True'">
+    <Version Condition="'$(VersionSuffix)' == ''">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</Version>
+    <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix).$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
   
   <ItemGroup>
