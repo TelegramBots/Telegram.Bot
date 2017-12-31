@@ -11,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// Receive incoming updates using long polling. An Array of <see cref="Update" /> objects is returned.
     /// </summary>
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class GetUpdatesRequest : RequestBase<List<Update>>
+    public class GetUpdatesRequest : RequestBase<Update[]>
     {
         /// <summary>
         /// Identifier of the first update to be returned

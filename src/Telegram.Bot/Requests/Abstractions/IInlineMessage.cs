@@ -5,6 +5,6 @@
         /// <summary>
         /// Identifier of the inline message
         /// </summary>
-        string InlineMessageId { get; set; }
+        string InlineMessageId { get; }
     }
 }

@@ -17,21 +17,14 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         [JsonConverter(typeof(ChatIdConverter))]
-        public ChatId ChatId { get; set; }
-
-        /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public GetChatRequest()
-            : base("getChat")
-        { }
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Initializes a new request with chatId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         public GetChatRequest(ChatId chatId)
-            : this()
+            : base("getChat")
         {
             ChatId = chatId;
         }

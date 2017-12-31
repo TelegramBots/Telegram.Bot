@@ -6,14 +6,12 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a Telegram user or bot.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class User
     {
         /// <summary>
         /// Unique identifier for this user or bot
         /// </summary>
-        /// <returns></returns>
         [JsonProperty(Required = Required.Always)]
         public int Id { get; set; }
 
@@ -32,19 +30,19 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. User's or bot's last name
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastName { get; set; }
 
         /// <summary>
         /// Optional. User's or bot's username
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Username { get; set; }
 
         /// <summary>
         /// Optional. IETF language tag of the user's language
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LanguageCode { get; set; }
     }
 }

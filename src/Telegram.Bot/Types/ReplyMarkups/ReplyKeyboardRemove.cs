@@ -8,14 +8,13 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// By default, custom keyboards are displayed until a new keyboard is sent by a bot.
     /// An exception is made for one-time keyboards that are hidden immediately after the user presses a button
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ReplyKeyboardRemove : ReplyMarkup
     {
         /// <summary>
         /// Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public bool RemoveKeyboard { get; set; } = true;
+        public bool RemoveKeyboard => true;
     }
 }

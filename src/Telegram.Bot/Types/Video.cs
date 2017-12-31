@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a video file.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Video : File
     {
         /// <summary>

@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a result of an <see cref="InlineQuery"/> that was chosen by the <see cref="User"/> and sent to their chat partner.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ChosenInlineResult
     {
         /// <summary>
@@ -25,13 +24,13 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. Sender location, only for bots that require user location
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Location Location { get; set; }
 
         /// <summary>
         /// Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the message. Will be also received in callback queries and can be used to edit the message.
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string InlineMessageId { get; set; }
 
         /// <summary>

@@ -10,15 +10,14 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// <remarks>
     /// Inline keyboards are currently being tested and are not available in channels yet. For now, feel free to use them in one-on-one chats or groups.
     /// </remarks>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardMarkup : IReplyMarkup
     {
         /// <summary>
         /// Array of <see cref="InlineKeyboardButton"/> rows, each represented by an Array of <see cref="InlineKeyboardButton"/>.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InlineKeyboardButton[][] InlineKeyboard { get; set; }
+        public InlineKeyboardButton[][] InlineKeyboard { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class.
@@ -26,9 +25,17 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public InlineKeyboardMarkup() { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class.
+        /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button
         /// </summary>
-        /// <param name="inlineKeyboardRow">The inline keyboard row.</param>
+        /// <param name="inlineKeyboardButton">Keyboard button</param>
+        public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
+            : this(new[] { inlineKeyboardButton })
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard
+        /// </summary>
+        /// <param name="inlineKeyboardRow">The inline keyboard row</param>
         public InlineKeyboardMarkup(InlineKeyboardButton[] inlineKeyboardRow)
         {
             InlineKeyboard = new[]
@@ -45,5 +52,18 @@ namespace Telegram.Bot.Types.ReplyMarkups
         {
             InlineKeyboard = inlineKeyboard;
         }
+
+        public static InlineKeyboardMarkup Empty() =>
+            new InlineKeyboardMarkup(new InlineKeyboardButton[0][]);
+
+        public static implicit operator InlineKeyboardMarkup(InlineKeyboardButton button) =>
+            button is default
+                ? default
+                : new InlineKeyboardMarkup(button);
+
+        public static implicit operator InlineKeyboardMarkup(string buttonText) =>
+            buttonText is default
+                ? default
+                : new InlineKeyboardMarkup(buttonText);
     }
 }

@@ -66,10 +66,7 @@ Only 2 values must be provided before test execution.
 This is required for executing any test case.
 
 ```json
-{
-    "ApiToken": "MyTestBot-API-TOKEN"
-    /* ... */
-}
+{ "ApiToken": "MyTestBot-API-TOKEN" }
 ```
 
 #### Allowed Users
@@ -77,11 +74,7 @@ This is required for executing any test case.
 A comma separated list indicating user name(s) of tester(s). Any update coming from users other than the ones listed here are discarded during test execution.
 
 ```json
-{
-    /* ... */
-    "AllowedUserNames": "tester1, Tester2, TESTER3"
-    /* ... */
-}
+{ "AllowedUserNames": "tester1, Tester2, TESTER3" }
 ```
 
 ### Optional Settings
@@ -99,11 +92,7 @@ Bot send  messages to this chat in almost all test cases except cases like sendi
 If not set, before starting any test method, bot waits for a tester to send it a `/test` command in a super group chat (that bot is also a member of).
 
 ```json
-{
-    /* ... */
-    "SuperGroupChatId": -1234567890
-    /* ... */
-}
+{ "SuperGroupChatId": -1234567890 }
 ```
 
 #### Channel Chat Id
@@ -113,11 +102,7 @@ Id of the private or public channel on which bot has admin rights. It also could
 If not set, before starting any test collection requiring this, bot waits for a tester to forward it a message from channel that bot administers.
 
 ```json
-{
-    /* ... */
-    "ChannelChatId": -1234567890
-    /* ... */
-}
+{ "ChannelChatId": -1234567890 }
 ```
 
 #### Payment Settings
@@ -129,11 +114,7 @@ This token is **required** for any test case regarding payments and must be prov
 Consult Telegram API documentations and talk to BotFather to get a test token from a payment provider. An easy way to setup a test account might be using the [Stripe TEST Mode](https://core.telegram.org/bots/payments#testing-payments-the-stripe-test-mode-provider).
 
 ```json
-{
-    /* ... */
-    "PaymentProviderToken": "MY-PAYMENT-PROVIDER-TOKEN"
-    /* ... */
-}
+{ "PaymentProviderToken": "MY-PAYMENT-PROVIDER-TOKEN" }
 ```
 
 ##### TesterPrivateChatId
@@ -141,11 +122,7 @@ Consult Telegram API documentations and talk to BotFather to get a test token fr
 Invoices could only be sent to private chats. If not set, bot will wait for a tester to send it `/test` command in a private chat.
 
 ```json
-{
-    /* ... */
-    "TesterPrivateChatId": 1234567890
-    /* ... */
-}
+{ "TesterPrivateChatId": 1234567890 }
 ```
 
 #### Stickers
@@ -153,11 +130,7 @@ Invoices could only be sent to private chats. If not set, bot will wait for a te
 Sticker sets need to have an owner. Owner is usually the main tester in group that can then manage his/her sticker sets using `@Stickers` bot.
 
 ```json
-{
-    /* ... */
-    "StickerOwnerUserId": 1234567890
-    /* ... */
-}
+{ "StickerOwnerUserId": 1234567890 }
 ```
 
 #### Chat Administration
@@ -171,11 +144,5 @@ If the following 3 settings are not set, bot will ask a tester to send it `/me` 
 - Regular Member's Private Chat Id
 
 ```json
-{
-    /* ... */
-    "RegularMemberUserId": 1234567890,
-    "RegularMemberUserName": "tester3",
-    "RegularMemberPrivateChatId": 1234567890
-    /* ... */
-}
+{ "RegularGroupMemberId": 1234567890 }
 ```

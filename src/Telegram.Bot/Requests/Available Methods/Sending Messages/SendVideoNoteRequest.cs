@@ -23,13 +23,13 @@ namespace Telegram.Bot.Requests
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// Video note to send
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputTelegramFile VideoNote { get; set; }
+        public InputTelegramFile VideoNote { get; }
 
         /// <summary>
         /// Duration of sent video in seconds
@@ -56,19 +56,12 @@ namespace Telegram.Bot.Requests
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request
-        /// </summary>
-        public SendVideoNoteRequest()
-            : base("sendVideoNote")
-        { }
-
-        /// <summary>
         /// Initializes a new request with chatId and video note
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="videoNote">Video note to send</param>
         public SendVideoNoteRequest(ChatId chatId, InputTelegramFile videoNote)
-            : this()
+            : base("sendVideoNote")
         {
             ChatId = chatId;
             VideoNote = videoNote;

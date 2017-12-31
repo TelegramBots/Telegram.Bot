@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a point on the map.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Location
     {
         /// <summary>

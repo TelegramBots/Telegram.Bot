@@ -8,7 +8,7 @@ branches:
 script:
   - cd "test/Telegram.Bot.Tests.Integ"
   - sh -c "dotnet test --configuration Release --list-tests"
-  - sh -c "dotnet xunit -configuration Release -nobuild -stoponfail"
+  - sh -c "dotnet xunit -configuration Release -nobuild -stoponfail -verbose"
 notifications:
   email: false
 
@@ -25,6 +25,4 @@ notifications:
 # TelegramBot_PaymentProviderToken          token-from-stripe-test-bot
 # TelegramBot_TesterPrivateChatId           1234
 # TelegramBot_StickerOwnerUserId            1234
-# TelegramBot_RegularMemberUserId           9876
-# TelegramBot_RegularMemberUserName         main_tester
-# TelegramBot_RegularMemberPrivateChatId    9876
+# TelegramBot_RegularGroupMemberId          9876

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Tests.Integ.Stickers
@@ -16,12 +16,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         public int OwnerUserId { get; }
 
-        public TestsFixture TestsFixture { get; }
-
         public StickersTestsFixture(TestsFixture testsFixture)
         {
-            TestsFixture = testsFixture;
-
             TestStickerSetName = $"test14_by_{testsFixture.BotUser.Username}";
             int? ownerUserId = ConfigurationProvider.TestConfigurations.StickerOwnerUserId;
             if (ownerUserId == default)

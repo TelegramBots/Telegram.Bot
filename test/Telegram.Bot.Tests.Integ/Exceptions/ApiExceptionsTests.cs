@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
-using Telegram.Bot.Tests.Integ.Common;
+using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -13,7 +13,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.PromoteChatMemberAsync(_fixture.SuperGroupChatId, 123456));
+                BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456));
 
             Assert.IsType<InvalidUserIdException>(e);
         }
@@ -53,6 +53,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [ExecutionOrder(3)]
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
+            //ToDo add exception. forward message from another bot. Forbidden: bot can't send messages to bots
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionChatNotInitiatedException,
                 "Forward a message to this chat from a user that never started a chat with this bot");
 
@@ -81,7 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             });
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.SendTextMessageAsync(_fixture.SuperGroupChatId, "You should never see this message",
+                BotClient.SendTextMessageAsync(_fixture.SupergroupChat.Id, "You should never see this message",
                 replyMarkup: replyMarkup));
 
             Assert.IsType<ContactRequestException>(e);

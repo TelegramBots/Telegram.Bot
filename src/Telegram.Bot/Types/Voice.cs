@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// This object represents a voice note.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Voice : File
     {
         /// <summary>
@@ -19,7 +18,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. MIME type of the file as defined by sender
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string MimeType { get; set; }
     }
 }

@@ -90,11 +90,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Type of parameter `certificate` in method `SetWebhookAsync` changed to `Stream`
 - Type of parameter `allowedUpdates` in method `SetWebhookAsync` changed to `IEnumerable<UpdateType>`
 - Type of parameter `allowedUpdates` in method `GetUpdatesAsync` changed to `IEnumerable<UpdateType>`
 - Type of parameter `offset` in method `GetUserProfilePhotosAsync` changed to `int`
-- Type of parameter `photo` in method `SetChatPhotoAsync` changed to `Stream`
 - Type of parameter `replyMarkup` in methods `EditMessageLiveLocationAsync` changed to `InlineKeyboardMarkup`
 - Type of parameter `replyMarkup` in methods `StopMessageLiveLocationAsync` changed to `InlineKeyboardMarkup`
 - Type of parameter `replyMarkup` in method `EditMessageTextAsync` changed to `InlineKeyboardMarkup`
@@ -104,28 +102,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type of parameter `replyMarkup` in method `SendInvoiceAsync` changed to `InlineKeyboardMarkup`
 - Type of parameter `prices` in method `SendInvoiceAsync` changed to `IEnumerable<LabeledPrice>`
 - Type of parameter `shippingOptions` in method `AnswerShippingQueryAsync` changed to `IEnumerable<ShippingOption>`
-- Type of parameter `chatId` in method `SendInvoiceAsync` changed to `long`
+- Type of parameter `chatId` in method `SendInvoiceAsync` changed to `int`
 - Type of parameter `chatId` in method `SendGameAsync` changed to `long`
 - Type of parameter `chatId` in methods `SetGameScoreAsync` changed to `long`
 - Type of parameter `chatId` in methods `GetGameHighScoresAsync` changed to `long`
-- Default value of parameter `maxConnection` in method `SetWebhookAsync` changed to `default` keyword
-- Default value of parameter `limit` in method `GetUpdatesAsync` changed to `default` keyword
-- Default value of parameter `parseMode` in method `SendTextMessageAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendVideoAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendDocumentAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendPhotoAsync` changed to `default` keyword
-- Default value of parameter `caption` in method `SendVoiceAsync` changed to `default` keyword
-- Default value of parameter `limit` in method `GetUserProfilePhotosAsync` changed to `default` keyword
-- Default value of parameter `parseMode` in method `EditMessageTextAsync` changed to `default` keyword
-- Default value of parameter `pngSticker` in method `UploadStickerFileAsync` changed to `Stream`
-- Literal default values in interface `ITelegramBotClient` replaced with `default` keyword
 - Type parameter of type `SendMediaGroupRequest` changed to `Message[]`
 - Return type of method `GetChatIdFromTesterAsync` in `TestFixture` changed to `Task<long>`
-- Type of propery `TesterPrivateChatId` on type `PaymentTestsFixture` changed to `long`
+- Type of property `TesterPrivateChatId` on type `PaymentTestsFixture` changed to `long`
 - Replace method `EditInlineMessageTextAsync` with overload for `EditMessageTextAsync`
 - Replace method `EditInlineMessageCaptionAsync` with overload for `EditMessageCaptionAsync`
 - Replace method `EditInlineMessageReplyMarkupAsync` with overload for `EditMessageReplyMarkupAsync`
-- Request methods in `TelegramBotClient` annotated as `async`
+- Reorder parameters of method `SendInvoiceAsync`
+- Divide `AnswerShippingQueryAsync` method into two overloads
+- Divide `AnswerPreCheckoutQueryAsync` method into two overloads
 - Method `CreateNewStickerSetAsnyc` renamed to `CreateNewStickerSetAsync`
 - Method return type changed from `Task<bool>` to `Task`:
   - Method `DeleteWebhookAsync`
@@ -157,31 +146,39 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Method `UnpinChatMessageAsync`
   - Method `SetChatStickerSetAsync`
   - Method `DeleteChatStickerSetAsync`
+- Type of `StickerSet.Stickers` from `List<Sticker>` to `Sticker[]`
+- Type of `ChatMember` properties to nullable e.g. `bool` to `bool?`
+- Type of `Message.Entities` from `List<MessageEntity>` to `MessageEntity[]`
+- Type of `Message.CaptionEntities` from `List<MessageEntity>` to `MessageEntity[]`
+- Type of `Message.EntityValues` from `List<string>` to `IEnumerable<string>`
 - Type `InputMediaType` to `InputMedia`
 - Type `InputMediaTypeConverter` to `InputMediaConverter`
-- Changed member type from any `IEnumerable<T>` to `List<T>`
-  - `WebhookInfo.AllowedUpdates`
-  - `Message.PhotoSize`
-  - `Message.NewChatMembers`
-  - `Message.NewChatPhoto`
-- Chnaged member type from `FileToSend` to an implementation of `IInputFile`
+- Changed member type from `FileToSend` to an implementation of `IInputFile`
   - Parameter `certificate` of method `SetWebhookAsync`
   - Parameter `photo` of method `SendPhotoAsync`
   - Parameter `video` of method `SendVideoAsync`
   - Parameter `videoNote` of method `SendVideoNoteAsync`
   - Parameter `document` of method `SendDocumentAsync`
+  - Parameter `sticker` of method `SendStickerAsync`
+  - Parameter `pngSticker` of method `UploadStickerFileAsync`
+  - Parameter `pngSticker` of method `CreateNewStickerSetAsync`
+  - Parameter `pngSticker` of method `AddStickerToSetAsync`
+  - Parameter `photo` of method `SetChatPhotoAsync`
+  - Parameter `audio` of method `SendAudioAsync`
 
 ### Removed
 
+- Type `FileToSend`
 - Interface `IResponse`
 - Type parameter constraint from interface `IRequest`
 - Redundant parameter `editMessage` in methods `SetGameScoreAsync`
 - Redundant custom converter `ParseModeConverter`
 - Value `All` from `UpdateType` enum
 - Value `Unknown` from `FileType` enum
-- Default value of parameter `url` of mehtod `SetWebhookAsync`
+- Default value of parameter `url` of method `SetWebhookAsync`
 - Property `Width` of `VideoNote`
 - Property `Height` of `VideoNote`
+- Property `Zoom` of `MaskPosition`
 
 ### Fixed
 
