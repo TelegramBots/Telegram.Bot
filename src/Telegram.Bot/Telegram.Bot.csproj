@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <VersionPrefix>13.4.0</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
+    <VersionPrefix>14.0.0</VersionPrefix>
+    <VersionSuffix>alpha0</VersionSuffix>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -17,13 +17,9 @@
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageId>Telegram.Bot.Core</PackageId>
-  </PropertyGroup>
-
   <!-- when building develop branch on AppVeyor -->
   <PropertyGroup Condition="'$(APPVEYOR)' == 'True' And '$(Configuration)' == 'Debug'">
-    <VersionSuffix>CI-$([System.DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))</VersionSuffix>  
+    <VersionSuffix>ci-$([System.DateTime]::UtcNow.ToString("yyyyMMdd-HHmmss"))</VersionSuffix>  
   </PropertyGroup>
   
   <ItemGroup>
