@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- More `PaymentTests` cases
+
+## [14.0.0-alpha0] - 2017-12-31
+
+### Added
+
 - Request classes
   - Type `GetUpdatesRequest`
   - Type `SetWebhookRequest`
@@ -87,7 +93,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `InputTelegramFile`
 - Type `InputOnlineFile`
 - Type `InputFileConverter`
-- More `PaymentTests` cases
 
 ### Changed
 
