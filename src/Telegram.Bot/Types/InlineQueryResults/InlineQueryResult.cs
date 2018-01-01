@@ -24,13 +24,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Unique identifier of this result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Id { get; set; }
+        public string Id { get; }
 
         /// <summary>
         /// Type of the result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InlineQueryResultType Type { get; protected set; }
+        public InlineQueryResultType Type { get; }
 
         /// <summary>
         /// Inline keyboard attached to the message
