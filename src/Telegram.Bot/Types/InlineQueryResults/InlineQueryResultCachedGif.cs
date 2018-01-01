@@ -18,9 +18,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedGif(string id)
+        public InlineQueryResultCachedGif(string id, string gifFileId)
             : base(id, InlineQueryResultType.CachedGif)
-        { }
+        {
+            FileId = gifFileId;
+        }
 
         /// <summary>
         /// A valid file identifier for the GIF file

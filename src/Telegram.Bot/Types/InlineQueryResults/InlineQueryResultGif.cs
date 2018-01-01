@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -21,9 +22,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultGif(string id)
+        public InlineQueryResultGif(string id, string gifUrl, string thumbUrl)
             : base(id, InlineQueryResultType.Gif)
-        { }
+        {
+            Url = gifUrl;
+            ThumbUrl = thumbUrl;
+        }
 
         /// <summary>
         /// A valid URL for the GIF file. File size must not exceed 1MB

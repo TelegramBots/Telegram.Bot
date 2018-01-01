@@ -18,9 +18,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedVoice(string id)
+        public InlineQueryResultCachedVoice(string id, string fileId, string title)
             : base(id, InlineQueryResultType.CachedVoice)
-        { }
+        {
+            FileId = fileId;
+            Title = title;
+        }
 
         /// <summary>
         /// A valid file identifier for the voice message

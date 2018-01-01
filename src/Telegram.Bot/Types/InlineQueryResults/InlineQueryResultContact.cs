@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 using Telegram.Bot.Types.InputMessageContents;
 
@@ -21,9 +20,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultContact(string id)
+        public InlineQueryResultContact(string id, string phoneNumber, string firstName)
             : base(id, InlineQueryResultType.Contact)
-        { }
+        {
+            PhoneNumber = phoneNumber;
+            FirstName = firstName;
+        }
 
         /// <summary>
         /// Contact's phone number

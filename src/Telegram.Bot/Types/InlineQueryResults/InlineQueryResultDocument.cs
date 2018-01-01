@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 using Telegram.Bot.Types.InputMessageContents;
@@ -22,9 +23,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultDocument(string id)
+        public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
             : base(id, InlineQueryResultType.Document)
-        { }
+        {
+            Url = documentUrl;
+            Title = title;
+            MimeType = mimeType;
+        }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -21,9 +21,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultLocation(string id)
+        public InlineQueryResultLocation(string id, float latitude, float longitude, string title)
             : base(id, InlineQueryResultType.Location)
-        { }
+        {
+            Latitude = latitude;
+            Longitude = longitude;
+            Title = title;
+        }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]

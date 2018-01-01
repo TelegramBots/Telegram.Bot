@@ -19,9 +19,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultVideo(string id)
+        public InlineQueryResultVideo(
+            string id,
+            string videoUrl,
+            string mimeType,
+            string thumbUrl,
+            string title)
             : base(id, InlineQueryResultType.Video)
-        { }
+        {
+            Url = videoUrl;
+            MimeType = mimeType;
+            ThumbUrl = thumbUrl;
+            Title = title;
+        }
 
         /// <summary>
         /// A valid URL for the embedded video player or video file

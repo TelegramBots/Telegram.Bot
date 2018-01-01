@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
@@ -22,9 +23,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultMpeg4Gif(string id)
+        public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbUrl)
             : base(id, InlineQueryResultType.Mpeg4Gif)
-        { }
+        {
+            Url = mpeg4Url;
+            ThumbUrl = thumbUrl;
+        }
 
         /// <summary>
         /// A valid URL for the MP4 file. File size must not exceed 1MB

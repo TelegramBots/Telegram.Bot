@@ -18,9 +18,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedPhoto(string id)
+        public InlineQueryResultCachedPhoto(string id, string fileId)
             : base(id, InlineQueryResultType.CachedPhoto)
-        { }
+        {
+            FileId = fileId;
+        }
 
         /// <summary>
         /// A valid file identifier of the photo

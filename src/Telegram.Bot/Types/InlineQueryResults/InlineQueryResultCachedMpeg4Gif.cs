@@ -18,9 +18,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedMpeg4Gif(string id)
+        public InlineQueryResultCachedMpeg4Gif(string id, string fileId)
             : base(id, InlineQueryResultType.CachedMpeg4Gif)
-        { }
+        {
+            FileId = fileId;
+        }
 
         /// <summary>
         /// A valid file identifier for the MP4 file
