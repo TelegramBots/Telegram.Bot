@@ -1,11 +1,12 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use <see cref="InlineQueryResult.InputMessageContent"/> to send a message with the specified content instead of the venue.
+    /// Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use <see cref="InputMessageContents.InputMessageContent"/> to send a message with the specified content instead of the venue.
     /// </summary>
     /// <remarks>
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
@@ -14,7 +15,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultVenue : InlineQueryResult,
                                           IThumbnailInlineQueryResult,
-                                          ITitleInlineQueryResult
+                                          ITitleInlineQueryResult,
+                                          IInputMessageContentResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -63,5 +65,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Title { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }

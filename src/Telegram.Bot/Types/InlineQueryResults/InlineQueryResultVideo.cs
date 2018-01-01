@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -12,7 +13,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultVideo : InlineQueryResult,
                                           ICaptionInlineQueryResult,
                                           IThumbnailUrlInlineQueryResult,
-                                          ITitleInlineQueryResult
+                                          ITitleInlineQueryResult,
+                                          IInputMessageContentResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -69,5 +71,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string Title { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }

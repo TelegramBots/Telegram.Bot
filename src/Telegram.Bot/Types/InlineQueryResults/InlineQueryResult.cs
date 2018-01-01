@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot.Types.InlineQueryResults
@@ -22,12 +21,6 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InlineQueryResultType Type { get; protected set; }
-
-        /// <summary>
-        /// Content of the message to be sent
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public InputMessageContent InputMessageContent { get; set; }
 
         /// <summary>
         /// Inline keyboard attached to the message

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -9,7 +10,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedSticker : InlineQueryResult
+    public class InlineQueryResultCachedSticker : InlineQueryResult,
+                                                  IInputMessageContentResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -24,5 +26,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty("sticker_file_id", Required = Required.Always)]
         public string FileId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }
