@@ -43,9 +43,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 inlineQueryId: iqUpdate.InlineQuery.Id,
                 cacheTime: 0,
                 results: new[] {
-                    new InlineQueryResultLocation
+                    new InlineQueryResultLocation(id: "live-location")
                     {
-                        Id = "live-location",
                         Title = "Live Locations Test",
                         Latitude = newYork.Latitude,
                         Longitude = newYork.Longitude,

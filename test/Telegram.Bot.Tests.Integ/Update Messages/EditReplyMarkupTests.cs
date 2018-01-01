@@ -71,9 +71,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             var inlineQueryResults = new InlineQueryResult[]
             {
-                new InlineQueryResultArticle
+                new InlineQueryResultArticle(id: "bot-api")
                 {
-                    Id = "bot-api",
                     Title = "Telegram Bot API",
                     Description = "The Bot API is an HTTP-based interface created for developers",
                     InputMessageContent = new InputTextMessageContent

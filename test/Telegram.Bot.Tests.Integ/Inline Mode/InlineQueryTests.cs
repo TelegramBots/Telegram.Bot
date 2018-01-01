@@ -33,9 +33,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             InlineQueryResult[] results = new InlineQueryResult[]
             {
-                new InlineQueryResultArticle
+                new InlineQueryResultArticle(id: "bot-api")
                 {
-                    Id = "bot-api",
                     Title = "Telegram Bot API",
                     Description = "The Bot API is an HTTP-based interface created for developers",
                     InputMessageContent = new InputTextMessageContent
