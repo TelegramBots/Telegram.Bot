@@ -31,16 +31,19 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            InputMessageContent inputMessageContent = new InputTextMessageContent
+            {
+                MessageText = "https://core.telegram.org/bots/api",
+            };
+
             InlineQueryResult[] results = new InlineQueryResult[]
             {
-                new InlineQueryResultArticle(id: "bot-api")
+                new InlineQueryResultArticle(
+                    id: "bot-api",
+                    title: "Telegram Bot API",
+                    inputMessageContent: inputMessageContent)
                 {
-                    Title = "Telegram Bot API",
                     Description = "The Bot API is an HTTP-based interface created for developers",
-                    InputMessageContent = new InputTextMessageContent
-                    {
-                        MessageText = "https://core.telegram.org/bots/api",
-                    },
                 },
             };
 

@@ -17,9 +17,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultArticle(string id)
+        public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
             : base(id, InlineQueryResultType.Article)
-        { }
+        {
+            Title = title;
+            InputMessageContent = inputMessageContent;
+        }
 
         /// <summary>
         /// Optional. URL of the result

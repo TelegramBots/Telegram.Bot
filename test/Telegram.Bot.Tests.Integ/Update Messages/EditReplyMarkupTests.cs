@@ -69,16 +69,19 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 InlineKeyboardButton.WithCallbackData("Click here to change this button", data)
             });
 
+            InputMessageContent inputMessageContent = new InputTextMessageContent
+            {
+                MessageText = "https://core.telegram.org/bots/api"
+            };
+
             var inlineQueryResults = new InlineQueryResult[]
             {
-                new InlineQueryResultArticle(id: "bot-api")
+                new InlineQueryResultArticle(
+                    id: "bot-api",
+                    title: "Telegram Bot API",
+                    inputMessageContent: inputMessageContent)
                 {
-                    Title = "Telegram Bot API",
                     Description = "The Bot API is an HTTP-based interface created for developers",
-                    InputMessageContent = new InputTextMessageContent
-                    {
-                        MessageText = "https://core.telegram.org/bots/api"
-                    },
                     ReplyMarkup = initialMarkup,
                 },
             };
