@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -8,7 +9,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedGif : InlineQueryResultCached
+    public class InlineQueryResultCachedGif : InlineQueryResult,
+                                              ICaptionInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -23,5 +25,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty("gif_file_id", Required = Required.Always)]
         public string FileId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -11,7 +12,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultMpeg4Gif : InlineQueryResultNew
+    public class InlineQueryResultMpeg4Gif : InlineQueryResultNew,
+                                             ICaptionInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -45,10 +47,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty("mpeg4_duration", Required = Required.Default)]
         public int Duration { get; set; }
 
-        /// <summary>
-        /// Optional. Caption of the MPEG-4 file to be sent
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
         /// <summary>

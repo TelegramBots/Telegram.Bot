@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -9,7 +10,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedAudio : InlineQueryResultCached
+    public class InlineQueryResultCachedAudio : InlineQueryResult,
+                                                ICaptionInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -31,10 +33,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Title { get; set; }
 
-        /// <summary>
-        /// Optional. Caption of the result to be sent, 0-200 characters
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Caption { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
     }
 }

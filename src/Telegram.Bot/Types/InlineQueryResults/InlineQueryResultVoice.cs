@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -12,7 +13,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultVoice : InlineQueryResultNew
+    public class InlineQueryResultVoice : InlineQueryResultNew,
+                                          ICaptionInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -33,6 +35,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty("voice_duration", Required = Required.Always)]
         public int Duration { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
 
         /// <summary>
         /// Optional. Url of the thumbnail for the result

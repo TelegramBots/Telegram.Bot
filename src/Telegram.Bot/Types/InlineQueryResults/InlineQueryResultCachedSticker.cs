@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedSticker : InlineQueryResultCached
+    public class InlineQueryResultCachedSticker : InlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -30,11 +30,5 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new string Title { get; set; }
-
-        /// <summary>
-        /// Optional. Caption of the result to be sent, 0-200 characters
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Caption { get; set; }
     }
 }
