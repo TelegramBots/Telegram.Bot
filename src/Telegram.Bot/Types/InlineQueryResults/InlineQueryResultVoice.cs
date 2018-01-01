@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -21,7 +22,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultVoice(string id, string voiceUrl, string title)
+        public InlineQueryResultVoice(string id, Uri voiceUrl, string title)
             : base(id, InlineQueryResultType.Voice)
         {
             Url = voiceUrl;
@@ -32,7 +33,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// A valid URL for the voice recording
         /// </summary>
         [JsonProperty("voice_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         /// <summary>
         /// Optional. Recording duration in seconds

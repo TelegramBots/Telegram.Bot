@@ -23,7 +23,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
+        public InlineQueryResultDocument(string id, Uri documentUrl, string title, string mimeType)
             : base(id, InlineQueryResultType.Document)
         {
             Url = documentUrl;
@@ -39,7 +39,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// A valid URL for the file
         /// </summary>
         [JsonProperty("document_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         /// <summary>
         /// Mime type of the content of the file, either “application/pdf” or “application/zip”
@@ -55,7 +55,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string ThumbUrl { get; set; }
+        public Uri ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

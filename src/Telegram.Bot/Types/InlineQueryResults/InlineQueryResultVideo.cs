@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -21,9 +22,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         public InlineQueryResultVideo(
             string id,
-            string videoUrl,
+            Uri videoUrl,
             string mimeType,
-            string thumbUrl,
+            Uri thumbUrl,
             string title)
             : base(id, InlineQueryResultType.Video)
         {
@@ -37,7 +38,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// A valid URL for the embedded video player or video file
         /// </summary>
         [JsonProperty("video_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         /// <summary>
         /// Mime type of the content of video url, i.e. "text/html" or "video/mp4"
@@ -75,7 +76,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string ThumbUrl { get; set; }
+        public Uri ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

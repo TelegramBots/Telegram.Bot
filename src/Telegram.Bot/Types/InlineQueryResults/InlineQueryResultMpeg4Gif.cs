@@ -23,7 +23,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbUrl)
+        public InlineQueryResultMpeg4Gif(string id, Uri mpeg4Url, Uri thumbUrl)
             : base(id, InlineQueryResultType.Mpeg4Gif)
         {
             Url = mpeg4Url;
@@ -34,7 +34,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// A valid URL for the MP4 file. File size must not exceed 1MB
         /// </summary>
         [JsonProperty("mpeg4_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         /// <summary>
         /// Optional. Video width
@@ -60,7 +60,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string ThumbUrl { get; set; }
+        public Uri ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

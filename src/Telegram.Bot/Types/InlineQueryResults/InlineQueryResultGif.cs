@@ -22,7 +22,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultGif(string id, string gifUrl, string thumbUrl)
+        public InlineQueryResultGif(string id, Uri gifUrl, Uri thumbUrl)
             : base(id, InlineQueryResultType.Gif)
         {
             Url = gifUrl;
@@ -33,7 +33,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// A valid URL for the GIF file. File size must not exceed 1MB
         /// </summary>
         [JsonProperty("gif_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         /// <summary>
         /// Optional. Width of the GIF
@@ -59,7 +59,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string ThumbUrl { get; set; }
+        public Uri ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
