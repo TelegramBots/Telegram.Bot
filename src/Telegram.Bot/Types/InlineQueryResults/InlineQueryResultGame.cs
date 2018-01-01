@@ -1,14 +1,12 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
-using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Represents a <see cref="Game"/>.
     /// </summary>
-    /// <seealso cref="InlineQueryResultNew" />
+    /// <seealso cref="InlineQueryResult" />
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultGame : InlineQueryResult
@@ -26,15 +24,5 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string GameShortName { get; set; }
-
-#pragma warning disable 1591
-        [JsonIgnore]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Title { get; set; }
-
-        [JsonIgnore]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new InputMessageContent InputMessageContent { get; set; }
-#pragma warning restore 1591
     }
 }
