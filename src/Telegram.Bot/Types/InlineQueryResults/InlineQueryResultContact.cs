@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -12,7 +13,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultContact : InlineQueryResultNew
+    public class InlineQueryResultContact : InlineQueryResult,
+                                            IThumbnailInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -40,10 +42,16 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string LastName { get; set; }
 
-        /// <summary>
-        /// Title of the result
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Title { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string ThumbUrl { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int ThumbWidth { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int ThumbHeight { get; set; }
     }
 }

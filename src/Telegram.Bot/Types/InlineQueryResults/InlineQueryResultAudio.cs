@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultAudio : InlineQueryResultNew,
+    public class InlineQueryResultAudio : InlineQueryResult,
                                           ICaptionInlineQueryResult
     {
         /// <summary>
@@ -48,23 +48,5 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
-
-        /// <summary>
-        /// Optional. Url of the thumbnail for the result
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbUrl { get; set; }
-
-        /// <summary>
-        /// Optional. Thumbnail width
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbWidth { get; set; }
-
-        /// <summary>
-        /// Optional. Thumbnail height
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbHeight { get; set; }
     }
 }

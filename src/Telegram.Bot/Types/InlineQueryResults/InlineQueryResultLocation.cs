@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -10,7 +11,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultLocation : InlineQueryResultNew
+    public class InlineQueryResultLocation : InlineQueryResult,
+                                             IThumbnailInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -37,5 +39,17 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int LivePeriod { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string ThumbUrl { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int ThumbWidth { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public int ThumbHeight { get; set; }
     }
 }

@@ -12,8 +12,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultGif : InlineQueryResultNew,
-                                        ICaptionInlineQueryResult
+    public class InlineQueryResultGif : InlineQueryResult,
+                                        ICaptionInlineQueryResult,
+                                        IThumbnailUrlInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -51,22 +52,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
-        /// <summary>
-        /// Optional. Url of the thumbnail for the result
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbUrl { get; set; }
-
-        /// <summary>
-        /// Optional. Thumbnail width
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbWidth { get; set; }
-
-        /// <summary>
-        /// Optional. Thumbnail height
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbHeight { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string ThumbUrl { get; set; }
     }
 }

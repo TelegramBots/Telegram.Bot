@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <seealso cref="InlineQueryResultNew" />
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultGame : InlineQueryResultNew
+    public class InlineQueryResultGame : InlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -35,18 +35,6 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonIgnore]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public new InputMessageContent InputMessageContent { get; set; }
-
-        [JsonIgnore]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbUrl { get; set; }
-
-        [JsonIgnore]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbWidth { get; set; }
-
-        [JsonIgnore]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbHeight { get; set; }
 #pragma warning restore 1591
     }
 }
