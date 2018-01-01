@@ -21,10 +21,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultGif()
-        {
-            Type = InlineQueryResultType.Gif;
-        }
+        public InlineQueryResultGif(string id)
+            : base(id, InlineQueryResultType.Gif)
+        { }
 
         /// <summary>
         /// A valid URL for the GIF file. File size must not exceed 1MB

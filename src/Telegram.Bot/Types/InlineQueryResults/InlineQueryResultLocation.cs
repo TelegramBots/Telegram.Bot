@@ -21,10 +21,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultLocation()
-        {
-            Type = InlineQueryResultType.Location;
-        }
+        public InlineQueryResultLocation(string id)
+            : base(id, InlineQueryResultType.Location)
+        { }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]

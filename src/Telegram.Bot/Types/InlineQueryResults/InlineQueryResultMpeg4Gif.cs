@@ -22,10 +22,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultMpeg4Gif()
-        {
-            Type = InlineQueryResultType.Mpeg4Gif;
-        }
+        public InlineQueryResultMpeg4Gif(string id)
+            : base(id, InlineQueryResultType.Mpeg4Gif)
+        { }
 
         /// <summary>
         /// A valid URL for the MP4 file. File size must not exceed 1MB

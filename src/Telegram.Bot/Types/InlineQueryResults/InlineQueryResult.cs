@@ -10,6 +10,16 @@ namespace Telegram.Bot.Types.InlineQueryResults
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class InlineQueryResult
     {
+        ///  <summary>
+        ///  </summary>
+        /// <param name="id"></param>
+        /// <param name="type"></param>
+        protected InlineQueryResult(string id, InlineQueryResultType type)
+        {
+            Id = id;
+            Type = type;
+        }
+
         /// <summary>
         /// Unique identifier of this result
         /// </summary>

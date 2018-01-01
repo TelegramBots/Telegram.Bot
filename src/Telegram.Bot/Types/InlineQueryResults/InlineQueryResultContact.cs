@@ -21,10 +21,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultContact()
-        {
-            Type = InlineQueryResultType.Contact;
-        }
+        public InlineQueryResultContact(string id)
+            : base(id, InlineQueryResultType.Contact)
+        { }
 
         /// <summary>
         /// Contact's phone number

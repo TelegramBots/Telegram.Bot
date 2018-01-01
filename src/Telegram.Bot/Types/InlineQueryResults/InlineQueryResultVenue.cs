@@ -22,10 +22,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultVenue()
-        {
-            Type = InlineQueryResultType.Venue;
-        }
+        public InlineQueryResultVenue(string id)
+            : base(id, InlineQueryResultType.Venue)
+        { }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]

@@ -16,10 +16,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedSticker()
-        {
-            Type = InlineQueryResultType.CachedSticker;
-        }
+        public InlineQueryResultCachedSticker(string id)
+            : base(id, InlineQueryResultType.CachedSticker)
+        { }
 
         /// <summary>
         /// A valid file identifier of the sticker

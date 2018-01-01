@@ -21,10 +21,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultVoice()
-        {
-            Type = InlineQueryResultType.Voice;
-        }
+        public InlineQueryResultVoice(string id)
+            : base(id, InlineQueryResultType.Voice)
+        { }
 
         /// <summary>
         /// A valid URL for the voice recording

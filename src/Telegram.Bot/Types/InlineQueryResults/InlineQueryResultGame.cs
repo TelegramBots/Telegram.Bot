@@ -14,10 +14,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultGame()
-        {
-            Type = InlineQueryResultType.Game;
-        }
+        public InlineQueryResultGame(string id)
+            : base(id, InlineQueryResultType.Game)
+        { }
 
         /// <summary>
         /// Short name of the game.

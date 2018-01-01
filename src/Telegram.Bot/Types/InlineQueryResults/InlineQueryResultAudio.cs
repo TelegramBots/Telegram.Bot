@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 using Telegram.Bot.Types.InputMessageContents;
 
@@ -19,10 +18,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultAudio()
-        {
-            Type = InlineQueryResultType.Audio;
-        }
+        public InlineQueryResultAudio(string id)
+            : base(id, InlineQueryResultType.Audio)
+        { }
 
         /// <summary>
         /// A valid file identifier for the audio file

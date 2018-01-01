@@ -18,10 +18,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedDocument()
-        {
-            Type = InlineQueryResultType.CachedDocument;
-        }
+        public InlineQueryResultCachedDocument(string id)
+            : base(id, InlineQueryResultType.CachedDocument)
+        { }
 
         /// <summary>
         /// A valid file identifier for the file

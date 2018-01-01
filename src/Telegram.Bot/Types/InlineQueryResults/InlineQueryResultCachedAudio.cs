@@ -17,10 +17,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedAudio()
-        {
-            Type = InlineQueryResultType.CachedAudio;
-        }
+        public InlineQueryResultCachedAudio(string id)
+            : base(id, InlineQueryResultType.CachedAudio)
+        { }
 
         /// <summary>
         /// A valid file identifier for the audio file
