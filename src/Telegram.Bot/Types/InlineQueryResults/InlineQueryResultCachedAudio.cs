@@ -17,15 +17,17 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultCachedAudio(string id)
+        public InlineQueryResultCachedAudio(string id, string audioFileId)
             : base(id, InlineQueryResultType.CachedAudio)
-        { }
+        {
+            FileId = audioFileId;
+        }
 
         /// <summary>
         /// A valid file identifier for the audio file
         /// </summary>
         [JsonProperty("audio_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
+        public string FileId { get; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
