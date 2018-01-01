@@ -35,6 +35,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty("voice_url", Required = Required.Always)]
         public Uri Url { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
+
         /// <summary>
         /// Optional. Recording duration in seconds
         /// </summary>
@@ -46,11 +50,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Caption { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Title { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }

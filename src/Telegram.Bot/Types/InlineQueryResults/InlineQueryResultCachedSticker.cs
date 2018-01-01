@@ -29,7 +29,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string FileId { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }

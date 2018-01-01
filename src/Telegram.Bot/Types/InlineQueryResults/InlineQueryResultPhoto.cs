@@ -30,6 +30,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
             ThumbUrl = thumbUrl;
         }
 
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public Uri ThumbUrl { get; set; }
+
         /// <summary>
         /// A valid URL of the photo. Photo size must not exceed 5MB
         /// </summary>
@@ -39,19 +43,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Width of the photo
         /// </summary>
-        [JsonProperty("photo_width", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("photo_width", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Width { get; set; }
 
         /// <summary>
         /// Optional. Height of the photo
         /// </summary>
-        [JsonProperty("photo_height", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("photo_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <inheritdoc />
@@ -59,15 +63,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Caption { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public Uri ThumbUrl { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Title { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }

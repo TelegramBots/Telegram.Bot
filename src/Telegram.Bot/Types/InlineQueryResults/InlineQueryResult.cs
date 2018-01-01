@@ -35,7 +35,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Inline keyboard attached to the message
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
     }
 }

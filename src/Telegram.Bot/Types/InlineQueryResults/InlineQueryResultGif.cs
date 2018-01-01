@@ -44,7 +44,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Height of the GIF
         /// </summary>
-        [JsonProperty("gif_height", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("gif_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
@@ -58,15 +58,15 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Caption { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(Required = Required.Always)]
         public Uri ThumbUrl { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Title { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }

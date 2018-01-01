@@ -25,6 +25,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
             Title = title;
         }
 
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
+
         /// <summary>
         /// A valid file identifier for the voice message
         /// </summary>
@@ -36,11 +40,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Caption { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Title { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }

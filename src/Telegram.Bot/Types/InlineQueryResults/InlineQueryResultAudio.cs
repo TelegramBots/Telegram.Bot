@@ -35,13 +35,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Performer
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Performer { get; set; }
 
         /// <summary>
         /// Optional. Audio duration in seconds
         /// </summary>
-        [JsonProperty("audio_duration", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("audio_duration", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Duration { get; set; }
 
         /// <inheritdoc />
@@ -49,11 +49,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Caption { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }

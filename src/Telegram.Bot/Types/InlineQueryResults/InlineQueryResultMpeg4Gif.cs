@@ -36,22 +36,26 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty("mpeg4_url", Required = Required.Always)]
         public Uri Url { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public Uri ThumbUrl { get; set; }
+
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty("mpeg4_width", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("mpeg4_width", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Width { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty("mpeg4_height", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("mpeg4_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Duration of the Video
         /// </summary>
-        [JsonProperty("mpeg4_duration", Required = Required.Default)]
+        [JsonProperty("mpeg4_duration")]
         public int Duration { get; set; }
 
         /// <inheritdoc />
@@ -59,15 +63,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Caption { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public Uri ThumbUrl { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Title { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }

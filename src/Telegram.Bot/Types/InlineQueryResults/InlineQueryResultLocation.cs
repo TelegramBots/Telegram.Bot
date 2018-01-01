@@ -38,6 +38,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(Required = Required.Always)]
         public float Longitude { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
+
         /// <summary>
         /// Longitude of the location in degrees
         /// </summary>
@@ -45,20 +49,16 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public int LivePeriod { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Uri ThumbUrl { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ThumbWidth { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ThumbHeight { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Title { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]

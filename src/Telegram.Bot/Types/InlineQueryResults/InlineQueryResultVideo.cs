@@ -46,28 +46,36 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(Required = Required.Always)]
         public string MimeType { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public Uri ThumbUrl { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
+
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty("video_width", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("video_width", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Width { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty("video_height", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("video_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Video duration in seconds
         /// </summary>
-        [JsonProperty("video_duration", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("video_duration", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Duration { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <inheritdoc />
@@ -75,15 +83,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Caption { get; set; }
 
         /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public Uri ThumbUrl { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Title { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
     }
 }
