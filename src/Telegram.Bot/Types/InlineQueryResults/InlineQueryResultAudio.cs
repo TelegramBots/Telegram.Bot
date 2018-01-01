@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -18,21 +19,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        public InlineQueryResultAudio(string id)
+        public InlineQueryResultAudio(string id, Uri audioUrl, string title)
             : base(id, InlineQueryResultType.Audio)
-        { }
-
-        /// <summary>
-        /// A valid file identifier for the audio file
-        /// </summary>
-        [JsonProperty("audio_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
+        {
+            Url = audioUrl;
+            Title = title;
+        }
 
         /// <summary>
         /// A valid URL for the audio file
         /// </summary>
         [JsonProperty("audio_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; }
 
         /// <summary>
         /// Optional. Performer
