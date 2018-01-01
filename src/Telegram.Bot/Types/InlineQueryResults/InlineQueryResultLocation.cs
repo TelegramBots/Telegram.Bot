@@ -15,7 +15,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultLocation : InlineQueryResult,
                                              IThumbnailInlineQueryResult,
                                              ITitleInlineQueryResult,
-                                             IInputMessageContentResult
+                                             IInputMessageContentResult,
+                                             ILocationInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -25,15 +26,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
             Type = InlineQueryResultType.Location;
         }
 
-        /// <summary>
-        /// Latitude of the location in degrees
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public float Latitude { get; set; }
 
-        /// <summary>
-        /// Longitude of the location in degrees
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public float Longitude { get; set; }
 
