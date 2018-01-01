@@ -24,11 +24,5 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty("sticker_file_id", Required = Required.Always)]
         public string FileId { get; set; }
-
-        /// <summary>
-        /// Title of the result
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Title { get; set; }
     }
 }

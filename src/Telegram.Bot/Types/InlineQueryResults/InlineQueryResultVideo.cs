@@ -11,7 +11,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultVideo : InlineQueryResult,
                                           ICaptionInlineQueryResult,
-                                          IThumbnailUrlInlineQueryResult
+                                          IThumbnailUrlInlineQueryResult,
+                                          ITitleInlineQueryResult
     {
         /// <summary>
         /// Initializes a new inline query result
@@ -64,5 +65,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public string ThumbUrl { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        public string Title { get; set; }
     }
 }

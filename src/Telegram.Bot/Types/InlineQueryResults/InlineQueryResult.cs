@@ -24,12 +24,6 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultType Type { get; protected set; }
 
         /// <summary>
-        /// Title of the result
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public string Title { get; set; }
-
-        /// <summary>
         /// Content of the message to be sent
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
