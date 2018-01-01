@@ -8,7 +8,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCached : InlineQueryResult
+    public abstract class InlineQueryResultCached : InlineQueryResult
     {
         /// <summary>
         /// Optional. Caption of the result to be sent, 0-200 characters

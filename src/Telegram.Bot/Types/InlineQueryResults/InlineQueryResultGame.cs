@@ -14,6 +14,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultGame : InlineQueryResultNew
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultGame()
+        {
+            Type = InlineQueryResultType.Game;
+        }
+
+        /// <summary>
         /// Short name of the game.
         /// </summary>
         [JsonProperty(Required = Required.Always)]

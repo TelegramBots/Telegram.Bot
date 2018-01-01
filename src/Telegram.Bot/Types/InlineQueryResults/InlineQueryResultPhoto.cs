@@ -14,6 +14,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultPhoto : InlineQueryResultNew
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultPhoto()
+        {
+            Type = InlineQueryResultType.Photo;
+        }
+
+        /// <summary>
         /// A valid URL of the photo. Photo size must not exceed 5MB
         /// </summary>
         [JsonProperty("photo_url", Required = Required.Always)]

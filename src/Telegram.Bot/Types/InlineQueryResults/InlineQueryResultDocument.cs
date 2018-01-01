@@ -14,6 +14,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultDocument : InlineQueryResultNew
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultDocument()
+        {
+            Type = InlineQueryResultType.Document;
+        }
+
+        /// <summary>
         /// Optional. Caption of the document to be sent, 0-200 characters
         /// </summary>
         [JsonProperty]

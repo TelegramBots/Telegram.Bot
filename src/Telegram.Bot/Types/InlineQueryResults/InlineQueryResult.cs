@@ -1,7 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -11,34 +9,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Base Class for inline results send in response to an <see cref="InlineQuery"/>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResult
+    public abstract class InlineQueryResult
     {
-        private static readonly Dictionary<Type, InlineQueryResultType> TypeMap =
-            new Dictionary<Type, InlineQueryResultType>
-            {
-                {typeof(InlineQueryResultArticle), InlineQueryResultType.Article},
-                {typeof(InlineQueryResultAudio), InlineQueryResultType.Audio},
-                {typeof(InlineQueryResultContact), InlineQueryResultType.Contact},
-                {typeof(InlineQueryResultDocument), InlineQueryResultType.Document},
-                {typeof(InlineQueryResultGame), InlineQueryResultType.Game},
-                {typeof(InlineQueryResultGif), InlineQueryResultType.Gif},
-                {typeof(InlineQueryResultLocation), InlineQueryResultType.Location},
-                {typeof(InlineQueryResultMpeg4Gif), InlineQueryResultType.Mpeg4Gif},
-                {typeof(InlineQueryResultPhoto), InlineQueryResultType.Photo},
-                {typeof(InlineQueryResultVenue), InlineQueryResultType.Venue},
-                {typeof(InlineQueryResultVideo), InlineQueryResultType.Video},
-                {typeof(InlineQueryResultVoice), InlineQueryResultType.Voice},
-
-                {typeof(InlineQueryResultCachedAudio), InlineQueryResultType.CachedAudio },
-                {typeof(InlineQueryResultCachedDocument), InlineQueryResultType.CachedDocument },
-                {typeof(InlineQueryResultCachedGif), InlineQueryResultType.CachedGif },
-                {typeof(InlineQueryResultCachedMpeg4Gif), InlineQueryResultType.CachedMpeg4Gif },
-                {typeof(InlineQueryResultCachedPhoto), InlineQueryResultType.CachedPhoto },
-                {typeof(InlineQueryResultCachedSticker), InlineQueryResultType.CachedSticker },
-                {typeof(InlineQueryResultCachedVideo), InlineQueryResultType.CachedVideo },
-                {typeof(InlineQueryResultCachedVoice), InlineQueryResultType.CachedVoice },
-            };
-
         /// <summary>
         /// Unique identifier of this result
         /// </summary>
@@ -49,7 +21,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Type of the result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InlineQueryResultType Type => TypeMap[GetType()];
+        public InlineQueryResultType Type { get; protected set; }
 
         /// <summary>
         /// Title of the result

@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <seealso cref="Telegram.Bot.Types.InlineQueryResults.InlineQueryResult" />
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultNew : InlineQueryResult
+    public abstract class InlineQueryResultNew : InlineQueryResult
     {
         /// <summary>
         /// Optional. Url of the thumbnail for the result

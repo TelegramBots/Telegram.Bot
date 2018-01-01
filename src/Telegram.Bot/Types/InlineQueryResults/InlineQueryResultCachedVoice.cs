@@ -12,6 +12,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultCachedVoice : InlineQueryResultCached
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultCachedVoice()
+        {
+            Type = InlineQueryResultType.CachedVoice;
+        }
+
+        /// <summary>
         /// A valid file identifier for the voice message
         /// </summary>
         [JsonProperty("voice_file_id", Required = Required.Always)]

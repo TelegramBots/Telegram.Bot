@@ -15,6 +15,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultContact : InlineQueryResultNew
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultContact()
+        {
+            Type = InlineQueryResultType.Contact;
+        }
+
+        /// <summary>
         /// Contact's phone number
         /// </summary>
         [JsonProperty(Required = Required.Always)]

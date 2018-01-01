@@ -11,6 +11,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultCachedMpeg4Gif : InlineQueryResultCached
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultCachedMpeg4Gif()
+        {
+            Type = InlineQueryResultType.CachedMpeg4Gif;
+        }
+
+        /// <summary>
         /// A valid file identifier for the MP4 file
         /// </summary>
         [JsonProperty("mpeg4_file_id", Required = Required.Always)]

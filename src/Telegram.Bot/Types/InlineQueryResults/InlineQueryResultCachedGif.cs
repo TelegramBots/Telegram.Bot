@@ -11,6 +11,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultCachedGif : InlineQueryResultCached
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultCachedGif()
+        {
+            Type = InlineQueryResultType.CachedGif;
+        }
+
+        /// <summary>
         /// A valid file identifier for the GIF file
         /// </summary>
         [JsonProperty("gif_file_id", Required = Required.Always)]

@@ -10,6 +10,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultArticle : InlineQueryResultNew
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultArticle()
+        {
+            Type = InlineQueryResultType.Article;
+        }
+
+        /// <summary>
         /// Optional. URL of the result
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

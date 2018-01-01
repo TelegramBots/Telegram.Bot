@@ -14,6 +14,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultVenue : InlineQueryResultNew
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultVenue()
+        {
+            Type = InlineQueryResultType.Venue;
+        }
+
+        /// <summary>
         /// Latitude of the location in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]

@@ -11,6 +11,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultCachedVideo : InlineQueryResultCached
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultCachedVideo()
+        {
+            Type = InlineQueryResultType.CachedVideo;
+        }
+
+        /// <summary>
         /// A valid file identifier for the video file
         /// </summary>
         [JsonProperty("video_file_id", Required = Required.Always)]

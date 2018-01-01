@@ -12,6 +12,14 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public class InlineQueryResultAudio : InlineQueryResultNew
     {
         /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultAudio()
+        {
+            Type = InlineQueryResultType.Audio;
+        }
+
+        /// <summary>
         /// A valid file identifier for the audio file
         /// </summary>
         [JsonProperty("audio_file_id", Required = Required.Always)]
