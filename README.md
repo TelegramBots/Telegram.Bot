@@ -61,14 +61,3 @@ dotnet add package Telegram.Bot
 ```
 
 For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-bot) with automated builds.
-
-## API Coverage
-
-* [Bot API 3.5](https://core.telegram.org/bots/api-changelog)
-* [Inline Mode](https://core.telegram.org/bots/inline)
-* [Payments](https://core.telegram.org/bots/payments) (Needs some testing)
-* [Games](https://core.telegram.org/bots/games)
-
-Missing / TODO (last check 23.07.2017):
-
-* [Making requests when getting updates](https://core.telegram.org/bots/api#making-requests-when-getting-updates)
