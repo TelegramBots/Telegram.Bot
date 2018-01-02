@@ -47,7 +47,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
                         id: "live-location",
                         latitude: newYork.Latitude,
                         longitude: newYork.Longitude,
-                         title: "Live Locations Test")
+                        title: "Live Locations Test")
                     {
                         LivePeriod = 60,
                         ReplyMarkup = InlineKeyboardButton.WithCallbackData(
