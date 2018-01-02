@@ -43,11 +43,12 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 inlineQueryId: iqUpdate.InlineQuery.Id,
                 cacheTime: 0,
                 results: new[] {
-                    new InlineQueryResultLocation(id: "live-location")
+                    new InlineQueryResultLocation(
+                        id: "live-location",
+                        latitude: newYork.Latitude,
+                        longitude: newYork.Longitude,
+                         title: "Live Locations Test")
                     {
-                        Title = "Live Locations Test",
-                        Latitude = newYork.Latitude,
-                        Longitude = newYork.Longitude,
                         LivePeriod = 60,
                         ReplyMarkup = InlineKeyboardButton.WithCallbackData(
                             "Start live locations", callbackQueryData
