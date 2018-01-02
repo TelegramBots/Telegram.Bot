@@ -11,9 +11,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
     public abstract class InlineQueryResult
     {
         ///  <summary>
+        /// Initializes a new inline query result
         ///  </summary>
-        /// <param name="id"></param>
-        /// <param name="type"></param>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="type">Type of the result</param>
         protected InlineQueryResult(string id, InlineQueryResultType type)
         {
             Id = id;

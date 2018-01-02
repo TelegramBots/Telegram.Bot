@@ -1,7 +1,6 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 using Telegram.Bot.Types.InputMessageContents;
 
@@ -23,6 +22,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="photoUrl">A valid URL of the photo. Photo size must not exceed 5MB.</param>
+        /// <param name="thumbUrl">Optional. Url of the thumbnail for the result.</param>
         public InlineQueryResultPhoto(string id, Uri photoUrl, Uri thumbUrl)
             : base(id, InlineQueryResultType.Photo)
         {
@@ -35,7 +37,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public Uri ThumbUrl { get; set; }
 
         /// <summary>
-        /// A valid URL of the photo. Photo size must not exceed 5MB
+        /// A valid URL of the photo. Photo size must not exceed 5MB.
         /// </summary>
         [JsonProperty("photo_url", Required = Required.Always)]
         public Uri Url { get; set; }

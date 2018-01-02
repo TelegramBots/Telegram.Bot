@@ -18,6 +18,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="fileId">A valid file identifier for the video file</param>
+        /// <param name="title">Title of the result</param>
         public InlineQueryResultCachedVideo(string id, string fileId, string title)
             : base(id, InlineQueryResultType.CachedVideo)
         {

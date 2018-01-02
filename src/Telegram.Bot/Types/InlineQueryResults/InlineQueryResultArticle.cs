@@ -18,6 +18,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="title">Title of the result</param>
+        /// <param name="inputMessageContent">Content of the message to be sent</param>
         public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
             : base(id, InlineQueryResultType.Article)
         {
@@ -26,19 +29,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         }
 
         /// <summary>
-        /// Optional. URL of the result
+        /// Optional. URL of the result.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Url { get; set; }
 
         /// <summary>
-        /// Optional. Pass <c>true</c>, if you don't want the URL to be shown in the message
+        /// Optional. Pass <c>true</c>, if you don't want the URL to be shown in the message.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool HideUrl { get; set; }
 
         /// <summary>
-        /// Optional. Short description of the result
+        /// Optional. Short description of the result.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }

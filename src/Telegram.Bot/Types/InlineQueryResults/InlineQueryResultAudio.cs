@@ -16,9 +16,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                           ITitleInlineQueryResult,
                                           IInputMessageContentResult
     {
+
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="audioUrl">A valid URL for the audio file</param>
+        /// <param name="title">Title of the result</param>
         public InlineQueryResultAudio(string id, Uri audioUrl, string title)
             : base(id, InlineQueryResultType.Audio)
         {

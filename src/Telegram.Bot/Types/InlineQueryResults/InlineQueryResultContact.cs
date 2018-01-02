@@ -21,6 +21,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="phoneNumber">Contact's phone number</param>
+        /// <param name="firstName">Contact's first name</param>
         public InlineQueryResultContact(string id, string phoneNumber, string firstName)
             : base(id, InlineQueryResultType.Contact)
         {

@@ -20,6 +20,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="videoUrl">A valid URL for the embedded video player or video file</param>
+        /// <param name="mimeType">Mime type of the content of video url, i.e. "text/html" or "video/mp4"</param>
+        /// <param name="thumbUrl">Url of the thumbnail for the result</param>
+        /// <param name="title">Title of the result</param>
         public InlineQueryResultVideo(
             string id,
             Uri videoUrl,

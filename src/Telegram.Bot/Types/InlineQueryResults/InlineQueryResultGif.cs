@@ -22,6 +22,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="gifUrl">Width of the GIF</param>
+        /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
         public InlineQueryResultGif(string id, Uri gifUrl, Uri thumbUrl)
             : base(id, InlineQueryResultType.Gif)
         {
@@ -36,19 +39,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public Uri Url { get; set; }
 
         /// <summary>
-        /// Optional. Width of the GIF
+        /// Optional. Width of the GIF.
         /// </summary>
         [JsonProperty("gif_width")]
         public int Width { get; set; }
 
         /// <summary>
-        /// Optional. Height of the GIF
+        /// Optional. Height of the GIF.
         /// </summary>
         [JsonProperty("gif_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
-        /// Optional. Duration of the GIF
+        /// Optional. Duration of the GIF.
         /// </summary>
         [JsonProperty("gif_duration")]
         public int Duration { get; set; }

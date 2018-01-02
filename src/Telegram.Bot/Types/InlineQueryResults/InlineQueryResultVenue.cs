@@ -23,6 +23,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="latitude">Latitude of the location in degrees</param>
+        /// <param name="longitude">Longitude of the location in degrees</param>
+        /// <param name="title">Title of the result</param>
+        /// <param name="address">Address of the venue</param>
         public InlineQueryResultVenue(
             string id,
             float latitude,

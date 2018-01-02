@@ -3,12 +3,12 @@
     public interface IThumbnailInlineQueryResult : IThumbnailUrlInlineQueryResult
     {
         /// <summary>
-        /// Optional. Thumbnail width
+        /// Optional. Thumbnail width.
         /// </summary>
         int ThumbWidth { get; set; }
 
         /// <summary>
-        /// Optional. Thumbnail height
+        /// Optional. Thumbnail height.
         /// </summary>
         int ThumbHeight { get; set; }
     }

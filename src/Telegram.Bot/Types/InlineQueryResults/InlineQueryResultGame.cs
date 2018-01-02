@@ -14,6 +14,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="gameShortName">Short name of the game</param>
         public InlineQueryResultGame(string id, string gameShortName)
             : base(id, InlineQueryResultType.Game)
         {
@@ -21,7 +23,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         }
 
         /// <summary>
-        /// Short name of the game.
+        /// Short name of the game
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string GameShortName { get; set; }
