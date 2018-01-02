@@ -90,6 +90,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `InputTelegramFile`
 - Type `InputOnlineFile`
 - Type `InputFileConverter`
+- Inline query results
+  - Type `ICaptionInlineQueryResult`
+  - Type `IInputMessageContentResult`
+  - Type `ILocationInlineQueryResult`
+  - Type `IThumbnailInlineQueryResult`
+  - Type `IThumbnailUrlInlineQueryResult`
+  - Type `ITitleInlineQueryResult`
+  - Constructor with required parameters in `InlineQueryResult` and all derived classes
+  - Type `InlineQueryResultVoice` proprety `Caption`
+
 
 ### Changed
 
@@ -168,6 +178,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Parameter `pngSticker` of method `AddStickerToSetAsync`
   - Parameter `photo` of method `SetChatPhotoAsync`
   - Parameter `audio` of method `SendAudioAsync`
+ - Make `InlineQueryResult` abstract
+ - Types of all url properties in `InlineQueryResult` derived classes and related interfaces changed to `Uri`
 
 ### Removed
 
@@ -182,6 +194,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Property `Width` of `VideoNote`
 - Property `Height` of `VideoNote`
 - Property `Zoom` of `MaskPosition`
+- Type `InlineQueryResultNew`
+- Type `InlineQueryResultCached`
+- Type `InlineQueryResult` property `Title`
+- Type `InlineQueryResult` property `InputMessageContent`
+- Type `InlineQueryResult` property `Id` setter
+- Type `InlineQueryResultAudio` property `FileId`
+- Type `InlineQueryResultAudio` property `Url` setter
+- Type `InlineQueryResultAudio` property `Duration` value `Required.Always` in json attribute
+- Type `InlineQueryResultCachedDocument` property `FileId` setter
 
 ### Fixed
 
