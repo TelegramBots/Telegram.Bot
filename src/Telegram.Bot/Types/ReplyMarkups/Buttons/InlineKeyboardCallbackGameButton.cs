@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Telegram.Bot.Types.InlineKeyboardButtons
+namespace Telegram.Bot.Types.ReplyMarkups.Buttons
 {
     /// <summary>
     /// This object represents one button of an inline keyboard that opens a game when pressed
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+        NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardCallbackGameButton : InlineKeyboardButton
     {
         /// <summary>
@@ -20,11 +20,12 @@ namespace Telegram.Bot.Types.InlineKeyboardButtons
         public CallbackGame CallbackGame { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
+        /// Initializes a new instance of the <see cref="InlineKeyboardCallbackGameButton"/> class.
         /// </summary>
-        /// <param name="text">Text of the button</param>
+        /// <param name="text">Label text on the button</param>
         /// <param name="callbackGame">Description of the game that will be launched when the user presses the button.</param>
-        public InlineKeyboardCallbackGameButton(string text, CallbackGame callbackGame) : base(text)
+        public InlineKeyboardCallbackGameButton(string text, CallbackGame callbackGame)
+            : base(text)
         {
             CallbackGame = callbackGame;
         }

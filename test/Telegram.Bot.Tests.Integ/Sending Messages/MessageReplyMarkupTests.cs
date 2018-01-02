@@ -5,6 +5,7 @@ using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
@@ -33,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveContactInfo);
 
             IReplyMarkup replyMarkup = new ReplyKeyboardMarkup(
-                keyboardRow: new[] { new KeyboardButton("Share Contact") { RequestContact = true } },
+                keyboardRow: new[] { new RequestContactButton("Share Contact") },
                 resizeKeyboard: true,
                 oneTimeKeyboard: true
             );

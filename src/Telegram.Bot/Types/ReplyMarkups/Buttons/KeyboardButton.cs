@@ -1,32 +1,17 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InlineKeyboardButtons;
 
-namespace Telegram.Bot.Types
+namespace Telegram.Bot.Types.ReplyMarkups.Buttons
 {
     /// <summary>
-    /// This object represents one button of the reply keyboard. For simple text buttons String can be used instead of this object to specify text of the button. Optional fields are mutually exclusive.
+    /// This object represents one button of the reply keyboard. For simple text buttons String can be used instead of this object to specify text of the button.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class KeyboardButton
+    public class KeyboardButton : IKeyboardButton
     {
-        /// <summary>
-        /// Text of the button. If none of the optional fields are used, it will be sent to the bot as a message when the button is pressed
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public string Text { get; set; }
-
-        /// <summary>
-        /// Optional. If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool RequestContact { get; set; }
-
-        /// <summary>
-        /// Optional. If <c>true</c>, the user's current location will be sent when the button is pressed. Available in private chats only
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool RequestLocation { get; set; }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="string"/> to <see cref="KeyboardButton"/>.
@@ -48,7 +33,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyboardButton"/> class.
         /// </summary>
-        /// <param name="text">The <see cref="Text"/></param>
+        /// <param name="text">Label text on the button</param>
         public KeyboardButton(string text)
         {
             Text = text;
