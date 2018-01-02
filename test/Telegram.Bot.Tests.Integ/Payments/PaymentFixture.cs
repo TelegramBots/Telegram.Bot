@@ -21,12 +21,12 @@ namespace Telegram.Bot.Tests.Integ.Payments
             PaymentProviderToken = ConfigurationProvider.TestConfigurations.PaymentProviderToken;
             if (PaymentProviderToken is default)
             {
-                throw new ArgumentNullException(nameof(PaymentProviderToken), "Payment provider token is not set");
+                throw new ArgumentNullException(nameof(PaymentProviderToken));
             }
 
             if (PaymentProviderToken.Length < 5)
             {
-                throw new ArgumentNullException(nameof(PaymentProviderToken), "Payment provider token is invalid");
+                throw new ArgumentException("Payment provider token is invalid", nameof(PaymentProviderToken));
             }
         }
     }
