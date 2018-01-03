@@ -32,6 +32,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Parameterless ctor of type `InlineKeyboardMarkup`
 - Implicit cast of `InlineKeyboardButton` to `KeyboardButton`
 
+### Fixed
+
+- Invalid default value for `SwitchInlineQueryCurrentChat` in `InlineKeyboardSwitchInlineQueryCurrentChatButton` constructor
+
 ## [14.0.0-alpha0] - 2017-12-31
 
 ### Added

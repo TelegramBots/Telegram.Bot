@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
     /// <summary>
     /// This object represents one button of an inline keyboard that opens a game when pressed
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-        NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardCallbackGameButton : InlineKeyboardButton
     {
         /// <summary>
@@ -16,8 +15,8 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <remarks>
         /// Note: This type of button must always be the first button in the first row.
         /// </remarks>
-        [JsonProperty]
-        public CallbackGame CallbackGame { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public CallbackGame CallbackGame { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardCallbackGameButton"/> class.

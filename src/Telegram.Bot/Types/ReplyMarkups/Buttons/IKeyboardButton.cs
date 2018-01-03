@@ -8,6 +8,6 @@
         /// <summary>
         /// Label text on the button
         /// </summary>
-        string Text { get; set; }
+        string Text { get; }
     }
 }

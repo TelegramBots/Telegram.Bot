@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
     /// <summary>
     /// This object represents one button of an inline keyboard that ask the user to pay a certain amount when pressed. This button always MUST be the first button in a row.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-        NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardPayButton : InlineKeyboardButton
     {
         /// <summary>
@@ -16,7 +15,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <remarks>
         /// Note: This type of button must always be the first button in the first row.
         /// </remarks>
-        [JsonProperty]
+        [JsonProperty(Required = Required.Always)]
         public bool Pay => true;
 
         /// <summary>
@@ -24,6 +23,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// </summary>
         /// <param name="text">Label text on the button</param>
         public InlineKeyboardPayButton(string text)
-            : base(text) { }
+            : base(text)
+        { }
     }
 }

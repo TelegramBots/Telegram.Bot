@@ -12,24 +12,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
-        public string Text { set; get; }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardCallbackButton"/>.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns>
-        /// The result of the conversion.
-        /// </returns>
-        public static implicit operator InlineKeyboardButton(string key)
-            => new InlineKeyboardCallbackButton(key, key);
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="KeyboardButton"/> to <see cref="InlineKeyboardCallbackButton"/>.
-        /// </summary>
-        /// <param name="button">The <see cref="KeyboardButton"/></param>
-        public static implicit operator InlineKeyboardButton(KeyboardButton button)
-            => new InlineKeyboardCallbackButton(button.Text, button.Text);
+        public string Text { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardButton"/> class.
@@ -75,18 +58,22 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// Initializes a new instance of the <see cref="InlineKeyboardSwitchInlineQueryButton"/> class.
         /// </summary>
         /// <param name="text">Label text on the button</param>
-        /// <param name="switchInlineQuery">Pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot's username will be inserted.</param>
+        /// <param name="query">Pressing the button will prompt the user to select one of their chats, open that chat and insert the bot‘s username and the specified inline query in the input field. Can be empty, in which case just the bot's username will be inserted.</param>
         /// <returns></returns>
-        public static InlineKeyboardButton WithSwitchInlineQuery(string text, string switchInlineQuery = "")
-            => new InlineKeyboardSwitchInlineQueryButton(text, switchInlineQuery);
+        public static InlineKeyboardButton WithSwitchInlineQuery(string text, string query = default) =>
+            query is default
+                ? new InlineKeyboardSwitchInlineQueryButton(text)
+                : new InlineKeyboardSwitchInlineQueryButton(text, query);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardSwitchInlineQueryCurrentChatButton"/> class.
         /// </summary>
         /// <param name="text">Label text on the button</param>
-        /// <param name="switchInlineQueryCurrentChat">Pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot's username will be inserted.</param>
-        public static InlineKeyboardButton WithSwitchInlineQueryCurrentChat(string text, string switchInlineQueryCurrentChat = "")
-            => new InlineKeyboardSwitchInlineQueryCurrentChatButton(text, switchInlineQueryCurrentChat);
+        /// <param name="query">Pressing the button will insert the bot‘s username and the specified inline query in the current chat's input field. Can be empty, in which case only the bot's username will be inserted.</param>
+        public static InlineKeyboardButton WithSwitchInlineQueryCurrentChat(string text, string query = default) =>
+            query is default
+                ? new InlineKeyboardSwitchInlineQueryCurrentChatButton(text)
+                : new InlineKeyboardSwitchInlineQueryCurrentChatButton(text, query);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardCallbackGameButton"/> class.
@@ -102,5 +89,22 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <param name="text">Label text on the button</param>
         public static InlineKeyboardButton WithPayment(string text)
             => new InlineKeyboardPayButton(text);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardCallbackButton"/>.
+        /// </summary>
+        /// <param name="key">The key.</param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
+        public static implicit operator InlineKeyboardButton(string key)
+            => new InlineKeyboardCallbackButton(key, key);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="KeyboardButton"/> to <see cref="InlineKeyboardCallbackButton"/>.
+        /// </summary>
+        /// <param name="button">The <see cref="KeyboardButton"/></param>
+        public static implicit operator InlineKeyboardButton(KeyboardButton button)
+            => new InlineKeyboardCallbackButton(button.Text, button.Text);
     }
 }

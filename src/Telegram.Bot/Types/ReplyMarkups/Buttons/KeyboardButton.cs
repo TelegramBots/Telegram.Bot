@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
-        public string Text { get; set; }
+        public string Text { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="KeyboardButton"/> class.

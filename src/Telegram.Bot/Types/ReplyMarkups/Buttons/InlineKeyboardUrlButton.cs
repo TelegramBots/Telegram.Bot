@@ -7,15 +7,14 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
     /// <summary>
     /// This object represents one button of an inline keyboard that opens an url when pressed.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-        NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineKeyboardUrlButton : InlineKeyboardButton
     {
         /// <summary>
         /// Optional. HTTP url to be opened when button is pressed
         /// </summary>
-        [JsonProperty]
-        public string Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Url { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardUrlButton"/> class.
@@ -27,6 +26,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         {
             Url = url;
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardUrlButton"/> class.
         /// </summary>

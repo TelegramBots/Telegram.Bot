@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.ReplyMarkup
@@ -66,6 +67,30 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldSendInlineKeyboardMarkup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(5)]
+        public async Task Should_Do()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInlineKeyboardMarkup);
+
+            await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SupergroupChat,
+                text: "Message with inline keyboard markup",
+                replyMarkup: new InlineKeyboardMarkup(new[]
+                {
+                    new [] { InlineKeyboardButton.WithUrl("Link to Repository", "https://github.com/TelegramBots/Telegram.Bot"), },
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("callback_data1"),
+                        InlineKeyboardButton.WithCallbackData("callback_data2", "data"),
+                    },
+                    new [] { InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"), },
+                    new [] { InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"), },
+                })
+            );
+        }
+
         private static class FactTitles
         {
             public const string ShouldForceReply = "Should send a message with force reply markup";
@@ -73,6 +98,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             public const string ShouldSendMultiRowKeyboard = "Should send a message multi-row keyboard reply markup";
 
             public const string ShouldRemoveReplyKeyboard = "Should remove reply keyboard";
+
+            public const string ShouldSendInlineKeyboardMarkup = "Should send a message with multiple inline keyboard markup";
         }
     }
 }
