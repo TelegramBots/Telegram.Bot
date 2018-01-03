@@ -46,11 +46,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `InlineQueryResultCached`
 - Type `InlineQueryResult` property `Title`
 - Type `InlineQueryResult` property `InputMessageContent`
-- Type `InlineQueryResult` property `Id` setter
 - Type `InlineQueryResultAudio` property `FileId`
-- Type `InlineQueryResultAudio` property `Url` setter
 - Type `InlineQueryResultAudio` property `Duration` value `Required.Always` in json attribute
-- Type `InlineQueryResultCachedDocument` property `FileId` setter
 
 ### Fixed
 
