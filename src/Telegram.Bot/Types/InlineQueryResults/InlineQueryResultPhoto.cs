@@ -34,6 +34,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultPhoto(string id, Uri photoUrl, Uri thumbUrl)
             : this()
         {
+            Id = id;
             Url = photoUrl;
             ThumbUrl = thumbUrl;
         }

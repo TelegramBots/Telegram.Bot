@@ -42,6 +42,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
             string address)
             : this()
         {
+            Id = id;
             Latitude = latitude;
             Longitude = longitude;
             Title = title;

@@ -31,6 +31,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultAudio(string id, Uri audioUrl, string title)
             : this()
         {
+            Id = id;
             Url = audioUrl;
             Title = title;
         }

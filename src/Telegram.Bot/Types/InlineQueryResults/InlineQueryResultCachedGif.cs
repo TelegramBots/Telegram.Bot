@@ -29,6 +29,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultCachedGif(string id, string gifFileId)
             : this()
         {
+            Id = id;
             FileId = gifFileId;
         }
 

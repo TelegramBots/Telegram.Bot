@@ -25,6 +25,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultGame(string id, string gameShortName)
             : this()
         {
+            Id = id;
             GameShortName = gameShortName;
         }
 

@@ -36,6 +36,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultDocument(string id, Uri documentUrl, string title, string mimeType)
             : this()
         {
+            Id = id;
             Url = documentUrl;
             Title = title;
             MimeType = mimeType;

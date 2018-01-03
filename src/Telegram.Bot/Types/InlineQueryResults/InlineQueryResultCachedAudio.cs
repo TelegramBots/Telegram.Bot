@@ -28,6 +28,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultCachedAudio(string id, string audioFileId)
             : this()
         {
+            Id = id;
             FileId = audioFileId;
         }
 

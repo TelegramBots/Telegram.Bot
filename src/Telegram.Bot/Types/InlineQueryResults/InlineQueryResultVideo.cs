@@ -39,6 +39,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
             string title)
             : this()
         {
+            Id = id;
             Url = videoUrl;
             MimeType = mimeType;
             ThumbUrl = thumbUrl;

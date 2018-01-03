@@ -29,6 +29,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultCachedPhoto(string id, string fileId)
             : this()
         {
+            Id = id;
             FileId = fileId;
         }
 

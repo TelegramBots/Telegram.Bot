@@ -30,6 +30,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultCachedVideo(string id, string fileId, string title)
             : this()
         {
+            Id = id;
             FileId = fileId;
             Title = title;
         }

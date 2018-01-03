@@ -34,6 +34,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultVoice(string id, Uri voiceUrl, string title)
             : this()
         {
+            Id = id;
             Url = voiceUrl;
             Title = title;
         }

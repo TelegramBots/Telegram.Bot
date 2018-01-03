@@ -36,6 +36,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultLocation(string id, float latitude, float longitude, string title)
             : this()
         {
+            Id = id;
             Latitude = latitude;
             Longitude = longitude;
             Title = title;

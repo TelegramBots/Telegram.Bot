@@ -33,6 +33,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultContact(string id, string phoneNumber, string firstName)
             : this()
         {
+            Id = id;
             PhoneNumber = phoneNumber;
             FirstName = firstName;
         }

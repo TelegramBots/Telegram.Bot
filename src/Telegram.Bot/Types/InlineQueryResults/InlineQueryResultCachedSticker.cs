@@ -27,6 +27,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultCachedSticker(string id, string fileId)
             : this()
         {
+            Id = id;
             FileId = fileId;
         }
 

@@ -34,6 +34,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InlineQueryResultGif(string id, Uri gifUrl, Uri thumbUrl)
             : this()
         {
+            Id = id;
             Url = gifUrl;
             ThumbUrl = thumbUrl;
         }
