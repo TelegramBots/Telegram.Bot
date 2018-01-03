@@ -26,20 +26,20 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Width of the GIF.
         /// </summary>
-        [JsonProperty("gif_width")]
-        public int Width { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int GifWidth { get; set; }
 
         /// <summary>
         /// Optional. Height of the GIF.
         /// </summary>
-        [JsonProperty("gif_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Height { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int GifHeight { get; set; }
 
         /// <summary>
         /// Optional. Duration of the GIF.
         /// </summary>
-        [JsonProperty("gif_duration")]
-        public int Duration { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int GifDuration { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

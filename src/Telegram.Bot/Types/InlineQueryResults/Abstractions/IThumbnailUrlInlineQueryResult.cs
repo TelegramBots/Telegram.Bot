@@ -3,7 +3,7 @@
     public interface IThumbnailUrlInlineQueryResult
     {
         /// <summary>
-        /// Optional. Url of the thumbnail for the result.
+        /// URL of the static thumbnail for the result.
         /// </summary>
         string ThumbUrl { get; set; }
     }

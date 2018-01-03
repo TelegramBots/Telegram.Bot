@@ -539,9 +539,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 )
                 {
                     Caption = "Rotating Earth",
-                    Duration = 4,
-                    Height = 400,
-                    Width = 400,
+                    GifDuration = 4,
+                    GifHeight = 400,
+                    GifWidth = 400,
                     Title = "Rotating Earth",
                 }
             };
@@ -586,12 +586,12 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithMpgeg4Gif)]
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithMpeg4Gif)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [ExecutionOrder(18)]
         public async Task Should_Answer_Inline_Query_With_Mpeg4Gif()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithMpgeg4Gif,
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithMpeg4Gif,
                 startInlineQuery: true);
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
@@ -604,7 +604,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg"
                 )
                 {
-                    Caption = "A beatufiul scene",
+                    Caption = "A beautiful scene",
                 },
             };
 
@@ -637,7 +637,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     mpeg4FileId: gifMessage.Document.FileId
                 )
                 {
-                    Caption = "A beatufiul scene",
+                    Caption = "A beautiful scene",
                 }
             };
 
@@ -686,7 +686,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             public const string ShouldAnswerInlineQueryWithCachedGif =
                 "Should send a gif and answer inline query with a cached gif using its file_id";
 
-            public const string ShouldAnswerInlineQueryWithMpgeg4Gif = "Should answer inline query with an mpeg4 gif";
+            public const string ShouldAnswerInlineQueryWithMpeg4Gif = "Should answer inline query with an mpeg4 gif";
 
             public const string ShouldAnswerInlineQueryWithCachedMpeg4Gif =
                 "Should send an mpeg4 gif and answer inline query with a cached mpeg4 gif using its file_id";
