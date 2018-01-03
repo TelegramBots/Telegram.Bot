@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -14,36 +13,15 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultVoice : InlineQueryResultBase,
-                                          ICaptionInlineQueryResult,
-                                          ITitleInlineQueryResult,
-                                          IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultVoice()
-            : base(InlineQueryResultType.Voice)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="voiceUrl">A valid URL for the voice recording</param>
-        /// <param name="title">Title of the result</param>
-        public InlineQueryResultVoice(string id, Uri voiceUrl, string title)
-            : this()
-        {
-            Id = id;
-            Url = voiceUrl;
-            Title = title;
-        }
-
         /// <summary>
         /// A valid URL for the voice recording
         /// </summary>
-        [JsonProperty("voice_url", Required = Required.Always)]
-        public Uri Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string VoiceUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -52,8 +30,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Recording duration in seconds
         /// </summary>
-        [JsonProperty("voice_duration", Required = Required.Always)]
-        public int Duration { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public int VoiceDuration { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -62,5 +40,27 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultVoice()
+            : base(InlineQueryResultType.Voice)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="voiceUrl">A valid URL for the voice recording</param>
+        /// <param name="title">Title of the result</param>
+        public InlineQueryResultVoice(string id, string voiceUrl, string title)
+            : this()
+        {
+            Id = id;
+            VoiceUrl = voiceUrl;
+            Title = title;
+        }
     }
 }

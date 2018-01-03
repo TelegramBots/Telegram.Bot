@@ -98,7 +98,9 @@
             {
                 private const string AudioDir = FilesDir + "Audio/";
 
-                public const string CantinaRag = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
+                public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
+                
+                public const string TestOgg = AudioDir + "Test.ogg";
             }
 
             public static class Certificate

@@ -351,7 +351,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedAudio);
 
             Message audioMessage;
-            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRag))
+            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRagMp3))
             {
                 audioMessage = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
@@ -374,6 +374,73 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 {
                     Caption = "Jackson F. Smith - Cantina Rag"
                 }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithAudio)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(12)]
+        public async Task Should_Answer_Inline_Query_With_Voice()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithAudio,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultVoice(
+                    id: "voice_result",
+                    voiceUrl: "http://www.vorbis.com/music/Hydrate-Kenny_Beltrey.ogg",
+                    title: "Hydrate - Kenny Beltrey"
+                )
+                {
+                    Caption = "Hydrate - Kenny Beltrey",
+                    VoiceDuration = 265
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedAudio)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(13)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Voice()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedAudio);
+
+            Message voiceMessage;
+            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.TestOgg))
+            {
+                voiceMessage = await BotClient.SendVoiceAsync(
+                    chatId: _fixture.SupergroupChat,
+                    voice: stream,
+                    duration: 24,
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query")
+                );
+            }
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedVoice(
+                    id: "voice_result",
+                    fileId: voiceMessage.Voice.FileId,
+                    title: "Test Voice"
+                )
             };
 
             await BotClient.AnswerInlineQueryAsync(
@@ -407,7 +474,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 "Should send a video and answer inline query with a cached video using its file_id";
 
             public const string ShouldAnswerInlineQueryWithAudio = "Should answer inline query with an audio";
-            
+
             public const string ShouldAnswerInlineQueryWithCachedAudio =
                 "Should send a audio and answer inline query with a cached audio using its file_id";
         }

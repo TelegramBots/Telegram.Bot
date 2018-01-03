@@ -10,16 +10,35 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultCachedVoice : InlineQueryResultBase,
-                                                ICaptionInlineQueryResult,
-                                                ITitleInlineQueryResult,
-                                                IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
+
+        /// <summary>
+        /// A valid file identifier for the voice message
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string VoiceFileId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
+
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
         public InlineQueryResultCachedVoice()
             : base(InlineQueryResultType.Voice)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -31,26 +50,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
             : this()
         {
             Id = id;
-            FileId = fileId;
+            VoiceFileId = fileId;
             Title = title;
         }
-
-        /// <inheritdoc />
-        [JsonProperty(Required = Required.Always)]
-        public string Title { get; set; }
-
-        /// <summary>
-        /// A valid file identifier for the voice message
-        /// </summary>
-        [JsonProperty("voice_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Caption { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
     }
 }
