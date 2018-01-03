@@ -933,7 +933,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#answerinlinequery"/>
         Task AnswerInlineQueryAsync(
             string inlineQueryId,
-            IEnumerable<InlineQueryResult> results,
+            IEnumerable<InlineQueryResultBase> results,
             int? cacheTime = default,
             bool isPersonal = default,
             string nextOffset = default,

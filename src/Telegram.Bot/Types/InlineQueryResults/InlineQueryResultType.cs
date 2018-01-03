@@ -1,132 +1,91 @@
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using System.Collections.Generic;
-using Telegram.Bot.Converters;
+using Newtonsoft.Json.Converters;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Type of the InlineQueryResult
     /// </summary>
-    [JsonConverter(typeof(InlineQueryResultTypeConverter))]
+    [JsonConverter(typeof(StringEnumConverter), true)]
     public enum InlineQueryResultType
     {
         /// <summary>
         /// Unknown <see cref="InlineQueryResultType"/>
         /// </summary>
-        Unknown = 0,
+        Unknown,
+
         /// <summary>
         /// <see cref="InlineQueryResultArticle"/>
         /// </summary>
         Article,
+
         /// <summary>
         /// <see cref="InlineQueryResultPhoto"/>
+        /// <see cref="InlineQueryResultCachedPhoto"/>
         /// </summary>
         Photo,
+
         /// <summary>
         /// <see cref="InlineQueryResultGif"/>
+        /// <see cref="InlineQueryResultCachedMpeg4Gif"/>
         /// </summary>
         Gif,
+
         /// <summary>
         /// <see cref="InlineQueryResultMpeg4Gif"/>
+        /// <see cref="InlineQueryResultCachedVideo"/>
         /// </summary>
+        [EnumMember(Value = "mpeg4_gif")]
         Mpeg4Gif,
+
         /// <summary>
         /// <see cref="InlineQueryResultVideo"/>
+        /// /// <see cref="InlineQueryResultCachedVideo"/>
         /// </summary>
         Video,
 
         /// <summary>
         /// <see cref="InlineQueryResultAudio"/>
+        /// <see cref="InlineQueryResultCachedAudio"/>
         /// </summary>
         Audio,
+
         /// <summary>
         /// <see cref="InlineQueryResultContact"/>
         /// </summary>
         Contact,
+
         /// <summary>
         /// <see cref="InlineQueryResultDocument"/>
+        /// /// <see cref="InlineQueryResultCachedDocument"/>
         /// </summary>
         Document,
+
         /// <summary>
         /// <see cref="InlineQueryResultLocation"/>
         /// </summary>
         Location,
+
         /// <summary>
         /// <see cref="InlineQueryResultVenue"/>
         /// </summary>
         Venue,
+
         /// <summary>
         /// <see cref="InlineQueryResultVoice"/>
+        /// <see cref="InlineQueryResultCachedVoice"/>
         /// </summary>
         Voice,
+
         /// <summary>
         /// <see cref="InlineQueryResultGame"/>
         /// </summary>
         Game,
 
         /// <summary>
-        /// <see cref="InlineQueryResultCachedPhoto"/>
-        /// </summary>
-        CachedPhoto = 102,
-        /// <summary>
-        /// <see cref="InlineQueryResultCachedMpeg4Gif"/>
-        /// </summary>
-        CachedGif = 103,
-        /// <summary>
-        /// <see cref="InlineQueryResultCachedVideo"/>
-        /// </summary>
-        CachedMpeg4Gif = 104,
-        /// <summary>
-        /// <see cref="InlineQueryResultCachedAudio"/>
-        /// </summary>
-        CachedVideo = 105,
-        /// <summary>
-        /// <see cref="InlineQueryResultCachedAudio"/>
-        /// </summary>
-        CachedAudio = 106,
-        /// <summary>
-        /// <see cref="InlineQueryResultCachedDocument"/>
-        /// </summary>
-        CachedDocument = 108,
-        /// <summary>
-        /// <see cref="InlineQueryResultCachedVoice"/>
-        /// </summary>
-        CachedVoice = 111,
-
-        /// <summary>
         /// <see cref="InlineQueryResultCachedSticker"/>
         /// </summary>
-        CachedSticker = 112,
-    }
-
-    internal static class InlineQueryResultTypeExtension
-    {
-        private static readonly Dictionary<InlineQueryResultType, string> StringMap =
-            new Dictionary<InlineQueryResultType, string>
-            {
-                {InlineQueryResultType.Article, "article" },
-                {InlineQueryResultType.Audio, "audio" },
-                {InlineQueryResultType.Contact, "contact" },
-                {InlineQueryResultType.Document, "document" },
-                {InlineQueryResultType.Game, "game" },
-                {InlineQueryResultType.Gif, "gif" },
-                {InlineQueryResultType.Location, "location" },
-                {InlineQueryResultType.Mpeg4Gif, "mpeg4_gif" },
-                {InlineQueryResultType.Photo, "photo" },
-                {InlineQueryResultType.Venue, "venue" },
-                {InlineQueryResultType.Video, "video" },
-                {InlineQueryResultType.Voice,  "voice" },
-
-                {InlineQueryResultType.CachedAudio, "audio" },
-                {InlineQueryResultType.CachedDocument, "document" },
-                {InlineQueryResultType.CachedGif, "gif" },
-                {InlineQueryResultType.CachedMpeg4Gif, "mpeg4_gif" },
-                {InlineQueryResultType.CachedPhoto, "photo" },
-                {InlineQueryResultType.CachedSticker, "sticker" },
-                {InlineQueryResultType.CachedVideo, "video" },
-                {InlineQueryResultType.CachedVoice, "voice" },
-            };
-
-        internal static string ToTypeString(this InlineQueryResultType type) => StringMap[type];
+        Sticker,
     }
 }

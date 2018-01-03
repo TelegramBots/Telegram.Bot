@@ -1,32 +1,44 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the sticker.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedSticker : InlineQueryResultCached
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class InlineQueryResultCachedSticker : InlineQueryResultBase,
+                                                  IInputMessageContentResult
     {
         /// <summary>
         /// A valid file identifier of the sticker
         /// </summary>
-        [JsonProperty("sticker_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string StickerFileId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
 
         /// <summary>
-        /// Title of the result
+        /// Initializes a new inline query result
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Title { get; set; }
+        public InlineQueryResultCachedSticker()
+            : base(InlineQueryResultType.Sticker)
+        { }
 
         /// <summary>
-        /// Optional. Caption of the result to be sent, 0-200 characters
+        /// Initializes a new inline query result
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Caption { get; set; }
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="stickerFileId">A valid file identifier of the sticker</param>
+        public InlineQueryResultCachedSticker(string id, string stickerFileId)
+            : this()
+        {
+            Id = id;
+            StickerFileId = stickerFileId;
+        }
     }
 }

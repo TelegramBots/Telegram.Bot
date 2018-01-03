@@ -1,47 +1,66 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to a voice recording in an .ogg container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InlineQueryResult.InputMessageContent"/> to send a message with the specified content instead of the voice message.
+    /// Represents a link to a voice recording in an .ogg container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InputMessageContents.InputMessageContent"/> to send a message with the specified content instead of the voice message.
     /// </summary>
     /// <remarks>
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
     /// </remarks>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultVoice : InlineQueryResultNew
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class InlineQueryResultVoice : InlineQueryResultBase,
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
         /// <summary>
         /// A valid URL for the voice recording
         /// </summary>
-        [JsonProperty("voice_url", Required = Required.Always)]
-        public string Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string VoiceUrl { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
 
         /// <summary>
         /// Optional. Recording duration in seconds
         /// </summary>
-        [JsonProperty("voice_duration", Required = Required.Always)]
-        public int Duration { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public int VoiceDuration { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
 
         /// <summary>
-        /// Optional. Url of the thumbnail for the result
+        /// Initializes a new inline query result
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbUrl { get; set; }
+        public InlineQueryResultVoice()
+            : base(InlineQueryResultType.Voice)
+        {
+        }
 
         /// <summary>
-        /// Optional. Thumbnail width
+        /// Initializes a new inline query result
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbWidth { get; set; }
-
-        /// <summary>
-        /// Optional. Thumbnail height
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbHeight { get; set; }
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="voiceUrl">A valid URL for the voice recording</param>
+        /// <param name="title">Title of the result</param>
+        public InlineQueryResultVoice(string id, string voiceUrl, string title)
+            : this()
+        {
+            Id = id;
+            VoiceUrl = voiceUrl;
+            Title = title;
+        }
     }
 }

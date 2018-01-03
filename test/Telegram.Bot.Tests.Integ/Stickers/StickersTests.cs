@@ -5,6 +5,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
 using File = Telegram.Bot.Types.File;
 
@@ -108,7 +109,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
 
             List<File> stickerFiles = new List<File>(2);
-            foreach (string pngFile in new[] { Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux })
+            foreach (string pngFile in new[] {Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux})
             {
                 File file;
                 using (System.IO.Stream stream = System.IO.File.OpenRead(pngFile))
@@ -280,7 +281,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAddPabloEscobarStickerToSet, Skip = "Not sure if we can add a sticker from another set without download and upload it")]
+        [Fact(DisplayName = FactTitles.ShouldAddPabloEscobarStickerToSet,
+            Skip = "Not sure if we can add a sticker from another set without download and upload it")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AddStickerToSet)]
         [ExecutionOrder(3.2)]
         public async Task Should_Add_Pablo_Escobar_Sticker_To_Set()
@@ -360,7 +362,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             }
         }
 
-        [Fact(DisplayName = FactTitles.ShouldStickerSetNotModifiedException, Skip = "Not all the stickers will be removed in previous test")]
+        [Fact(DisplayName = FactTitles.ShouldStickerSetNotModifiedException,
+            Skip = "Not all the stickers will be removed in previous test")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
         [ExecutionOrder(3.6)]
@@ -377,6 +380,35 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             );
 
             Assert.IsType<StickerSetNotModifiedException>(exception);
+        }
+
+        #endregion
+
+        #region 4. Answer inline query with cached sticker
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedSticker)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(4)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Sticker()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedSticker,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedSticker(
+                    id: "sticker_result",
+                    stickerFileId: _classFixture.EvilMindsStickerSet.Stickers[0].FileId
+                )
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
         }
 
         #endregion
@@ -402,20 +434,27 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
             public const string ShouldCreateNewStickerSet = "Should create new sticker set with the file sent";
 
-            public const string ShouldThrowStickerSetNameExistsException = "Should throw StickerSetNameExistsException while trying to create sticker set with the same name";
+            public const string ShouldThrowStickerSetNameExistsException =
+                "Should throw StickerSetNameExistsException while trying to create sticker set with the same name";
 
             public const string ShouldAddStickerFileToSet = "Should add Tux sticker to set using its uploaded file_id";
 
-            public const string ShouldAddPabloEscobarStickerToSet = "Should add Pablo Escobar sticker from EvilMinds to the test set";
+            public const string ShouldAddPabloEscobarStickerToSet =
+                "Should add Pablo Escobar sticker from EvilMinds to the test set";
 
-            public const string ShouldAddStickerWithMaskPositionToSet = "Should add VLC logo sticker with mask position like hat on forehead";
+            public const string ShouldAddStickerWithMaskPositionToSet =
+                "Should add VLC logo sticker with mask position like hat on forehead";
 
             public const string ShouldSetStickerPositionInSet = "Should set Tux in first position of sticker set";
 
-            public const string ShouldRemoveStickersFromSet = "Should remove all stickers from test sticker set except VLC's logo";
+            public const string ShouldRemoveStickersFromSet =
+                "Should remove all stickers from test sticker set except VLC's logo";
 
             public const string ShouldStickerSetNotModifiedException =
                 "Should throw StickerSetNotModifiedException while trying to remove the last sticker in the set";
+
+            public const string ShouldAnswerInlineQueryWithCachedSticker =
+                "Should answer inline query with a cached sticker using its file_id";
         }
     }
 }

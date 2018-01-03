@@ -5,7 +5,6 @@ using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.ReplyMarkup
@@ -37,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                 chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
                 replyMarkup: new ReplyKeyboardMarkup(
-                    keyboardRow: new[] { new RequestContactButton("Share Contact") },
+                    keyboardRow: new[] {KeyboardButton.WithRequestContact("Share Contact"),},
                     resizeKeyboard: true,
                     oneTimeKeyboard: true
                 )
@@ -66,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.PrivateChat,
                 text: "Share your location using the keyboard reply markup",
-                replyMarkup: new ReplyKeyboardMarkup(new RequestLocationButton("Share Location"))
+                replyMarkup: new ReplyKeyboardMarkup(KeyboardButton.WithRequestLocation("Share Location"))
             );
 
             Message locationMessage = await GetMessageFromChat(MessageType.LocationMessage);
@@ -82,11 +81,11 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 
         private Task<Message> GetMessageFromChat(MessageType messageType) =>
             _fixture.UpdateReceiver.GetUpdatesAsync(
-                predicate: u => u.Message.Type == messageType &&
-                                u.Message.Chat.Id == _classFixture.PrivateChat.Id,
-                updateTypes: UpdateType.MessageUpdate
-            )
-            .ContinueWith(t => t.Result.Single().Message);
+                    predicate: u => u.Message.Type == messageType &&
+                                    u.Message.Chat.Id == _classFixture.PrivateChat.Id,
+                    updateTypes: UpdateType.MessageUpdate
+                )
+                .ContinueWith(t => t.Result.Single().Message);
 
         private static class FactTitles
         {
@@ -99,7 +98,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         {
             public Fixture(TestsFixture testsFixture)
                 : base(testsFixture, Constants.TestCollections.ReplyMarkup)
-            { }
+            {
+            }
         }
     }
 }

@@ -4,7 +4,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 // ReSharper disable once CheckNamespace
@@ -43,12 +42,12 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 inlineQueryId: iqUpdate.InlineQuery.Id,
                 cacheTime: 0,
                 results: new[] {
-                    new InlineQueryResultLocation
+                    new InlineQueryResultLocation(
+                        id: "live-location",
+                        latitude: newYork.Latitude,
+                        longitude: newYork.Longitude,
+                        title: "Live Locations Test")
                     {
-                        Id = "live-location",
-                        Title = "Live Locations Test",
-                        Latitude = newYork.Latitude,
-                        Longitude = newYork.Longitude,
                         LivePeriod = 60,
                         ReplyMarkup = InlineKeyboardButton.WithCallbackData(
                             "Start live locations", callbackQueryData

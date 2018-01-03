@@ -5,7 +5,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
@@ -37,8 +36,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
                 chatId: _fixture.SupergroupChat.Id,
                 text: "Please click on *OK* button.",
                 parseMode: ParseMode.Markdown,
-                replyMarkup: new InlineKeyboardMarkup(new InlineKeyboardButton[] {
-                    new InlineKeyboardCallbackButton("OK", callbackQueryData)
+                replyMarkup: new InlineKeyboardMarkup(new[]
+                {
+                    InlineKeyboardButton.WithCallbackData("OK", callbackQueryData)
                 })
             );
 

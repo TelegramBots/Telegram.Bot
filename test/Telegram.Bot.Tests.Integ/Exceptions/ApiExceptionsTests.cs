@@ -5,7 +5,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Exceptions
@@ -59,13 +58,13 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "Forward a message to this chat from a user that never started a chat with this bot");
 
             Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                u.Message.IsForwarded, updateTypes: UpdateType.MessageUpdate
+                    u.Message.IsForwarded, updateTypes: UpdateType.MessageUpdate
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
             ForbiddenException e = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
                 BotClient.SendTextMessageAsync(forwardedMessageUpdate.Message.ForwardFrom.Id,
-                $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"));
+                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"));
 
             Assert.IsType<ChatNotInitiatedException>(e);
         }
@@ -79,12 +78,12 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup(new[]
             {
-                new RequestContactButton("Share Contact"),
+                KeyboardButton.WithRequestContact("Share Contact"),
             });
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.SendTextMessageAsync(_fixture.SupergroupChat.Id, "You should never see this message",
-                replyMarkup: replyMarkup));
+                    replyMarkup: replyMarkup));
 
             Assert.IsType<ContactRequestException>(e);
         }

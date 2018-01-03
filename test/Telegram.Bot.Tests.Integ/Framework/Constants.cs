@@ -81,6 +81,8 @@
                 public const string Vlc = PhotoDir + "vlc.png";
 
                 public const string Ruby = PhotoDir + "ruby.png";
+                
+                public const string Apes = PhotoDir + "apes.jpg";
             }
 
             public static class Videos
@@ -91,13 +93,22 @@
 
                 public const string MoonLanding = VideoDir + "moon-landing.mp4";
             }
+            
+            public static class Audio
+            {
+                private const string AudioDir = FilesDir + "Audio/";
+
+                public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
+                
+                public const string TestOgg = AudioDir + "Test.ogg";
+            }
 
             public static class Certificate
             {
                 private const string CertificateDir = FilesDir + "Certificate/";
 
                 public const string PublicKey = CertificateDir + "public-key.pem";
-            }
+            }            
         }
 
         public static class TelegramBotApiMethods
