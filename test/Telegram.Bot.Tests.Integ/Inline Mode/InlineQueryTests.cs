@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -167,6 +169,44 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedPhoto)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(9)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Photo()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedPhoto);
+
+            Message photoMessage;
+            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Apes))
+            {
+                photoMessage = await BotClient.SendPhotoAsync(
+                    chatId: _fixture.SupergroupChat,
+                    photo: stream,
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query")
+                );
+            }
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedPhoto(
+                    id: "photo1",
+                    photoFileId: photoMessage.Photo.First().FileId
+                )
+                {
+                    Caption = "Apes smoking shisha"
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithVideo)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [ExecutionOrder(6)]
@@ -189,6 +229,43 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 )
                 {
                     Description = "A beautiful scene"
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithHtmlVideo)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(8)]
+        public async Task Should_Answer_Inline_Query_With_HTML_Video()
+        {
+            // ToDo exception when input_message_content not specified. Bad Request: SEND_MESSAGE_MEDIA_INVALID
+
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithHtmlVideo,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultVideo(
+                    id: "fireworks_video",
+                    videoUrl: "https://www.youtube.com/watch?v=56MDJ9tD6MY",
+                    mimeType: "text/html",
+                    thumbUrl: "https://www.youtube.com/watch?v=56MDJ9tD6MY",
+                    title: "30 Rare Goals We See in Football"
+                )
+                {
+                    InputMessageContent = new InputTextMessageContent
+                    {
+                        MessageText = "[30 Rare Goals We See in Football](https://www.youtube.com/watch?v=56MDJ9tD6MY)",
+                        ParseMode = ParseMode.Markdown
+                    }
                 }
             };
 
@@ -247,7 +324,13 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithPhoto = "Should answer inline query with a photo";
 
+            public const string ShouldAnswerInlineQueryWithCachedPhoto =
+                "Should send a photo and answer inline query with a cached photo using its file_id";
+
             public const string ShouldAnswerInlineQueryWithVideo = "Should answer inline query with a video";
+
+            public const string ShouldAnswerInlineQueryWithHtmlVideo =
+                "Should answer inline query with a YouTube video (HTML page)";
 
             public const string ShouldAnswerInlineQueryWithCachedVideo =
                 "Should send a video and answer inline query with a cached video using its file_id";

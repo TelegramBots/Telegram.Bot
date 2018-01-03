@@ -81,6 +81,8 @@
                 public const string Vlc = PhotoDir + "vlc.png";
 
                 public const string Ruby = PhotoDir + "ruby.png";
+                
+                public const string Apes = PhotoDir + "apes.jpg";
             }
 
             public static class Videos
