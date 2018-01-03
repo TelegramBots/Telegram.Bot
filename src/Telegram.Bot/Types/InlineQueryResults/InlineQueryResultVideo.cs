@@ -9,8 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <summary>
     /// Represents link to a page containing an embedded video player or a video file.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultVideo : InlineQueryResult,
                                           ICaptionInlineQueryResult,
                                           IThumbnailUrlInlineQueryResult,

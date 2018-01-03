@@ -1,7 +1,6 @@
 using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 using Telegram.Bot.Types.InputMessageContents;
 
@@ -12,8 +11,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// By default, this animated MPEG-4 file will be sent by the user with optional caption.
     /// Alternatively, you can provide message_text to send it instead of the animation.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultMpeg4Gif : InlineQueryResult,
                                              ICaptionInlineQueryResult,
                                              IThumbnailUrlInlineQueryResult,

@@ -7,8 +7,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Represents a <see cref="Game"/>.
     /// </summary>
     /// <seealso cref="InlineQueryResult" />
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultGame : InlineQueryResult
     {
         /// <summary>

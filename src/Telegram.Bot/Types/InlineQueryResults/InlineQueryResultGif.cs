@@ -11,8 +11,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// By default, this animated GIF file will be sent by the user with optional caption.
     /// Alternatively, you can provide message_text to send it instead of the animation.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultGif : InlineQueryResult,
                                         ICaptionInlineQueryResult,
                                         IThumbnailUrlInlineQueryResult,
