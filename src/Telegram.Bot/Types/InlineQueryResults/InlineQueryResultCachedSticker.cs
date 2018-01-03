@@ -13,6 +13,16 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                                   IInputMessageContentResult
     {
         /// <summary>
+        /// A valid file identifier of the sticker
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string StickerFileId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
         /// Initializes a new inline query result
         /// </summary>
         public InlineQueryResultCachedSticker()
@@ -23,22 +33,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Initializes a new inline query result
         /// </summary>
         /// <param name="id">Unique identifier of this result</param>
-        /// <param name="fileId">A valid file identifier of the sticker</param>
-        public InlineQueryResultCachedSticker(string id, string fileId)
+        /// <param name="stickerFileId">A valid file identifier of the sticker</param>
+        public InlineQueryResultCachedSticker(string id, string stickerFileId)
             : this()
         {
             Id = id;
-            FileId = fileId;
+            StickerFileId = stickerFileId;
         }
-
-        /// <summary>
-        /// A valid file identifier of the sticker
-        /// </summary>
-        [JsonProperty("sticker_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
     }
 }

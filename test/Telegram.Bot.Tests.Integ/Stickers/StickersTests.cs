@@ -5,6 +5,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
 using File = Telegram.Bot.Types.File;
 
@@ -381,6 +382,36 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         #endregion
 
+        #region Answer inline query with cached sticker
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedSticker)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(4)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Sticker()
+        {
+            await _fixture.SendTestCaseNotificationAsync(
+                FactTitles.ShouldAnswerInlineQueryWithCachedSticker,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedSticker(
+                    id: "sticker_result",
+                    stickerFileId: _classFixture.EvilMindsStickerSet.Stickers[0].FileId
+                )
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        #endregion
+
         private static class FactTitles
         {
             public const string ShouldGetStickerSet = "Should get EvilMinds sticker set";
@@ -416,6 +447,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
             public const string ShouldStickerSetNotModifiedException =
                 "Should throw StickerSetNotModifiedException while trying to remove the last sticker in the set";
+
+            public const string ShouldAnswerInlineQueryWithCachedSticker =
+                "Should answer inline query with a cached sticker using its file_id";
         }
     }
 }
