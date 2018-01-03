@@ -36,6 +36,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <see cref="InlineQueryResultMpeg4Gif"/>
         /// <see cref="InlineQueryResultCachedVideo"/>
         /// </summary>
+        [EnumMember(Value = "mpeg4_gif")]
         Mpeg4Gif,
 
         /// <summary>

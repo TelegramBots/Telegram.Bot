@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -19,31 +18,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                              IInputMessageContentResult
     {
         /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultMpeg4Gif()
-            : base(InlineQueryResultType.Mpeg4Gif)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
-        /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
-        public InlineQueryResultMpeg4Gif(string id, Uri mpeg4Url, string thumbUrl)
-            : this()
-        {
-            Id = id;
-            Url = mpeg4Url;
-            ThumbUrl = thumbUrl;
-        }
-
-        /// <summary>
         /// A valid URL for the MP4 file. File size must not exceed 1MB.
         /// </summary>
-        [JsonProperty("mpeg4_url", Required = Required.Always)]
-        public Uri Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Mpeg4Url { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -52,20 +30,20 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty("mpeg4_width", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Width { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Mpeg4Width { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty("mpeg4_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Height { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Mpeg4Height { get; set; }
 
         /// <summary>
         /// Optional. Duration of the Video
         /// </summary>
-        [JsonProperty("mpeg4_duration")]
-        public int Duration { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Mpeg4Duration { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -78,5 +56,26 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultMpeg4Gif()
+            : base(InlineQueryResultType.Mpeg4Gif)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
+        /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
+        public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbUrl)
+            : this()
+        {
+            Id = id;
+            Mpeg4Url = mpeg4Url;
+            ThumbUrl = thumbUrl;
+        }
     }
 }

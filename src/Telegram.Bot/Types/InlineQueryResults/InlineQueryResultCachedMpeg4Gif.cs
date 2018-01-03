@@ -15,29 +15,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                                    IInputMessageContentResult
     {
         /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedMpeg4Gif()
-            : base(InlineQueryResultType.Mpeg4Gif)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="fileId">A valid file identifier for the MP4 file</param>
-        public InlineQueryResultCachedMpeg4Gif(string id, string fileId)
-            : this()
-        {
-            Id = id;
-            FileId = fileId;
-        }
-
-        /// <summary>
         /// A valid file identifier for the MP4 file
         /// </summary>
-        [JsonProperty("mpeg4_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string Mpeg4FileId { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -50,5 +31,24 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultCachedMpeg4Gif()
+            : base(InlineQueryResultType.Mpeg4Gif)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="mpeg4FileId">A valid file identifier for the MP4 file</param>
+        public InlineQueryResultCachedMpeg4Gif(string id, string mpeg4FileId)
+            : this()
+        {
+            Id = id;
+            Mpeg4FileId = mpeg4FileId;
+        }
     }
 }

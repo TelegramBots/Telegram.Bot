@@ -561,9 +561,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedGif);
 
-            Message gifMessage = await BotClient.SendVideoAsync(
+            Message gifMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
-                video: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+                document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query"));
 
@@ -577,6 +577,68 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 )
                 {
                     Caption = "Rotating Earth",
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithMpgeg4Gif)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(18)]
+        public async Task Should_Answer_Inline_Query_With_Mpeg4Gif()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithMpgeg4Gif,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultMpeg4Gif(
+                    id: "mpeg4_gif_result",
+                    mpeg4Url: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
+                    thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg"
+                )
+                {
+                    Caption = "A beatufiul scene",
+                },
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedMpeg4Gif)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(19)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Mpeg4Gif()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedMpeg4Gif);
+
+            Message gifMessage = await BotClient.SendDocumentAsync(
+                chatId: _fixture.SupergroupChat,
+                document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start inline query"));
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedMpeg4Gif(
+                    id: "mpeg4_gif_result",
+                    mpeg4FileId: gifMessage.Document.FileId
+                )
+                {
+                    Caption = "A beatufiul scene",
                 }
             };
 
@@ -624,6 +686,11 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedGif =
                 "Should send a gif and answer inline query with a cached gif using its file_id";
+
+            public const string ShouldAnswerInlineQueryWithMpgeg4Gif = "Should answer inline query with an mpeg4 gif";
+
+            public const string ShouldAnswerInlineQueryWithCachedMpeg4Gif =
+                "Should send an mpeg4 gif and answer inline query with a cached mpeg4 gif using its file_id";
         }
     }
 }
