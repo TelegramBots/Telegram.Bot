@@ -7,12 +7,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-
-## [14.0.0-alpha0] - 2017-12-31
-
 ### Added
 
 - More `PaymentTests` cases
+- Interface `IKeyboardButton`
+- Type `RequestContactButton`
+- Type `RequestLocationButton`
+- Implicit cast of `string[]` to `ReplyKeyboardMarkup`
+- Implicit cast of `string[][]` to `ReplyKeyboardMarkup`
+
+### Changed
+
+- All keyboard button classes inherit `IKeyboardButton` interface
+- All keyboard buttons moved to namespace `Telegram.Bot.Types.ReplyMarkups.Buttons`
+- Renamed type `ReplyMarkup` to `ReplyMarkupBase`
+- Renamed type `ForceReply` to `ForceReplyMarkup`
+
+### Removed
+
+- Type `KeyboardButton` property `RequestContact`
+- Type `KeyboardButton` property `RequestLocation`
+- Type `InlineKeyboardPayButton` property `Pay` setter
+- Parameterless ctor of type `ReplyKeyboardMarkup`
+- Parameterless ctor of type `InlineKeyboardMarkup`
+- Implicit cast of `InlineKeyboardButton` to `KeyboardButton`
+
+### Fixed
+
+- Invalid default value for `SwitchInlineQueryCurrentChat` in `InlineKeyboardSwitchInlineQueryCurrentChatButton` constructor
 
 ## [14.0.0-alpha0] - 2017-12-31
 
@@ -206,7 +228,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Passing wrong `photo` value in method `SetChatPhotoAsync`
 - Passing wrong `certificate` value in method `SetWebhookAsync`
 - Incorrect spelling of the method `CreateNewStickerSetAsync`
-- `TestApiAsync()` throws exception instead of returing `false`
+- `TestApiAsync()` throws exception instead of returning `false`
 
 ## [13.4.0] - 2017-12-07
 

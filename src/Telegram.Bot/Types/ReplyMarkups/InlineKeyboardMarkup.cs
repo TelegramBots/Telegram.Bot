@@ -1,6 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InlineKeyboardButtons;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -17,12 +18,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Array of <see cref="InlineKeyboardButton"/> rows, each represented by an Array of <see cref="InlineKeyboardButton"/>.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InlineKeyboardButton[][] InlineKeyboard { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class.
-        /// </summary>
-        public InlineKeyboardMarkup() { }
+        public IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button
@@ -36,7 +32,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard
         /// </summary>
         /// <param name="inlineKeyboardRow">The inline keyboard row</param>
-        public InlineKeyboardMarkup(InlineKeyboardButton[] inlineKeyboardRow)
+        public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow)
         {
             InlineKeyboard = new[]
             {
@@ -48,7 +44,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class.
         /// </summary>
         /// <param name="inlineKeyboard">The inline keyboard.</param>
-        public InlineKeyboardMarkup(InlineKeyboardButton[][] inlineKeyboard)
+        public InlineKeyboardMarkup(IEnumerable<IEnumerable<InlineKeyboardButton>> inlineKeyboard)
         {
             InlineKeyboard = inlineKeyboard;
         }

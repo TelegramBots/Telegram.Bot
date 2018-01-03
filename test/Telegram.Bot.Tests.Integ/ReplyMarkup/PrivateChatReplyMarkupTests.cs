@@ -5,13 +5,14 @@ using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.Sending_Messages
+namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 {
-    [Collection(Constants.TestCollections.MessageReplyMarkup)]
+    [Collection(Constants.TestCollections.ReplyMarkup)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class MessageReplyMarkupTests : IClassFixture<MessageReplyMarkupTests.Fixture>
+    public class PrivateChatReplyMarkupTests : IClassFixture<PrivateChatReplyMarkupTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -19,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
         private readonly TestsFixture _fixture;
 
-        public MessageReplyMarkupTests(TestsFixture testsFixture, Fixture fixture)
+        public PrivateChatReplyMarkupTests(TestsFixture testsFixture, Fixture fixture)
         {
             _fixture = testsFixture;
             _classFixture = fixture;
@@ -32,19 +33,17 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveContactInfo);
 
-            IReplyMarkup replyMarkup = new ReplyKeyboardMarkup(
-                keyboardRow: new[] { new KeyboardButton("Share Contact") { RequestContact = true } },
-                resizeKeyboard: true,
-                oneTimeKeyboard: true
-            );
-
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
-                replyMarkup: replyMarkup
+                replyMarkup: new ReplyKeyboardMarkup(
+                    keyboardRow: new[] { new RequestContactButton("Share Contact") },
+                    resizeKeyboard: true,
+                    oneTimeKeyboard: true
+                )
             );
 
-            Message contactMessage = await GetContactMessageFromChat(_classFixture.PrivateChat.Id);
+            Message contactMessage = await GetMessageFromChat(MessageType.ContactMessage);
 
             Assert.NotEmpty(contactMessage.Contact.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
@@ -57,10 +56,34 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
         }
 
-        private Task<Message> GetContactMessageFromChat(long chatId) =>
+        [Fact(DisplayName = FactTitles.ShouldReceiveLocation)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(2)]
+        public async Task Should_Receive_Location()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveLocation);
+
+            await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.PrivateChat,
+                text: "Share your location using the keyboard reply markup",
+                replyMarkup: new ReplyKeyboardMarkup(new RequestLocationButton("Share Location"))
+            );
+
+            Message locationMessage = await GetMessageFromChat(MessageType.LocationMessage);
+
+            Assert.NotNull(locationMessage.Location);
+
+            await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.PrivateChat,
+                text: "Got it. Removing reply keyboard markup...",
+                replyMarkup: new ReplyKeyboardRemove()
+            );
+        }
+
+        private Task<Message> GetMessageFromChat(MessageType messageType) =>
             _fixture.UpdateReceiver.GetUpdatesAsync(
-                predicate: u => u.Message.Type == MessageType.ContactMessage &&
-                                u.Message.Chat.Id == chatId,
+                predicate: u => u.Message.Type == messageType &&
+                                u.Message.Chat.Id == _classFixture.PrivateChat.Id,
                 updateTypes: UpdateType.MessageUpdate
             )
             .ContinueWith(t => t.Result.Single().Message);
@@ -68,12 +91,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         private static class FactTitles
         {
             public const string ShouldReceiveContactInfo = "Should get contact info from keyboard reply markup";
+
+            public const string ShouldReceiveLocation = "Should get location from keyboard reply markup";
         }
 
         public class Fixture : PrivateChatFixture
         {
             public Fixture(TestsFixture testsFixture)
-                : base(testsFixture, Constants.TestCollections.MessageReplyMarkup)
+                : base(testsFixture, Constants.TestCollections.ReplyMarkup)
             { }
         }
     }

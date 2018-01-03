@@ -6,6 +6,8 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
+using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Payments
@@ -57,7 +59,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             Message message = await BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: (int)_classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: _classFixture.Payload,
@@ -200,7 +202,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: (int)_classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -248,7 +250,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: (int)_classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -294,7 +296,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendInvoiceAsync(
-                    chatId: (int) _classFixture.PrivateChat.Id,
+                    chatId: (int)_classFixture.PrivateChat.Id,
                     title: invoice.Title,
                     description: invoice.Description,
                     payload: payload,
@@ -336,7 +338,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: (int)_classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -365,7 +367,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 _fixture.BotClient.AnswerShippingQueryAsync(
                     shippingQueryId: shippingUpdate.ShippingQuery.Id,
-                    shippingOptions: new[] {shippingOption, shippingOption}
+                    shippingOptions: new[] { shippingOption, shippingOption }
                 )
             );
 
@@ -376,6 +378,36 @@ namespace Telegram.Bot.Tests.Integ.Payments
             await _fixture.BotClient.AnswerShippingQueryAsync(
                 shippingQueryId: shippingUpdate.ShippingQuery.Id,
                 errorMessage: "✅ Test Passed"
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldSendInvoiceWithReplyMarkup)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
+        [ExecutionOrder(9)]
+        public async Task Should_Send_Invoice_With_Reply_Markup()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInvoiceWithReplyMarkup);
+
+            await BotClient.SendInvoiceAsync(
+                chatId: (int)_classFixture.PrivateChat.Id,
+                title: "Product",
+                description: "product description",
+                payload: "test payload",
+                providerToken: _classFixture.PaymentProviderToken,
+                startParameter: "start_parameter",
+                currency: "USD",
+                prices: new[] { new LabeledPrice("price", 150), },
+                replyMarkup: new InlineKeyboardMarkup(new[] {
+                    new []
+                    {
+                        InlineKeyboardButton.WithPayment("Pay this invoice"),
+                        InlineKeyboardButton.WithUrl("Repository", "https://github.com/TelegramBots/Telegram.Bot")
+                    },
+                    new []
+                    {
+                        InlineKeyboardButton.WithCallbackData("Some other button")
+                    }
+                })
             );
         }
 
@@ -423,8 +455,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
         private static class FactTitles
         {
-            public const string ShouldSendInvoice =
-                "Should send an invoice";
+            public const string ShouldSendInvoice = "Should send an invoice";
 
             public const string ShouldAnswerShippingQueryWithOk =
                 "Should receive shipping address query and reply with shipping options";
@@ -433,7 +464,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 "Should send invoice for no shipment option, and reply pre-checkout query with OK.";
 
             public const string ShouldReceiveSuccessfulPaymentWithShipmentOption =
-                "Should receive successfull payment.";
+                "Should receive successful payment.";
 
             public const string ShouldAnswerShippingQueryWithError =
                 "Should receive shipping address query and reply with an error";
@@ -446,6 +477,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
             public const string ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId =
                 "Should throw exception when answering shipping query with duplicate shipping Id";
+
+            public const string ShouldSendInvoiceWithReplyMarkup = "Should send an invoice with custom reply markup";
         }
     }
 }
