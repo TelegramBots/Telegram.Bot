@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 using Telegram.Bot.Types.InputMessageContents;
@@ -20,33 +19,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                              IInputMessageContentResult
     {
         /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultDocument()
-            : base(InlineQueryResultType.Document)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="documentUrl">A valid URL for the file</param>
-        /// <param name="title">Title of the result</param>
-        /// <param name="mimeType">Mime type of the content of the file, either “application/pdf” or “application/zip”</param>
-        public InlineQueryResultDocument(string id, Uri documentUrl, string title, string mimeType)
-            : this()
-        {
-            Id = id;
-            Url = documentUrl;
-            Title = title;
-            MimeType = mimeType;
-        }
-
-        /// <summary>
         /// A valid URL for the file
         /// </summary>
-        [JsonProperty("document_url", Required = Required.Always)]
-        public Uri Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string DocumentUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -83,5 +59,28 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultDocument()
+            : base(InlineQueryResultType.Document)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="documentUrl">A valid URL for the file</param>
+        /// <param name="title">Title of the result</param>
+        /// <param name="mimeType">Mime type of the content of the file, either “application/pdf” or “application/zip”</param>
+        public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
+            : this()
+        {
+            Id = id;
+            DocumentUrl = documentUrl;
+            Title = title;
+            MimeType = mimeType;
+        }
     }
 }

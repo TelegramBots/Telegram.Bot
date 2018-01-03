@@ -14,6 +14,30 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                                    ITitleInlineQueryResult,
                                                    IInputMessageContentResult
     {
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
+
+        /// <summary>
+        /// A valid file identifier for the file
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string DocumentFileId { get; set; }
+
+        /// <summary>
+        /// Optional. Short description of the result
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Description { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
+
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
@@ -31,32 +55,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
             : this()
         {
             Id = id;
-            FileId = documentFileId;
+            DocumentFileId = documentFileId;
             Title = title;
         }
-
-        /// <inheritdoc />
-        [JsonProperty(Required = Required.Always)]
-        public string Title { get; set; }
-
-        /// <summary>
-        /// A valid file identifier for the file
-        /// </summary>
-        [JsonProperty("document_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
-
-        /// <summary>
-        /// Optional. Short description of the result
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Description { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Caption { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
     }
 }

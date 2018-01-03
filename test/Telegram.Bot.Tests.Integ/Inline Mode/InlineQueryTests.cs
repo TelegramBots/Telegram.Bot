@@ -450,6 +450,77 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithDocument)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(14)]
+        public async Task Should_Answer_Inline_Query_With_Document()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithDocument,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultDocument(
+                    id: "document_result",
+                    documentUrl: "http://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf",
+                    title: "Parameters for Opening PDF Files",
+                    mimeType: "application/pdf"
+                )
+                {
+                    Caption = "Parameters for Opening PDF Files",
+                    Description = "Sample PDF file",
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedDocument)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(15)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Document()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedDocument);
+
+            Message documentMessage;
+            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
+            {
+                documentMessage = await BotClient.SendDocumentAsync(
+                    chatId: _fixture.SupergroupChat,
+                    document: stream,
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query")
+                );
+            }
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedDocument(
+                    id: "document_result",
+                    documentFileId: documentMessage.Document.FileId,
+                    title: "Test Document"
+                )
+                {
+                    Caption = "The Tragedy of Hamlet, Prince of Denmark",
+                    Description = "Sample PDF Document",
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -477,6 +548,11 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedAudio =
                 "Should send a audio and answer inline query with a cached audio using its file_id";
+
+            public const string ShouldAnswerInlineQueryWithDocument = "Should answer inline query with a document";
+
+            public const string ShouldAnswerInlineQueryWithCachedDocument =
+                "Should send a document and answer inline query with a cached document using its file_id";
         }
     }
 }
