@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
     /// <summary>
     /// The user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-        NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class RequestContactButton : KeyboardButton
     {
         /// <summary>
@@ -21,7 +20,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(Required = Required.Always)]
         public bool RequestContact => true;
     }
 }

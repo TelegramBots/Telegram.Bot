@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Types.ReplyMarkups.Buttons
 {
     /// <summary>
-    /// This interface represents one button of the reply keyboard (regular or inline)
+    /// Marker interface for a regular or inline button of the reply keyboard
     /// </summary>
     public interface IKeyboardButton
     {

@@ -13,17 +13,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Interface `IKeyboardButton`
 - Type `RequestContactButton`
 - Type `RequestLocationButton`
+- Implicit cast of `string[]` to `ReplyKeyboardMarkup`
+- Implicit cast of `string[][]` to `ReplyKeyboardMarkup`
 
 ### Changed
 
 - All keyboard button classes inherit `IKeyboardButton` interface
 - All keyboard buttons moved to namespace `Telegram.Bot.Types.ReplyMarkups.Buttons`
+- Renamed type `ReplyMarkup` to `ReplyMarkupBase`
+- Renamed type `ForceReply` to `ForceReplyMarkup`
 
 ### Removed
 
 - Type `KeyboardButton` property `RequestContact`
 - Type `KeyboardButton` property `RequestLocation`
 - Type `InlineKeyboardPayButton` property `Pay` setter
+- Parameterless ctor of type `ReplyKeyboardMarkup`
+- Parameterless ctor of type `InlineKeyboardMarkup`
+- Implicit cast of `InlineKeyboardButton` to `KeyboardButton`
 
 ## [14.0.0-alpha0] - 2017-12-31
 

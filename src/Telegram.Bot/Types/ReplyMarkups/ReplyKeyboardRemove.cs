@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// An exception is made for one-time keyboards that are hidden immediately after the user presses a button
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class ReplyKeyboardRemove : ReplyMarkup
+    public class ReplyKeyboardRemove : ReplyMarkupBase
     {
         /// <summary>
         /// Requests clients to remove the custom keyboard (user will not be able to summon this keyboard; if you want to hide the keyboard from sight but keep it accessible, use one_time_keyboard in ReplyKeyboardMarkup)

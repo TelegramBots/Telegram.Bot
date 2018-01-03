@@ -6,8 +6,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
     /// <summary>
     /// The user's current location will be sent when the button is pressed. Available in private chats only.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-        NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class RequestLocationButton : KeyboardButton
     {
         /// <summary>
@@ -21,7 +20,7 @@ namespace Telegram.Bot.Types.ReplyMarkups.Buttons
         /// <summary>
         /// If <c>true</c>, the user's current location will be sent when the button is pressed. Available in private chats only
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(Required = Required.Always)]
         public bool RequestLocation => true;
     }
 }

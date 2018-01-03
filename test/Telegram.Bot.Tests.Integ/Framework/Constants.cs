@@ -24,7 +24,9 @@
 
             public const string SendDocumentMessage = "Sending Document Messages";
 
-            public const string MessageReplyMarkup = "Messages with Keyboard Reply Markup";
+            public const string ReplyMarkup = "Messages with Reply Markup";
+
+            public const string PrivateChatReplyMarkup = "Messages with Reply Markup - Private Chat";
 
             public const string ChatInfo = "Getting Chat Info";
 
