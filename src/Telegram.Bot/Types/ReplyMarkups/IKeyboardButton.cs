@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.ReplyMarkups.Buttons
+﻿namespace Telegram.Bot.Types.ReplyMarkups
 {
     /// <summary>
     /// Marker interface for a regular or inline button of the reply keyboard
@@ -8,6 +8,6 @@
         /// <summary>
         /// Label text on the button
         /// </summary>
-        string Text { get; }
+        string Text { get; set; }
     }
 }

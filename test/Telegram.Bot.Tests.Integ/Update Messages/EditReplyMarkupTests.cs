@@ -6,7 +6,6 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Update_Messages

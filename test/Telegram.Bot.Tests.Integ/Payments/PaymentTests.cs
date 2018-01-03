@@ -7,7 +7,6 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Payments

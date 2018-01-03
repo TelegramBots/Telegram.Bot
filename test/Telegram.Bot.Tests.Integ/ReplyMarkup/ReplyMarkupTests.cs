@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.ReplyMarkup

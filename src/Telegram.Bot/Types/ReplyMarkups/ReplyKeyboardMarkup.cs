@@ -2,7 +2,6 @@
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -31,8 +30,9 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public bool OneTimeKeyboard { get; set; }
 
         public ReplyKeyboardMarkup(KeyboardButton button)
-            : this(new[] { button })
-        { }
+            : this(new[] {button})
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReplyKeyboardMarkup"/> class.
@@ -40,9 +40,11 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <param name="keyboardRow">The keyboard row.</param>
         /// <param name="resizeKeyboard">if set to <c>true</c> the keyboard resizes vertically for optimal fit.</param>
         /// <param name="oneTimeKeyboard">if set to <c>true</c> the client hides the keyboard as soon as it's been used.</param>
-        public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow, bool resizeKeyboard = default, bool oneTimeKeyboard = default)
-            : this(new[] { keyboardRow }, resizeKeyboard, oneTimeKeyboard)
-        { }
+        public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow, bool resizeKeyboard = default,
+            bool oneTimeKeyboard = default)
+            : this(new[] {keyboardRow}, resizeKeyboard, oneTimeKeyboard)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReplyKeyboardMarkup"/> class.
@@ -50,7 +52,8 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <param name="keyboard">The keyboard.</param>
         /// <param name="resizeKeyboard">if set to <c>true</c> the keyboard resizes vertically for optimal fit.</param>
         /// <param name="oneTimeKeyboard">if set to <c>true</c> the client hides the keyboard as soon as it's been used.</param>
-        public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard, bool resizeKeyboard = default, bool oneTimeKeyboard = default)
+        public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard, bool resizeKeyboard = default,
+            bool oneTimeKeyboard = default)
         {
             Keyboard = keyboard;
             ResizeKeyboard = resizeKeyboard;
@@ -60,12 +63,12 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public static implicit operator ReplyKeyboardMarkup(string text) =>
             text is default
                 ? default
-                : new ReplyKeyboardMarkup(new[] { new KeyboardButton(text) });
+                : new ReplyKeyboardMarkup(new[] {new KeyboardButton(text)});
 
         public static implicit operator ReplyKeyboardMarkup(string[] texts) =>
             texts is default
                 ? default
-                : new[] { texts };
+                : new[] {texts};
 
         public static implicit operator ReplyKeyboardMarkup(string[][] textsItems) =>
             textsItems is default
@@ -73,6 +76,6 @@ namespace Telegram.Bot.Types.ReplyMarkups
                 : new ReplyKeyboardMarkup(
                     textsItems.Select(texts =>
                         texts.Select(t => new KeyboardButton(t))
-                ));
+                    ));
     }
 }

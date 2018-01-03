@@ -36,9 +36,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-- Type `KeyboardButton` property `RequestContact`
-- Type `KeyboardButton` property `RequestLocation`
-- Type `InlineKeyboardPayButton` property `Pay` setter
+- All specific `KeyboardButton` types
+- All specific `InlineKeyboardButton` types
 - Parameterless ctor of type `ReplyKeyboardMarkup`
 - Parameterless ctor of type `InlineKeyboardMarkup`
 - Implicit cast of `InlineKeyboardButton` to `KeyboardButton`

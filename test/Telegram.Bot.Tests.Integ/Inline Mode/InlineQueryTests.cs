@@ -7,7 +7,6 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
-using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Inline_Mode

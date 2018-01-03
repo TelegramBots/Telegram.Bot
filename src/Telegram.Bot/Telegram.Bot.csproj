@@ -16,19 +16,15 @@
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
   </PropertyGroup>
-
   <!-- when building on AppVeyor -->
   <PropertyGroup Condition="'$(CI)' == 'True'">
     <Version Condition="'$(VersionSuffix)' == ''">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</Version>
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix).$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="System.Net.Http" />
   </ItemGroup>
-
 </Project>
