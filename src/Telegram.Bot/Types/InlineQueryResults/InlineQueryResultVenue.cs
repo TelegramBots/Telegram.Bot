@@ -23,6 +23,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        public InlineQueryResultVenue()
+            : base(InlineQueryResultType.Venue)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="latitude">Latitude of the location in degrees</param>
         /// <param name="longitude">Longitude of the location in degrees</param>
@@ -34,7 +41,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
             float longitude,
             string title,
             string address)
-            : base(id, InlineQueryResultType.Venue)
+            : this()
         {
             Latitude = latitude;
             Longitude = longitude;

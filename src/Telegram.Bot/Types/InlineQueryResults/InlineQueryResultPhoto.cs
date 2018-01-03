@@ -22,11 +22,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        public InlineQueryResultPhoto()
+            : base(InlineQueryResultType.Photo)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="photoUrl">A valid URL of the photo. Photo size must not exceed 5MB.</param>
         /// <param name="thumbUrl">Optional. Url of the thumbnail for the result.</param>
         public InlineQueryResultPhoto(string id, Uri photoUrl, Uri thumbUrl)
-            : base(id, InlineQueryResultType.Photo)
+            : this()
         {
             Url = photoUrl;
             ThumbUrl = thumbUrl;

@@ -23,12 +23,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        public InlineQueryResultDocument()
+            : base(InlineQueryResultType.Document)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="documentUrl">A valid URL for the file</param>
         /// <param name="title">Title of the result</param>
         /// <param name="mimeType">Mime type of the content of the file, either “application/pdf” or “application/zip”</param>
         public InlineQueryResultDocument(string id, Uri documentUrl, string title, string mimeType)
-            : base(id, InlineQueryResultType.Document)
+            : this()
         {
             Url = documentUrl;
             Title = title;

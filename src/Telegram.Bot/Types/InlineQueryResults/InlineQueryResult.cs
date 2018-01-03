@@ -13,11 +13,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         ///  <summary>
         /// Initializes a new inline query result
         ///  </summary>
-        /// <param name="id">Unique identifier of this result</param>
         /// <param name="type">Type of the result</param>
-        protected InlineQueryResult(string id, InlineQueryResultType type)
+        protected InlineQueryResult(InlineQueryResultType type)
         {
-            Id = id;
             Type = type;
         }
 
@@ -25,7 +23,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Unique identifier of this result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Id { get; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Type of the result

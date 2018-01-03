@@ -22,12 +22,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        public InlineQueryResultLocation()
+            : base(InlineQueryResultType.Location)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="latitude">Latitude of the location in degrees</param>
         /// <param name="longitude">Longitude of the location in degrees</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultLocation(string id, float latitude, float longitude, string title)
-            : base(id, InlineQueryResultType.Location)
+            : this()
         {
             Latitude = latitude;
             Longitude = longitude;

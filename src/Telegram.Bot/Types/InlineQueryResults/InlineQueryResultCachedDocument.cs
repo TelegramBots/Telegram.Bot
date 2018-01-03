@@ -18,11 +18,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        public InlineQueryResultCachedDocument()
+            : base(InlineQueryResultType.CachedDocument)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="documentFileId">A valid file identifier for the file</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultCachedDocument(string id, string documentFileId, string title)
-            : base(id, InlineQueryResultType.CachedDocument)
+            : this()
         {
             FileId = documentFileId;
             Title = title;
@@ -36,7 +43,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// A valid file identifier for the file
         /// </summary>
         [JsonProperty("document_file_id", Required = Required.Always)]
-        public string FileId { get; }
+        public string FileId { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result

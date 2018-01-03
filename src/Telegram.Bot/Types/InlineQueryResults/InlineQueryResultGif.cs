@@ -22,11 +22,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
+        public InlineQueryResultGif()
+            : base(InlineQueryResultType.Gif)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="gifUrl">Width of the GIF</param>
         /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
         public InlineQueryResultGif(string id, Uri gifUrl, Uri thumbUrl)
-            : base(id, InlineQueryResultType.Gif)
+            : this()
         {
             Url = gifUrl;
             ThumbUrl = thumbUrl;

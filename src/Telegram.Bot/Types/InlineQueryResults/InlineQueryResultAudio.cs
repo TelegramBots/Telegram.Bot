@@ -16,6 +16,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                           ITitleInlineQueryResult,
                                           IInputMessageContentResult
     {
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultAudio()
+            : base(InlineQueryResultType.Audio)
+        { }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -24,7 +30,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="audioUrl">A valid URL for the audio file</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultAudio(string id, Uri audioUrl, string title)
-            : base(id, InlineQueryResultType.Audio)
+            : this()
         {
             Url = audioUrl;
             Title = title;
@@ -34,7 +40,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// A valid URL for the audio file
         /// </summary>
         [JsonProperty("audio_url", Required = Required.Always)]
-        public Uri Url { get; }
+        public Uri Url { get; set; }
 
         /// <summary>
         /// Optional. Performer
