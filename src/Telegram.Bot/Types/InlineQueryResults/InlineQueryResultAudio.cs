@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -11,36 +10,15 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultAudio : InlineQueryResultBase,
-                                          ICaptionInlineQueryResult,
-                                          ITitleInlineQueryResult,
-                                          IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultAudio()
-            : base(InlineQueryResultType.Audio)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="audioUrl">A valid URL for the audio file</param>
-        /// <param name="title">Title of the result</param>
-        public InlineQueryResultAudio(string id, Uri audioUrl, string title)
-            : this()
-        {
-            Id = id;
-            Url = audioUrl;
-            Title = title;
-        }
-
         /// <summary>
         /// A valid URL for the audio file
         /// </summary>
-        [JsonProperty("audio_url", Required = Required.Always)]
-        public Uri Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string AudioUrl { get; set; }
 
         /// <summary>
         /// Optional. Performer
@@ -51,8 +29,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Audio duration in seconds
         /// </summary>
-        [JsonProperty("audio_duration", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Duration { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int AudioDuration { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -65,5 +43,27 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultAudio()
+            : base(InlineQueryResultType.Audio)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="audioUrl">A valid URL for the audio file</param>
+        /// <param name="title">Title of the result</param>
+        public InlineQueryResultAudio(string id, string audioUrl, string title)
+            : this()
+        {
+            Id = id;
+            AudioUrl = audioUrl;
+            Title = title;
+        }
     }
 }

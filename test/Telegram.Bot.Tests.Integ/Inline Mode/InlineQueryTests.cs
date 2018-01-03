@@ -312,6 +312,77 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithAudio)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(10)]
+        public async Task Should_Answer_Inline_Query_With_Audio()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithAudio,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultAudio(
+                    id: "audio_result",
+                    audioUrl:
+                    "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3",
+                    title: "Test ogg mp3"
+                )
+                {
+                    Performer = "Shishirdasika",
+                    AudioDuration = 25
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedAudio)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(11)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Audio()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedAudio);
+
+            Message audioMessage;
+            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRag))
+            {
+                audioMessage = await BotClient.SendAudioAsync(
+                    chatId: _fixture.SupergroupChat,
+                    audio: stream,
+                    performer: "Jackson F. Smith",
+                    duration: 201,
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query")
+                );
+            }
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedAudio(
+                    id: "audio_result",
+                    audioFileId: audioMessage.Audio.FileId
+                )
+                {
+                    Caption = "Jackson F. Smith - Cantina Rag"
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -334,6 +405,11 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedVideo =
                 "Should send a video and answer inline query with a cached video using its file_id";
+
+            public const string ShouldAnswerInlineQueryWithAudio = "Should answer inline query with an audio";
+            
+            public const string ShouldAnswerInlineQueryWithCachedAudio =
+                "Should send a audio and answer inline query with a cached audio using its file_id";
         }
     }
 }

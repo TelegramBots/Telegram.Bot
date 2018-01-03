@@ -10,15 +10,30 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultCachedAudio : InlineQueryResultBase,
-                                                ICaptionInlineQueryResult,
-                                                IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        IInputMessageContentResult
     {
+        /// <summary>
+        /// A valid file identifier for the audio file
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string AudioFileId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
+
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
         public InlineQueryResultCachedAudio()
             : base(InlineQueryResultType.Audio)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -29,21 +44,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
             : this()
         {
             Id = id;
-            FileId = audioFileId;
+            AudioFileId = audioFileId;
         }
-
-        /// <summary>
-        /// A valid file identifier for the audio file
-        /// </summary>
-        [JsonProperty("audio_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Caption { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
     }
 }

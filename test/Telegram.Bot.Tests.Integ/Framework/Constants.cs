@@ -93,13 +93,20 @@
 
                 public const string MoonLanding = VideoDir + "moon-landing.mp4";
             }
+            
+            public static class Audio
+            {
+                private const string AudioDir = FilesDir + "Audio/";
+
+                public const string CantinaRag = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
+            }
 
             public static class Certificate
             {
                 private const string CertificateDir = FilesDir + "Certificate/";
 
                 public const string PublicKey = CertificateDir + "public-key.pem";
-            }
+            }            
         }
 
         public static class TelegramBotApiMethods
