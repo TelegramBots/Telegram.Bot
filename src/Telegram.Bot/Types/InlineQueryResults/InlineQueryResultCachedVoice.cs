@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Represents a link to a voice message stored on the Telegram servers. By default, this voice message will be sent by the user. Alternatively, you can use input_message_content to send a message with the specified content instead of the voice message.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedVoice : InlineQueryResult,
+    public class InlineQueryResultCachedVoice : InlineQueryResultBase,
                                                 ICaptionInlineQueryResult,
                                                 ITitleInlineQueryResult,
                                                 IInputMessageContentResult
@@ -18,7 +18,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Initializes a new inline query result
         /// </summary>
         public InlineQueryResultCachedVoice()
-            : base(InlineQueryResultType.CachedVoice)
+            : base(InlineQueryResultType.Voice)
         { }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Alternatively, you can provide message_text to send it instead of the animation.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultMpeg4Gif : InlineQueryResult,
+    public class InlineQueryResultMpeg4Gif : InlineQueryResultBase,
                                              ICaptionInlineQueryResult,
                                              IThumbnailUrlInlineQueryResult,
                                              ITitleInlineQueryResult,
@@ -31,7 +31,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
         /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
-        public InlineQueryResultMpeg4Gif(string id, Uri mpeg4Url, Uri thumbUrl)
+        public InlineQueryResultMpeg4Gif(string id, Uri mpeg4Url, string thumbUrl)
             : this()
         {
             Id = id;
@@ -47,7 +47,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
-        public Uri ThumbUrl { get; set; }
+        public string ThumbUrl { get; set; }
 
         /// <summary>
         /// Optional. Video width

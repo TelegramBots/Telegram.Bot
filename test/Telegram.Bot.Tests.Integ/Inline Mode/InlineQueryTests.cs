@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -36,7 +38,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 MessageText = "https://core.telegram.org/bots/api",
             };
 
-            InlineQueryResult[] results = new InlineQueryResult[]
+            InlineQueryResultBase[] results =
             {
                 new InlineQueryResultArticle(
                     id: "bot-api",
@@ -64,7 +66,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InlineQueryResult[] results = new InlineQueryResult[]
+            InlineQueryResultBase[] results =
             {
                 new InlineQueryResultContact(
                     id: "bot-api",
@@ -92,7 +94,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InlineQueryResult[] results = new InlineQueryResult[]
+            InlineQueryResultBase[] results =
             {
                 new InlineQueryResultLocation(
                     id: "bot-api",
@@ -118,7 +120,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InlineQueryResult[] results = new InlineQueryResult[]
+            InlineQueryResultBase[] results =
             {
                 new InlineQueryResultVenue(
                     id: "bot-api",
@@ -135,15 +137,46 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithPhoto)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(5)]
+        public async Task Should_Answer_Inline_Query_With_Photo()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithPhoto,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
+            string photoUrl = $"{url}?q={new Random().Next(100_000_000)}";
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultPhoto(
+                    id: "photo1",
+                    photoUrl: photoUrl,
+                    thumbUrl: photoUrl
+                )
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
 
-            public const string ShouldAnswerInlineQueryWithContact = "Should answer inline query with an contact";
+            public const string ShouldAnswerInlineQueryWithContact = "Should answer inline query with a contact";
 
             public const string ShouldAnswerInlineQueryWithLocation = "Should answer inline query with a location";
 
             public const string ShouldAnswerInlineQueryWithVenue = "Should answer inline query with a venue";
+
+            public const string ShouldAnswerInlineQueryWithPhoto = "Should answer inline query with a photo";
         }
     }
 }

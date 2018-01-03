@@ -35,7 +35,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Message message = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 text: "Inline keyboard will be updated shortly",
-                replyMarkup: (InlineKeyboardMarkup)"Original markup"
+                replyMarkup: (InlineKeyboardMarkup) "Original markup"
             );
 
             await Task.Delay(500);
@@ -65,7 +65,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             string data = "change-me" + new Random().Next(2_000);
-            InlineKeyboardMarkup initialMarkup = new InlineKeyboardMarkup(new[] {
+            InlineKeyboardMarkup initialMarkup = new InlineKeyboardMarkup(new[]
+            {
                 InlineKeyboardButton.WithCallbackData("Click here to change this button", data)
             });
 
@@ -74,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 MessageText = "https://core.telegram.org/bots/api"
             };
 
-            var inlineQueryResults = new InlineQueryResult[]
+            InlineQueryResultBase[] inlineQueryResults =
             {
                 new InlineQueryResultArticle(
                     id: "bot-api",

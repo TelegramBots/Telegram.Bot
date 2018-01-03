@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultDocument : InlineQueryResult,
+    public class InlineQueryResultDocument : InlineQueryResultBase,
                                              ICaptionInlineQueryResult,
                                              IThumbnailInlineQueryResult,
                                              ITitleInlineQueryResult,
@@ -70,7 +70,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Uri ThumbUrl { get; set; }
+        public string ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Represents a link to an article or web page.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultArticle : InlineQueryResult,
+    public class InlineQueryResultArticle : InlineQueryResultBase,
                                             IThumbnailInlineQueryResult,
                                             ITitleInlineQueryResult,
                                             IInputMessageContentResult
@@ -56,7 +56,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Uri ThumbUrl { get; set; }
+        public string ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

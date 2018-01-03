@@ -8,13 +8,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Base Class for inline results send in response to an <see cref="InlineQuery"/>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public abstract class InlineQueryResult
+    public abstract class InlineQueryResultBase
     {
         ///  <summary>
         /// Initializes a new inline query result
         ///  </summary>
         /// <param name="type">Type of the result</param>
-        protected InlineQueryResult(InlineQueryResultType type)
+        protected InlineQueryResultBase(InlineQueryResultType type)
         {
             Type = type;
         }

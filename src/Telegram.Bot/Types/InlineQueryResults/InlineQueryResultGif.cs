@@ -12,7 +12,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Alternatively, you can provide message_text to send it instead of the animation.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultGif : InlineQueryResult,
+    public class InlineQueryResultGif : InlineQueryResultBase,
                                         ICaptionInlineQueryResult,
                                         IThumbnailUrlInlineQueryResult,
                                         ITitleInlineQueryResult,
@@ -31,7 +31,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="gifUrl">Width of the GIF</param>
         /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
-        public InlineQueryResultGif(string id, Uri gifUrl, Uri thumbUrl)
+        public InlineQueryResultGif(string id, Uri gifUrl, string thumbUrl)
             : this()
         {
             Id = id;
@@ -69,7 +69,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
-        public Uri ThumbUrl { get; set; }
+        public string ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

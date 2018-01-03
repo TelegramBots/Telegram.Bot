@@ -10,18 +10,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Represents link to a page containing an embedded video player or a video file.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultVideo : InlineQueryResult,
-                                          ICaptionInlineQueryResult,
-                                          IThumbnailUrlInlineQueryResult,
-                                          ITitleInlineQueryResult,
-                                          IInputMessageContentResult
+    public class InlineQueryResultVideo : InlineQueryResultBase,
+        ICaptionInlineQueryResult,
+        IThumbnailUrlInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
         public InlineQueryResultVideo()
             : base(InlineQueryResultType.Video)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -35,8 +36,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
             string id,
             Uri videoUrl,
             string mimeType,
-            Uri thumbUrl,
-            string title)
+            string thumbUrl,
+            string title
+        )
             : this()
         {
             Id = id;
@@ -60,7 +62,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
-        public Uri ThumbUrl { get; set; }
+        public string ThumbUrl { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]

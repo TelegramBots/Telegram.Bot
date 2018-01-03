@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// Represents a link to a video file stored on the Telegram servers. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedVideo : InlineQueryResult,
+    public class InlineQueryResultCachedVideo : InlineQueryResultBase,
                                                 ICaptionInlineQueryResult,
                                                 ITitleInlineQueryResult,
                                                 IInputMessageContentResult
@@ -18,7 +18,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Initializes a new inline query result
         /// </summary>
         public InlineQueryResultCachedVideo()
-            : base(InlineQueryResultType.CachedVideo)
+            : base(InlineQueryResultType.Video)
         { }
 
         /// <summary>

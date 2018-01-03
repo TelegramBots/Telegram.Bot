@@ -962,7 +962,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task AnswerInlineQueryAsync(
             string inlineQueryId,
-            IEnumerable<InlineQueryResult> results,
+            IEnumerable<InlineQueryResultBase> results,
             int? cacheTime = default,
             bool isPersonal = default,
             string nextOffset = default,
