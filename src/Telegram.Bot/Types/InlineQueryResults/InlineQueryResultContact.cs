@@ -1,6 +1,8 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -12,8 +14,23 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultContact : InlineQueryResultNew
+    public class InlineQueryResultContact : InlineQueryResult,
+                                            IThumbnailInlineQueryResult,
+                                            IInputMessageContentResult
     {
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="phoneNumber">Contact's phone number</param>
+        /// <param name="firstName">Contact's first name</param>
+        public InlineQueryResultContact(string id, string phoneNumber, string firstName)
+            : base(id, InlineQueryResultType.Contact)
+        {
+            PhoneNumber = phoneNumber;
+            FirstName = firstName;
+        }
+
         /// <summary>
         /// Contact's phone number
         /// </summary>
@@ -29,13 +46,23 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Contact's last name
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastName { get; set; }
 
-        /// <summary>
-        /// Title of the result
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Title { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Uri ThumbUrl { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int ThumbWidth { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int ThumbHeight { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }

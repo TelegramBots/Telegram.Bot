@@ -1,6 +1,8 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -9,48 +11,53 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultAudio : InlineQueryResultNew
+    public class InlineQueryResultAudio : InlineQueryResult,
+                                          ICaptionInlineQueryResult,
+                                          ITitleInlineQueryResult,
+                                          IInputMessageContentResult
     {
+
         /// <summary>
-        /// A valid file identifier for the audio file
+        /// Initializes a new inline query result
         /// </summary>
-        [JsonProperty("audio_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="audioUrl">A valid URL for the audio file</param>
+        /// <param name="title">Title of the result</param>
+        public InlineQueryResultAudio(string id, Uri audioUrl, string title)
+            : base(id, InlineQueryResultType.Audio)
+        {
+            Url = audioUrl;
+            Title = title;
+        }
 
         /// <summary>
         /// A valid URL for the audio file
         /// </summary>
         [JsonProperty("audio_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; }
 
         /// <summary>
         /// Optional. Performer
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Performer { get; set; }
 
         /// <summary>
         /// Optional. Audio duration in seconds
         /// </summary>
-        [JsonProperty("audio_duration", Required = Required.Always, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("audio_duration", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Duration { get; set; }
 
-        /// <summary>
-        /// Optional. Url of the thumbnail for the result
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string ThumbUrl { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
 
-        /// <summary>
-        /// Optional. Thumbnail width
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbWidth { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
 
-        /// <summary>
-        /// Optional. Thumbnail height
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbHeight { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }

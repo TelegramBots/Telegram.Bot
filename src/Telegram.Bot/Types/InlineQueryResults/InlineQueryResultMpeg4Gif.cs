@@ -1,6 +1,9 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -11,48 +14,63 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultMpeg4Gif : InlineQueryResultNew
+    public class InlineQueryResultMpeg4Gif : InlineQueryResult,
+                                             ICaptionInlineQueryResult,
+                                             IThumbnailUrlInlineQueryResult,
+                                             ITitleInlineQueryResult,
+                                             IInputMessageContentResult
     {
         /// <summary>
-        /// A valid URL for the MP4 file. File size must not exceed 1MB
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
+        /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
+        public InlineQueryResultMpeg4Gif(string id, Uri mpeg4Url, Uri thumbUrl)
+            : base(id, InlineQueryResultType.Mpeg4Gif)
+        {
+            Url = mpeg4Url;
+            ThumbUrl = thumbUrl;
+        }
+
+        /// <summary>
+        /// A valid URL for the MP4 file. File size must not exceed 1MB.
         /// </summary>
         [JsonProperty("mpeg4_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public Uri ThumbUrl { get; set; }
 
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty("mpeg4_width", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("mpeg4_width", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Width { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty("mpeg4_height", Required = Required.Default, DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty("mpeg4_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Duration of the Video
         /// </summary>
-        [JsonProperty("mpeg4_duration", Required = Required.Default)]
+        [JsonProperty("mpeg4_duration")]
         public int Duration { get; set; }
 
-        /// <summary>
-        /// Optional. Caption of the MPEG-4 file to be sent
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
-        /// <summary>
-        /// Optional. Thumbnail width
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbWidth { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Title { get; set; }
 
-        /// <summary>
-        /// Optional. Thumbnail height
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbHeight { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }

@@ -1,5 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -11,19 +14,36 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultDocument : InlineQueryResultNew
+    public class InlineQueryResultDocument : InlineQueryResult,
+                                             ICaptionInlineQueryResult,
+                                             IThumbnailInlineQueryResult,
+                                             ITitleInlineQueryResult,
+                                             IInputMessageContentResult
     {
         /// <summary>
-        /// Optional. Caption of the document to be sent, 0-200 characters
+        /// Initializes a new inline query result
         /// </summary>
-        [JsonProperty]
-        public string Caption { get; set; }
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="documentUrl">A valid URL for the file</param>
+        /// <param name="title">Title of the result</param>
+        /// <param name="mimeType">Mime type of the content of the file, either “application/pdf” or “application/zip”</param>
+        public InlineQueryResultDocument(string id, Uri documentUrl, string title, string mimeType)
+            : base(id, InlineQueryResultType.Document)
+        {
+            Url = documentUrl;
+            Title = title;
+            MimeType = mimeType;
+        }
 
         /// <summary>
         /// A valid URL for the file
         /// </summary>
         [JsonProperty("document_url", Required = Required.Always)]
-        public string Url { get; set; }
+        public Uri Url { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
 
         /// <summary>
         /// Mime type of the content of the file, either “application/pdf” or “application/zip”
@@ -31,10 +51,30 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(Required = Required.Always)]
         public string MimeType { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
+
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Description { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Uri ThumbUrl { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int ThumbWidth { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int ThumbHeight { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -9,24 +10,28 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedSticker : InlineQueryResultCached
+    public class InlineQueryResultCachedSticker : InlineQueryResult,
+                                                  IInputMessageContentResult
     {
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="fileId">A valid file identifier of the sticker</param>
+        public InlineQueryResultCachedSticker(string id, string fileId)
+            : base(id, InlineQueryResultType.CachedSticker)
+        {
+            FileId = fileId;
+        }
+
         /// <summary>
         /// A valid file identifier of the sticker
         /// </summary>
         [JsonProperty("sticker_file_id", Required = Required.Always)]
         public string FileId { get; set; }
 
-        /// <summary>
-        /// Title of the result
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Title { get; set; }
-
-        /// <summary>
-        /// Optional. Caption of the result to be sent, 0-200 characters
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new string Caption { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }

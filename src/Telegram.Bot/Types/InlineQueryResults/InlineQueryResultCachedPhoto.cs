@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -8,8 +10,22 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization = MemberSerialization.OptIn,
                 NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedPhoto : InlineQueryResultCached
+    public class InlineQueryResultCachedPhoto : InlineQueryResult,
+                                                ICaptionInlineQueryResult,
+                                                ITitleInlineQueryResult,
+                                                IInputMessageContentResult
     {
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="fileId">A valid file identifier of the photo</param>
+        public InlineQueryResultCachedPhoto(string id, string fileId)
+            : base(id, InlineQueryResultType.CachedPhoto)
+        {
+            FileId = fileId;
+        }
+
         /// <summary>
         /// A valid file identifier of the photo
         /// </summary>
@@ -19,7 +35,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Title { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
     }
 }
