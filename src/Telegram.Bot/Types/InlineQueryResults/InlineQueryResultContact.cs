@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -14,30 +13,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultContact : InlineQueryResultBase,
-                                            IThumbnailInlineQueryResult,
-                                            IInputMessageContentResult
+        IThumbnailInlineQueryResult,
+        IInputMessageContentResult
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultContact()
-            : base(InlineQueryResultType.Contact)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="phoneNumber">Contact's phone number</param>
-        /// <param name="firstName">Contact's first name</param>
-        public InlineQueryResultContact(string id, string phoneNumber, string firstName)
-            : this()
-        {
-            Id = id;
-            PhoneNumber = phoneNumber;
-            FirstName = firstName;
-        }
-
         /// <summary>
         /// Contact's phone number
         /// </summary>
@@ -71,5 +49,27 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultContact()
+            : base(InlineQueryResultType.Contact)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="phoneNumber">Contact's phone number</param>
+        /// <param name="firstName">Contact's first name</param>
+        public InlineQueryResultContact(string id, string phoneNumber, string firstName)
+            : this()
+        {
+            Id = id;
+            PhoneNumber = phoneNumber;
+            FirstName = firstName;
+        }
     }
 }

@@ -10,31 +10,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultCachedVideo : InlineQueryResultBase,
-                                                ICaptionInlineQueryResult,
-                                                ITitleInlineQueryResult,
-                                                IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedVideo()
-            : base(InlineQueryResultType.Video)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="fileId">A valid file identifier for the video file</param>
-        /// <param name="title">Title of the result</param>
-        public InlineQueryResultCachedVideo(string id, string fileId, string title)
-            : this()
-        {
-            Id = id;
-            FileId = fileId;
-            Title = title;
-        }
-
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
@@ -42,8 +21,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// A valid file identifier for the video file
         /// </summary>
-        [JsonProperty("video_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string VideoFileId { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
@@ -58,5 +37,27 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultCachedVideo()
+            : base(InlineQueryResultType.Video)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="videoFileId">A valid file identifier for the video file</param>
+        /// <param name="title">Title of the result</param>
+        public InlineQueryResultCachedVideo(string id, string videoFileId, string title)
+            : this()
+        {
+            Id = id;
+            VideoFileId = videoFileId;
+            Title = title;
+        }
     }
 }

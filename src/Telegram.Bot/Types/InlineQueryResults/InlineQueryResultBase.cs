@@ -10,15 +10,6 @@ namespace Telegram.Bot.Types.InlineQueryResults
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class InlineQueryResultBase
     {
-        ///  <summary>
-        /// Initializes a new inline query result
-        ///  </summary>
-        /// <param name="type">Type of the result</param>
-        protected InlineQueryResultBase(InlineQueryResultType type)
-        {
-            Type = type;
-        }
-
         /// <summary>
         /// Unique identifier of this result
         /// </summary>
@@ -29,12 +20,21 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Type of the result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InlineQueryResultType Type { get; }
+        public InlineQueryResultType Type { get; set; }
 
         /// <summary>
         /// Inline keyboard attached to the message
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
+
+        ///  <summary>
+        /// Initializes a new inline query result
+        ///  </summary>
+        /// <param name="type">Type of the result</param>
+        protected InlineQueryResultBase(InlineQueryResultType type)
+        {
+            Type = type;
+        }
     }
 }

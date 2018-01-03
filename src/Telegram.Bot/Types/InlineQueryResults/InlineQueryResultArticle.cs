@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -11,30 +10,17 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultArticle : InlineQueryResultBase,
-                                            IThumbnailInlineQueryResult,
-                                            ITitleInlineQueryResult,
-                                            IInputMessageContentResult
+        IThumbnailInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultArticle()
-            : base(InlineQueryResultType.Article)
-        { }
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string Title { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="title">Title of the result</param>
-        /// <param name="inputMessageContent">Content of the message to be sent</param>
-        public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
-            : this()
-        {
-            Id = id;
-            Title = title;
-            InputMessageContent = inputMessageContent;
-        }
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public InputMessageContent InputMessageContent { get; set; }
 
         /// <summary>
         /// Optional. URL of the result.
@@ -66,12 +52,27 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ThumbHeight { get; set; }
 
-        /// <inheritdoc />
-        [JsonProperty(Required = Required.Always)]
-        public string Title { get; set; }
 
-        /// <inheritdoc />
-        [JsonProperty(Required = Required.Always)]
-        public InputMessageContent InputMessageContent { get; set; }
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultArticle()
+            : base(InlineQueryResultType.Article)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="title">Title of the result</param>
+        /// <param name="inputMessageContent">Content of the message to be sent</param>
+        public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
+            : this()
+        {
+            Id = id;
+            Title = title;
+            InputMessageContent = inputMessageContent;
+        }
     }
 }

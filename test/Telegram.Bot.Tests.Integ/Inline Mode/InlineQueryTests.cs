@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
+using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups.Buttons;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Inline_Mode
@@ -166,6 +167,74 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithVideo)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(6)]
+        public async Task Should_Answer_Inline_Query_With_Video()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithVideo,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            // Video from https://pixabay.com/en/videos/sunset-landscape-idyll-cows-10737/
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultVideo(
+                    id: "sunset_video",
+                    videoUrl: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
+                    mimeType: "video/mp4",
+                    thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg",
+                    title: "Sunset Landscape"
+                )
+                {
+                    Description = "A beautiful scene"
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedVideo)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(7)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Video()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedVideo);
+
+            // Video from https://pixabay.com/en/videos/fireworks-rocket-new-year-s-eve-7122/
+            Message videoMessage = await BotClient.SendVideoAsync(
+                chatId: _fixture.SupergroupChat,
+                video: "https://pixabay.com/en/videos/download/video-7122_medium.mp4",
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start inline query")
+            );
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedVideo(
+                    id: "fireworks_video",
+                    videoFileId: videoMessage.Video.FileId,
+                    title: "New Year's Eve Fireworks"
+                )
+                {
+                    Description = "2017 Fireworks in Germany"
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -177,6 +246,11 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             public const string ShouldAnswerInlineQueryWithVenue = "Should answer inline query with a venue";
 
             public const string ShouldAnswerInlineQueryWithPhoto = "Should answer inline query with a photo";
+
+            public const string ShouldAnswerInlineQueryWithVideo = "Should answer inline query with a video";
+
+            public const string ShouldAnswerInlineQueryWithCachedVideo =
+                "Should send a video and answer inline query with a cached video using its file_id";
         }
     }
 }

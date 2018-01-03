@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -14,41 +13,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultVenue : InlineQueryResultBase,
-                                          IThumbnailInlineQueryResult,
-                                          ITitleInlineQueryResult,
-                                          IInputMessageContentResult,
-                                          ILocationInlineQueryResult
+        IThumbnailInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult,
+        ILocationInlineQueryResult
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultVenue()
-            : base(InlineQueryResultType.Venue)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="latitude">Latitude of the location in degrees</param>
-        /// <param name="longitude">Longitude of the location in degrees</param>
-        /// <param name="title">Title of the result</param>
-        /// <param name="address">Address of the venue</param>
-        public InlineQueryResultVenue(
-            string id,
-            float latitude,
-            float longitude,
-            string title,
-            string address)
-            : this()
-        {
-            Id = id;
-            Latitude = latitude;
-            Longitude = longitude;
-            Title = title;
-            Address = address;
-        }
-
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public float Latitude { get; set; }
@@ -88,5 +57,36 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultVenue()
+            : base(InlineQueryResultType.Venue)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="latitude">Latitude of the location in degrees</param>
+        /// <param name="longitude">Longitude of the location in degrees</param>
+        /// <param name="title">Title of the result</param>
+        /// <param name="address">Address of the venue</param>
+        public InlineQueryResultVenue(
+            string id,
+            float latitude,
+            float longitude,
+            string title,
+            string address)
+            : this()
+        {
+            Id = id;
+            Latitude = latitude;
+            Longitude = longitude;
+            Title = title;
+            Address = address;
+        }
     }
 }

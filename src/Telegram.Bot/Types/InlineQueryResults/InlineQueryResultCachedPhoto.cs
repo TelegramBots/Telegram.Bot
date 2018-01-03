@@ -10,34 +10,15 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultCachedPhoto : InlineQueryResultBase,
-                                                ICaptionInlineQueryResult,
-                                                ITitleInlineQueryResult,
-                                                IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedPhoto()
-            : base(InlineQueryResultType.Photo)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="fileId">A valid file identifier of the photo</param>
-        public InlineQueryResultCachedPhoto(string id, string fileId)
-            : this()
-        {
-            Id = id;
-            FileId = fileId;
-        }
-
         /// <summary>
         /// A valid file identifier of the photo
         /// </summary>
-        [JsonProperty("photo_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string PhotoFileId { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
@@ -56,5 +37,25 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultCachedPhoto()
+            : base(InlineQueryResultType.Photo)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="photoFileId">A valid file identifier of the photo</param>
+        public InlineQueryResultCachedPhoto(string id, string photoFileId)
+            : this()
+        {
+            Id = id;
+            PhotoFileId = photoFileId;
+        }
     }
 }

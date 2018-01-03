@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -17,42 +16,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         IInputMessageContentResult
     {
         /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultVideo()
-            : base(InlineQueryResultType.Video)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="videoUrl">A valid URL for the embedded video player or video file</param>
-        /// <param name="mimeType">Mime type of the content of video url, i.e. "text/html" or "video/mp4"</param>
-        /// <param name="thumbUrl">Url of the thumbnail for the result</param>
-        /// <param name="title">Title of the result</param>
-        public InlineQueryResultVideo(
-            string id,
-            Uri videoUrl,
-            string mimeType,
-            string thumbUrl,
-            string title
-        )
-            : this()
-        {
-            Id = id;
-            Url = videoUrl;
-            MimeType = mimeType;
-            ThumbUrl = thumbUrl;
-            Title = title;
-        }
-
-        /// <summary>
         /// A valid URL for the embedded video player or video file
         /// </summary>
-        [JsonProperty("video_url", Required = Required.Always)]
-        public Uri Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string VideoUrl { get; set; }
 
         /// <summary>
         /// Mime type of the content of video url, i.e. "text/html" or "video/mp4"
@@ -71,20 +38,20 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty("video_width", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Width { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int VideoWidth { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty("video_height", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Height { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int VideoHeight { get; set; }
 
         /// <summary>
         /// Optional. Video duration in seconds
         /// </summary>
-        [JsonProperty("video_duration", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Duration { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int VideoDuration { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
@@ -99,5 +66,37 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultVideo()
+            : base(InlineQueryResultType.Video)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="videoUrl">A valid URL for the embedded video player or video file</param>
+        /// <param name="mimeType">Mime type of the content of video url, i.e. "text/html" or "video/mp4"</param>
+        /// <param name="thumbUrl">Url of the thumbnail for the result</param>
+        /// <param name="title">Title of the result</param>
+        public InlineQueryResultVideo(
+            string id,
+            string videoUrl,
+            string mimeType,
+            string thumbUrl,
+            string title
+        )
+            : this()
+        {
+            Id = id;
+            VideoUrl = videoUrl;
+            MimeType = mimeType;
+            ThumbUrl = thumbUrl;
+            Title = title;
+        }
     }
 }
