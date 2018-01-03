@@ -521,6 +521,72 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithGif)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(16)]
+        public async Task Should_Answer_Inline_Query_With_Gif()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithGif,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultGif(
+                    id: "gif_result",
+                    gifUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+                    thumbUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"
+                )
+                {
+                    Caption = "Rotating Earth",
+                    Duration = 4,
+                    Height = 400,
+                    Width = 400,
+                    Title = "Rotating Earth",
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedGif)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(17)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Gif()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedGif);
+
+            Message gifMessage = await BotClient.SendVideoAsync(
+                chatId: _fixture.SupergroupChat,
+                video: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start inline query"));
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedGif(
+                    id: "gif_result",
+                    gifFileId: gifMessage.Document.FileId
+                )
+                {
+                    Caption = "Rotating Earth",
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -553,6 +619,11 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedDocument =
                 "Should send a document and answer inline query with a cached document using its file_id";
+
+            public const string ShouldAnswerInlineQueryWithGif = "Should answer inline query with a gif";
+
+            public const string ShouldAnswerInlineQueryWithCachedGif =
+                "Should send a gif and answer inline query with a cached gif using its file_id";
         }
     }
 }

@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
@@ -19,31 +18,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                         IInputMessageContentResult
     {
         /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultGif()
-            : base(InlineQueryResultType.Gif)
-        { }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        /// <param name="id">Unique identifier of this result</param>
-        /// <param name="gifUrl">Width of the GIF</param>
-        /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
-        public InlineQueryResultGif(string id, Uri gifUrl, string thumbUrl)
-            : this()
-        {
-            Id = id;
-            Url = gifUrl;
-            ThumbUrl = thumbUrl;
-        }
-
-        /// <summary>
         /// A valid URL for the GIF file. File size must not exceed 1MB
         /// </summary>
-        [JsonProperty("gif_url", Required = Required.Always)]
-        public Uri Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string GifUrl { get; set; }
 
         /// <summary>
         /// Optional. Width of the GIF.
@@ -78,5 +56,26 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        public InlineQueryResultGif()
+            : base(InlineQueryResultType.Gif)
+        { }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="gifUrl">Width of the GIF</param>
+        /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
+        public InlineQueryResultGif(string id, string gifUrl, string thumbUrl)
+            : this()
+        {
+            Id = id;
+            GifUrl = gifUrl;
+            ThumbUrl = thumbUrl;
+        }
     }
 }

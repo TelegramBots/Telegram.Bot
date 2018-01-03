@@ -15,6 +15,24 @@ namespace Telegram.Bot.Types.InlineQueryResults
                                               IInputMessageContentResult
     {
         /// <summary>
+        /// A valid file identifier for the GIF file
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string GifFileId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Title { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
+
+        /// <summary>
         /// Initializes a new inline query result
         /// </summary>
         public InlineQueryResultCachedGif()
@@ -30,25 +48,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
             : this()
         {
             Id = id;
-            FileId = gifFileId;
+            GifFileId = gifFileId;
         }
-
-        /// <summary>
-        /// A valid file identifier for the GIF file
-        /// </summary>
-        [JsonProperty("gif_file_id", Required = Required.Always)]
-        public string FileId { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Caption { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Title { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
     }
 }
