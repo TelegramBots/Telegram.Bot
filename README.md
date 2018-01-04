@@ -16,7 +16,7 @@ Join our **super group on Telegram**: [`@tgbots_dotnet`](https://t.me/tgbots_dot
 
 ## Migrate to v14
 
-In our latest package release, version 14, parts of the library are re-written and if you are planning to upgrade to this versoin, have a look at its [**migration wiki**](./docs/wikis/migration/v13-to-v14.md).
+In our last major release, version 14, almost all of the library is re-written. If you are planning to upgrade, have a look at [**v13 to v14 migration wiki**](./docs/wikis/migration/v13-to-v14.md).
 
 ## Getting Started
 
