@@ -681,19 +681,9 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         )
         {
-            Stream stream;
-            var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
-
-            var response = await _httpClient
-                .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+            var stream = new MemoryStream();
+            await DownloadFileAsync(filePath, stream, cancellationToken)
                 .ConfigureAwait(false);
-            using (response)
-            {
-                stream = new MemoryStream();
-                await response.Content.CopyToAsync(stream)
-                    .ConfigureAwait(false);
-            }
-
             return stream;
         }
 
@@ -704,11 +694,22 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         )
         {
+            if (string.IsNullOrWhiteSpace(filePath) || filePath.Length < 2)
+            {
+                throw new ArgumentException("Invalid file path", nameof(filePath));
+            }
+            if (destination is default)
+            {
+                throw new ArgumentNullException(nameof(destination));
+            }
+
             var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
 
             var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+
             using (response)
             {
                 await response.Content.CopyToAsync(destination)
@@ -723,9 +724,6 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         )
         {
-            if (destination is default)
-                throw new ArgumentNullException(nameof(destination));
-
             var file = await GetFileAsync(fileId, cancellationToken)
                 .ConfigureAwait(false);
 

@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
@@ -54,7 +56,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             File file = await BotClient.GetFileAsync(documentMessage.Document.FileId);
 
             Assert.Equal(fileId, file.FileId);
-            Assert.InRange(file.FileSize, fileSize - 100, fileSize + 100);
+            Assert.InRange(file.FileSize, fileSize - 3500, fileSize + 3500);
             Assert.NotEmpty(file.FilePath);
 
             _classFixture.File = file;
@@ -125,6 +127,37 @@ namespace Telegram.Bot.Tests.Integ.Other
             }
         }
 
+        [Fact(DisplayName = FactTitles.ShouldThrowInvalidParameterExceptionForFileId)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
+        [ExecutionOrder(5)]
+        public async Task Should_Throw_FileId_InvalidParameterException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidParameterExceptionForFileId);
+
+            InvalidParameterException exception = await Assert.ThrowsAnyAsync<InvalidParameterException>(
+                () => BotClient.GetFileAsync("Invalid_File_id")
+            );
+
+            Assert.Equal("file id", exception.Parameter);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath)]
+        [ExecutionOrder(6)]
+        public async Task Should_Throw_FilePath_HttpRequestException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath);
+
+            System.IO.Stream content = default;
+
+            HttpRequestException exception = await Assert.ThrowsAnyAsync<HttpRequestException>(async () =>
+            {
+                content = await BotClient.DownloadFileAsync("Invalid_File_Path");
+            });
+
+            Assert.Contains("404", exception.Message);
+            Assert.Null(content);
+        }
+
         private static class FactTitles
         {
             public const string ShouldGetFileInfo = "Should get file info";
@@ -136,6 +169,12 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             public const string ShouldDownloadWriteUsingFileId =
                 "Should download file using file_id and write it to disk";
+
+            public const string ShouldThrowInvalidParameterExceptionForFileId =
+                "Should throw InvalidParameterException while trying to get file using wrong file_id";
+
+            public const string ShouldThrowInvalidHttpRequestExceptionForFilePath =
+                "Should throw HttpRequestException while trying to download file using wrong file_path";
         }
 
         public class Fixture

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Type `InvalidParameterException`
+
 ## [14.0.0-beta-342] - 2018-01-03
 
 ### Added
