@@ -204,12 +204,6 @@ namespace Telegram.Bot.Types
         public Venue Venue { get; set; }
 
         /// <summary>
-        /// Optional. A new member was added to the group, information about them (this member may be bot itself)
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public User NewChatMember { get; set; }
-
-        /// <summary>
         /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -339,8 +333,7 @@ namespace Telegram.Bot.Types
                 if (VideoNote != null)
                     return MessageType.VideoNoteMessage;
 
-                if (NewChatMember != null ||
-                    (NewChatMembers?.Any() == true) ||
+                if (NewChatMembers?.Any() == true ||
                     LeftChatMember != null ||
                     NewChatTitle != null ||
                     NewChatPhoto != null ||

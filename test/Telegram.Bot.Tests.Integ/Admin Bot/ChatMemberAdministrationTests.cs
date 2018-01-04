@@ -93,7 +93,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             Message serviceMsg = update.Message;
 
-            Assert.Equal(_classFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMember.Id.ToString());
             Assert.Equal(_classFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMembers.Single().Id.ToString());
         }
 
