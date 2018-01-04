@@ -1,14 +1,15 @@
 language: csharp
 dist: trusty
+sudo: false
 mono: none
 dotnet: 2.0.0
 branches:
   only:
   - develop
-script:
-  - cd "test/Telegram.Bot.Tests.Integ"
-  - sh -c "dotnet test --configuration Release --list-tests"
-  - sh -c "dotnet xunit -configuration Release -nobuild -stoponfail -verbose"
+script: >
+  cd "test/Telegram.Bot.Tests.Integ" &&
+  dotnet test --configuration Release --list-tests &&
+  dotnet xunit -configuration Release -nobuild -stoponfail -verbose
 notifications:
   email: false
 
