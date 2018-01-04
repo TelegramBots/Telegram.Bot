@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [14.0.0-beta-342] - 2018-01-03
+
 ### Added
 
 - More `PaymentTests` cases
