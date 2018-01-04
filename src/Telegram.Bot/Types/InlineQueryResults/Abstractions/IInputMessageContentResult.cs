@@ -1,6 +1,4 @@
-﻿using Telegram.Bot.Types.InputMessageContents;
-
-namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
+﻿namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
 {
     public interface IInputMessageContentResult
     {

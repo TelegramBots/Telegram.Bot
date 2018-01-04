@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `InvalidParameterException`
 - Type `FileBase`
 
+### Changed
+
+- Moved all types in namespace `Telegram.Bot.Types.InputMessageContents` to namespace `Telegram.Bot.Types.InlineQueryResults`
+
 ### Removed
 
 - Property `File.Stream`
