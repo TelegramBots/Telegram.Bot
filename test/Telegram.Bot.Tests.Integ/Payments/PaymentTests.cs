@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 chatid: _classFixture.PrivateChat.Id);
 
             _classFixture.Payload = "my-payload";
-            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
+            const string url = "https://cdn.pixabay.com/photo/2017/09/07/08/54/money-2724241_640.jpg";
 
             LabeledPrice[] productPrices =
             {

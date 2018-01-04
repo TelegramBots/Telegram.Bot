@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -149,16 +148,18 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
-            string photoUrl = $"{url}?q={new Random().Next(100_000_000)}";
+            const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
 
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultPhoto(
                     id: "photo1",
-                    photoUrl: photoUrl,
-                    thumbUrl: photoUrl
+                    photoUrl: url,
+                    thumbUrl: url
                 )
+                {
+                    Caption = "Rainbow Girl"
+                }
             };
 
             await BotClient.AnswerInlineQueryAsync(
