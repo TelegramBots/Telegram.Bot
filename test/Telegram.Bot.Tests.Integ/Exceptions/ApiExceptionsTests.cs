@@ -58,7 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "Forward a message to this chat from a user that never started a chat with this bot");
 
             Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.IsForwarded, updateTypes: UpdateType.MessageUpdate
+                    u.Message.IsForwarded, updateTypes: UpdateType.Message
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 

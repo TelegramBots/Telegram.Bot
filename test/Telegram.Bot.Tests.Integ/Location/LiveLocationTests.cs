@@ -48,7 +48,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 livePeriod: 60
             );
 
-            Assert.Equal(MessageType.LocationMessage, message.Type);
+            Assert.Equal(MessageType.Location, message.Type);
             Assert.Equal(latBerlin, message.Location.Latitude, 3);
             Assert.Equal(lonBerlin, message.Location.Longitude, 3);
 
@@ -80,7 +80,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
                     longitude: newLocation.Longitude
                 );
 
-                Assert.Equal(MessageType.LocationMessage, editedMessage.Type);
+                Assert.Equal(MessageType.Location, editedMessage.Type);
                 Assert.Equal(LocationMessage.MessageId, editedMessage.MessageId);
                 Assert.Equal(newLocation.Latitude, editedMessage.Location.Latitude, 3);
                 Assert.Equal(newLocation.Longitude, editedMessage.Location.Longitude, 3);

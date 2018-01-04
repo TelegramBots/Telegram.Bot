@@ -42,7 +42,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                 )
             );
 
-            Message contactMessage = await GetMessageFromChat(MessageType.ContactMessage);
+            Message contactMessage = await GetMessageFromChat(MessageType.Contact);
 
             Assert.NotEmpty(contactMessage.Contact.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
@@ -68,7 +68,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                 replyMarkup: new ReplyKeyboardMarkup(KeyboardButton.WithRequestLocation("Share Location"))
             );
 
-            Message locationMessage = await GetMessageFromChat(MessageType.LocationMessage);
+            Message locationMessage = await GetMessageFromChat(MessageType.Location);
 
             Assert.NotNull(locationMessage.Location);
 
@@ -83,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _fixture.UpdateReceiver.GetUpdatesAsync(
                     predicate: u => u.Message.Type == messageType &&
                                     u.Message.Chat.Id == _classFixture.PrivateChat.Id,
-                    updateTypes: UpdateType.MessageUpdate
+                    updateTypes: UpdateType.Message
                 )
                 .ContinueWith(t => t.Result.Single().Message);
 

@@ -85,15 +85,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 .GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Supergroup &&
                     u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
-                    u.Message.Type == MessageType.ServiceMessage,
-                updateTypes: UpdateType.MessageUpdate)
+                    u.Message.Type == MessageType.Service,
+                updateTypes: UpdateType.Message)
             ).Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
             Message serviceMsg = update.Message;
 
-            Assert.Equal(_classFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMember.Id.ToString());
             Assert.Equal(_classFixture.RegularMemberUserId.ToString(), serviceMsg.NewChatMembers.Single().Id.ToString());
         }
 

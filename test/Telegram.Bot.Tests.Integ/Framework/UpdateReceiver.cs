@@ -114,7 +114,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             var updates = await GetUpdatesAsync(predicate,
                 cancellationToken: cancellationToken,
-                updateTypes: UpdateType.CallbackQueryUpdate);
+                updateTypes: UpdateType.CallbackQuery);
 
             if (discardNewUpdates)
             {
@@ -130,7 +130,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         {
             var updates = await GetUpdatesAsync(
                 cancellationToken: cancellationToken,
-                updateTypes: UpdateType.InlineQueryUpdate);
+                updateTypes: UpdateType.InlineQuery);
 
             if (discardNewUpdates)
             {
@@ -164,33 +164,33 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             switch (update.Type)
             {
-                case UpdateType.MessageUpdate:
+                case UpdateType.Message:
                     isAllowed = _allowedUsernames
                         .Contains(update.Message.From.Username, StringComparer.OrdinalIgnoreCase);
                     break;
-                case UpdateType.InlineQueryUpdate:
+                case UpdateType.InlineQuery:
                     isAllowed = _allowedUsernames
                         .Contains(update.InlineQuery.From.Username, StringComparer.OrdinalIgnoreCase);
                     break;
-                case UpdateType.CallbackQueryUpdate:
+                case UpdateType.CallbackQuery:
                     isAllowed = _allowedUsernames
                         .Contains(update.CallbackQuery.From.Username, StringComparer.OrdinalIgnoreCase);
                     break;
-                case UpdateType.PreCheckoutQueryUpdate:
+                case UpdateType.PreCheckoutQuery:
                     isAllowed = _allowedUsernames
                         .Contains(update.PreCheckoutQuery.From.Username, StringComparer.OrdinalIgnoreCase);
                     break;
-                case UpdateType.ShippingQueryUpdate:
+                case UpdateType.ShippingQuery:
                     isAllowed = _allowedUsernames
                         .Contains(update.ShippingQuery.From.Username, StringComparer.OrdinalIgnoreCase);
                     break;
-                case UpdateType.ChosenInlineResultUpdate:
+                case UpdateType.ChosenInlineResult:
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
                     isAllowed = false;
                     break;
-                case UpdateType.UnknownUpdate:
+                case UpdateType.Unknown:
                     throw new ArgumentException("Unknown update found!");
                 default:
                     throw new ArgumentOutOfRangeException();

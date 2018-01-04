@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
@@ -25,6 +25,9 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
+
+            new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: invalid (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+)$"),
+            new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) invalid$"),
         };
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
@@ -32,11 +35,10 @@ namespace Telegram.Bot.Exceptions
             ApiRequestException exception;
 
             var typeInfo = ExceptionInfos
-                .SingleOrDefault(info => apiResponse.Description.Contains(info.ErrorMessage));
+                .FirstOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex));
 
             if (typeInfo is null)
             {
-                Debug.WriteLine($"Exception type info not found. {apiResponse.ErrorCode} - {apiResponse.Description}");
                 exception = new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
             }
             else
@@ -47,13 +49,23 @@ namespace Telegram.Bot.Exceptions
                 if (isBadRequestError)
                 {
                     errorMessage = TruncateBadRequestErrorDescription(apiResponse.Description);
+
+                    if (typeInfo.Type == typeof(InvalidParameterException))
+                    {
+                        string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
+                            .Groups[InvalidParameterException.ParamGroupName]
+                            .Value;
+                        exception = new InvalidParameterException(paramName, errorMessage);
+                    }
+                    else
+                        exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
                 }
                 else
                 {
                     errorMessage = TruncateForbiddenErrorDescription(apiResponse.Description);
+                    exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
                 }
 
-                exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
             }
             return exception;
         }

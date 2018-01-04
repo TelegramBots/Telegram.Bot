@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types
     /// This object represents an audio file to be treated as music by the Telegram clients.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class Audio : File
+    public class Audio : FileBase
     {
         /// <summary>
         /// Duration of the audio in seconds as defined by sender

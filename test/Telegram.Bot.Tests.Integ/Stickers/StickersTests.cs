@@ -5,7 +5,6 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
 using File = Telegram.Bot.Types.File;
 
@@ -86,7 +85,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 sticker: vladDraculaSticker.FileId
             );
 
-            Assert.Equal(MessageType.StickerMessage, message.Type);
+            Assert.Equal(MessageType.Sticker, message.Type);
             Assert.Equal(vladDraculaSticker.FileId, message.Sticker.FileId);
             Assert.Equal(vladDraculaSticker.Emoji, message.Sticker.Emoji);
             Assert.Equal(vladDraculaSticker.Height, message.Sticker.Height);
@@ -159,10 +158,10 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.CreateNewStickerSetAsync(
                     userId: _classFixture.OwnerUserId,
-                    name: "valid_name" + _classFixture.TestStickerSetName,
+                    name: "valid_name3" + _classFixture.TestStickerSetName,
                     title: "Sticker Set Title",
                     pngSticker: _classFixture.UploadedStickers.First().FileId,
-                    emojis: "☺"
+                    emojis: "INVALID"
                 )
             );
 
@@ -174,6 +173,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         [ExecutionOrder(2.4)]
         public async Task Should_Throw_InvalidStickerDimensionsException()
         {
+            // Todo exception when sending jpeg file. Bad Request: STICKER_PNG_NOPNG
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerDimensionsException);
 
             BadRequestException exception;
@@ -182,7 +182,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                     BotClient.CreateNewStickerSetAsync(
                         userId: _classFixture.OwnerUserId,
-                        name: "valid_name" + _classFixture.TestStickerSetName,
+                        name: "valid_name2" + _classFixture.TestStickerSetName,
                         title: "Sticker Set Title",
                         pngSticker: stream,
                         emojis: "😁"
@@ -344,7 +344,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         /// One sticker in the set is not removed because removing last sticker would cause the sticker set to be removed
         /// and bots cannot remove a sticker set.
         /// </remarks>
-        [Fact(DisplayName = FactTitles.ShouldRemoveStickersFromSet)]
+        [Fact(DisplayName = FactTitles.ShouldRemoveStickersFromSet, Skip = "abc")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
         [ExecutionOrder(3.5)]
@@ -380,35 +380,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             );
 
             Assert.IsType<StickerSetNotModifiedException>(exception);
-        }
-
-        #endregion
-
-        #region 4. Answer inline query with cached sticker
-
-        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedSticker)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
-        [ExecutionOrder(4)]
-        public async Task Should_Answer_Inline_Query_With_Cached_Sticker()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedSticker,
-                startInlineQuery: true);
-
-            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
-
-            InlineQueryResultBase[] results =
-            {
-                new InlineQueryResultCachedSticker(
-                    id: "sticker_result",
-                    stickerFileId: _classFixture.EvilMindsStickerSet.Stickers[0].FileId
-                )
-            };
-
-            await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: iqUpdate.InlineQuery.Id,
-                results: results,
-                cacheTime: 0
-            );
         }
 
         #endregion
@@ -452,9 +423,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
             public const string ShouldStickerSetNotModifiedException =
                 "Should throw StickerSetNotModifiedException while trying to remove the last sticker in the set";
-
-            public const string ShouldAnswerInlineQueryWithCachedSticker =
-                "Should answer inline query with a cached sticker using its file_id";
         }
     }
 }

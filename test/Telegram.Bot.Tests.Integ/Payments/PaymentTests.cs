@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 chatid: _classFixture.PrivateChat.Id);
 
             _classFixture.Payload = "my-payload";
-            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
+            const string url = "https://cdn.pixabay.com/photo/2017/09/07/08/54/money-2724241_640.jpg";
 
             LabeledPrice[] productPrices =
             {
@@ -118,7 +118,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 shippingOptions: shippingOptions
             );
 
-            Assert.Equal(UpdateType.ShippingQueryUpdate, shippingUpdate.Type);
+            Assert.Equal(UpdateType.ShippingQuery, shippingUpdate.Type);
             Assert.Equal(_classFixture.Payload, shippingUpdate.ShippingQuery.InvoicePayload);
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.CountryCode);
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.City);
@@ -143,7 +143,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             int totalAmount = _classFixture.Invoice.TotalAmount +
                               _classFixture.ShippingOption.Prices.Sum(p => p.Amount);
 
-            Assert.Equal(UpdateType.PreCheckoutQueryUpdate, precheckoutUpdate.Type);
+            Assert.Equal(UpdateType.PreCheckoutQuery, precheckoutUpdate.Type);
             Assert.NotNull(query.Id);
             Assert.Equal(_classFixture.Payload, query.InvoicePayload);
             Assert.Equal(totalAmount, query.TotalAmount);
@@ -414,7 +414,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         {
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
-                updateTypes: UpdateType.ShippingQueryUpdate);
+                updateTypes: UpdateType.ShippingQuery);
 
             Update update = updates.Single();
 
@@ -428,7 +428,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         {
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
-                updateTypes: UpdateType.PreCheckoutQueryUpdate);
+                updateTypes: UpdateType.PreCheckoutQuery);
 
             Update update = updates.Single();
 
@@ -443,7 +443,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 predicate: u => u.Message.Type == MessageType.SuccessfulPayment,
                 cancellationToken: cancellationToken,
-                updateTypes: UpdateType.MessageUpdate);
+                updateTypes: UpdateType.Message);
 
             Update update = updates.Single();
 

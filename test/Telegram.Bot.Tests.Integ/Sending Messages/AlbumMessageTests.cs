@@ -33,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
 
-            string[] captions = { "Logo", "Bot" };
+            string[] captions = {"Logo", "Bot"};
 
             Message[] messages;
             using (Stream
@@ -41,7 +41,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
             )
             {
-                InputMediaBase[] inputMedia = {
+                InputMediaBase[] inputMedia =
+                {
                     new InputMediaPhoto
                     {
                         Media = new InputMedia(stream1, "logo"),
@@ -62,7 +63,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             }
 
             Assert.Equal(2, messages.Length);
-            Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
+            Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
             Assert.Equal(captions[0], messages[0].Caption);
             Assert.Equal(captions[1], messages[1].Caption);
 
@@ -84,14 +85,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 chatId: _fixture.SupergroupChat.Id,
                 media: new[]
                 {
-                    new InputMediaPhoto { Media = new InputMedia(fileIds[0])},
-                    new InputMediaPhoto { Media = new InputMedia(fileIds[1])},
-                    new InputMediaPhoto { Media = new InputMedia(fileIds[0])},
+                    new InputMediaPhoto {Media = new InputMedia(fileIds[0])},
+                    new InputMediaPhoto {Media = new InputMedia(fileIds[1])},
+                    new InputMediaPhoto {Media = new InputMedia(fileIds[0])},
                 }
             );
 
             Assert.Equal(3, messages.Length);
-            Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
+            Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
         }
 
         /// <remarks>
@@ -105,24 +106,22 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             // ToDo add exception: Bad Request: failed to get HTTP URL content
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
-            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
+            const string url1 = "https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg";
+            const string url2 = "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg";
             int replyToMessageId = _classFixture.Entities.First().MessageId;
-
-            Random rnd = new Random();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                media: Enumerable.Range(0, 2)
-                    .Select(_ => rnd.Next(100_000_000))
-                    .Select(number => new InputMediaPhoto
-                    {
-                        Media = new InputMedia($"{url}?q={number}")
-                    }),
+                media: new[]
+                {
+                    new InputMediaPhoto {Media = url1},
+                    new InputMediaPhoto {Media = url2},
+                },
                 replyToMessageId: replyToMessageId
             );
 
             Assert.Equal(2, messages.Length);
-            Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
+            Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
 
@@ -133,7 +132,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
 
-            string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
+            string[] captions = {"Golden Ratio", "Moon Landing", "Bot"};
 
             const int firstMediaDuration = 28;
             const int firstMediaWidthAndHeight = 240;
@@ -145,7 +144,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
             )
             {
-                InputMediaBase[] inputMedia = {
+                InputMediaBase[] inputMedia =
+                {
                     new InputMediaVideo
                     {
                         Media = new InputMedia(stream0, captions[0]),
@@ -173,8 +173,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             }
 
             Assert.Equal(3, messages.Length);
-            Assert.All(messages.Take(2), msg => Assert.Equal(MessageType.VideoMessage, msg.Type));
-            Assert.Equal(MessageType.PhotoMessage, messages.Last().Type);
+            Assert.All(messages.Take(2), msg => Assert.Equal(MessageType.Video, msg.Type));
+            Assert.Equal(MessageType.Photo, messages.Last().Type);
             Assert.Equal(captions, messages.Select(msg => msg.Caption));
             Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Width);
             Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Height);
@@ -183,13 +183,17 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
         private static class FactTitles
         {
-            public const string ShouldUploadPhotosInAlbum = "Should upload 2 photos with captions and send them in an album";
+            public const string ShouldUploadPhotosInAlbum =
+                "Should upload 2 photos with captions and send them in an album";
 
-            public const string ShouldSendFileIdPhotosInAlbum = "Should send an album with 3 photos using their file_id";
+            public const string ShouldSendFileIdPhotosInAlbum =
+                "Should send an album with 3 photos using their file_id";
 
-            public const string ShouldSendUrlPhotosInAlbum = "Should send an album using HTTP urls in reply to 1st album message";
+            public const string ShouldSendUrlPhotosInAlbum =
+                "Should send an album using HTTP urls in reply to 1st album message";
 
-            public const string ShouldUploadVideosInAlbum = "Should upload 2 videos and a photo with captions and send them in an album";
+            public const string ShouldUploadVideosInAlbum =
+                "Should upload 2 videos and a photo with captions and send them in an album";
         }
     }
 }

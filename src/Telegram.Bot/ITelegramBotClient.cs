@@ -772,6 +772,25 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="inlineMessageId">Identifier of the inline message</param>
+        /// <param name="text">New text of the message</param>
+        /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
+        Task EditMessageTextAsync(
+            string inlineMessageId,
+            string text,
+            ParseMode parseMode = default,
+            bool disableWebPagePreview = default,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default);
+        
+        /// <summary>
         /// Use this method to stop updating a live location message sent by the bot before live_period expires.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
@@ -796,25 +815,6 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#stopmessagelivelocation"/>
         Task StopMessageLiveLocationAsync(
             string inlineMessageId,
-            InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
-        /// </summary>
-        /// <param name="inlineMessageId">Identifier of the inline message</param>
-        /// <param name="text">New text of the message</param>
-        /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
-        /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
-        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns><c>true</c> on success.</returns>
-        /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
-        Task EditMessageTextAsync(
-            string inlineMessageId,
-            string text,
-            ParseMode parseMode = default,
-            bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
@@ -866,6 +866,19 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="inlineMessageId">Unique identifier of the sent message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
+        Task EditMessageReplyMarkupAsync(
+            string inlineMessageId,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default);
+        
+        /// <summary>
         /// Use this method to edit live location messages sent by the bot.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
@@ -898,19 +911,6 @@ namespace Telegram.Bot
             string inlineMessageId,
             float latitude,
             float longitude,
-            InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
-        /// </summary>
-        /// <param name="inlineMessageId">Unique identifier of the sent message</param>
-        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns><c>true</c> on success.</returns>
-        /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
-        Task EditMessageReplyMarkupAsync(
-            string inlineMessageId,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 

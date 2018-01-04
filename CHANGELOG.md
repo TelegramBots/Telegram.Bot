@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Type `InvalidParameterException`
+- Type `FileBase`
+
+### Changed
+
+- Moved all types in namespace `Telegram.Bot.Types.InputMessageContents` to namespace `Telegram.Bot.Types.InlineQueryResults`
+- Value names of enums `MessageType` and `UpdateType`
+
+### Removed
+
+- Property `File.Stream`
+- Property `FilePath` from Types `Audio`, `Document`, `PhotoSize`, `Sticker`, `Video`, `VideoNote`, and `Voice`
+- Property `Message.NewChatMember`
+
+## [14.0.0-beta-342] - 2018-01-03
+
+### Added
+
 - More `PaymentTests` cases
 - Type `IKeyboardButton`
 - Implicit cast of `string[]` to `ReplyKeyboardMarkup`

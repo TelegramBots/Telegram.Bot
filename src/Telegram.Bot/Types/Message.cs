@@ -204,12 +204,6 @@ namespace Telegram.Bot.Types
         public Venue Venue { get; set; }
 
         /// <summary>
-        /// Optional. A new member was added to the group, information about them (this member may be bot itself)
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public User NewChatMember { get; set; }
-
-        /// <summary>
         /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -298,37 +292,37 @@ namespace Telegram.Bot.Types
             get
             {
                 if (Audio != null)
-                    return MessageType.AudioMessage;
+                    return MessageType.Audio;
 
                 if (Document != null)
-                    return MessageType.DocumentMessage;
+                    return MessageType.Document;
 
                 if (Game != null)
-                    return MessageType.GameMessage;
+                    return MessageType.Game;
 
                 if (Photo != null)
-                    return MessageType.PhotoMessage;
+                    return MessageType.Photo;
 
                 if (Sticker != null)
-                    return MessageType.StickerMessage;
+                    return MessageType.Sticker;
 
                 if (Video != null)
-                    return MessageType.VideoMessage;
+                    return MessageType.Video;
 
                 if (Voice != null)
-                    return MessageType.VoiceMessage;
+                    return MessageType.Voice;
 
                 if (Contact != null)
-                    return MessageType.ContactMessage;
+                    return MessageType.Contact;
 
                 if (Venue != null)
-                    return MessageType.VenueMessage;
+                    return MessageType.Venue;
 
                 if (Location != null)
-                    return MessageType.LocationMessage;
+                    return MessageType.Location;
 
                 if (Text != null)
-                    return MessageType.TextMessage;
+                    return MessageType.Text;
 
                 if (Invoice != null)
                     return MessageType.Invoice;
@@ -337,10 +331,9 @@ namespace Telegram.Bot.Types
                     return MessageType.SuccessfulPayment;
 
                 if (VideoNote != null)
-                    return MessageType.VideoNoteMessage;
+                    return MessageType.VideoNote;
 
-                if (NewChatMember != null ||
-                    (NewChatMembers?.Any() == true) ||
+                if (NewChatMembers?.Any() == true ||
                     LeftChatMember != null ||
                     NewChatTitle != null ||
                     NewChatPhoto != null ||
@@ -351,9 +344,9 @@ namespace Telegram.Bot.Types
                     ChannelChatCreated ||
                     MigrateFromChatId == default ||
                     MigrateToChatId == default)
-                    return MessageType.ServiceMessage;
+                    return MessageType.Service;
 
-                return MessageType.UnknownMessage;
+                return MessageType.Unknown;
             }
         }
     }

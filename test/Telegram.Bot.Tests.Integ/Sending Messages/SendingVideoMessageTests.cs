@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            Assert.Equal(MessageType.VideoMessage, message.Type);
+            Assert.Equal(MessageType.Video, message.Type);
             Assert.Equal(caption, message.Caption);
             Assert.Equal(duration, message.Video.Duration);
             Assert.Equal(width, message.Video.Width);
@@ -79,11 +79,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            Assert.Equal(MessageType.VideoNoteMessage, message.Type);
+            Assert.Equal(MessageType.VideoNote, message.Type);
             Assert.Equal(duration, message.VideoNote.Duration);
             Assert.Equal(widthAndHeight, message.VideoNote.Length);
             Assert.NotEmpty(message.VideoNote.Thumb.FileId);
-            Assert.NotEmpty(message.VideoNote.Thumb.FilePath);
             Assert.True(message.VideoNote.Thumb.FileSize > 200);
             Assert.True(message.VideoNote.Thumb.Width > 50);
             Assert.True(message.VideoNote.Thumb.Height > 50);

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Telegram.Bot.Types.InputMessageContents
+namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Represents the content of a location message to be sent as the result of an <see cref="InlineQuery"/>.

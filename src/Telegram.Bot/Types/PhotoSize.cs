@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types
     /// <remarks>A missing thumbnail for a file (or sticker) is presented as an empty object.</remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     [JsonConverter(typeof(PhotoSizeConverter))]
-    public class PhotoSize : File
+    public class PhotoSize : FileBase
     {
         /// <summary>
         /// Photo width

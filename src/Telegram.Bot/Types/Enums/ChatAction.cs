@@ -7,13 +7,12 @@ namespace Telegram.Bot.Types.Enums
     /// <summary>
     /// Type of action the Bot is performing
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(StringEnumConverter), true)]
     public enum ChatAction
     {
         /// <summary>
         /// Typing
         /// </summary>
-        [EnumMember(Value = "typing")]
         Typing,
 
         /// <summary>

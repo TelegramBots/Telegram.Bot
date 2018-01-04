@@ -8,7 +8,7 @@ namespace Telegram.Bot.Exceptions
     {
         int ErrorCode { get; }
 
-        string ErrorMessage { get; }
+        string ErrorMessageRegex { get; }
 
         Type Type { get; }
     }
@@ -18,13 +18,13 @@ namespace Telegram.Bot.Exceptions
     {
         public int ErrorCode => BadRequestException.BadRequestErrorCode;
 
-        public string ErrorMessage { get; }
+        public string ErrorMessageRegex { get; }
 
         public Type Type => typeof(T);
 
-        public BadRequestExceptionInfo(string errorMessage)
+        public BadRequestExceptionInfo(string errorMessageRegex)
         {
-            ErrorMessage = errorMessage;
+            ErrorMessageRegex = errorMessageRegex;
         }
     }
 
@@ -33,13 +33,13 @@ namespace Telegram.Bot.Exceptions
     {
         public int ErrorCode => ForbiddenException.ForbiddenErrorCode;
 
-        public string ErrorMessage { get; }
+        public string ErrorMessageRegex { get; }
 
         public Type Type => typeof(T);
 
-        public ForbiddenExceptionInfo(string errorMessage)
+        public ForbiddenExceptionInfo(string errorMessageRegex)
         {
-            ErrorMessage = errorMessage;
+            ErrorMessageRegex = errorMessageRegex;
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
-using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
@@ -149,16 +147,18 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            const string url = "https://loremflickr.com/600/400/history,culture,art,nature";
-            string photoUrl = $"{url}?q={new Random().Next(100_000_000)}";
+            const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
 
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultPhoto(
                     id: "photo1",
-                    photoUrl: photoUrl,
-                    thumbUrl: photoUrl
+                    photoUrl: url,
+                    thumbUrl: url
                 )
+                {
+                    Caption = "Rainbow Girl"
+                }
             };
 
             await BotClient.AnswerInlineQueryAsync(
@@ -648,6 +648,34 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedSticker)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(20)]
+        public async Task Should_Answer_Inline_Query_With_Cached_Sticker()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedSticker,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            StickerSet stickerSet = await BotClient.GetStickerSetAsync("EvilMinds");
+            
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultCachedSticker(
+                    id: "sticker_result",
+                    stickerFileId: stickerSet.Stickers[0].FileId
+                )
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+        }
+        
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -690,6 +718,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedMpeg4Gif =
                 "Should send an mpeg4 gif and answer inline query with a cached mpeg4 gif using its file_id";
+            
+            public const string ShouldAnswerInlineQueryWithCachedSticker =
+                "Should answer inline query with a cached sticker using its file_id";
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(text, message.Text);
-            Assert.Equal(MessageType.TextMessage, message.Type);
+            Assert.Equal(MessageType.Text, message.Type);
             Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
             Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
             Assert.True(JToken.DeepEquals(
@@ -67,7 +67,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(text, message.Text);
-            Assert.Equal(MessageType.TextMessage, message.Type);
+            Assert.Equal(MessageType.Text, message.Type);
             Assert.Equal(_classFixture.ChannelChat.Id, message.Chat.Id);
             Assert.Equal(_classFixture.ChannelChat.Username, message.Chat.Username);
         }

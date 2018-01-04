@@ -7,8 +7,7 @@ namespace Telegram.Bot.Types.Payments
     /// This object contains basic information about an invoice.
     /// </summary>
     /// <seealso href="https://core.telegram.org/bots/api#invoice"/>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Invoice
     {
         /// <summary>
