@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Type `InvalidParameterException`
+
+### Added
+
 - More `PaymentTests` cases
 - Type `IKeyboardButton`
 - Implicit cast of `string[]` to `ReplyKeyboardMarkup`
