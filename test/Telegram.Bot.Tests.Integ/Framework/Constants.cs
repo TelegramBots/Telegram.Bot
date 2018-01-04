@@ -24,11 +24,15 @@
 
             public const string SendDocumentMessage = "Sending Document Messages";
 
-            public const string MessageReplyMarkup = "Messages with Keyboard Reply Markup";
+            public const string ReplyMarkup = "Messages with Reply Markup";
+
+            public const string PrivateChatReplyMarkup = "Messages with Reply Markup - Private Chat";
 
             public const string ChatInfo = "Getting Chat Info";
 
             public const string InlineQuery = "Inline Query";
+
+            public const string FileDownload = "File Download";
 
             public const string CallbackQuery = "Callback Query";
 
@@ -79,6 +83,8 @@
                 public const string Vlc = PhotoDir + "vlc.png";
 
                 public const string Ruby = PhotoDir + "ruby.png";
+
+                public const string Apes = PhotoDir + "apes.jpg";
             }
 
             public static class Videos
@@ -88,6 +94,15 @@
                 public const string GoldenRatio = VideoDir + "golden-ratio-240px.mp4";
 
                 public const string MoonLanding = VideoDir + "moon-landing.mp4";
+            }
+
+            public static class Audio
+            {
+                private const string AudioDir = FilesDir + "Audio/";
+
+                public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
+
+                public const string TestOgg = AudioDir + "Test.ogg";
             }
 
             public static class Certificate
@@ -123,6 +138,8 @@
             public const string PinChatMessage = "pinChatMessage";
 
             public const string GetChat = "getChat";
+
+            public const string GetFile = "getFile";
 
             public const string UnpinChatMessage = "unpinChatMessage";
 

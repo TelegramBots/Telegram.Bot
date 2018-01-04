@@ -9,6 +9,48 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- More `PaymentTests` cases
+- Type `IKeyboardButton`
+- Implicit cast of `string[]` to `ReplyKeyboardMarkup`
+- Implicit cast of `string[][]` to `ReplyKeyboardMarkup`
+- Inline query results
+  - Type `ICaptionInlineQueryResult`
+  - Type `IInputMessageContentResult`
+  - Type `ILocationInlineQueryResult`
+  - Type `IThumbnailInlineQueryResult`
+  - Type `IThumbnailUrlInlineQueryResult`
+  - Type `ITitleInlineQueryResult`
+  - Constructor with required parameters in `InlineQueryResult` and all derived classes
+  - Property `InlineQueryResultVoice.Caption`
+
+### Changed
+
+- All keyboard button classes inherit `IKeyboardButton` interface
+- All keyboard buttons moved to namespace `Telegram.Bot.Types.ReplyMarkups.Buttons`
+- Renamed type `ReplyMarkup` to `ReplyMarkupBase`
+- Renamed type `ForceReply` to `ForceReplyMarkup`
+- `InlineQueryResult` to abstract
+
+### Removed
+
+- All specific `KeyboardButton` types
+- All specific `InlineKeyboardButton` types
+- Implicit cast of `InlineKeyboardButton` to `KeyboardButton`
+- Type `InlineQueryResultNew`
+- Type `InlineQueryResultCached`
+- Property `InlineQueryResult.Title`
+- Property `InlineQueryResult.InputMessageContent`
+- Property `InlineQueryResultAudio.FileId`
+- JSON serialization attribute `Required.Always` of property `InlineQueryResultAudio.Duration`
+
+### Fixed
+
+- Invalid default value for `SwitchInlineQueryCurrentChat` in `InlineKeyboardSwitchInlineQueryCurrentChatButton` constructor
+
+## [14.0.0-alpha0] - 2017-12-31
+
+### Added
+
 - Request classes
   - Type `GetUpdatesRequest`
   - Type `SetWebhookRequest`
@@ -197,7 +239,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Passing wrong `photo` value in method `SetChatPhotoAsync`
 - Passing wrong `certificate` value in method `SetWebhookAsync`
 - Incorrect spelling of the method `CreateNewStickerSetAsync`
-- `TestApiAsync()` throws exception instead of returing `false`
+- `TestApiAsync()` throws exception instead of returning `false`
 
 ## [13.4.0] - 2017-12-07
 

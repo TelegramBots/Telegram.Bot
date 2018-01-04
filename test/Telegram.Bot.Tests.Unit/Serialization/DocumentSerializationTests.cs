@@ -34,7 +34,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     FileSize = 123_456,
                     MimeType = "plain/text"
                 },
-                Date = DateTime.Now,
+                Date = DateTime.UtcNow,
                 Caption = "Test Document Description"
             };
 

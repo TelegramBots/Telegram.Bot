@@ -559,14 +559,27 @@ namespace Telegram.Bot
         /// Use this method to download a file. For the moment, bots can download files of up to 20MB in size.
         /// </summary>
         /// <param name="fileId">File identifier</param>
-        /// <param name="destination">The destination stream</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>The File object. If <paramref name="destination"/> stream in not provided, stream is embedded in the <see cref="File"/> object</returns>
+        /// <returns>The File object</returns>
         /// <see href="https://core.telegram.org/bots/api#getfile"/>
         Task<File> GetFileAsync(
             string fileId,
-            Stream destination = default,
             CancellationToken cancellationToken = default);
+
+        Task<Stream> DownloadFileAsync(
+            string filePath,
+            CancellationToken cancellationToken = default);
+
+        Task DownloadFileAsync(
+            string filePath,
+            Stream destination,
+            CancellationToken cancellationToken = default);
+
+        Task<File> GetInfoAndDownloadFileAsync(
+            string fileId,
+            Stream destination,
+            CancellationToken cancellationToken = default);
+
 
         /// <summary>
         /// Use this method to kick a user from a group or a supergroup. In the case of supergroups, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the group for this to work.
@@ -933,7 +946,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#answerinlinequery"/>
         Task AnswerInlineQueryAsync(
             string inlineQueryId,
-            IEnumerable<InlineQueryResult> results,
+            IEnumerable<InlineQueryResultBase> results,
             int? cacheTime = default,
             bool isPersonal = default,
             string nextOffset = default,

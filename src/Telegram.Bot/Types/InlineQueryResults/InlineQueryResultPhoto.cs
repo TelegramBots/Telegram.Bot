@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.ComponentModel;
+using Telegram.Bot.Types.InlineQueryResults.Abstractions;
+using Telegram.Bot.Types.InputMessageContents;
 
 namespace Telegram.Bot.Types.InlineQueryResults
 {
@@ -9,50 +10,73 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// By default, this photo will be sent by the user with optional caption.
     /// Alternatively, you can provide message_text to send it instead of photo.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultPhoto : InlineQueryResultNew
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class InlineQueryResultPhoto : InlineQueryResultBase,
+        ICaptionInlineQueryResult,
+        IThumbnailUrlInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public string ThumbUrl { get; set; }
+
         /// <summary>
-        /// A valid URL of the photo. Photo size must not exceed 5MB
+        /// A valid URL of the photo. Photo size must not exceed 5MB.
         /// </summary>
-        [JsonProperty("photo_url", Required = Required.Always)]
-        public string Url { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public string PhotoUrl { get; set; }
 
         /// <summary>
         /// Optional. Width of the photo
         /// </summary>
-        [JsonProperty("photo_width", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public int Width { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int PhotoWidth { get; set; }
 
         /// <summary>
         /// Optional. Height of the photo
         /// </summary>
-        [JsonProperty("photo_height", DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
-        public int Height { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int PhotoHeight { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }
 
-        /// <summary>
-        /// Optional. Caption of the photo to be sent
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
 
-        /// <summary>
-        /// Optional. Thumbnail width
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbWidth { get; set; }
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Title { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMessageContent InputMessageContent { get; set; }
 
         /// <summary>
-        /// Optional. Thumbnail height
+        /// Initializes a new inline query result
         /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public new int ThumbHeight { get; set; }
+        public InlineQueryResultPhoto()
+            : base(InlineQueryResultType.Photo)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query representing a link to a photo
+        /// </summary>
+        /// <param name="id">Unique identifier of this result</param>
+        /// <param name="photoUrl">A valid URL of the photo. Photo size must not exceed 5MB.</param>
+        /// <param name="thumbUrl">Optional. Url of the thumbnail for the result.</param>
+        public InlineQueryResultPhoto(string id, string photoUrl, string thumbUrl)
+            : this()
+        {
+            Id = id;
+            PhotoUrl = photoUrl;
+            ThumbUrl = thumbUrl;
+        }
     }
 }
