@@ -32,6 +32,8 @@
 
             public const string InlineQuery = "Inline Query";
 
+            public const string FileDownload = "File Download";
+
             public const string CallbackQuery = "Callback Query";
 
             public const string AlbumMessage = "Sending Album Messages";
@@ -81,7 +83,7 @@
                 public const string Vlc = PhotoDir + "vlc.png";
 
                 public const string Ruby = PhotoDir + "ruby.png";
-                
+
                 public const string Apes = PhotoDir + "apes.jpg";
             }
 
@@ -93,13 +95,13 @@
 
                 public const string MoonLanding = VideoDir + "moon-landing.mp4";
             }
-            
+
             public static class Audio
             {
                 private const string AudioDir = FilesDir + "Audio/";
 
                 public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
-                
+
                 public const string TestOgg = AudioDir + "Test.ogg";
             }
 
@@ -108,7 +110,7 @@
                 private const string CertificateDir = FilesDir + "Certificate/";
 
                 public const string PublicKey = CertificateDir + "public-key.pem";
-            }            
+            }
         }
 
         public static class TelegramBotApiMethods
@@ -136,6 +138,8 @@
             public const string PinChatMessage = "pinChatMessage";
 
             public const string GetChat = "getChat";
+
+            public const string GetFile = "getFile";
 
             public const string UnpinChatMessage = "unpinChatMessage";
 

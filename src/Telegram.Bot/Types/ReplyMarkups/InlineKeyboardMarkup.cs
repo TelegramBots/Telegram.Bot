@@ -19,13 +19,18 @@ namespace Telegram.Bot.Types.ReplyMarkups
         [JsonProperty(Required = Required.Always)]
         public IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; }
 
+        public InlineKeyboardMarkup()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button
         /// </summary>
         /// <param name="inlineKeyboardButton">Keyboard button</param>
         public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
-            : this(new[] { inlineKeyboardButton })
-        { }
+            : this(new[] {inlineKeyboardButton})
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard

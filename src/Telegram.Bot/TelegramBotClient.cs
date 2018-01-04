@@ -255,11 +255,11 @@ namespace Telegram.Bot
 
             var apiResponse =
                 JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
-                    ?? new ApiResponse<TResponse> // ToDo is required? unit test
-                    {
-                        Ok = false,
-                        Description = "No response received"
-                    };
+                ?? new ApiResponse<TResponse> // ToDo is required? unit test
+                {
+                    Ok = false,
+                    Description = "No response received"
+                };
 
             if (!apiResponse.Ok)
                 throw ApiExceptionParser.Parse(apiResponse);
@@ -445,13 +445,13 @@ namespace Telegram.Bot
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-           MakeRequestAsync(new SendPhotoRequest(chatId, photo)
-           {
-               Caption = caption,
-               ReplyToMessageId = replyToMessageId,
-               DisableNotification = disableNotification,
-               ReplyMarkup = replyMarkup
-           }, cancellationToken);
+            MakeRequestAsync(new SendPhotoRequest(chatId, photo)
+            {
+                Caption = caption,
+                ReplyToMessageId = replyToMessageId,
+                DisableNotification = disableNotification,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> SendAudioAsync(
@@ -566,14 +566,14 @@ namespace Telegram.Bot
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-           MakeRequestAsync(new SendVideoNoteRequest(chatId, videoNote)
-           {
-               Duration = duration,
-               Length = length,
-               DisableNotification = disableNotification,
-               ReplyToMessageId = replyToMessageId,
-               ReplyMarkup = replyMarkup
-           }, cancellationToken);
+            MakeRequestAsync(new SendVideoNoteRequest(chatId, videoNote)
+            {
+                Duration = duration,
+                Length = length,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Message[]> SendMediaGroupAsync(
@@ -669,29 +669,70 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
-        public async Task<File> GetFileAsync(
+        public Task<File> GetFileAsync(
             string fileId,
-            Stream destination = default,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetFileRequest(fileId), cancellationToken);
+
+        /// <inheritdoc />
+        public async Task<Stream> DownloadFileAsync(
+            string filePath,
+            CancellationToken cancellationToken = default
+        )
         {
-            var fileInfo = await MakeRequestAsync(new GetFileRequest(fileId), cancellationToken)
-                .ConfigureAwait(false);
+            Stream stream;
+            var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
 
-            var fileUri = new Uri(BaseFileUrl + _token + "/" + fileInfo.FilePath);
-
-            if (destination == null)
-                destination = fileInfo.FileStream = new MemoryStream();
-
-            using (var response = await _httpClient
+            var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                .ConfigureAwait(false))
+                .ConfigureAwait(false);
+            using (response)
+            {
+                stream = new MemoryStream();
+                await response.Content.CopyToAsync(stream)
+                    .ConfigureAwait(false);
+            }
+
+            return stream;
+        }
+
+        /// <inheritdoc />
+        public async Task DownloadFileAsync(
+            string filePath,
+            Stream destination,
+            CancellationToken cancellationToken = default
+        )
+        {
+            var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
+
+            var response = await _httpClient
+                .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                .ConfigureAwait(false);
+            using (response)
             {
                 await response.Content.CopyToAsync(destination)
                     .ConfigureAwait(false);
-                destination.Position = 0;
             }
+        }
 
-            return fileInfo;
+        /// <inheritdoc />
+        public async Task<File> GetInfoAndDownloadFileAsync(
+            string fileId,
+            Stream destination,
+            CancellationToken cancellationToken = default
+        )
+        {
+            if (destination is default)
+                throw new ArgumentNullException(nameof(destination));
+
+            var file = await GetFileAsync(fileId, cancellationToken)
+                .ConfigureAwait(false);
+
+            await DownloadFileAsync(file.FilePath, destination, cancellationToken)
+                .ConfigureAwait(false);
+
+            return file;
         }
 
         /// <inheritdoc />

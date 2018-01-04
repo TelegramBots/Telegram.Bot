@@ -10,9 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - More `PaymentTests` cases
-- Interface `IKeyboardButton`
-- Type `RequestContactButton`
-- Type `RequestLocationButton`
+- Type `IKeyboardButton`
 - Implicit cast of `string[]` to `ReplyKeyboardMarkup`
 - Implicit cast of `string[][]` to `ReplyKeyboardMarkup`
 - Inline query results
@@ -23,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Type `IThumbnailUrlInlineQueryResult`
   - Type `ITitleInlineQueryResult`
   - Constructor with required parameters in `InlineQueryResult` and all derived classes
-  - Type `InlineQueryResultVoice` property `Caption`
+  - Property `InlineQueryResultVoice.Caption`
 
 ### Changed
 
@@ -31,22 +29,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - All keyboard buttons moved to namespace `Telegram.Bot.Types.ReplyMarkups.Buttons`
 - Renamed type `ReplyMarkup` to `ReplyMarkupBase`
 - Renamed type `ForceReply` to `ForceReplyMarkup`
-- Make `InlineQueryResult` abstract
-- Types of all url properties in `InlineQueryResult` derived classes and related interfaces changed to `Uri`
+- `InlineQueryResult` to abstract
 
 ### Removed
 
 - All specific `KeyboardButton` types
 - All specific `InlineKeyboardButton` types
-- Parameterless ctor of type `ReplyKeyboardMarkup`
-- Parameterless ctor of type `InlineKeyboardMarkup`
 - Implicit cast of `InlineKeyboardButton` to `KeyboardButton`
 - Type `InlineQueryResultNew`
 - Type `InlineQueryResultCached`
-- Type `InlineQueryResult` property `Title`
-- Type `InlineQueryResult` property `InputMessageContent`
-- Type `InlineQueryResultAudio` property `FileId`
-- Type `InlineQueryResultAudio` property `Duration` value `Required.Always` in json attribute
+- Property `InlineQueryResult.Title`
+- Property `InlineQueryResult.InputMessageContent`
+- Property `InlineQueryResultAudio.FileId`
+- JSON serialization attribute `Required.Always` of property `InlineQueryResultAudio.Duration`
 
 ### Fixed
 

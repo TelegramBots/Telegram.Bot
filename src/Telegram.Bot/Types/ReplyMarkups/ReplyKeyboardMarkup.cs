@@ -29,6 +29,10 @@ namespace Telegram.Bot.Types.ReplyMarkups
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool OneTimeKeyboard { get; set; }
 
+        public ReplyKeyboardMarkup()
+        {
+        }
+
         public ReplyKeyboardMarkup(KeyboardButton button)
             : this(new[] {button})
         {
