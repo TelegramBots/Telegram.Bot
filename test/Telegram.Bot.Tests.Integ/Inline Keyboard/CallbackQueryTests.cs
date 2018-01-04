@@ -50,7 +50,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
                 text: "You clicked on OK"
             );
 
-            Assert.Equal(UpdateType.CallbackQueryUpdate, responseUpdate.Type);
+            Assert.Equal(UpdateType.CallbackQuery, responseUpdate.Type);
             Assert.Equal(callbackQueryData, callbackQuery.Data);
             Assert.NotEmpty(callbackQuery.ChatInstance);
             Assert.Null(callbackQuery.InlineMessageId);
@@ -91,7 +91,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
                 showAlert: true
             );
 
-            Assert.Equal(UpdateType.CallbackQueryUpdate, responseUpdate.Type);
+            Assert.Equal(UpdateType.CallbackQuery, responseUpdate.Type);
             Assert.Equal(callbackQueryData, callbackQuery.Data);
             Assert.NotEmpty(callbackQuery.ChatInstance);
             Assert.Null(callbackQuery.InlineMessageId);

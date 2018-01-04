@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            Assert.Equal(MessageType.DocumentMessage, message.Type);
+            Assert.Equal(MessageType.Document, message.Type);
             Assert.Equal(fileName, message.Document.FileName);
             Assert.Equal(mimeType, message.Document.MimeType);
             Assert.InRange(Math.Abs(fileSize - message.Document.FileSize), 0, 3500);
@@ -75,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            Assert.Equal(MessageType.DocumentMessage, message.Type);
+            Assert.Equal(MessageType.Document, message.Type);
             Assert.Equal(fileName, message.Document.FileName);
             Assert.Equal(mimeType, message.Document.MimeType);
             Assert.InRange(Math.Abs(fileSize - message.Document.FileSize), 0, 3500);

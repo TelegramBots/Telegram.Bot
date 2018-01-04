@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            Assert.Equal(MessageType.PhotoMessage, message.Type);
+            Assert.Equal(MessageType.Photo, message.Type);
             Assert.NotEmpty(message.Photo);
             Assert.All(message.Photo.Select(ps => ps.FileId), Assert.NotEmpty);
             Assert.All(message.Photo.Select(ps => ps.Width), w => Assert.NotEqual(default, w));

@@ -63,7 +63,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             }
 
             Assert.Equal(2, messages.Length);
-            Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
+            Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
             Assert.Equal(captions[0], messages[0].Caption);
             Assert.Equal(captions[1], messages[1].Caption);
 
@@ -92,7 +92,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(3, messages.Length);
-            Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
+            Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
         }
 
         /// <remarks>
@@ -121,7 +121,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(2, messages.Length);
-            Assert.All(messages, msg => Assert.Equal(MessageType.PhotoMessage, msg.Type));
+            Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
 
@@ -173,8 +173,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             }
 
             Assert.Equal(3, messages.Length);
-            Assert.All(messages.Take(2), msg => Assert.Equal(MessageType.VideoMessage, msg.Type));
-            Assert.Equal(MessageType.PhotoMessage, messages.Last().Type);
+            Assert.All(messages.Take(2), msg => Assert.Equal(MessageType.Video, msg.Type));
+            Assert.Equal(MessageType.Photo, messages.Last().Type);
             Assert.Equal(captions, messages.Select(msg => msg.Caption));
             Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Width);
             Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Height);

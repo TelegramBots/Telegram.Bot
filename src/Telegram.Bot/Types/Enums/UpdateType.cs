@@ -7,67 +7,65 @@ namespace Telegram.Bot.Types.Enums
     /// <summary>
     /// The type of an <see cref="Update"/>
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(StringEnumConverter), true)]
     public enum UpdateType
     {
         /// <summary>
         /// Update Type is unknown
         /// </summary>
-        [EnumMember(Value = "unknown_update")]
-        UnknownUpdate = 0,
+        Unknown = 0,
 
         /// <summary>
-        /// The <see cref="Update"/> contains a <see cref="Message"/>.
+        /// The <see cref="Update"/> contains a <see cref="Types.Message"/>.
         /// </summary>
-        [EnumMember(Value = "message")]
-        MessageUpdate,
+        Message,
 
         /// <summary>
-        /// The <see cref="Update"/> contains an <see cref="InlineQuery"/>.
+        /// The <see cref="Update"/> contains an <see cref="Types.InlineQuery"/>.
         /// </summary>
         [EnumMember(Value = "inline_query")]
-        InlineQueryUpdate,
+        InlineQuery,
 
         /// <summary>
-        /// The <see cref="Update"/> contains a <see cref="ChosenInlineResult"/>.
+        /// The <see cref="Update"/> contains a <see cref="Types.ChosenInlineResult"/>.
         /// </summary>
         [EnumMember(Value = "chosen_inline_result")]
-        ChosenInlineResultUpdate,
+        ChosenInlineResult,
 
         /// <summary>
-        /// The <see cref="Update"/> contains a <see cref="CallbackQuery"/>
+        /// The <see cref="Update"/> contains a <see cref="Types.CallbackQuery"/>
         /// </summary>
         [EnumMember(Value = "callback_query")]
-        CallbackQueryUpdate,
+        CallbackQuery,
 
         /// <summary>
-        /// The <see cref="Update"/> contains an edited <see cref="Message"/>
+        /// The <see cref="Update"/> contains an edited <see cref="Types.Message"/>
         /// </summary>
         [EnumMember(Value = "edited_message")]
         EditedMessage,
 
         /// <summary>
-        /// The <see cref="Update"/> contains a channel post <see cref="Message"/>
+        /// The <see cref="Update"/> contains a channel post <see cref="Types.Message"/>
         /// </summary>
         [EnumMember(Value = "channel_post")]
         ChannelPost,
 
         /// <summary>
-        /// The <see cref="Update"/> contains an edited channel post <see cref="Message"/>
+        /// The <see cref="Update"/> contains an edited channel post <see cref="Types.Message"/>
         /// </summary>
         [EnumMember(Value = "edited_channel_post")]
         EditedChannelPost,
 
         /// <summary>
-        /// The <see cref="Update"/> contains an <see cref="ShippingQueryUpdate"/>
+        /// The <see cref="Update"/> contains an <see cref="ShippingQuery"/>
         /// </summary>
         [EnumMember(Value = "shipping_query")]
-        ShippingQueryUpdate,
+        ShippingQuery,
 
         /// <summary>
-        /// The <see cref="Update"/> contains an <see cref="PreCheckoutQueryUpdate"/>
+        /// The <see cref="Update"/> contains an <see cref="PreCheckoutQuery"/>
         /// </summary>
         [EnumMember(Value = "pre_checkout_query")]
-        PreCheckoutQueryUpdate,
+        PreCheckoutQuery,
     }
 }

@@ -114,7 +114,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 );
 
             var update = await UpdateReceiver
-                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.MessageUpdate)
+                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message)
                 .ContinueWith(t => t.Result.Single());
 
             await UpdateReceiver.DiscardNewUpdatesAsync();

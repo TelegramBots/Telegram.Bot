@@ -85,19 +85,19 @@ namespace Telegram.Bot
 
             switch (e.Update.Type)
             {
-                case UpdateType.MessageUpdate:
+                case UpdateType.Message:
                     OnMessage?.Invoke(this, e);
                     break;
 
-                case UpdateType.InlineQueryUpdate:
+                case UpdateType.InlineQuery:
                     OnInlineQuery?.Invoke(this, e);
                     break;
 
-                case UpdateType.ChosenInlineResultUpdate:
+                case UpdateType.ChosenInlineResult:
                     OnInlineResultChosen?.Invoke(this, e);
                     break;
 
-                case UpdateType.CallbackQueryUpdate:
+                case UpdateType.CallbackQuery:
                     OnCallbackQuery?.Invoke(this, e);
                     break;
 

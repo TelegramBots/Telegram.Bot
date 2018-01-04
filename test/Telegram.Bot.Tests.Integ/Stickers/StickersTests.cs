@@ -86,7 +86,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 sticker: vladDraculaSticker.FileId
             );
 
-            Assert.Equal(MessageType.StickerMessage, message.Type);
+            Assert.Equal(MessageType.Sticker, message.Type);
             Assert.Equal(vladDraculaSticker.FileId, message.Sticker.FileId);
             Assert.Equal(vladDraculaSticker.Emoji, message.Sticker.Emoji);
             Assert.Equal(vladDraculaSticker.Height, message.Sticker.Height);

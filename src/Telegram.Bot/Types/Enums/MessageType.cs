@@ -1,79 +1,83 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// The type of a <see cref="Message"/>
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter), true)]
     public enum MessageType
     {
         /// <summary>
         /// The <see cref="Message"/> is unknown
         /// </summary>
-        UnknownMessage = 0,
+        Unknown = 0,
 
         /// <summary>
         /// The <see cref="Message"/> contains text
         /// </summary>
-        TextMessage,
+        Text,
 
         /// <summary>
         /// The <see cref="Message"/> contains a <see cref="PhotoSize"/>
         /// </summary>
-        PhotoMessage,
+        Photo,
 
         /// <summary>
-        /// The <see cref="Message"/> contains an <see cref="Audio"/>
+        /// The <see cref="Message"/> contains an <see cref="Types.Audio"/>
         /// </summary>
-        AudioMessage,
+        Audio,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Video"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Video"/>
         /// </summary>
-        VideoMessage,
+        Video,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Voice"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Voice"/>
         /// </summary>
-        VoiceMessage,
+        Voice,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Document"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Document"/>
         /// </summary>
-        DocumentMessage,
+        Document,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Sticker"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Sticker"/>
         /// </summary>
-        StickerMessage,
+        Sticker,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Location"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Location"/>
         /// </summary>
-        LocationMessage,
+        Location,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Contact"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Contact"/>
         /// </summary>
-        ContactMessage,
+        Contact,
 
         /// <summary>
         /// The <see cref="Message"/> contains meta informations, for example <see cref="Message.GroupChatCreated"/> or <see cref="Message.NewChatTitle"/>
         /// </summary>
-        ServiceMessage,
+        Service,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Venue"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Venue"/>
         /// </summary>
-        VenueMessage,
+        Venue,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Game"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Game"/>
         /// </summary>
-        GameMessage,
+        Game,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="VideoNote"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.VideoNote"/>
         /// </summary>
-        VideoNoteMessage,
+        VideoNote,
 
         /// <summary>
         /// The <see cref="Message"/> contains a <see cref="Invoice"/>

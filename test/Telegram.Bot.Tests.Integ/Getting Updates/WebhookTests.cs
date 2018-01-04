@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.SetWebhookAsync(
                 url: "https://www.t.me/",
                 maxConnections: 5,
-                allowedUpdates: new[] { UpdateType.CallbackQueryUpdate, UpdateType.InlineQueryUpdate }
+                allowedUpdates: new[] { UpdateType.CallbackQuery, UpdateType.InlineQuery }
             );
 
             await BotClient.DeleteWebhookAsync();
