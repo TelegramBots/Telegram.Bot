@@ -35,7 +35,7 @@ namespace Telegram.Bot.Exceptions
             ApiRequestException exception;
 
             var typeInfo = ExceptionInfos
-                .SingleOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex));
+                .FirstOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex));
 
             if (typeInfo is null)
             {
