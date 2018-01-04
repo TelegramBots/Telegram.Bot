@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types
     /// This object represents a voice note.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class Voice : File
+    public class Voice : FileBase
     {
         /// <summary>
         /// Duration of the audio in seconds as defined by sender

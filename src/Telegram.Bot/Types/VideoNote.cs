@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types
     /// This object represents a video message (available in Telegram apps as of v.4.0).
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class VideoNote : File
+    public class VideoNote : FileBase
     {
         /// <summary>
         /// Video width and height as defined by sender

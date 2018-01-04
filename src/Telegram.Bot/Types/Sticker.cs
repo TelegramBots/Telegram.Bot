@@ -8,7 +8,7 @@ namespace Telegram.Bot.Types
     /// <see href="https://core.telegram.org/bots/api#sticker"/>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class Sticker : File
+    public class Sticker : FileBase
     {
         /// <summary>
         /// Sticker width

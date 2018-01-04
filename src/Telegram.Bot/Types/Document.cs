@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types
     /// This object represents a general file (as opposed to <see cref="PhotoSize"/> and <see cref="Audio"/> files).
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class Document : File
+    public class Document : FileBase
     {
         /// <summary>
         /// Document thumbnail as defined by sender

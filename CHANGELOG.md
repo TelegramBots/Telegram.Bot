@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Type `InvalidParameterException`
+- Type `FileBase`
+
+### Removed
+
+- Property `File.Stream`
+- Property `FilePath` from Types `Audio`, `Document`, `PhotoSize`, `Sticker`, `Video`, `VideoNote`, and `Voice`
 
 ## [14.0.0-beta-342] - 2018-01-03
 
