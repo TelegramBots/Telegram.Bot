@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Changed `InputMessageContent` to abstract class `InputMessageContentBase`
+
+### Fixed
+
+- Renamed `InputVenueMessageContent.Name` to `InputVenueMessageContent.Title`
+
 ## [14.0.0-rc-367] - 2018-01-04
 
 ### Added

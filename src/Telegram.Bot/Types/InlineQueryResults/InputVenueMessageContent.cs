@@ -6,9 +6,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <summary>
     /// Represents the content of a <see cref="Venue"/> message to be sent as the result of an <see cref="InlineQuery"/>.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InputVenueMessageContent : InputMessageContent
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class InputVenueMessageContent : InputMessageContentBase
     {
         /// <summary>
         /// Latitude of the location in degrees
@@ -26,7 +25,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Name of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// Address of the venue
@@ -37,7 +36,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Foursquare identifier of the venue, if known
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FoursquareId { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InputMessageContent inputMessageContent = new InputTextMessageContent
+            InputMessageContentBase inputMessageContent = new InputTextMessageContent
             {
                 MessageText = "https://core.telegram.org/bots/api",
             };
