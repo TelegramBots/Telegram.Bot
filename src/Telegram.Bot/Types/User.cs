@@ -44,5 +44,25 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LanguageCode { get; set; }
+
+        /// <inheritdoc/>
+        public override bool Equals(object obj)
+        {
+            var userObj = obj as User;
+
+            return userObj != null && userObj.Id == Id;
+        }
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        /// <inheritdoc/>
+        public override string ToString()
+        {
+            return FirstName + (LastName ?? "");
+        }
     }
 }
