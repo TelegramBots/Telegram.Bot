@@ -349,7 +349,14 @@ namespace Telegram.Bot
         /// </summary>
         public void StopReceiving()
         {
-            _receivingCancellationTokenSource.Cancel();
+            try
+            {
+                _receivingCancellationTokenSource.Cancel();
+            }
+            catch (WebException)
+            { }
+            catch (TaskCanceledException)
+            { }
         }
 
         #endregion Helpers
