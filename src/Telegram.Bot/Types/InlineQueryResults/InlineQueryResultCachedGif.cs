@@ -31,10 +31,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedGif()
+        private InlineQueryResultCachedGif()
             : base(InlineQueryResultType.Gif)
         { }
 
@@ -44,9 +41,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="gifFileId">A valid file identifier for the GIF file</param>
         public InlineQueryResultCachedGif(string id, string gifFileId)
-            : this()
+            : base(InlineQueryResultType.Gif, id)
         {
-            Id = id;
             GifFileId = gifFileId;
         }
     }

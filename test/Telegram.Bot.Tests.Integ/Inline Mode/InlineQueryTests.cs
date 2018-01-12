@@ -33,10 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InputMessageContent inputMessageContent = new InputTextMessageContent
-            {
-                MessageText = "https://core.telegram.org/bots/api",
-            };
+            InputMessageContent inputMessageContent = new InputTextMessageContent("https://core.telegram.org/bots/api");
 
             InlineQueryResultBase[] results =
             {
@@ -260,9 +257,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     title: "30 Rare Goals We See in Football"
                 )
                 {
-                    InputMessageContent = new InputTextMessageContent
+                    InputMessageContent = new InputTextMessageContent("[30 Rare Goals We See in Football](https://www.youtube.com/watch?v=56MDJ9tD6MY)")
                     {
-                        MessageText = "[30 Rare Goals We See in Football](https://www.youtube.com/watch?v=56MDJ9tD6MY)",
                         ParseMode = ParseMode.Markdown
                     }
                 }
