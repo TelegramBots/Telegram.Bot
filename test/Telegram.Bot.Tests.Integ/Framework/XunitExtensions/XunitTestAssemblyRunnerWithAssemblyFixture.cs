@@ -58,8 +58,14 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                 .RunAsync()
                 .ContinueWith(t =>
                     {
-                        var fixture = (TestsFixture)_assemblyFixtureMappings.Single().Value;
-                        fixture.RunSummary.Aggregate(t.Result);
+                        foreach (var (fixtureType, fixture) in _assemblyFixtureMappings)
+                        {
+                            var rsProperty = fixtureType
+                                .GetProperties()
+                                .SingleOrDefault(p => p.PropertyType == typeof(RunSummary));
+
+                            ((RunSummary)rsProperty?.GetValue(fixture, null))?.Aggregate(t.Result);
+                        }
                         return t.Result;
                     })
                 ;
