@@ -66,10 +66,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultVideo()
+        private InlineQueryResultVideo()
             : base(InlineQueryResultType.Video)
         {
         }
@@ -89,9 +86,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
             string thumbUrl,
             string title
         )
-            : this()
+            : base(InlineQueryResultType.Video, id)
         {
-            Id = id;
             VideoUrl = videoUrl;
             MimeType = mimeType;
             ThumbUrl = thumbUrl;

@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Override equality comparison for `User` type
+
 ### Changed
 
 - Changed `InputMessageContent` to abstract class `InputMessageContentBase`
+- Access modifier of parameterless ctors of all `InlineQueryResult` and `InputMessageContent` types to `private`
 
 ### Fixed
 

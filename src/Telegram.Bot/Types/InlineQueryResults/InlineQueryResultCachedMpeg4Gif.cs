@@ -31,10 +31,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedMpeg4Gif()
+        private InlineQueryResultCachedMpeg4Gif()
             : base(InlineQueryResultType.Mpeg4Gif)
         { }
 
@@ -44,9 +41,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="mpeg4FileId">A valid file identifier for the MP4 file</param>
         public InlineQueryResultCachedMpeg4Gif(string id, string mpeg4FileId)
-            : this()
+            : base(InlineQueryResultType.Mpeg4Gif, id)
         {
-            Id = id;
             Mpeg4FileId = mpeg4FileId;
         }
     }

@@ -9,9 +9,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultAudio : InlineQueryResultBase,
-                                          ICaptionInlineQueryResult,
-                                          ITitleInlineQueryResult,
-                                          IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
         /// <summary>
         /// A valid URL for the audio file
@@ -43,10 +43,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultAudio()
+        private InlineQueryResultAudio()
             : base(InlineQueryResultType.Audio)
         {
         }
@@ -58,9 +55,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="audioUrl">A valid URL for the audio file</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultAudio(string id, string audioUrl, string title)
-            : this()
+            : base(InlineQueryResultType.Audio, id)
         {
-            Id = id;
             AudioUrl = audioUrl;
             Title = title;
         }
