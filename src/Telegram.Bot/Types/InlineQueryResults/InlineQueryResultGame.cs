@@ -9,10 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultGame : InlineQueryResultBase
     {
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultGame()
+        private InlineQueryResultGame()
             : base(InlineQueryResultType.Game)
         { }
 
@@ -22,9 +19,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="gameShortName">Short name of the game</param>
         public InlineQueryResultGame(string id, string gameShortName)
-            : this()
+            : base(InlineQueryResultType.Game, id)
         {
-            Id = id;
             GameShortName = gameShortName;
         }
 

@@ -49,13 +49,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultContact()
+        private InlineQueryResultContact()
             : base(InlineQueryResultType.Contact)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -64,9 +60,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="phoneNumber">Contact's phone number</param>
         /// <param name="firstName">Contact's first name</param>
         public InlineQueryResultContact(string id, string phoneNumber, string firstName)
-            : this()
+            : base(InlineQueryResultType.Contact, id)
         {
-            Id = id;
             PhoneNumber = phoneNumber;
             FirstName = firstName;
         }

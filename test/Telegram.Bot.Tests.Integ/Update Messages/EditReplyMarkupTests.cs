@@ -68,10 +68,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 InlineKeyboardButton.WithCallbackData("Click here to change this button", data)
             });
 
-            InputMessageContent inputMessageContent = new InputTextMessageContent
-            {
-                MessageText = "https://core.telegram.org/bots/api"
-            };
+            InputMessageContent inputMessageContent = new InputTextMessageContent("https://core.telegram.org/bots/api");
 
             InlineQueryResultBase[] inlineQueryResults =
             {

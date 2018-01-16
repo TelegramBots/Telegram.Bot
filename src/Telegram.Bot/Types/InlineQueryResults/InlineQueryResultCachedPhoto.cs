@@ -37,13 +37,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedPhoto()
+        private InlineQueryResultCachedPhoto()
             : base(InlineQueryResultType.Photo)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -51,9 +47,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="photoFileId">A valid file identifier of the photo</param>
         public InlineQueryResultCachedPhoto(string id, string photoFileId)
-            : this()
+            : base(InlineQueryResultType.Photo, id)
         {
-            Id = id;
             PhotoFileId = photoFileId;
         }
     }

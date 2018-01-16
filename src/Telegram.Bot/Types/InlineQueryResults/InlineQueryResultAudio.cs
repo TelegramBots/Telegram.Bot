@@ -42,14 +42,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultAudio()
+        
+        private InlineQueryResultAudio()
             : base(InlineQueryResultType.Audio)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -58,9 +54,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="audioUrl">A valid URL for the audio file</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultAudio(string id, string audioUrl, string title)
-            : this()
+            : base(InlineQueryResultType.Audio, id)
         {
-            Id = id;
             AudioUrl = audioUrl;
             Title = title;
         }

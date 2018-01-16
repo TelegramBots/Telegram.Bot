@@ -15,7 +15,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Text of the message to be sent, 1-4096 characters
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string MessageText { get; set; }
+        public string MessageText { get; private set; }
 
         /// <summary>
         /// Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
@@ -28,5 +28,17 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
         public bool DisableWebPagePreview { get; set; }
+
+        private InputTextMessageContent()
+        { }
+
+        /// <summary>
+        /// Initializes a new input text message content
+        /// </summary>
+        /// <param name="messageText">The text of the message</param>
+        public InputTextMessageContent(string messageText)
+        {
+            MessageText = messageText;
+        }
     }
 }

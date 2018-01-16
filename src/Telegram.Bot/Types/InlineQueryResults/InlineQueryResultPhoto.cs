@@ -55,14 +55,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent InputMessageContent { get; set; }
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultPhoto()
+        
+        private InlineQueryResultPhoto()
             : base(InlineQueryResultType.Photo)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new inline query representing a link to a photo
@@ -71,9 +67,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="photoUrl">A valid URL of the photo. Photo size must not exceed 5MB.</param>
         /// <param name="thumbUrl">Optional. Url of the thumbnail for the result.</param>
         public InlineQueryResultPhoto(string id, string photoUrl, string thumbUrl)
-            : this()
+            : base(InlineQueryResultType.Photo, id)
         {
-            Id = id;
             PhotoUrl = photoUrl;
             ThumbUrl = thumbUrl;
         }
