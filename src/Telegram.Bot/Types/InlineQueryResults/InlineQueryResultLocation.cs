@@ -49,11 +49,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
-        
+        public InputMessageContentBase InputMessageContent { get; set; }
+
         private InlineQueryResultLocation()
             : base(InlineQueryResultType.Location)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result

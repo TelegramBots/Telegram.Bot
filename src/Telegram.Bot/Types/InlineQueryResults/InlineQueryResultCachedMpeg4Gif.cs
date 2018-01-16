@@ -29,7 +29,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
         private InlineQueryResultCachedMpeg4Gif()
             : base(InlineQueryResultType.Mpeg4Gif)

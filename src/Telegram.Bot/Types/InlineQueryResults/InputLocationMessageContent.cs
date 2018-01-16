@@ -9,9 +9,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <remarks>
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
     /// </remarks>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InputLocationMessageContent : InputMessageContent
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class InputLocationMessageContent : InputMessageContentBase
     {
         /// <summary>
         /// Latitude of the location in degrees
@@ -28,7 +27,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// How long the live location will be updated
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int LivePeriod { get; set; }
 
         private InputLocationMessageContent()

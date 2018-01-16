@@ -64,11 +64,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
-        
+        public InputMessageContentBase InputMessageContent { get; set; }
+
         private InlineQueryResultVideo()
             : base(InlineQueryResultType.Video)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -85,7 +86,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
             string thumbUrl,
             string title
         )
-            : base(InlineQueryResultType.Video)
+            : base(InlineQueryResultType.Video, id)
         {
             VideoUrl = videoUrl;
             MimeType = mimeType;

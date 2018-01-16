@@ -9,9 +9,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultCachedDocument : InlineQueryResultBase,
-                                                   ICaptionInlineQueryResult,
-                                                   ITitleInlineQueryResult,
-                                                   IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -35,11 +35,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
-        
+        public InputMessageContentBase InputMessageContent { get; set; }
+
         private InlineQueryResultCachedDocument()
             : base(InlineQueryResultType.Document)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result

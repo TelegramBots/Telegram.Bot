@@ -6,9 +6,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <summary>
     /// Represents the content of a <see cref="Venue"/> message to be sent as the result of an <see cref="InlineQuery"/>.
     /// </summary>
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn,
-                NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InputVenueMessageContent : InputMessageContent
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class InputVenueMessageContent : InputMessageContentBase
     {
         /// <summary>
         /// Latitude of the location in degrees
@@ -26,7 +25,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Name of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Name { get; private set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// Address of the venue
@@ -37,22 +36,23 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Foursquare identifier of the venue, if known
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FoursquareId { get; set; }
 
         private InputVenueMessageContent()
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result
         /// </summary>
-        /// <param name="name">The name of the venue</param>
+        /// <param name="title">The name of the venue</param>
         /// <param name="address">The address of the venue</param>
         /// <param name="latitude">The latitude of the venue</param>
         /// <param name="longitude">The longitude of the venue</param>
-        public InputVenueMessageContent(string name, string address, float latitude, float longitude)
+        public InputVenueMessageContent(string title, string address, float latitude, float longitude)
         {
-            Name = name;
+            Title = title;
             Address = address;
             Latitude = latitude;
             Longitude = longitude;

@@ -33,7 +33,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InputMessageContent inputMessageContent = new InputTextMessageContent("https://core.telegram.org/bots/api");
+            InputMessageContentBase inputMessageContent =
+                new InputTextMessageContent("https://core.telegram.org/bots/api");
 
             InlineQueryResultBase[] results =
             {
@@ -257,10 +258,12 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     title: "30 Rare Goals We See in Football"
                 )
                 {
-                    InputMessageContent = new InputTextMessageContent("[30 Rare Goals We See in Football](https://www.youtube.com/watch?v=56MDJ9tD6MY)")
-                    {
-                        ParseMode = ParseMode.Markdown
-                    }
+                    InputMessageContent =
+                        new InputTextMessageContent(
+                            "[30 Rare Goals We See in Football](https://www.youtube.com/watch?v=56MDJ9tD6MY)")
+                        {
+                            ParseMode = ParseMode.Markdown
+                        }
                 }
             };
 
@@ -656,7 +659,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             StickerSet stickerSet = await BotClient.GetStickerSetAsync("EvilMinds");
-            
+
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultCachedSticker(
@@ -671,7 +674,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
         }
-        
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -714,7 +717,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedMpeg4Gif =
                 "Should send an mpeg4 gif and answer inline query with a cached mpeg4 gif using its file_id";
-            
+
             public const string ShouldAnswerInlineQueryWithCachedSticker =
                 "Should answer inline query with a cached sticker using its file_id";
         }
