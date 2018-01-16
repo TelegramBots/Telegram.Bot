@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Telegram.Bot.Types;
 using Xunit;
@@ -37,10 +38,10 @@ namespace Telegram.Bot.Tests.Unit
         [Fact]
         public void Should_Add_To_Dict()
         {
-            int id1 = 12345;
-            int id2 = 67890;
-            string fname1 = "alicebot";
-            string fname2 = "bob";
+            const int id1 = 12345;
+            const int id2 = 67890;
+            const string fname1 = "AliceBot";
+            const string fname2 = "Bob";
 
             string json1 = $@"{{
                 ""id"": {id1},
@@ -54,6 +55,7 @@ namespace Telegram.Bot.Tests.Unit
             }}";
 
             User user1 = JsonConvert.DeserializeObject<User>(json1);
+            User user1Copy = JsonConvert.DeserializeObject<User>(json1);
             User user2 = JsonConvert.DeserializeObject<User>(json2);
 
             Dictionary<User, string> dict = new Dictionary<User, string>
@@ -62,9 +64,11 @@ namespace Telegram.Bot.Tests.Unit
                 {user2, nameof(user2)}
             };
 
-            string user1Value = dict[user1];
-
-            Assert.Equal(nameof(user1), user1Value);
+            Assert.Equal(nameof(user1), dict[user1]);
+            Assert.True(user1 == user1Copy);
+            Assert.False(user1 == user2);
+            Assert.True(dict.ContainsKey(user2));
+            Assert.Throws<ArgumentException>(() => dict.Add(user2, "duplicate-keys-error"));
         }
     }
 }
