@@ -13,13 +13,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Latitude of the location in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; set; }
+        public float Latitude { get; private set; }
 
         /// <summary>
         /// Longitude of the location in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; set; }
+        public float Longitude { get; private set; }
 
         /// <summary>
         /// Name of the venue
@@ -31,12 +31,31 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Address of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Address { get; set; }
+        public string Address { get; private set; }
 
         /// <summary>
         /// Optional. Foursquare identifier of the venue, if known
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FoursquareId { get; set; }
+
+        private InputVenueMessageContent()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new inline query result
+        /// </summary>
+        /// <param name="title">The name of the venue</param>
+        /// <param name="address">The address of the venue</param>
+        /// <param name="latitude">The latitude of the venue</param>
+        /// <param name="longitude">The longitude of the venue</param>
+        public InputVenueMessageContent(string title, string address, float latitude, float longitude)
+        {
+            Title = title;
+            Address = address;
+            Latitude = latitude;
+            Longitude = longitude;
+        }
     }
 }

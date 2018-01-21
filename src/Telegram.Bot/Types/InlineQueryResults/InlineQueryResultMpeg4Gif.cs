@@ -11,10 +11,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultMpeg4Gif : InlineQueryResultBase,
-                                             ICaptionInlineQueryResult,
-                                             IThumbnailUrlInlineQueryResult,
-                                             ITitleInlineQueryResult,
-                                             IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        IThumbnailUrlInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
         /// <summary>
         /// A valid URL for the MP4 file. File size must not exceed 1MB.
@@ -56,12 +56,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultMpeg4Gif()
+        private InlineQueryResultMpeg4Gif()
             : base(InlineQueryResultType.Mpeg4Gif)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -70,9 +68,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
         /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
         public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbUrl)
-            : this()
+            : base(InlineQueryResultType.Mpeg4Gif, id)
         {
-            Id = id;
             Mpeg4Url = mpeg4Url;
             ThumbUrl = thumbUrl;
         }

@@ -37,13 +37,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedVideo()
+        private InlineQueryResultCachedVideo()
             : base(InlineQueryResultType.Video)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -52,9 +48,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="videoFileId">A valid file identifier for the video file</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultCachedVideo(string id, string videoFileId, string title)
-            : this()
+            : base(InlineQueryResultType.Video, id)
         {
-            Id = id;
             VideoFileId = videoFileId;
             Title = title;
         }
