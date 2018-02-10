@@ -88,6 +88,27 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ContactRequestException>(e);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(5)]
+        public async Task Should_Throw_Exception_MessageIsNotModifiedException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionMessageIsNotModifiedException);
+
+            const string MessageTextToModify = "Message text to modify";
+            var message = await BotClient.SendTextMessageAsync(
+                _fixture.SupergroupChat.Id,
+                MessageTextToModify);
+
+            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+                BotClient.EditMessageTextAsync(
+                    _fixture.SupergroupChat.Id,
+                    message.MessageId,
+                    MessageTextToModify));
+
+            Assert.IsType<MessageIsNotModifiedException>(e);
+        }
+
         private static class FactTitles
         {
             public const string ShouldThrowChatNotFoundException =
@@ -103,6 +124,9 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             public const string ShouldThrowExceptionContactRequestException =
                 "Should throw ContactRequestException while asking for user's phone number in non-private " +
                 "chat via reply keyboard markup";
+
+            public const string ShouldThrowExceptionMessageIsNotModifiedException =
+               "Should throw MessageIsNotModifiedException while editing previously sent message";
         }
     }
 }
