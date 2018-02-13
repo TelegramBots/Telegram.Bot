@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Override equality comparison for `User` type
+- Exception `MessageIsNotModifiedException` 
 
 ### Changed
 
