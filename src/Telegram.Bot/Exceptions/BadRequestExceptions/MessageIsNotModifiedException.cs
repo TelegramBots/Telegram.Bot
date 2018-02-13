@@ -2,7 +2,7 @@
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
-    /// The exception that is thrown when the sticker set is invalid
+    /// The exception that is thrown when the message is not modified
     /// </summary>
     public class MessageIsNotModifiedException : BadRequestException
     {

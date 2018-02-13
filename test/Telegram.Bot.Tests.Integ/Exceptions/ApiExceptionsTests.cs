@@ -96,7 +96,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionMessageIsNotModifiedException);
 
             const string MessageTextToModify = "Message text to modify";
-            var message = await BotClient.SendTextMessageAsync(
+            Message message = await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat.Id,
                 MessageTextToModify);
 
@@ -126,7 +126,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "chat via reply keyboard markup";
 
             public const string ShouldThrowExceptionMessageIsNotModifiedException =
-               "Should throw MessageIsNotModifiedException while editing previously sent message";
+               "Should throw MessageIsNotModifiedException while editing previously sent message " +
+                "with the same text";
         }
     }
 }
