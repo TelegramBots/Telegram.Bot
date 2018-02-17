@@ -50,6 +50,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Renamed `InputVenueMessageContent.Name` to `InputVenueMessageContent.Title`
+- Property `Message.Type` returns correct value after group chat migration
 
 ### Removed
 
