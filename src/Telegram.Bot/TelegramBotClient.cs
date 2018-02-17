@@ -536,7 +536,8 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            ParseMode parseMode = default
+            ParseMode parseMode = default,
+            bool supportsStreaming = default
         ) =>
             MakeRequestAsync(new SendVideoRequest(chatId, video)
             {
@@ -545,6 +546,7 @@ namespace Telegram.Bot
                 Height = height,
                 Caption = caption,
                 ParseMode = parseMode,
+                SupportsStreaming = supportsStreaming,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
