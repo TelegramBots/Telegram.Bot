@@ -447,11 +447,11 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile photo,
             string caption = default,
+            ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            ParseMode parseMode = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendPhotoRequest(chatId, photo)
             {
@@ -467,14 +467,14 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile audio,
             string caption = default,
+            ParseMode parseMode = default,
             int duration = default,
             string performer = default,
             string title = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            ParseMode parseMode = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendAudioRequest(chatId, audio)
             {
@@ -493,11 +493,11 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile document,
             string caption = default,
+            ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            ParseMode parseMode = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
@@ -532,12 +532,12 @@ namespace Telegram.Bot
             int width = default,
             int height = default,
             string caption = default,
+            ParseMode parseMode = default,
+            bool supportsStreaming = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            ParseMode parseMode = default,
-            bool supportsStreaming = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVideoRequest(chatId, video)
             {
@@ -557,12 +557,12 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile voice,
             string caption = default,
+            ParseMode parseMode = default,
             int duration = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            ParseMode parseMode = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVoiceRequest(chatId, voice)
             {
