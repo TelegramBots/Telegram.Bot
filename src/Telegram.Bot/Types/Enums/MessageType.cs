@@ -88,5 +88,10 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains a <see cref="SuccessfulPayment"/>
         /// </summary>
         SuccessfulPayment,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.ConnectedWebsite"/>
+        /// </summary>
+        WebsiteConnected
     }
 }

@@ -282,6 +282,12 @@ namespace Telegram.Bot.Types
         public SuccessfulPayment SuccessfulPayment { get; set; }
 
         /// <summary>
+        /// Optional. The domain name of the website on which the user has logged in
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string ConnectedWebsite { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
         /// </summary>
         /// <value>
@@ -332,6 +338,9 @@ namespace Telegram.Bot.Types
 
                 if (VideoNote != null)
                     return MessageType.VideoNote;
+
+                if (ConnectedWebsite != null)
+                    return MessageType.WebsiteConnected;
 
                 if (NewChatMembers?.Any() == true ||
                     LeftChatMember != null ||
