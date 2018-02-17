@@ -109,6 +109,38 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(entityValueMappings.Select(t => t.Value), message.CaptionEntityValues);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldSendPhotoWithMarkdownEncodedCaption)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
+        [ExecutionOrder(4)]
+        public async Task Should_Send_Photo_With_Markdown_Encoded_Caption()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
+
+            var entityValueMappings = new(MessageEntityType Type, string EntityBody, string EncodedEntity)[]
+            {
+                ( MessageEntityType.Bold, "bold", "*bold*" ),
+                ( MessageEntityType.Italic, "italic", "_italic_" ),
+                ( MessageEntityType.TextLink, "Text Link", "[Text Link](https://github.com/TelegramBots)" ),
+            };
+
+            Message message;
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
+            {
+                message = await BotClient.SendPhotoAsync(
+                    chatId: _fixture.SupergroupChat.Id,
+                    photo: stream,
+                    caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity)),
+                    parseMode: ParseMode.Markdown
+                );
+            }
+
+            Assert.Equal(
+                entityValueMappings.Select(t => t.Type),
+                message.CaptionEntities.Select(e => e.Type)
+            );
+            Assert.Equal(entityValueMappings.Select(t => t.EntityBody), message.CaptionEntityValues);
+        }
+
         private static class FactTitles
         {
             public const string ShouldSendPhotoFile = "Should Send photo using a file";
@@ -116,6 +148,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             public const string ShouldSendPhotoUsingFileId = "Should Send previous photo using its file_id";
 
             public const string ShouldParseMessageCaptionEntitiesIntoValues = "Should send photo message and parse its caption entity values";
+
+            public const string ShouldSendPhotoWithMarkdownEncodedCaption = "Should send photo with markdown encoded caption";
         }
     }
 }
