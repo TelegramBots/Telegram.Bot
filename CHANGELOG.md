@@ -10,6 +10,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Override equality comparison for `User` type
+- Property `ParseMode` to file requests with a caption
+  - `SendVideoRequest`
+  - `SendPhotoRequest`
+  - `SendAudioRequest`
+  - `SendDocumentRequest`
+  - `SendVoiceRequest`
+- Property `InputMediaBase.ParseMode`
+- Property `SendVideoRequest.SupportsStreaming`
+- Property `InputMediaVideo.SupportsStreaming`
+- Property `Message.ConnectedWebsite`
+- Enum field `MessageType.WebsiteConnected`
+- Parameter `parseMode` to methods
+  - `ITelegramBotClient.SendVideoAsync`
+  - `ITelegramBotClient.SendAudioAsync`
+  - `ITelegramBotClient.SendPhotoAsync`
+  - `ITelegramBotClient.SendDocumentAsync`
+  - `ITelegramBotClient.SendVoiceAsync`
+- Parameter `supportsStreaming` to method `ITelegramBotClient.SendVideoAsync`
 
 ### Changed
 
