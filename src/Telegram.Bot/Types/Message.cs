@@ -342,18 +342,38 @@ namespace Telegram.Bot.Types
                 if (ConnectedWebsite != null)
                     return MessageType.WebsiteConnected;
 
-                if (NewChatMembers?.Any() == true ||
-                    LeftChatMember != null ||
-                    NewChatTitle != null ||
-                    NewChatPhoto != null ||
-                    PinnedMessage != null ||
-                    DeleteChatPhoto ||
-                    GroupChatCreated ||
-                    SupergroupChatCreated ||
-                    ChannelChatCreated ||
-                    MigrateFromChatId == default ||
-                    MigrateToChatId == default)
-                    return MessageType.Service;
+                if (NewChatMembers?.Any() == true)
+                    return MessageType.ChatMembersAdded;
+
+                if (LeftChatMember != null)
+                    return MessageType.ChatMemberLeft;
+
+                if (NewChatTitle != null)
+                    return MessageType.ChatTitleChanged;
+
+                if (NewChatPhoto != null)
+                    return MessageType.ChatPhotoChanged;
+
+                if (PinnedMessage != null)
+                    return MessageType.MessagePinned;
+
+                if (DeleteChatPhoto)
+                    return MessageType.ChatPhotoDeleted;
+
+                if (GroupChatCreated)
+                    return MessageType.GroupCreated;
+
+                if (SupergroupChatCreated)
+                    return MessageType.SupergroupCreated;
+
+                if (ChannelChatCreated)
+                    return MessageType.ChannelCreated;
+
+                if (MigrateFromChatId != default)
+                    return MessageType.MigratedFromGroup;
+
+                if (MigrateToChatId != default)
+                    return MessageType.MigratedToSupergroup;
 
                 return MessageType.Unknown;
             }

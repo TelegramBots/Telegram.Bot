@@ -28,6 +28,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `ITelegramBotClient.SendDocumentAsync`
   - `ITelegramBotClient.SendVoiceAsync`
 - Parameter `supportsStreaming` to method `ITelegramBotClient.SendVideoAsync`
+- New fields to enum `MessageType`
+  - `WebsiteConnected`
+  - `ChatMembersAdded`
+  - `ChatMemberLeft`
+  - `ChatTitleChanged`
+  - `ChatPhotoChanged`
+  - `MessagePinned`
+  - `ChatPhotoDeleted`
+  - `GroupCreated`
+  - `SupergroupCreated`
+  - `ChannelCreated`
+  - `MigratedToSupergroup`
+  - `MigratedFromGroup`
 
 ### Changed
 
@@ -37,6 +50,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Renamed `InputVenueMessageContent.Name` to `InputVenueMessageContent.Title`
+
+### Removed
+
+- Field `MessageType.Service`
 
 ## [14.0.0-rc-367] - 2018-01-04
 
