@@ -60,11 +60,6 @@ namespace Telegram.Bot.Types.Enums
         Contact,
 
         /// <summary>
-        /// The <see cref="Message"/> contains meta informations, for example <see cref="Message.GroupChatCreated"/> or <see cref="Message.NewChatTitle"/>
-        /// </summary>
-        Service,
-
-        /// <summary>
         /// The <see cref="Message"/> contains a <see cref="Types.Venue"/>
         /// </summary>
         Venue,
@@ -88,5 +83,65 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains a <see cref="SuccessfulPayment"/>
         /// </summary>
         SuccessfulPayment,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.ConnectedWebsite"/>
+        /// </summary>
+        WebsiteConnected,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.NewChatMembers"/>
+        /// </summary>
+        ChatMembersAdded,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.LeftChatMember"/>
+        /// </summary>
+        ChatMemberLeft,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.NewChatTitle"/>
+        /// </summary>
+        ChatTitleChanged,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.NewChatPhoto"/>
+        /// </summary>
+        ChatPhotoChanged,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.PinnedMessage"/>
+        /// </summary>
+        MessagePinned,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.DeleteChatPhoto"/>
+        /// </summary>
+        ChatPhotoDeleted,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.GroupChatCreated"/>
+        /// </summary>
+        GroupCreated,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.SupergroupChatCreated"/>
+        /// </summary>
+        SupergroupCreated,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains a <see cref="Message.ChannelChatCreated"/>
+        /// </summary>
+        ChannelCreated,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains non-default <see cref="Message.MigrateFromChatId"/>
+        /// </summary>
+        MigratedToSupergroup,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains non-default <see cref="Message.MigrateToChatId"/>
+        /// </summary>
+        MigratedFromGroup
     }
 }

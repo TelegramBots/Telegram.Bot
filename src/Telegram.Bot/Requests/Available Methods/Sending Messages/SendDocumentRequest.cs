@@ -17,7 +17,8 @@ namespace Telegram.Bot.Requests
     public class SendDocumentRequest : FileRequestBase<Message>,
                                        INotifiableMessage,
                                        IReplyMessage,
-                                       IReplyMarkupMessage<IReplyMarkup>
+                                       IReplyMarkupMessage<IReplyMarkup>,
+                                       IFormattableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -36,6 +37,10 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ParseMode ParseMode { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -66,5 +71,7 @@ namespace Telegram.Bot.Requests
             Document.FileType == FileType.Stream
                 ? ToMultipartFormDataContent("document", Document)
                 : base.ToHttpContent();
+
+
     }
 }

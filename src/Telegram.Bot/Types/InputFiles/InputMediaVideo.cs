@@ -28,6 +28,12 @@ namespace Telegram.Bot.Types
         public int Duration { get; set; }
 
         /// <summary>
+        /// Optional. Pass True, if the uploaded video is suitable for streaming
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool SupportsStreaming { get; set; }
+
+        /// <summary>
         /// Initializes a new video media to send
         /// </summary>
         public InputMediaVideo()

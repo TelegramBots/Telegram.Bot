@@ -17,7 +17,8 @@ namespace Telegram.Bot.Requests
     public class SendVideoRequest : FileRequestBase<Message>,
                                     INotifiableMessage,
                                     IReplyMessage,
-                                    IReplyMarkupMessage<IReplyMarkup>
+                                    IReplyMarkupMessage<IReplyMarkup>,
+                                    IFormattableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -54,6 +55,16 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ParseMode ParseMode { get; set; }
+
+        /// <summary>
+        /// Pass True, if the uploaded video is suitable for streaming
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool SupportsStreaming { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
