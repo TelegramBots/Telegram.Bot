@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Support for Bot API v3.6
 - Override equality comparison for `User` type
 - Property `ParseMode` to file requests with a caption
   - `SendVideoRequest`
@@ -20,7 +21,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Property `SendVideoRequest.SupportsStreaming`
 - Property `InputMediaVideo.SupportsStreaming`
 - Property `Message.ConnectedWebsite`
-- Enum field `MessageType.WebsiteConnected`
 - Parameter `parseMode` to methods
   - `ITelegramBotClient.SendVideoAsync`
   - `ITelegramBotClient.SendAudioAsync`
@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `ITelegramBotClient.SendDocumentAsync`
   - `ITelegramBotClient.SendVoiceAsync`
 - Parameter `supportsStreaming` to method `ITelegramBotClient.SendVideoAsync`
-- New fields to enum `MessageType`
+- New members to enum `MessageType`
   - `WebsiteConnected`
   - `ChatMembersAdded`
   - `ChatMemberLeft`
@@ -41,8 +41,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `ChannelCreated`
   - `MigratedToSupergroup`
   - `MigratedFromGroup`
-- Exception `MessageIsNotModifiedException` 
 - Property `Message.MediaGroupId`
+- Exception `MessageIsNotModifiedException`
 
 ### Changed
 
@@ -56,7 +56,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Removed
 
-- Field `MessageType.Service`
+- Enum member `MessageType.Service`
 
 ## [14.0.0-rc-367] - 2018-01-04
 
