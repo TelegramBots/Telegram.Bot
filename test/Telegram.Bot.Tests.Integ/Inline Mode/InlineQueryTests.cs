@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -31,15 +32,16 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
                 startInlineQuery: true);
 
-            Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "article:bot-api";
             InputMessageContentBase inputMessageContent =
                 new InputTextMessageContent("https://core.telegram.org/bots/api");
 
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultArticle(
-                    id: "bot-api",
+                    id: resultId,
                     title: "Telegram Bot API",
                     inputMessageContent: inputMessageContent)
                 {
@@ -48,10 +50,18 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             };
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: update.InlineQuery.Id,
+                inlineQueryId: queryUpdate.InlineQuery.Id,
                 results: results,
                 cacheTime: 0
             );
+
+            var inlieQueryUpdates = await GetInlineQueryResultUpdates(MessageType.Text);
+            Update resultUpdate = inlieQueryUpdates.ChosenResultUpdate;
+            ChosenInlineResult chosenResult = resultUpdate.ChosenInlineResult;
+
+            Assert.Equal(UpdateType.ChosenInlineResult, resultUpdate.Type);
+            Assert.Equal(resultId, chosenResult.ResultId);
+            Assert.Empty(chosenResult.Query);
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithContact)]
@@ -64,10 +74,11 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "contact:john-doe";
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultContact(
-                    id: "bot-api",
+                    id: resultId,
                     phoneNumber: "+1234567",
                     firstName: "John")
                 {
@@ -80,6 +91,14 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 results: results,
                 cacheTime: 0
             );
+
+            var inlieQueryUpdates = await GetInlineQueryResultUpdates(MessageType.Contact);
+            ChosenInlineResult chosenResult = inlieQueryUpdates.ChosenResultUpdate.ChosenInlineResult;
+
+            Assert.Equal(MessageType.Contact, inlieQueryUpdates.MessageUpdate.Message.Type);
+
+            Assert.Equal(resultId, chosenResult.ResultId);
+            Assert.Empty(chosenResult.Query);
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithLocation)]
@@ -675,6 +694,78 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithPhotoWithMarkdownEncodedCaption)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(21)]
+        public async Task Should_Answer_Inline_Query_With_Photo_With_Markdown_Encoded_Caption()
+        {
+            await _fixture.SendTestCaseNotificationAsync(
+                FactTitles.ShouldAnswerInlineQueryWithPhotoWithMarkdownEncodedCaption,
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            const string resultId = "photo:rainbow-girl-caption";
+            const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
+            const string photoCaption = "Rainbow Girl";
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultPhoto(
+                    id: resultId,
+                    photoUrl: url,
+                    thumbUrl: url
+                )
+                {
+                    Caption = $"*{photoCaption}*",
+                    ParseMode = ParseMode.Markdown
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+
+            var inlieQueryUpdates = await GetInlineQueryResultUpdates(MessageType.Photo);
+            Update messgeUpdate = inlieQueryUpdates.MessageUpdate;
+            Update resultUpdate = inlieQueryUpdates.ChosenResultUpdate;
+
+            Assert.Equal(MessageType.Photo, messgeUpdate.Message.Type);
+            Assert.Equal(photoCaption, messgeUpdate.Message.Caption);
+            Assert.Equal(MessageEntityType.Bold, messgeUpdate.Message.CaptionEntities.Single().Type);
+
+            Assert.Equal(UpdateType.ChosenInlineResult, resultUpdate.Type);
+            Assert.Equal(resultId, resultUpdate.ChosenInlineResult.ResultId);
+            Assert.Empty(resultUpdate.ChosenInlineResult.Query);
+        }
+
+        private async Task<(Update MessageUpdate, Update ChosenResultUpdate)> GetInlineQueryResultUpdates
+            (MessageType messageType, CancellationToken cancellationToken = default)
+        {
+            Update messageUpdate = default;
+            Update chosenResultUpdate = default;
+
+            while (
+                !cancellationToken.IsCancellationRequested &&
+                (messageUpdate is default || chosenResultUpdate is default)
+            )
+            {
+                await Task.Delay(1_000, cancellationToken);
+                var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+                    u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
+                    cancellationToken: cancellationToken,
+                    updateTypes: new[] {UpdateType.Message, UpdateType.ChosenInlineResult}
+                );
+
+                messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);
+                chosenResultUpdate = updates.SingleOrDefault(u => u.Type == UpdateType.ChosenInlineResult);
+            }
+
+            return (messageUpdate, chosenResultUpdate);
+        }
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -720,6 +811,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedSticker =
                 "Should answer inline query with a cached sticker using its file_id";
+
+            public const string ShouldAnswerInlineQueryWithPhotoWithMarkdownEncodedCaption =
+                "Should answer inline query with a photo with markdown encoded caption";
         }
     }
 }

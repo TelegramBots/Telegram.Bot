@@ -9,6 +9,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Property `Message.MediaGroupId`
+- Property `ICaptionInlineQueryResult.ParseMode`
+- Property `ParseMode` to inline query results with a caption
+  - `InlineQueryResultPhoto`
+  - `InlineQueryResultGif`
+  - `InlineQueryResultCachedMpeg4Gif`
+  - `InlineQueryResultVideo`
+  - `InlineQueryResultAudio`
+  - `InlineQueryResultVoice`
+  - `InlineQueryResultDocument`
+  - `InlineQueryResultCachedPhoto`
+  - `InlineQueryResultCachedGif`
+  - `InlineQueryResultCachedMpeg4Gif`
+  - `InlineQueryResultCachedDocument`
+  - `InlineQueryResultVideo`
+  - `InlineQueryResultCachedVoice`
+  - `InlineQueryResultCachedAudio`
+
+## [14.1.0-rc-424] - 2018-02-24
+
+### Added
+
 - Support for Bot API v3.6
 - Override equality comparison for `User` type
 - Property `ParseMode` to file requests with a caption

@@ -63,6 +63,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(2, messages.Length);
             Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
+            Assert.NotEmpty(messages.Select(m => m.MediaGroupId));
+            Assert.True(messages.Select(msg => msg.MediaGroupId).Distinct().Count() == 1);
             Assert.Equal(captions[0], messages[0].Caption);
             Assert.Equal(captions[1], messages[1].Caption);
 
