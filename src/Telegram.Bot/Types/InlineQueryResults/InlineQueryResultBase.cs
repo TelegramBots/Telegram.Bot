@@ -14,13 +14,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Unique identifier of this result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
         /// <summary>
         /// Type of the result
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InlineQueryResultType Type { get; set; }
+        public InlineQueryResultType Type { get; private set; }
 
         /// <summary>
         /// Inline keyboard attached to the message
@@ -35,6 +35,17 @@ namespace Telegram.Bot.Types.InlineQueryResults
         protected InlineQueryResultBase(InlineQueryResultType type)
         {
             Type = type;
+        }
+
+        ///  <summary>
+        /// Initializes a new inline query result
+        ///  </summary>
+        /// <param name="type">Type of the result</param>
+        /// <param name="id">Unique identifier of this result</param>
+        protected InlineQueryResultBase(InlineQueryResultType type, string id)
+            : this(type)
+        {
+            Id = id;
         }
     }
 }

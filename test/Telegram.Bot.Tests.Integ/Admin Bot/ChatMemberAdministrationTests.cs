@@ -85,7 +85,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 .GetUpdatesAsync(u =>
                     u.Message.Chat.Type == ChatType.Supergroup &&
                     u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
-                    u.Message.Type == MessageType.Service,
+                    u.Message.Type == MessageType.ChatMembersAdded,
                 updateTypes: UpdateType.Message)
             ).Single();
 

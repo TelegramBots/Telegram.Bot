@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -181,6 +180,52 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.InRange(messages.First().Video.Duration, firstMediaDuration - 2, firstMediaDuration + 2);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
+        [ExecutionOrder(5)]
+        public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
+
+            var captionsMappings = new(MessageEntityType Type, string EntityBody, string EncodedEntity)[]
+            {
+                ( MessageEntityType.Bold, "Logo", "*Logo*" ),
+                ( MessageEntityType.Italic, "Bot", "_Bot_" ),
+            };
+
+            Message[] messages;
+            using (Stream
+                stream1 = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo),
+                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+            )
+            {
+                InputMediaBase[] inputMedia =
+                {
+                    new InputMediaPhoto
+                    {
+                        Media = new InputMedia(stream1, "logo"),
+                        Caption = captionsMappings[0].EncodedEntity,
+                        ParseMode = ParseMode.Markdown
+                    },
+                    new InputMediaPhoto
+                    {
+                        Media = new InputMedia(stream2, "bot"),
+                        Caption = captionsMappings[1].EncodedEntity,
+                        ParseMode = ParseMode.Markdown
+                    },
+                };
+
+                messages = await BotClient.SendMediaGroupAsync(
+                    chatId: _fixture.SupergroupChat.Id,
+                    media: inputMedia,
+                    disableNotification: true
+                );
+            }
+
+            Assert.True(messages[0].CaptionEntityValues.Contains(captionsMappings[0].EntityBody));
+            Assert.True(messages[1].CaptionEntityValues.Contains(captionsMappings[1].EntityBody));
+        }
+
         private static class FactTitles
         {
             public const string ShouldUploadPhotosInAlbum =
@@ -194,6 +239,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             public const string ShouldUploadVideosInAlbum =
                 "Should upload 2 videos and a photo with captions and send them in an album";
+
+            public const string ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions =
+                "Should upload 2 photos with markdown encoded captions and send them in an album";
         }
     }
 }

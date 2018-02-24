@@ -9,9 +9,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultCachedDocument : InlineQueryResultBase,
-                                                   ICaptionInlineQueryResult,
-                                                   ITitleInlineQueryResult,
-                                                   IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -35,14 +35,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedDocument()
+        private InlineQueryResultCachedDocument()
             : base(InlineQueryResultType.Document)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -51,9 +49,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="documentFileId">A valid file identifier for the file</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultCachedDocument(string id, string documentFileId, string title)
-            : this()
+            : base(InlineQueryResultType.Document, id)
         {
-            Id = id;
             DocumentFileId = documentFileId;
             Title = title;
         }

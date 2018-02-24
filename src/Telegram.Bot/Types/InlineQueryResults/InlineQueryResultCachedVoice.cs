@@ -29,15 +29,11 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedVoice()
+        private InlineQueryResultCachedVoice()
             : base(InlineQueryResultType.Voice)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new inline query result
@@ -46,9 +42,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="fileId">A valid file identifier for the voice message</param>
         /// <param name="title">Title of the result</param>
         public InlineQueryResultCachedVoice(string id, string fileId, string title)
-            : this()
+            : base(InlineQueryResultType.Voice, id)
         {
-            Id = id;
             VoiceFileId = fileId;
             Title = title;
         }

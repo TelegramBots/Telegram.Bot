@@ -9,6 +9,58 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Support for Bot API v3.6
+- Override equality comparison for `User` type
+- Property `ParseMode` to file requests with a caption
+  - `SendVideoRequest`
+  - `SendPhotoRequest`
+  - `SendAudioRequest`
+  - `SendDocumentRequest`
+  - `SendVoiceRequest`
+- Property `InputMediaBase.ParseMode`
+- Property `SendVideoRequest.SupportsStreaming`
+- Property `InputMediaVideo.SupportsStreaming`
+- Property `Message.ConnectedWebsite`
+- Parameter `parseMode` to methods
+  - `ITelegramBotClient.SendVideoAsync`
+  - `ITelegramBotClient.SendAudioAsync`
+  - `ITelegramBotClient.SendPhotoAsync`
+  - `ITelegramBotClient.SendDocumentAsync`
+  - `ITelegramBotClient.SendVoiceAsync`
+- Parameter `supportsStreaming` to method `ITelegramBotClient.SendVideoAsync`
+- New members to enum `MessageType`
+  - `WebsiteConnected`
+  - `ChatMembersAdded`
+  - `ChatMemberLeft`
+  - `ChatTitleChanged`
+  - `ChatPhotoChanged`
+  - `MessagePinned`
+  - `ChatPhotoDeleted`
+  - `GroupCreated`
+  - `SupergroupCreated`
+  - `ChannelCreated`
+  - `MigratedToSupergroup`
+  - `MigratedFromGroup`
+- Exception `MessageIsNotModifiedException`
+
+### Changed
+
+- Changed `InputMessageContent` to abstract class `InputMessageContentBase`
+- Access modifier of parameterless ctors of all `InlineQueryResult` and `InputMessageContent` types to `private`
+
+### Fixed
+
+- Renamed `InputVenueMessageContent.Name` to `InputVenueMessageContent.Title`
+- Property `Message.Type` returns correct value after group chat migration
+
+### Removed
+
+- Enum member `MessageType.Service`
+
+## [14.0.0-rc-367] - 2018-01-04
+
+### Added
+
 - Type `InvalidParameterException`
 - Type `FileBase`
 

@@ -19,7 +19,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
         /// <summary>
         /// Optional. URL of the result.
@@ -51,11 +51,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ThumbHeight { get; set; }
 
-
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultArticle()
+        private InlineQueryResultArticle()
             : base(InlineQueryResultType.Article)
         {
         }
@@ -66,10 +62,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="title">Title of the result</param>
         /// <param name="inputMessageContent">Content of the message to be sent</param>
-        public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
-            : this()
+        public InlineQueryResultArticle(string id, string title, InputMessageContentBase inputMessageContent)
+            : base(InlineQueryResultType.Article, id)
         {
-            Id = id;
             Title = title;
             InputMessageContent = inputMessageContent;
         }

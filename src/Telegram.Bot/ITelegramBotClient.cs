@@ -282,6 +282,7 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="photo">Photo to send.</param>
         /// <param name="caption">Photo caption (may also be used when resending photos by file_id).</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
@@ -292,6 +293,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile photo,
             string caption = default,
+            ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -303,6 +305,7 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="audio">Audio file to send.</param>
         /// <param name="caption">Audio caption, 0-200 characters</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
         /// <param name="title">Track name</param>
@@ -316,6 +319,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile audio,
             string caption = default,
+            ParseMode parseMode = default,
             int duration = default,
             string performer = default,
             string title = default,
@@ -334,12 +338,14 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
         Task<Message> SendDocumentAsync(
             ChatId chatId,
             InputOnlineFile document,
             string caption = default,
+            ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -373,6 +379,8 @@ namespace Telegram.Bot
         /// <param name="width">Video width</param>
         /// <param name="height">Video height</param>
         /// <param name="caption">Video caption</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="supportsStreaming">Pass True, if the uploaded video is suitable for streaming</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
@@ -386,6 +394,8 @@ namespace Telegram.Bot
             int width = default,
             int height = default,
             string caption = default,
+            ParseMode parseMode = default,
+            bool supportsStreaming = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -397,6 +407,7 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="voice">Audio file to send.</param>
         /// <param name="caption">Voice message caption, 0-200 characters</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -408,6 +419,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile voice,
             string caption = default,
+            ParseMode parseMode = default,
             int duration = default,
             bool disableNotification = default,
             int replyToMessageId = default,
@@ -789,7 +801,7 @@ namespace Telegram.Bot
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Use this method to stop updating a live location message sent by the bot before live_period expires.
         /// </summary>
@@ -877,7 +889,7 @@ namespace Telegram.Bot
             string inlineMessageId,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Use this method to edit live location messages sent by the bot.
         /// </summary>

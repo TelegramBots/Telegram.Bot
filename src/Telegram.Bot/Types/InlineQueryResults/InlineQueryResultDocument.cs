@@ -57,12 +57,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultDocument()
+        private InlineQueryResultDocument()
             : base(InlineQueryResultType.Document)
         { }
 
@@ -74,9 +71,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="title">Title of the result</param>
         /// <param name="mimeType">Mime type of the content of the file, either “application/pdf” or “application/zip”</param>
         public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
-            : this()
+            : base(InlineQueryResultType.Document, id)
         {
-            Id = id;
             DocumentUrl = documentUrl;
             Title = title;
             MimeType = mimeType;
