@@ -41,6 +41,7 @@ Bot should have some features enabled, usually through BotFather, in order to pa
 
 - Inline Queries
 - Payment Provider
+- [Inline feedback](https://core.telegram.org/bots/inline#collecting-feedback)
 
 For making testing process more convenient, set the following commands for MyTestBot as well. The purpose for these commands is explained in the sections below.
 

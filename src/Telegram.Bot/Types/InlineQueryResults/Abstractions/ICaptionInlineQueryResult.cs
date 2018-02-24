@@ -1,4 +1,6 @@
-﻿namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
+﻿using Telegram.Bot.Types.Enums;
+
+namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
 {
     public interface ICaptionInlineQueryResult
     {
@@ -6,5 +8,10 @@
         /// Optional. Caption of the result to be sent, 0-200 characters.
         /// </summary>
         string Caption { get; set; }
+
+        /// <summary>
+        /// Optional. Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.
+        /// </summary>
+        ParseMode ParseMode { get; set; }
     }
 }

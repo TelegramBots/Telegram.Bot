@@ -185,6 +185,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
                         .Contains(update.ShippingQuery.From.Username, StringComparer.OrdinalIgnoreCase);
                     break;
                 case UpdateType.ChosenInlineResult:
+                    isAllowed = _allowedUsernames
+                        .Contains(update.ChosenInlineResult.From.Username, StringComparer.OrdinalIgnoreCase);
+                    break;
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
