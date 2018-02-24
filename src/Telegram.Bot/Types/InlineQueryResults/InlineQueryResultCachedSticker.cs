@@ -19,12 +19,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultCachedSticker()
+        private InlineQueryResultCachedSticker()
             : base(InlineQueryResultType.Sticker)
         { }
 
@@ -34,9 +31,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="id">Unique identifier of this result</param>
         /// <param name="stickerFileId">A valid file identifier of the sticker</param>
         public InlineQueryResultCachedSticker(string id, string stickerFileId)
-            : this()
+            : base(InlineQueryResultType.Sticker, id)
         {
-            Id = id;
             StickerFileId = stickerFileId;
         }
     }

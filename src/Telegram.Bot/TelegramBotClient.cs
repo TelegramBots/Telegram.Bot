@@ -349,7 +349,14 @@ namespace Telegram.Bot
         /// </summary>
         public void StopReceiving()
         {
-            _receivingCancellationTokenSource.Cancel();
+            try
+            {
+                _receivingCancellationTokenSource.Cancel();
+            }
+            catch (WebException)
+            { }
+            catch (TaskCanceledException)
+            { }
         }
 
         #endregion Helpers
@@ -440,6 +447,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile photo,
             string caption = default,
+            ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -448,6 +456,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendPhotoRequest(chatId, photo)
             {
                 Caption = caption,
+                ParseMode = parseMode,
                 ReplyToMessageId = replyToMessageId,
                 DisableNotification = disableNotification,
                 ReplyMarkup = replyMarkup
@@ -458,6 +467,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile audio,
             string caption = default,
+            ParseMode parseMode = default,
             int duration = default,
             string performer = default,
             string title = default,
@@ -469,6 +479,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendAudioRequest(chatId, audio)
             {
                 Caption = caption,
+                ParseMode = parseMode,
                 Duration = duration,
                 Performer = performer,
                 Title = title,
@@ -482,6 +493,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile document,
             string caption = default,
+            ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -490,6 +502,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
                 Caption = caption,
+                ParseMode = parseMode,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
@@ -519,6 +532,8 @@ namespace Telegram.Bot
             int width = default,
             int height = default,
             string caption = default,
+            ParseMode parseMode = default,
+            bool supportsStreaming = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -530,6 +545,8 @@ namespace Telegram.Bot
                 Width = width,
                 Height = height,
                 Caption = caption,
+                ParseMode = parseMode,
+                SupportsStreaming = supportsStreaming,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
@@ -540,6 +557,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile voice,
             string caption = default,
+            ParseMode parseMode = default,
             int duration = default,
             bool disableNotification = default,
             int replyToMessageId = default,
@@ -549,6 +567,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendVoiceRequest(chatId, voice)
             {
                 Caption = caption,
+                ParseMode = parseMode,
                 Duration = duration,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,

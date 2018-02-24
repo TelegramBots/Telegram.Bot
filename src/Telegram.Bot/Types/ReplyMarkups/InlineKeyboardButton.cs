@@ -20,7 +20,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public string Url { get; set; }
 
         /// <summary>
-        /// Data to be sent in a callback query to the bot when button is pressed
+        /// Optional. Data to be sent in a callback query to the bot when button is pressed
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string CallbackData { get; set; }
@@ -44,7 +44,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public string SwitchInlineQueryCurrentChat { get; set; }
 
         /// <summary>
-        /// Optimal. Description of the game that will be launched when the user presses the button.
+        /// Optional. Description of the game that will be launched when the user presses the button.
         /// </summary>
         /// <remarks>
         /// Note: This type of button must always be the first button in the first row.

@@ -54,12 +54,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultGif()
+        private InlineQueryResultGif()
             : base(InlineQueryResultType.Gif)
         { }
 
@@ -70,9 +67,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="gifUrl">Width of the GIF</param>
         /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
         public InlineQueryResultGif(string id, string gifUrl, string thumbUrl)
-            : this()
+            : base(InlineQueryResultType.Gif, id)
         {
-            Id = id;
             GifUrl = gifUrl;
             ThumbUrl = thumbUrl;
         }

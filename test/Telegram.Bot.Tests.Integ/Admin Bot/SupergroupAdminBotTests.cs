@@ -193,7 +193,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             // ToDo: Create exception type
             Assert.Equal(400, exception.ErrorCode);
-            Assert.Equal("Bad Request: can't set channel sticker set", exception.Message);
+            Assert.Equal("Bad Request: can't set supergroup sticker set", exception.Message);
         }
 
         #endregion

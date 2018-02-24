@@ -55,12 +55,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMessageContent InputMessageContent { get; set; }
+        public InputMessageContentBase InputMessageContent { get; set; }
 
-        /// <summary>
-        /// Initializes a new inline query result
-        /// </summary>
-        public InlineQueryResultVenue()
+        private InlineQueryResultVenue()
             : base(InlineQueryResultType.Venue)
         {
         }
@@ -79,9 +76,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
             float longitude,
             string title,
             string address)
-            : this()
+            : base(InlineQueryResultType.Venue, id)
         {
-            Id = id;
             Latitude = latitude;
             Longitude = longitude;
             Title = title;

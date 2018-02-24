@@ -282,6 +282,12 @@ namespace Telegram.Bot.Types
         public SuccessfulPayment SuccessfulPayment { get; set; }
 
         /// <summary>
+        /// Optional. The domain name of the website on which the user has logged in
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string ConnectedWebsite { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
         /// </summary>
         /// <value>
@@ -333,18 +339,41 @@ namespace Telegram.Bot.Types
                 if (VideoNote != null)
                     return MessageType.VideoNote;
 
-                if (NewChatMembers?.Any() == true ||
-                    LeftChatMember != null ||
-                    NewChatTitle != null ||
-                    NewChatPhoto != null ||
-                    PinnedMessage != null ||
-                    DeleteChatPhoto ||
-                    GroupChatCreated ||
-                    SupergroupChatCreated ||
-                    ChannelChatCreated ||
-                    MigrateFromChatId == default ||
-                    MigrateToChatId == default)
-                    return MessageType.Service;
+                if (ConnectedWebsite != null)
+                    return MessageType.WebsiteConnected;
+
+                if (NewChatMembers?.Any() == true)
+                    return MessageType.ChatMembersAdded;
+
+                if (LeftChatMember != null)
+                    return MessageType.ChatMemberLeft;
+
+                if (NewChatTitle != null)
+                    return MessageType.ChatTitleChanged;
+
+                if (NewChatPhoto != null)
+                    return MessageType.ChatPhotoChanged;
+
+                if (PinnedMessage != null)
+                    return MessageType.MessagePinned;
+
+                if (DeleteChatPhoto)
+                    return MessageType.ChatPhotoDeleted;
+
+                if (GroupChatCreated)
+                    return MessageType.GroupCreated;
+
+                if (SupergroupChatCreated)
+                    return MessageType.SupergroupCreated;
+
+                if (ChannelChatCreated)
+                    return MessageType.ChannelCreated;
+
+                if (MigrateFromChatId != default)
+                    return MessageType.MigratedFromGroup;
+
+                if (MigrateToChatId != default)
+                    return MessageType.MigratedToSupergroup;
 
                 return MessageType.Unknown;
             }
