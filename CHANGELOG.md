@@ -25,20 +25,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `SendVoiceRequest`
 - Property `ICaptionInlineQueryResult.ParseMode`
 - Property `ParseMode` to inline query results with a caption
-  - `InlineQueryResultPhoto` 
-  - `InlineQueryResultGif` 
-  - `InlineQueryResultCachedMpeg4Gif` 
-  - `InlineQueryResultVideo` 
-  - `InlineQueryResultAudio` 
-  - `InlineQueryResultVoice` 
-  - `InlineQueryResultDocument` 
-  - `InlineQueryResultCachedPhoto` 
-  - `InlineQueryResultCachedGif` 
-  - `InlineQueryResultCachedMpeg4Gif` 
-  - `InlineQueryResultCachedDocument` 
-  - `InlineQueryResultVideo` 
-  - `InlineQueryResultCachedVoice` 
-  - `InlineQueryResultCachedAudio` 
+  - `InlineQueryResultPhoto`
+  - `InlineQueryResultGif`
+  - `InlineQueryResultCachedMpeg4Gif`
+  - `InlineQueryResultVideo`
+  - `InlineQueryResultAudio`
+  - `InlineQueryResultVoice`
+  - `InlineQueryResultDocument`
+  - `InlineQueryResultCachedPhoto`
+  - `InlineQueryResultCachedGif`
+  - `InlineQueryResultCachedMpeg4Gif`
+  - `InlineQueryResultCachedDocument`
+  - `InlineQueryResultVideo`
+  - `InlineQueryResultCachedVoice`
+  - `InlineQueryResultCachedAudio`
 - Property `InputMediaBase.ParseMode`
 - Property `SendVideoRequest.SupportsStreaming`
 - Property `InputMediaVideo.SupportsStreaming`
