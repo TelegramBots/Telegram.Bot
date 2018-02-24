@@ -10,19 +10,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Property `Message.MediaGroupId`
-
-## [14.1.0-rc-424] - 2018-02-24
-
-### Added
-
-- Support for Bot API v3.6
-- Override equality comparison for `User` type
-- Property `ParseMode` to file requests with a caption
-  - `SendVideoRequest`
-  - `SendPhotoRequest`
-  - `SendAudioRequest`
-  - `SendDocumentRequest`
-  - `SendVoiceRequest`
 - Property `ICaptionInlineQueryResult.ParseMode`
 - Property `ParseMode` to inline query results with a caption
   - `InlineQueryResultPhoto`
@@ -39,6 +26,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `InlineQueryResultVideo`
   - `InlineQueryResultCachedVoice`
   - `InlineQueryResultCachedAudio`
+
+## [14.1.0-rc-424] - 2018-02-24
+
+### Added
+
+- Support for Bot API v3.6
+- Override equality comparison for `User` type
+- Property `ParseMode` to file requests with a caption
+  - `SendVideoRequest`
+  - `SendPhotoRequest`
+  - `SendAudioRequest`
+  - `SendDocumentRequest`
+  - `SendVoiceRequest`
 - Property `InputMediaBase.ParseMode`
 - Property `SendVideoRequest.SupportsStreaming`
 - Property `InputMediaVideo.SupportsStreaming`
