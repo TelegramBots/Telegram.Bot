@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -31,15 +32,16 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
                 startInlineQuery: true);
 
-            Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "article:bot-api";
             InputMessageContentBase inputMessageContent =
                 new InputTextMessageContent("https://core.telegram.org/bots/api");
 
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultArticle(
-                    id: "bot-api",
+                    id: resultId,
                     title: "Telegram Bot API",
                     inputMessageContent: inputMessageContent)
                 {
@@ -48,10 +50,17 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             };
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: update.InlineQuery.Id,
+                inlineQueryId: queryUpdate.InlineQuery.Id,
                 results: results,
                 cacheTime: 0
             );
+
+            Update resultUpdate = await GetChosenInlineResultUpdate();
+            ChosenInlineResult chosenResult = resultUpdate.ChosenInlineResult;
+
+            Assert.Equal(UpdateType.ChosenInlineResult, resultUpdate.Type);
+            Assert.Equal(resultId, chosenResult.ResultId);
+            Assert.Empty(chosenResult.Query);
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithContact)]
@@ -64,10 +73,11 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "contact:john-doe";
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultContact(
-                    id: "bot-api",
+                    id: resultId,
                     phoneNumber: "+1234567",
                     firstName: "John")
                 {
@@ -80,6 +90,12 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 results: results,
                 cacheTime: 0
             );
+            
+            Update resultUpdate = await GetChosenInlineResultUpdate();
+            ChosenInlineResult chosenResult = resultUpdate.ChosenInlineResult;
+
+            Assert.Equal(resultId, chosenResult.ResultId);
+            Assert.Empty(chosenResult.Query);
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithLocation)]
@@ -723,6 +739,13 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Assert.True(originalMessage.CaptionEntityValues.Any(e => e == entityValueMapping.EntityBody));
             Assert.True(originalMessage.CaptionEntities.Any(e => e.Type == entityValueMapping.Type));
         }
+
+        private Task<Update> GetChosenInlineResultUpdate(CancellationToken cancellationToken = default) =>
+            _fixture.UpdateReceiver.GetUpdatesAsync(
+                u => true,
+                cancellationToken: cancellationToken,
+                updateTypes: UpdateType.ChosenInlineResult
+            ).ContinueWith(t => t.Result.Single());
 
         private static class FactTitles
         {
