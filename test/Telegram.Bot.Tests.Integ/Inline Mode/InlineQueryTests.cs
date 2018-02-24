@@ -675,6 +675,55 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             );
         }
 
+        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithPhotoWithMarkdownEncodedCaption)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(21)]
+        public async Task Should_Answer_Inline_Query_With_Photo_With_Markdown_Encoded_Caption()
+        {
+            await _fixture.SendTestCaseNotificationAsync(
+                FactTitles.ShouldAnswerInlineQueryWithPhotoWithMarkdownEncodedCaption,
+                "Start an inline query with bot, post its result to chat and forward the posted message here",
+                startInlineQuery: true);
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
+
+            (MessageEntityType Type, string EntityBody, string EncodedEntity) entityValueMapping =
+                (MessageEntityType.Bold, "Rainbow Girl", "*Rainbow Girl*");
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultPhoto(
+                    id: "photo2",
+                    photoUrl: url,
+                    thumbUrl: url
+                )
+                {
+                    Caption = entityValueMapping.EncodedEntity,
+                    ParseMode = ParseMode.Markdown
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+
+            Update update = (await _fixture.UpdateReceiver
+                .GetUpdatesAsync(u => u.Type == UpdateType.Message &&
+                                      u.Message.Type == MessageType.Photo &&
+                                      u.Message.IsForwarded,
+                    updateTypes: UpdateType.Message))
+                .Single();
+
+            Message originalMessage = update.Message;
+
+            Assert.True(originalMessage.CaptionEntityValues.Any(e => e == entityValueMapping.EntityBody));
+            Assert.True(originalMessage.CaptionEntities.Any(e => e.Type == entityValueMapping.Type));
+        }
+
         private static class FactTitles
         {
             public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
@@ -720,6 +769,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             public const string ShouldAnswerInlineQueryWithCachedSticker =
                 "Should answer inline query with a cached sticker using its file_id";
+
+            public const string ShouldAnswerInlineQueryWithPhotoWithMarkdownEncodedCaption =
+                "Should answer inline query with a photo with markdown encoded caption";
         }
     }
 }
