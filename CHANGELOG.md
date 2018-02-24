@@ -41,6 +41,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - `ChannelCreated`
   - `MigratedToSupergroup`
   - `MigratedFromGroup`
+- Property `Message.MediaGroupId`
 - Exception `MessageIsNotModifiedException`
 
 ### Changed

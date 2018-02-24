@@ -90,6 +90,12 @@ namespace Telegram.Bot.Types
         public DateTime? EditDate { get; set; }
 
         /// <summary>
+        /// Optional. The unique identifier of a media message group this message belongs to
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string MediaGroupId { get; set; }
+
+        /// <summary>
         /// Optional. Signature of the post author for messages in channels
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
