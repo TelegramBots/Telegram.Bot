@@ -71,7 +71,5 @@ namespace Telegram.Bot.Requests
             Document.FileType == FileType.Stream
                 ? ToMultipartFormDataContent("document", Document)
                 : base.ToHttpContent();
-
-
     }
 }
