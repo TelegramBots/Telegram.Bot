@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+
+## [14.2.0-rc-452] - 2018-02-24
+
 ### Added
 
 - Property `Message.MediaGroupId`
