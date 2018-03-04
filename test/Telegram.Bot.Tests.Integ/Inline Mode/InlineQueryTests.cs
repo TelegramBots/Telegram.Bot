@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -55,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            var inlieQueryUpdates = await GetInlineQueryResultUpdates(MessageType.Text);
+            var inlieQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
             Update resultUpdate = inlieQueryUpdates.ChosenResultUpdate;
             ChosenInlineResult chosenResult = resultUpdate.ChosenInlineResult;
 
@@ -92,7 +91,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            var inlieQueryUpdates = await GetInlineQueryResultUpdates(MessageType.Contact);
+            var inlieQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Contact);
             ChosenInlineResult chosenResult = inlieQueryUpdates.ChosenResultUpdate.ChosenInlineResult;
 
             Assert.Equal(MessageType.Contact, inlieQueryUpdates.MessageUpdate.Message.Type);
@@ -728,7 +727,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            var inlieQueryUpdates = await GetInlineQueryResultUpdates(MessageType.Photo);
+            var inlieQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
             Update messgeUpdate = inlieQueryUpdates.MessageUpdate;
             Update resultUpdate = inlieQueryUpdates.ChosenResultUpdate;
 
@@ -739,31 +738,6 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Assert.Equal(UpdateType.ChosenInlineResult, resultUpdate.Type);
             Assert.Equal(resultId, resultUpdate.ChosenInlineResult.ResultId);
             Assert.Empty(resultUpdate.ChosenInlineResult.Query);
-        }
-
-        private async Task<(Update MessageUpdate, Update ChosenResultUpdate)> GetInlineQueryResultUpdates
-            (MessageType messageType, CancellationToken cancellationToken = default)
-        {
-            Update messageUpdate = default;
-            Update chosenResultUpdate = default;
-
-            while (
-                !cancellationToken.IsCancellationRequested &&
-                (messageUpdate is default || chosenResultUpdate is default)
-            )
-            {
-                await Task.Delay(1_000, cancellationToken);
-                var updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                    u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
-                    cancellationToken: cancellationToken,
-                    updateTypes: new[] {UpdateType.Message, UpdateType.ChosenInlineResult}
-                );
-
-                messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);
-                chosenResultUpdate = updates.SingleOrDefault(u => u.Type == UpdateType.ChosenInlineResult);
-            }
-
-            return (messageUpdate, chosenResultUpdate);
         }
 
         private static class FactTitles
