@@ -31,6 +31,8 @@
             public const string PrivateChatReplyMarkup = "Messages with Reply Markup - Private Chat";
 
             public const string ChatInfo = "Getting Chat Info";
+            
+            public const string LeaveChat = "Leaving chats";
 
             public const string InlineQuery = "Inline Query";
 
@@ -142,6 +144,8 @@
             public const string PinChatMessage = "pinChatMessage";
 
             public const string GetChat = "getChat";
+            
+            public const string LeaveChat = "leaveChat";
             
             public const string GetChatAdministrators = "getChatAdministrators";
             
