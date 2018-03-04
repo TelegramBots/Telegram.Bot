@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -75,18 +77,55 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.False(chat.AllMembersAreAdministrators);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChatAdmins)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
+        public async Task Should_Get_Supergroup_Chat_Admins()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChatAdmins);
+
+            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
+                chatId: _classFixture.SupergroupChat.Id
+            );
+
+            ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
+            ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
+
+            Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator
+            Assert.Null(memberCreator.UntilDate);
+            Assert.Null(memberCreator.CanBeEdited);
+            Assert.Null(memberCreator.CanChangeInfo);
+            Assert.Null(memberCreator.CanPostMessages);
+            Assert.Null(memberCreator.CanEditMessages);
+            Assert.Null(memberCreator.CanDeleteMessages);
+            Assert.Null(memberCreator.CanInviteUsers);
+            Assert.Null(memberCreator.CanRestrictMembers);
+            Assert.Null(memberCreator.CanPinMessages);
+            Assert.Null(memberCreator.CanPromoteMembers);
+            Assert.Null(memberCreator.CanSendMessages);
+            Assert.Null(memberCreator.CanSendMediaMessages);
+            Assert.Null(memberCreator.CanSendOtherMessages);
+            Assert.Null(memberCreator.CanAddWebPagePreviews);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser),
+                JToken.FromObject(memberBot.User)
+            ));
+        }
+
         private static class FactTitles
         {
             public const string ShouldGetPrivateChat = "Should get private chat info";
 
             public const string ShouldGetSupergroupChat = "Should get supergroup chat info";
+
+            public const string ShouldGetSupergroupChatAdmins = "Should get supergroup chat administrators";
         }
 
         public class Fixture : AllChatsFixture
         {
             public Fixture(TestsFixture testsFixture)
                 : base(testsFixture, Constants.TestCollections.ChatInfo)
-            { }
+            {
+            }
         }
     }
 }

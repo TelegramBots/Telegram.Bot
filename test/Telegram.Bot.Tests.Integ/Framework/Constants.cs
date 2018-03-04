@@ -142,6 +142,8 @@
             public const string PinChatMessage = "pinChatMessage";
 
             public const string GetChat = "getChat";
+            
+            public const string GetChatAdministrators = "getChatAdministrators";
 
             public const string GetFile = "getFile";
 
