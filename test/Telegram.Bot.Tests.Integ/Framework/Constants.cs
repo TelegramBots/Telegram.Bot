@@ -144,6 +144,8 @@
             public const string GetChat = "getChat";
             
             public const string GetChatAdministrators = "getChatAdministrators";
+            
+            public const string GetChatMembersCount = "getChatMembersCount";
 
             public const string GetFile = "getFile";
 

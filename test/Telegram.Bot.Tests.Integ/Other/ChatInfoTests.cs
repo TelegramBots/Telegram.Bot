@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
@@ -79,7 +78,7 @@ namespace Telegram.Bot.Tests.Integ.Other
 
         [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChatAdmins)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
-        public async Task Should_Get_Supergroup_Chat_Admins()
+        public async Task Should_Get_Chat_Admins()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChatAdmins);
 
@@ -111,6 +110,19 @@ namespace Telegram.Bot.Tests.Integ.Other
             ));
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldGetChatMembersCount)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMembersCount)]
+        public async Task Should_Get_Chat_Members_Count()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatMembersCount);
+
+            int membersCount = await BotClient.GetChatMembersCountAsync(
+                chatId: _classFixture.SupergroupChat.Id
+            );
+
+            Assert.True(2 <= membersCount); // at least, Bot and the Creator
+        }
+        
         private static class FactTitles
         {
             public const string ShouldGetPrivateChat = "Should get private chat info";
@@ -118,6 +130,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             public const string ShouldGetSupergroupChat = "Should get supergroup chat info";
 
             public const string ShouldGetSupergroupChatAdmins = "Should get supergroup chat administrators";
+            
+            public const string ShouldGetChatMembersCount = "Should get chat members count";
         }
 
         public class Fixture : AllChatsFixture
