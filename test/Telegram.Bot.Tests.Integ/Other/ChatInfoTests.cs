@@ -8,7 +8,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Other
 {
     [Collection(Constants.TestCollections.ChatInfo)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class ChatInfoTests : IClassFixture<ChatInfoTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,9 +23,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetPrivateChat)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetPrivateChat)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
-        [ExecutionOrder(1)]
         public async Task Should_Get_Private_Chat()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetPrivateChat);
@@ -50,9 +49,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(chat.CanSetStickerSet);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetSupergroupChat)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChat)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
-        [ExecutionOrder(1)]
         public async Task Should_Get_Supergroup_Chat()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChat);
