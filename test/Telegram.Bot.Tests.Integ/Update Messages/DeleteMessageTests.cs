@@ -8,7 +8,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Update_Messages
 {
     [Collection(Constants.TestCollections.DeleteMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class DeleteMessageTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -20,10 +20,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDeleteMessage)]
+        [OrderedFact(DisplayName = FactTitles.ShouldDeleteMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessage)]
-        [ExecutionOrder(1)]
         public async Task Should_Delete_Message()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteMessage);
@@ -33,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 text: "This message will be deleted shortly"
             );
 
-            await Task.Delay(500);
+            await Task.Delay(1_000);
 
             await BotClient.DeleteMessageAsync(
                 chatId: message.Chat.Id,
@@ -41,9 +40,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDeleteMessageFromInlineQuery)]
+        [OrderedFact(DisplayName = FactTitles.ShouldDeleteMessageFromInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
-        [ExecutionOrder(2)]
         public async Task Should_Delete_Message_From_InlineQuery()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteMessageFromInlineQuery,
@@ -65,7 +63,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             var inlieQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
 
-            await Task.Delay(500);
+            await Task.Delay(1_000);
 
             await BotClient.DeleteMessageAsync(
                 chatId: inlieQueryUpdates.MessageUpdate.Message.Chat.Id,

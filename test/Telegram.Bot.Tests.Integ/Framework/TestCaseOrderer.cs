@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xunit;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
+    [Obsolete]
     public class TestCaseOrderer : ITestCaseOrderer
     {
         public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)

@@ -9,6 +9,8 @@
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
         public const string TestCaseOrderer = AssemblyName + ".Framework.TestCaseOrderer";
+        
+        public const string TestCaseOrderer2 = AssemblyName + ".Framework.TestCaseOrderer2";
 
         public static class TestCollections
         {
