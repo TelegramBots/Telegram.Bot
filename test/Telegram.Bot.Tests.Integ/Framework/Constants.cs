@@ -126,6 +126,8 @@
             public const string GetMe = "getMe";
 
             public const string SendMessage = "sendMessage";
+            
+            public const string ForwardMessage = "forwardMessage";
 
             public const string AnswerCallbackQuery = "answerCallbackQuery";
 
