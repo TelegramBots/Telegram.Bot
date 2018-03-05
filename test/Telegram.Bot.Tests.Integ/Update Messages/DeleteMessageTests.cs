@@ -61,13 +61,13 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 }
             );
 
-            var inlieQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
+            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
 
             await Task.Delay(1_000);
 
             await BotClient.DeleteMessageAsync(
-                chatId: inlieQueryUpdates.MessageUpdate.Message.Chat.Id,
-                messageId: inlieQueryUpdates.MessageUpdate.Message.MessageId
+                chatId: inlineQueryUpdates.MessageUpdate.Message.Chat.Id,
+                messageId: inlineQueryUpdates.MessageUpdate.Message.MessageId
             );
         }
 
