@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Exceptions
 {
     [Collection(Constants.TestCollections.Exceptions)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -22,9 +22,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(1)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowChatNotFoundException);
@@ -35,9 +34,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ChatNotFoundException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2)]
         public async Task Should_Throw_Exception_InvalidUserIdException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
@@ -48,9 +46,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<InvalidUserIdException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowExceptionChatNotInitiatedException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionChatNotInitiatedException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(3)]
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
             //ToDo add exception. forward message from another bot. Forbidden: bot can't send messages to bots
@@ -69,9 +66,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ChatNotInitiatedException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(4)]
         public async Task Should_Throw_Exception_ContactRequestException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionContactRequestException);
@@ -88,9 +84,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ContactRequestException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(5)]
         public async Task Should_Throw_Exception_MessageIsNotModifiedException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionMessageIsNotModifiedException);
