@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Throw_Exception_InvalidUserIdException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
@@ -86,7 +86,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Throw_Exception_MessageIsNotModifiedException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionMessageIsNotModifiedException);
