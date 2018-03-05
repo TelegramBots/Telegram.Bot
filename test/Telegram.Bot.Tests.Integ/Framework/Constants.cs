@@ -182,6 +182,8 @@
             public const string SendVideo = "sendVideo";
             
             public const string SendAudio = "sendAudio";
+            
+            public const string SendVoice = "sendVoice";
 
             public const string SendVideoNote = "sendVideoNote";
 

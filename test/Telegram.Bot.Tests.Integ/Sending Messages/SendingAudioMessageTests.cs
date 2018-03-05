@@ -53,9 +53,39 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Audio.FileSize > 200);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldSendVoice)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVoice)]
+        public async Task Should_Send_Voice()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVoice);
+
+            const int duration = 24;
+            const string caption = "Test Voice in .ogg format";
+
+            Message message;
+            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.TestOgg))
+            {
+                message = await BotClient.SendVoiceAsync(
+                    chatId: _fixture.SupergroupChat,
+                    voice: stream,
+                    caption: caption,
+                    duration: duration
+                );
+            }
+
+            Assert.Equal(MessageType.Voice, message.Type);
+            Assert.Equal(caption, message.Caption);
+            Assert.Equal(duration, message.Voice.Duration);
+            Assert.Equal("audio/ogg", message.Voice.MimeType);
+            Assert.NotEmpty(message.Voice.FileId);
+            Assert.True(message.Voice.FileSize > 200);
+        }
+        
         private static class FactTitles
         {
             public const string ShouldSendAudio = "Should send an audio with caption";
+            
+            public const string ShouldSendVoice = "Should send a voice with caption";
         }
     }
 }
