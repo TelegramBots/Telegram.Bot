@@ -155,6 +155,24 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.True(2 <= membersCount); // at least, Bot and the Creator
         }
 
+        /// <remarks>
+        /// The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear
+        /// its typing status)
+        /// </remarks>
+        [OrderedFact(DisplayName = FactTitles.ShouldSendChatAction)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendChatAction)]
+        public async Task Should_Send_Chat_Action()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendChatAction);
+
+            await BotClient.SendChatActionAsync(
+                chatId: _classFixture.SupergroupChat.Id,
+                chatAction: ChatAction.RecordAudio
+            );
+            
+            await Task.Delay(5_000);
+        }
+
         private static class FactTitles
         {
             public const string ShouldGetPrivateChat = "Should get private chat info";
@@ -166,6 +184,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             public const string ShouldGetSupergroupChatAdmins = "Should get supergroup chat administrators";
 
             public const string ShouldGetChatMembersCount = "Should get chat members count";
+            
+            public const string ShouldSendChatAction = "Should send ation to chat: recording audio";
         }
 
         public class Fixture : AllChatsFixture

@@ -160,6 +160,8 @@
             public const string GetChatAdministrators = "getChatAdministrators";
             
             public const string GetChatMembersCount = "getChatMembersCount";
+            
+            public const string SendChatAction = "sendChatAction";
 
             public const string GetFile = "getFile";
 
