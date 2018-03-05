@@ -27,7 +27,6 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [ExecutionOrder(1)]
         public async Task Should_Answer_Inline_Query_With_Article()
         {
-            // ToDo: add exception: Bad Request: QUERY_ID_INVALID
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
                 startInlineQuery: true);
 

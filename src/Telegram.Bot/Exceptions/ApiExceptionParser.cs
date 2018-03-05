@@ -30,6 +30,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) invalid$"),
 
             new BadRequestExceptionInfo<MessageIsNotModifiedException>("message is not modified"),
+            new BadRequestExceptionInfo<QueryIdInvalidException>("QUERY_ID_INVALID"),
         };
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
