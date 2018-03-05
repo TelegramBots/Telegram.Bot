@@ -360,6 +360,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         }
 
         [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedAudio)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [ExecutionOrder(11)]
         public async Task Should_Answer_Inline_Query_With_Cached_Audio()
