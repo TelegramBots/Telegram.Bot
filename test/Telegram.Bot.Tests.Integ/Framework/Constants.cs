@@ -155,6 +155,8 @@
             
             public const string GetUserProfilePhotos = "getUserProfilePhotos";
             
+            public const string GetChatMember = "getChatMember";
+            
             public const string GetChatAdministrators = "getChatAdministrators";
             
             public const string GetChatMembersCount = "getChatMembersCount";

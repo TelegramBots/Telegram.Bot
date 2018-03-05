@@ -76,6 +76,38 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.False(chat.AllMembersAreAdministrators);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldGetBotChatMember)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMember)]
+        public async Task Should_Get_Bot_Chat_Member()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetBotChatMember);
+
+            ChatMember memberBot = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _fixture.BotUser.Id
+            );
+
+            Assert.Equal(ChatMemberStatus.Administrator, memberBot.Status);
+            Assert.True(memberBot.CanChangeInfo);
+            Assert.True(memberBot.CanDeleteMessages);
+            Assert.True(memberBot.CanInviteUsers);
+            Assert.True(memberBot.CanPromoteMembers);
+            Assert.True(memberBot.CanRestrictMembers);
+            Assert.True(memberBot.CanPinMessages);
+            Assert.False(memberBot.CanBeEdited);
+            Assert.Null(memberBot.UntilDate);
+            Assert.Null(memberBot.CanPostMessages);
+            Assert.Null(memberBot.CanEditMessages);
+            Assert.Null(memberBot.CanSendMessages);
+            Assert.Null(memberBot.CanSendMediaMessages);
+            Assert.Null(memberBot.CanSendOtherMessages);
+            Assert.Null(memberBot.CanAddWebPagePreviews);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser),
+                JToken.FromObject(memberBot.User)
+            ));
+        }
+
         [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChatAdmins)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
         public async Task Should_Get_Chat_Admins()
@@ -122,15 +154,17 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             Assert.True(2 <= membersCount); // at least, Bot and the Creator
         }
-        
+
         private static class FactTitles
         {
             public const string ShouldGetPrivateChat = "Should get private chat info";
 
             public const string ShouldGetSupergroupChat = "Should get supergroup chat info";
 
+            public const string ShouldGetBotChatMember = "Should get chat member: bot(admin)";
+
             public const string ShouldGetSupergroupChatAdmins = "Should get supergroup chat administrators";
-            
+
             public const string ShouldGetChatMembersCount = "Should get chat members count";
         }
 
