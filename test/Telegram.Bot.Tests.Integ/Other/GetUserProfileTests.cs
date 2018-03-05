@@ -19,12 +19,11 @@ namespace Telegram.Bot.Tests.Integ.Other
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldLeaveChat)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.LeaveChat)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetBotProfilePhotos)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetUserProfilePhotos)]
         public async Task Should_Get_User_Profile_Photos()
         {
-            // ToDo: Exception when leaving private chat
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldLeaveChat);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetBotProfilePhotos);
 
             UserProfilePhotos profilePhotos = await BotClient.GetUserProfilePhotosAsync(
                 userId: _fixture.BotUser.Id
@@ -36,7 +35,7 @@ namespace Telegram.Bot.Tests.Integ.Other
 
         private static class FactTitles
         {
-            public const string ShouldLeaveChat = "Should leave chat";
+            public const string ShouldGetBotProfilePhotos = "Should get bot's profile photos";
         }
     }
 }
