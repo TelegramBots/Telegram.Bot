@@ -19,6 +19,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.InlineQuery,
             Constants.TestCollections.FileDownload,
             Constants.TestCollections.LeaveChat,
+            Constants.TestCollections.GetUserProfilePhotos,
             Constants.TestCollections.SendDocumentMessage,
             Constants.TestCollections.ChatInfo,
             Constants.TestCollections.AlbumMessage,

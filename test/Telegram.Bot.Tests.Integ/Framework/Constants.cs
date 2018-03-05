@@ -33,6 +33,8 @@
             public const string ChatInfo = "Getting Chat Info";
             
             public const string LeaveChat = "Leaving chats";
+            
+            public const string GetUserProfilePhotos = "Getting user profile photos";
 
             public const string InlineQuery = "Inline Query";
 
@@ -146,6 +148,8 @@
             public const string GetChat = "getChat";
             
             public const string LeaveChat = "leaveChat";
+            
+            public const string GetUserProfilePhotos = "getUserProfilePhotos";
             
             public const string GetChatAdministrators = "getChatAdministrators";
             
