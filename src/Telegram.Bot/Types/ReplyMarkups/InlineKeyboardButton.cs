@@ -152,7 +152,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// The result of the conversion.
         /// </returns>
         public static implicit operator InlineKeyboardButton(string textAndCallbackData) =>
-            textAndCallbackData is default
+            string.IsNullOrEmpty(textAndCallbackData)
                 ? default
                 : WithCallbackData(textAndCallbackData);
     }

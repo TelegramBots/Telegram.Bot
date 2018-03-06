@@ -55,8 +55,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// ToDo
         /// </summary>
         /// <param name="stream"></param>
-        public static implicit operator InputFileStream(Stream stream)
-            => stream is default
+        public static implicit operator InputFileStream(Stream stream) =>
+            stream is null
                 ? default
                 : new InputFileStream(stream);
     }

@@ -69,8 +69,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// ToDo
         /// </summary>
         /// <param name="stream"></param>
-        public static implicit operator InputTelegramFile(Stream stream)
-            => stream is default
+        public static implicit operator InputTelegramFile(Stream stream) =>
+            stream is null
                 ? default
                 : new InputTelegramFile(stream);
 
@@ -78,8 +78,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// ToDo
         /// </summary>
         /// <param name="fileId"></param>
-        public static implicit operator InputTelegramFile(string fileId)
-            => fileId is default
+        public static implicit operator InputTelegramFile(string fileId) =>
+            string.IsNullOrEmpty(fileId)
                 ? default
                 : new InputTelegramFile(fileId);
     }

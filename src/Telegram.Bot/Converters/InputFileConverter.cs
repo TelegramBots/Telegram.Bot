@@ -36,7 +36,7 @@ namespace Telegram.Bot.Converters
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             string value = JToken.ReadFrom(reader).Value<string>();
-            if (value is default)
+            if (string.IsNullOrEmpty(value))
             {
                 return new InputFileStream(Stream.Null);
             }

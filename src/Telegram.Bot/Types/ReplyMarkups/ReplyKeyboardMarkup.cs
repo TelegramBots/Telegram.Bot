@@ -34,7 +34,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         }
 
         public ReplyKeyboardMarkup(KeyboardButton button)
-            : this(new[] {button})
+            : this(new[] { button })
         {
         }
 
@@ -46,7 +46,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <param name="oneTimeKeyboard">if set to <c>true</c> the client hides the keyboard as soon as it's been used.</param>
         public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow, bool resizeKeyboard = default,
             bool oneTimeKeyboard = default)
-            : this(new[] {keyboardRow}, resizeKeyboard, oneTimeKeyboard)
+            : this(new[] { keyboardRow }, resizeKeyboard, oneTimeKeyboard)
         {
         }
 
@@ -65,17 +65,17 @@ namespace Telegram.Bot.Types.ReplyMarkups
         }
 
         public static implicit operator ReplyKeyboardMarkup(string text) =>
-            text is default
+            string.IsNullOrEmpty(text)
                 ? default
-                : new ReplyKeyboardMarkup(new[] {new KeyboardButton(text)});
+                : new ReplyKeyboardMarkup(new[] { new KeyboardButton(text) });
 
         public static implicit operator ReplyKeyboardMarkup(string[] texts) =>
-            texts is default
+            texts is null
                 ? default
-                : new[] {texts};
+                : new[] { texts };
 
         public static implicit operator ReplyKeyboardMarkup(string[][] textsItems) =>
-            textsItems is default
+            textsItems is null
                 ? default
                 : new ReplyKeyboardMarkup(
                     textsItems.Select(texts =>

@@ -52,7 +52,7 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
         public override HttpContent ToHttpContent() =>
-            Certificate is default
+            Certificate is null
                 ? base.ToHttpContent()
                 : ToMultipartFormDataContent("certificate", Certificate);
     }

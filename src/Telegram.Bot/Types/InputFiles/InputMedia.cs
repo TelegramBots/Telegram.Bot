@@ -33,8 +33,8 @@ namespace Telegram.Bot.Types
         /// ToDo
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator InputMedia(string value)
-            => value is default
+        public static implicit operator InputMedia(string value) =>
+            string.IsNullOrEmpty(value)
                 ? default
                 : new InputMedia(value);
     }
