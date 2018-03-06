@@ -28,7 +28,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// </summary>
         /// <param name="inlineKeyboardButton">Keyboard button</param>
         public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
-            : this(new[] {inlineKeyboardButton})
+            : this(new[] { inlineKeyboardButton })
         {
         }
 
@@ -57,12 +57,12 @@ namespace Telegram.Bot.Types.ReplyMarkups
             new InlineKeyboardMarkup(new InlineKeyboardButton[0][]);
 
         public static implicit operator InlineKeyboardMarkup(InlineKeyboardButton button) =>
-            button is default
+            button is null
                 ? default
                 : new InlineKeyboardMarkup(button);
 
         public static implicit operator InlineKeyboardMarkup(string buttonText) =>
-            buttonText is default
+            string.IsNullOrEmpty(buttonText)
                 ? default
                 : new InlineKeyboardMarkup(buttonText);
     }

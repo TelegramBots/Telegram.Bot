@@ -16,13 +16,13 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
         {
             _testsFixture = testsFixture;
 
-            if (_testsFixture.ChannelChat is default)
+            if (_testsFixture.ChannelChat is null)
             {
                 _testsFixture.ChannelChat = GetChat(collectionName).GetAwaiter().GetResult();
             }
             ChannelChat = _testsFixture.ChannelChat;
 
-            ChannelChatId = ChannelChat.Username is default
+            ChannelChatId = string.IsNullOrEmpty(ChannelChat.Username)
                 ? ChannelChat.Id.ToString()
                 : '@' + ChannelChat.Username;
 
@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
         {
             Chat chat;
             string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
-            if (chatId is default)
+            if (string.IsNullOrEmpty(chatId))
             {
                 await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 

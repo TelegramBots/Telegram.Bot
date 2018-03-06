@@ -34,8 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         private static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
         {
             Chat chat;
-            int.TryParse(ConfigurationProvider.TestConfigurations.RegularGroupMemberId, out int userId);
-            if (userId is default)
+            if (!int.TryParse(ConfigurationProvider.TestConfigurations.RegularGroupMemberId, out int userId))
             {
                 await testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -53,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 chat = await testsFixture.BotClient.GetChatAsync(userId);
             }
 
-            if (chat.Username is default)
+            if (string.IsNullOrEmpty(chat.Username))
             {
                 await testsFixture.SendTestCollectionNotificationAsync(collectionName,
                     $"[{chat.FirstName}](tg://user?id={chat.Id}) doesn't have a username.\n" +
