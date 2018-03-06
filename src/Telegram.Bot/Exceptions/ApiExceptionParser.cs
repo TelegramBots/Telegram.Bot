@@ -11,6 +11,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
             new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
+            new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
 
             #region Stickers
 
@@ -30,7 +31,6 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) invalid$"),
 
             new BadRequestExceptionInfo<MessageIsNotModifiedException>("message is not modified"),
-            new BadRequestExceptionInfo<QueryIdInvalidException>("QUERY_ID_INVALID"),
         };
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)

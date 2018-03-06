@@ -105,38 +105,35 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<MessageIsNotModifiedException>(e);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionQueryIdInvalidException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionInvalidQueryIdException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Throw_Exception_QueryIdInvalidException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionQueryIdInvalidException);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException);
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            const string resultId = "article:bot-api";
-            InputMessageContentBase inputMessageContent =
-                new InputTextMessageContent("https://core.telegram.org/bots/api");
 
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultArticle(
-                    id: resultId,
+                    id: "article:bot-api",
                     title: "Telegram Bot API",
-                    inputMessageContent: inputMessageContent)
-                {
-                    Description = "The Bot API is an HTTP-based interface created for developers",
-                },
+                    inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
+                    {
+                        Description = "The Bot API is an HTTP-based interface created for developers",
+                    },
             };
 
             await Task.Delay(10_000);
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            InvalidQueryIdException e = await Assert.ThrowsAnyAsync<InvalidQueryIdException>(() =>
                 BotClient.AnswerInlineQueryAsync(
                     inlineQueryId: queryUpdate.InlineQuery.Id,
                     results: results,
                     cacheTime: 0));
 
-            Assert.IsType<QueryIdInvalidException>(e);
+            Assert.Equal("inline_query_id", e.Parameter);
         }
 
         private static class FactTitles
@@ -159,8 +156,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                "Should throw MessageIsNotModifiedException while editing previously sent message " +
                 "with the same text";
 
-            public const string ShouldThrowExceptionQueryIdInvalidException =
-               "Should throw QueryIdInvalidException when AnswerInlineQueryAsync called with" +
+            public const string ShouldThrowExceptionInvalidQueryIdException =
+               "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with" +
                 " 10 second delay";
         }
     }
