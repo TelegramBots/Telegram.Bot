@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
 
-                if (predicate is default)
+                if (predicate == null)
                 {
                     updates = updates.Where(u => updateTypes.Contains(u.Type));
                 }

@@ -749,7 +749,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             while (
                 !cancellationToken.IsCancellationRequested &&
-                (messageUpdate is default || chosenResultUpdate is default)
+                (messageUpdate == null || chosenResultUpdate == null)
             )
             {
                 await Task.Delay(1_000, cancellationToken);
