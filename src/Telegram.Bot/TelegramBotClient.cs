@@ -717,7 +717,7 @@ namespace Telegram.Bot
             {
                 throw new ArgumentException("Invalid file path", nameof(filePath));
             }
-            if (destination is default)
+            if (destination == null)
             {
                 throw new ArgumentNullException(nameof(destination));
             }

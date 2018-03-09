@@ -65,17 +65,17 @@ namespace Telegram.Bot.Types.ReplyMarkups
         }
 
         public static implicit operator ReplyKeyboardMarkup(string text) =>
-            text is default
+            text == null
                 ? default
                 : new ReplyKeyboardMarkup(new[] {new KeyboardButton(text)});
 
         public static implicit operator ReplyKeyboardMarkup(string[] texts) =>
-            texts is default
+            texts == null
                 ? default
                 : new[] {texts};
 
         public static implicit operator ReplyKeyboardMarkup(string[][] textsItems) =>
-            textsItems is default
+            textsItems == null
                 ? default
                 : new ReplyKeyboardMarkup(
                     textsItems.Select(texts =>
