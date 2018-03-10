@@ -224,6 +224,8 @@
             public const string DeleteWebhook = "deleteWebhook";
 
             public const string GetWebhookInfo = "getWebhookInfo";
+
+            public const string EditMessageText = "editMessageText";
         }
     }
 }
