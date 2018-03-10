@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
 
-                if (predicate is default)
+                if (predicate == null)
                 {
                     updates = updates.Where(u => updateTypes.Contains(u.Type));
                 }
@@ -155,14 +155,14 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             while (
                 !cancellationToken.IsCancellationRequested &&
-                (messageUpdate is default || chosenResultUpdate is default)
+                (messageUpdate == null || chosenResultUpdate == null)
             )
             {
                 await Task.Delay(1_000, cancellationToken);
                 var updates = await GetUpdatesAsync(
                     u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
                     cancellationToken: cancellationToken,
-                    updateTypes: new[] {UpdateType.Message, UpdateType.ChosenInlineResult}
+                    updateTypes: new[] { UpdateType.Message, UpdateType.ChosenInlineResult }
                 );
 
                 messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);

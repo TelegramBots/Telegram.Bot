@@ -57,12 +57,12 @@ namespace Telegram.Bot.Types.ReplyMarkups
             new InlineKeyboardMarkup(new InlineKeyboardButton[0][]);
 
         public static implicit operator InlineKeyboardMarkup(InlineKeyboardButton button) =>
-            button is default
+            button == null
                 ? default
                 : new InlineKeyboardMarkup(button);
 
         public static implicit operator InlineKeyboardMarkup(string buttonText) =>
-            buttonText is default
+            buttonText == null
                 ? default
                 : new InlineKeyboardMarkup(buttonText);
     }
