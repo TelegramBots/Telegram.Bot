@@ -11,6 +11,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
             new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
+            new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
 
             #region Stickers
 

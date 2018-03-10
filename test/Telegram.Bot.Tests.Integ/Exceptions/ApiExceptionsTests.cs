@@ -4,6 +4,7 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
@@ -109,6 +110,37 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<MessageIsNotModifiedException>(e);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldThrowExceptionInvalidQueryIdException)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [ExecutionOrder(6)]
+        public async Task Should_Throw_Exception_QueryIdInvalidException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException);
+
+            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultArticle(
+                    id: "article:bot-api",
+                    title: "Telegram Bot API",
+                    inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
+                    {
+                        Description = "The Bot API is an HTTP-based interface created for developers",
+                    },
+            };
+
+            await Task.Delay(10_000);
+
+            InvalidQueryIdException e = await Assert.ThrowsAnyAsync<InvalidQueryIdException>(() =>
+                BotClient.AnswerInlineQueryAsync(
+                    inlineQueryId: queryUpdate.InlineQuery.Id,
+                    results: results,
+                    cacheTime: 0));
+
+            Assert.Equal("inline_query_id", e.Parameter);
+        }
+
         private static class FactTitles
         {
             public const string ShouldThrowChatNotFoundException =
@@ -128,6 +160,10 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             public const string ShouldThrowExceptionMessageIsNotModifiedException =
                "Should throw MessageIsNotModifiedException while editing previously sent message " +
                 "with the same text";
+
+            public const string ShouldThrowExceptionInvalidQueryIdException =
+                   "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with" +
+                    " 10 second delay";
         }
     }
 }
