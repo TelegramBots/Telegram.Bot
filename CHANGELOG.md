@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Exception `InvalidQueryIdException`
 
 
 ## [14.2.0-rc-452] - 2018-02-24
