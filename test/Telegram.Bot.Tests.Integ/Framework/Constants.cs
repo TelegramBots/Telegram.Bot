@@ -46,7 +46,7 @@
 
             public const string AlbumMessage = "Sending Album Messages";
 
-            public const string EditReplyMarkup = "Edit Message Reply Markup";
+            public const string EditMessage = "Edit Message Content";
             
             public const string DeleteMessage = "Delete Message";
 
@@ -193,6 +193,8 @@
 
             public const string SendDocument = "sendDocument";
 
+            public const string EditMessageText = "editMessageText";
+            
             public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
             
             public const string DeleteMessage = "deleteMessage";
