@@ -57,6 +57,8 @@
             public const string Payment = "Payment";
 
             public const string Stickers = "Stickers";
+            
+            public const string Games = "Games";
 
             public const string SuperGroupAdminBots = "Super Group Admin Bot";
 
@@ -220,6 +222,8 @@
             public const string SetStickerPositionInSet = "setStickerPositionInSet";
 
             public const string DeleteStickerFromSet = "deleteStickerFromSet";
+            
+            public const string SendGame = "sendGame";
 
             public const string SetWebhook = "setWebhook";
 

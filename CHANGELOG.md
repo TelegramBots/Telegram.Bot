@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
 
+- Implicit cast of `IEnumerable<InlineKeyboardButton>[]` to `InlineKeyboardMarkup`
+- Implicit cast of `InlineKeyboardButton[]` to `InlineKeyboardMarkup`
+
+### Changed
+
+- Made `callbackGame` parameter of `InlineKeyboardButton.WithCallBackGame` optional
+
+### Removed
+
+- Parameterless ctor of `InlineKeyboardMarkup`
 
 ## [14.2.0-rc-452] - 2018-02-24
 

@@ -30,6 +30,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.InlineMessageLiveLocation,
             Constants.TestCollections.LiveLocation,
             Constants.TestCollections.Stickers,
+            Constants.TestCollections.Games,
             Constants.TestCollections.Payment,
             Constants.TestCollections.SuperGroupAdminBots,
             Constants.TestCollections.ChannelAdminBots,

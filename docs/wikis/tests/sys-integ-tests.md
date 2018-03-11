@@ -148,3 +148,7 @@ If the following 3 settings are not set, bot will ask a tester to send it `/me` 
 ```json
 { "RegularGroupMemberId": 1234567890 }
 ```
+
+#### Games
+
+Bot should have a game with short name: `game1`.
