@@ -9,15 +9,18 @@ namespace Telegram.Bot.Tests.Integ.Games
 {
     [Collection(Constants.TestCollections.Games)]
     [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
-    public class GamesTests
+    public class GamesTests : IClassFixture<GamesFixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
+        
+        private readonly GamesFixture _classFixture;
 
-        public GamesTests(TestsFixture fixture)
+        public GamesTests(TestsFixture fixture, GamesFixture classFixture)
         {
             _fixture = fixture;
+            _classFixture = classFixture;
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldSendGame)]
@@ -28,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             Message gameMessage = await BotClient.SendGameAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                gameShortName: "game1"
+                gameShortName: _classFixture.GameShortName
             );
 
             Assert.NotEmpty(gameMessage.Game.Title);
@@ -48,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             Message gameMessage = await BotClient.SendGameAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                gameShortName: "game1",
+                gameShortName: _classFixture.GameShortName,
                 replyMarkup: new[]
                 {
                     InlineKeyboardButton.WithCallBackGame("Play"),

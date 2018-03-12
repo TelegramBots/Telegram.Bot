@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Implicit cast of `IEnumerable<InlineKeyboardButton>[]` to `InlineKeyboardMarkup`
 - Implicit cast of `InlineKeyboardButton[]` to `InlineKeyboardMarkup`
+- Exception `InvalidGameShortNameException`
 
 ### Changed
 
