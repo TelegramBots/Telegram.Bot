@@ -224,6 +224,10 @@
             public const string DeleteStickerFromSet = "deleteStickerFromSet";
             
             public const string SendGame = "sendGame";
+            
+            public const string SetGameScore = "setGameScore";
+            
+            public const string GetGameHighScores = "getGameHighScores";
 
             public const string SetWebhook = "setWebhook";
 

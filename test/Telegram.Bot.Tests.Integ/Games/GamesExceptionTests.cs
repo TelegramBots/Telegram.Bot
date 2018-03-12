@@ -7,18 +7,15 @@ namespace Telegram.Bot.Tests.Integ.Games
 {
     [Collection(Constants.TestCollections.Games)]
     [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
-    public class GamesExceptionTests : IClassFixture<GamesFixture>
+    public class GamesExceptionTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        private readonly GamesFixture _classFixture;
-
-        public GamesExceptionTests(TestsFixture fixture, GamesFixture classFixture)
+        public GamesExceptionTests(TestsFixture fixture)
         {
             _fixture = fixture;
-            _classFixture = classFixture;
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException)]
@@ -69,6 +66,9 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.Equal("game_short_name", e.Parameter);
         }
 
+        // ToDo: Send game with markup & game button NOT as 1st: BUTTON_POS_INVALID
+        // ToDo: Send game with markup & w/o game button: REPLY_MARKUP_GAME_EMPTY
+        
         private static class FactTitles
         {
             public const string ShouldThrowInvalidGameShortNameException = "Should throw InvalidGameShortNameException";
@@ -77,7 +77,7 @@ namespace Telegram.Bot.Tests.Integ.Games
                 "Should throw InvalidGameShortNameException for empty name";
 
             public const string ShouldThrowInvalidGameShortNameException3 =
-                "Should throw InvalidGameShortNameException for non-existing game";
+                "Should throw InvalidGameShortNameException for non-existent game";
         }
     }
 }
