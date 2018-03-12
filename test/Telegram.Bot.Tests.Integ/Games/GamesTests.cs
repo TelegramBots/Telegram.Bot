@@ -27,6 +27,8 @@ namespace Telegram.Bot.Tests.Integ.Games
             _classFixture = classFixture;
         }
 
+        #region Regualr Game Message
+
         [OrderedFact(DisplayName = FactTitles.ShouldSendGame)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Send_Game()
@@ -48,38 +50,6 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.All(gameMessage.Game.Photo, _ => Assert.True(_.Height > 25));
 
             _classFixture.GameMessage = gameMessage;
-        }
-
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithGame)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
-        public async Task Should_Answer_InlineQuery_With_Game()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithGame,
-                startInlineQuery: true);
-
-            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
-
-            const string resultId = "game";
-            await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: queryUpdate.InlineQuery.Id,
-                results: new InlineQueryResultBase[]
-                {
-                    new InlineQueryResultGame(
-                        id: resultId,
-                        gameShortName: _classFixture.GameShortName
-                    )
-                },
-                cacheTime: 0
-            );
-
-            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
-            Update resultUpdate = inlineQueryUpdates.ChosenResultUpdate;
-            ChosenInlineResult chosenResult = resultUpdate.ChosenInlineResult;
-
-            Assert.Equal(resultId, chosenResult.ResultId);
-            Assert.Empty(chosenResult.Query);
-
-            _classFixture.InlineGameMessage = resultUpdate.Message;
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldSendGameWithReplyMarkup)]
@@ -184,6 +154,80 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.Equal(MessageType.Game, gameMessage.Type);
         }
 
+        #endregion
+
+        #region Inline Game Message
+
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithGame)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        public async Task Should_Answer_InlineQuery_With_Game()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithGame,
+                startInlineQuery: true);
+
+            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            const string resultId = "game";
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: queryUpdate.InlineQuery.Id,
+                results: new InlineQueryResultBase[]
+                {
+                    new InlineQueryResultGame(
+                        id: resultId,
+                        gameShortName: _classFixture.GameShortName
+                    )
+                },
+                cacheTime: 0
+            );
+
+            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
+            Update resultUpdate = inlineQueryUpdates.ChosenResultUpdate;
+            ChosenInlineResult chosenResult = resultUpdate.ChosenInlineResult;
+
+            Assert.Equal(resultId, chosenResult.ResultId);
+            Assert.Empty(chosenResult.Query);
+
+            _classFixture.InlineGameMessageId = chosenResult.InlineMessageId;
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldGetHighScoresInline)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
+        public async Task Should_Get_High_Scores_Inline_Message()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetHighScoresInline);
+
+            GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
+                userId: _classFixture.Player.Id,
+                inlineMessageId: _classFixture.InlineGameMessageId
+            );
+
+            Assert.All(highScores, _ => Assert.True(_.Position > 0));
+            Assert.All(highScores, _ => Assert.True(_.Score > 0));
+            Assert.All(highScores.Select(_ => _.User), Assert.NotNull);
+
+            _classFixture.HighScores = highScores;
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldSetGameScoreInline)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetGameScore)]
+        public async Task Should_Set_Game_Score_Inline_Message()
+        {
+            int playerId = _classFixture.Player.Id;
+            int oldScore = _classFixture.HighScores.Single(highScore => highScore.User.Id == playerId).Score;
+            int newScore = oldScore + 1 + new Random().Next(3);
+
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetGameScoreInline,
+                $"Changing score from {oldScore} to {newScore} for @{_classFixture.Player.Username.Replace("_", @"\_")}.");
+
+            await BotClient.SetGameScoreAsync(
+                userId: playerId,
+                score: newScore,
+                inlineMessageId: _classFixture.InlineGameMessageId
+            );
+        }
+
+        #endregion
+
         [OrderedFact(DisplayName = FactTitles.ShouldAnswerGameCallbackQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_CallbackQuery_With_Game_Url()
@@ -207,8 +251,6 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             public const string ShouldSendGameWithReplyMarkup = "Should send game with a custom reply markup";
 
-            public const string ShouldAnswerInlineQueryWithGame = "Should answer inline query with a game";
-
             public const string ShouldGetHighScores = "Should get game high score";
 
             public const string ShouldSetGameScore = "Should set game score";
@@ -216,6 +258,12 @@ namespace Telegram.Bot.Tests.Integ.Games
             public const string ShouldDeductGameScore = "Should deduct game score by setting it forcefully";
 
             public const string ShouldAnswerGameCallbackQuery = "Should answer game callback query";
+
+            public const string ShouldAnswerInlineQueryWithGame = "Should answer inline query with a game";
+
+            public const string ShouldGetHighScoresInline = "Should get game high score for inline message";
+
+            public const string ShouldSetGameScoreInline = "Should set game score for inline message";
         }
     }
 }
