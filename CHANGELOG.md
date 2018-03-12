@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Made `callbackGame` parameter of `InlineKeyboardButton.WithCallBackGame` optional
 
+### Fixed
+
+- Assigining param `foursquareId` of `SendInvoiceAsync` method to its request
+
 ### Removed
 
 - Parameterless ctor of `InlineKeyboardMarkup`

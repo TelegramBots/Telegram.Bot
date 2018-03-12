@@ -25,6 +25,8 @@
             public const string SendVideoMessage = "Sending Video Messages";
             
             public const string SendAudioMessage = "Sending Audio Messages";
+            
+            public const string SendVenueMessage = "Sending Venue Messages";
 
             public const string SendDocumentMessage = "Sending Document Messages";
 
@@ -188,6 +190,8 @@
             public const string SendVideo = "sendVideo";
             
             public const string SendAudio = "sendAudio";
+            
+            public const string SendVenue = "sendVenue";
             
             public const string SendVoice = "sendVoice";
 
