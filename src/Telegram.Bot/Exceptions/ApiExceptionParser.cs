@@ -68,7 +68,6 @@ namespace Telegram.Bot.Exceptions
                     errorMessage = TruncateForbiddenErrorDescription(apiResponse.Description);
                     exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
                 }
-
             }
             return exception;
         }
