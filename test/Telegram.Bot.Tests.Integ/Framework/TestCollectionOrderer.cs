@@ -17,6 +17,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.SendPhotoMessage,
             Constants.TestCollections.SendAudioMessage,
             Constants.TestCollections.SendVenueMessage,
+            Constants.TestCollections.SendContactMessage,
             Constants.TestCollections.InlineQuery,
             Constants.TestCollections.SendVideoMessage,
             Constants.TestCollections.FileDownload,

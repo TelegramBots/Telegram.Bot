@@ -9,7 +9,7 @@
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
         public const string TestCaseOrderer = AssemblyName + ".Framework.TestCaseOrderer";
-        
+
         public const string TestCaseOrderer2 = AssemblyName + ".Framework.TestCaseOrderer2";
 
         public static class TestCollections
@@ -23,21 +23,23 @@
             public const string SendPhotoMessage = "Sending Photo Messages";
 
             public const string SendVideoMessage = "Sending Video Messages";
-            
+
             public const string SendAudioMessage = "Sending Audio Messages";
-            
+
             public const string SendVenueMessage = "Sending Venue Messages";
 
             public const string SendDocumentMessage = "Sending Document Messages";
+
+            public const string SendContactMessage = "Sending Contact Messages";
 
             public const string ReplyMarkup = "Messages with Reply Markup";
 
             public const string PrivateChatReplyMarkup = "Messages with Reply Markup - Private Chat";
 
             public const string ChatInfo = "Getting Chat Info";
-            
+
             public const string LeaveChat = "Leaving chats";
-            
+
             public const string GetUserProfilePhotos = "Getting user profile photos";
 
             public const string InlineQuery = "Inline Query";
@@ -49,7 +51,7 @@
             public const string AlbumMessage = "Sending Album Messages";
 
             public const string EditMessage = "Edit Message Content";
-            
+
             public const string DeleteMessage = "Delete Message";
 
             public const string LiveLocation = "Live Location";
@@ -59,7 +61,7 @@
             public const string Payment = "Payment";
 
             public const string Stickers = "Stickers";
-            
+
             public const string Games = "Games";
 
             public const string SuperGroupAdminBots = "Super Group Admin Bot";
@@ -132,7 +134,7 @@
             public const string GetMe = "getMe";
 
             public const string SendMessage = "sendMessage";
-            
+
             public const string ForwardMessage = "forwardMessage";
 
             public const string AnswerCallbackQuery = "answerCallbackQuery";
@@ -154,17 +156,17 @@
             public const string PinChatMessage = "pinChatMessage";
 
             public const string GetChat = "getChat";
-            
+
             public const string LeaveChat = "leaveChat";
-            
+
             public const string GetUserProfilePhotos = "getUserProfilePhotos";
-            
+
             public const string GetChatMember = "getChatMember";
-            
+
             public const string GetChatAdministrators = "getChatAdministrators";
-            
+
             public const string GetChatMembersCount = "getChatMembersCount";
-            
+
             public const string SendChatAction = "sendChatAction";
 
             public const string GetFile = "getFile";
@@ -188,21 +190,23 @@
             public const string SendPhoto = "sendPhoto";
 
             public const string SendVideo = "sendVideo";
-            
+
             public const string SendAudio = "sendAudio";
-            
+
             public const string SendVenue = "sendVenue";
-            
+
             public const string SendVoice = "sendVoice";
 
             public const string SendVideoNote = "sendVideoNote";
 
             public const string SendDocument = "sendDocument";
 
+            public const string SendContact = "sendContact";
+
             public const string EditMessageText = "editMessageText";
-            
+
             public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
-            
+
             public const string DeleteMessage = "deleteMessage";
 
             public const string SendLocation = "sendLocation";
@@ -226,11 +230,11 @@
             public const string SetStickerPositionInSet = "setStickerPositionInSet";
 
             public const string DeleteStickerFromSet = "deleteStickerFromSet";
-            
+
             public const string SendGame = "sendGame";
-            
+
             public const string SetGameScore = "setGameScore";
-            
+
             public const string GetGameHighScores = "getGameHighScores";
 
             public const string SetWebhook = "setWebhook";
