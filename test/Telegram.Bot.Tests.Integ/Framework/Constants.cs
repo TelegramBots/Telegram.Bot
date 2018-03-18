@@ -207,6 +207,8 @@
 
             public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
 
+            public const string EditMessageCaption = "editMessageCaption";
+
             public const string DeleteMessage = "deleteMessage";
 
             public const string SendLocation = "sendLocation";

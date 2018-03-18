@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -45,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Assert.Equal(newText, editedMessage.Text);
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
-            // Assert.True(timeBeforeEdition < editedMessage.EditDate.Value); // ToDo: edit_date isn null. Check with @BotSupport 
+            // Assert.True(timeBeforeEdition < editedMessage.EditDate.Value); // ToDo: edit_date isn null. Check with @BotSupport
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageText)]
@@ -160,6 +161,82 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldEditMessageCaption)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
+        public async Task Should_Edit_Message_Caption()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageCaption);
+
+            Message originalMessage;
+            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
+            {
+                originalMessage = await BotClient.SendPhotoAsync(
+                    chatId: _fixture.SupergroupChat.Id,
+                    photo: stream,
+                    caption: "Message caption will be updated shortly"
+                );
+            }
+
+            await Task.Delay(500);
+
+            const string newCaption = "Caption is edited.";
+
+            Message editedMessage = await BotClient.EditMessageCaptionAsync(
+                chatId: originalMessage.Chat.Id,
+                messageId: originalMessage.MessageId,
+                caption: newCaption
+            );
+
+            Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
+            Assert.Equal(newCaption, editedMessage.Caption);
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageCaption)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
+        public async Task Should_Edit_Inline_Message_Caption()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageCaption,
+                startInlineQuery: true);
+
+            #region Answer Inline Query with an Article
+
+            Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            string data = "change-me" + new Random().Next(2_000);
+            InlineKeyboardMarkup replyMarkup = new InlineKeyboardMarkup(new[]
+            {
+                InlineKeyboardButton.WithCallbackData("Click here to change caption", data)
+            });
+            const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
+
+            InlineQueryResultBase[] inlineQueryResults =
+            {
+                new InlineQueryResultPhoto(
+                    id: "photo1",
+                    photoUrl: url,
+                    thumbUrl: url
+                )
+                {
+                    Caption = "Message caption will be updated shortly",
+                    ReplyMarkup = replyMarkup
+                }
+            };
+
+            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+
+            #endregion
+
+            Update callbackQUpdate = await _fixture.UpdateReceiver
+                .GetCallbackQueryUpdateAsync(data: data);
+
+            await BotClient.EditMessageCaptionAsync(
+                inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+                caption: "Caption is edited 👌"
+            );
+        }
+
         private static class FactTitles
         {
             public const string ShouldEditMessageText = "Should edit a message's text";
@@ -169,6 +246,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             public const string ShouldEditMessageMarkup = "Should edit a message's markup";
 
             public const string ShouldEditInlineMessageMarkup = "Should edit an inline message's markup";
+
+            public const string ShouldEditMessageCaption = "Should edit a message's caption";
+
+            public const string ShouldEditInlineMessageCaption = "Should edit an inline message's caption";
         }
     }
 }
