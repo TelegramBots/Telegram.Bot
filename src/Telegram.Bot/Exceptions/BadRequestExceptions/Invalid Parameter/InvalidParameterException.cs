@@ -8,6 +8,7 @@ namespace Telegram.Bot.Exceptions
     {
         internal const string ParamGroupName = "param";
 
+        /// <inheritdoc />
         public string Parameter { get; }
 
         /// <summary>

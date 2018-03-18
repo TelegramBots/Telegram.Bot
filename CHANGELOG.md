@@ -9,6 +9,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Exception `InvalidQueryIdException`
+
+### Changed
+
+- Access modifier of abstract class `BadRequestException` and `ForbiddenException` ctors to `protected`
+
+### Removed
+
+- Exception `BotBlockedException`
+- Exception `BotRestrictedException`
+- Exception `MissingParameterException`
+- Exception `NotEnoughRightsException`
+- Exception `WrongChatTypeException`
+
+## [14.2.0-rc-452] - 2018-02-24
+
+### Added
+
 - Property `Message.MediaGroupId`
 - Property `ICaptionInlineQueryResult.ParseMode`
 - Property `ParseMode` to inline query results with a caption
