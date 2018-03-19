@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Implicit cast of `IEnumerable<InlineKeyboardButton>[]` to `InlineKeyboardMarkup`
 - Implicit cast of `InlineKeyboardButton[]` to `InlineKeyboardMarkup`
 - Exception `InvalidGameShortNameException`
+- Exception `InvalidQueryIdException`
 
 ### Changed
 
@@ -20,10 +21,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - Assigining param `foursquareId` of `SendInvoiceAsync` method to its request
+- Access modifier of abstract class `BadRequestException` and `ForbiddenException` ctors to `protected`
 
 ### Removed
 
 - Parameterless ctor of `InlineKeyboardMarkup`
+- Exception `BotBlockedException`
+- Exception `BotRestrictedException`
+- Exception `MissingParameterException`
+- Exception `NotEnoughRightsException`
+- Exception `WrongChatTypeException`
+
 
 ## [14.2.0-rc-452] - 2018-02-24
 
