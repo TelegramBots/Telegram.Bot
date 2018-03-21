@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Telegram.Bot.Types;
 
@@ -10,6 +11,12 @@ namespace Telegram.Bot.Exceptions
         private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
+            // Todo: BotRestrictedException test case
+            new BadRequestExceptionInfo<BotRestrictedException>("have no rights to send a message"),
+            // Todo: NotEnoughRightsException test case
+            new BadRequestExceptionInfo<NotEnoughRightsException>("not enough rights to restrict/unrestrict chat member"),
+            new BadRequestExceptionInfo<WrongChatTypeException>("method is available for supergroup and channel chats only"),
+            new BadRequestExceptionInfo<WrongChatTypeException>("method is available only for supergroups"),
             new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
             new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
 
@@ -26,9 +33,13 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
+            // Todo: BotBlockedException test case
+            new ForbiddenExceptionInfo<BotBlockedException>("bot was blocked by the user"),
 
             new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: invalid (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+)$"),
             new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) invalid$"),
+            // Todo: rename MissingParameterException to EmptyParameterException
+            new BadRequestExceptionInfo<MissingParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) is empty"),
 
             new BadRequestExceptionInfo<MessageIsNotModifiedException>("message is not modified"),
         };
@@ -47,18 +58,19 @@ namespace Telegram.Bot.Exceptions
 
                     switch (typeInfo?.Type)
                     {
-                        case var ex when ex == typeof(InvalidParameterException):
+                        case var ex when typeof(InvalidParameterException).GetTypeInfo().IsAssignableFrom(ex.GetTypeInfo()): //.IsAssignableFrom(ex):
                             string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
                                 .Groups[InvalidParameterException.ParamGroupName]
                                 .Value;
-                            return new InvalidParameterException(paramName, errorMessage);
+                            return string.IsNullOrEmpty(paramName)
+                                ? Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException
+                                : Activator.CreateInstance(typeInfo.Type, paramName, errorMessage) as ApiRequestException;
 
                         case null:
                             return new BadRequestException(errorMessage);
 
                         default:
                             return Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
-
                     }
 
                 case ForbiddenException.ForbiddenErrorCode:
