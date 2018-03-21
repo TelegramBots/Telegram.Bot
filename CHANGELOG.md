@@ -13,7 +13,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Access modifier of abstract class `BadRequestException` and `ForbiddenException` ctors to `protected`
+- `BadRequestException` is thrown on `Error 400: Bad request` if more specific exception is not defined
+- `ForbiddenException` is thrown on `Error 403: Forbidden` if more specific exception is not defined
 
 ### Removed
 

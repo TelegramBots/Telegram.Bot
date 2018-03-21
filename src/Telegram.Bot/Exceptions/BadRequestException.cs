@@ -6,7 +6,7 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// A base class for "Error 400: Bad request" API responses
     /// </summary>
-    public abstract class BadRequestException : ApiRequestException
+    public class BadRequestException : ApiRequestException
     {
         /// <inheritdoc />
         public override int ErrorCode => BadRequestErrorCode;
@@ -25,7 +25,7 @@ namespace Telegram.Bot.Exceptions
         /// Initializes a new instance of the <see cref="BadRequestException"/> class
         /// </summary>
         /// <param name="message">The message</param>
-        protected BadRequestException(string message)
+        public BadRequestException(string message)
             : base(message, BadRequestErrorCode)
         {
         }
@@ -35,7 +35,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="innerException">The inner exception</param>
-        protected BadRequestException(string message, Exception innerException)
+        public BadRequestException(string message, Exception innerException)
             : base(message, BadRequestErrorCode, innerException)
         {
         }
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
-        protected BadRequestException(string message, ResponseParameters parameters)
+        public BadRequestException(string message, ResponseParameters parameters)
             : base(message, BadRequestErrorCode, parameters)
         {
         }
@@ -56,7 +56,7 @@ namespace Telegram.Bot.Exceptions
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
         /// <param name="innerException">The inner exception</param>
-        protected BadRequestException(string message, ResponseParameters parameters, Exception innerException)
+        public BadRequestException(string message, ResponseParameters parameters, Exception innerException)
             : base(message, BadRequestErrorCode, parameters, innerException)
         {
         }

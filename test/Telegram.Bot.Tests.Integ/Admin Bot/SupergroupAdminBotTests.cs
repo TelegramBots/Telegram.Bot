@@ -166,12 +166,12 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
 
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.DeleteChatPhotoAsync(_classFixture.ChatId));
 
             // ToDo: Create exception type
-            Assert.IsType<ApiRequestException>(e);
-            Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
+            Assert.IsType<BadRequestException>(exception);
+            Assert.Equal("CHAT_NOT_MODIFIED", exception.Message);
         }
 
         #endregion
@@ -192,8 +192,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
 
             // ToDo: Create exception type
-            Assert.Equal(400, exception.ErrorCode);
-            Assert.Equal("Bad Request: can't set supergroup sticker set", exception.Message);
+            Assert.IsType<BadRequestException>(exception);
+            Assert.Equal("can't set supergroup sticker set", exception.Message);
         }
 
         #endregion

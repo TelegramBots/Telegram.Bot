@@ -307,8 +307,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 ));
 
             // ToDo: Add exception
-            Assert.Equal(400, exception.ErrorCode);
-            Assert.Equal("Bad Request: DATA_JSON_INVALID", exception.Message);
+            Assert.IsType<BadRequestException>(exception);
+            Assert.Equal("DATA_JSON_INVALID", exception.Message);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId)]
@@ -371,8 +371,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
 
             // ToDo: Add exception
-            Assert.Equal(400, exception.ErrorCode);
-            Assert.Equal("Bad Request: SHIPPING_ID_DUPLICATE", exception.Message);
+            Assert.IsType<BadRequestException>(exception);
+            Assert.Equal("SHIPPING_ID_DUPLICATE", exception.Message);
 
             await _fixture.BotClient.AnswerShippingQueryAsync(
                 shippingQueryId: shippingUpdate.ShippingQuery.Id,

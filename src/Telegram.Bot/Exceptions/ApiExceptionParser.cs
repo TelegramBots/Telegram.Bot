@@ -35,41 +35,43 @@ namespace Telegram.Bot.Exceptions
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
         {
-            ApiRequestException exception;
+            var errorMessage = string.Empty;
 
             var typeInfo = ExceptionInfos
                 .FirstOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex));
 
-            if (typeInfo is null)
+            switch (apiResponse.ErrorCode)
             {
-                exception = new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
-            }
-            else
-            {
-                string errorMessage;
-                bool isBadRequestError = typeInfo.ErrorCode == BadRequestException.BadRequestErrorCode;
-
-                if (isBadRequestError)
-                {
+                case BadRequestException.BadRequestErrorCode:
                     errorMessage = TruncateBadRequestErrorDescription(apiResponse.Description);
 
-                    if (typeInfo.Type == typeof(InvalidParameterException))
+                    switch (typeInfo?.Type)
                     {
-                        string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
-                            .Groups[InvalidParameterException.ParamGroupName]
-                            .Value;
-                        exception = new InvalidParameterException(paramName, errorMessage);
+                        case var ex when ex == typeof(InvalidParameterException):
+                            string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
+                                .Groups[InvalidParameterException.ParamGroupName]
+                                .Value;
+                            return new InvalidParameterException(paramName, errorMessage);
+
+                        case null:
+                            return new BadRequestException(errorMessage);
+
+                        default:
+                            return Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
+
                     }
-                    else
-                        exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
-                }
-                else
-                {
+
+                case ForbiddenException.ForbiddenErrorCode:
                     errorMessage = TruncateForbiddenErrorDescription(apiResponse.Description);
-                    exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
-                }
+
+                    if (typeInfo is null)
+                        return new BadRequestException(errorMessage);
+
+                    return Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
+
+                default:
+                    return new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
             }
-            return exception;
         }
 
         private static string TruncateBadRequestErrorDescription(string message) =>
