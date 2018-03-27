@@ -181,11 +181,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.DeleteChatPhotoAsync(_classFixture.ChatId));
 
-            // ToDo: Create exception type
-            Assert.IsType<BadRequestException>(exception);
+            Assert.IsType<ChatNotModifiedException>(exception);
             Assert.Equal("CHAT_NOT_MODIFIED", exception.Message);
         }
 

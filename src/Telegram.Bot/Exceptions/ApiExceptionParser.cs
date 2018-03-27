@@ -18,6 +18,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<WrongChatTypeException>("method is available for supergroup and channel chats only"),
             new BadRequestExceptionInfo<WrongChatTypeException>("method is available only for supergroups"),
             new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
+            new BadRequestExceptionInfo<ChatNotModifiedException>("CHAT_NOT_MODIFIED"),
             new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
 
             #region Stickers

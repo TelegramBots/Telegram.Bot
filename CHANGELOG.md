@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Exception `InvalidQueryIdException`
 - Exception `ChatDescriptionIsNotModifiedException`
+- Exception `ChatNotModifiedException`
 
 ### Changed
 
