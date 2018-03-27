@@ -58,13 +58,28 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDeleteChatDescription)]
+        [Fact(DisplayName = FactTitles.ShouldThrowChatDescriptionIsNotModifiedException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         [ExecutionOrder(2.2)]
+        public async Task Should_Throw_ChatDescriptionIsNotModifiedException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowChatDescriptionIsNotModifiedException);
+
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                BotClient.SetChatDescriptionAsync(
+                    chatId: _classFixture.ChatId,
+                    description: "Test Chat Description")
+            );
+
+            Assert.IsType<ChatDescriptionIsNotModifiedException>(exception);
+            Assert.Equal("chat description is not modified", exception.Message);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldDeleteChatDescription)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
+        [ExecutionOrder(2.3)]
         public async Task Should_Delete_Chat_Description()
         {
-            // ToDo: exception Bad Request: chat description is not modified
-
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
 
             await BotClient.SetChatDescriptionAsync(
@@ -203,6 +218,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             public const string ShouldSetChatTitle = "Should set chat title";
 
             public const string ShouldSetChatDescription = "Should set chat description";
+
+            public const string ShouldThrowChatDescriptionIsNotModifiedException =
+                "Should throw ChatDescriptionIsNotModifiedException when chat description is not modified";
 
             public const string ShouldDeleteChatDescription = "Should delete chat description";
 

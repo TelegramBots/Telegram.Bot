@@ -42,6 +42,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<MissingParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) is empty"),
 
             new BadRequestExceptionInfo<MessageIsNotModifiedException>("message is not modified"),
+            new BadRequestExceptionInfo<ChatDescriptionIsNotModifiedException>("chat description is not modified"),
         };
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
