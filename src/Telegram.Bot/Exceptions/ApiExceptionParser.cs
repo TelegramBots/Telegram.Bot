@@ -58,7 +58,7 @@ namespace Telegram.Bot.Exceptions
 
                     switch (typeInfo?.Type)
                     {
-                        case var ex when typeof(InvalidParameterException).GetTypeInfo().IsAssignableFrom(ex.GetTypeInfo()): //.IsAssignableFrom(ex):
+                        case var ex when typeof(InvalidParameterException).GetTypeInfo().IsAssignableFrom(ex?.GetTypeInfo()):
                             string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
                                 .Groups[InvalidParameterException.ParamGroupName]
                                 .Value;
