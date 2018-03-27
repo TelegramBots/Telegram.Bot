@@ -10,18 +10,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Exception `InvalidQueryIdException`
+- Exception `ChatDescriptionIsNotModifiedException`
+- Exception `ChatNotModifiedException`
 
 ### Changed
 
-- Access modifier of abstract class `BadRequestException` and `ForbiddenException` ctors to `protected`
-
-### Removed
-
-- Exception `BotBlockedException`
-- Exception `BotRestrictedException`
-- Exception `MissingParameterException`
-- Exception `NotEnoughRightsException`
-- Exception `WrongChatTypeException`
+- `BadRequestException` is thrown on `Error 400: Bad request` if more specific exception is not defined
+- `ForbiddenException` is thrown on `Error 403: Forbidden` if more specific exception is not defined
 
 ## [14.2.0-rc-452] - 2018-02-24
 
