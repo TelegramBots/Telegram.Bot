@@ -197,12 +197,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             const string setName = "EvilMinds";
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 _fixture.BotClient.SetChatStickerSetAsync(_classFixture.ChatId, setName)
             );
 
-            // ToDo: Create exception type
-            Assert.IsType<BadRequestException>(exception);
+            Assert.IsType<WrongChatTypeException>(exception);
             Assert.Equal("method is available only for supergroups", exception.Message);
         }
 
