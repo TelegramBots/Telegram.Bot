@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -34,10 +34,12 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowChatNotFoundException);
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.SendTextMessageAsync(0, "test"));
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+                BotClient.SendTextMessageAsync(0, "test")
+            );
 
-            Assert.IsType<ChatNotFoundException>(e);
+            Assert.IsType<ChatNotFoundException>(exception);
+            Assert.Equal("chat not found", exception.Message);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
@@ -47,10 +49,12 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456));
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+                BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456)
+            );
 
-            Assert.IsType<InvalidUserIdException>(e);
+            Assert.IsType<InvalidUserIdException>(exception);
+            Assert.Equal("USER_ID_INVALID", exception.Message);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionChatNotInitiatedException)]
@@ -67,11 +71,13 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            ForbiddenException e = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
+            ForbiddenException exception = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
                 BotClient.SendTextMessageAsync(forwardedMessageUpdate.Message.ForwardFrom.Id,
-                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"));
+                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}")
+            );
 
-            Assert.IsType<ChatNotInitiatedException>(e);
+            Assert.IsType<ChatNotInitiatedException>(exception);
+            Assert.Equal("bot can't initiate conversation with a user", exception.Message);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
@@ -86,15 +92,18 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 KeyboardButton.WithRequestContact("Share Contact"),
             });
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.SendTextMessageAsync(_fixture.SupergroupChat.Id, "You should never see this message",
-                    replyMarkup: replyMarkup));
+                    replyMarkup: replyMarkup)
+            );
 
-            Assert.IsType<ContactRequestException>(e);
+            Assert.IsType<ContactRequestException>(exception);
+            Assert.Equal("phone number can be requested in a private chats only", exception.Message);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         [ExecutionOrder(5)]
         public async Task Should_Throw_Exception_MessageIsNotModifiedException()
         {
@@ -105,13 +114,15 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 _fixture.SupergroupChat.Id,
                 MessageTextToModify);
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.EditMessageTextAsync(
                     _fixture.SupergroupChat.Id,
                     message.MessageId,
-                    MessageTextToModify));
+                    MessageTextToModify)
+            );
 
-            Assert.IsType<MessageIsNotModifiedException>(e);
+            Assert.IsType<MessageIsNotModifiedException>(exception);
+            Assert.Equal("message is not modified", exception.Message);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionInvalidQueryIdException)]
@@ -119,7 +130,9 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [ExecutionOrder(6)]
         public async Task Should_Throw_Exception_QueryIdInvalidException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException,
+                "Pass anything to bot to invoke inline request",
+                startInlineQuery: true);
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -136,13 +149,15 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             await Task.Delay(10_000);
 
-            InvalidQueryIdException e = await Assert.ThrowsAnyAsync<InvalidQueryIdException>(() =>
+            InvalidParameterException exception = await Assert.ThrowsAnyAsync<InvalidParameterException>(() =>
                 BotClient.AnswerInlineQueryAsync(
                     inlineQueryId: queryUpdate.InlineQuery.Id,
                     results: results,
-                    cacheTime: 0));
+                    cacheTime: 0)
+            );
 
-            Assert.Equal("inline_query_id", e.Parameter);
+            Assert.IsType<InvalidQueryIdException>(exception);
+            Assert.Equal("inline_query_id", exception.Parameter);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionMissingParameterException)]
@@ -155,7 +170,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             InvalidParameterException exception = await Assert.ThrowsAnyAsync<InvalidParameterException>(() =>
                 BotClient.SendTextMessageAsync(
                     _fixture.SupergroupChat.Id,
-                    string.Empty));
+                    string.Empty)
+            );
 
             Assert.IsType<MissingParameterException>(exception);
             Assert.Equal("message text", exception.Parameter);
@@ -170,7 +186,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             const string setName = "EvilMinds";
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 _fixture.BotClient.SetChatStickerSetAsync(_classFixture.PrivateChat.Id, setName)
             );
 
@@ -185,13 +201,34 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionWrongChatTypeException_OutsideSupergroupsOrChannels);
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 _fixture.BotClient.UnbanChatMemberAsync(
                     _classFixture.PrivateChat.Id,
-                    (int)_classFixture.PrivateChat.Id));
+                    (int)_classFixture.PrivateChat.Id)
+            );
 
             Assert.IsType<WrongChatTypeException>(exception);
             Assert.Equal("method is available for supergroup and channel chats only", exception.Message);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldThrowExceptionBotBlockedException,
+              Skip = "Require too much user interaction. Could be implemented with Telegram Client Library.")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(10)]
+        public async Task Should_Throw_Exception_BotBlockedException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionBotBlockedException);
+
+            const string message = "This message should not be delivered";
+
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                _fixture.BotClient.SendTextMessageAsync(
+                    _classFixture.PrivateChat.Id,
+                    message)
+            );
+
+            Assert.IsType<BotBlockedException>(exception);
+            Assert.Equal("bot was blocked by the user", exception.Message);
         }
 
         private static class FactTitles
@@ -215,17 +252,20 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "with the same text";
 
             public const string ShouldThrowExceptionInvalidQueryIdException =
-                   "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with" +
-                    " 10 second delay";
+                "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with" +
+                " 10 second delay";
 
             public const string ShouldThrowExceptionMissingParameterException =
-                   "Should throw MissingParameterException when message text is empty";
+                "Should throw MissingParameterException when message text is empty";
 
             public const string ShouldThrowExceptionWrongChatTypeException_OutsideSupergroups =
-                   "Should throw WrongChatTypeException when method is not called for supergroup";
+                "Should throw WrongChatTypeException when method is not called for supergroup";
 
             public const string ShouldThrowExceptionWrongChatTypeException_OutsideSupergroupsOrChannels =
-                   "Should throw WrongChatTypeException when method is not called for supergroup or channel";
+                "Should throw WrongChatTypeException when method is not called for supergroup or channel";
+
+            public const string ShouldThrowExceptionBotBlockedException =
+                "Should throw BotBlockedException when send message to user, who has blocked bot";
         }
 
         public class ExceptionsFixture : PrivateChatFixture

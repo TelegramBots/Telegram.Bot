@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Tests.Integ.Framework
+namespace Telegram.Bot.Tests.Integ.Framework
 {
     public static class Constants
     {
@@ -118,6 +118,8 @@
             public const string GetMe = "getMe";
 
             public const string SendMessage = "sendMessage";
+
+            public const string EditMessageText = "editMessageText";
 
             public const string AnswerCallbackQuery = "answerCallbackQuery";
 
