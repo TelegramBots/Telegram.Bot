@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -8,84 +8,93 @@ namespace Telegram.Bot.Exceptions
 {
     internal static class ApiExceptionParser
     {
-        private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
+        private static readonly IApiExceptionInfo<ApiRequestException>[] BadRequestExceptionInfos =
+        {
+            #region BadRequest Exceptions
+
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
-            // Todo: BotRestrictedException test case
-            new BadRequestExceptionInfo<BotRestrictedException>("have no rights to send a message"),
-            // Todo: NotEnoughRightsException test case
-            new BadRequestExceptionInfo<NotEnoughRightsException>("not enough rights to restrict/unrestrict chat member"),
             new BadRequestExceptionInfo<WrongChatTypeException>("method is available for supergroup and channel chats only"),
             new BadRequestExceptionInfo<WrongChatTypeException>("method is available only for supergroups"),
-            new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
             new BadRequestExceptionInfo<ChatNotModifiedException>("CHAT_NOT_MODIFIED"),
-            new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
-
-            #region Stickers
-
-            new BadRequestExceptionInfo<InvalidStickerSetNameException>("sticker set name invalid"),
-            new BadRequestExceptionInfo<InvalidStickerEmojisException>("invalid sticker emojis"),
-            new BadRequestExceptionInfo<InvalidStickerDimensionsException>("STICKER_PNG_DIMENSIONS"),
             new BadRequestExceptionInfo<StickerSetNameExistsException>("sticker set name is already occupied"),
             new BadRequestExceptionInfo<StickerSetNotModifiedException>("STICKERSET_NOT_MODIFIED"),
+            new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
+            new BadRequestExceptionInfo<MessageIsNotModifiedException>("message is not modified"),
+            new BadRequestExceptionInfo<ChatDescriptionIsNotModifiedException>("chat description is not modified"),
+            // ToDo: BotRestrictedException test case
+            new BadRequestExceptionInfo<BotRestrictedException>("have no rights to send a message"),
+            // ToDo: NotEnoughRightsException test case
+            new BadRequestExceptionInfo<NotEnoughRightsException>("not enough rights to restrict/unrestrict chat member"),
 
             #endregion
 
-            new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
+            #region InvalidParameter Exceptions
 
-            new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
-            // Todo: BotBlockedException test case
-            new ForbiddenExceptionInfo<BotBlockedException>("bot was blocked by the user"),
-
+            new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
+            new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
+            new BadRequestExceptionInfo<InvalidStickerSetNameException>("sticker set name invalid"),
+            new BadRequestExceptionInfo<InvalidStickerEmojisException>("invalid sticker emojis"),
+            new BadRequestExceptionInfo<InvalidStickerDimensionsException>("STICKER_PNG_DIMENSIONS"),
             new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: invalid (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+)$"),
             new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) invalid$"),
-            // Todo: rename MissingParameterException to EmptyParameterException
+            // ToDo: rename MissingParameterException to EmptyParameterException
             new BadRequestExceptionInfo<MissingParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) is empty"),
 
-            new BadRequestExceptionInfo<MessageIsNotModifiedException>("message is not modified"),
-            new BadRequestExceptionInfo<ChatDescriptionIsNotModifiedException>("chat description is not modified"),
+            #endregion
         };
+
+        #region Forbidden Exceptions
+        private static readonly IApiExceptionInfo<ApiRequestException>[] ForibddenExceptionInfos =
+        {
+            new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
+            // ToDo: BotBlockedException test case
+            new ForbiddenExceptionInfo<BotBlockedException>("bot was blocked by the user"),
+        };
+        #endregion
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
         {
             var errorMessage = string.Empty;
-
-            var typeInfo = ExceptionInfos
-                .FirstOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex));
+            IApiExceptionInfo<ApiRequestException> typeInfo = default;
 
             switch (apiResponse.ErrorCode)
             {
                 case BadRequestException.BadRequestErrorCode:
                     errorMessage = TruncateBadRequestErrorDescription(apiResponse.Description);
 
-                    switch (typeInfo?.Type)
+                    typeInfo =
+                        BadRequestExceptionInfos.FirstOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex))
+                        ?? new BadRequestExceptionInfo<BadRequestException>(errorMessage);
+
+                    if (IsAssignableFrom<InvalidParameterException>(typeInfo.Type))
                     {
-                        case var ex when typeof(InvalidParameterException).GetTypeInfo().IsAssignableFrom(ex?.GetTypeInfo()):
-                            string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
-                                .Groups[InvalidParameterException.ParamGroupName]
-                                .Value;
-                            return string.IsNullOrEmpty(paramName)
-                                ? Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException
-                                : Activator.CreateInstance(typeInfo.Type, paramName, errorMessage) as ApiRequestException;
+                        string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
+                            .Groups[InvalidParameterException.ParamGroupName]
+                            .Value;
 
-                        case null:
-                            return new BadRequestException(errorMessage);
-
-                        default:
-                            return Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
+                        return string.IsNullOrEmpty(paramName)
+                            ? Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException
+                            : Activator.CreateInstance(typeInfo.Type, paramName, errorMessage) as ApiRequestException;
                     }
+
+                    return Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
 
                 case ForbiddenException.ForbiddenErrorCode:
                     errorMessage = TruncateForbiddenErrorDescription(apiResponse.Description);
 
-                    if (typeInfo is null)
-                        return new BadRequestException(errorMessage);
+                    typeInfo =
+                        ForibddenExceptionInfos.FirstOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex))
+                        ?? new ForbiddenExceptionInfo<ForbiddenException>(errorMessage);
 
                     return Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
 
                 default:
                     return new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
             }
+
+            bool IsAssignableFrom<parentT>(Type derivedT) =>
+                typeof(parentT).GetTypeInfo().IsAssignableFrom(derivedT.GetTypeInfo());
         }
 
         private static string TruncateBadRequestErrorDescription(string message) =>
