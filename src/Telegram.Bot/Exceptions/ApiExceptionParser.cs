@@ -48,6 +48,7 @@ namespace Telegram.Bot.Exceptions
         private static readonly IApiExceptionInfo<ApiRequestException>[] ForibddenExceptionInfos =
         {
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
+            new ForbiddenExceptionInfo<SendMessageToBotException>("bot can't send messages to bots"),
             // ToDo: BotBlockedException test case
             new ForbiddenExceptionInfo<BotBlockedException>("bot was blocked by the user"),
         };

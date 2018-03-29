@@ -62,7 +62,6 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [ExecutionOrder(3)]
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
-            //ToDo add exception. forward message from another bot. Forbidden: bot can't send messages to bots
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionChatNotInitiatedException,
                 "Forward a message to this chat from a user that never started a chat with this bot");
 
@@ -78,6 +77,28 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             Assert.IsType<ChatNotInitiatedException>(exception);
             Assert.Equal("bot can't initiate conversation with a user", exception.Message);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldThrowExceptionSendMessageToBotException)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(3.1)]
+        public async Task Should_Throw_Exception_SendMessageToBotException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionSendMessageToBotException,
+                "Forward a message to this chat from a bot");
+
+            Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
+                    u.Message.IsForwarded, updateTypes: UpdateType.Message
+            )).Single();
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
+            ForbiddenException exception = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
+                BotClient.SendTextMessageAsync(forwardedMessageUpdate.Message.ForwardFrom.Id,
+                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}")
+            );
+
+            Assert.IsType<SendMessageToBotException>(exception);
+            Assert.Equal("bot can't send messages to bots", exception.Message);
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
@@ -241,7 +262,10 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             public const string ShouldThrowExceptionChatNotInitiatedException =
                 "Should throw ChatNotInitiatedException while trying to send message to a user who hasn't " +
-                "started a chat with bot but bot knows about him/her.";
+                "started a chat with bot but bot knows about him/her";
+
+            public const string ShouldThrowExceptionSendMessageToBotException =
+                "Should throw SendMessageToBotException when sending message to another bot";
 
             public const string ShouldThrowExceptionContactRequestException =
                 "Should throw ContactRequestException while asking for user's phone number in non-private " +
@@ -252,8 +276,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "with the same text";
 
             public const string ShouldThrowExceptionInvalidQueryIdException =
-                "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with" +
-                " 10 second delay";
+                "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with " +
+                "10 second delay";
 
             public const string ShouldThrowExceptionMissingParameterException =
                 "Should throw MissingParameterException when message text is empty";
