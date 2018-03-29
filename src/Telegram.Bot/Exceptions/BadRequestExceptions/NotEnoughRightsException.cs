@@ -1,5 +1,4 @@
-﻿using Telegram.Bot.Types;
-
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>

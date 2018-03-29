@@ -1,4 +1,5 @@
-﻿namespace Telegram.Bot.Exceptions
+// ReSharper disable once CheckNamespace
+namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// The exception is thrown when the chat description is not modified
