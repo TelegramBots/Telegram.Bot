@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Exception `ChatDescriptionIsNotModifiedException`
 - Exception `ChatNotModifiedException`
 - Exception `SendMessageToBotException`
+- Exception `TooManyRequestsException`
 
 ### Changed
 

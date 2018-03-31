@@ -44,15 +44,15 @@ namespace Telegram.Bot.Exceptions
             #endregion
         };
 
-        #region Forbidden Exceptions
         private static readonly IApiExceptionInfo<ApiRequestException>[] ForibddenExceptionInfos =
         {
+            #region Forbidden Exceptions
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
             new ForbiddenExceptionInfo<SendMessageToBotException>("bot can't send messages to bots"),
             // ToDo: BotBlockedException test case
             new ForbiddenExceptionInfo<BotBlockedException>("bot was blocked by the user"),
+            #endregion
         };
-        #endregion
 
         public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
         {
@@ -90,6 +90,11 @@ namespace Telegram.Bot.Exceptions
 
                     return Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
 
+                case TooManyRequestsException.TooManyRequestsErrorCode:
+                    errorMessage = TruncateTooManyRequestsErrorDescription(apiResponse.Description);
+
+                    return new TooManyRequestsException(errorMessage);
+
                 default:
                     return new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
             }
@@ -103,6 +108,9 @@ namespace Telegram.Bot.Exceptions
 
         private static string TruncateForbiddenErrorDescription(string message) =>
             TryTruncateErrorDescription(message, ForbiddenException.ForbiddenErrorDescription);
+
+        private static string TruncateTooManyRequestsErrorDescription(string message) =>
+            TryTruncateErrorDescription(message, TooManyRequestsException.TooManyRequestsErrorDescription);
 
         private static string TryTruncateErrorDescription(string message, string description)
         {

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -233,7 +234,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         }
 
         [Fact(DisplayName = FactTitles.ShouldThrowExceptionBotBlockedException,
-              Skip = "Require too much user interaction. Could be implemented with Telegram Client Library.")]
+              Skip = "Requires too much user interaction. Could be implemented with Telegram Client Library.")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [ExecutionOrder(10)]
         public async Task Should_Throw_Exception_BotBlockedException()
@@ -250,6 +251,29 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             Assert.IsType<BotBlockedException>(exception);
             Assert.Equal("bot was blocked by the user", exception.Message);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldThrowExceptionTooManyRequestsException)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(11)]
+        public async Task Should_Throw_Exception_TooManyRequestsException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionTooManyRequestsException);
+
+            const string message = "To the limit!";
+
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            {
+                IEnumerable<Task<Message>> tasks = Enumerable.Range(0, 100)
+                    .Select(_ =>
+                        _fixture.BotClient.SendTextMessageAsync(
+                            _fixture.SupergroupChat.Id,
+                            message));
+                return Task.WhenAll(tasks);
+            });
+
+            Assert.IsType<TooManyRequestsException>(exception);
+            Assert.StartsWith("retry after", exception.Message);
         }
 
         private static class FactTitles
@@ -290,6 +314,9 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             public const string ShouldThrowExceptionBotBlockedException =
                 "Should throw BotBlockedException when send message to user, who has blocked bot";
+
+            public const string ShouldThrowExceptionTooManyRequestsException =
+                "Should throw TooManyRequestsException when bot reaches message send limit";
         }
 
         public class ExceptionsFixture : PrivateChatFixture
