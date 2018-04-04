@@ -274,6 +274,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             Assert.IsType<TooManyRequestsException>(exception);
             Assert.StartsWith("retry after", exception.Message);
+
+            await Task.Delay(exception.Parameters.RetryAfter * 1_000);
         }
 
         private static class FactTitles

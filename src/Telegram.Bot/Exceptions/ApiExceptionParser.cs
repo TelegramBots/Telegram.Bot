@@ -93,7 +93,7 @@ namespace Telegram.Bot.Exceptions
                 case TooManyRequestsException.TooManyRequestsErrorCode:
                     errorMessage = TruncateTooManyRequestsErrorDescription(apiResponse.Description);
 
-                    return new TooManyRequestsException(errorMessage);
+                    return new TooManyRequestsException(errorMessage, apiResponse.Parameters);
 
                 default:
                     return new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
