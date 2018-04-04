@@ -14,8 +14,7 @@ namespace Telegram.Bot.Exceptions
 
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
-            new BadRequestExceptionInfo<WrongChatTypeException>("method is available for supergroup and channel chats only"),
-            new BadRequestExceptionInfo<WrongChatTypeException>("method is available only for supergroups"),
+            new BadRequestExceptionInfo<WrongChatTypeException>("method is available (for supergroup and channel chats only|only for supergroups)"),
             new BadRequestExceptionInfo<ChatNotModifiedException>("CHAT_NOT_MODIFIED"),
             new BadRequestExceptionInfo<StickerSetNameExistsException>("sticker set name is already occupied"),
             new BadRequestExceptionInfo<StickerSetNotModifiedException>("STICKERSET_NOT_MODIFIED"),
