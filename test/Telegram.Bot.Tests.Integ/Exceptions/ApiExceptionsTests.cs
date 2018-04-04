@@ -278,6 +278,33 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             await Task.Delay(exception.Parameters.RetryAfter * 1_000);
         }
 
+        [Fact(DisplayName = FactTitles.ShouldThrowExceptionBotIsNotMemberException)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        [ExecutionOrder(12)]
+        public async Task Should_Throw_Exception_BotIsNotMemberException()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionBotIsNotMemberException);
+
+            string[] groups =
+            {
+                "@publictestgroup",
+                "@telegram"
+            };
+            const string message = "To the limit!";
+
+            foreach (string group in groups)
+            {
+                ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                    _fixture.BotClient.SendTextMessageAsync(
+                        group,
+                        message)
+                );
+
+                Assert.IsType<BotIsNotMemberException>(exception);
+                Assert.Matches("bot is not a member of the (supergroup|channel) chat", exception.Message);
+            }
+        }
+
         private static class FactTitles
         {
             public const string ShouldThrowChatNotFoundException =
@@ -319,6 +346,10 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             public const string ShouldThrowExceptionTooManyRequestsException =
                 "Should throw TooManyRequestsException when bot reaches message send limit";
+
+            public const string ShouldThrowExceptionBotIsNotMemberException =
+               "Should throw BotIsNotMemberException when bot sends message to the " +
+                "supergroup or channel in which it was not added";
         }
 
         public class ExceptionsFixture : PrivateChatFixture

@@ -49,6 +49,7 @@ namespace Telegram.Bot.Exceptions
             #region Forbidden Exceptions
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
             new ForbiddenExceptionInfo<SendMessageToBotException>("bot can't send messages to bots"),
+            new ForbiddenExceptionInfo<BotIsNotMemberException>("bot is not a member of the (supergroup|channel) chat"),
             // ToDo: BotBlockedException test case
             new ForbiddenExceptionInfo<BotBlockedException>("bot was blocked by the user"),
             #endregion

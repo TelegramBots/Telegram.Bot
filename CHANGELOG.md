@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Exception `ChatNotModifiedException`
 - Exception `SendMessageToBotException`
 - Exception `TooManyRequestsException`
+- Exception `BotIsNotMemberException`
 
 ### Changed
 
