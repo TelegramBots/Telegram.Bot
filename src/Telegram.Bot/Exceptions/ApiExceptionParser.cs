@@ -23,6 +23,14 @@ namespace Telegram.Bot.Exceptions
 
             #endregion
 
+            #region Games
+
+            new BadRequestExceptionInfo<InvalidGameShortNameException>("GAME_SHORTNAME_INVALID"),
+            new BadRequestExceptionInfo<InvalidGameShortNameException>("game_short_name is empty"),
+            new BadRequestExceptionInfo<InvalidGameShortNameException>("wrong game short name specified"),
+
+            #endregion
+            
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
