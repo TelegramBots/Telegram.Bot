@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             _classFixture = classFixture;
         }
 
-        #region Regualr Game Message
+        #region Regular Game Message
 
         [OrderedFact(DisplayName = FactTitles.ShouldSendGame)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
@@ -233,7 +233,7 @@ namespace Telegram.Bot.Tests.Integ.Games
         public async Task Should_Answer_CallbackQuery_With_Game_Url()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerGameCallbackQuery,
-                "Click on any Play button on game messges above 👆");
+                "Click on any Play button on any of the game messges above 👆");
 
             Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
 

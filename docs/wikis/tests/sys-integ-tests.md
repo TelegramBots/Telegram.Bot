@@ -151,4 +151,4 @@ If the following 3 settings are not set, bot will ask a tester to send it `/me` 
 
 #### Games
 
-Bot should have a game with short name: `game1`.
+Bot should have a game with short name: `game1`. Also, bot's inline feedback should be set to 100%.
