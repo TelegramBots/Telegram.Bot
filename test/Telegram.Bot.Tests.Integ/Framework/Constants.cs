@@ -135,8 +135,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SendMessage = "sendMessage";
 
-            public const string EditMessageText = "editMessageText";
-
             public const string ForwardMessage = "forwardMessage";
 
             public const string AnswerCallbackQuery = "answerCallbackQuery";
