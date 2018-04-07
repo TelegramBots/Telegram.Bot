@@ -2,6 +2,7 @@
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
+    [Obsolete]
     [AttributeUsage(AttributeTargets.Method)]
     public class ExecutionOrderAttribute : Attribute
     {

@@ -12,10 +12,10 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendTextMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
     {
-        public ITelegramBotClient BotClient => _fixture.BotClient;
+        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
@@ -27,11 +27,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        #region 1. Sending text message
-
-        [Fact(DisplayName = FactTitles.ShouldSendTextMessage)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendTextMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(1.0)]
         public async Task Should_Send_Text_Message()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessage);
@@ -52,9 +49,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             ));
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendTextMessageToChannel)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendTextMessageToChannel)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(1.1)]
         public async Task Should_Send_Text_Message_To_Channel()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessageToChannel);
@@ -72,13 +68,32 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(_classFixture.ChannelChat.Username, message.Chat.Username);
         }
 
-        #endregion
+        [OrderedFact(DisplayName = FactTitles.ShouldForwardMessage)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ForwardMessage)]
+        public async Task Should_Forward_Message()
+        {
+            Message message1 = await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldForwardMessage);
 
-        #region 2. Parsing text message entities
+            Message message2 = await BotClient.ForwardMessageAsync(
+                chatId: _fixture.SupergroupChat,
+                fromChatId: _fixture.SupergroupChat,
+                messageId: message1.MessageId
+            );
 
-        [Fact(DisplayName = FactTitles.ShouldParseMarkDownEntities)]
+            Assert.True(message2.IsForwarded);         
+            Assert.Null(message2.ForwardFromChat);
+            Assert.Equal(default, message2.ForwardFromMessageId);
+            Assert.Null(message2.ForwardSignature);
+            Assert.NotNull(message2.ForwardDate);
+            Assert.InRange(
+                message2.ForwardDate.Value,
+                DateTime.UtcNow.AddSeconds(-20),
+                DateTime.UtcNow
+            );
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldParseMarkDownEntities)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2.1)]
         public async Task Should_Parse_MarkDown_Entities()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMarkDownEntities);
@@ -86,15 +101,15 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             const string url = "https://telegram.org/";
             var entityValueMappings = new Dictionary<MessageEntityType, string>
             {
-                { MessageEntityType.Bold, "*bold*" },
-                { MessageEntityType.Italic, "_italic_" },
-                { MessageEntityType.TextLink, $"[inline url to Telegram.org]({url})" },
+                {MessageEntityType.Bold, "*bold*"},
+                {MessageEntityType.Italic, "_italic_"},
+                {MessageEntityType.TextLink, $"[inline url to Telegram.org]({url})"},
                 {
                     MessageEntityType.TextMention,
                     $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
                 },
-                { MessageEntityType.Code, @"inline ""`fixed-width code`""" },
-                { MessageEntityType.Pre, "```pre-formatted fixed-width code block```" },
+                {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
+                {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
             };
 
             Message message = await BotClient.SendTextMessageAsync(
@@ -112,27 +127,26 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             ));
         }
 
-        [Fact(DisplayName = FactTitles.ShouldParseHtmlEntities)]
+        [OrderedFact(DisplayName = FactTitles.ShouldParseHtmlEntities)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2.2)]
         public async Task Should_Parse_HTML_Entities()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseHtmlEntities);
 
             const string url = "https://telegram.org/";
-            var entityValueMappings = new(MessageEntityType Type, string Value)[]
+            var entityValueMappings = new (MessageEntityType Type, string Value)[]
             {
-                ( MessageEntityType.Bold, "<b>bold</b>" ),
-                ( MessageEntityType.Bold, "<strong>&lt;strong&gt;</strong>" ),
-                ( MessageEntityType.Italic, "<i>italic</i>" ),
-                ( MessageEntityType.Italic, "<em>&lt;em&gt;</em>" ),
-                ( MessageEntityType.TextLink, $@"<a href=""{url}"">inline url to Telegram.org</a>" ),
+                (MessageEntityType.Bold, "<b>bold</b>"),
+                (MessageEntityType.Bold, "<strong>&lt;strong&gt;</strong>"),
+                (MessageEntityType.Italic, "<i>italic</i>"),
+                (MessageEntityType.Italic, "<em>&lt;em&gt;</em>"),
+                (MessageEntityType.TextLink, $@"<a href=""{url}"">inline url to Telegram.org</a>"),
                 (
                     MessageEntityType.TextMention,
                     $@"<a href=""tg://user?id={_fixture.BotUser.Id}"">{_fixture.BotUser.Username}</a>"
                 ),
-                ( MessageEntityType.Code, @"inline <code>""fixed-width code""</code>" ),
-                ( MessageEntityType.Pre, "<pre>pre-formatted fixed-width code block</pre>" ),
+                (MessageEntityType.Code, @"inline <code>""fixed-width code""</code>"),
+                (MessageEntityType.Pre, "<pre>pre-formatted fixed-width code block</pre>"),
             };
 
             Message message = await BotClient.SendTextMessageAsync(
@@ -153,21 +167,20 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             ));
         }
 
-        [Fact(DisplayName = FactTitles.ShouldPaseMessageEntitiesIntoValues)]
+        [OrderedFact(DisplayName = FactTitles.ShouldPaseMessageEntitiesIntoValues)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2.3)]
         public async Task Should_Parse_Message_Entities_Into_Values()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPaseMessageEntitiesIntoValues);
 
-            var entityValueMappings = new(MessageEntityType Type, string Value)[]
+            var entityValueMappings = new (MessageEntityType Type, string Value)[]
             {
-                ( MessageEntityType.Hashtag, "#TelegramBots" ),
-                ( MessageEntityType.Mention, "@BotFather" ),
-                ( MessageEntityType.Url, "http://github.com/TelegramBots" ),
-                ( MessageEntityType.Email, "security@telegram.org" ),
-                ( MessageEntityType.BotCommand, "/test" ),
-                ( MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}" ),
+                (MessageEntityType.Hashtag, "#TelegramBots"),
+                (MessageEntityType.Mention, "@BotFather"),
+                (MessageEntityType.Url, "http://github.com/TelegramBots"),
+                (MessageEntityType.Email, "security@telegram.org"),
+                (MessageEntityType.BotCommand, "/test"),
+                (MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}"),
             };
 
             Message message = await BotClient.SendTextMessageAsync(
@@ -182,26 +195,30 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(entityValueMappings.Select(t => t.Value), message.EntityValues);
         }
 
-        #endregion
-
         private static class FactTitles
         {
             public const string ShouldSendTextMessage = "Should send text message";
 
             public const string ShouldSendTextMessageToChannel = "Should send text message to channel";
+            
+            public const string ShouldForwardMessage = "Should forward a message to same chat";
 
-            public const string ShouldParseMarkDownEntities = "Should send markdown formatted text message and parse its entities. Link preview should not appear.";
+            public const string ShouldParseMarkDownEntities =
+                "Should send markdown formatted text message and parse its entities. Link preview should not appear.";
 
-            public const string ShouldParseHtmlEntities = "Should send HTML formatted text message and parse its entities. Link preview should not appear.";
+            public const string ShouldParseHtmlEntities =
+                "Should send HTML formatted text message and parse its entities. Link preview should not appear.";
 
-            public const string ShouldPaseMessageEntitiesIntoValues = "Should send text message and parse its entity values";
+            public const string ShouldPaseMessageEntitiesIntoValues =
+                "Should send text message and parse its entity values";
         }
 
         public class Fixture : ChannelChatFixture
         {
             public Fixture(TestsFixture testsFixture)
                 : base(testsFixture, Constants.TestCollections.SendTextMessage)
-            { }
+            {
+            }
         }
     }
 }

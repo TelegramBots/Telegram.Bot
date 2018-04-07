@@ -10,7 +10,7 @@ using Xunit.Abstractions;
 namespace Telegram.Bot.Tests.Integ.Other
 {
     [Collection(Constants.TestCollections.FileDownload)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class FileDownloadTests : IClassFixture<FileDownloadTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -28,9 +28,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             _output = output;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetFileInfo)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetFileInfo)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
-        [ExecutionOrder(1)]
         public async Task Should_Get_File_Info()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetFileInfo);
@@ -62,8 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             _classFixture.File = file;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDownloadUsingFilePath)]
-        [ExecutionOrder(2)]
+        [OrderedFact(DisplayName = FactTitles.ShouldDownloadUsingFilePath)]
         public async Task Should_Download_Using_FilePath()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDownloadUsingFilePath);
@@ -77,8 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.InRange(stream.Length, fileSize - 100, fileSize + 100);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDownloadWriteUsingFilePath)]
-        [ExecutionOrder(3)]
+        [OrderedFact(DisplayName = FactTitles.ShouldDownloadWriteUsingFilePath)]
         public async Task Should_Download_Write_Using_FilePath()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDownloadWriteUsingFilePath);
@@ -100,8 +97,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             }
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDownloadWriteUsingFileId)]
-        [ExecutionOrder(4)]
+        [OrderedFact(DisplayName = FactTitles.ShouldDownloadWriteUsingFileId)]
         public async Task Should_Download_Write_Using_FileId()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDownloadWriteUsingFileId);
@@ -126,10 +122,9 @@ namespace Telegram.Bot.Tests.Integ.Other
                 ));
             }
         }
-
-        [Fact(DisplayName = FactTitles.ShouldThrowInvalidParameterExceptionForFileId)]
+        
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidParameterExceptionForFileId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
-        [ExecutionOrder(5)]
         public async Task Should_Throw_FileId_InvalidParameterException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidParameterExceptionForFileId);
@@ -141,8 +136,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal("file id", exception.Parameter);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath)]
-        [ExecutionOrder(6)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath)]
         public async Task Should_Throw_FilePath_HttpRequestException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath);
