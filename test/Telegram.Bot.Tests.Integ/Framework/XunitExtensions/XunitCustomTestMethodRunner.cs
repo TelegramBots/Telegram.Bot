@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Polly;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -26,10 +28,19 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             _constructorArguments = constructorArguments;
         }
 
-        protected override Task<RunSummary> RunTestCaseAsync(IXunitTestCase testCase)
-        {
-            // We've done everything we need, so let the built-in types do the rest of the heavy lifting
-            return testCase.RunAsync(_diagnosticMessageSink, MessageBus, _constructorArguments, new ExceptionAggregator(Aggregator), CancellationTokenSource);
-        }
+        protected override Task<RunSummary> RunTestCaseAsync(IXunitTestCase testCase) =>
+            Policy
+                .HandleResult<RunSummary>(r => r.Failed != 0)
+                .WaitAndRetryAsync(new[]
+                {
+                    TimeSpan.FromSeconds(30),
+                    TimeSpan.FromSeconds(45),
+                    TimeSpan.FromSeconds(60),
+                })
+                .ExecuteAsync(() =>
+                    // We've done everything we need, so let the built-in types do the rest of the heavy lifting
+                    testCase.RunAsync
+                        (_diagnosticMessageSink, MessageBus, _constructorArguments, new ExceptionAggregator(Aggregator), CancellationTokenSource)
+                );
     }
 }
