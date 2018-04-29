@@ -31,6 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Text_Message()
         {
+            throw new TaskCanceledException();
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessage);
 
             const string text = "Hello world!";
@@ -80,7 +81,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 messageId: message1.MessageId
             );
 
-            Assert.True(message2.IsForwarded);         
+            Assert.True(message2.IsForwarded);
             Assert.Null(message2.ForwardFromChat);
             Assert.Equal(default, message2.ForwardFromMessageId);
             Assert.Null(message2.ForwardSignature);
@@ -200,7 +201,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             public const string ShouldSendTextMessage = "Should send text message";
 
             public const string ShouldSendTextMessageToChannel = "Should send text message to channel";
-            
+
             public const string ShouldForwardMessage = "Should forward a message to same chat";
 
             public const string ShouldParseMarkDownEntities =
