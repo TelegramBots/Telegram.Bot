@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -12,23 +12,28 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.GettingUpdates,
             Constants.TestCollections.Webhook,
             Constants.TestCollections.SendTextMessage,
+            nameof(DelayTests1),
             Constants.TestCollections.PrivateChatReplyMarkup,
             Constants.TestCollections.ReplyMarkup,
             Constants.TestCollections.SendPhotoMessage,
+            nameof(DelayTests2),
             Constants.TestCollections.SendAudioMessage,
             Constants.TestCollections.SendVenueMessage,
             Constants.TestCollections.SendContactMessage,
             Constants.TestCollections.InlineQuery,
+            nameof(DelayTests3),
             Constants.TestCollections.SendVideoMessage,
             Constants.TestCollections.FileDownload,
             Constants.TestCollections.LeaveChat,
             Constants.TestCollections.GetUserProfilePhotos,
             Constants.TestCollections.SendDocumentMessage,
             Constants.TestCollections.ChatInfo,
+            nameof(DelayTests4),
             Constants.TestCollections.AlbumMessage,
             Constants.TestCollections.CallbackQuery,
             Constants.TestCollections.EditMessage,
             Constants.TestCollections.DeleteMessage,
+            nameof(DelayTests5),
             Constants.TestCollections.InlineMessageLiveLocation,
             Constants.TestCollections.LiveLocation,
             Constants.TestCollections.Stickers,
