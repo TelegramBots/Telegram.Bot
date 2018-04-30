@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -35,7 +34,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 text: "Message text will be edited shortly."
             );
 
-            await Task.Delay(500);
+            DateTime timeBeforeEdition = DateTime.UtcNow;
+            await Task.Delay(1_000);
 
             const string newText = "Text is edited.";
             Message editedMessage = await BotClient.EditMessageTextAsync(
@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Assert.Equal(newText, editedMessage.Text);
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
-            // Assert.True(timeBeforeEdition < editedMessage.EditDate.Value); // ToDo: edit_date isn null. Check with @BotSupport
+            Assert.True(timeBeforeEdition < editedMessage.EditDate);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageText)]
@@ -102,7 +102,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 replyMarkup: (InlineKeyboardMarkup) "Original markup"
             );
 
-            await Task.Delay(500);
+            DateTime timeBeforeEdition = DateTime.UtcNow;
+            await Task.Delay(1_000);
 
             Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
                 chatId: message.Chat.Id,
@@ -110,9 +111,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 replyMarkup: "Edited 👍"
             );
 
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(message), JToken.FromObject(editedMessage)
-            ));
+            Assert.Equal(message.MessageId, editedMessage.MessageId);
+            Assert.Equal(message.Text, editedMessage.Text);
+            Assert.True(timeBeforeEdition < editedMessage.EditDate);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageMarkup)]
@@ -178,7 +179,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 );
             }
 
-            await Task.Delay(500);
+            DateTime timeBeforeEdition = DateTime.UtcNow;
+            await Task.Delay(1_000);
 
             const string newCaption = "Caption is edited.";
 
@@ -190,6 +192,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
             Assert.Equal(newCaption, editedMessage.Caption);
+            Assert.True(timeBeforeEdition < editedMessage.EditDate);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageCaption)]
