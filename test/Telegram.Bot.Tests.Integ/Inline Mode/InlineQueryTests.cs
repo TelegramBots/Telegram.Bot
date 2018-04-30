@@ -103,22 +103,30 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithLocation,
                 startInlineQuery: true);
 
-            Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "location:hobitton";
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultLocation(
-                    id: "bot-api",
+                    id: resultId,
                     latitude: -37.8721897f,
                     longitude: 175.6810213f,
                     title: "Hobbiton Movie Set")
             };
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: update.InlineQuery.Id,
+                inlineQueryId: iqUpdate.InlineQuery.Id,
                 results: results,
                 cacheTime: 0
             );
+
+            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Location);
+            Update resultUpdate = inlineQueryUpdates.ChosenResultUpdate;
+
+            Assert.Equal(MessageType.Location, inlineQueryUpdates.MessageUpdate.Message.Type);
+            Assert.Equal(resultId, resultUpdate.ChosenInlineResult.ResultId);
+            Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithVenue)]
@@ -128,12 +136,13 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithVenue,
                 startInlineQuery: true);
 
-            Update update = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "venue:hobbiton";
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultVenue(
-                    id: "bot-api",
+                    id: resultId,
                     latitude: -37.8721897f,
                     longitude: 175.6810213f,
                     title: "Hobbiton Movie Set",
@@ -141,10 +150,17 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             };
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: update.InlineQuery.Id,
+                inlineQueryId: iqUpdate.InlineQuery.Id,
                 results: results,
                 cacheTime: 0
             );
+
+            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Venue);
+            Update resultUpdate = inlineQueryUpdates.ChosenResultUpdate;
+
+            Assert.Equal(MessageType.Venue, inlineQueryUpdates.MessageUpdate.Message.Type);
+            Assert.Equal(resultId, resultUpdate.ChosenInlineResult.ResultId);
+            Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithPhoto)]
@@ -156,17 +172,19 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "photo:rainbow-girl";
             const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
+            const string caption = "Rainbow Girl";
 
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultPhoto(
-                    id: "photo1",
+                    id: resultId,
                     photoUrl: url,
                     thumbUrl: url
                 )
                 {
-                    Caption = "Rainbow Girl"
+                    Caption = caption
                 }
             };
 
@@ -175,6 +193,14 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 results: results,
                 cacheTime: 0
             );
+
+            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
+            Update resultUpdate = inlineQueryUpdates.ChosenResultUpdate;
+
+            Assert.Equal(MessageType.Photo, inlineQueryUpdates.MessageUpdate.Message.Type);
+            Assert.Equal(resultId, resultUpdate.ChosenInlineResult.ResultId);
+            Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
+            Assert.Equal(caption, inlineQueryUpdates.MessageUpdate.Message.Caption);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithCachedPhoto)]
