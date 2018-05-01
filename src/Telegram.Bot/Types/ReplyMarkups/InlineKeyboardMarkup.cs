@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -24,7 +24,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// </summary>
         /// <param name="inlineKeyboardButton">Keyboard button</param>
         public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
-            : this(new[] {inlineKeyboardButton})
+            : this(new[] { inlineKeyboardButton })
         {
         }
 
@@ -49,24 +49,44 @@ namespace Telegram.Bot.Types.ReplyMarkups
             InlineKeyboard = inlineKeyboard;
         }
 
+        /// <summary>
+        /// Generate an empty inline keyboard markup
+        /// </summary>
+        /// <returns>Empty inline keyboard markup</returns>
         public static InlineKeyboardMarkup Empty() =>
             new InlineKeyboardMarkup(new InlineKeyboardButton[0][]);
 
+        /// <summary>
+        /// Generate an inline keyboard markup with one button
+        /// </summary>
+        /// <param name="button">Inline keyboard button</param>
         public static implicit operator InlineKeyboardMarkup(InlineKeyboardButton button) =>
             button == null
                 ? default
                 : new InlineKeyboardMarkup(button);
 
+        /// <summary>
+        /// Generate an inline keyboard markup with one button
+        /// </summary>
+        /// <param name="buttonText">Text of the button</param>
         public static implicit operator InlineKeyboardMarkup(string buttonText) =>
             buttonText == null
                 ? default
                 : new InlineKeyboardMarkup(buttonText);
 
+        /// <summary>
+        /// Generate an inline keyboard markup from multiple buttons
+        /// </summary>
+        /// <param name="inlineKeyboard">Keyboard buttons</param>
         public static implicit operator InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton>[] inlineKeyboard) =>
             inlineKeyboard == null
                 ? null
                 : new InlineKeyboardMarkup(inlineKeyboard);
 
+        /// <summary>
+        /// Generate an inline keyboard markup from multiple buttons on 1 row
+        /// </summary>
+        /// <param name="inlineKeyboard">Keyboard buttons</param>
         public static implicit operator InlineKeyboardMarkup(InlineKeyboardButton[] inlineKeyboard) =>
             inlineKeyboard == null
                 ? null

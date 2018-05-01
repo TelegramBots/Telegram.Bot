@@ -1,5 +1,8 @@
-﻿namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
+namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
 {
+    /// <summary>
+    /// Represents an inline query result with title
+    /// </summary>
     public interface ITitleInlineQueryResult
     {
         /// <summary>
