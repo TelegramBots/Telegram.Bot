@@ -12,6 +12,8 @@
 
         public const string TestCaseOrderer2 = AssemblyName + ".Framework.TestCaseOrderer2";
 
+        public const string FactDisoverer = AssemblyName + ".Framework.XunitExtensions.FactDiscoverer";
+
         public static class TestCollections
         {
             public const string GettingUpdates = "Getting Updates";
