@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -58,16 +58,17 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                         title: "Telegram Bot API",
                         inputMessageContent: new InputTextMessageContent("https://www.telegram.org/")
                     )
-                }
+                },
+                cacheTime: 0
             );
 
-            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
+            (Update MessageUpdate, Update ChosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
 
             await Task.Delay(1_000);
 
             await BotClient.DeleteMessageAsync(
-                chatId: inlineQueryUpdates.MessageUpdate.Message.Chat.Id,
-                messageId: inlineQueryUpdates.MessageUpdate.Message.MessageId
+                chatId: MessageUpdate.Message.Chat.Id,
+                messageId: MessageUpdate.Message.MessageId
             );
         }
 
