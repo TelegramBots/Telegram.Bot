@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
@@ -30,7 +30,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string Title { get; set; }
 
         /// <summary>
-        /// Longitude of the location in degrees
+        /// Period in seconds for which the location can be updated, should be between 60 and 86400.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int LivePeriod { get; set; }
