@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - Made `callbackGame` parameter of `InlineKeyboardButton.WithCallBackGame` optional
+- `Newtonsoft.Json` updated to version `11.0.2`
 
 ### Fixed
 
