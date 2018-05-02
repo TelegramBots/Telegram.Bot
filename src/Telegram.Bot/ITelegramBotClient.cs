@@ -579,7 +579,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to get download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
+        /// Use this method to download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
         /// </summary>
         /// <param name="filePath">Path to file on server</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -589,7 +589,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to get download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
+        /// Use this method to download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
         /// </summary>
         /// <param name="filePath">Path to file on server</param>
         /// <param name="destination">Destination stream to write file to</param>
