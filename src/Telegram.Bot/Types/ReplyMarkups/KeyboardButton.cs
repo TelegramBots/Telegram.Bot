@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.ReplyMarkups
@@ -41,19 +41,27 @@ namespace Telegram.Bot.Types.ReplyMarkups
             Text = text;
         }
 
+        /// <summary>
+        /// Generate a keyboard button to request for contact
+        /// </summary>
+        /// <param name="text">Button's text</param>
+        /// <returns>Keyboard button</returns>
         public static KeyboardButton WithRequestContact(string text) =>
-            new KeyboardButton(text) {RequestContact = true};
-
-        public static KeyboardButton WithRequestLocation(string text) =>
-            new KeyboardButton(text) {RequestLocation = true};
+            new KeyboardButton(text) { RequestContact = true };
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="string"/> to <see cref="KeyboardButton"/>.
+        /// Generate a keyboard button to request for location
         /// </summary>
-        /// <param name="text">The text.</param>
-        /// <returns>
-        /// The result of the conversion.
-        /// </returns>
+        /// <param name="text">Button's text</param>
+        /// <returns>Keyboard button</returns>
+        public static KeyboardButton WithRequestLocation(string text) =>
+            new KeyboardButton(text) { RequestLocation = true };
+
+        /// <summary>
+        /// Generate a keyboard button from text
+        /// </summary>
+        /// <param name="text">Button's text</param>
+        /// <returns>Keyboard button</returns>
         public static implicit operator KeyboardButton(string text)
             => new KeyboardButton(text);
     }
