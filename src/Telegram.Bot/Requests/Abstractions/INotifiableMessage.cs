@@ -1,5 +1,8 @@
 ﻿namespace Telegram.Bot.Requests.Abstractions
 {
+    /// <summary>
+    /// Represents a message with optional notification
+    /// </summary>
     public interface INotifiableMessage
     {
         /// <summary>

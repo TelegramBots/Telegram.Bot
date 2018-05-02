@@ -1,4 +1,5 @@
 ﻿// ReSharper disable once CheckNamespace
+
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
@@ -8,7 +9,9 @@ namespace Telegram.Bot.Exceptions
     {
         internal const string ParamGroupName = "param";
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Name of invalid parameter
+        /// </summary>
         public string Parameter { get; }
 
         /// <summary>
