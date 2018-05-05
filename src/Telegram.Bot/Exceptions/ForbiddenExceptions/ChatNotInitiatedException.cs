@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 // ReSharper disable once CheckNamespace
+=======
+﻿// ReSharper disable once CheckNamespace
+
+>>>>>>> upstream/develop
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
@@ -11,6 +16,8 @@ namespace Telegram.Bot.Exceptions
         /// Initializes a new object of the <see cref="ChatNotInitiatedException"/> class
         /// </summary>
         /// <param name="message">The message of this exception</param>
-        public ChatNotInitiatedException(string message) : base(message) { }
+        public ChatNotInitiatedException(string message) : base(message)
+        {
+        }
     }
 }

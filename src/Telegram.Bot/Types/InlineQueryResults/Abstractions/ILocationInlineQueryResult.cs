@@ -1,5 +1,8 @@
-﻿namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
+namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
 {
+    /// <summary>
+    /// Represents an inline query result with location
+    /// </summary>
     public interface ILocationInlineQueryResult
     {
         /// <summary>
