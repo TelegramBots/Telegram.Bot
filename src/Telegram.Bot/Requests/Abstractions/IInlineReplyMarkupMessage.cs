@@ -2,6 +2,9 @@
 
 namespace Telegram.Bot.Requests.Abstractions
 {
+    /// <summary>
+    /// Represents a message with inline reply markup
+    /// </summary>
     public interface IInlineReplyMarkupMessage : IReplyMarkupMessage<InlineKeyboardMarkup>
     {
         /// <summary>

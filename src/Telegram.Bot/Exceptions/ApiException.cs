@@ -16,7 +16,7 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Contains information about why a request was unsuccessful.
         /// </summary>
-        public ResponseParameters Parameters { get; private set; }
+        public ResponseParameters Parameters { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestException"/> class.
@@ -60,6 +60,12 @@ namespace Telegram.Bot.Exceptions
             ErrorCode = errorCode;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiRequestException"/> class
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="errorCode">The error code</param>
+        /// <param name="parameters">Response parameters</param>
         public ApiRequestException(string message, int errorCode, ResponseParameters parameters)
             : base(message)
         {
@@ -67,6 +73,13 @@ namespace Telegram.Bot.Exceptions
             Parameters = parameters;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApiRequestException"/> class
+        /// </summary>
+        /// <param name="message">The message</param>
+        /// <param name="errorCode">The error code</param>
+        /// <param name="parameters">Response parameters</param>
+        /// <param name="innerException">The inner exception</param>
         public ApiRequestException(string message, int errorCode, ResponseParameters parameters, Exception innerException)
             : base(message, innerException)
         {
@@ -77,6 +90,7 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Returns a new instance of the <see cref="ApiRequestException"/> class.
         /// </summary>
+        /// <typeparam name="T">Expected type of operation result</typeparam>
         /// <param name="apiResponse">The API response.</param>
         /// <returns><see cref="ApiRequestException"/></returns>
         public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
@@ -90,12 +104,7 @@ namespace Telegram.Bot.Exceptions
                 case 400:
                     message = apiResponse.Description.Remove(0, "Bad Request: ".Length);
                     switch (message.Trim())
-                    {
-                        case "chat not found":
-                            return new ChatNotFoundException(apiResponse.Description)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
+                    {                       
                         case "have no rights to send a message":
                             return new BotRestrictedException(apiResponse.Description)
                             {
@@ -103,11 +112,6 @@ namespace Telegram.Bot.Exceptions
                             };
                         case "not enough rights to restrict/unrestrict chat member":
                             return new NotEnoughRightsException(apiResponse.Description)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
-                        case "user not found":
-                            return new UserNotFoundException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
                             };
@@ -138,12 +142,7 @@ namespace Telegram.Bot.Exceptions
                             return new BotBlockedException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
-                            };
-                        case "bot can't initiate conversation with a user":
-                            return new ChatNotInitiatedException(apiResponse.Description)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
+                            };                        
                         default:
                             LogMissingError(apiResponse);
                             return new ApiRequestException(apiResponse.Description, 403)

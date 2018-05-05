@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
 
-                if (predicate is default)
+                if (predicate == null)
                 {
                     updates = updates.Where(u => updateTypes.Contains(u.Type));
                 }
@@ -139,6 +139,37 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             var update = updates.First();
             return update;
+        }
+
+        /// <summary>
+        /// Receive the chosen inline query result and the message that was sent to chat. Use this method only after bot answers to an inline query.
+        /// </summary>
+        /// <param name="messageType">Type of message for chosen inline query e.g. Text message for article results</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Message update generated for chosen result, and the update for chosen inline query result</returns>
+        public async Task<(Update MessageUpdate, Update ChosenResultUpdate)> GetInlineQueryResultUpdates
+            (MessageType messageType, CancellationToken cancellationToken = default)
+        {
+            Update messageUpdate = default;
+            Update chosenResultUpdate = default;
+
+            while (
+                !cancellationToken.IsCancellationRequested &&
+                (messageUpdate == null || chosenResultUpdate == null)
+            )
+            {
+                await Task.Delay(1_000, cancellationToken);
+                var updates = await GetUpdatesAsync(
+                    u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
+                    cancellationToken: cancellationToken,
+                    updateTypes: new[] { UpdateType.Message, UpdateType.ChosenInlineResult }
+                );
+
+                messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);
+                chosenResultUpdate = updates.SingleOrDefault(u => u.Type == UpdateType.ChosenInlineResult);
+            }
+
+            return (messageUpdate, chosenResultUpdate);
         }
 
         private async Task<Update[]> GetOnlyAllowedUpdatesAsync(

@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Implicit cast of `IEnumerable<InlineKeyboardButton>[]` to `InlineKeyboardMarkup`
+- Implicit cast of `InlineKeyboardButton[]` to `InlineKeyboardMarkup`
+- Exception `InvalidGameShortNameException`
+- Exception `InvalidQueryIdException`
+
+### Changed
+
+- Made `callbackGame` parameter of `InlineKeyboardButton.WithCallBackGame` optional
+- `Newtonsoft.Json` updated to version `11.0.2`
+
+### Fixed
+
+- Assigining param `foursquareId` of `SendInvoiceAsync` method to its request
+- Access modifier of abstract class `BadRequestException` and `ForbiddenException` ctors to `protected`
+
+### Removed
+
+- Parameterless ctor of `InlineKeyboardMarkup`
+- Exception `BotBlockedException`
+- Exception `BotRestrictedException`
+- Exception `MissingParameterException`
+- Exception `NotEnoughRightsException`
+- Exception `WrongChatTypeException`
+
+
+## [14.2.0-rc-452] - 2018-02-24
+
+### Added
+
 - Property `Message.MediaGroupId`
 - Property `ICaptionInlineQueryResult.ParseMode`
 - Property `ParseMode` to inline query results with a caption

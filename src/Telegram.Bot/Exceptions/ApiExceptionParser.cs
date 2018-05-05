@@ -11,6 +11,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
             new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
+            new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
 
             #region Stickers
 
@@ -22,6 +23,14 @@ namespace Telegram.Bot.Exceptions
 
             #endregion
 
+            #region Games
+
+            new BadRequestExceptionInfo<InvalidGameShortNameException>("GAME_SHORTNAME_INVALID"),
+            new BadRequestExceptionInfo<InvalidGameShortNameException>("game_short_name is empty"),
+            new BadRequestExceptionInfo<InvalidGameShortNameException>("wrong game short name specified"),
+
+            #endregion
+            
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
@@ -67,7 +76,6 @@ namespace Telegram.Bot.Exceptions
                     errorMessage = TruncateForbiddenErrorDescription(apiResponse.Description);
                     exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
                 }
-
             }
             return exception;
         }

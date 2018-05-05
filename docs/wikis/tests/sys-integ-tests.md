@@ -42,6 +42,7 @@ Bot should have some features enabled, usually through BotFather, in order to pa
 - Inline Queries
 - Payment Provider
 - [Inline feedback](https://core.telegram.org/bots/inline#collecting-feedback)
+- Profile picture
 
 For making testing process more convenient, set the following commands for MyTestBot as well. The purpose for these commands is explained in the sections below.
 
@@ -147,3 +148,11 @@ If the following 3 settings are not set, bot will ask a tester to send it `/me` 
 ```json
 { "RegularGroupMemberId": 1234567890 }
 ```
+
+#### Games
+
+Bot should have a game with short name: `game1`. Also, bot's inline feedback should be set to 100%.
+
+#### User Profile
+
+Bot should have at least 1 profile picture.

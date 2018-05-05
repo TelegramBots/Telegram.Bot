@@ -126,11 +126,11 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// </summary>
         /// <param name="text">Label text on the button</param>
         /// <param name="callbackGame">Description of the game that will be launched when the user presses the button.</param>
-        public static InlineKeyboardButton WithCallBackGame(string text, CallbackGame callbackGame) =>
+        public static InlineKeyboardButton WithCallBackGame(string text, CallbackGame callbackGame = null) =>
             new InlineKeyboardButton
             {
                 Text = text,
-                CallbackGame = callbackGame
+                CallbackGame = callbackGame ?? new CallbackGame()
             };
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// The result of the conversion.
         /// </returns>
         public static implicit operator InlineKeyboardButton(string textAndCallbackData) =>
-            textAndCallbackData is default
+            textAndCallbackData == null
                 ? default
                 : WithCallbackData(textAndCallbackData);
     }

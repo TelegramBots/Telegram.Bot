@@ -642,6 +642,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
+                FoursquareId = foursquareId,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
@@ -717,7 +718,7 @@ namespace Telegram.Bot
             {
                 throw new ArgumentException("Invalid file path", nameof(filePath));
             }
-            if (destination is default)
+            if (destination == null)
             {
                 throw new ArgumentNullException(nameof(destination));
             }

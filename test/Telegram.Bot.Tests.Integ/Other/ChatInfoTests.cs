@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -8,7 +9,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Other
 {
     [Collection(Constants.TestCollections.ChatInfo)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class ChatInfoTests : IClassFixture<ChatInfoTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,9 +24,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetPrivateChat)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetPrivateChat)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
-        [ExecutionOrder(1)]
         public async Task Should_Get_Private_Chat()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetPrivateChat);
@@ -50,9 +50,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(chat.CanSetStickerSet);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetSupergroupChat)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChat)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
-        [ExecutionOrder(1)]
         public async Task Should_Get_Supergroup_Chat()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChat);
@@ -77,18 +76,124 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.False(chat.AllMembersAreAdministrators);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldGetBotChatMember)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMember)]
+        public async Task Should_Get_Bot_Chat_Member()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetBotChatMember);
+
+            ChatMember memberBot = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _fixture.BotUser.Id
+            );
+
+            Assert.Equal(ChatMemberStatus.Administrator, memberBot.Status);
+            Assert.True(memberBot.CanChangeInfo);
+            Assert.True(memberBot.CanDeleteMessages);
+            Assert.True(memberBot.CanInviteUsers);
+            Assert.True(memberBot.CanPromoteMembers);
+            Assert.True(memberBot.CanRestrictMembers);
+            Assert.True(memberBot.CanPinMessages);
+            Assert.False(memberBot.CanBeEdited);
+            Assert.Null(memberBot.UntilDate);
+            Assert.Null(memberBot.CanPostMessages);
+            Assert.Null(memberBot.CanEditMessages);
+            Assert.Null(memberBot.CanSendMessages);
+            Assert.Null(memberBot.CanSendMediaMessages);
+            Assert.Null(memberBot.CanSendOtherMessages);
+            Assert.Null(memberBot.CanAddWebPagePreviews);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser),
+                JToken.FromObject(memberBot.User)
+            ));
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChatAdmins)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
+        public async Task Should_Get_Chat_Admins()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChatAdmins);
+
+            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
+                chatId: _classFixture.SupergroupChat.Id
+            );
+
+            ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
+            ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
+
+            Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator
+            Assert.Null(memberCreator.UntilDate);
+            Assert.Null(memberCreator.CanBeEdited);
+            Assert.Null(memberCreator.CanChangeInfo);
+            Assert.Null(memberCreator.CanPostMessages);
+            Assert.Null(memberCreator.CanEditMessages);
+            Assert.Null(memberCreator.CanDeleteMessages);
+            Assert.Null(memberCreator.CanInviteUsers);
+            Assert.Null(memberCreator.CanRestrictMembers);
+            Assert.Null(memberCreator.CanPinMessages);
+            Assert.Null(memberCreator.CanPromoteMembers);
+            Assert.Null(memberCreator.CanSendMessages);
+            Assert.Null(memberCreator.CanSendMediaMessages);
+            Assert.Null(memberCreator.CanSendOtherMessages);
+            Assert.Null(memberCreator.CanAddWebPagePreviews);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser),
+                JToken.FromObject(memberBot.User)
+            ));
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldGetChatMembersCount)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMembersCount)]
+        public async Task Should_Get_Chat_Members_Count()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatMembersCount);
+
+            int membersCount = await BotClient.GetChatMembersCountAsync(
+                chatId: _classFixture.SupergroupChat.Id
+            );
+
+            Assert.True(2 <= membersCount); // at least, Bot and the Creator
+        }
+
+        /// <remarks>
+        /// The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear
+        /// its typing status)
+        /// </remarks>
+        [OrderedFact(DisplayName = FactTitles.ShouldSendChatAction)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendChatAction)]
+        public async Task Should_Send_Chat_Action()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendChatAction);
+
+            await BotClient.SendChatActionAsync(
+                chatId: _classFixture.SupergroupChat.Id,
+                chatAction: ChatAction.RecordAudio
+            );
+            
+            await Task.Delay(5_000);
+        }
+
         private static class FactTitles
         {
             public const string ShouldGetPrivateChat = "Should get private chat info";
 
             public const string ShouldGetSupergroupChat = "Should get supergroup chat info";
+
+            public const string ShouldGetBotChatMember = "Should get chat member: bot(admin)";
+
+            public const string ShouldGetSupergroupChatAdmins = "Should get supergroup chat administrators";
+
+            public const string ShouldGetChatMembersCount = "Should get chat members count";
+            
+            public const string ShouldSendChatAction = "Should send ation to chat: recording audio";
         }
 
         public class Fixture : AllChatsFixture
         {
             public Fixture(TestsFixture testsFixture)
                 : base(testsFixture, Constants.TestCollections.ChatInfo)
-            { }
+            {
+            }
         }
     }
 }

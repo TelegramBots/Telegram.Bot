@@ -1,7 +1,10 @@
-﻿using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.InlineQueryResults.Abstractions
 {
+    /// <summary>
+    /// Represents an inline query result with caption
+    /// </summary>
     public interface ICaptionInlineQueryResult
     {
         /// <summary>
