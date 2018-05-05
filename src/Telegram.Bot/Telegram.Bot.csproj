@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <VersionPrefix>14.2.1</VersionPrefix>
-    <VersionSuffix>rc</VersionSuffix>
+    <VersionPrefix>14.3.0</VersionPrefix>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -18,11 +17,10 @@
   </PropertyGroup>
   <!-- when building on AppVeyor -->
   <PropertyGroup Condition="'$(AppVeyor)' == 'True'">
-    <Version Condition="'$(VersionSuffix)' == ''">$(VersionPrefix).$(APPVEYOR_BUILD_NUMBER)</Version>
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">

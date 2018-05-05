@@ -568,7 +568,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to download a file. For the moment, bots can download files of up to 20MB in size.
+        /// Use this method to get information about a file. For the moment, bots can download files of up to 20MB in size.
         /// </summary>
         /// <param name="fileId">File identifier</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -578,20 +578,38 @@ namespace Telegram.Bot
             string fileId,
             CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Use this method to download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
+        /// </summary>
+        /// <param name="filePath">Path to file on server</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>File stream</returns>
         Task<Stream> DownloadFileAsync(
             string filePath,
             CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Use this method to download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
+        /// </summary>
+        /// <param name="filePath">Path to file on server</param>
+        /// <param name="destination">Destination stream to write file to</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         Task DownloadFileAsync(
             string filePath,
             Stream destination,
             CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Use this method to get basic info about a file and download it.
+        /// </summary>
+        /// <param name="fileId">File identifier to get info about</param>
+        /// <param name="destination">Destination stream to write file to</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>File info</returns>
         Task<File> GetInfoAndDownloadFileAsync(
             string fileId,
             Stream destination,
             CancellationToken cancellationToken = default);
-
 
         /// <summary>
         /// Use this method to kick a user from a group or a supergroup. In the case of supergroups, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the group for this to work.

@@ -2,6 +2,9 @@
 
 namespace Telegram.Bot.Requests.Abstractions
 {
+    /// <summary>
+    /// Represents a message with reply markup
+    /// </summary>
     public interface IReplyMarkupMessage<TMarkup>
         where TMarkup : IReplyMarkup
     {

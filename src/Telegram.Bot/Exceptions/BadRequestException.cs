@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
-    /// A base class for "Error 400: Bad request" API responses
+    /// Represents an error from Bot API with 400 Bad Request HTTP status
     /// </summary>
     public abstract class BadRequestException : ApiRequestException
     {

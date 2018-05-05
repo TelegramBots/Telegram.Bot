@@ -11,7 +11,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Exceptions
 {
     [Collection(Constants.TestCollections.Exceptions)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,35 +23,34 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(1)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowChatNotFoundException);
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.SendTextMessageAsync(0, "test"));
+                BotClient.SendTextMessageAsync(0, "test")
+            );
 
             Assert.IsType<ChatNotFoundException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2)]
         public async Task Should_Throw_Exception_InvalidUserIdException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456));
+                BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456)
+            );
 
             Assert.IsType<InvalidUserIdException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowExceptionChatNotInitiatedException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionChatNotInitiatedException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(3)]
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
             //ToDo add exception. forward message from another bot. Forbidden: bot can't send messages to bots
@@ -64,15 +63,17 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
             ForbiddenException e = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
-                BotClient.SendTextMessageAsync(forwardedMessageUpdate.Message.ForwardFrom.Id,
-                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"));
+                BotClient.SendTextMessageAsync(
+                    forwardedMessageUpdate.Message.ForwardFrom.Id,
+                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"
+                )
+            );
 
             Assert.IsType<ChatNotInitiatedException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(4)]
         public async Task Should_Throw_Exception_ContactRequestException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionContactRequestException);
@@ -83,39 +84,43 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             });
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.SendTextMessageAsync(_fixture.SupergroupChat.Id, "You should never see this message",
-                    replyMarkup: replyMarkup));
+                BotClient.SendTextMessageAsync(
+                    _fixture.SupergroupChat.Id,
+                    "You should never see this message",
+                    replyMarkup: replyMarkup)
+            );
 
             Assert.IsType<ContactRequestException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(5)]
         public async Task Should_Throw_Exception_MessageIsNotModifiedException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionMessageIsNotModifiedException);
 
-            const string MessageTextToModify = "Message text to modify";
+            const string messageTextToModify = "Message text to modify";
             Message message = await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat.Id,
-                MessageTextToModify);
+                messageTextToModify);
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.EditMessageTextAsync(
                     _fixture.SupergroupChat.Id,
                     message.MessageId,
-                    MessageTextToModify));
+                    messageTextToModify
+                )
+            );
 
             Assert.IsType<MessageIsNotModifiedException>(e);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowExceptionInvalidQueryIdException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionInvalidQueryIdException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
-        [ExecutionOrder(6)]
         public async Task Should_Throw_Exception_QueryIdInvalidException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException,
+                startInlineQuery: true);
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -125,9 +130,9 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                     id: "article:bot-api",
                     title: "Telegram Bot API",
                     inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
-                    {
-                        Description = "The Bot API is an HTTP-based interface created for developers",
-                    },
+                {
+                    Description = "The Bot API is an HTTP-based interface created for developers",
+                },
             };
 
             await Task.Delay(10_000);
@@ -136,7 +141,9 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 BotClient.AnswerInlineQueryAsync(
                     inlineQueryId: queryUpdate.InlineQuery.Id,
                     results: results,
-                    cacheTime: 0));
+                    cacheTime: 0
+                )
+            );
 
             Assert.Equal("inline_query_id", e.Parameter);
         }
@@ -158,12 +165,12 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "chat via reply keyboard markup";
 
             public const string ShouldThrowExceptionMessageIsNotModifiedException =
-               "Should throw MessageIsNotModifiedException while editing previously sent message " +
+                "Should throw MessageIsNotModifiedException while editing previously sent message " +
                 "with the same text";
 
             public const string ShouldThrowExceptionInvalidQueryIdException =
-                   "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with" +
-                    " 10 second delay";
+                "Should throw InvalidQueryIdException when AnswerInlineQueryAsync called with" +
+                " 10 second delay";
         }
     }
 }
