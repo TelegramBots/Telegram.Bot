@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MihaZupan;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -33,7 +34,14 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public TestsFixture()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
-            BotClient = new TelegramBotClient(apiToken);
+            BotClient = (string.IsNullOrEmpty(ConfigurationProvider.TestConfigurations.Socks5Host))
+                ? new TelegramBotClient(apiToken)
+                : new TelegramBotClient(
+                    apiToken,
+                    new HttpToSocks5Proxy(
+                        ConfigurationProvider.TestConfigurations.Socks5Host,
+                        ConfigurationProvider.TestConfigurations.Socks5Port
+                    ));
 
             BotUser = BotClient.GetMeAsync().GetAwaiter().GetResult();
 
@@ -61,10 +69,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             BotClient.SendTextMessageAsync(
                 SupergroupChat.Id,
-                "```\nTest execution is starting...\n```",
-                ParseMode.Markdown,
-                cancellationToken: CancellationToken
-            ).GetAwaiter().GetResult();
+                            "```\nTest execution is starting...\n```",
+                            ParseMode.Markdown,
+                            cancellationToken: CancellationToken
+                        ).GetAwaiter().GetResult();
         }
 
         public void Dispose()

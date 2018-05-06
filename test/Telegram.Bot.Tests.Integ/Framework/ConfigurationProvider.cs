@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
@@ -28,7 +28,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
 
                 RegularGroupMemberId = configuration[nameof(TestConfigurations.RegularGroupMemberId)],
+
+                Socks5Host = configuration[nameof(TestConfigurations.Socks5Host)],
             };
+            if (int.TryParse(configuration[nameof(TestConfigurations.Socks5Port)], out int socks5Port))
+            {
+                TestConfigurations.Socks5Port = socks5Port;
+            }
 
             if (long.TryParse(configuration[nameof(TestConfigurations.TesterPrivateChatId)], out long privateChat))
             {

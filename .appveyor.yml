@@ -6,6 +6,7 @@ branches:
     - docs
 image: Visual Studio 2017
 before_build:
+  - git submodule update --init --recursive
   - nuget restore Telegram.Bot.sln
 build:
   project: Telegram.Bot.sln

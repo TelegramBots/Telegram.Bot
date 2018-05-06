@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+### Changed
+### Fixed
+### Removed
+
+## [14.3.0] - 2018-05-05
+
+### Added
 
 - Implicit cast of `IEnumerable<InlineKeyboardButton>[]` to `InlineKeyboardMarkup`
 - Implicit cast of `InlineKeyboardButton[]` to `InlineKeyboardMarkup`

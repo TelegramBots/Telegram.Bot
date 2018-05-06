@@ -1,0 +1,3 @@
+[submodule "test/Telegram.Bot.Tests.Integ/Framework/Proxy"]
+	path = test/Telegram.Bot.Tests.Integ/Framework/Proxy
+	url = https://github.com/MihaZupan/HttpToSocks5Proxy.git
