@@ -5,15 +5,9 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
-<<<<<<< HEAD:src/Telegram.Bot/Exceptions/ForbiddenExceptions/ForbiddenException.cs
-    /// A base class for "Error 403: Forbidden" API responses
-    /// </summary>
-    public class ForbiddenException : ApiRequestException
-=======
     /// Represents an error from Bot API with 403 Forbidden HTTP status
     /// </summary>
     public abstract class ForbiddenException : ApiRequestException
->>>>>>> upstream/develop:src/Telegram.Bot/Exceptions/ForbiddenException.cs
     {
         /// <inheritdoc />
         public override int ErrorCode => ForbiddenErrorCode;
