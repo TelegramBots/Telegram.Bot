@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
 {
     [Collection(Constants.TestCollections.CallbackQuery)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class CallbackQueryTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -22,10 +22,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldReceiveAnswerCallbackQuery)]
+        [OrderedFact(DisplayName = FactTitles.ShouldReceiveAnswerCallbackQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
-        [ExecutionOrder(1)]
         public async Task Should_Answer_With_Notification()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveAnswerCallbackQuery);
@@ -63,10 +62,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
             ));
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerCallbackQueryWithAlert)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerCallbackQueryWithAlert)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
-        [ExecutionOrder(2)]
         public async Task Should_Answer_With_Alert()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerCallbackQueryWithAlert);

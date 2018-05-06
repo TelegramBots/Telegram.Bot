@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -13,7 +13,7 @@ using File = Telegram.Bot.Types.File;
 namespace Telegram.Bot.Tests.Integ.Stickers
 {
     [Collection(Constants.TestCollections.Stickers)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class StickersTests : IClassFixture<StickersTestsFixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -30,9 +30,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         #region 1. Get and send stickers from a set
 
-        [Fact(DisplayName = FactTitles.ShouldGetStickerSet)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
-        [ExecutionOrder(1.1)]
         public async Task Should_Get_Sticker_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetStickerSet);
@@ -52,9 +51,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             _classFixture.EvilMindsStickerSet = stickerSet;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetStickerSetWithMasks)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetStickerSetWithMasks)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
-        [ExecutionOrder(1.2)]
         public async Task Should_Get_Sticker_Set_With_Masks()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetStickerSetWithMasks);
@@ -71,9 +69,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Assert.True(20 < stickerSet.Stickers.Length);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendSticker)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendSticker)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendSticker)]
-        [ExecutionOrder(1.3)]
         public async Task Should_Send_Sticker()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendSticker);
@@ -100,9 +97,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         #region 2. Create sticker set
 
-        [Fact(DisplayName = FactTitles.ShouldUploadStickerFile)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUploadStickerFile)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UploadStickerFile)]
-        [ExecutionOrder(2.1)]
         public async Task Should_Upload_Stickers()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
@@ -128,9 +124,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             _classFixture.UploadedStickers = stickerFiles;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerSetNameException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidStickerSetNameException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [ExecutionOrder(2.2)]
         public async Task Should_Throw_InvalidStickerSetNameException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerSetNameException);
@@ -148,9 +143,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Assert.IsType<InvalidStickerSetNameException>(exception);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerEmojisException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidStickerEmojisException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [ExecutionOrder(2.3)]
         public async Task Should_Throw_InvalidStickerEmojisException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerEmojisException);
@@ -168,12 +162,11 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Assert.IsType<InvalidStickerEmojisException>(exception);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowInvalidStickerDimensionsException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidStickerDimensionsException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [ExecutionOrder(2.4)]
         public async Task Should_Throw_InvalidStickerDimensionsException()
         {
-            // Todo exception when sending jpeg file. Bad Request: STICKER_PNG_NOPNG
+            // ToDo exception when sending jpeg file. Bad Request: STICKER_PNG_NOPNG
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerDimensionsException);
 
             BadRequestException exception;
@@ -193,10 +186,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Assert.IsType<InvalidStickerDimensionsException>(exception);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
+        [OrderedFact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
-        [ExecutionOrder(2.5)]
         public async Task Should_Create_New_Sticker_Set()
         {
             Message testCaseNotifMessage = await _fixture.SendTestCaseNotificationAsync(
@@ -238,9 +230,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             _classFixture.TestStickerSet = await BotClient.GetStickerSetAsync(_classFixture.TestStickerSetName);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException, Skip = "Upstream bug in Bot API")]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException, Skip = "Upstream bug in Bot API")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        [ExecutionOrder(2.6)]
         public async Task Should_Throw_StickerSetNameExistsException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowStickerSetNameExistsException);
@@ -266,9 +257,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         #region 3. Edit sticker set
 
-        [Fact(DisplayName = FactTitles.ShouldAddStickerFileToSet)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAddStickerFileToSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AddStickerToSet)]
-        [ExecutionOrder(3.1)]
         public async Task Should_Add_Uploaded_Sticker_File_To_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAddStickerFileToSet);
@@ -281,10 +271,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAddPabloEscobarStickerToSet,
+        [OrderedFact(DisplayName = FactTitles.ShouldAddPabloEscobarStickerToSet,
             Skip = "Not sure if we can add a sticker from another set without download and upload it")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AddStickerToSet)]
-        [ExecutionOrder(3.2)]
         public async Task Should_Add_Pablo_Escobar_Sticker_To_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAddPabloEscobarStickerToSet);
@@ -300,9 +289,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAddStickerWithMaskPositionToSet)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAddStickerWithMaskPositionToSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AddStickerToSet)]
-        [ExecutionOrder(3.3)]
         public async Task Should_Add_Sticker_With_Mask_Position_To_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAddStickerWithMaskPositionToSet);
@@ -323,10 +311,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             }
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSetStickerPositionInSet)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSetStickerPositionInSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetStickerPositionInSet)]
-        [ExecutionOrder(3.4)]
         public async Task Should_Change_Sticker_Position_In_Set()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetStickerPositionInSet);
@@ -344,10 +331,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         /// One sticker in the set is not removed because removing last sticker would cause the sticker set to be removed
         /// and bots cannot remove a sticker set.
         /// </remarks>
-        [Fact(DisplayName = FactTitles.ShouldRemoveStickersFromSet, Skip = "abc")]
+        [OrderedFact(DisplayName = FactTitles.ShouldRemoveStickersFromSet, Skip = "abc")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
-        [ExecutionOrder(3.5)]
         public async Task Should_Remove_All_Stickers_From_Set_Except_1()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRemoveStickersFromSet);
@@ -362,11 +348,10 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             }
         }
 
-        [Fact(DisplayName = FactTitles.ShouldStickerSetNotModifiedException,
+        [OrderedFact(DisplayName = FactTitles.ShouldStickerSetNotModifiedException,
             Skip = "Not all the stickers will be removed in previous test")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
-        [ExecutionOrder(3.6)]
         public async Task Should_Throw_StickerSetNotModifiedException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldStickerSetNotModifiedException);

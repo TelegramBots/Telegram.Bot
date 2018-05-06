@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Locations
 {
     [Collection(Constants.TestCollections.InlineMessageLiveLocation)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLocationTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -25,9 +25,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithLocation)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
-        [ExecutionOrder(1)]
         public async Task Should_Answer_Inline_Query_With_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithLocation,
@@ -59,9 +58,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture.CallbackQueryData = callbackQueryData;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldEditInlineMessageLiveLocation)]
+        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageLiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
-        [ExecutionOrder(2)]
         public async Task Should_Edit_Inline_Message_Live_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageLiveLocation,
@@ -82,9 +80,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture.InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldStopInlineMessageLiveLocation)]
+        [OrderedFact(DisplayName = FactTitles.ShouldStopInlineMessageLiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
-        [ExecutionOrder(3)]
         public async Task Should_Stop_Inline_Message_Live_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldStopInlineMessageLiveLocation);

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.AlbumMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -25,9 +25,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(1)]
         public async Task Should_Upload_2_Photos_Album()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
@@ -71,9 +70,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture.Entities = messages.ToList();
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(2)]
         public async Task Should_Send_3_Photos_Album_Using_FileId()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendFileIdPhotosInAlbum);
@@ -99,9 +97,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         /// <remarks>
         /// URLs have a redundant query string to make sure Telegram doesn't use cached images
         /// </remarks>
-        [Fact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(3)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
             // ToDo add exception: Bad Request: failed to get HTTP URL content
@@ -126,9 +123,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
 
-        [Fact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(4)]
         public async Task Should_Upload_2_Videos_Album()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
@@ -182,9 +178,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.InRange(messages.First().Video.Duration, firstMediaDuration - 2, firstMediaDuration + 2);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(5)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);

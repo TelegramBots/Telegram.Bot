@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -11,7 +11,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
     /// Webhooks should be immediately disabled because test framework uses getUpdates method
     /// </remarks>
     [Collection(Constants.TestCollections.Webhook)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class WebhookTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;
@@ -23,9 +23,8 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSetWebhook, Skip = "setWebhook requests are rate limited")]
+        [OrderedFact(DisplayName = FactTitles.ShouldSetWebhook, Skip = "setWebhook requests are rate limited")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
-        [ExecutionOrder(1.0)]
         public async Task Should_Set_Webhook()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetWebhook);
@@ -35,9 +34,8 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.DeleteWebhookAsync();
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSetWebhookWithOptions, Skip = "setWebhook requests are rate limited")]
+        [OrderedFact(DisplayName = FactTitles.ShouldSetWebhookWithOptions, Skip = "setWebhook requests are rate limited")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
-        [ExecutionOrder(1.1)]
         public async Task Should_Set_Webhook_With_Options()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetWebhookWithOptions);
@@ -51,9 +49,8 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.DeleteWebhookAsync();
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDeleteWebhookUsingEmptyUrl)]
+        [OrderedFact(DisplayName = FactTitles.ShouldDeleteWebhookUsingEmptyUrl)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
-        [ExecutionOrder(1.2)]
         public async Task Should_Delete_Webhook_Using_setWebhook()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteWebhookUsingEmptyUrl);
@@ -61,10 +58,9 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.SetWebhookAsync(string.Empty);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSetWebhookWithCertificate)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSetWebhookWithCertificate)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetWebhookInfo)]
-        [ExecutionOrder(1.3)]
         public async Task Should_Set_Webhook_With_SelfSigned_Cert()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetWebhookWithCertificate);
@@ -92,9 +88,8 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.DeleteWebhookAsync();
         }
 
-        [Fact(DisplayName = FactTitles.ShouldDeleteWebhook)]
+        [OrderedFact(DisplayName = FactTitles.ShouldDeleteWebhook)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteWebhook)]
-        [ExecutionOrder(1.5)]
         public async Task Should_Delete_Webhook()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteWebhook);
@@ -102,9 +97,8 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.DeleteWebhookAsync();
         }
 
-        [Fact(DisplayName = FactTitles.ShouldGetDeletedWebhookInfo)]
+        [OrderedFact(DisplayName = FactTitles.ShouldGetDeletedWebhookInfo)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetWebhookInfo)]
-        [ExecutionOrder(1.6)]
         public async Task Should_Get_Deleted_Webhook_Info()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetDeletedWebhookInfo);

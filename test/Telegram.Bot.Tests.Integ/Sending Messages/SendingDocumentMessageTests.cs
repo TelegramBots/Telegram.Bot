@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendDocumentMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class SendingDocumentMessageTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -22,9 +22,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendPdf)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendPdf)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
-        [ExecutionOrder(1)]
         public async Task Should_Send_Pdf_Document()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPdf);
@@ -52,9 +51,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(caption, message.Caption);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendDocumentWithNonAsciiName)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendDocumentWithNonAsciiName)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
-        [ExecutionOrder(2)]
         public async Task Should_Send_Document_With_Farsi_Name()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendDocumentWithNonAsciiName);

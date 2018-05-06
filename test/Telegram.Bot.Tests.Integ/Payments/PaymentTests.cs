@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -12,7 +12,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Payments
 {
     [Collection(Constants.TestCollections.Payment)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class PaymentTests : IClassFixture<PaymentFixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -27,9 +27,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendInvoice)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
-        [ExecutionOrder(1)]
         public async Task Should_Send_Invoice()
         {
             await _fixture.SendTestCaseNotificationAsync(
@@ -85,10 +84,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
             _classFixture.Invoice = message.Invoice;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithOk)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithOk)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
-        [ExecutionOrder(2)]
         public async Task Should_Answer_Shipping_Query_With_Ok()
         {
             LabeledPrice[] shippingPrices =
@@ -127,10 +125,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.PostCode);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithOkAndShipmentOption)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithOkAndShipmentOption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
-        [ExecutionOrder(3)]
         public async Task Should_Answer_PreCheckout_Query_With_Ok_And_Shipment_Option()
         {
             Update precheckoutUpdate = await GetPreCheckoutQueryUpdate();
@@ -156,10 +153,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal(_classFixture.ShippingOption.Id, query.ShippingOptionId);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldReceiveSuccessfulPaymentWithShipmentOption)]
+        [OrderedFact(DisplayName = FactTitles.ShouldReceiveSuccessfulPaymentWithShipmentOption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
-        [ExecutionOrder(4)]
         public async Task Should_Receive_Successful_Payment_With_Shipment_Option()
         {
             Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
@@ -174,10 +170,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal(_classFixture.ShippingOption.Id, successfulPayment.ShippingOptionId);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithError)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithError)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
-        [ExecutionOrder(5)]
         public async Task Should_Answer_Shipping_Query_With_Error()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerShippingQueryWithError,
@@ -221,10 +216,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithErrorForNoShipmentOption)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithErrorForNoShipmentOption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
-        [ExecutionOrder(6)]
         public async Task Should_Answer_PreCheckout_Query_With_Error_For_No_Shipment_Option()
         {
             await _fixture.SendTestCaseNotificationAsync(
@@ -268,9 +262,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowWhenSendInvoiceInvalidJson)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowWhenSendInvoiceInvalidJson)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
-        [ExecutionOrder(7)]
         public async Task Should_Throw_When_Send_Invoice_Invalid_Provider_Data()
         {
             await _fixture.SendTestCaseNotificationAsync(
@@ -311,9 +304,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal("Bad Request: DATA_JSON_INVALID", exception.Message);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
-        [ExecutionOrder(8)]
         public async Task Should_Throw_When_Answer_Shipping_Query_With_Duplicate_Shipping_Id()
         {
             await _fixture.SendTestCaseNotificationAsync(
@@ -380,9 +372,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendInvoiceWithReplyMarkup)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendInvoiceWithReplyMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
-        [ExecutionOrder(9)]
         public async Task Should_Send_Invoice_With_Reply_Markup()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInvoiceWithReplyMarkup);

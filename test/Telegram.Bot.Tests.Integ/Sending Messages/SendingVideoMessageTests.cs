@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -8,7 +8,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendVideoMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class SendingVideoMessageTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -20,9 +20,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendVideo)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendVideo)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideo)]
-        [ExecutionOrder(1)]
         public async Task Should_Send_Video()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideo);
@@ -58,9 +57,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Video.Thumb.Height > 50);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendVideoNote)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoNote)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideoNote)]
-        [ExecutionOrder(2)]
         public async Task Should_Send_Video_Note()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoNote);

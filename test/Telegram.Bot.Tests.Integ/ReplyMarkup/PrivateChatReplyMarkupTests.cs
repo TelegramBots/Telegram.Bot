@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 {
     [Collection(Constants.TestCollections.ReplyMarkup)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
     public class PrivateChatReplyMarkupTests : IClassFixture<PrivateChatReplyMarkupTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -25,9 +25,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _classFixture = fixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldReceiveContactInfo)]
+        [OrderedFact(DisplayName = FactTitles.ShouldReceiveContactInfo)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(1)]
         public async Task Should_Receive_Contact_Info()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveContactInfo);
@@ -55,9 +54,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldReceiveLocation)]
+        [OrderedFact(DisplayName = FactTitles.ShouldReceiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2)]
         public async Task Should_Receive_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveLocation);
