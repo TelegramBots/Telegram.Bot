@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -17,6 +17,22 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         public GettingUpdatesTests(TestsFixture fixture)
         {
             _fixture = fixture;
+        }
+
+        [Fact]
+        [ExecutionOrder(1.0)]
+        public async Task Test_Pass()
+        {
+            await _fixture.SendTestCaseNotificationAsync("Passing test.");
+        }
+
+        [Fact]
+        [ExecutionOrder(1.01)]
+        public async Task Test_Fail()
+        {
+            await _fixture.SendTestCaseNotificationAsync("Failing test.");
+            await Task.Delay(5_000);
+            throw new Exception("Test Fails");
         }
 
         [Fact(DisplayName = FactTitles.ShouldPassApiTokenTest)]

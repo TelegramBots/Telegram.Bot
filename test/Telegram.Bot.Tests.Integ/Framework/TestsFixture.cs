@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,7 +71,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         {
             UpdateReceiver.DiscardNewUpdatesAsync(CancellationToken).GetAwaiter().GetResult();
 
-            int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Skipped;
+            int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Failed;
 
             BotClient.SendTextMessageAsync(
                 SupergroupChat.Id,

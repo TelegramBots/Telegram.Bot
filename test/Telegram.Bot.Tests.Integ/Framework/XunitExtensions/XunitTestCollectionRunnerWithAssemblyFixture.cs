@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -34,8 +34,9 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             foreach (var kvp in CollectionFixtureMappings)
                 combinedFixtures[kvp.Key] = kvp.Value;
 
-            // We've done everything we need, so let the built-in types do the rest of the heavy lifting
-            return new XunitTestClassRunner(testClass, @class, testCases, _diagnosticMessageSink, MessageBus, TestCaseOrderer, new ExceptionAggregator(Aggregator), CancellationTokenSource, combinedFixtures).RunAsync();
+            return new XunitCustomTestClassRunner
+                (testClass, @class, testCases, _diagnosticMessageSink, MessageBus, TestCaseOrderer, new ExceptionAggregator(Aggregator), CancellationTokenSource, combinedFixtures)
+                .RunAsync();
         }
     }
 }
