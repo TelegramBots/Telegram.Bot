@@ -60,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPhotoUsingFileId);
 
             PhotoSize[] uploadedPhoto = _classFixture.Entity.Photo;
-            string fileId = uploadedPhoto.First().FileId;
+            string fileId = uploadedPhoto[0].FileId;
 
             Message message = await BotClient.SendPhotoAsync(
                 chatId: _fixture.SupergroupChat.Id,
@@ -79,8 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
 
-            var entityValueMappings = new(MessageEntityType Type, string Value)[]
-            {
+            (MessageEntityType Type, string Value)[] entityValueMappings = {
                 ( MessageEntityType.Hashtag, "#TelegramBots" ),
                 ( MessageEntityType.Mention, "@BotFather" ),
                 ( MessageEntityType.Url, "http://github.com/TelegramBots" ),
@@ -112,8 +111,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
 
-            var entityValueMappings = new(MessageEntityType Type, string EntityBody, string EncodedEntity)[]
-            {
+            (MessageEntityType Type, string EntityBody, string EncodedEntity)[] entityValueMappings = {
                 ( MessageEntityType.Bold, "bold", "*bold*" ),
                 ( MessageEntityType.Italic, "italic", "_italic_" ),
                 ( MessageEntityType.TextLink, "Text Link", "[Text Link](https://github.com/TelegramBots)" ),

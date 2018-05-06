@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
@@ -169,7 +169,7 @@ namespace Telegram.Bot.Tests.Integ.Other
                 chatId: _classFixture.SupergroupChat.Id,
                 chatAction: ChatAction.RecordAudio
             );
-            
+
             await Task.Delay(5_000);
         }
 
@@ -184,7 +184,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             public const string ShouldGetSupergroupChatAdmins = "Should get supergroup chat administrators";
 
             public const string ShouldGetChatMembersCount = "Should get chat members count";
-            
+
             public const string ShouldSendChatAction = "Should send ation to chat: recording audio";
         }
 

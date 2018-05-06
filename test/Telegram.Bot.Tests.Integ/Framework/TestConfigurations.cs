@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace Telegram.Bot.Tests.Integ.Framework
@@ -13,14 +13,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
         {
             get
             {
-                if (_allowedUsers == null)
-                {
-                    _allowedUsers = AllowedUserNames
+                return _allowedUsers ?? (_allowedUsers =
+                    AllowedUserNames
                         .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                         .Select(n => n.Trim())
-                        .ToArray();
-                }
-                return _allowedUsers;
+                        .ToArray());
             }
         }
 

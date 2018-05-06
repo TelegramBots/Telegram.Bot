@@ -60,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpdateLocation);
 
-            Location[] locations = new[] {
+            Location[] locations = {
                 new Location { Latitude = 43.6532f, Longitude = -79.3832f }, // Toronto
                 new Location { Latitude = 59.9343f, Longitude = 30.3351f },  // Saint Petersburg
                 new Location { Latitude = 35.6892f, Longitude = 51.3890f },  // Tehran

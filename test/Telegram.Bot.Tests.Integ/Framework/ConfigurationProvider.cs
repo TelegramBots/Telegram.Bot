@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             if (TestConfigurations.ApiToken?.Length < 25)
                 throw new ArgumentException("API token is too short.", nameof(TestConfigurations.ApiToken));
 
-            if (!TestConfigurations.AllowedUserNamesArray.Any())
+            if (TestConfigurations.AllowedUserNamesArray.Length == 0)
                 throw new ArgumentException("Allowed user names is not provided", nameof(TestConfigurations.AllowedUserNames));
         }
     }

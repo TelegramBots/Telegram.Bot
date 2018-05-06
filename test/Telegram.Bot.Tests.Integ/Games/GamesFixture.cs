@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -13,23 +13,23 @@ namespace Telegram.Bot.Tests.Integ.Games
     {
         public string GameShortName { get; }
 
-        public Message GameMessage { set; get; }        
-       
+        public Message GameMessage { set; get; }
+
         public string InlineGameMessageId { set; get; }
 
         public GameHighScore[] HighScores { set; get; }
-        
+
         /// <summary>
         /// A chat admin to set the game scores for.
         /// </summary>
         public User Player { get; }
-        
+
         private readonly TestsFixture _fixture;
-        
+
         public GamesFixture(TestsFixture fixture)
         {
             _fixture = fixture;
-            
+
             GameShortName = "game1";
 
             try
@@ -50,8 +50,8 @@ namespace Telegram.Bot.Tests.Integ.Games
 
         private async Task<User> GetPlayerIdFromChatAdmins(long chatId)
         {
-            var admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
-            var player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
+            ChatMember[] admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
+            ChatMember player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
             return player.User;
         }
     }

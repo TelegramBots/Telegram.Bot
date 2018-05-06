@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -28,11 +28,10 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
         private async Task<Chat> GetChat(string collectionName)
         {
-            Chat chat;
             long? chatId = ConfigurationProvider.TestConfigurations.TesterPrivateChatId;
             if (chatId.HasValue)
             {
-                chat = await _testsFixture.BotClient.GetChatAsync(chatId);
+                return await _testsFixture.BotClient.GetChatAsync(chatId);
             }
             else
             {
@@ -44,9 +43,8 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
                     $"settings. Tester should send /test command in private chat with @{botUserName.Replace("_", @"\_")}."
                 );
 
-                chat = await _testsFixture.GetChatFromTesterAsync(ChatType.Private);
+                return await _testsFixture.GetChatFromTesterAsync(ChatType.Private);
             }
-            return chat;
         }
     }
 }

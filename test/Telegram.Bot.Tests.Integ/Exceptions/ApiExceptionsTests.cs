@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -58,7 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "Forward a message to this chat from a user that never started a chat with this bot");
 
             Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.IsForwarded, updateTypes: UpdateType.Message
+                    u.Message.ForwardFrom != null, updateTypes: UpdateType.Message
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -120,6 +120,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         public async Task Should_Throw_Exception_QueryIdInvalidException()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException,
+                 "Start typing to invoke inline request",
                 startInlineQuery: true);
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();

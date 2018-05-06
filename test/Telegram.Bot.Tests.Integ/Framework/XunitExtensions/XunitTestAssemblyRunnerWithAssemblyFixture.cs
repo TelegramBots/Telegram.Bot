@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +11,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 {
     public class XunitTestAssemblyRunnerWithAssemblyFixture : XunitTestAssemblyRunner
     {
-        readonly Dictionary<Type, object> _assemblyFixtureMappings = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> _assemblyFixtureMappings = new Dictionary<Type, object>();
 
         public XunitTestAssemblyRunnerWithAssemblyFixture(ITestAssembly testAssembly,
                                                           IEnumerable<IXunitTestCase> testCases,

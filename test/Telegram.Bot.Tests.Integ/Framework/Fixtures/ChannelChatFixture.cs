@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -8,7 +8,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
     {
         public Chat ChannelChat { get; }
 
-        public string ChannelChatId { get; private set; }
+        public string ChannelChatId { get; }
 
         private readonly TestsFixture _testsFixture;
 
@@ -34,7 +34,6 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
         private async Task<Chat> GetChat(string collectionName)
         {
-            Chat chat;
             string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
             if (chatId == null)
             {
@@ -46,13 +45,12 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
                     $"so bot can run tests there. @{botUserName} must be an admin in that channel."
                 );
 
-                chat = await _testsFixture.GetChatFromTesterAsync(ChatType.Channel);
+                return await _testsFixture.GetChatFromTesterAsync(ChatType.Channel);
             }
             else
             {
-                chat = await _testsFixture.BotClient.GetChatAsync(chatId);
+                return await _testsFixture.BotClient.GetChatAsync(chatId);
             }
-            return chat;
         }
     }
 }

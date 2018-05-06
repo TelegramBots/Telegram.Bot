@@ -68,13 +68,13 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             const string url = "https://www.telegram.org/";
             const int maxConnections = 5;
 
-            using (var stream = File.OpenRead(Constants.FileNames.Certificate.PublicKey))
+            using (System.IO.FileStream stream = File.OpenRead(Constants.FileNames.Certificate.PublicKey))
             {
                 await BotClient.SetWebhookAsync(
                     url: url,
                     certificate: stream,
                     maxConnections: maxConnections,
-                    allowedUpdates: new UpdateType[0]
+                    allowedUpdates: System.Array.Empty<UpdateType>()
                 );
             }
 

@@ -1,4 +1,3 @@
-﻿using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -30,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             );
             
             Assert.True(1 <= profilePhotos.TotalCount);
-            Assert.NotNull(profilePhotos.Photos.First());
+            Assert.NotNull(profilePhotos.Photos[0]);
         }
 
         private static class FactTitles

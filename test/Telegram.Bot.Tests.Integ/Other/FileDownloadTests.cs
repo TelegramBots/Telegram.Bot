@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Exceptions;
@@ -122,7 +122,7 @@ namespace Telegram.Bot.Tests.Integ.Other
                 ));
             }
         }
-        
+
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidParameterExceptionForFileId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
         public async Task Should_Throw_FileId_InvalidParameterException()

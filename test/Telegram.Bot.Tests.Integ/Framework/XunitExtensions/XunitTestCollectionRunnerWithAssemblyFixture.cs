@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,8 +9,8 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 {
     public class XunitTestCollectionRunnerWithAssemblyFixture : XunitTestCollectionRunner
     {
-        readonly Dictionary<Type, object> _assemblyFixtureMappings;
-        readonly IMessageSink _diagnosticMessageSink;
+        private readonly Dictionary<Type, object> _assemblyFixtureMappings;
+        private readonly IMessageSink _diagnosticMessageSink;
 
         public XunitTestCollectionRunnerWithAssemblyFixture(Dictionary<Type, object> assemblyFixtureMappings,
                                                             ITestCollection testCollection,

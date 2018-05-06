@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
-
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     /// <summary>
@@ -56,7 +55,5 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 ? exceptionType.FullName
                 : typeof(TaskCanceledException).FullName;
         }
-
-        
     }
 }

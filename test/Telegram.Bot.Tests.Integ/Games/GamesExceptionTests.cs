@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Xunit;
@@ -49,7 +49,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             Assert.Equal("game_short_name", e.Parameter);
         }
-        
+
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException3)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException_3()
@@ -68,7 +68,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
         // ToDo: Send game with markup & game button NOT as 1st: BUTTON_POS_INVALID
         // ToDo: Send game with markup & w/o game button: REPLY_MARKUP_GAME_EMPTY
-        
+
         private static class FactTitles
         {
             public const string ShouldThrowInvalidGameShortNameException = "Should throw InvalidGameShortNameException";

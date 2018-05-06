@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -33,10 +33,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             while (!cancellationToken.IsCancellationRequested)
             {
                 var updates = await _botClient.GetUpdatesAsync(offset,
-                    allowedUpdates: new UpdateType[0],
+                    allowedUpdates: Array.Empty<UpdateType>(),
                     cancellationToken: cancellationToken);
 
-                if (updates.Any())
+                if (updates.Length > 0)
                 {
                     offset = updates.Last().Id + 1;
                 }
@@ -121,7 +121,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 await DiscardNewUpdatesAsync(cancellationToken);
             }
 
-            var update = updates.First();
+            var update = updates[0];
             return update;
         }
 
@@ -137,7 +137,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 await DiscardNewUpdatesAsync(cancellationToken);
             }
 
-            var update = updates.First();
+            var update = updates[0];
             return update;
         }
 

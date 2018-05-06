@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -25,13 +25,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendAudio);
 
-            const string performer = "Jackson F. Smith"; 
+            const string performer = "Jackson F. Smith";
             const string title = "Cantina Rag";
             const int duration = 201;
             const string caption = "Audio File in .mp3 format";
 
             Message message;
-            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRagMp3))
+            using (System.IO.FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRagMp3))
             {
                 message = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
@@ -63,7 +63,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             const string caption = "Test Voice in .ogg format";
 
             Message message;
-            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.TestOgg))
+            using (System.IO.FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Audio.TestOgg))
             {
                 message = await BotClient.SendVoiceAsync(
                     chatId: _fixture.SupergroupChat,
@@ -80,11 +80,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.NotEmpty(message.Voice.FileId);
             Assert.True(message.Voice.FileSize > 200);
         }
-        
+
         private static class FactTitles
         {
             public const string ShouldSendAudio = "Should send an audio with caption";
-            
+
             public const string ShouldSendVoice = "Should send a voice with caption";
         }
     }
