@@ -5,7 +5,7 @@ mono: none
 dotnet: 2.0.0
 branches:
   only:
-  - develop
+  - custom_class_runner
 script: >
   cd "test/Telegram.Bot.Tests.Integ" &&
   dotnet test --configuration Release --list-tests &&
