@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Tests.Integ.Framework
+namespace Telegram.Bot.Tests.Integ.Framework
 {
     public static class Constants
     {
@@ -7,8 +7,6 @@
         public const string MethodTraitName = "Method";
 
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
-
-        public const string TestCaseOrderer = AssemblyName + ".Framework.TestCaseOrderer";
 
         public const string TestCaseOrderer2 = AssemblyName + ".Framework.TestCaseOrderer2";
 
