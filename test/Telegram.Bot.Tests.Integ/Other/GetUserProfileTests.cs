@@ -7,7 +7,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Other
 {
     [Collection(Constants.TestCollections.GetUserProfilePhotos)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class GetUserProfileTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

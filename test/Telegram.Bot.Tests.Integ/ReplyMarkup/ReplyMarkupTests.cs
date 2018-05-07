@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
@@ -18,9 +18,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _fixture = testsFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldForceReply)]
+        [OrderedFact(DisplayName = FactTitles.ShouldForceReply)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(2)]
         public async Task Should_Force_Reply()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldForceReply);
@@ -32,9 +31,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendMultiRowKeyboard)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendMultiRowKeyboard)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(3)]
         public async Task Should_Send_MultiRow_Keyboard()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendMultiRowKeyboard);
@@ -52,9 +50,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldRemoveReplyKeyboard)]
+        [OrderedFact(DisplayName = FactTitles.ShouldRemoveReplyKeyboard)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(4)]
         public async Task Should_Remove_Reply_Keyboard()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRemoveReplyKeyboard);
@@ -66,9 +63,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendInlineKeyboardMarkup)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendInlineKeyboardMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        [ExecutionOrder(5)]
         public async Task Should_Do()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInlineKeyboardMarkup);

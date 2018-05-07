@@ -1,4 +1,6 @@
-﻿namespace Telegram.Bot.Tests.Integ.Framework
+using Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
+
+namespace Telegram.Bot.Tests.Integ.Framework
 {
     public static class Constants
     {
@@ -8,9 +10,10 @@
 
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
-        public const string TestCaseOrderer = AssemblyName + ".Framework.TestCaseOrderer";
+        public const string TestCaseOrderer = AssemblyName + "." + nameof(Framework) + "." + nameof(Framework.TestCaseOrderer);
 
-        public const string TestCaseOrderer2 = AssemblyName + ".Framework.TestCaseOrderer2";
+        public const string TestCaseDiscoverer =
+            AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(RetryFactDiscoverer);
 
         public static class TestCollections
         {

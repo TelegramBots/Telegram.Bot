@@ -6,7 +6,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Other
 {
     [Collection(Constants.TestCollections.LeaveChat)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class LeaveChatTests : IClassFixture<LeaveChatTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
