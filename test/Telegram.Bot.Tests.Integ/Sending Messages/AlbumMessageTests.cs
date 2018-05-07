@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
 
-            string[] captions = {"Logo", "Bot"};
+            string[] captions = { "Logo", "Bot" };
 
             Message[] messages;
             using (Stream
@@ -129,7 +129,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
 
-            string[] captions = {"Golden Ratio", "Moon Landing", "Bot"};
+            string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
 
             const int firstMediaDuration = 28;
             const int firstMediaWidthAndHeight = 240;
@@ -184,8 +184,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
 
-            var captionsMappings = new(MessageEntityType Type, string EntityBody, string EncodedEntity)[]
-            {
+            (MessageEntityType Type, string EntityBody, string EncodedEntity)[] captionsMappings = {
                 ( MessageEntityType.Bold, "Logo", "*Logo*" ),
                 ( MessageEntityType.Italic, "Bot", "_Bot_" ),
             };
@@ -219,8 +218,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            Assert.True(messages[0].CaptionEntityValues.Contains(captionsMappings[0].EntityBody));
-            Assert.True(messages[1].CaptionEntityValues.Contains(captionsMappings[1].EntityBody));
+            Assert.Contains(captionsMappings[0].EntityBody, messages[0].CaptionEntityValues);
+            Assert.Contains(captionsMappings[1].EntityBody, messages[1].CaptionEntityValues);
         }
 
         private static class FactTitles
