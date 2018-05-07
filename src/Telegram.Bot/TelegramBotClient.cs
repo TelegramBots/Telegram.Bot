@@ -246,6 +246,7 @@ namespace Telegram.Bot
                 case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
+                case (HttpStatusCode)429 when !string.IsNullOrWhiteSpace(responseJson):
                     // Do NOT throw here, an ApiRequestException will be thrown next
                     break;
                 default:

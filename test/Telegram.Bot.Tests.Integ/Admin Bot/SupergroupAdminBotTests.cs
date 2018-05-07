@@ -60,8 +60,23 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Delete_Chat_Description()
         {
-            // ToDo: exception Bad Request: chat description is not modified
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowChatDescriptionIsNotModifiedException);
 
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                BotClient.SetChatDescriptionAsync(
+                    chatId: _classFixture.ChatId,
+                    description: "Test Chat Description")
+            );
+
+            Assert.IsType<ChatDescriptionIsNotModifiedException>(exception);
+            Assert.Equal("chat description is not modified", exception.Message);
+        }
+
+        [Fact(DisplayName = FactTitles.ShouldDeleteChatDescription)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
+        [ExecutionOrder(2.3)]
+        public async Task Should_Delete_Chat_Description()
+        {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
 
             await BotClient.SetChatDescriptionAsync(
@@ -156,12 +171,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
 
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
+            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.DeleteChatPhotoAsync(_classFixture.ChatId));
 
-            // ToDo: Create exception type
-            Assert.IsType<ApiRequestException>(e);
-            Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
+            Assert.IsType<ChatNotModifiedException>(exception);
+            Assert.Equal("CHAT_NOT_MODIFIED", exception.Message);
         }
 
         #endregion
@@ -181,8 +195,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
 
             // ToDo: Create exception type
-            Assert.Equal(400, exception.ErrorCode);
-            Assert.Equal("Bad Request: can't set supergroup sticker set", exception.Message);
+            Assert.IsType<BadRequestException>(exception);
+            Assert.Equal("can't set supergroup sticker set", exception.Message);
         }
 
         #endregion
@@ -192,6 +206,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             public const string ShouldSetChatTitle = "Should set chat title";
 
             public const string ShouldSetChatDescription = "Should set chat description";
+
+            public const string ShouldThrowChatDescriptionIsNotModifiedException =
+                "Should throw ChatDescriptionIsNotModifiedException when chat description is not modified";
 
             public const string ShouldDeleteChatDescription = "Should delete chat description";
 

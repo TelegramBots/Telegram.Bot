@@ -1,6 +1,7 @@
 using System;
 using Telegram.Bot.Types;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
@@ -25,7 +26,7 @@ namespace Telegram.Bot.Exceptions
         /// Initializes a new instance of the <see cref="ForbiddenException"/> class
         /// </summary>
         /// <param name="message">The message</param>
-        protected ForbiddenException(string message)
+        public ForbiddenException(string message)
             : base(message, ForbiddenErrorCode)
         {
         }
@@ -35,7 +36,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="innerException">The inner exception</param>
-        protected ForbiddenException(string message, Exception innerException)
+        public ForbiddenException(string message, Exception innerException)
             : base(message, ForbiddenErrorCode, innerException)
         {
         }
@@ -45,7 +46,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
-        protected ForbiddenException(string message, ResponseParameters parameters)
+        public ForbiddenException(string message, ResponseParameters parameters)
             : base(message, ForbiddenErrorCode, parameters)
         {
         }
@@ -56,7 +57,7 @@ namespace Telegram.Bot.Exceptions
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
         /// <param name="innerException">The inner exception</param>
-        protected ForbiddenException(string message, ResponseParameters parameters, Exception innerException)
+        public ForbiddenException(string message, ResponseParameters parameters, Exception innerException)
             : base(message, ForbiddenErrorCode, parameters, innerException)
         {
         }
