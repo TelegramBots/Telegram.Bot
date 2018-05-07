@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -26,9 +26,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendPhotoFile)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendPhotoFile)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
-        [ExecutionOrder(1)]
         public async Task Should_Send_Photo_File()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPhotoFile);
@@ -54,9 +53,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture.Entity = message;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendPhotoUsingFileId)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendPhotoUsingFileId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
-        [ExecutionOrder(2)]
         public async Task Should_Send_Photo_FileId()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPhotoUsingFileId);
@@ -75,9 +73,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             ));
         }
 
-        [Fact(DisplayName = FactTitles.ShouldParseMessageCaptionEntitiesIntoValues)]
+        [OrderedFact(DisplayName = FactTitles.ShouldParseMessageCaptionEntitiesIntoValues)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
-        [ExecutionOrder(3)]
         public async Task Should_Parse_Message_Caption_Entities_Into_Values()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
@@ -109,9 +106,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(entityValueMappings.Select(t => t.Value), message.CaptionEntityValues);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendPhotoWithMarkdownEncodedCaption)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendPhotoWithMarkdownEncodedCaption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
-        [ExecutionOrder(4)]
         public async Task Should_Send_Photo_With_Markdown_Encoded_Caption()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);

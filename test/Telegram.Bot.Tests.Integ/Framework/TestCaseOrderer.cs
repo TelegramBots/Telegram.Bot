@@ -1,28 +1,26 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
+using System.Reflection;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
-    [Obsolete]
     public class TestCaseOrderer : ITestCaseOrderer
     {
         public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)
-            where TTestCase : ITestCase
-        {
-            Type attributeType = typeof(ExecutionOrderAttribute);
-
-            testCases = testCases.OrderBy(tcase =>
-                tcase.TestMethod.Method.GetCustomAttributes(attributeType).Single()
-                    .GetNamedArgument<double>(nameof(ExecutionOrderAttribute.ExecutionOrder)));
-
-            foreach (var testCase in testCases)
-            {
-                yield return testCase;
-            }
-        }
+            where TTestCase : ITestCase =>
+            testCases
+                .Select(tc => new
+                {
+                    TestCase = tc,
+                    Attrib = tc.TestMethod.Method
+                                 .ToRuntimeMethod()
+                                 .GetCustomAttribute<OrderedFactAttribute>() ?? throw new
+                                 Exception($@"Test case ""{tc.DisplayName}"" doesn't have {nameof(OrderedFactAttribute)}.")
+                })
+                .OrderBy(x => x.Attrib.LineNumber)
+                .Select(x => x.TestCase);
     }
 }
