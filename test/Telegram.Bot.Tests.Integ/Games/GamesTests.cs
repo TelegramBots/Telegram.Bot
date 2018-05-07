@@ -180,12 +180,13 @@ namespace Telegram.Bot.Tests.Integ.Games
                 cacheTime: 0
             );
 
-            (Update MessageUpdate, Update ChosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
+            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
 
-            Assert.Equal(resultId, ChosenResultUpdate.ChosenInlineResult.ResultId);
-            Assert.Empty(ChosenResultUpdate.ChosenInlineResult.Query);
+            Assert.Equal(MessageType.Game, messageUpdate.Message.Type);
+            Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
+            Assert.Empty(chosenResultUpdate.ChosenInlineResult.Query);
 
-            _classFixture.InlineGameMessageId = ChosenResultUpdate.ChosenInlineResult.InlineMessageId;
+            _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldGetHighScoresInline)]
