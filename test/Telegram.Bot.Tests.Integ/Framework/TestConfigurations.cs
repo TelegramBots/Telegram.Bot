@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 namespace Telegram.Bot.Tests.Integ.Framework
@@ -6,6 +6,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
     public class TestConfigurations
     {
         public string ApiToken { get; set; }
+
+        public string Socks5Host { get; set; }
+
+        public int Socks5Port { get; set; }
 
         public string AllowedUserNames { get; set; }
 
