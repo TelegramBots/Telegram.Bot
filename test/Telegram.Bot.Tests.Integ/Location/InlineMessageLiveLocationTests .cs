@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Locations
 {
     [Collection(Constants.TestCollections.InlineMessageLiveLocation)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLocationTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

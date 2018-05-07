@@ -11,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
     public class DelayedMessageBus : IMessageBus
     {
         private readonly IMessageBus _innerBus;
+
         private readonly List<IMessageSinkMessage> _messages = new List<IMessageSinkMessage>();
 
-        /// <inheritdoc />
         public DelayedMessageBus(IMessageBus innerBus)
         {
             _innerBus = innerBus;
@@ -30,6 +30,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             return true;
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             foreach (var message in _messages)

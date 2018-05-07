@@ -11,7 +11,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Exceptions
 {
     [Collection(Constants.TestCollections.Exceptions)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

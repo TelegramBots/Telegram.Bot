@@ -11,7 +11,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
     /// Webhooks should be immediately disabled because test framework uses getUpdates method
     /// </remarks>
     [Collection(Constants.TestCollections.Webhook)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class WebhookTests
     {
         public ITelegramBotClient BotClient => _fixture.BotClient;

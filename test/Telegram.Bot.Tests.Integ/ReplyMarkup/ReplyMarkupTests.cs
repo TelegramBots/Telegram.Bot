@@ -6,7 +6,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 {
     [Collection(Constants.TestCollections.ReplyMarkup)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ReplyMarkupTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

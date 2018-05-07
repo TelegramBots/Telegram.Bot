@@ -4,59 +4,90 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
-
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     /// <summary>
-    /// Works like [Fact] but executes in order of definition. Also will retry maxRetries
-    /// times if test fails.
+    /// Attribute that is applied to a test method. Test methods in a collection will be executed in order based on their line number.
+    /// By defalut, test cases will rerun once if test method throws a <see cref="TaskCanceledException"/>.
     /// </summary>
-    [XunitTestCaseDiscoverer(Constants.AssemblyName + ".Framework.XunitExtensions.RetryFactDiscoverer", Constants.AssemblyName)]
+    [XunitTestCaseDiscoverer(Constants.TestCaseDiscoverer, Constants.AssemblyName)]
     public class OrderedFactAttribute : FactAttribute
     {
         /// <summary>
-        /// Line number in source file.
+        /// Line number in source file
         /// </summary>
         public readonly int LineNumber;
 
         /// <summary>
-        /// Test retry attempts (by default, 2 times).
+        /// Number of test case retry attempts after test case is ran once. Assign 0 to disable test case retry.
         /// </summary>
-        public int MaxRetries { get;  }
+        public int MaxRetries
+        {
+            get => _maxRetries;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException(nameof(MaxRetries));
+                _maxRetries = value;
+            }
+        }
 
         /// <summary>
-        /// Only retry if test failed with specified exception (by default, on TaskCanceledException).
+        /// Number of seconds to pause between each retry attempt
         /// </summary>
-        public string ExceptionTypeFullName { get;  }
+        public int DelaySeconds
+        {
+            get => _delaySeconds;
+            set
+            {
+                if (value < 1)
+                    throw new ArgumentOutOfRangeException(nameof(DelaySeconds));
+
+                _delaySeconds = value;
+            }
+        }
 
         /// <summary>
-        /// Works like [Fact] but executes in order of definition. Also will retry maxRetries
-        /// times if test fails.
+        /// Type of exception to handle and retry
+        /// </summary>
+        public Type ExceptionType
+        {
+            get => _exceptionType;
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException(nameof(ExceptionType));
+                if (!(value == typeof(Exception) || value.IsSubclassOf(typeof(Exception))))
+                    throw new ArgumentException("Type should be an Exception", nameof(ExceptionType));
+
+                _exceptionType = value;
+                ExceptionTypeFullName = ExceptionType.FullName;
+            }
+        }
+
+        internal string ExceptionTypeFullName { get; private set; }
+
+        private int _maxRetries;
+
+        private int _delaySeconds;
+
+        private Type _exceptionType;
+
+        /// <summary>
+        /// Initializes an instance of <see cref="OrderedFactAttribute"/> with 1 retry attempt and delay of 30 seconds if a <see cref="TaskCanceledException"/> is thrown.
         /// </summary>
         /// <param name="line">Line number in source file.</param>
-        /// <param name="maxRetries">Test retry attempts.</param>
-        /// <param name="exceptionType">Only retry if test failed with specified exception.</param>
         public OrderedFactAttribute(
-            [CallerLineNumber] int line = default,
-            int maxRetries = 2,
-            Type exceptionType = default
+            [CallerLineNumber] int line = default
         )
         {
             if (line < 1)
                 throw new ArgumentOutOfRangeException(nameof(line));
 
-            if (maxRetries < 1)
-                throw new ArgumentOutOfRangeException(nameof(maxRetries));
-
             LineNumber = line;
-
-            MaxRetries = maxRetries;
-
-            ExceptionTypeFullName = exceptionType != null
-                ? exceptionType.FullName
-                : typeof(TaskCanceledException).FullName;
+            MaxRetries = 1;
+            DelaySeconds = 30;
+            ExceptionType = typeof(TaskCanceledException);
         }
-
-        
     }
 }

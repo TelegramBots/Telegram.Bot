@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,7 +7,7 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
-    public class TestCaseOrderer2 : ITestCaseOrderer
+    public class TestCaseOrderer : ITestCaseOrderer
     {
         public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)
             where TTestCase : ITestCase =>

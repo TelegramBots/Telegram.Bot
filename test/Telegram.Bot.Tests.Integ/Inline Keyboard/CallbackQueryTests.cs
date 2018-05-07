@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
 {
     [Collection(Constants.TestCollections.CallbackQuery)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class CallbackQueryTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
