@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -180,14 +180,13 @@ namespace Telegram.Bot.Tests.Integ.Games
                 cacheTime: 0
             );
 
-            var inlineQueryUpdates = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
-            Update resultUpdate = inlineQueryUpdates.ChosenResultUpdate;
-            ChosenInlineResult chosenResult = resultUpdate.ChosenInlineResult;
+            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
 
-            Assert.Equal(resultId, chosenResult.ResultId);
-            Assert.Empty(chosenResult.Query);
+            Assert.Equal(MessageType.Game, messageUpdate.Message.Type);
+            Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
+            Assert.Empty(chosenResultUpdate.ChosenInlineResult.Query);
 
-            _classFixture.InlineGameMessageId = chosenResult.InlineMessageId;
+            _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldGetHighScoresInline)]
