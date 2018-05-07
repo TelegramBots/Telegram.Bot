@@ -13,7 +13,7 @@ using File = Telegram.Bot.Types.File;
 namespace Telegram.Bot.Tests.Integ.Stickers
 {
     [Collection(Constants.TestCollections.Stickers)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class StickersTests : IClassFixture<StickersTestsFixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

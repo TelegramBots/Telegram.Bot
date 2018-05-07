@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.AlbumMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
 
-            string[] captions = {"Logo", "Bot"};
+            string[] captions = { "Logo", "Bot" };
 
             Message[] messages;
             using (Stream
@@ -129,7 +129,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
 
-            string[] captions = {"Golden Ratio", "Moon Landing", "Bot"};
+            string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
 
             const int firstMediaDuration = 28;
             const int firstMediaWidthAndHeight = 240;

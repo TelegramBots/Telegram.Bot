@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
     [Collection(Constants.TestCollections.SuperGroupAdminBots)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SupergroupAdminBotTests : IClassFixture<AdminBotTestFixture>
     {
         private readonly AdminBotTestFixture _classFixture;

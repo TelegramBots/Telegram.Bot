@@ -11,7 +11,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendPhotoMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SendingPhotoMessageTests : IClassFixture<EntityFixture<Message>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

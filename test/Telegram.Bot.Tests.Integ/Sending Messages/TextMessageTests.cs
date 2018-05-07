@@ -11,7 +11,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
     [Collection(Constants.TestCollections.SendTextMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -79,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 messageId: message1.MessageId
             );
 
-            Assert.True(message2.ForwardFrom != null);
+            Assert.Equal(_fixture.BotUser, message2.ForwardFrom);
             Assert.Null(message2.ForwardFromChat);
             Assert.Equal(default, message2.ForwardFromMessageId);
             Assert.Null(message2.ForwardSignature);

@@ -17,14 +17,12 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         public IEnumerable<IXunitTestCase> Discover
             (ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
-            var maxRetries = factAttribute.GetNamedArgument<int>("MaxRetries");
-            if (maxRetries < 1)
-                maxRetries = 2;
-
-            var exceptionTypeFullName = factAttribute.GetNamedArgument<string>("ExceptionTypeFullName");
+            int maxRetries = factAttribute.GetNamedArgument<int>(nameof(OrderedFactAttribute.MaxRetries));
+            int delaySeconds = factAttribute.GetNamedArgument<int>(nameof(OrderedFactAttribute.DelaySeconds));
+            string exceptionTypeFullName = factAttribute.GetNamedArgument<string>(nameof(OrderedFactAttribute.ExceptionTypeFullName));
 
             yield return new RetryTestCase
-                (_diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod, maxRetries, exceptionTypeFullName);
+                (_diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod, maxRetries, delaySeconds, exceptionTypeFullName);
         }
     }
 }
