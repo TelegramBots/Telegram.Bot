@@ -10,7 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Update_Messages
 {
     [Collection(Constants.TestCollections.EditMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class EditMessageContentTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

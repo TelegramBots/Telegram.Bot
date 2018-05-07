@@ -11,7 +11,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Inline_Mode
 {
     [Collection(Constants.TestCollections.InlineQuery)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class InlineQueryTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

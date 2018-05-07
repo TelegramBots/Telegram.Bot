@@ -12,7 +12,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Games
 {
     [Collection(Constants.TestCollections.Games)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class GamesTests : IClassFixture<GamesFixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

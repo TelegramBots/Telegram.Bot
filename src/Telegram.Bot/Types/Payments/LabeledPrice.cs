@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.Payments
@@ -22,9 +22,17 @@ namespace Telegram.Bot.Types.Payments
         [JsonProperty(Required = Required.Always)]
         public int Amount { get; set; }
 
+        /// <summary>
+        /// Initializes an instance of <see cref="LabeledPrice"/>
+        /// </summary>
         public LabeledPrice()
         { }
 
+        /// <summary>
+        /// Initializes an instance of <see cref="LabeledPrice"/>
+        /// </summary>
+        /// <param name="label">Portion label</param>
+        /// <param name="amount">Price of the product</param>
         public LabeledPrice(string label, int amount)
         {
             Label = label;

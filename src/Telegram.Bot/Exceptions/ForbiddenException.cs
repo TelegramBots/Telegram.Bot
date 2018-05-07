@@ -1,8 +1,11 @@
-﻿using System;
+using System;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
 {
+    /// <summary>
+    /// Represents an error from Bot API with 403 Forbidden HTTP status
+    /// </summary>
     public abstract class ForbiddenException : ApiRequestException
     {
         /// <inheritdoc />

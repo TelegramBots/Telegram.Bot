@@ -2,6 +2,9 @@
 
 namespace Telegram.Bot.Requests.Abstractions
 {
+    /// <summary>
+    /// Represents a message with formatted text
+    /// </summary>
     public interface IFormattableMessage
     {
         /// <summary>
