@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Exceptions.Abstractions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -37,6 +38,8 @@ namespace Telegram.Bot
         private bool _invalidToken;
 
         private readonly HttpClient _httpClient;
+
+        private readonly IExceptionParser _exceptionParser;
 
         #region Config Properties
 
@@ -152,10 +155,14 @@ namespace Telegram.Bot
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance.
         /// </summary>
-        /// <param name="token">API token</param>
-        /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, HttpClient httpClient = null)
+        /// <param name="token">API token.</param>
+        /// <param name="httpClient">A custom <see cref="HttpClient"/>.</param>
+        /// <param name="exceptionParser">Use this to provide custom API error parser.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid.</exception>
+        public TelegramBotClient(
+            string token,
+            HttpClient httpClient = default,
+            IExceptionParser exceptionParser = default)
         {
             if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
                 throw new ArgumentException("Invalid token format", nameof(token));
@@ -163,15 +170,21 @@ namespace Telegram.Bot
             _token = token;
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
+            _exceptionParser = exceptionParser ?? new ApiExceptionParser();
         }
 
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance behind a proxy.
         /// </summary>
-        /// <param name="token">API token</param>
-        /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, IWebProxy webProxy)
+        /// <param name="token">API token.</param>
+        /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API.</param>
+        /// <param name="exceptionParser">Use this to provide custom API error parser.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid.</exception>
+        public TelegramBotClient(
+            string token,
+            IWebProxy webProxy,
+            IExceptionParser exceptionParser = default)
+
         {
             if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
                 throw new ArgumentException("Invalid token format", nameof(token));
@@ -185,6 +198,7 @@ namespace Telegram.Bot
             _token = token;
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = new HttpClient(httpClientHander);
+            _exceptionParser = exceptionParser ?? new ApiExceptionParser();
         }
 
         #region Helpers
@@ -240,12 +254,13 @@ namespace Telegram.Bot
             {
                 case HttpStatusCode.OK:
                     break;
-                case HttpStatusCode.Unauthorized:
+                case HttpStatusCode.Unauthorized when !string.IsNullOrWhiteSpace(responseJson):
                     _invalidToken = true;
-                    throw new ApiRequestException("Invalid token", 401);
+                    break;
                 case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
+                case (HttpStatusCode)429 when !string.IsNullOrWhiteSpace(responseJson):
                     // Do NOT throw here, an ApiRequestException will be thrown next
                     break;
                 default:
@@ -262,7 +277,7 @@ namespace Telegram.Bot
                 };
 
             if (!apiResponse.Ok)
-                throw ApiExceptionParser.Parse(apiResponse);
+                throw _exceptionParser.Parse(apiResponse);
 
             return apiResponse.Result;
         }

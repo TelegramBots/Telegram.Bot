@@ -1,83 +1,53 @@
-﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
+using System;
+using Telegram.Bot.Exceptions.Abstractions;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
 {
-    internal static class ApiExceptionParser
+    /// <summary>
+    /// Telegram API response parser class.
+    /// </summary>
+    public class ApiExceptionParser : IExceptionParser
     {
-        private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
-            new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
-            new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
-            new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
-            new BadRequestExceptionInfo<InvalidQueryIdException>("QUERY_ID_INVALID"),
-
-            #region Stickers
-
-            new BadRequestExceptionInfo<InvalidStickerSetNameException>("sticker set name invalid"),
-            new BadRequestExceptionInfo<InvalidStickerEmojisException>("invalid sticker emojis"),
-            new BadRequestExceptionInfo<InvalidStickerDimensionsException>("STICKER_PNG_DIMENSIONS"),
-            new BadRequestExceptionInfo<StickerSetNameExistsException>("sticker set name is already occupied"),
-            new BadRequestExceptionInfo<StickerSetNotModifiedException>("STICKERSET_NOT_MODIFIED"),
-
-            #endregion
-
-            #region Games
-
-            new BadRequestExceptionInfo<InvalidGameShortNameException>("GAME_SHORTNAME_INVALID"),
-            new BadRequestExceptionInfo<InvalidGameShortNameException>("game_short_name is empty"),
-            new BadRequestExceptionInfo<InvalidGameShortNameException>("wrong game short name specified"),
-
-            #endregion
-            
-            new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
-
-            new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
-
-            new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: invalid (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+)$"),
-            new BadRequestExceptionInfo<InvalidParameterException>($@"\w{{3,}} Request: (?<{InvalidParameterException.ParamGroupName}>[\w|\s]+) invalid$"),
-
-            new BadRequestExceptionInfo<MessageIsNotModifiedException>("message is not modified"),
-        };
-
-        public static ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
+        /// <inheritdoc />
+        public ApiRequestException Parse<T>(ApiResponse<T> apiResponse)
         {
-            ApiRequestException exception;
+            string errorMessage = apiResponse.Description;
+            Type exceptionType = typeof(ApiRequestException);
 
-            var typeInfo = ExceptionInfos
-                .FirstOrDefault(info => Regex.IsMatch(apiResponse.Description, info.ErrorMessageRegex));
-
-            if (typeInfo is null)
+            switch (apiResponse.ErrorCode)
             {
-                exception = new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
-            }
-            else
-            {
-                string errorMessage;
-                bool isBadRequestError = typeInfo.ErrorCode == BadRequestException.BadRequestErrorCode;
+                case UnauthorizedException.UnauthorizedErrorCode:
+                    exceptionType = typeof(UnauthorizedException);
+                    break;
 
-                if (isBadRequestError)
-                {
+                case BadRequestException.BadRequestErrorCode:
                     errorMessage = TruncateBadRequestErrorDescription(apiResponse.Description);
+                    exceptionType = typeof(BadRequestException);
+                    break;
 
-                    if (typeInfo.Type == typeof(InvalidParameterException))
-                    {
-                        string paramName = Regex.Match(apiResponse.Description, typeInfo.ErrorMessageRegex)
-                            .Groups[InvalidParameterException.ParamGroupName]
-                            .Value;
-                        exception = new InvalidParameterException(paramName, errorMessage);
-                    }
-                    else
-                        exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
-                }
-                else
-                {
+                case ForbiddenException.ForbiddenErrorCode:
                     errorMessage = TruncateForbiddenErrorDescription(apiResponse.Description);
-                    exception = Activator.CreateInstance(typeInfo.Type, errorMessage) as ApiRequestException;
-                }
+                    exceptionType = typeof(ForbiddenException);
+                    break;
+
+                case TooManyRequestsException.TooManyRequestsErrorCode:
+                    errorMessage = TruncateTooManyRequestsErrorDescription(apiResponse.Description);
+                    exceptionType = typeof(TooManyRequestsException);
+                    break;
+
+                case ConflictException.ConflictErrorCode:
+                    errorMessage = TruncateConflictErrorDescription(apiResponse.Description);
+                    exceptionType = typeof(ConflictException);
+                    break;
+
+                default:
+                    return new ApiRequestException(errorMessage, apiResponse.ErrorCode, apiResponse.Parameters);
             }
-            return exception;
+
+            return apiResponse.Parameters == null
+                ? Activator.CreateInstance(exceptionType, errorMessage) as ApiRequestException
+                : Activator.CreateInstance(exceptionType, errorMessage, apiResponse.Parameters) as ApiRequestException;
         }
 
         private static string TruncateBadRequestErrorDescription(string message) =>
@@ -85,6 +55,12 @@ namespace Telegram.Bot.Exceptions
 
         private static string TruncateForbiddenErrorDescription(string message) =>
             TryTruncateErrorDescription(message, ForbiddenException.ForbiddenErrorDescription);
+
+        private static string TruncateTooManyRequestsErrorDescription(string message) =>
+            TryTruncateErrorDescription(message, TooManyRequestsException.TooManyRequestsErrorDescription);
+
+        private static string TruncateConflictErrorDescription(string message) =>
+            TryTruncateErrorDescription(message, ConflictException.BadRequestErrorDescription);
 
         private static string TryTruncateErrorDescription(string message, string description)
         {

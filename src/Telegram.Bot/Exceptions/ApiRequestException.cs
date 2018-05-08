@@ -86,16 +86,5 @@ namespace Telegram.Bot.Exceptions
             ErrorCode = errorCode;
             Parameters = parameters;
         }
-
-        /// <summary>
-        /// Returns a new instance of the <see cref="ApiRequestException"/> class.
-        /// </summary>
-        /// <typeparam name="T">Expected type of operation result</typeparam>
-        /// <param name="apiResponse">The API response.</param>
-        /// <returns><see cref="ApiRequestException"/></returns>
-        public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
-        {
-            return ApiExceptionParser.Parse<T>(apiResponse);
-        }
     }
 }

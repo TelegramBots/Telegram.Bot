@@ -8,9 +8,45 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+- Exception `ConflictException`
+- Exception `TooManyRequestsException`
+- Exception `UnauthorizedException`
+- Interface 'IExceptionParser' represents public contract for API parsers
+- `ApiExceptionParser` tests
+
 ### Changed
+
+- `TelegramBotClient` accepts API exception parser as a constructor parameter
+- `UnauthorizedException` is thrown instead of ApiRequestException 
+- `ApiExceptionParser` returns these types of exceptions:
+    - `ApiRequestException` represents general HTTP errors
+    - `BadRequestException` represents `400: Bad request` HTTP errors
+    - `ConflictException` represents `409: Conflict` HTTP error
+    - `ForbiddenException` represents '403: Forbidden' HTTP errors
+    - `TooManyRequestsException` represents `429: Too many requests` HTTP error
+    - `UnauthorizedException` represents `401: Unauthorized` HTTP error
+
 ### Fixed
+
 ### Removed
+
+- `InvalidGameShortNameException`
+- `InvalidParameterException`
+- `InvalidQueryIdException`
+- `InvalidStickerDimensionsException`
+- `InvalidStickerEmojisException`
+- `InvalidStickerSetNameException`
+- `InvalidUserIdException`
+- `ChatNotFoundException`
+- `ContactRequestException`
+- `MessageIsNotModifiedException`
+- `StickerSetNameExistsException`
+- `StickerSetNotModifiedException`
+- `UserNotFoundException`
+- `ChatNotInitiatedException`
+- Exception tests
+
 
 ## [14.3.0] - 2018-05-05
 
