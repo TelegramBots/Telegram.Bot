@@ -209,7 +209,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default)
         {
             if (_invalidToken)
-                throw new ApiRequestException("Invalid token", 401);
+                throw new UnauthorizedException("Unauthorized");
 
             string url = _baseRequestUrl + request.MethodName;
 
@@ -309,7 +309,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default)
         {
             if (_invalidToken)
-                throw new ApiRequestException("Invalid token", 401);
+                throw new UnauthorizedException("Unauthorized");
 
             _receivingCancellationTokenSource = new CancellationTokenSource();
 
