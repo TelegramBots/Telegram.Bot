@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Exceptions;
@@ -122,19 +122,6 @@ namespace Telegram.Bot.Tests.Integ.Other
                 ));
             }
         }
-        
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidParameterExceptionForFileId)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
-        public async Task Should_Throw_FileId_InvalidParameterException()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidParameterExceptionForFileId);
-
-            InvalidParameterException exception = await Assert.ThrowsAnyAsync<InvalidParameterException>(
-                () => BotClient.GetFileAsync("Invalid_File_id")
-            );
-
-            Assert.Equal("file id", exception.Parameter);
-        }
 
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath)]
         public async Task Should_Throw_FilePath_HttpRequestException()
@@ -163,9 +150,6 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             public const string ShouldDownloadWriteUsingFileId =
                 "Should download file using file_id and write it to disk";
-
-            public const string ShouldThrowInvalidParameterExceptionForFileId =
-                "Should throw InvalidParameterException while trying to get file using wrong file_id";
 
             public const string ShouldThrowInvalidHttpRequestExceptionForFilePath =
                 "Should throw HttpRequestException while trying to download file using wrong file_path";

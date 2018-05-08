@@ -122,69 +122,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             }
 
             _classFixture.UploadedStickers = stickerFiles;
-        }
-
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidStickerSetNameException)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        public async Task Should_Throw_InvalidStickerSetNameException()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerSetNameException);
-
-            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.CreateNewStickerSetAsync(
-                    userId: _classFixture.OwnerUserId,
-                    name: "Invalid_Sticker_Set_Name",
-                    title: "Sticker Set Title",
-                    pngSticker: _classFixture.UploadedStickers.First().FileId,
-                    emojis: "😀"
-                )
-            );
-
-            Assert.IsType<InvalidStickerSetNameException>(exception);
-        }
-
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidStickerEmojisException)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        public async Task Should_Throw_InvalidStickerEmojisException()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerEmojisException);
-
-            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.CreateNewStickerSetAsync(
-                    userId: _classFixture.OwnerUserId,
-                    name: "valid_name3" + _classFixture.TestStickerSetName,
-                    title: "Sticker Set Title",
-                    pngSticker: _classFixture.UploadedStickers.First().FileId,
-                    emojis: "INVALID"
-                )
-            );
-
-            Assert.IsType<InvalidStickerEmojisException>(exception);
-        }
-
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidStickerDimensionsException)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        public async Task Should_Throw_InvalidStickerDimensionsException()
-        {
-            // ToDo exception when sending jpeg file. Bad Request: STICKER_PNG_NOPNG
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidStickerDimensionsException);
-
-            BadRequestException exception;
-            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
-            {
-                exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                    BotClient.CreateNewStickerSetAsync(
-                        userId: _classFixture.OwnerUserId,
-                        name: "valid_name2" + _classFixture.TestStickerSetName,
-                        title: "Sticker Set Title",
-                        pngSticker: stream,
-                        emojis: "😁"
-                    )
-                );
-            }
-
-            Assert.IsType<InvalidStickerDimensionsException>(exception);
-        }
+        }        
 
         [OrderedFact(DisplayName = FactTitles.ShouldCreateNewStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
@@ -210,7 +148,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                     emojis: "😁"
                 );
             }
-            catch (StickerSetNameExistsException)
+            catch (BadRequestException e) when (e.Message.Contains("sticker set name is already occupied"))
             {
                 // ToDo: Could wait for tester to remove the set and click on "Continue" key reply markup, then retry
 
@@ -228,29 +166,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Assert.True(result);
 
             _classFixture.TestStickerSet = await BotClient.GetStickerSetAsync(_classFixture.TestStickerSetName);
-        }
-
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException, Skip = "Upstream bug in Bot API")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
-        public async Task Should_Throw_StickerSetNameExistsException()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowStickerSetNameExistsException);
-
-            BadRequestException exception;
-            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Ruby))
-            {
-                exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                    BotClient.CreateNewStickerSetAsync(
-                        userId: _classFixture.OwnerUserId,
-                        name: _classFixture.TestStickerSet.Name,
-                        title: "Another Test Sticker Set",
-                        pngSticker: stream,
-                        emojis: "😎"
-                    )
-                );
-            }
-
-            Assert.IsType<StickerSetNameExistsException>(exception);
         }
 
         #endregion
@@ -348,25 +263,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             }
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldStickerSetNotModifiedException,
-            Skip = "Not all the stickers will be removed in previous test")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
-        public async Task Should_Throw_StickerSetNotModifiedException()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldStickerSetNotModifiedException);
-
-            StickerSet testStickerSet = await BotClient.GetStickerSetAsync(_classFixture.TestStickerSet.Name);
-
-            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
-                BotClient.DeleteStickerFromSetAsync(
-                    sticker: testStickerSet.Stickers.Single().FileId
-                )
-            );
-
-            Assert.IsType<StickerSetNotModifiedException>(exception);
-        }
-
         #endregion
 
         private static class FactTitles
@@ -379,19 +275,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
             public const string ShouldUploadStickerFile = "Should upload sticker files to get file_id";
 
-            public const string ShouldThrowInvalidStickerSetNameException =
-                "Should throw InvalidStickerSetNameException while trying to create sticker set with name not ending in _by_<bot username>";
-
-            public const string ShouldThrowInvalidStickerEmojisException =
-                "Should throw InvalidStickerEmojisException while trying to create sticker with invalid emoji";
-
-            public const string ShouldThrowInvalidStickerDimensionsException =
-                "Should throw InvalidStickerDimensionsException while trying to create sticker with invalid dimensions";
-
             public const string ShouldCreateNewStickerSet = "Should create new sticker set with the file sent";
-
-            public const string ShouldThrowStickerSetNameExistsException =
-                "Should throw StickerSetNameExistsException while trying to create sticker set with the same name";
 
             public const string ShouldAddStickerFileToSet = "Should add Tux sticker to set using its uploaded file_id";
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -36,11 +36,11 @@ namespace Telegram.Bot.Tests.Integ.Games
             {
                 fixture.BotClient.SendGameAsync(fixture.SupergroupChat.Id, GameShortName).GetAwaiter().GetResult();
             }
-            catch (InvalidGameShortNameException e)
+            catch (ApiRequestException e)
             {
                 throw new ArgumentException(
                     $@"Bot doesn't have game: ""{GameShortName}"". Make sure you set up a game with @BotFather.",
-                    e.Parameter, e
+                    e.Message, e
                 );
             }
 
@@ -50,8 +50,8 @@ namespace Telegram.Bot.Tests.Integ.Games
 
         private async Task<User> GetPlayerIdFromChatAdmins(long chatId)
         {
-            var admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
-            var player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
+            ChatMember[] admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
+            ChatMember player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
             return player.User;
         }
     }
