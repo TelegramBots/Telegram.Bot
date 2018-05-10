@@ -928,7 +928,8 @@ namespace Telegram.Bot
             MakeRequestAsync(new EditInlineMessageTextRequest(inlineMessageId, text)
             {
                 DisableWebPagePreview = disableWebPagePreview,
-                ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup,
+                ParseMode = parseMode
             }, cancellationToken);
 
         /// <inheritdoc />
