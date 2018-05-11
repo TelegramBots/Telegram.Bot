@@ -9,7 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 ### Changed
+
+- Stop catching user exceptions from event handlers
+
 ### Fixed
+
 ### Removed
 
 ## [14.3.0] - 2018-05-05
