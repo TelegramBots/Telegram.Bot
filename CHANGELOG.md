@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 ### Changed
+
+- `MakeRequestAsync` throws `ApiRequestException` with `ErrorCode = HttpStatusCode.Unauthorized` and `Message = apiResponse.Description` ("Unauthorized"), to be consistent with Telegram Bot API
+- `TelegramBotClient` ctor does not check API token format: Telegram Bot API does not provide token format specification
+- `TestApiAsync` return `false` when `ApiRequestException.ErrorCode == 401` (API Token is modified or recalled)
+
 ### Fixed
 ### Removed
 
