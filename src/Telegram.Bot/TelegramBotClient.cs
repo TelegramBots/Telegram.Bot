@@ -337,8 +337,8 @@ namespace Telegram.Bot
 
                 foreach (var update in updates)
                 {
-                    MessageOffset = update.Id + 1;
                     OnUpdateReceived(new UpdateEventArgs(update));
+                    MessageOffset = update.Id + 1;
                 }
             }
 
