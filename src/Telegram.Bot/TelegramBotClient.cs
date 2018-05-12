@@ -297,20 +297,16 @@ namespace Telegram.Bot
             while (!cancellationToken.IsCancellationRequested)
             {
                 var timeout = Convert.ToInt32(Timeout.TotalSeconds);
+                Update[] updates = default;
 
                 try
                 {
-                    var updates =
-                        await
-                            GetUpdatesAsync(MessageOffset, timeout: timeout, allowedUpdates: allowedUpdates,
-                                    cancellationToken: cancellationToken)
-                                .ConfigureAwait(false);
-
-                    foreach (var update in updates)
-                    {
-                        MessageOffset = update.Id + 1;
-                        OnUpdateReceived(new UpdateEventArgs(update));
-                    }
+                    updates = await GetUpdatesAsync(
+                       MessageOffset,
+                       timeout: timeout,
+                       allowedUpdates: allowedUpdates,
+                       cancellationToken: cancellationToken
+                    ).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -322,6 +318,12 @@ namespace Telegram.Bot
                 catch (Exception generalException)
                 {
                     OnReceiveGeneralError?.Invoke(this, generalException);
+                }
+
+                foreach (var update in updates)
+                {
+                    OnUpdateReceived(new UpdateEventArgs(update));
+                    MessageOffset = update.Id + 1;
                 }
             }
 
