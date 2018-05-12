@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- `EditMessageTextAsync` pass `ParseMode` to request
+
 ### Removed
 
 ## [14.3.0] - 2018-05-05
