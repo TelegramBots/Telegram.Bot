@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
@@ -6,7 +7,7 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// Represents an error from Bot API with 400 Bad Request HTTP status
     /// </summary>
-    public abstract class BadRequestException : ApiRequestException
+    public class BadRequestException : ApiRequestException
     {
         /// <inheritdoc />
         public override int ErrorCode => BadRequestErrorCode;
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Represent error code number
         /// </summary>
-        public const int BadRequestErrorCode = 400;
+        public const int BadRequestErrorCode = (int)HttpStatusCode.BadRequest;
 
         /// <summary>
         /// Represent error description
@@ -25,7 +26,7 @@ namespace Telegram.Bot.Exceptions
         /// Initializes a new instance of the <see cref="BadRequestException"/> class
         /// </summary>
         /// <param name="message">The message</param>
-        protected BadRequestException(string message)
+        public BadRequestException(string message)
             : base(message, BadRequestErrorCode)
         {
         }
@@ -35,7 +36,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="innerException">The inner exception</param>
-        protected BadRequestException(string message, Exception innerException)
+        public BadRequestException(string message, Exception innerException)
             : base(message, BadRequestErrorCode, innerException)
         {
         }
@@ -45,7 +46,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
-        protected BadRequestException(string message, ResponseParameters parameters)
+        public BadRequestException(string message, ResponseParameters parameters)
             : base(message, BadRequestErrorCode, parameters)
         {
         }
@@ -56,7 +57,7 @@ namespace Telegram.Bot.Exceptions
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
         /// <param name="innerException">The inner exception</param>
-        protected BadRequestException(string message, ResponseParameters parameters, Exception innerException)
+        public BadRequestException(string message, ResponseParameters parameters, Exception innerException)
             : base(message, BadRequestErrorCode, parameters, innerException)
         {
         }

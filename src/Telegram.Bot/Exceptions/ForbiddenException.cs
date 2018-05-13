@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
@@ -6,7 +7,7 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// Represents an error from Bot API with 403 Forbidden HTTP status
     /// </summary>
-    public abstract class ForbiddenException : ApiRequestException
+    public class ForbiddenException : ApiRequestException
     {
         /// <inheritdoc />
         public override int ErrorCode => ForbiddenErrorCode;
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Represent error code number
         /// </summary>
-        public const int ForbiddenErrorCode = 403;
+        public const int ForbiddenErrorCode = (int)HttpStatusCode.Forbidden;
 
         /// <summary>
         /// Represent error description
@@ -25,7 +26,7 @@ namespace Telegram.Bot.Exceptions
         /// Initializes a new instance of the <see cref="ForbiddenException"/> class
         /// </summary>
         /// <param name="message">The message</param>
-        protected ForbiddenException(string message)
+        public ForbiddenException(string message)
             : base(message, ForbiddenErrorCode)
         {
         }
@@ -35,7 +36,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="innerException">The inner exception</param>
-        protected ForbiddenException(string message, Exception innerException)
+        public ForbiddenException(string message, Exception innerException)
             : base(message, ForbiddenErrorCode, innerException)
         {
         }
@@ -45,7 +46,7 @@ namespace Telegram.Bot.Exceptions
         /// </summary>
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
-        protected ForbiddenException(string message, ResponseParameters parameters)
+        public ForbiddenException(string message, ResponseParameters parameters)
             : base(message, ForbiddenErrorCode, parameters)
         {
         }
@@ -56,7 +57,7 @@ namespace Telegram.Bot.Exceptions
         /// <param name="message">The message</param>
         /// <param name="parameters">Response parameters</param>
         /// <param name="innerException">The inner exception</param>
-        protected ForbiddenException(string message, ResponseParameters parameters, Exception innerException)
+        public ForbiddenException(string message, ResponseParameters parameters, Exception innerException)
             : base(message, ForbiddenErrorCode, parameters, innerException)
         {
         }
