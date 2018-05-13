@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
@@ -29,24 +31,41 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageText);
 
+            const string originalMessagePrefix = "original\n";
+            (MessageEntityType Type, string Value)[] entityValueMappings = {
+                (MessageEntityType.Bold, "<b>bold</b>"),
+                (MessageEntityType.Italic, "<i>italic</i>"),
+            };
+            string messageText = originalMessagePrefix +
+                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+
             Message originalMessage = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                text: "Message text will be edited shortly."
+                text: messageText,
+                parseMode: ParseMode.Html
             );
 
             DateTime timeBeforeEdition = DateTime.UtcNow;
             await Task.Delay(1_000);
 
-            const string newText = "Text is edited.";
+            const string modifiedMessagePrefix = "modified\n";
+            messageText = modifiedMessagePrefix +
+                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
             Message editedMessage = await BotClient.EditMessageTextAsync(
                 chatId: originalMessage.Chat.Id,
                 messageId: originalMessage.MessageId,
-                text: newText
+                text: messageText,
+                parseMode: ParseMode.Html
             );
 
-            Assert.Equal(newText, editedMessage.Text);
+            Assert.StartsWith(modifiedMessagePrefix, editedMessage.Text);
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
             Assert.True(timeBeforeEdition < editedMessage.EditDate);
+
+            Assert.Equal(
+                entityValueMappings.Select(tuple => tuple.Type),
+                editedMessage.Entities.Select(e => e.Type)
+            );
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageText)]
@@ -61,19 +80,29 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string originalMessagePrefix = "original\n";
+            (MessageEntityType Type, string Value)[] entityValueMappings = {
+                (MessageEntityType.Bold, "<b>bold</b>"),
+                (MessageEntityType.Italic, "<i>italic</i>"),
+            };
+            string messageText = originalMessagePrefix +
+                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
             string data = "change-text" + new Random().Next(2_000);
-            InlineKeyboardMarkup initialMarkup = new InlineKeyboardMarkup(new[]
-            {
-                InlineKeyboardButton.WithCallbackData("Click here to change text", data)
-            });
 
             InlineQueryResultBase[] inlineQueryResults =
             {
                 new InlineQueryResultArticle(
                     id: "bot-api",
                     title: "Telegram Bot API",
-                    inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api")
-                ) {ReplyMarkup = initialMarkup}
+                    inputMessageContent:
+                        new InputTextMessageContent(messageText)
+                        {
+                            ParseMode = ParseMode.Html
+                        }
+                )
+                {
+                    ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to modify text", data)
+                }
             };
 
             await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
@@ -83,9 +112,14 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Update callbackQUpdate = await _fixture.UpdateReceiver
                 .GetCallbackQueryUpdateAsync(data: data);
 
+            const string modifiedMessagePrefix = "✌ modified 👌\n";
+            messageText = modifiedMessagePrefix +
+                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+
             await BotClient.EditMessageTextAsync(
                 inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
-                text: "✌ Edited 👌"
+                text: messageText,
+                parseMode: ParseMode.Html
             );
         }
 
