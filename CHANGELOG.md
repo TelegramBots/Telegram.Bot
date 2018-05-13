@@ -18,16 +18,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 - `TelegramBotClient` accepts API exception parser as a constructor parameter
-- `UnauthorizedException` is thrown instead of ApiRequestException 
+- `UnauthorizedException` is thrown instead of `ApiRequestException`
 - `ApiExceptionParser` returns these types of exceptions:
     - `ApiRequestException` represents general HTTP errors
     - `BadRequestException` represents `400: Bad request` HTTP errors
     - `ConflictException` represents `409: Conflict` HTTP error
-    - `ForbiddenException` represents '403: Forbidden' HTTP errors
+    - `ForbiddenException` represents `403: Forbidden` HTTP errors
     - `TooManyRequestsException` represents `429: Too many requests` HTTP error
     - `UnauthorizedException` represents `401: Unauthorized` HTTP error
 
 ### Fixed
+
+- `MakeRequestAsync` throws `ApiRequestException` with `ErrorCode = HttpStatusCode.Unauthorized` and `Message = apiResponse.Description` ("Unauthorized"), to be consistent with Telegram Bot API
+- `TelegramBotClient` ctor does not check API token format: Telegram Bot API does not provide token format specification
+- `TestApiAsync` return `false` when `ApiRequestException.ErrorCode == 401` (API Token is modified or recalled)
+- Stop catching user exceptions from event handlers
+- `EditMessageTextAsync` pass `ParseMode` to request
 
 ### Removed
 

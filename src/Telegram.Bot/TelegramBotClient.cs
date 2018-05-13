@@ -35,8 +35,6 @@ namespace Telegram.Bot
 
         private readonly string _token;
 
-        private bool _invalidToken;
-
         private readonly HttpClient _httpClient;
 
         private readonly IExceptionParser _exceptionParser;
@@ -164,9 +162,6 @@ namespace Telegram.Bot
             HttpClient httpClient = default,
             IExceptionParser exceptionParser = default)
         {
-            if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
-                throw new ArgumentException("Invalid token format", nameof(token));
-
             _token = token;
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
@@ -186,9 +181,6 @@ namespace Telegram.Bot
             IExceptionParser exceptionParser = default)
 
         {
-            if (!Regex.IsMatch(token, @"^\d*:[\w\d-_]{35}$"))
-                throw new ArgumentException("Invalid token format", nameof(token));
-
             var httpClientHander = new HttpClientHandler
             {
                 Proxy = webProxy,
@@ -208,9 +200,6 @@ namespace Telegram.Bot
             IRequest<TResponse> request,
             CancellationToken cancellationToken = default)
         {
-            if (_invalidToken)
-                throw new UnauthorizedException("Unauthorized");
-
             string url = _baseRequestUrl + request.MethodName;
 
             var httpRequest = new HttpRequestMessage(request.Method, url)
@@ -254,9 +243,7 @@ namespace Telegram.Bot
             {
                 case HttpStatusCode.OK:
                     break;
-                case HttpStatusCode.Unauthorized when !string.IsNullOrWhiteSpace(responseJson):
-                    _invalidToken = true;
-                    break;
+                case HttpStatusCode.Unauthorized:
                 case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
@@ -293,7 +280,8 @@ namespace Telegram.Bot
                 await GetMeAsync(cancellationToken).ConfigureAwait(false);
                 return true;
             }
-            catch (HttpRequestException e) when (e.Message.EndsWith("404 (Not Found)."))
+            catch (ApiRequestException e)
+                when (e.ErrorCode == 401)
             {
                 return false;
             }
@@ -308,9 +296,6 @@ namespace Telegram.Bot
         public void StartReceiving(UpdateType[] allowedUpdates = null,
             CancellationToken cancellationToken = default)
         {
-            if (_invalidToken)
-                throw new UnauthorizedException("Unauthorized");
-
             _receivingCancellationTokenSource = new CancellationTokenSource();
 
             cancellationToken.Register(() => _receivingCancellationTokenSource.Cancel());
@@ -327,20 +312,16 @@ namespace Telegram.Bot
             while (!cancellationToken.IsCancellationRequested)
             {
                 var timeout = Convert.ToInt32(Timeout.TotalSeconds);
+                Update[] updates = default;
 
                 try
                 {
-                    var updates =
-                        await
-                            GetUpdatesAsync(MessageOffset, timeout: timeout, allowedUpdates: allowedUpdates,
-                                    cancellationToken: cancellationToken)
-                                .ConfigureAwait(false);
-
-                    foreach (var update in updates)
-                    {
-                        MessageOffset = update.Id + 1;
-                        OnUpdateReceived(new UpdateEventArgs(update));
-                    }
+                    updates = await GetUpdatesAsync(
+                       MessageOffset,
+                       timeout: timeout,
+                       allowedUpdates: allowedUpdates,
+                       cancellationToken: cancellationToken
+                    ).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -352,6 +333,12 @@ namespace Telegram.Bot
                 catch (Exception generalException)
                 {
                     OnReceiveGeneralError?.Invoke(this, generalException);
+                }
+
+                foreach (var update in updates)
+                {
+                    OnUpdateReceived(new UpdateEventArgs(update));
+                    MessageOffset = update.Id + 1;
                 }
             }
 
@@ -943,7 +930,8 @@ namespace Telegram.Bot
             MakeRequestAsync(new EditInlineMessageTextRequest(inlineMessageId, text)
             {
                 DisableWebPagePreview = disableWebPagePreview,
-                ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup,
+                ParseMode = parseMode
             }, cancellationToken);
 
         /// <inheritdoc />
