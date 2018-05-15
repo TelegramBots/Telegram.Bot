@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -82,7 +82,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                             u.Message.Chat.Type == ChatType.Supergroup &&
                             u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
                             u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: UpdateType.Message)
+                        updateTypes: UpdateType.Message,
+                        safeUpdates: false)
                 ).Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();

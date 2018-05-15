@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -50,7 +50,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     $"@{botUserName.Replace("_", @"\_")}."
                 );
 
-                chat = await testsFixture.GetChatFromTesterAsync(ChatType.Private);
+                chat = await testsFixture.GetChatFromTesterAsync(ChatType.Private, safeUpdates: false);
             }
 
             if (chat.Username == null)
