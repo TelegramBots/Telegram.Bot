@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -26,6 +25,8 @@ namespace Telegram.Bot
     /// </summary>
     public class TelegramBotClient : ITelegramBotClient
     {
+        private static readonly Update[] EmptyUpdates = { };
+
         private const string BaseUrl = "https://api.telegram.org/bot";
 
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
@@ -289,15 +290,15 @@ namespace Telegram.Bot
         }
 
 #pragma warning disable AsyncFixer03 // Avoid fire & forget async void methods
-        private async void ReceiveAsync(UpdateType[] allowedUpdates,
+        private async void ReceiveAsync(
+            UpdateType[] allowedUpdates,
             CancellationToken cancellationToken = default)
         {
             IsReceiving = true;
-
             while (!cancellationToken.IsCancellationRequested)
             {
                 var timeout = Convert.ToInt32(Timeout.TotalSeconds);
-                Update[] updates = default;
+                var updates = EmptyUpdates;
 
                 try
                 {
@@ -320,10 +321,18 @@ namespace Telegram.Bot
                     OnReceiveGeneralError?.Invoke(this, generalException);
                 }
 
-                foreach (var update in updates)
+                try
                 {
-                    OnUpdateReceived(new UpdateEventArgs(update));
-                    MessageOffset = update.Id + 1;
+                    foreach (var update in updates)
+                    {
+                        OnUpdateReceived(new UpdateEventArgs(update));
+                        MessageOffset = update.Id + 1;
+                    }
+                }
+                catch
+                {
+                    IsReceiving = false;
+                    throw;
                 }
             }
 
