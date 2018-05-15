@@ -39,7 +39,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             BotClient.DeleteWebhookAsync().GetAwaiter().GetResult();
 
-            AllowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNamesArray;
+            AllowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNamesArray.Length > 0
+                ? ConfigurationProvider.TestConfigurations.AllowedUserNamesArray
+                : GetChatAdminNames();
             UpdateReceiver = new UpdateReceiver(BotClient, AllowedUserNames);
 
             string supergroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
@@ -103,7 +105,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return msg;
         }
 
-        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType)
+        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType, bool safeUpdates = true)
         {
             bool IsMatch(Update u) => (
                     u.Message.Chat.Type == chatType &&
@@ -114,7 +116,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 );
 
             var update = await UpdateReceiver
-                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message)
+                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message, safeUpdates: safeUpdates)
                 .ContinueWith(t => t.Result.Single());
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
@@ -149,6 +151,17 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 replyMarkup: replyMarkup,
                 cancellationToken: CancellationToken);
             return task;
+        }
+
+        private string[] GetChatAdminNames()
+        {
+            ChatMember[] admins = BotClient.GetChatAdministratorsAsync(ConfigurationProvider.TestConfigurations.SuperGroupChatId)
+                .GetAwaiter().GetResult();
+
+            return admins
+                    .Where(member => !member.User.IsBot)
+                    .Select(member => member.User.Username)
+                    .ToArray();
         }
 
         private static class Constants
