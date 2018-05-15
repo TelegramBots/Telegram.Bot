@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
@@ -34,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 TestConfigurations.TesterPrivateChatId = privateChat;
             }
-            if (int.TryParse(configuration[nameof(TestConfigurations.TesterPrivateChatId)], out int userId))
+            if (int.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out int userId))
             {
                 TestConfigurations.StickerOwnerUserId = userId;
             }
