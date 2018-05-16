@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
-using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Helpers
 {
@@ -12,11 +11,14 @@ namespace Telegram.Bot.Helpers
     /// </summary>
     public static class Extensions
     {
+        [Obsolete]
         private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         ///   Convert a long into a DateTime
         /// </summary>
+        [Obsolete("This method will be removed in v15 " +
+                  "due to v14 using UnixDateTimeConverter from Newtonsoft.Json")]
         public static DateTime FromUnixTime(this long unixTime)
             => UnixEpoch.AddSeconds(unixTime);
 
@@ -25,6 +27,8 @@ namespace Telegram.Bot.Helpers
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="OverflowException"></exception>
+        [Obsolete("This method will be removed in v15 " +
+                  "due to v14 using UnixDateTimeConverter from Newtonsoft.Json")]
         public static long ToUnixTime(this DateTime dateTime)
         {
             if (dateTime == DateTime.MinValue)
@@ -63,9 +67,5 @@ namespace Telegram.Bot.Helpers
 
             multipartContent.Add(mediaPartContent, name, fileName);
         }
-
-        [Obsolete]
-        internal static string ToSnakeCased(this string value)
-            => new SnakeCaseNamingStrategy().GetPropertyName(value, false);
     }
 }
