@@ -9,28 +9,20 @@ namespace Telegram.Bot.Tests.Integ.Framework
     public class TestCollectionOrderer : ITestCollectionOrderer
     {
         private readonly string[] _orderedCollections = {
-            Constants.TestCollections.GettingUpdates,
-            Constants.TestCollections.Webhook,
-            Constants.TestCollections.SendTextMessage,
+            // Tests that require user interaction:
+            Constants.TestCollections.LeaveChat,
             Constants.TestCollections.PrivateChatReplyMarkup,
             Constants.TestCollections.ReplyMarkup,
-            Constants.TestCollections.SendPhotoMessage,
-            Constants.TestCollections.SendAudioMessage,
-            Constants.TestCollections.SendVenueMessage,
-            Constants.TestCollections.SendContactMessage,
             Constants.TestCollections.InlineQuery,
-            Constants.TestCollections.SendVideoMessage,
-            Constants.TestCollections.FileDownload,
-            Constants.TestCollections.LeaveChat,
-            Constants.TestCollections.GetUserProfilePhotos,
-            Constants.TestCollections.SendDocumentMessage,
-            Constants.TestCollections.ChatInfo,
-            Constants.TestCollections.AlbumMessage,
             Constants.TestCollections.CallbackQuery,
-            Constants.TestCollections.EditMessage,
-            Constants.TestCollections.DeleteMessage,
             Constants.TestCollections.InlineMessageLiveLocation,
             Constants.TestCollections.LiveLocation,
+
+            // ToDo Tests that can be fully automated or divided into 2 collections
+            Constants.TestCollections.ChatInfo,
+            Constants.TestCollections.GetUserProfilePhotos,
+            Constants.TestCollections.EditMessage,
+            Constants.TestCollections.DeleteMessage,
             Constants.TestCollections.Stickers,
             Constants.TestCollections.Games,
             Constants.TestCollections.Payment,
@@ -38,6 +30,19 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.ChannelAdminBots,
             Constants.TestCollections.ChatMemberAdministration,
             Constants.TestCollections.Exceptions,
+
+            // Tests without user interaction:
+            Constants.TestCollections.GettingUpdates,
+            Constants.TestCollections.Webhook,
+            Constants.TestCollections.SendTextMessage,
+            Constants.TestCollections.SendAudioMessage,
+            Constants.TestCollections.SendContactMessage,
+            Constants.TestCollections.SendVenueMessage,
+            Constants.TestCollections.SendDocumentMessage,
+            Constants.TestCollections.SendPhotoMessage,
+            Constants.TestCollections.SendVideoMessage,
+            Constants.TestCollections.AlbumMessage,
+            Constants.TestCollections.FileDownload,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)
