@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+### Changed
+
+- `MakeRequestAsync` throws `ApiRequestException` with `ErrorCode = HttpStatusCode.Unauthorized` and `Message = apiResponse.Description` ("Unauthorized"), to be consistent with Telegram Bot API
+- `TelegramBotClient` ctor does not check API token format: Telegram Bot API does not provide token format specification
+- `TestApiAsync` return `false` when `ApiRequestException.ErrorCode == 401` (API Token is modified or recalled)
+- Stop catching user exceptions from event handlers
+
+### Fixed
+
+- `EditMessageTextAsync` pass `ParseMode` to request
+
+### Removed
+
+## [14.3.0] - 2018-05-05
+
+### Added
 
 - Implicit cast of `IEnumerable<InlineKeyboardButton>[]` to `InlineKeyboardMarkup`
 - Implicit cast of `InlineKeyboardButton[]` to `InlineKeyboardMarkup`

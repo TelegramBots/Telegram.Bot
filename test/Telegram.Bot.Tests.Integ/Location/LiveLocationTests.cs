@@ -31,9 +31,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendLiveLocation)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendLiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendLocation)]
-        [ExecutionOrder(1)]
         public async Task Should_Send_Live_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendLiveLocation);
@@ -55,9 +54,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
             LocationMessage = message;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldUpdateLocation)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUpdateLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
-        [ExecutionOrder(2)]
         public async Task Should_Update_Live_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpdateLocation);
@@ -89,9 +87,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
             LocationMessage = editedMessage;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldStopMessageLiveLocation)]
+        [OrderedFact(DisplayName = FactTitles.ShouldStopMessageLiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
-        [ExecutionOrder(3)]
         public async Task Should_Stop_Inline_Message_Live_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldStopMessageLiveLocation);

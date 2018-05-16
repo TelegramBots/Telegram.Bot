@@ -8,7 +8,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Update_Messages
 {
     [Collection(Constants.TestCollections.DeleteMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class DeleteMessageTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;

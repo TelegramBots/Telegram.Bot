@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -25,14 +25,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        [Fact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(1)]
         public async Task Should_Upload_2_Photos_Album()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
 
-            string[] captions = {"Logo", "Bot"};
+            string[] captions = { "Logo", "Bot" };
 
             Message[] messages;
             using (Stream
@@ -71,9 +70,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture.Entities = messages.ToList();
         }
 
-        [Fact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(2)]
         public async Task Should_Send_3_Photos_Album_Using_FileId()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendFileIdPhotosInAlbum);
@@ -99,9 +97,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         /// <remarks>
         /// URLs have a redundant query string to make sure Telegram doesn't use cached images
         /// </remarks>
-        [Fact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(3)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
             // ToDo add exception: Bad Request: failed to get HTTP URL content
@@ -126,14 +123,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
 
-        [Fact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(4)]
         public async Task Should_Upload_2_Videos_Album()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
 
-            string[] captions = {"Golden Ratio", "Moon Landing", "Bot"};
+            string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
 
             const int firstMediaDuration = 28;
             const int firstMediaWidthAndHeight = 240;
@@ -182,15 +178,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.InRange(messages.First().Video.Duration, firstMediaDuration - 2, firstMediaDuration + 2);
         }
 
-        [Fact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
+        [OrderedFact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
-        [ExecutionOrder(5)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
 
-            var captionsMappings = new(MessageEntityType Type, string EntityBody, string EncodedEntity)[]
-            {
+            (MessageEntityType Type, string EntityBody, string EncodedEntity)[] captionsMappings = {
                 ( MessageEntityType.Bold, "Logo", "*Logo*" ),
                 ( MessageEntityType.Italic, "Bot", "_Bot_" ),
             };
@@ -224,8 +218,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            Assert.True(messages[0].CaptionEntityValues.Contains(captionsMappings[0].EntityBody));
-            Assert.True(messages[1].CaptionEntityValues.Contains(captionsMappings[1].EntityBody));
+            Assert.Contains(captionsMappings[0].EntityBody, messages[0].CaptionEntityValues);
+            Assert.Contains(captionsMappings[1].EntityBody, messages[1].CaptionEntityValues);
         }
 
         private static class FactTitles

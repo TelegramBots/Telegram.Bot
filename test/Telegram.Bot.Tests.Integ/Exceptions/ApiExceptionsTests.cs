@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -11,7 +11,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Exceptions
 {
     [Collection(Constants.TestCollections.Exceptions)]
-    [TestCaseOrderer(Constants.TestCaseOrderer2, Constants.AssemblyName)]
+    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
@@ -58,7 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "Forward a message to this chat from a user that never started a chat with this bot");
 
             Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.IsForwarded, updateTypes: UpdateType.Message
+                    u.Message.ForwardFrom != null, updateTypes: UpdateType.Message
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
