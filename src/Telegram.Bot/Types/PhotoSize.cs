@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
 {
@@ -9,7 +8,6 @@ namespace Telegram.Bot.Types
     /// </summary>
     /// <remarks>A missing thumbnail for a file (or sticker) is presented as an empty object.</remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    [JsonConverter(typeof(PhotoSizeConverter))]
     public class PhotoSize : FileBase
     {
         /// <summary>
