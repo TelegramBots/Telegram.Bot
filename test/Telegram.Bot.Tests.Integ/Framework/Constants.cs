@@ -55,6 +55,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string EditMessage = "Edit Message Content";
 
+            public const string EditMessage2 = "Edit Message Content with non-interactive tests";
+
             public const string DeleteMessage = "Delete Message";
 
             public const string LiveLocation = "Live Location";

@@ -14,10 +14,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.PrivateChatReplyMarkup,
             Constants.TestCollections.InlineMessageLiveLocation,
             Constants.TestCollections.InlineQuery,
+            Constants.TestCollections.EditMessage,
 
             // ToDo Tests that can be fully automated or divided into 2 collections
-            Constants.TestCollections.GetUserProfilePhotos,
-            Constants.TestCollections.EditMessage,
             Constants.TestCollections.DeleteMessage,
             Constants.TestCollections.Stickers,
             Constants.TestCollections.Games,
@@ -27,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.ChatMemberAdministration,
             Constants.TestCollections.Exceptions,
 
-            // Tests without user interaction:
+            // Tests without the need for user interaction:
             Constants.TestCollections.GettingUpdates,
             Constants.TestCollections.Webhook,
             Constants.TestCollections.SendTextMessage,
@@ -43,6 +42,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.FileDownload,
             Constants.TestCollections.ChatInfo,
             Constants.TestCollections.LeaveChat,
+            Constants.TestCollections.GetUserProfilePhotos,
+            Constants.TestCollections.EditMessage2,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)
