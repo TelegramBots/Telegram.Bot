@@ -10,16 +10,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
     {
         private readonly string[] _orderedCollections = {
             // Tests that require user interaction:
-            Constants.TestCollections.LeaveChat,
-            Constants.TestCollections.PrivateChatReplyMarkup,
-            Constants.TestCollections.ReplyMarkup,
-            Constants.TestCollections.InlineQuery,
             Constants.TestCollections.CallbackQuery,
+            Constants.TestCollections.PrivateChatReplyMarkup,
             Constants.TestCollections.InlineMessageLiveLocation,
-            Constants.TestCollections.LiveLocation,
+            Constants.TestCollections.InlineQuery,
 
             // ToDo Tests that can be fully automated or divided into 2 collections
-            Constants.TestCollections.ChatInfo,
             Constants.TestCollections.GetUserProfilePhotos,
             Constants.TestCollections.EditMessage,
             Constants.TestCollections.DeleteMessage,
@@ -42,7 +38,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.SendPhotoMessage,
             Constants.TestCollections.SendVideoMessage,
             Constants.TestCollections.AlbumMessage,
+            Constants.TestCollections.ReplyMarkup,
+            Constants.TestCollections.LiveLocation,
             Constants.TestCollections.FileDownload,
+            Constants.TestCollections.ChatInfo,
+            Constants.TestCollections.LeaveChat,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

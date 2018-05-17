@@ -35,7 +35,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                 chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
                 replyMarkup: new ReplyKeyboardMarkup(
-                    keyboardRow: new[] {KeyboardButton.WithRequestContact("Share Contact"),},
+                    keyboardRow: new[] { KeyboardButton.WithRequestContact("Share Contact"), },
                     resizeKeyboard: true,
                     oneTimeKeyboard: true
                 )
