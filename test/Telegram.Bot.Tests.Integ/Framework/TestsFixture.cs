@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public UpdateReceiver UpdateReceiver { get; }
 
-        public string[] AllowedUserNames { get; }
+        public List<string> AllowedUserNames { get; }
 
         public Chat SupergroupChat { get; }
 
@@ -39,9 +40,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             BotClient.DeleteWebhookAsync().GetAwaiter().GetResult();
 
-            AllowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNamesArray.Length > 0
-                ? ConfigurationProvider.TestConfigurations.AllowedUserNamesArray
-                : GetChatAdminNames();
+            AllowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNamesArray.Count > 0
+                ? ConfigurationProvider.TestConfigurations.AllowedUserNamesArray.ToList()
+                : GetChatAdminNames().ToList();
             UpdateReceiver = new UpdateReceiver(BotClient, AllowedUserNames);
 
             string supergroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
@@ -105,7 +106,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return msg;
         }
 
-        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType, bool safeUpdates = true)
+        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType)
         {
             bool IsMatch(Update u) => (
                     u.Message.Chat.Type == chatType &&
@@ -116,7 +117,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 );
 
             var update = await UpdateReceiver
-                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message, safeUpdates: safeUpdates)
+                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message)
                 .ContinueWith(t => t.Result.Single());
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
@@ -124,6 +125,26 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return chatType == ChatType.Channel
                 ? update.Message.ForwardFromChat
                 : update.Message.Chat;
+        }
+
+        public async Task<Chat> GetChatFromAdminAsync()
+        {
+            bool IsMatch(Update u) => (
+                    u.Message.Type == MessageType.Contact ||
+                    u.Message.ForwardFrom?.Id != null
+                );
+
+            var update = await UpdateReceiver
+                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message)
+                .ContinueWith(t => t.Result.Single());
+
+            await UpdateReceiver.DiscardNewUpdatesAsync();
+
+            int userId = update.Message.Type == MessageType.Contact
+                ? update.Message.Contact.UserId
+                : update.Message.ForwardFrom.Id;
+
+            return await BotClient.GetChatAsync(userId);
         }
 
         private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,

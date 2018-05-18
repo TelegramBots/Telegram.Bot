@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Telegram.Bot.Tests.Integ.Framework
@@ -9,12 +10,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public string AllowedUserNames { get; set; }
 
-        public string[] AllowedUserNamesArray =>
+        public ICollection<string> AllowedUserNamesArray =>
             _allowedUsers ??
                 (_allowedUsers = AllowedUserNames
                     .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                     .Select(n => n.Trim())
-                    .ToArray()
+                    .ToList()
                 );
 
         public string SuperGroupChatId { get; set; }
@@ -29,6 +30,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public string RegularGroupMemberId { get; set; }
 
-        private string[] _allowedUsers;
+        private ICollection<string> _allowedUsers;
     }
 }

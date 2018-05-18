@@ -12,9 +12,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
     {
         private readonly ITelegramBotClient _botClient;
 
-        private readonly string[] _allowedUsernames;
+        private readonly ICollection<string> _allowedUsernames;
 
-        public UpdateReceiver(ITelegramBotClient botClient, params string[] allowedUsernames)
+        public UpdateReceiver(ITelegramBotClient botClient, ICollection<string> allowedUsernames)
         {
             _botClient = botClient;
             _allowedUsernames = allowedUsernames;
@@ -33,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             while (!cancellationToken.IsCancellationRequested)
             {
                 var updates = await _botClient.GetUpdatesAsync(offset,
-                    allowedUpdates: new UpdateType[0],
+                    allowedUpdates: Array.Empty<UpdateType>(),
                     cancellationToken: cancellationToken);
 
                 if (updates.Length == 0)
@@ -46,7 +46,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public async Task<Update[]> GetUpdatesAsync(
             Func<Update, bool> predicate = default,
             int offset = default,
-            bool safeUpdates = true,
             CancellationToken cancellationToken = default,
             params UpdateType[] updateTypes)
         {
@@ -57,9 +56,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                IEnumerable<Update> updates = safeUpdates
-                    ? await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes)
-                    : await _botClient.GetUpdatesAsync(offset, allowedUpdates: updateTypes, cancellationToken: cancellationToken);
+                IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
                 updates = updates
                     .Where(u =>
                         updateTypes.Contains(u.Type) &&
