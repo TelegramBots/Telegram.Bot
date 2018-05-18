@@ -158,8 +158,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
             if (_allowedUsernames is null || _allowedUsernames.All(string.IsNullOrWhiteSpace))
                 return true;
 
-            bool isAllowed;
-
             switch (update.Type)
             {
                 case UpdateType.Message:
@@ -168,20 +166,16 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 case UpdateType.PreCheckoutQuery:
                 case UpdateType.ShippingQuery:
                 case UpdateType.ChosenInlineResult:
-                    isAllowed = _allowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
-                    break;
+                    return _allowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
-                    isAllowed = false;
-                    break;
+                    return false;
                 case UpdateType.Unknown:
                     throw new ArgumentException("Unknown update found!");
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            return isAllowed;
         }
     }
 }
