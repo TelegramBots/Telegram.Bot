@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -39,6 +39,15 @@ namespace Telegram.Bot.Types
         public InputMediaVideo()
         {
             Type = "video";
+        }
+
+        /// <summary>
+        /// Initializes a new video media to send with an <see cref="InputMedia"/>
+        /// </summary>
+        public InputMediaVideo(InputMedia media)
+            : this()
+        {
+            Media = media;
         }
     }
 }
