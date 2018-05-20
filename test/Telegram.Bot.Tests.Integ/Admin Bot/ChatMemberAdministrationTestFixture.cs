@@ -29,16 +29,16 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 $"Chosen regular member is @{RegularMemberChat.Username.Replace("_", @"\_")}"
             ).GetAwaiter().GetResult();
 
-            RegularMemberUserId = (int)RegularMemberChat.Id;
+            RegularMemberUserId = (int) RegularMemberChat.Id;
             RegularMemberUserName = RegularMemberChat.Username;
             // Updates from regular user will be received
-            _testsFixture.AllowedUserNames.Add(RegularMemberUserName);
+            _testsFixture.UpdateReceiver.AllowedUsernames.Add(RegularMemberUserName);
         }
 
         public void Dispose()
         {
             // Remove regular user from AllowedUserNames
-            _testsFixture.AllowedUserNames.Remove(RegularMemberUserName);
+            _testsFixture.UpdateReceiver.AllowedUsernames.Remove(RegularMemberUserName);
         }
 
         private static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
@@ -53,11 +53,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             {
                 await testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-                string botUserName = testsFixture.BotUser.Username;
-                Message replyTo = await testsFixture.SendTestCollectionNotificationAsync(collectionName,
+                await testsFixture.SendTestCollectionNotificationAsync(collectionName,
                     $"No value is set for `{nameof(ConfigurationProvider.TestConfigurations.RegularGroupMemberId)}` " +
                     "in test settings.\n" +
-                    "Group admin should forward message from non-admin or send non-admin contact."
+                    "An admin should forward a message from non-admin member or send his/her contact."
                 );
 
                 chat = await testsFixture.GetChatFromAdminAsync();

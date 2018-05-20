@@ -6,7 +6,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 {
     public static class ConfigurationProvider
     {
-        public static TestConfigurations TestConfigurations;
+        public static readonly TestConfigurations TestConfigurations;
 
         static ConfigurationProvider()
         {
@@ -33,16 +33,22 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 TestConfigurations.TesterPrivateChatId = privateChat;
             }
+
             if (int.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out int stickerOwnerUserId))
             {
                 TestConfigurations.StickerOwnerUserId = stickerOwnerUserId;
             }
 
             if (string.IsNullOrWhiteSpace(TestConfigurations.ApiToken))
-                throw new ArgumentNullException(nameof(TestConfigurations.ApiToken), "API token is not provided or is empty.");
+                throw new ArgumentNullException(nameof(TestConfigurations.ApiToken),
+                    "API token is not provided or is empty.");
 
             if (TestConfigurations.ApiToken?.Length < 25)
                 throw new ArgumentException("API token is too short.", nameof(TestConfigurations.ApiToken));
+
+            if (string.IsNullOrWhiteSpace(TestConfigurations.SuperGroupChatId))
+                throw new ArgumentNullException(nameof(TestConfigurations.SuperGroupChatId),
+                    "Supergroup ID is not provided or is empty.");
         }
     }
 }

@@ -4,7 +4,7 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
-    internal static class UserEx
+    internal static class UpdateExtensions
     {
         public static User GetUser(this Update update)
         {

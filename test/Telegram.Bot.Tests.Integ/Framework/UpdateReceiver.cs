@@ -10,14 +10,14 @@ namespace Telegram.Bot.Tests.Integ.Framework
 {
     public class UpdateReceiver
     {
+        public ICollection<string> AllowedUsernames { get; }
+
         private readonly ITelegramBotClient _botClient;
 
-        private readonly ICollection<string> _allowedUsernames;
-
-        public UpdateReceiver(ITelegramBotClient botClient, ICollection<string> allowedUsernames)
+        public UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string> allowedUsernames)
         {
             _botClient = botClient;
-            _allowedUsernames = allowedUsernames;
+            AllowedUsernames = new List<string>(allowedUsernames);
         }
 
         public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
@@ -131,7 +131,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 var updates = await GetUpdatesAsync(
                     u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
                     cancellationToken: cancellationToken,
-                    updateTypes: new[] { UpdateType.Message, UpdateType.ChosenInlineResult }
+                    updateTypes: new[] {UpdateType.Message, UpdateType.ChosenInlineResult}
                 );
 
                 messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);
@@ -155,7 +155,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         private bool IsAllowed(Update update)
         {
-            if (_allowedUsernames is null || _allowedUsernames.All(string.IsNullOrWhiteSpace))
+            if (AllowedUsernames is null || AllowedUsernames.All(string.IsNullOrWhiteSpace))
                 return true;
 
             switch (update.Type)
@@ -166,13 +166,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 case UpdateType.PreCheckoutQuery:
                 case UpdateType.ShippingQuery:
                 case UpdateType.ChosenInlineResult:
-                    return _allowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
+                    return AllowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
                     return false;
-                case UpdateType.Unknown:
-                    throw new ArgumentException("Unknown update found!");
                 default:
                     throw new ArgumentOutOfRangeException();
             }
