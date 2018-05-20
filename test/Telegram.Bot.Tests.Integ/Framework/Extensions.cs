@@ -1,10 +1,11 @@
 using System;
+using System.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
-    internal static class UpdateExtensions
+    internal static class Extensions
     {
         public static User GetUser(this Update update)
         {
@@ -25,6 +26,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 default:
                     throw new ArgumentException("Unsupported update type {0}.", update.Type.ToString());
             }
+        }
+
+        public static string GetTesterMentions(this UpdateReceiver updateReceiver)
+        {
+            return string.Join(", ",
+                updateReceiver.AllowedUsernames.Select(username => '@' + username)
+            );
         }
     }
 }

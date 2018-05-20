@@ -123,14 +123,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             var allowedUserNames = await FindAllowedTesterUserNames();
             UpdateReceiver = new UpdateReceiver(BotClient, allowedUserNames);
 
-            string testersMentions = string.Join(", ",
-                UpdateReceiver.AllowedUsernames.Select(username => "@" + username)
-            );
-
             await BotClient.SendTextMessageAsync(
                 SupergroupChat.Id,
                 "```\nTest execution is starting...\n```" +
-                "Testers are: \n" + testersMentions,
+                "Testers are: \n" + UpdateReceiver.GetTesterMentions(),
                 ParseMode.Markdown,
                 cancellationToken: CancellationToken
             );
