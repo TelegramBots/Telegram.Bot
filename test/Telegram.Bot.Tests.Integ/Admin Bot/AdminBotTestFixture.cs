@@ -1,10 +1,10 @@
-﻿using Telegram.Bot.Types;
+using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
     public class AdminBotTestFixture
     {
-        public ChatId ChatId { get; set; }
+        public Chat Chat { get; set; }
 
         public string ChatTitle { get; set; } = "Test Chat Title";
 
