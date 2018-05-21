@@ -42,6 +42,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.DeleteMessage2,
             Constants.TestCollections.Stickers,
             Constants.TestCollections.Games2,
+            Constants.TestCollections.GameException,
             Constants.TestCollections.SupergroupAdminBots,
             Constants.TestCollections.ChannelAdminBots,
             Constants.TestCollections.Exceptions2,

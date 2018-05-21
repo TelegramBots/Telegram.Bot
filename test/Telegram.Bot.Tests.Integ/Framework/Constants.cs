@@ -71,6 +71,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string Games = "Games";
 
+            public const string GameException = "Game Exceptions";
+
             public const string Games2 = "Games (non-interactive)";
 
             public const string SupergroupAdminBots = "Supergroup Admin Bot";

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 {
-    [Collection(Constants.TestCollections.ReplyMarkup)]
+    [Collection(Constants.TestCollections.PrivateChatReplyMarkup)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PrivateChatReplyMarkupTests : IClassFixture<PrivateChatReplyMarkupTests.Fixture>
     {
