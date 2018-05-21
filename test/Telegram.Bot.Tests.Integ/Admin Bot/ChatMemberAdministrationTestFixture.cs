@@ -1,12 +1,11 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
-    public class ChatMemberAdministrationTestFixture
+    public class ChatMemberAdministrationTestFixture : IDisposable
     {
         public Chat RegularMemberChat { get; }
 
@@ -16,19 +15,30 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         public string GroupInviteLink { get; set; }
 
+        private readonly TestsFixture _testsFixture;
+
         public ChatMemberAdministrationTestFixture(TestsFixture testsFixture)
         {
-            string collectionName = Constants.TestCollections.ChatMemberAdministration;
+            _testsFixture = testsFixture;
+            const string collectionName = Constants.TestCollections.ChatMemberAdministration;
 
-            RegularMemberChat = GetChat(testsFixture, collectionName).GetAwaiter().GetResult();
+            RegularMemberChat = GetChat(_testsFixture, collectionName).GetAwaiter().GetResult();
 
             testsFixture.SendTestCollectionNotificationAsync(
                 collectionName,
                 $"Chosen regular member is @{RegularMemberChat.Username.Replace("_", @"\_")}"
             ).GetAwaiter().GetResult();
 
-            RegularMemberUserId = (int)RegularMemberChat.Id;
+            RegularMemberUserId = (int) RegularMemberChat.Id;
             RegularMemberUserName = RegularMemberChat.Username;
+            // Updates from regular user will be received
+            _testsFixture.UpdateReceiver.AllowedUsernames.Add(RegularMemberUserName);
+        }
+
+        public void Dispose()
+        {
+            // Remove regular user from AllowedUserNames
+            _testsFixture.UpdateReceiver.AllowedUsernames.Remove(RegularMemberUserName);
         }
 
         private static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
@@ -43,14 +53,13 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             {
                 await testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-                string botUserName = testsFixture.BotUser.Username;
                 await testsFixture.SendTestCollectionNotificationAsync(collectionName,
                     $"No value is set for `{nameof(ConfigurationProvider.TestConfigurations.RegularGroupMemberId)}` " +
-                    $"in test settings. A non-admin chat member should send /test command in private chat with " +
-                    $"@{botUserName.Replace("_", @"\_")}."
+                    "in test settings.\n" +
+                    "An admin should forward a message from non-admin member or send his/her contact."
                 );
 
-                chat = await testsFixture.GetChatFromTesterAsync(ChatType.Private);
+                chat = await testsFixture.GetChatFromAdminAsync();
             }
 
             if (chat.Username == null)
