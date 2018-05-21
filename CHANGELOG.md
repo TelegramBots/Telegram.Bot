@@ -5,21 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [14.4.0] - 2018-05-17
 
-### Added
 ### Changed
 
 - `MakeRequestAsync` throws `ApiRequestException` with `ErrorCode = HttpStatusCode.Unauthorized` and `Message = apiResponse.Description` ("Unauthorized"), to be consistent with Telegram Bot API
 - `TelegramBotClient` ctor does not check API token format: Telegram Bot API does not provide token format specification
 - `TestApiAsync` return `false` when `ApiRequestException.ErrorCode == 401` (API Token is modified or recalled)
 - Stop catching user exceptions from event handlers
+- Make `Message.IsForward` property obsolete
 
 ### Fixed
 
 - `EditMessageTextAsync` pass `ParseMode` to request
-
-### Removed
 
 ## [14.3.0] - 2018-05-05
 

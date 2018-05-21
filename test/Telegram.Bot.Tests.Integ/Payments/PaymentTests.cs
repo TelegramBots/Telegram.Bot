@@ -145,7 +145,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal(_classFixture.Payload, query.InvoicePayload);
             Assert.Equal(totalAmount, query.TotalAmount);
             Assert.Equal(_classFixture.Invoice.Currency, query.Currency);
-            Assert.Contains(query.From.Username, _fixture.AllowedUserNames);
+            Assert.Contains(query.From.Username, _fixture.UpdateReceiver.AllowedUsernames);
             Assert.NotNull(query.OrderInfo);
             Assert.NotNull(query.OrderInfo.Email);
             Assert.NotNull(query.OrderInfo.Name);
