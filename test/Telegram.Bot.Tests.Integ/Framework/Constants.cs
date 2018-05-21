@@ -71,6 +71,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string Games = "Games";
 
+            public const string Games2 = "Games (non-interactive)";
+
             public const string SuperGroupAdminBots = "Super Group Admin Bot";
 
             public const string ChannelAdminBots = "Channel Admin Bot";
