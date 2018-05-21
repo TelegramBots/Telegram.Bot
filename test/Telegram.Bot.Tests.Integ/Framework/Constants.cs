@@ -79,7 +79,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string ChatMemberAdministration = "Chat Member Administration";
 
-            public const string Exceptions = "Bot API Exceptions";
+            public const string Exceptions = "Bot API exceptions";
+
+            public const string Exceptions2 = "Bot API exceptions (non-interactive)";
         }
 
         public static class FileNames
