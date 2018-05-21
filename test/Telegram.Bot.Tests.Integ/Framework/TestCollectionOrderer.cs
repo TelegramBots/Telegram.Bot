@@ -18,7 +18,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.DeleteMessage,
 
             // ToDo Tests that can be fully automated or divided into 2 collections:
-            Constants.TestCollections.Stickers,
             Constants.TestCollections.Games,
             Constants.TestCollections.Payment,
             Constants.TestCollections.SuperGroupAdminBots,
@@ -45,6 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.GetUserProfilePhotos,
             Constants.TestCollections.EditMessage2,
             Constants.TestCollections.DeleteMessage2,
+            Constants.TestCollections.Stickers,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

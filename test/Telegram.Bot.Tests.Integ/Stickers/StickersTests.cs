@@ -104,7 +104,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
 
             List<File> stickerFiles = new List<File>(2);
-            foreach (string pngFile in new[] {Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux})
+            foreach (string pngFile in new[] { Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux })
             {
                 File file;
                 using (System.IO.Stream stream = System.IO.File.OpenRead(pngFile))
@@ -230,7 +230,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             _classFixture.TestStickerSet = await BotClient.GetStickerSetAsync(_classFixture.TestStickerSetName);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException, Skip = "Upstream bug in Bot API")]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         public async Task Should_Throw_StickerSetNameExistsException()
         {
@@ -268,24 +268,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 name: _classFixture.TestStickerSet.Name,
                 pngSticker: _classFixture.UploadedStickers.Last().FileId,
                 emojis: "😏😃"
-            );
-        }
-
-        [OrderedFact(DisplayName = FactTitles.ShouldAddPabloEscobarStickerToSet,
-            Skip = "Not sure if we can add a sticker from another set without download and upload it")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AddStickerToSet)]
-        public async Task Should_Add_Pablo_Escobar_Sticker_To_Set()
-        {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAddPabloEscobarStickerToSet);
-
-            const string pabloEmoji = "😒";
-            Sticker pabloSticker = _classFixture.EvilMindsStickerSet.Stickers.Single(s => s.Emoji == pabloEmoji);
-
-            await BotClient.AddStickerToSetAsync(
-                userId: _classFixture.OwnerUserId,
-                name: _classFixture.TestStickerSet.Name,
-                pngSticker: pabloSticker.FileId,
-                emojis: pabloEmoji
             );
         }
 
@@ -331,7 +313,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         /// One sticker in the set is not removed because removing last sticker would cause the sticker set to be removed
         /// and bots cannot remove a sticker set.
         /// </remarks>
-        [OrderedFact(DisplayName = FactTitles.ShouldRemoveStickersFromSet, Skip = "abc")]
+        [OrderedFact(DisplayName = FactTitles.ShouldRemoveStickersFromSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
         public async Task Should_Remove_All_Stickers_From_Set_Except_1()
@@ -342,7 +324,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             Sticker[] stickersToRemove = testStickerSet.Stickers.SkipLast(1).ToArray();
             foreach (Sticker sticker in stickersToRemove)
             {
-                await Task.Delay(3_000); // ToDo: Bot API delays in updating changes to sticker sets
+                // Wait a few seconds because Bot API delays in updating changes to sticker sets
+                await Task.Delay(1_000);
 
                 await BotClient.DeleteStickerFromSetAsync(sticker: sticker.FileId);
             }
@@ -394,9 +377,6 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 "Should throw StickerSetNameExistsException while trying to create sticker set with the same name";
 
             public const string ShouldAddStickerFileToSet = "Should add Tux sticker to set using its uploaded file_id";
-
-            public const string ShouldAddPabloEscobarStickerToSet =
-                "Should add Pablo Escobar sticker from EvilMinds to the test set";
 
             public const string ShouldAddStickerWithMaskPositionToSet =
                 "Should add VLC logo sticker with mask position like hat on forehead";
