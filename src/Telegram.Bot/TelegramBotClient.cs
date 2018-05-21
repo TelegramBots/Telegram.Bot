@@ -215,44 +215,47 @@ namespace Telegram.Bot
                 throw new ApiRequestException("Request timed out", 408, e);
             }
 
-            // required since user might be able to set new status code using following event arg
-            var actualResponseStatusCode = httpResponse.StatusCode;
-            string responseJson = await httpResponse.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
-            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
+            using (httpResponse)
             {
-                ResponseMessage = httpResponse,
-                ApiRequestEventArgs = reqDataArgs
-            });
+                // required since user might be able to set new status code using following event arg
+                var actualResponseStatusCode = httpResponse.StatusCode;
+                string responseJson = await httpResponse.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
 
-            switch (actualResponseStatusCode)
-            {
-                case HttpStatusCode.OK:
-                    break;
-                case HttpStatusCode.Unauthorized:
-                case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
-                    // Do NOT throw here, an ApiRequestException will be thrown next
-                    break;
-                default:
-                    httpResponse.EnsureSuccessStatusCode();
-                    break;
-            }
-
-            var apiResponse =
-                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
-                ?? new ApiResponse<TResponse> // ToDo is required? unit test
+                ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
                 {
-                    Ok = false,
-                    Description = "No response received"
-                };
+                    ResponseMessage = httpResponse,
+                    ApiRequestEventArgs = reqDataArgs
+                });
 
-            if (!apiResponse.Ok)
-                throw ApiExceptionParser.Parse(apiResponse);
+                switch (actualResponseStatusCode)
+                {
+                    case HttpStatusCode.OK:
+                        break;
+                    case HttpStatusCode.Unauthorized:
+                    case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
+                    case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
+                    case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
+                        // Do NOT throw here, an ApiRequestException will be thrown next
+                        break;
+                    default:
+                        httpResponse.EnsureSuccessStatusCode();
+                        break;
+                }
 
-            return apiResponse.Result;
+                var apiResponse =
+                    JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
+                    ?? new ApiResponse<TResponse> // ToDo is required? unit test
+                    {
+                        Ok = false,
+                        Description = "No response received"
+                    };
+
+                if (!apiResponse.Ok)
+                    throw ApiExceptionParser.Parse(apiResponse);
+
+                return apiResponse.Result;
+            }
         }
 
         /// <summary>
@@ -724,10 +727,11 @@ namespace Telegram.Bot
             var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
-            response.EnsureSuccessStatusCode();
 
             using (response)
             {
+                response.EnsureSuccessStatusCode();
+
                 await response.Content.CopyToAsync(destination)
                     .ConfigureAwait(false);
             }
