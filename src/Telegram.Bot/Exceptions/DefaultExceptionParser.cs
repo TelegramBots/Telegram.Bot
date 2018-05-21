@@ -1,11 +1,15 @@
-﻿using System;
+using System;
 using System.Linq;
+using System.Net.Http;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
 {
-    internal static class ApiExceptionParser
+    internal class DefaultExceptionParser : IExceptionParser
     {
         private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
@@ -92,6 +96,34 @@ namespace Telegram.Bot.Exceptions
             if (hasErrorTypeDescription)
                 message = message.Substring(description.Length);
             return message;
+        }
+
+        /// <inheritdoc cref="IExceptionParser"/>
+        public async Task<Exception> ParseResponseAsync(HttpResponseMessage httpResponse)
+        {
+            Exception exception;
+
+            string responseJson = await httpResponse.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+
+            var apiResponse = JsonConvert.DeserializeObject<JObject>(responseJson);
+            bool? ok = apiResponse["ok"].Value<bool?>();
+            string description = apiResponse["description"].Value<string>();
+
+            if (ok == true)
+            {
+                exception = new ApiRequestException(description);
+            }
+            else if (ok == false)
+            {
+                exception = new ApiRequestException(description);
+            }
+            else
+            {
+                exception = new ApiRequestException("Invalid status code: " + httpResponse.StatusCode);
+            }
+
+            return exception;
         }
     }
 }

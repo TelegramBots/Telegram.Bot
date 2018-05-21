@@ -37,6 +37,8 @@ namespace Telegram.Bot
 
         private readonly HttpClient _httpClient;
 
+        private readonly IExceptionParser _exceptionParser;
+
         #region Config Properties
 
         /// <summary>
@@ -154,11 +156,12 @@ namespace Telegram.Bot
         /// <param name="token">API token</param>
         /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, HttpClient httpClient = null)
+        public TelegramBotClient(string token, HttpClient httpClient = default, IExceptionParser exceptionParser = default)
         {
             _token = token;
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
+            _exceptionParser = exceptionParser ?? new DefaultExceptionParser();
         }
 
         /// <summary>
@@ -167,7 +170,7 @@ namespace Telegram.Bot
         /// <param name="token">API token</param>
         /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, IWebProxy webProxy)
+        public TelegramBotClient(string token, IWebProxy webProxy, IExceptionParser exceptionParser = default)
         {
             var httpClientHander = new HttpClientHandler
             {
@@ -178,6 +181,7 @@ namespace Telegram.Bot
             _token = token;
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = new HttpClient(httpClientHander);
+            _exceptionParser = exceptionParser ?? new DefaultExceptionParser();
         }
 
         #region Helpers
@@ -226,6 +230,15 @@ namespace Telegram.Bot
                 ApiRequestEventArgs = reqDataArgs
             });
 
+            if (actualResponseStatusCode != HttpStatusCode.OK)
+            {
+                var exception = await _exceptionParser.ParseResponseAsync(httpResponse)
+                    .ConfigureAwait(false);
+
+                throw exception;
+            }
+
+            /* 
             switch (actualResponseStatusCode)
             {
                 case HttpStatusCode.OK:
@@ -240,6 +253,7 @@ namespace Telegram.Bot
                     httpResponse.EnsureSuccessStatusCode();
                     break;
             }
+            */
 
             var apiResponse =
                 JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
@@ -249,8 +263,8 @@ namespace Telegram.Bot
                     Description = "No response received"
                 };
 
-            if (!apiResponse.Ok)
-                throw ApiExceptionParser.Parse(apiResponse);
+            //if (!apiResponse.Ok)
+            //throw DefaultExceptionParser.Parse(apiResponse);
 
             return apiResponse.Result;
         }

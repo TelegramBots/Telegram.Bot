@@ -95,7 +95,7 @@ namespace Telegram.Bot.Exceptions
         /// <returns><see cref="ApiRequestException"/></returns>
         public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
         {
-            return ApiExceptionParser.Parse<T>(apiResponse);
+            return DefaultExceptionParser.Parse<T>(apiResponse);
             /*
             string message;
             switch (apiResponse.ErrorCode)
