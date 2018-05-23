@@ -734,7 +734,7 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
-        public Task<Stream> GetFileStreamAsync(
+        public async Task<Stream> GetFileStreamAsync(
             string filePath,
             CancellationToken cancellationToken = default
         )
@@ -746,11 +746,11 @@ namespace Telegram.Bot
 
             var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
 
-            var response = _httpClient
+            HttpResponseMessage response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                .Result;
+                .ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
-            return response.Content.ReadAsStreamAsync();
+            return await response.Content.ReadAsStreamAsync();
         }
 
         /// <inheritdoc />
