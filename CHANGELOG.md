@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - made "GetFileStreamAsync" method to get file stream to read manually
+- made "GetInfoAndFileStreamAsync" method to get fileInfo and read stream manually
 
 ### Added
 ### Changed
