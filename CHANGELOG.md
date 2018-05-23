@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+- made "GetFileStreamAsync" method to get file stream to read manually
+- made "GetInfoAndFileStreamAsync" method to get fileInfo and read stream manually
+
+### Added
 ### Changed
 
 - `MakeRequestAsync` throws `ApiRequestException` with `ErrorCode = HttpStatusCode.Unauthorized` and `Message = apiResponse.Description` ("Unauthorized"), to be consistent with Telegram Bot API
