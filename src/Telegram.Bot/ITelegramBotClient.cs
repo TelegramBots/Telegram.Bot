@@ -598,6 +598,7 @@ namespace Telegram.Bot
             string filePath,
             Stream destination,
             CancellationToken cancellationToken = default);
+
         /// <summary>
         /// Use this method to get a stream to read manualy. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
         /// </summary>
@@ -606,6 +607,16 @@ namespace Telegram.Bot
         /// <returns>A cancellation token that can be used by other objects or threads to receive notice of cancellation.</returns>
         Task<Stream> GetFileStreamAsync(
             string filePath,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to get file info and stream to read manualy. Get <paramref name="fileId"/> by calling <see cref="GetFileAsync"/>
+        /// </summary>
+        /// <param name="fileId">File identifier to get info about</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>A cancellation token that can be used by other objects or threads to receive notice of cancellation.</returns>
+        Task<Stream> GetInfoAndFileStreamAsync(
+            string fileId,
             CancellationToken cancellationToken = default);
 
         /// <summary>

@@ -754,6 +754,28 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
+        public async Task<Stream> GetInfoAndFileStreamAsync(
+            string fileId,
+            CancellationToken cancellationToken = default
+        )
+        {
+            var file = await GetFileAsync(fileId, cancellationToken)
+              .ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(file.FilePath) || file.FilePath.Length < 2)
+            {
+                throw new ArgumentException("Invalid file path", nameof(file.FilePath));
+            }
+
+            var fileUri = new Uri($"{BaseFileUrl}{_token}/{file.FilePath}");
+
+            HttpResponseMessage response = await _httpClient
+                .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                .ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsStreamAsync();
+        }
+        /// <inheritdoc />
         public async Task<File> GetInfoAndDownloadFileAsync(
             string fileId,
             Stream destination,
