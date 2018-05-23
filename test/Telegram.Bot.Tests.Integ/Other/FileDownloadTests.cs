@@ -122,7 +122,7 @@ namespace Telegram.Bot.Tests.Integ.Other
                 ));
             }
         }
-        
+
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidParameterExceptionForFileId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
         public async Task Should_Throw_FileId_InvalidParameterException()
@@ -152,6 +152,42 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(content);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldGetInfoAndFileStreamReturnUsingFileId)]
+        public async Task Should_GetFileStream_Return_Using_FilePath()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetInfoAndFileStreamReturnUsingFileId);
+
+            int fileSize = _classFixture.File.FileSize;
+
+            System.IO.Stream stream = await BotClient.GetFileStreamAsync(
+                    _classFixture.File.FilePath
+                );
+
+            Assert.True(stream.CanRead);
+
+            //read one byte
+            int oneByte = stream.ReadByte();
+            Assert.True(oneByte >= 0);
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldGetInfoAndFileStreamReturnUsingFileId)]
+        public async Task Should_GetInfoAndFileStream_Return_Using_FileId()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetInfoAndFileStreamReturnUsingFileId);
+
+            int fileSize = _classFixture.File.FileSize;
+
+            System.IO.Stream stream = await BotClient.GetInfoAndFileStreamAsync(
+                    fileId: _classFixture.File.FileId
+                );
+
+            Assert.True(stream.CanRead);
+
+            //read one byte
+            int oneByte = stream.ReadByte();
+            Assert.True(oneByte >= 0);
+        }
+
         private static class FactTitles
         {
             public const string ShouldGetFileInfo = "Should get file info";
@@ -169,6 +205,12 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             public const string ShouldThrowInvalidHttpRequestExceptionForFilePath =
                 "Should throw HttpRequestException while trying to download file using wrong file_path";
+
+            public const string ShouldGetInfoAndFileStreamReturnUsingFileId =
+                "Should get file info and stream using file_id and return stream";
+
+            public const string ShouldGetFileStreamReturnUsingFilePath =
+                            "Should get file stream using file_path and return stream";
         }
 
         public class Fixture
