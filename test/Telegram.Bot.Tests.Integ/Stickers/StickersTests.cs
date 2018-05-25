@@ -104,7 +104,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadStickerFile);
 
             List<File> stickerFiles = new List<File>(2);
-            foreach (string pngFile in new[] { Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux })
+            foreach (string pngFile in new[] {Constants.FileNames.Photos.Gnu, Constants.FileNames.Photos.Tux})
             {
                 File file;
                 using (System.IO.Stream stream = System.IO.File.OpenRead(pngFile))
@@ -230,7 +230,8 @@ namespace Telegram.Bot.Tests.Integ.Stickers
             _classFixture.TestStickerSet = await BotClient.GetStickerSetAsync(_classFixture.TestStickerSetName);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException)]
+        [OrderedFact(DisplayName = FactTitles.ShouldThrowStickerSetNameExistsException,
+            Skip = "Upstream bug in Bot API")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
         public async Task Should_Throw_StickerSetNameExistsException()
         {
@@ -313,7 +314,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         /// One sticker in the set is not removed because removing last sticker would cause the sticker set to be removed
         /// and bots cannot remove a sticker set.
         /// </remarks>
-        [OrderedFact(DisplayName = FactTitles.ShouldRemoveStickersFromSet)]
+        [OrderedFact(DisplayName = FactTitles.ShouldRemoveStickersFromSet, Skip = "Upstream bug in Bot API")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
         public async Task Should_Remove_All_Stickers_From_Set_Except_1()
