@@ -10,6 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Games
 {
     [Collection(Constants.TestCollections.Games)]
+    [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class GamesTests : IClassFixture<GamesFixture>
     {

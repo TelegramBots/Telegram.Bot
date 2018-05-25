@@ -6,6 +6,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
     {
         public const string CategoryTraitName = "Category";
 
+        public const string InteractiveCategoryValue = "Interactive";
+
         public const string MethodTraitName = "Method";
 
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";

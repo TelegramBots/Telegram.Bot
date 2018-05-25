@@ -10,6 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Exceptions
 {
     [Collection(Constants.TestCollections.Exceptions)]
+    [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests
     {
