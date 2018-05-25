@@ -4,12 +4,12 @@ sudo: false
 mono: none
 dotnet: 2.0.0
 branches:
-  only:
-  - develop
+  except:
+  - master
 script: >
   cd "test/Telegram.Bot.Tests.Integ" &&
   dotnet test --configuration Release --list-tests &&
-  dotnet xunit -configuration Release -nobuild -stoponfail -verbose
+  dotnet xunit -configuration Release -nobuild -stoponfail -verbose $([ "$TRAVIS_BRANCH" != 'develop' ] && echo '-notrait "Category=Interactive"')
 notifications:
   email: false
 

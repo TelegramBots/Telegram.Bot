@@ -10,6 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Locations
 {
     [Collection(Constants.TestCollections.InlineMessageLiveLocation)]
+    [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLocationTests.Fixture>
     {
@@ -35,12 +36,13 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             string callbackQueryData = "edit-location" + new Random().Next(1_000);
-            Location newYork = new Location { Latitude = 40.7128f, Longitude = -74.0060f };
+            Location newYork = new Location {Latitude = 40.7128f, Longitude = -74.0060f};
 
             await BotClient.AnswerInlineQueryAsync(
                 inlineQueryId: iqUpdate.InlineQuery.Id,
                 cacheTime: 0,
-                results: new[] {
+                results: new[]
+                {
                     new InlineQueryResultLocation(
                         id: "live-location",
                         latitude: newYork.Latitude,
@@ -68,7 +70,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Update cqUpdate = await _fixture.UpdateReceiver
                 .GetCallbackQueryUpdateAsync(data: _classFixture.CallbackQueryData);
 
-            Location beijing = new Location { Latitude = 39.9042f, Longitude = 116.4074f };
+            Location beijing = new Location {Latitude = 39.9042f, Longitude = 116.4074f};
 
             await BotClient.EditMessageLiveLocationAsync(
                 inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
@@ -93,7 +95,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
         private static class FactTitles
         {
-            public const string ShouldAnswerInlineQueryWithLocation = "Should answer inline query with a location result";
+            public const string ShouldAnswerInlineQueryWithLocation =
+                "Should answer inline query with a location result";
 
             public const string ShouldEditInlineMessageLiveLocation =
                 "Should edit live location of previously sent inline message";

@@ -9,7 +9,8 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 {
-    [Collection(Constants.TestCollections.ReplyMarkup)]
+    [Collection(Constants.TestCollections.PrivateChatReplyMarkup)]
+    [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PrivateChatReplyMarkupTests : IClassFixture<PrivateChatReplyMarkupTests.Fixture>
     {
@@ -35,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                 chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
                 replyMarkup: new ReplyKeyboardMarkup(
-                    keyboardRow: new[] {KeyboardButton.WithRequestContact("Share Contact"),},
+                    keyboardRow: new[] { KeyboardButton.WithRequestContact("Share Contact"), },
                     resizeKeyboard: true,
                     oneTimeKeyboard: true
                 )
