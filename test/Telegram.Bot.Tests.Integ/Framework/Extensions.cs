@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public static string GetTesterMentions(this UpdateReceiver updateReceiver)
         {
             return string.Join(", ",
-                updateReceiver.AllowedUsernames.Select(username => '@' + username)
+                updateReceiver.AllowedUsernames.Select(username => $"@{username}".Replace("_", "\\_"))
             );
         }
     }
