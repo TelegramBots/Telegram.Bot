@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
@@ -35,29 +36,37 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
+            const string resultId = "live-location";
             string callbackQueryData = "edit-location" + new Random().Next(1_000);
-            Location newYork = new Location {Latitude = 40.7128f, Longitude = -74.0060f};
+            Location newYork = new Location { Latitude = 40.7128f, Longitude = -74.0060f };
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultLocation(
+                         id: resultId,
+                         latitude: newYork.Latitude,
+                         longitude: newYork.Longitude,
+                         title: "Live Locations Test")
+                     {
+                         LivePeriod = 60,
+                         ReplyMarkup = InlineKeyboardButton.WithCallbackData(
+                             "Start live locations", callbackQueryData
+                         )
+                     }
+            };
 
             await BotClient.AnswerInlineQueryAsync(
                 inlineQueryId: iqUpdate.InlineQuery.Id,
-                cacheTime: 0,
-                results: new[]
-                {
-                    new InlineQueryResultLocation(
-                        id: "live-location",
-                        latitude: newYork.Latitude,
-                        longitude: newYork.Longitude,
-                        title: "Live Locations Test")
-                    {
-                        LivePeriod = 60,
-                        ReplyMarkup = InlineKeyboardButton.WithCallbackData(
-                            "Start live locations", callbackQueryData
-                        )
-                    }
-                }
-            );
+                results: results,
+                cacheTime: 0);
 
             _classFixture.CallbackQueryData = callbackQueryData;
+
+            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Location);
+            ChosenInlineResult chosenResult = chosenResultUpdate.ChosenInlineResult;
+
+            Assert.Equal(MessageType.Location, messageUpdate.Message.Type);
+            Assert.Equal(resultId, chosenResult.ResultId);
+            Assert.Equal(iqUpdate.InlineQuery.Query, chosenResultUpdate.ChosenInlineResult.Query);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageLiveLocation)]
@@ -70,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Update cqUpdate = await _fixture.UpdateReceiver
                 .GetCallbackQueryUpdateAsync(data: _classFixture.CallbackQueryData);
 
-            Location beijing = new Location {Latitude = 39.9042f, Longitude = 116.4074f};
+            Location beijing = new Location { Latitude = 39.9042f, Longitude = 116.4074f };
 
             await BotClient.EditMessageLiveLocationAsync(
                 inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
