@@ -62,6 +62,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             Assert.StartsWith("https://t.me/joinchat/", result);
 
             _classFixture.GroupInviteLink = result;
+            _fixture.SupergroupChat.InviteLink = result;
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldReceiveNewChatMemberNotification)]
