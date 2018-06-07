@@ -6,6 +6,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
     {
         public const string CategoryTraitName = "Category";
 
+        public const string InteractiveCategoryValue = "Interactive";
+
         public const string MethodTraitName = "Method";
 
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
@@ -53,9 +55,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string AlbumMessage = "Sending Album Messages";
 
-            public const string EditMessage = "Edit Message Content";
+            public const string EditMessage = "Edit message content";
 
-            public const string DeleteMessage = "Delete Message";
+            public const string EditMessage2 = "Edit message content (non-interactive)";
+
+            public const string DeleteMessage = "Delete message";
+
+            public const string DeleteMessage2 = "Delete message (non-interactive)";
 
             public const string LiveLocation = "Live Location";
 
@@ -67,13 +73,19 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string Games = "Games";
 
-            public const string SuperGroupAdminBots = "Super Group Admin Bot";
+            public const string GameException = "Game Exceptions";
+
+            public const string Games2 = "Games (non-interactive)";
+
+            public const string SupergroupAdminBots = "Supergroup Admin Bot";
 
             public const string ChannelAdminBots = "Channel Admin Bot";
 
             public const string ChatMemberAdministration = "Chat Member Administration";
 
-            public const string Exceptions = "Bot API Exceptions";
+            public const string Exceptions = "Bot API exceptions";
+
+            public const string Exceptions2 = "Bot API exceptions (non-interactive)";
         }
 
         public static class FileNames

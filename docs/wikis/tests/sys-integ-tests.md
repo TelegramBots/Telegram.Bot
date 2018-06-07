@@ -44,11 +44,10 @@ Bot should have some features enabled, usually through BotFather, in order to pa
 - [Inline feedback](https://core.telegram.org/bots/inline#collecting-feedback)
 - Profile picture
 
-For making testing process more convenient, set the following commands for MyTestBot as well. The purpose for these commands is explained in the sections below.
+For making testing process more convenient, set the following command for MyTestBot:
 
 ```text
-test - Start test execution
-  me - Select me for testing admin methods
+test - Start/Continue test execution
 ```
 
 ## Test Configurations
@@ -71,12 +70,12 @@ This is required for executing any test case.
 { "ApiToken": "MyTestBot-API-TOKEN" }
 ```
 
-#### Allowed Users
+#### Supergroup Chat Id
 
-A comma separated list indicating user name(s) of tester(s). Any update coming from users other than the ones listed here are discarded during test execution.
+Add bot to a supergroup and bot sends messages to this chat in almost all test cases except cases like sending payments that must be sent in a private chat.
 
 ```json
-{ "AllowedUserNames": "tester1, Tester2, TESTER3" }
+{ "SuperGroupChatId": -1234567890 }
 ```
 
 ### Optional Settings
@@ -87,14 +86,14 @@ Bot will ask testers in supergroup/private chat for the necessary information. I
 
 > For obtaining values of necessary settings, you can set breakpoints in some test methods and extract values such as chat id or user id.
 
-#### Supergroup Chat Id
+#### Allowed Users
 
-Bot send  messages to this chat in almost all test cases except cases like sending payments that must be to a private chat.
+A comma separated list indicating user name(s) of tester(s). Any update coming from users other than the ones listed here are discarded during test execution.
 
-If not set, before starting any test method, bot waits for a tester to send it a `/test` command in a super group chat (that bot is also a member of).
+If not set, test bot assumes all supergroup admins(non-bot) have _allowed usernames_.
 
 ```json
-{ "SuperGroupChatId": -1234567890 }
+{ "AllowedUserNames": "tester1, Tester2, TESTER3" }
 ```
 
 #### Channel Chat Id

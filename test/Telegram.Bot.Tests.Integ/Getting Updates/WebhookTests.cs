@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -68,7 +69,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             const string url = "https://www.telegram.org/";
             const int maxConnections = 5;
 
-            using (var stream = File.OpenRead(Constants.FileNames.Certificate.PublicKey))
+            using (Stream stream = File.OpenRead(Constants.FileNames.Certificate.PublicKey))
             {
                 await BotClient.SetWebhookAsync(
                     url: url,

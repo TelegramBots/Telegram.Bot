@@ -5,9 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+[Unreleased]
 
 ### Added
+
+- New enum member `MessageEntityType.Unknown`
+
+### Fixed
+
+- Exception during deserialization of unknown message entity type  
+
+## [14.4.0] - 2018-05-17
+
 ### Changed
 
 - `MakeRequestAsync` throws `ApiRequestException` with `ErrorCode = HttpStatusCode.Unauthorized` and `Message = apiResponse.Description` ("Unauthorized"), to be consistent with Telegram Bot API
@@ -19,8 +28,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 - `EditMessageTextAsync` pass `ParseMode` to request
-
-### Removed
 
 ## [14.3.0] - 2018-05-05
 

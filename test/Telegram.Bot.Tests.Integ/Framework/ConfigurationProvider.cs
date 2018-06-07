@@ -1,13 +1,12 @@
 using System;
 using System.IO;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     public static class ConfigurationProvider
     {
-        public static TestConfigurations TestConfigurations;
+        public static readonly TestConfigurations TestConfigurations;
 
         static ConfigurationProvider()
         {
@@ -20,7 +19,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             TestConfigurations = new TestConfigurations
             {
                 ApiToken = configuration[nameof(TestConfigurations.ApiToken)],
-                AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)],
+                AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)] ?? string.Empty,
 
                 SuperGroupChatId = configuration[nameof(TestConfigurations.SuperGroupChatId)],
                 ChannelChatId = configuration[nameof(TestConfigurations.ChannelChatId)],
@@ -34,19 +33,22 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 TestConfigurations.TesterPrivateChatId = privateChat;
             }
-            if (int.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out int userId))
+
+            if (int.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out int stickerOwnerUserId))
             {
-                TestConfigurations.StickerOwnerUserId = userId;
+                TestConfigurations.StickerOwnerUserId = stickerOwnerUserId;
             }
 
             if (string.IsNullOrWhiteSpace(TestConfigurations.ApiToken))
-                throw new ArgumentNullException(nameof(TestConfigurations.ApiToken), "API token is not provided or is empty.");
+                throw new ArgumentNullException(nameof(TestConfigurations.ApiToken),
+                    "API token is not provided or is empty.");
 
             if (TestConfigurations.ApiToken?.Length < 25)
                 throw new ArgumentException("API token is too short.", nameof(TestConfigurations.ApiToken));
 
-            if (!TestConfigurations.AllowedUserNamesArray.Any())
-                throw new ArgumentException("Allowed user names is not provided", nameof(TestConfigurations.AllowedUserNames));
+            if (string.IsNullOrWhiteSpace(TestConfigurations.SuperGroupChatId))
+                throw new ArgumentNullException(nameof(TestConfigurations.SuperGroupChatId),
+                    "Supergroup ID is not provided or is empty.");
         }
     }
 }

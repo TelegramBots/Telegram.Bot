@@ -1,6 +1,3 @@
-﻿using System;
-using System.Linq;
-
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     public class TestConfigurations
@@ -8,21 +5,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public string ApiToken { get; set; }
 
         public string AllowedUserNames { get; set; }
-
-        public string[] AllowedUserNamesArray
-        {
-            get
-            {
-                if (_allowedUsers == null)
-                {
-                    _allowedUsers = AllowedUserNames
-                        .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                        .Select(n => n.Trim())
-                        .ToArray();
-                }
-                return _allowedUsers;
-            }
-        }
 
         public string SuperGroupChatId { get; set; }
 
@@ -35,7 +17,5 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public int? StickerOwnerUserId { get; set; }
 
         public string RegularGroupMemberId { get; set; }
-
-        private string[] _allowedUsers;
     }
 }

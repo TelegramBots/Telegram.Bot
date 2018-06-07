@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -13,28 +13,31 @@ namespace Telegram.Bot.Tests.Integ.Games
     {
         public string GameShortName { get; }
 
-        public Message GameMessage { set; get; }        
-       
+        public Message GameMessage { set; get; }
+
         public string InlineGameMessageId { set; get; }
 
         public GameHighScore[] HighScores { set; get; }
-        
+
         /// <summary>
         /// A chat admin to set the game scores for.
         /// </summary>
-        public User Player { get; }
-        
+        public User Player { get; private set; }
+
         private readonly TestsFixture _fixture;
-        
+
         public GamesFixture(TestsFixture fixture)
         {
             _fixture = fixture;
-            
             GameShortName = "game1";
+            InitAsync().GetAwaiter().GetResult();
+        }
 
+        private async Task InitAsync()
+        {
             try
             {
-                fixture.BotClient.SendGameAsync(fixture.SupergroupChat.Id, GameShortName).GetAwaiter().GetResult();
+                await _fixture.BotClient.SendGameAsync(_fixture.SupergroupChat.Id, GameShortName);
             }
             catch (InvalidGameShortNameException e)
             {
@@ -44,14 +47,13 @@ namespace Telegram.Bot.Tests.Integ.Games
                 );
             }
 
-            Player = GetPlayerIdFromChatAdmins(fixture.SupergroupChat.Id)
-                .GetAwaiter().GetResult();
+            Player = await GetPlayerIdFromChatAdmins(_fixture.SupergroupChat.Id);
         }
 
         private async Task<User> GetPlayerIdFromChatAdmins(long chatId)
         {
-            var admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
-            var player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
+            ChatMember[] admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
+            ChatMember player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
             return player.User;
         }
     }
