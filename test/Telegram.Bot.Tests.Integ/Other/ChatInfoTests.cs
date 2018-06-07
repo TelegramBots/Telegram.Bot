@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -38,13 +39,15 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(supergroupChat.Title, chat.Title);
             Assert.Equal(supergroupChat.Username, chat.Username);
             Assert.Equal(supergroupChat.Description, chat.Description);
-            Assert.Equal(supergroupChat.InviteLink, chat.InviteLink);
             Assert.Equal(supergroupChat.PinnedMessage, chat.PinnedMessage);
             Assert.Equal(supergroupChat.StickerSetName, chat.StickerSetName);
             Assert.Equal(supergroupChat.CanSetStickerSet, chat.CanSetStickerSet);
             Assert.Null(chat.FirstName);
             Assert.Null(chat.LastName);
             Assert.False(chat.AllMembersAreAdministrators);
+
+            // invite_link might change in other test cases during execution
+            Assert.StartsWith("http", chat.InviteLink, StringComparison.OrdinalIgnoreCase);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldGetBotChatMember)]
