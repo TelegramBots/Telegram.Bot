@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+
+- Property `ParseMode` to requests with a caption
+  - `EditMessageCaptionRequest`
+  - `EditInlineMessageCaptionRequest`
+- Parameter `parseMode` to method `ITelegramBotClient.EditMessageCaptionAsync`
+
 ## [14.5.0] - 2018-06-06
 
 ### Added

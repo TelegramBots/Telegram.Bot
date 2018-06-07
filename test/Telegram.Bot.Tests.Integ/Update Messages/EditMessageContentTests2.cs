@@ -114,17 +114,22 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             DateTime timeBeforeEdition = DateTime.UtcNow;
             await Task.Delay(1_000);
 
-            const string newCaption = "Caption is edited.";
+            const string captionPrefix = "Modified caption";
+            (MessageEntityType Type, string Value) captionEntity = (MessageEntityType.Italic, "_with Markdown_");
+            string caption = $"{captionPrefix} {captionEntity.Value}";
 
             Message editedMessage = await BotClient.EditMessageCaptionAsync(
                 chatId: originalMessage.Chat.Id,
                 messageId: originalMessage.MessageId,
-                caption: newCaption
+                caption: caption,
+                parseMode: ParseMode.Markdown
             );
 
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
-            Assert.Equal(newCaption, editedMessage.Caption);
             Assert.True(timeBeforeEdition < editedMessage.EditDate);
+            Assert.StartsWith(captionPrefix, editedMessage.Caption);
+
+            Assert.Equal(editedMessage.CaptionEntities.Single().Type, captionEntity.Type);
         }
 
         private static class FactTitles

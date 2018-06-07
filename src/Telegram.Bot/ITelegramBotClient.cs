@@ -854,6 +854,7 @@ namespace Telegram.Bot
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="messageId">Unique identifier of the sent message</param>
         /// <param name="caption">New caption of the message</param>
+        /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the edited Description is returned.</returns>
@@ -862,6 +863,7 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             string caption,
+            ParseMode parseMode = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
@@ -870,6 +872,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="caption">New caption of the message</param>
+        /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
@@ -877,6 +880,7 @@ namespace Telegram.Bot
         Task EditMessageCaptionAsync(
             string inlineMessageId,
             string caption,
+            ParseMode parseMode = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 
