@@ -1,7 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Serialization
@@ -50,7 +48,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
 
             var message = JsonConvert.DeserializeObject<MessageEntity>(json);
 
-            Assert.Equal(MessageEntityType.Unknown, message.Type);
+            Assert.Equal(MessageEntityType.Unknown("totally_unknown_type"), message.Type);
         }
 
         [Fact(DisplayName = "Should serialize message entity with unknown type")]
@@ -60,14 +58,14 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             {
                 Length = 10,
                 Offset = 10,
-                Type = MessageEntityType.Unknown
+                Type = MessageEntityType.Unknown("totally_unknown_type")
             };
 
             var json = JsonConvert.SerializeObject(messageEntity);
 
             Assert.NotNull(json);
             Assert.True(json.Length > 10);
-            Assert.Contains(@"""type"":""unknown""", json);
+            Assert.Contains(@"""type"":""totally_unknown_type""", json);
         }
     }
 }
