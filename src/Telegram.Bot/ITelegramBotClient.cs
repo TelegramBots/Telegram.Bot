@@ -863,9 +863,9 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             string caption,
-            ParseMode parseMode = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            ParseMode parseMode = default);
 
         /// <summary>
         /// Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
@@ -880,9 +880,9 @@ namespace Telegram.Bot
         Task EditMessageCaptionAsync(
             string inlineMessageId,
             string caption,
-            ParseMode parseMode = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            ParseMode parseMode = default);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
