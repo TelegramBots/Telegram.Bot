@@ -303,10 +303,10 @@ namespace Telegram.Bot
                 try
                 {
                     updates = await GetUpdatesAsync(
-                       MessageOffset,
-                       timeout: timeout,
-                       allowedUpdates: allowedUpdates,
-                       cancellationToken: cancellationToken
+                        MessageOffset,
+                        timeout: timeout,
+                        allowedUpdates: allowedUpdates,
+                        cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
@@ -350,9 +350,11 @@ namespace Telegram.Bot
                 _receivingCancellationTokenSource.Cancel();
             }
             catch (WebException)
-            { }
+            {
+            }
             catch (TaskCanceledException)
-            { }
+            {
+            }
         }
 
         #endregion Helpers
@@ -714,6 +716,7 @@ namespace Telegram.Bot
             {
                 throw new ArgumentException("Invalid file path", nameof(filePath));
             }
+
             if (destination == null)
             {
                 throw new ArgumentNullException(nameof(destination));
@@ -934,11 +937,13 @@ namespace Telegram.Bot
             int messageId,
             string caption,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            ParseMode parseMode = default
         ) =>
             MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId)
             {
                 Caption = caption,
+                ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
 
@@ -947,11 +952,13 @@ namespace Telegram.Bot
             string inlineMessageId,
             string caption,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            ParseMode parseMode = default
         ) =>
             MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId)
             {
                 Caption = caption,
+                ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
 

@@ -166,7 +166,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             await BotClient.EditMessageCaptionAsync(
                 inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
-                caption: "Caption is edited 👌"
+                caption: "_Caption is edited_ 👌",
+                parseMode: ParseMode.Markdown
             );
         }
 
