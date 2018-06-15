@@ -1,9 +1,12 @@
-﻿// ReSharper disable once CheckNamespace
+using System;
+
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when the user does not exist
     /// </summary>
+    [Obsolete]
     public class InvalidUserIdException : InvalidParameterException
     {
         /// <summary>

@@ -1,11 +1,13 @@
-﻿// ReSharper disable once CheckNamespace
+using System;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when the bot sends message to
     /// a user who has not initiated a chat with bot yet
     /// </summary>
+    [Obsolete]
     public class ChatNotInitiatedException : ForbiddenException
     {
         /// <summary>

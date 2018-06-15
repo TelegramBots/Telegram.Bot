@@ -6,7 +6,7 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// Represents an error from Bot API with 400 Bad Request HTTP status
     /// </summary>
-    public abstract class BadRequestException : ApiRequestException
+    public class BadRequestException : ApiRequestException
     {
         /// <inheritdoc />
         public override int ErrorCode => BadRequestErrorCode;

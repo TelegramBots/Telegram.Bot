@@ -1,10 +1,12 @@
-﻿// ReSharper disable once CheckNamespace
+using System;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when a parameter is invalid
     /// </summary>
+    [Obsolete]
     public class InvalidParameterException : BadRequestException
     {
         internal const string ParamGroupName = "param";

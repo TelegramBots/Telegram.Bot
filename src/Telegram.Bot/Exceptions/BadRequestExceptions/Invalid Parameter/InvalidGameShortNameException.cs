@@ -1,10 +1,12 @@
-﻿// ReSharper disable once CheckNamespace
+using System;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when the specified game short name is empty, invalid, or wrong(non-existent). 
     /// </summary>
+    [Obsolete]
     public class InvalidGameShortNameException : InvalidParameterException
     {
         /// <summary>
