@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Converters;
@@ -7,7 +7,7 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Types.InputFiles
 {
     /// <summary>
-    /// ToDo
+    /// Used for sending files to Telegram
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     [JsonConverter(typeof(InputFileConverter))]
@@ -33,18 +33,18 @@ namespace Telegram.Bot.Types.InputFiles
         { }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputFileStream"/> from a <see cref="Stream"/>
         /// </summary>
-        /// <param name="content"></param>
+        /// <param name="content"><see cref="Stream"/> containing the file</param>
         public InputFileStream(Stream content)
             : this(content, default)
         { }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputFileStream"/> from a <see cref="Stream"/> and a file name
         /// </summary>
-        /// <param name="content"></param>
-        /// <param name="fileName"></param>
+        /// <param name="content"><see cref="Stream"/> containing the file</param>
+        /// <param name="fileName">Name of the file</param>
         public InputFileStream(Stream content, string fileName)
         {
             Content = content;
