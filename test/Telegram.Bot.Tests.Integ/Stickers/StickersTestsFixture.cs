@@ -42,7 +42,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 const string cqData = "sticker_tests:owner";
                 Message cqMessage = await testsFixture.BotClient.SendTextMessageAsync(
                     testsFixture.SupergroupChat,
-                    testsFixture.UpdateReceiver.GetTesterMentions() +
+                    testsFixture.UpdateReceiver.GetTesters() +
                     "\nUse the following button to become Sticker Set Owner",
                     replyToMessageId: notifMessage.MessageId,
                     replyMarkup: new InlineKeyboardMarkup(
