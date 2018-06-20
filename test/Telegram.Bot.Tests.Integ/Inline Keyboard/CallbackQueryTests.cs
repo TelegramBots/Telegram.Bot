@@ -7,9 +7,11 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.Inline_Keyboard
+// ReSharper disable once CheckNamespace
+namespace Telegram.Bot.Tests.Integ.Interactive
 {
     [Collection(Constants.TestCollections.CallbackQuery)]
+    [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class CallbackQueryTests
     {

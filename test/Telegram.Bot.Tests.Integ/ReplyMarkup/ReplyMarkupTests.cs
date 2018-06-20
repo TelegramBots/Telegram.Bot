@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 
         [OrderedFact(DisplayName = FactTitles.ShouldSendInlineKeyboardMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        public async Task Should_Do()
+        public async Task Should_Send_Inline_Keyboard()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInlineKeyboardMarkup);
 

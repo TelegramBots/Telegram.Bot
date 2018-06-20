@@ -37,7 +37,6 @@ If you don't know how to use this project or what is available for a Telegram bo
 
 Before submitting issues please consult following resources:
 
-* [Library docs](https://telegrambots.github.io/telegram.bot/)
 * [Changelog](https://github.com/TelegramBots/telegram.bot/blob/master/CHANGELOG.md)
 * [API docs](https://core.telegram.org/bots/api)
 * [Webhook docs](https://core.telegram.org/bots/webhooks)

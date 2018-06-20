@@ -1,24 +1,20 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
-using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Other
 {
     [Collection(Constants.TestCollections.LeaveChat)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class LeaveChatTests : IClassFixture<LeaveChatTests.Fixture>
+    public class LeaveChatTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly Fixture _classFixture;
-
         private readonly TestsFixture _fixture;
 
-        public LeaveChatTests(TestsFixture fixture, Fixture classFixture)
+        public LeaveChatTests(TestsFixture fixture)
         {
             _fixture = fixture;
-            _classFixture = classFixture;
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldLeaveChat,
@@ -37,14 +33,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         private static class FactTitles
         {
             public const string ShouldLeaveChat = "Should leave chat";
-        }
-
-        public class Fixture : PrivateChatFixture
-        {
-            public Fixture(TestsFixture testsFixture)
-                : base(testsFixture, Constants.TestCollections.LeaveChat)
-            {
-            }
         }
     }
 }

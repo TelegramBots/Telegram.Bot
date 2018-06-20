@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,15 +12,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
 {
     public class TestsFixture : IDisposable
     {
-        public ITelegramBotClient BotClient { get; }
+        public ITelegramBotClient BotClient { get; private set; }
 
-        public User BotUser { get; }
+        public User BotUser { get; private set; }
 
-        public UpdateReceiver UpdateReceiver { get; }
+        public UpdateReceiver UpdateReceiver { get; private set; }
 
-        public string[] AllowedUserNames { get; }
-
-        public Chat SupergroupChat { get; }
+        public Chat SupergroupChat { get; private set; }
 
         public Chat PrivateChat { get; set; }
 
@@ -32,39 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public TestsFixture()
         {
-            string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
-            BotClient = new TelegramBotClient(apiToken);
-
-            BotUser = BotClient.GetMeAsync().GetAwaiter().GetResult();
-
-            BotClient.DeleteWebhookAsync().GetAwaiter().GetResult();
-
-            AllowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNamesArray;
-            UpdateReceiver = new UpdateReceiver(BotClient, AllowedUserNames);
-
-            string supergroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
-
-            #region Validations
-
-            if (string.IsNullOrWhiteSpace(supergroupChatId))
-            {
-                UpdateReceiver.DiscardNewUpdatesAsync().GetAwaiter().GetResult();
-                SupergroupChat = GetChatFromTesterAsync(ChatType.Supergroup).GetAwaiter().GetResult();
-            }
-            else
-            {
-                SupergroupChat = BotClient.GetChatAsync(supergroupChatId)
-                    .GetAwaiter().GetResult();
-            }
-
-            #endregion
-
-            BotClient.SendTextMessageAsync(
-                SupergroupChat.Id,
-                "```\nTest execution is starting...\n```",
-                ParseMode.Markdown,
-                cancellationToken: CancellationToken
-            ).GetAwaiter().GetResult();
+            InitAsync().GetAwaiter().GetResult();
         }
 
         public void Dispose()
@@ -103,15 +70,34 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return msg;
         }
 
-        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType)
+        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType, CancellationToken cancellationToken = default)
+        {
+            bool IsMatch(Update u) =>
+            (
+                u.Message.Chat.Type == chatType &&
+                u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true
+            ) || (
+                ChatType.Channel == chatType &&
+                ChatType.Channel == u.Message.ForwardFromChat?.Type
+            );
+
+            var updates = await UpdateReceiver
+                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message, cancellationToken: cancellationToken);
+            var update = updates.Single();
+
+            await UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
+
+            return chatType == ChatType.Channel
+                ? update.Message.ForwardFromChat
+                : update.Message.Chat;
+        }
+
+        public async Task<Chat> GetChatFromAdminAsync()
         {
             bool IsMatch(Update u) => (
-                    u.Message.Chat.Type == chatType &&
-                    u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true
-                ) || (
-                    ChatType.Channel == chatType &&
-                    ChatType.Channel == u.Message.ForwardFromChat?.Type
-                );
+                u.Message.Type == MessageType.Contact ||
+                u.Message.ForwardFrom?.Id != null
+            );
 
             var update = await UpdateReceiver
                 .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message)
@@ -119,9 +105,31 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            return chatType == ChatType.Channel
-                ? update.Message.ForwardFromChat
-                : update.Message.Chat;
+            int userId = update.Message.Type == MessageType.Contact
+                ? update.Message.Contact.UserId
+                : update.Message.ForwardFrom.Id;
+
+            return await BotClient.GetChatAsync(userId);
+        }
+
+        private async Task InitAsync()
+        {
+            string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
+            BotClient = new TelegramBotClient(apiToken);
+            BotUser = await BotClient.GetMeAsync(CancellationToken);
+            await BotClient.DeleteWebhookAsync(CancellationToken);
+
+            SupergroupChat = await FindSupergroupTestChatAsync();
+            var allowedUserNames = await FindAllowedTesterUserNames();
+            UpdateReceiver = new UpdateReceiver(BotClient, allowedUserNames);
+
+            await BotClient.SendTextMessageAsync(
+                SupergroupChat.Id,
+                "```\nTest execution is starting...\n```" +
+                "Testers are: \n" + UpdateReceiver.GetTesterMentions(),
+                ParseMode.Markdown,
+                cancellationToken: CancellationToken
+            );
         }
 
         private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
@@ -140,7 +148,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
 
             IReplyMarkup replyMarkup = switchInlineQuery
-                ? new InlineKeyboardMarkup(new[] {
+                ? new InlineKeyboardMarkup(new[]
+                {
                     InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 })
                 : default;
@@ -149,6 +158,45 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 replyMarkup: replyMarkup,
                 cancellationToken: CancellationToken);
             return task;
+        }
+
+        private async Task<Chat> FindSupergroupTestChatAsync()
+        {
+            Chat supergroupChat;
+            string supergroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
+            if (string.IsNullOrWhiteSpace(supergroupChatId))
+            {
+                supergroupChat = null; // ToDo Find supergroup from a message command /test
+                // await UpdateReceiver.DiscardNewUpdatesAsync(CancellationToken);
+                // supergroupChat = await GetChatFromTesterAsync(ChatType.Supergroup, CancellationToken);
+            }
+            else
+            {
+                supergroupChat = await BotClient.GetChatAsync(supergroupChatId, CancellationToken);
+            }
+
+            return supergroupChat;
+        }
+
+        private async Task<IEnumerable<string>> FindAllowedTesterUserNames()
+        {
+            // Try to get user names from test configurations first
+            string[] allowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNames
+                .Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .Select(n => n.Trim())
+                .ToArray();
+
+            if (!allowedUserNames.Any())
+            {
+                // Assume all chat admins are allowed testers
+                ChatMember[] admins = await BotClient.GetChatAdministratorsAsync(SupergroupChat, CancellationToken);
+                allowedUserNames = admins
+                    .Where(member => !member.User.IsBot)
+                    .Select(member => member.User.Username)
+                    .ToArray();
+            }
+
+            return allowedUserNames;
         }
 
         private static class Constants

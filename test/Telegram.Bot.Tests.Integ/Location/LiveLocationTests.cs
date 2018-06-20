@@ -89,7 +89,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
         [OrderedFact(DisplayName = FactTitles.ShouldStopMessageLiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
-        public async Task Should_Stop_Inline_Message_Live_Location()
+        public async Task Should_Stop_Live_Location()
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldStopMessageLiveLocation);
 

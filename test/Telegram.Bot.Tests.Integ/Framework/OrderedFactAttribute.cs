@@ -86,7 +86,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             LineNumber = line;
             MaxRetries = 1;
-            DelaySeconds = 30;
+            DelaySeconds = 60;
             ExceptionType = typeof(TaskCanceledException);
         }
     }

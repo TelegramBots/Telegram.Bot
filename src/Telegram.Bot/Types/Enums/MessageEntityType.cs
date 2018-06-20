@@ -1,13 +1,14 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// Type of a <see cref="MessageEntity"/>
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter), true)]
+    [JsonConverter(typeof(MessageEntityTypeConverter))]
     public enum MessageEntityType
     {
         /// <summary>
@@ -23,7 +24,6 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// A Bot command
         /// </summary>
-        [EnumMember(Value = "bot_command")]
         BotCommand,
 
         /// <summary>
@@ -59,13 +59,69 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// Clickable text urls
         /// </summary>
-        [EnumMember(Value = "text_link")]
         TextLink,
 
         /// <summary>
         /// Mentions for a <see cref="User"/> without <see cref="User.Username"/>
         /// </summary>
-        [EnumMember(Value = "text_mention")]
         TextMention,
+
+        /// <summary>
+        /// Phone number
+        /// </summary>
+        PhoneNumber,
+
+        /// <summary>
+        /// Unknown entity type
+        /// </summary>
+        Unknown
+    }
+
+    internal static class MessageEntityTypeExtensions
+    {
+        private static readonly IDictionary<string, MessageEntityType> StringToEnum =
+            new Dictionary<string, MessageEntityType>
+            {
+                { "mention", MessageEntityType.Mention },
+                { "hashtag", MessageEntityType.Hashtag },
+                { "bot_command", MessageEntityType.BotCommand },
+                { "url", MessageEntityType.Url },
+                { "email", MessageEntityType.Email },
+                { "bold", MessageEntityType.Bold },
+                { "italic", MessageEntityType.Italic },
+                { "code", MessageEntityType.Code },
+                { "pre", MessageEntityType.Pre },
+                { "text_link", MessageEntityType.TextLink },
+                { "text_mention", MessageEntityType.TextMention },
+                { "phone_number", MessageEntityType.PhoneNumber },
+            };
+
+        private static readonly IDictionary<MessageEntityType, string> EnumToString =
+            new Dictionary<MessageEntityType, string>
+            {
+                { MessageEntityType.Mention, "mention" },
+                { MessageEntityType.Hashtag, "hashtag" },
+                { MessageEntityType.BotCommand, "bot_command" },
+                { MessageEntityType.Url, "url" },
+                { MessageEntityType.Email, "email" },
+                { MessageEntityType.Bold, "bold" },
+                { MessageEntityType.Italic, "italic" },
+                { MessageEntityType.Code, "code" },
+                { MessageEntityType.Pre, "pre" },
+                { MessageEntityType.TextLink, "text_link" },
+                { MessageEntityType.TextMention, "text_mention" },
+                { MessageEntityType.PhoneNumber, "phone_number" },
+                { MessageEntityType.Unknown, "unknown" },
+            };
+
+        internal static MessageEntityType ToMessageType(this string value) =>
+            StringToEnum.TryGetValue(value, out var messageEntityType)
+                ? messageEntityType
+                : MessageEntityType.Unknown;
+
+        internal static string ToStringValue(this MessageEntityType value) =>
+            EnumToString.TryGetValue(value, out var messageEntityType)
+                ? messageEntityType
+                : throw new NotSupportedException();
     }
 }
