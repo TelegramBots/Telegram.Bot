@@ -5,7 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-<!-- ## [Unreleased] -->
+## [Unreleased]
+
+### Added
+
+- Additional constructors on `InputMediaPhoto` and `InputMediaVideo`
 
 ## [14.6.0] - 2018-06-12
 
@@ -25,7 +29,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
-- Exception during deserialization of unknown message entity type  
+- Exception during deserialization of unknown message entity type
 
 ## [14.4.0] - 2018-05-17
 

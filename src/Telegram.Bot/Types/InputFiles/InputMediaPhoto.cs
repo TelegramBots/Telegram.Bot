@@ -1,4 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
 {
     /// <summary>
@@ -12,6 +12,15 @@ namespace Telegram.Bot.Types
         public InputMediaPhoto()
         {
             Type = "photo";
+        }
+
+        /// <summary>
+        /// Initializes a new photo media to send with an <see cref="InputMedia"/>
+        /// </summary>
+        public InputMediaPhoto(InputMedia media)
+            : this()
+        {
+            Media = media;
         }
     }
 }
