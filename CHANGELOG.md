@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Additional constructors on `InputMediaPhoto` and `InputMediaVideo`
+
+## [14.6.0] - 2018-06-12
+
+### Added
+
 - Property `ParseMode` to requests with a caption
   - `EditMessageCaptionRequest`
   - `EditInlineMessageCaptionRequest`
@@ -18,11 +24,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- New enum member `MessageEntityType.PhoneNumber`
 - New enum member `MessageEntityType.Unknown`
 
 ### Fixed
 
-- Exception during deserialization of unknown message entity type  
+- Exception during deserialization of unknown message entity type
 
 ## [14.4.0] - 2018-05-17
 

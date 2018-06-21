@@ -126,7 +126,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             await BotClient.SendTextMessageAsync(
                 SupergroupChat.Id,
                 "```\nTest execution is starting...\n```" +
-                "Testers are: \n" + UpdateReceiver.GetTesterMentions(),
+                "Testers are: \n" + UpdateReceiver.GetTesters(),
                 ParseMode.Markdown,
                 cancellationToken: CancellationToken
             );
