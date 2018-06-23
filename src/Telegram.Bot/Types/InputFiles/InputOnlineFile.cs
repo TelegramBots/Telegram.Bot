@@ -73,7 +73,7 @@ namespace Telegram.Bot.Types.InputFiles
         /// <param name="url"><see cref="Uri"/> pointing to a file</param>
         public InputOnlineFile(Uri url)
         {
-            Url = url.AbsolutePath;
+            Url = url.AbsoluteUri;
         }
 
         /// <summary>
