@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Converters
 {
@@ -10,8 +10,7 @@ namespace Telegram.Bot.Converters
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var messageEntityType = (MessageEntityType)value;
-            var convertedEntityType = messageEntityType.ToStringValue();
-            writer.WriteValue(convertedEntityType);
+            writer.WriteValue(messageEntityType.Value);
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
