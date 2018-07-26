@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
@@ -72,6 +72,11 @@ namespace Telegram.Bot.Types.Enums
         PhoneNumber,
 
         /// <summary>
+        /// A cashtag
+        /// </summary>
+        Cashtag,
+
+        /// <summary>
         /// Unknown entity type
         /// </summary>
         Unknown
@@ -94,6 +99,7 @@ namespace Telegram.Bot.Types.Enums
                 { "text_link", MessageEntityType.TextLink },
                 { "text_mention", MessageEntityType.TextMention },
                 { "phone_number", MessageEntityType.PhoneNumber },
+                { "cashtag", MessageEntityType.Cashtag },
             };
 
         private static readonly IDictionary<MessageEntityType, string> EnumToString =
@@ -111,6 +117,7 @@ namespace Telegram.Bot.Types.Enums
                 { MessageEntityType.TextLink, "text_link" },
                 { MessageEntityType.TextMention, "text_mention" },
                 { MessageEntityType.PhoneNumber, "phone_number" },
+                { MessageEntityType.Cashtag, "cashtag" },
                 { MessageEntityType.Unknown, "unknown" },
             };
 
