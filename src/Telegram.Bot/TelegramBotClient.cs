@@ -652,6 +652,7 @@ namespace Telegram.Bot
             string phoneNumber,
             string firstName,
             string lastName = default,
+            string vCard = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -660,6 +661,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName)
             {
                 LastName = lastName,
+                Vcard = vCard,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup

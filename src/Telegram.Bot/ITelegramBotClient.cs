@@ -523,6 +523,7 @@ namespace Telegram.Bot
         /// <param name="phoneNumber">Contact's phone number</param>
         /// <param name="firstName">Contact's first name</param>
         /// <param name="lastName">Contact's last name</param>
+        /// <param name="vCard">Additional data about the contact in the form of a vCard, 0-2048 bytes</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
@@ -534,6 +535,7 @@ namespace Telegram.Bot
             string phoneNumber,
             string firstName,
             string lastName = default,
+            string vCard = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,

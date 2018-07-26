@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
@@ -32,5 +32,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int UserId { get; set; }
+
+        /// <summary>
+        /// Optional. Additional data about the contact in the form of a vCard
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Vcard { get; set; }
     }
 }

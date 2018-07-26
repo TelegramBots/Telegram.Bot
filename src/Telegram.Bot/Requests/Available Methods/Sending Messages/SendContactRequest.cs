@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -39,6 +39,12 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastName { get; set; }
+        
+        /// <summary>
+        /// Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Vcard { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
