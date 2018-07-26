@@ -633,6 +633,7 @@ namespace Telegram.Bot
             string title,
             string address,
             string foursquareId = default,
+            string foursquareType = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -641,6 +642,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
                 FoursquareId = foursquareId,
+                FoursquareType = foursquareType,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
