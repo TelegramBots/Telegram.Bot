@@ -963,6 +963,31 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task<Message> EditMessageMediaAsync(
+            ChatId chatId,
+            int messageId,
+            InputMedia media,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditMessageMediaRequest(chatId, messageId, media)
+            {
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task EditMessageMediaAsync(
+            string inlineMessageId,
+            InputMedia media,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditInlineMessageMediaRequest(inlineMessageId, media)
+            {
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+                
+        /// <inheritdoc />
         public Task<Message> EditMessageReplyMarkupAsync(
             ChatId chatId,
             int messageId,

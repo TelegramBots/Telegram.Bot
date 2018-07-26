@@ -875,14 +875,46 @@ namespace Telegram.Bot
         /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns><c>true</c> on success.</returns>
-        /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
+        /// <returns>On success, the edited Description is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
         Task EditMessageCaptionAsync(
             string inlineMessageId,
             string caption,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
             ParseMode parseMode = default);
+
+        /// <summary>
+        /// Use this method to edit audio, document, photo, or video messages.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="media">A JSON-serialized object for a new media content of the message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagemedia"/>
+        Task<Message> EditMessageMediaAsync(
+            ChatId chatId,
+            int messageId,
+            InputMedia media,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to edit audio, document, photo, or video messages.
+        /// </summary>
+        /// <param name="inlineMessageId">Unique identifier of the sent message</param>
+        /// <param name="media">A JSON-serialized object for a new media content of the message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagemedia"/>
+        Task EditMessageMediaAsync(
+            string inlineMessageId,
+            InputMedia media,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
