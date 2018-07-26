@@ -37,7 +37,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with inlineMessageId and new caption
         /// </summary>
-        /// <param name="inlineMessageId">InlineMessageId</param>
+        /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="caption">New caption of the message</param>
         public EditInlineMessageCaptionRequest(string inlineMessageId, string caption = default)
             : base("editMessageCaption")
