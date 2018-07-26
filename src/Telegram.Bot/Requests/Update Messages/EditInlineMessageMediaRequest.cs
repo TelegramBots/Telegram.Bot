@@ -8,12 +8,12 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Edit audio, document, photo, or video messages. On success the edited <see cref="Message"/> is returned.
+    /// Edit audio, document, photo, or video inline messages
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditInlineMessageMediaRequest : RequestBase<bool>,
-                                                IInlineMessage,
-                                                IInlineReplyMarkupMessage
+    public class EditInlineMessageMediaRequest : FileRequestBase<bool>,
+        IInlineMessage,
+        IInlineReplyMarkupMessage
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -23,7 +23,7 @@ namespace Telegram.Bot.Requests
         /// New media content of the message
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputMedia Media { get; }
+        public InputMediaBase Media { get; }
 
         /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -34,7 +34,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="media">New media content of the message</param>
-        public EditInlineMessageMediaRequest(string inlineMessageId, InputMedia media)
+        public EditInlineMessageMediaRequest(string inlineMessageId, InputMediaBase media)
             : base("editMessageMedia")
         {
             InlineMessageId = inlineMessageId;

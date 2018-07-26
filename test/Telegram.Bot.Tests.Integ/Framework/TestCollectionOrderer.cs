@@ -15,6 +15,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.InlineMessageLiveLocation,
             Constants.TestCollections.InlineQuery,
             Constants.TestCollections.EditMessage,
+            Constants.TestCollections.EditMessageMedia,
             Constants.TestCollections.DeleteMessage,
             Constants.TestCollections.Games,
             Constants.TestCollections.Payment,

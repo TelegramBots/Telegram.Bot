@@ -902,7 +902,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to edit audio, document, photo, or video messages.
+        /// Use this method to edit audio, document, photo, or video inline messages.
         /// </summary>
         /// <param name="inlineMessageId">Unique identifier of the sent message</param>
         /// <param name="media">A JSON-serialized object for a new media content of the message</param>
@@ -912,7 +912,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#editmessagemedia"/>
         Task EditMessageMediaAsync(
             string inlineMessageId,
-            InputMedia media,
+            InputMediaBase media,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
 

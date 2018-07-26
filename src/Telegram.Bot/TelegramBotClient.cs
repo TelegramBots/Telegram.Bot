@@ -978,7 +978,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task EditMessageMediaAsync(
             string inlineMessageId,
-            InputMedia media,
+            InputMediaBase media,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
@@ -986,7 +986,7 @@ namespace Telegram.Bot
             {
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
-                
+
         /// <inheritdoc />
         public Task<Message> EditMessageReplyMarkupAsync(
             ChatId chatId,
