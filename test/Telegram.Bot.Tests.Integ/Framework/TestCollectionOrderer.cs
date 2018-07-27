@@ -40,6 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.LeaveChat,
             Constants.TestCollections.GetUserProfilePhotos,
             Constants.TestCollections.EditMessage2,
+            Constants.TestCollections.EditMessageMedia2,
             Constants.TestCollections.DeleteMessage2,
             Constants.TestCollections.Stickers,
             Constants.TestCollections.Games2,

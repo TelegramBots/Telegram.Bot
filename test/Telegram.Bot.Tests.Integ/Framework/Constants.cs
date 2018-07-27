@@ -62,6 +62,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string EditMessageMedia = "Edit message media";
 
+            public const string EditMessageMedia2 = "Edit message media (non-interactive)";
+
             public const string DeleteMessage = "Delete message";
 
             public const string DeleteMessage2 = "Delete message (non-interactive)";

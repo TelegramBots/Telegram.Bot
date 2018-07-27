@@ -1,7 +1,10 @@
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -11,8 +14,8 @@ namespace Telegram.Bot.Requests
     /// Edit audio, document, photo, or video messages. On success the edited <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditMessageMediaRequest : RequestBase<Message>,
-                                                IInlineReplyMarkupMessage
+    public class EditMessageMediaRequest : FileRequestBase<Message>,
+        IInlineReplyMarkupMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -30,7 +33,7 @@ namespace Telegram.Bot.Requests
         /// New media content of the message
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputMedia Media { get; }
+        public InputMediaBase Media { get; }
 
         /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -42,12 +45,30 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="messageId">Identifier of the sent message</param>
         /// <param name="media">New media content of the message</param>
-        public EditMessageMediaRequest(ChatId chatId, int messageId, InputMedia media)
+        public EditMessageMediaRequest(ChatId chatId, int messageId, InputMediaBase media)
             : base("editMessageMedia")
         {
             ChatId = chatId;
             MessageId = messageId;
             Media = media;
+        }
+
+        /// <inheritdoc />
+        public override HttpContent ToHttpContent()
+        {
+            HttpContent httpContent;
+            if (Media.Media.FileType == FileType.Stream)
+            {
+                var content = GenerateMultipartFormDataContent();
+                content.AddStreamContent(Media.Media.Content, Media.Media.FileName);
+                httpContent = content;
+            }
+            else
+            {
+                httpContent = base.ToHttpContent();
+            }
+
+            return httpContent;
         }
     }
 }
