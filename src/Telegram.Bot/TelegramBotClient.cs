@@ -14,6 +14,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
@@ -1130,6 +1131,18 @@ namespace Telegram.Bot
             MakeRequestAsync(new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage), cancellationToken);
 
         #endregion Payments
+
+        #region Passport
+
+        /// <inheritdoc />
+        public Task SetPassportDataErrorsAsync(
+            int userId,
+            IEnumerable<PassportElementError> errors,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetPassportDataErrorsRequest(userId, errors), cancellationToken);
+
+        #endregion
 
         #region Games
 

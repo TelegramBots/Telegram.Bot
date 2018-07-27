@@ -9,6 +9,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
@@ -1096,6 +1097,24 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         #endregion Payments
+
+        #region Passport
+
+        /// <summary>
+        /// Informs a user that some of the Telegram Passport elements they provided contains errors. The user will not be able to re-submit their Passport to you until the errors are fixed (the contents of the field for which you returned the error must change). Returns True on success.
+        /// Use this if the data submitted by the user doesn't satisfy the standards your service requires for any reason. For example, if a birthday date seems invalid, a submitted document is blurry, a scan shows evidence of tampering, etc. Supply some details in the error message to make sure the user knows how to correct the issues.
+        /// </summary>
+        /// <param name="userId">User identifier</param>
+        /// <param name="errors">A JSON-serialized array describing the errors</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, <c>true</c> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setpassportdataerrors"/>
+        Task SetPassportDataErrorsAsync(
+            int userId,
+            IEnumerable<PassportElementError> errors,
+            CancellationToken cancellationToken = default);
+
+        #endregion
 
         #region Games
 
