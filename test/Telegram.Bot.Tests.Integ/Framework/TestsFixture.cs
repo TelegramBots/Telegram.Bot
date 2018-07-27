@@ -148,10 +148,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
 
             IReplyMarkup replyMarkup = switchInlineQuery
-                ? new InlineKeyboardMarkup(new[]
-                {
-                    InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
-                })
+                ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 : default;
 
             var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown,

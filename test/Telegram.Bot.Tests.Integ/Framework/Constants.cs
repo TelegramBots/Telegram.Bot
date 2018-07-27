@@ -12,7 +12,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
-        public const string TestCaseOrderer = AssemblyName + "." + nameof(Framework) + "." + nameof(Framework.TestCaseOrderer);
+        public const string TestCaseOrderer =
+            AssemblyName + "." + nameof(Framework) + "." + nameof(Framework.TestCaseOrderer);
 
         public const string TestCaseDiscoverer =
             AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(RetryFactDiscoverer);
@@ -143,6 +144,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 private const string CertificateDir = FilesDir + "Certificate/";
 
                 public const string PublicKey = CertificateDir + "public-key.pem";
+            }
+
+            public static class Animation
+            {
+                private const string Dir = FilesDir + "Animation/";
+
+                public const string Earth = Dir + "earth.gif";
             }
         }
 
