@@ -79,14 +79,16 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
 
-            var entityValueMappings = new(MessageEntityType Type, string Value)[]
+            (MessageEntityType Type, string Value)[] entityValueMappings = new(MessageEntityType Type, string Value)[]
             {
-                ( MessageEntityType.Hashtag, "#TelegramBots" ),
-                ( MessageEntityType.Mention, "@BotFather" ),
-                ( MessageEntityType.Url, "http://github.com/TelegramBots" ),
-                ( MessageEntityType.Email, "security@telegram.org" ),
-                ( MessageEntityType.BotCommand, "/test" ),
-                ( MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}" ),
+                (MessageEntityType.PhoneNumber, "12345678"),
+                (MessageEntityType.Cashtag, "$EUR"),
+                (MessageEntityType.Hashtag, "#TelegramBots"),
+                (MessageEntityType.Mention, "@BotFather"),
+                (MessageEntityType.Url, "http://github.com/TelegramBots"),
+                (MessageEntityType.Email, "security@telegram.org"),
+                (MessageEntityType.BotCommand, "/test"),
+                (MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}"),
             };
 
             Message message;
