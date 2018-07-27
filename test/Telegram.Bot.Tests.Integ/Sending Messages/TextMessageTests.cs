@@ -173,6 +173,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPaseMessageEntitiesIntoValues);
 
             (MessageEntityType Type, string Value)[] entityValueMappings = {
+                (MessageEntityType.PhoneNumber, "12345678"),
+                (MessageEntityType.Cashtag, "$EUR"),
                 (MessageEntityType.Hashtag, "#TelegramBots"),
                 (MessageEntityType.Mention, "@BotFather"),
                 (MessageEntityType.Url, "http://github.com/TelegramBots"),
