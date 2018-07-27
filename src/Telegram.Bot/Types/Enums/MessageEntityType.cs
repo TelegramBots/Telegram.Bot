@@ -72,7 +72,7 @@ namespace Telegram.Bot.Types.Enums
         PhoneNumber,
 
         /// <summary>
-        /// A cashtag
+        /// A cashtag (e.g. $EUR, $USD) - $ followed by the short currency code
         /// </summary>
         Cashtag,
 
