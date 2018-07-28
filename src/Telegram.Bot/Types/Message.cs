@@ -356,7 +356,7 @@ namespace Telegram.Bot.Types
                 if (ConnectedWebsite != null)
                     return MessageType.WebsiteConnected;
 
-                if (PassportData != default)
+                if (PassportData != null)
                     return MessageType.PassportData;
 
                 if (NewChatMembers?.Any() == true)
