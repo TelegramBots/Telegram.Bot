@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -130,6 +132,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 ParseMode.Markdown,
                 cancellationToken: CancellationToken
             );
+
+#if DEBUG
+            BotClient.MakingApiRequest += OnMakingApiRequest;
+            BotClient.ApiResponseReceived += OnApiResponseReceived;
+#endif
         }
 
         private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
@@ -196,6 +203,32 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return allowedUserNames;
         }
 
+#if DEBUG
+        private void OnMakingApiRequest(object sender, ApiRequestEventArgs e)
+        {
+            string content;
+            string[] multipartContent;
+            if (e.HttpContent is MultipartFormDataContent multipartFormDataContent)
+            {
+                multipartContent = multipartFormDataContent
+                    .Select(c => c is StringContent
+                        ? $"{c.Headers}\n{c.ReadAsStringAsync().Result}"
+                        : c.Headers.ToString()
+                    )
+                    .ToArray();
+            }
+            else
+            {
+                content = e.HttpContent.ReadAsStringAsync().Result;
+            }
+        }
+
+        private async void OnApiResponseReceived(object sender, ApiResponseEventArgs e)
+        {
+            string content = await e.ResponseMessage.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+        }
+#endif
         private static class Constants
         {
             public const string StartCollectionMessageFormat = "💬 Test Collection:\n*{0}*";

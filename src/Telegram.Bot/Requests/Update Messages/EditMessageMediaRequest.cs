@@ -4,7 +4,6 @@ using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -53,36 +52,12 @@ namespace Telegram.Bot.Requests
             Media = media;
         }
 
+        // ToDo: If there is no file stream in the request, request content should be string
         /// <inheritdoc />
         public override HttpContent ToHttpContent()
         {
-            HttpContent httpContent;
-            var mediaThumb = (Media as IInputMediaThumb)?.Thumb;
-
-            bool isMediaFileStream = Media.Media.FileType == FileType.Stream;
-            bool isThumbFileStream = mediaThumb?.FileType == FileType.Stream;
-
-            if (isMediaFileStream || isThumbFileStream)
-            {
-                var content = GenerateMultipartFormDataContent();
-
-                if (isMediaFileStream)
-                {
-                    content.AddStreamContent(Media.Media.Content, Media.Media.FileName);
-                }
-
-                if (isThumbFileStream)
-                {
-                    content.AddStreamContent(mediaThumb.Content, mediaThumb.FileName);
-                }
-
-                httpContent = content;
-            }
-            else
-            {
-                httpContent = base.ToHttpContent();
-            }
-
+            var httpContent = GenerateMultipartFormDataContent();
+            httpContent.AddContentIfInputFileStream(Media);
             return httpContent;
         }
     }

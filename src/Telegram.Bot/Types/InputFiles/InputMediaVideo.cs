@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -6,7 +7,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// Represents a video to be sent
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputMediaVideo : InputMediaBase, IInputMediaThumb
     {
         /// <summary>

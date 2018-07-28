@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
 
-            string[] captions = { "Logo", "Bot" };
+            string[] captions = {"Logo", "Bot"};
 
             Message[] messages;
             using (Stream
@@ -129,7 +129,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
 
-            string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
+            string[] captions = {"Golden Ratio", "Moon Landing", "Bot"};
 
             const int firstMediaDuration = 28;
             const int firstMediaWidthAndHeight = 240;
@@ -182,11 +182,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
+            await _fixture.SendTestCaseNotificationAsync(FactTitles
+                .ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
 
-            (MessageEntityType Type, string EntityBody, string EncodedEntity)[] captionsMappings = {
-                ( MessageEntityType.Bold, "Logo", "*Logo*" ),
-                ( MessageEntityType.Italic, "Bot", "_Bot_" ),
+            (MessageEntityType Type, string EntityBody, string EncodedEntity)[] captionsMappings =
+            {
+                (MessageEntityType.Bold, "Logo", "*Logo*"),
+                (MessageEntityType.Italic, "Bot", "_Bot_"),
             };
 
             Message[] messages;
@@ -222,6 +224,42 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Contains(captionsMappings[1].EntityBody, messages[1].CaptionEntityValues);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoWithThumb)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
+        public async Task Should_Video_With_Thumbnail_In_Album()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoWithThumb);
+
+            Message[] messages;
+            using (Stream
+                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
+                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.Video)
+            )
+            {
+                InputMediaBase[] inputMedia =
+                {
+                    new InputMediaVideo
+                    {
+                        Media = new InputMedia(stream1, "GoldenRatio.mp4"),
+                        Thumb = new InputMedia(stream2, "thumbnail.jpg"),
+                        SupportsStreaming = true,
+                    },
+                    new InputMediaPhoto
+                    {
+                        Media = "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg",
+                    },
+                };
+
+                messages = await BotClient.SendMediaGroupAsync(
+                    chatId: _fixture.SupergroupChat.Id,
+                    media: inputMedia
+                );
+            }
+
+            Assert.Equal(MessageType.Video, messages[0].Type);
+            Assert.NotNull(messages[0].Video.Thumb);
+        }
+
         private static class FactTitles
         {
             public const string ShouldUploadPhotosInAlbum =
@@ -238,6 +276,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             public const string ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions =
                 "Should upload 2 photos with markdown encoded captions and send them in an album";
+
+            public const string ShouldSendVideoWithThumb =
+                "Should send a video with thumbnail in an album";
         }
     }
 }
