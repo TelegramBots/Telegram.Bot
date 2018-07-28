@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Additional constructors on `InputMediaPhoto` and `InputMediaVideo`
 - Telegram Passport support
+    - Enum `Gender`
     - Request `SetPassportDataErrorsRequest`
     - Method `ITelegramBotClient.SetPassportDataErrorsAsync`
     - Type `EncryptedCredentials`
@@ -25,6 +26,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - Type `PassportData`
     - Type `PassportElementType`
     - Type `PassportFile`
+    - Type `Credentials`
+    - Type `DataCredentials`
+    - Type `FileCredentials`
+    - Type `IdDocumentData`
+    - Type `PersonalDetails`
+    - Type `ResidentialAddress`
+    - Type `SecureData`
+    - Type `SecureValue`
 
 ## [14.6.0] - 2018-06-12
 
