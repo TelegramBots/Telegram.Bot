@@ -350,7 +350,7 @@ namespace Telegram.Bot
             {
                 _receivingCancellationTokenSource.Cancel();
             }
-            catch (WebException)
+            catch (HttpRequestException)
             {
             }
             catch (TaskCanceledException)

@@ -35,6 +35,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - Type `SecureData`
     - Type `SecureValue`
 
+### Changed
+- Retarget to from `netstandard1.1;net45` to `netstandard1.3;net46`
+- Replace reference to `System.Net.Requests` with `System.Net.Http`
+
 ## [14.6.0] - 2018-06-12
 
 ### Added
