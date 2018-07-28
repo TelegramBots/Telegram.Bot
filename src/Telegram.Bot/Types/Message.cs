@@ -356,6 +356,9 @@ namespace Telegram.Bot.Types
                 if (ConnectedWebsite != null)
                     return MessageType.WebsiteConnected;
 
+                if (PassportData != default)
+                    return MessageType.PassportData;
+
                 if (NewChatMembers?.Any() == true)
                     return MessageType.ChatMembersAdded;
 
@@ -388,10 +391,7 @@ namespace Telegram.Bot.Types
 
                 if (MigrateToChatId != default)
                     return MessageType.MigratedToSupergroup;
-
-                if (PassportData != default)
-                    return MessageType.PassportData;
-
+                
                 return MessageType.Unknown;
             }
         }

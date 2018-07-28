@@ -20,8 +20,8 @@
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
   
-  <PropertyGroup Condition="'$(TargetFramework)'=='net45' Or '$(TargetFramework)'=='netstandard1.1'">
-    <DefineConstants>DISABLE_CRYPTOGRAPHY</DefineConstants>
+  <PropertyGroup Condition="'$(TargetFramework)'=='net46' Or '$(TargetFramework)'=='netstandard1.3'">
+    <DefineConstants>ENABLE_CRYPTOGRAPHY</DefineConstants>
   </PropertyGroup>
   
   <ItemGroup>
