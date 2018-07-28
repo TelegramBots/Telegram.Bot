@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types.Enums
 {
@@ -142,6 +143,12 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// The <see cref="Message"/> contains non-default <see cref="Message.MigrateToChatId"/>
         /// </summary>
-        MigratedFromGroup
+        MigratedFromGroup,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains non-default <see cref="Message.PassportData"/>
+        /// </summary>
+        [EnumMember(Value = "passport_data")]
+        PassportData
     }
 }
