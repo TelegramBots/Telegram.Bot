@@ -31,7 +31,7 @@ namespace Telegram.Bot.Types.Passport
         /// Optional. Credentials for encrypted driver license
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public SecureValue DriverLicence;
+        public SecureValue DriverLicense;
 
         /// <summary>
         /// Optional. Credentials for encrypted ID card
