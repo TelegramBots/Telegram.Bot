@@ -154,6 +154,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
                 public const string Earth = Dir + "earth.gif";
             }
+
+            public static class Thumbnail
+            {
+                private const string Dir = FilesDir + "Thumbnail/";
+
+                public const string Video = Dir + "video.jpg";
+            }
         }
 
         public static class TelegramBotApiMethods
