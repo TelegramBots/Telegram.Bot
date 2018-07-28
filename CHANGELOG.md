@@ -10,6 +10,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Additional constructors on `InputMediaPhoto` and `InputMediaVideo`
+- Telegram Passport support
+    - Request `SetPassportDataErrorsRequest`
+    - Method `ITelegramBotClient.SetPassportDataErrorsAsync`
+    - Type `EncryptedCredentials`
+    - Type `EncryptedPassportElement`
+    - Type `PassportElementError`
+    - Type `PassportElementErrorDataField`
+    - Type `PassportElementErrorFile`
+    - Type `PassportElementErrorFiles`
+    - Type `PassportElementErrorFrontSide`
+    - Type `PassportElementErrorReverseSide`
+    - Type `PassportElementErrorSelfie`
+    - Type `PassportData`
+    - Type `PassportElementType`
+    - Type `PassportFile`
 
 ## [14.6.0] - 2018-06-12
 
