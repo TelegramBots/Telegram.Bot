@@ -57,22 +57,23 @@ namespace Telegram.Bot.Requests
         public override HttpContent ToHttpContent()
         {
             HttpContent httpContent;
-            var media = Media as IInputMediaWithThumb;
-            if (
-                Media.Media.FileType == FileType.Stream ||
-                media?.Thumb?.FileType == FileType.Stream
-            )
+            var mediaThumb = (Media as IInputMediaThumb)?.Thumb;
+
+            bool isMediaFileStream = Media.Media.FileType == FileType.Stream;
+            bool isThumbFileStream = mediaThumb?.FileType == FileType.Stream;
+
+            if (isMediaFileStream || isThumbFileStream)
             {
                 var content = GenerateMultipartFormDataContent();
 
-                if (Media.Media.FileType == FileType.Stream)
+                if (isMediaFileStream)
                 {
                     content.AddStreamContent(Media.Media.Content, Media.Media.FileName);
                 }
 
-                if (media?.Thumb?.FileType == FileType.Stream)
+                if (isThumbFileStream)
                 {
-                    content.AddStreamContent(media.Thumb.Content, media.Thumb.FileName);
+                    content.AddStreamContent(mediaThumb.Content, mediaThumb.FileName);
                 }
 
                 httpContent = content;

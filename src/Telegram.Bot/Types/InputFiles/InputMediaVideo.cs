@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types
     /// Represents a video to be sent
     /// </summary>
     [JsonObject(MemberSerialization.OptIn)]
-    public class InputMediaVideo : InputMediaBase, IInputMediaWithThumb
+    public class InputMediaVideo : InputMediaBase, IInputMediaThumb
     {
         /// <summary>
         /// Optional. Video width
@@ -27,9 +27,7 @@ namespace Telegram.Bot.Types
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Duration { get; set; }
 
-        /// <summary>
-        /// Optional. Thumbnail to send
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMedia Thumb { get; set; }
 
