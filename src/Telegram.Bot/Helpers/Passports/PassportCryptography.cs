@@ -1,3 +1,4 @@
+#if !DISABLE_CRYPTOGRAPHY
 using System;
 using System.Text;
 using System.Security.Cryptography;
@@ -6,6 +7,7 @@ using Newtonsoft.Json;
 
 namespace Telegram.Bot.Helpers.Passports
 {
+
     /// <summary>
     /// Helper methods for Passports cryptography
     /// </summary>
@@ -96,3 +98,4 @@ namespace Telegram.Bot.Helpers.Passports
         }
     }
 }
+#endif

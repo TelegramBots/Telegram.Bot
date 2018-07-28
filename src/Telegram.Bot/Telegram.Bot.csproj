@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net46</TargetFrameworks>
+    <TargetFrameworks>netstandard1.3;netstandard1.1;net45;net46</TargetFrameworks>
     <VersionPrefix>14.6.0</VersionPrefix>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -19,6 +19,11 @@
   <PropertyGroup Condition="'$(AppVeyor)' == 'True'">
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(TargetFramework)'=='net45' Or '$(TargetFramework)'=='netstandard1.1'">
+    <DefineConstants>DISABLE_CRYPTOGRAPHY</DefineConstants>
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
