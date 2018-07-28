@@ -79,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
 
-            var entityValueMappings = new(MessageEntityType Type, string Value)[]
+            (MessageEntityType Type, string Value)[] entityValueMappings = new(MessageEntityType Type, string Value)[]
             {
                 ( MessageEntityType.Hashtag, "#TelegramBots" ),
                 ( MessageEntityType.Mention, "@BotFather" ),

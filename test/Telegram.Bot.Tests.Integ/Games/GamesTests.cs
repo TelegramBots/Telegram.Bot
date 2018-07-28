@@ -84,7 +84,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             int newScore = oldScore + 1 + new Random().Next(3);
 
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetGameScoreInline,
-                $"Changing score from {oldScore} to {newScore} for @{_classFixture.Player.Username.Replace("_", @"\_")}.");
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}.");
 
             await BotClient.SetGameScoreAsync(
                 userId: playerId,
