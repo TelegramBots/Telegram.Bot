@@ -49,9 +49,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 editedMessage = await BotClient.EditMessageMediaAsync(
                     originalMessage.Chat,
                     originalMessage.MessageId,
-                    media: new InputMediaDocument
+                    media: new InputMediaDocument(new InputMedia(stream, "public-key.pem.txt"))
                     {
-                        Media = new InputMedia(stream, "public-key.pem.txt"),
                         Caption = "**Public** key in `.pem` format",
                         ParseMode = ParseMode.Markdown,
                     }
@@ -95,9 +94,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 editedMessage = await BotClient.EditMessageMediaAsync(
                     originalMessage.Chat,
                     originalMessage.MessageId,
-                    media: new InputMediaAnimation
+                    media: new InputMediaAnimation(gifMessage.Document.FileId)
                     {
-                        Media = gifMessage.Document.FileId,
                         Thumb = new InputMedia(thumbStream, "thumb.jpg"),
                         Duration = 4,
                         Height = 320,
@@ -114,10 +112,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.NotNull(editedMessage.Document);
             Assert.NotNull(editedMessage.Animation);
 
-            Assert.NotNull(editedMessage.Animation.Duration);
-            Assert.NotNull(editedMessage.Animation.Width);
-            Assert.NotNull(editedMessage.Animation.Height);
-            Assert.NotNull(editedMessage.Animation.FileSize);
+            Assert.NotEqual(editedMessage.Animation.Duration, 0);
+            Assert.NotEqual(editedMessage.Animation.Width, 0);
+            Assert.NotEqual(editedMessage.Animation.Height, 0);
+            Assert.NotEqual(editedMessage.Animation.FileSize, 0);
             Assert.NotEmpty(editedMessage.Animation.FileId);
             Assert.NotEmpty(editedMessage.Animation.FileName);
             Assert.NotEmpty(editedMessage.Animation.MimeType);

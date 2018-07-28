@@ -33,19 +33,11 @@ namespace Telegram.Bot.Types
         public InputMedia Thumb { get; set; }
 
         /// <summary>
-        /// Initializes a new audio media to send
-        /// </summary>
-        public InputMediaAudio()
-        {
-            Type = "audio";
-        }
-
-        /// <summary>
         /// Initializes a new audio media to send with an <see cref="InputMedia"/>
         /// </summary>
         public InputMediaAudio(InputMedia media)
-            : this()
         {
+            Type = "audio";
             Media = media;
         }
     }

@@ -60,10 +60,11 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             // either an URL or the file_id of a previously uploaded media.
             await BotClient.EditMessageMediaAsync(
                 inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
-                media: new InputMediaAudio
+                media: new InputMediaAudio(
+                    "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/" +
+                    "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3"
+                )
                 {
-                    Media =
-                        "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3",
                     Caption = "**Audio** in `.mp3` format",
                     ParseMode = ParseMode.Markdown,
                 }
@@ -122,10 +123,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             // Also, animation thumbnail cannot be uploaded for an inline message.
             await BotClient.EditMessageMediaAsync(
                 inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
-                media: new InputMediaAnimation
-                {
-                    Media = animationFileId,
-                }
+                media: new InputMediaAnimation(animationFileId)
             );
         }
 
