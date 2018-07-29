@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
@@ -43,7 +43,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with inlineMessageId and new text
         /// </summary>
-        /// <param name="inlineMessageId"></param>
+        /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="text">New text of the message</param>
         public EditInlineMessageTextRequest(string inlineMessageId, string text)
             : base("editMessageText")

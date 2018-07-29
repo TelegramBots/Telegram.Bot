@@ -658,11 +658,13 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            string foursquareType = default
         ) =>
             MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
                 FoursquareId = foursquareId,
+                FoursquareType = foursquareType,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
@@ -677,11 +679,13 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            string vCard = default
         ) =>
             MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName)
             {
                 LastName = lastName,
+                Vcard = vCard,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
@@ -962,9 +966,8 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default,
             ParseMode parseMode = default
         ) =>
-            MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId)
+            MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId, caption)
             {
-                Caption = caption,
                 ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -977,9 +980,8 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default,
             ParseMode parseMode = default
         ) =>
-            MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId)
+            MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId, caption)
             {
-                Caption = caption,
                 ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);

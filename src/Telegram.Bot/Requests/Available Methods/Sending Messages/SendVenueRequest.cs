@@ -52,6 +52,13 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FoursquareId { get; set; }
 
+        /// <summary>
+        /// Optional. Foursquare type of the venue. (For example, "arts_entertainment/default",
+        /// "arts_entertainment/aquarium" or "food/icecream".)
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string FoursquareType { get; set; }
+
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
