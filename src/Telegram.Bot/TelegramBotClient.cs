@@ -962,9 +962,8 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default,
             ParseMode parseMode = default
         ) =>
-            MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId)
+            MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId, caption)
             {
-                Caption = caption,
                 ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -977,9 +976,8 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default,
             ParseMode parseMode = default
         ) =>
-            MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId)
+            MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId, caption)
             {
-                Caption = caption,
                 ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);

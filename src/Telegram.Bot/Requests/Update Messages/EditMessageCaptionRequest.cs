@@ -13,7 +13,8 @@ namespace Telegram.Bot.Requests
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditMessageCaptionRequest : RequestBase<Message>,
-                                             IInlineReplyMarkupMessage
+                                             IInlineReplyMarkupMessage,
+                                             IFormattableMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
