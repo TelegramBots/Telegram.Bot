@@ -57,6 +57,7 @@ namespace Telegram.Bot.Helpers.Passports
         /// </summary>
         /// <param name="encryptedElement"><see cref="EncryptedPassportElement"/> that contains encrypted data in the Data property</param>
         /// <param name="credentials"><see cref="DataCredentials"/> that correspond to the <see cref="EncryptedPassportElement"/></param>
+        /// <typeparam name="T">Type of the decrypted data</typeparam>
         /// <returns></returns>
         public static DecryptionResult<T> DecryptData<T>(this EncryptedPassportElement encryptedElement, DataCredentials credentials) where T: IDecryptedData
         {

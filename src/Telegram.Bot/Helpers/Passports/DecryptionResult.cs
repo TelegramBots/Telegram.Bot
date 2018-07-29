@@ -10,7 +10,7 @@ namespace Telegram.Bot.Helpers.Passports
     public class DecryptionResult<T> where T: IDecryptedData
     {
         /// <summary>
-        /// Decrypted data if successful, otherwise invalid
+        /// Decrypted data if successful, invalid otherwise
         /// </summary>
         public T Result;
 
