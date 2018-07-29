@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [14.8.0] - 2018-07-29
+
 ### Added
 
 - Parameter `vCard` to method `SendContactAsync`
