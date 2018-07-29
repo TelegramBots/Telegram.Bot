@@ -1,4 +1,3 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -6,25 +5,25 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// Represents a video to be sent
+    /// Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InputMediaVideo : InputMediaBase, IInputMediaThumb, IAlbumInputMedia
+    public class InputMediaAnimation : InputMediaBase, IInputMediaThumb
     {
         /// <summary>
-        /// Optional. Video width
+        /// Optional. Animation width
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Width { get; set; }
 
         /// <summary>
-        /// Optional. Video height
+        /// Optional. Animation height
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
-        /// Optional. Video duration
+        /// Optional. Animation duration
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Duration { get; set; }
@@ -34,26 +33,11 @@ namespace Telegram.Bot.Types
         public InputMedia Thumb { get; set; }
 
         /// <summary>
-        /// Optional. Pass True, if the uploaded video is suitable for streaming
+        /// Initializes a new animation media to send with an <see cref="InputMedia"/>
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool SupportsStreaming { get; set; }
-
-        /// <summary>
-        /// Initializes a new video media to send
-        /// </summary>
-        [Obsolete("Use the other overload of this constructor with required parameter instead.")]
-        public InputMediaVideo()
+        public InputMediaAnimation(InputMedia media)
         {
-            Type = "video";
-        }
-
-        /// <summary>
-        /// Initializes a new video media to send with an <see cref="InputMedia"/>
-        /// </summary>
-        public InputMediaVideo(InputMedia media)
-        {
-            Type = "video";
+            Type = "animation";
             Media = media;
         }
     }

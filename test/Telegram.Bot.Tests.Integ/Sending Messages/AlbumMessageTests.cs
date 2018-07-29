@@ -31,41 +31,40 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
 
-            string[] captions = { "Logo", "Bot" };
-
             Message[] messages;
             using (Stream
                 stream1 = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo),
                 stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
             )
             {
-                InputMediaBase[] inputMedia =
+                IAlbumInputMedia[] inputMedia =
                 {
-                    new InputMediaPhoto
+                    new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
                     {
-                        Media = new InputMedia(stream1, "logo"),
-                        Caption = captions[0]
+                        Caption = "Logo"
                     },
-                    new InputMediaPhoto
+                    new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
                     {
-                        Media = new InputMedia(stream2, "bot"),
-                        Caption = captions[1]
+                        Caption = "Bot"
                     },
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    chatId: _fixture.SupergroupChat.Id,
-                    media: inputMedia,
-                    disableNotification: true
+                    /* inputMedia: */ inputMedia,
+                    /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* disableNotification: */ true
                 );
             }
 
             Assert.Equal(2, messages.Length);
             Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
+
+            // All media messages have the same mediaGroupId
             Assert.NotEmpty(messages.Select(m => m.MediaGroupId));
             Assert.True(messages.Select(msg => msg.MediaGroupId).Distinct().Count() == 1);
-            Assert.Equal(captions[0], messages[0].Caption);
-            Assert.Equal(captions[1], messages[1].Caption);
+
+            Assert.Equal("Logo", messages[0].Caption);
+            Assert.Equal("Bot", messages[1].Caption);
 
             _classFixture.Entities = messages.ToList();
         }
@@ -76,17 +75,18 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendFileIdPhotosInAlbum);
 
+            // Take file_id of photos uploaded in previous test case
             string[] fileIds = _classFixture.Entities
                 .Select(msg => msg.Photo.First().FileId)
                 .ToArray();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                media: new[]
+                inputMedia: new[]
                 {
-                    new InputMediaPhoto {Media = new InputMedia(fileIds[0])},
-                    new InputMediaPhoto {Media = new InputMedia(fileIds[1])},
-                    new InputMediaPhoto {Media = new InputMedia(fileIds[0])},
+                    new InputMediaPhoto(fileIds[0]),
+                    new InputMediaPhoto(fileIds[1]),
+                    new InputMediaPhoto(fileIds[0]),
                 }
             );
 
@@ -94,9 +94,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
         }
 
-        /// <remarks>
-        /// URLs have a redundant query string to make sure Telegram doesn't use cached images
-        /// </remarks>
         [OrderedFact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_Photo_Album_Using_Url()
@@ -104,17 +101,15 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             // ToDo add exception: Bad Request: failed to get HTTP URL content
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
 
-            const string url1 = "https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg";
-            const string url2 = "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg";
             int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                media: new[]
+                /* inputMedia: */ new[]
                 {
-                    new InputMediaPhoto {Media = url1},
-                    new InputMediaPhoto {Media = url2},
+                    new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg"),
+                    new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
                 },
+                /* chatId: */ _fixture.SupergroupChat.Id,
                 replyToMessageId: replyToMessageId
             );
 
@@ -129,11 +124,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
 
-            string[] captions = { "Golden Ratio", "Moon Landing", "Bot" };
-
-            const int firstMediaDuration = 28;
-            const int firstMediaWidthAndHeight = 240;
-
             Message[] messages;
             using (Stream
                 stream0 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
@@ -141,53 +131,52 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
             )
             {
-                InputMediaBase[] inputMedia =
+                IAlbumInputMedia[] inputMedia =
                 {
-                    new InputMediaVideo
+                    new InputMediaVideo(new InputMedia(stream0, "GoldenRatio.mp4"))
                     {
-                        Media = new InputMedia(stream0, captions[0]),
-                        Caption = captions[0],
-                        Height = firstMediaWidthAndHeight,
-                        Width = firstMediaWidthAndHeight,
-                        Duration = firstMediaDuration
+                        Caption = "Golden Ratio",
+                        Height = 240,
+                        Width = 240,
+                        Duration = 28,
                     },
-                    new InputMediaVideo
+                    new InputMediaVideo(new InputMedia(stream1, "MoonLanding.mp4"))
                     {
-                        Media = new InputMedia(stream1, captions[1]),
-                        Caption = captions[1]
+                        Caption = "Moon Landing"
                     },
-                    new InputMediaPhoto
+                    new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
                     {
-                        Media = new InputMedia(stream2, "bot"),
-                        Caption = captions[2]
+                        Caption = "Bot"
                     },
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
                     chatId: _fixture.SupergroupChat.Id,
-                    media: inputMedia
+                    inputMedia: inputMedia
                 );
             }
 
             Assert.Equal(3, messages.Length);
-            Assert.All(messages.Take(2), msg => Assert.Equal(MessageType.Video, msg.Type));
-            Assert.Equal(MessageType.Photo, messages.Last().Type);
-            Assert.Equal(captions, messages.Select(msg => msg.Caption));
-            Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Width);
-            Assert.Equal(firstMediaWidthAndHeight, messages.First().Video.Height);
-            Assert.InRange(messages.First().Video.Duration, firstMediaDuration - 2, firstMediaDuration + 2);
+
+            Assert.Equal(MessageType.Video, messages[0].Type);
+            Assert.Equal("Golden Ratio", messages[0].Caption);
+            Assert.Equal(240, messages[0].Video.Width);
+            Assert.Equal(240, messages[0].Video.Height);
+            Assert.InRange(messages[0].Video.Duration, 28 - 2, 28 + 2);
+
+            Assert.Equal(MessageType.Video, messages[1].Type);
+            Assert.Equal("Moon Landing", messages[1].Caption);
+
+            Assert.Equal(MessageType.Photo, messages[2].Type);
+            Assert.Equal("Bot", messages[2].Caption);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
-
-            (MessageEntityType Type, string EntityBody, string EncodedEntity)[] captionsMappings = {
-                ( MessageEntityType.Bold, "Logo", "*Logo*" ),
-                ( MessageEntityType.Italic, "Bot", "_Bot_" ),
-            };
+            await _fixture.SendTestCaseNotificationAsync(FactTitles
+                .ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
 
             Message[] messages;
             using (Stream
@@ -195,31 +184,63 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
             )
             {
-                InputMediaBase[] inputMedia =
+                IAlbumInputMedia[] inputMedia =
                 {
-                    new InputMediaPhoto
+                    new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
                     {
-                        Media = new InputMedia(stream1, "logo"),
-                        Caption = captionsMappings[0].EncodedEntity,
+                        Caption = "*Logo*",
                         ParseMode = ParseMode.Markdown
                     },
-                    new InputMediaPhoto
+                    new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
                     {
-                        Media = new InputMedia(stream2, "bot"),
-                        Caption = captionsMappings[1].EncodedEntity,
+                        Caption = "_Bot_",
                         ParseMode = ParseMode.Markdown
                     },
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
                     chatId: _fixture.SupergroupChat.Id,
-                    media: inputMedia,
-                    disableNotification: true
+                    inputMedia: inputMedia
                 );
             }
 
-            Assert.Contains(captionsMappings[0].EntityBody, messages[0].CaptionEntityValues);
-            Assert.Contains(captionsMappings[1].EntityBody, messages[1].CaptionEntityValues);
+            Assert.Equal("Logo", messages[0].CaptionEntityValues.Single());
+            Assert.Equal(MessageEntityType.Bold, messages[0].CaptionEntities.Single().Type);
+
+            Assert.Equal("Bot", messages[1].CaptionEntityValues.Single());
+            Assert.Equal(MessageEntityType.Italic, messages[1].CaptionEntities.Single().Type);
+        }
+
+        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoWithThumb)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
+        public async Task Should_Video_With_Thumbnail_In_Album()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoWithThumb);
+
+            Message[] messages;
+            using (Stream
+                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
+                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.Video)
+            )
+            {
+                IAlbumInputMedia[] inputMedia =
+                {
+                    new InputMediaVideo(new InputMedia(stream1, "GoldenRatio.mp4"))
+                    {
+                        Thumb = new InputMedia(stream2, "thumbnail.jpg"),
+                        SupportsStreaming = true,
+                    },
+                    new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
+                };
+
+                messages = await BotClient.SendMediaGroupAsync(
+                    /* media: */ inputMedia,
+                    /* chatId: */ _fixture.SupergroupChat.Id
+                );
+            }
+
+            Assert.Equal(MessageType.Video, messages[0].Type);
+            Assert.NotNull(messages[0].Video.Thumb);
         }
 
         private static class FactTitles
@@ -238,6 +259,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             public const string ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions =
                 "Should upload 2 photos with markdown encoded captions and send them in an album";
+
+            public const string ShouldSendVideoWithThumb =
+                "Should send a video with thumbnail in an album";
         }
     }
 }

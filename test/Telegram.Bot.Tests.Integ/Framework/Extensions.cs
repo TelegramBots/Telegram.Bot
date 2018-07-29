@@ -28,10 +28,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
         }
 
-        public static string GetTesterMentions(this UpdateReceiver updateReceiver)
+        public static string GetTesters(this UpdateReceiver updateReceiver)
         {
             return string.Join(", ",
-                updateReceiver.AllowedUsernames.Select(username => $"@{username}".Replace("_", "\\_"))
+                updateReceiver.AllowedUsernames.Select(username => username.Replace("_", "\\_"))
             );
         }
     }

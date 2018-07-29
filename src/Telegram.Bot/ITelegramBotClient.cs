@@ -459,9 +459,27 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
+        [Obsolete("Use the other overload of this method instead. Only photo and video input types are allowed.")]
         Task<Message[]> SendMediaGroupAsync(
             ChatId chatId,
             IEnumerable<InputMediaBase> media,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="inputMedia">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
+        Task<Message[]> SendMediaGroupAsync(
+            IEnumerable<IAlbumInputMedia> inputMedia, // ToDo: Parameter is called "media" on API docs
+            ChatId chatId, // ToDo: Should be the 1st parameter
             bool disableNotification = default,
             int replyToMessageId = default,
             CancellationToken cancellationToken = default);
@@ -875,7 +893,7 @@ namespace Telegram.Bot
         /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns><c>true</c> on success.</returns>
+        /// <returns>On success, the edited Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
         Task EditMessageCaptionAsync(
             string inlineMessageId,
@@ -883,6 +901,38 @@ namespace Telegram.Bot
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
             ParseMode parseMode = default);
+
+        /// <summary>
+        /// Use this method to edit audio, document, photo, or video messages.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="messageId">Unique identifier of the sent message</param>
+        /// <param name="media">A JSON-serialized object for a new media content of the message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagemedia"/>
+        Task<Message> EditMessageMediaAsync(
+            ChatId chatId,
+            int messageId,
+            InputMediaBase media,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to edit audio, document, photo, or video inline messages.
+        /// </summary>
+        /// <param name="inlineMessageId">Unique identifier of the sent message</param>
+        /// <param name="media">A JSON-serialized object for a new media content of the message</param>
+        /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#editmessagemedia"/>
+        Task EditMessageMediaAsync(
+            string inlineMessageId,
+            InputMediaBase media,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).

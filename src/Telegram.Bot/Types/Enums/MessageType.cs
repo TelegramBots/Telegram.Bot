@@ -142,6 +142,11 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// The <see cref="Message"/> contains non-default <see cref="Message.MigrateToChatId"/>
         /// </summary>
-        MigratedFromGroup
+        MigratedFromGroup,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains non-default <see cref="Message.Animation"/>
+        /// </summary>
+        Animation,
     }
 }
