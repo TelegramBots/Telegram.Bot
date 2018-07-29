@@ -1,7 +1,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -79,14 +81,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
 
-            var entityValueMappings = new(MessageEntityType Type, string Value)[]
+            (MessageEntityType Type, string Value)[] entityValueMappings =
             {
-                ( MessageEntityType.Hashtag, "#TelegramBots" ),
-                ( MessageEntityType.Mention, "@BotFather" ),
-                ( MessageEntityType.Url, "http://github.com/TelegramBots" ),
-                ( MessageEntityType.Email, "security@telegram.org" ),
-                ( MessageEntityType.BotCommand, "/test" ),
-                ( MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}" ),
+                (MessageEntityType.Hashtag, "#TelegramBots"),
+                (MessageEntityType.Mention, "@BotFather"),
+                (MessageEntityType.Url, "http://github.com/TelegramBots"),
+                (MessageEntityType.Email, "security@telegram.org"),
+                (MessageEntityType.BotCommand, "/test"),
+                (MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}"),
             };
 
             Message message;
@@ -112,11 +114,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
 
-            var entityValueMappings = new(MessageEntityType Type, string EntityBody, string EncodedEntity)[]
+            var entityValueMappings = new (MessageEntityType Type, string EntityBody, string EncodedEntity)[]
             {
-                ( MessageEntityType.Bold, "bold", "*bold*" ),
-                ( MessageEntityType.Italic, "italic", "_italic_" ),
-                ( MessageEntityType.TextLink, "Text Link", "[Text Link](https://github.com/TelegramBots)" ),
+                (MessageEntityType.Bold, "bold", "*bold*"),
+                (MessageEntityType.Italic, "italic", "_italic_"),
+                (MessageEntityType.TextLink, "Text Link", "[Text Link](https://github.com/TelegramBots)"),
             };
 
             Message message;
@@ -137,15 +139,39 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(entityValueMappings.Select(t => t.EntityBody), message.CaptionEntityValues);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldSendDeserializedPhotoRequest)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
+        public async Task Should_Send_Deserialized_Photo_Request()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendDeserializedPhotoRequest);
+
+            string json = $@"{{
+                chat_id: ""{_fixture.SupergroupChat.Id}"",
+                photo: ""https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"",
+                caption: ""Photo request deserialized from JSON"",
+            }}";
+
+            SendPhotoRequest request = JsonConvert.DeserializeObject<SendPhotoRequest>(json);
+
+            Message message = await BotClient.MakeRequestAsync(request);
+
+            Assert.Equal(MessageType.Photo, message.Type);
+        }
+
         private static class FactTitles
         {
             public const string ShouldSendPhotoFile = "Should Send photo using a file";
 
             public const string ShouldSendPhotoUsingFileId = "Should Send previous photo using its file_id";
 
-            public const string ShouldParseMessageCaptionEntitiesIntoValues = "Should send photo message and parse its caption entity values";
+            public const string ShouldParseMessageCaptionEntitiesIntoValues =
+                "Should send photo message and parse its caption entity values";
 
-            public const string ShouldSendPhotoWithMarkdownEncodedCaption = "Should send photo with markdown encoded caption";
+            public const string ShouldSendPhotoWithMarkdownEncodedCaption =
+                "Should send photo with markdown encoded caption";
+
+            public const string ShouldSendDeserializedPhotoRequest =
+                "Should deserialize a sendPhoto request from JSON and send it";
         }
     }
 }

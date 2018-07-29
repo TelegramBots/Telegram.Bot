@@ -9,7 +9,38 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Additional constructors on `InputMediaPhoto` and `InputMediaVideo`
+- Partial support for Bot API v4.0
+- Method `SendMediaGroupAsync` (overloaded)
+- Method `EditMessageMediaAsync`
+- Method `EditMessageMediaAsync`
+- Type `EditMessageMediaRequest`
+- Type `EditInlineMessageMediaRequest`
+- Type `InputMediaAudio`
+- Type `InputMediaDocument`
+- Type `InputMediaAnimation`
+- Type `IInputMedia`
+- Type `IAlbumInputMedia`
+- Type `IInputMediaThumb`
+- Property `Animation.Width`
+- Property `Animation.Height`
+- Property `Animation.Duration`
+- Enum member `MessageType.Animation`
+- Property `InputMediaVideo.Thumb`
+- Property `Message.Animation`
+- Constructor with required parameters for `InputMediaPhoto` (overloaded)
+- Constructor with required parameters for `InputMediaVideo` (overloaded)
+- Constructor with required parameters for `SendMediaGroupRequest` (overloaded)
+
+### Fixed
+
+- Serialization error of `InlineQueryResultDocument.Description` being required
+- Incorrect serialization of `InputMediaVideo`
+
+### Changed
+
+- Marked method `SendMediaGroupAsync` as obsolete. An overload is provided.
+- Marked parameterless constructor of `InputMediaPhoto` as obsolete. An overload is provided.
+- Marked parameterless constructor of `InputMediaVideo` as obsolete. An overload is provided.
 
 ## [14.6.0] - 2018-06-12
 

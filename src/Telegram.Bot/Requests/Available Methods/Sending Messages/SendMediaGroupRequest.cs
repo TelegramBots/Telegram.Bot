@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -6,7 +7,6 @@ using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -16,8 +16,8 @@ namespace Telegram.Bot.Requests
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendMediaGroupRequest : FileRequestBase<Message[]>,
-                                         INotifiableMessage,
-                                         IReplyMessage
+        INotifiableMessage,
+        IReplyMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -29,7 +29,7 @@ namespace Telegram.Bot.Requests
         /// A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public IEnumerable<InputMediaBase> Media { get; }
+        public IEnumerable<IAlbumInputMedia> Media { get; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -44,30 +44,35 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">ID of target chat</param>
         /// <param name="media">Media items to send</param>
+        [Obsolete("Use the other constructor. Only photo and video input types are allowed.")]
         public SendMediaGroupRequest(ChatId chatId, IEnumerable<InputMediaBase> media)
+            : base("sendMediaGroup")
+        {
+            ChatId = chatId;
+            Media = media
+                .Select(m => m as IAlbumInputMedia)
+                .Where(m => m != null)
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Initializes a request with chat_id and media
+        /// </summary>
+        /// <param name="chatId">ID of target chat</param>
+        /// <param name="media">Media items to send</param>
+        public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media)
             : base("sendMediaGroup")
         {
             ChatId = chatId;
             Media = media;
         }
 
-        /// <summary>
-        /// Generate content of HTTP message
-        /// </summary>
-        /// <returns>Content of HTTP request</returns>
+        // ToDo: If there is no file stream in the request, request content should be string
+        /// <inheritdoc />
         public override HttpContent ToHttpContent()
         {
             var httpContent = GenerateMultipartFormDataContent();
-
-            var inputFiles = Media
-                .Select(m => m.Media)
-                .Where(input => input.FileType == FileType.Stream);
-
-            foreach (var input in inputFiles)
-            {
-                httpContent.AddStreamContent(input.Content, input.FileName);
-            }
-
+            httpContent.AddContentIfInputFileStream(Media.Cast<IInputMedia>().ToArray());
             return httpContent;
         }
     }

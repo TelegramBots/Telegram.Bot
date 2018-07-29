@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Helpers
 {
@@ -11,8 +13,7 @@ namespace Telegram.Bot.Helpers
     /// </summary>
     public static class Extensions
     {
-        [Obsolete]
-        private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        [Obsolete] private static readonly DateTime UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         /// <summary>
         ///   Convert a long into a DateTime
@@ -60,12 +61,32 @@ namespace Telegram.Bot.Helpers
             {
                 Headers =
                 {
-                    { "Content-Type", "application/octet-stream" },
-                    { "Content-Disposition", contentDisposision }
+                    {"Content-Type", "application/octet-stream"},
+                    {"Content-Disposition", contentDisposision}
                 }
             };
 
             multipartContent.Add(mediaPartContent, name, fileName);
+        }
+
+        internal static void AddContentIfInputFileStream(
+            this MultipartFormDataContent multipartContent,
+            params IInputMedia[] inputMedia
+        )
+        {
+            foreach (var input in inputMedia)
+            {
+                if (input.Media.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(input.Media.Content, input.Media.FileName);
+                }
+
+                var mediaThumb = (input as IInputMediaThumb)?.Thumb;
+                if (mediaThumb?.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(mediaThumb.Content, mediaThumb.FileName);
+                }
+            }
         }
     }
 }

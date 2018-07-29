@@ -151,6 +151,13 @@ namespace Telegram.Bot.Types
         public Document Document { get; set; }
 
         /// <summary>
+        /// Optional. Message is an animation, information about the animation. For backward compatibility, when this
+        /// field is set, the document field will also be set
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Animation Animation { get; set; }
+
+        /// <summary>
         /// Description is a game, information about the game.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -309,6 +316,9 @@ namespace Telegram.Bot.Types
 
                 if (Document != null)
                     return MessageType.Document;
+
+                if (Animation != null)
+                    return MessageType.Animation;
 
                 if (Game != null)
                     return MessageType.Game;
