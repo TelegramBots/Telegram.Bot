@@ -541,6 +541,7 @@ namespace Telegram.Bot
         /// <param name="phoneNumber">Contact's phone number</param>
         /// <param name="firstName">Contact's first name</param>
         /// <param name="lastName">Contact's last name</param>
+        /// <param name="vCard">Additional data about the contact in the form of a vCard, 0-2048 bytes</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
@@ -555,7 +556,8 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            string vCard = default); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
