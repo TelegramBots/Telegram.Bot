@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [14.7.0] - 2018-07-29
+
 ### Added
 
 - Partial support for Bot API v4.0
