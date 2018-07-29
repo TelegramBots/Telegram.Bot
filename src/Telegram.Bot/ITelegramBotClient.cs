@@ -529,6 +529,7 @@ namespace Telegram.Bot
             string title,
             string address,
             string foursquareId = default,
+            string foursquareType = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
