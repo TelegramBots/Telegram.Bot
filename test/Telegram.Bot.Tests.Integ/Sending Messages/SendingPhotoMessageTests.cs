@@ -83,6 +83,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             (MessageEntityType Type, string Value)[] entityValueMappings =
             {
+                (MessageEntityType.PhoneNumber, "+386 12 345 678"),
+                (MessageEntityType.Cashtag, "$EUR"),
                 (MessageEntityType.Hashtag, "#TelegramBots"),
                 (MessageEntityType.Mention, "@BotFather"),
                 (MessageEntityType.Url, "http://github.com/TelegramBots"),
