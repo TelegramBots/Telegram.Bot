@@ -23,29 +23,137 @@ namespace Telegram.Bot.Helpers.Passports
         {
             credentials = null;
 
-            byte[] data, hash, decryptedSecret;
+            byte[] data, hash, secret;
             try
             {
                 data = Convert.FromBase64String(encryptedCredentials.Data);
                 hash = Convert.FromBase64String(encryptedCredentials.Hash);
-                byte[] secret = Convert.FromBase64String(encryptedCredentials.Secret);
+                byte[] encryptedSecret = Convert.FromBase64String(encryptedCredentials.Secret);
 
-                decryptedSecret = privateKey.Decrypt(secret, RSAEncryptionPadding.OaepSHA1);
+                secret = privateKey.Decrypt(encryptedSecret, RSAEncryptionPadding.OaepSHA1);
             }
             catch
             {
                 return false;
             }
 
-            if (data.Length % 16 != 0 || hash.Length != 32)
+            if (TryDecryptInternal(data, hash, secret, out byte[] decryptedData) != null)
                 return false;
-            
+
+            try
+            {
+                string dataString = Encoding.UTF8.GetString(decryptedData);
+                credentials = JsonConvert.DeserializeObject<Credentials>(dataString);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to decrypt encrypted data (<see cref="EncryptedPassportElement.Data"/>) as specified in the documentation https://core.telegram.org/passport#datacredentials
+        /// </summary>
+        /// <param name="encryptedElement"><see cref="EncryptedPassportElement"/> that contains encrypted data in the Data property</param>
+        /// <param name="credentials"><see cref="DataCredentials"/> that correspond to the <see cref="EncryptedPassportElement"/></param>
+        /// <returns></returns>
+        public static DecryptionResult<T> DecryptData<T>(this EncryptedPassportElement encryptedElement, DataCredentials credentials) where T: IDecryptedData
+        {
+            switch (encryptedElement.Type)
+            {
+                case PassportElementType.Passport:
+                case PassportElementType.DriverLicense:
+                case PassportElementType.IdentityCard:
+                case PassportElementType.InternalPassport:
+                    if (typeof(T) != typeof(IdDocumentData))
+                        return new DecryptionResult<T>("T must be IdDocumentData for this element");
+                    break;
+
+                case PassportElementType.PersonalDetails:
+                    if (typeof(T) != typeof(PersonalDetails))
+                        return new DecryptionResult<T>("T must be PersonalDetails for this element");
+                    break;
+
+                case PassportElementType.Address:
+                    if (typeof(T) != typeof(ResidentialAddress))
+                        return new DecryptionResult<T>("T must be ResidentialAddress for this element");
+                    break;
+
+                default:
+                    return new DecryptionResult<T>("This encryptedElement does not have a valid data field. Consult https://core.telegram.org/passport#fields");
+            }
+
+            byte[] data, hash, secret;
+            try
+            {
+                data = Convert.FromBase64String(encryptedElement.Data);
+                hash = Convert.FromBase64String(credentials.DataHash);
+                secret = Convert.FromBase64String(credentials.Secret);
+            }
+            catch
+            {
+                return new DecryptionResult<T>("Invalid input data");
+            }
+
+            string errorDescription = TryDecryptInternal(data, hash, secret, out byte[] decryptedDataBytes);
+            if (errorDescription != null)
+                return new DecryptionResult<T>(errorDescription);
+
+            try
+            {
+                string json = Encoding.UTF8.GetString(decryptedDataBytes);
+                T decryptedData = JsonConvert.DeserializeObject<T>(json);
+                return new DecryptionResult<T>(decryptedData);
+            }
+            catch
+            {
+                return new DecryptionResult<T>("Invalid decrypted data");
+            }
+        }
+
+        /// <summary>
+        /// Tries to decrypt the encrypted file as specified in the documentation https://core.telegram.org/passport#filecredentials
+        /// </summary>
+        /// <param name="encryptedFileData">Encrypted file data</param>
+        /// <param name="credentials"><see cref="FileCredentials"/> that correspond to the file</param>
+        /// <param name="decryptedFileData">Decrypted file data (null if not successful)</param>
+        /// <returns></returns>
+        public static bool TryDecryptFile(byte[] encryptedFileData, FileCredentials credentials, out byte[] decryptedFileData)
+        {
+            byte[] hash, secret;
+            try
+            {
+                hash = Convert.FromBase64String(credentials.FileHash);
+                secret = Convert.FromBase64String(credentials.Secret);
+            }
+            catch
+            {
+                decryptedFileData = null;
+                return false;
+            }
+
+            return TryDecryptInternal(encryptedFileData, hash, secret, out decryptedFileData) == null;
+        }
+
+        /// <summary>
+        /// Null if successful - error description otherwise
+        /// </summary>
+        private static string TryDecryptInternal(byte[] data, byte[] hash, byte[] secret, out byte[] decryptedData)
+        {
+            decryptedData = null;
+
+            if (data.Length % 16 != 0)
+                return "Invalid data length";
+            if (hash.Length != 32)
+                return "Invalid hash length";
+
             byte[] credentialsSecretHash;
             using (SHA512 sha512 = SHA512.Create())
             {
-                byte[] combined = new byte[decryptedSecret.Length + hash.Length];
-                Array.Copy(decryptedSecret, 0, combined, 0, decryptedSecret.Length);
-                Array.Copy(hash, 0, combined, decryptedSecret.Length, hash.Length);
+                byte[] combined = new byte[secret.Length + hash.Length];
+                Array.Copy(secret, 0, combined, 0, secret.Length);
+                Array.Copy(hash, 0, combined, secret.Length, hash.Length);
                 credentialsSecretHash = sha512.ComputeHash(combined);
             }
 
@@ -68,32 +176,26 @@ namespace Telegram.Bot.Helpers.Passports
                 }
             }
 
-            int padding = credentialsData[0];
-            int actualDataLength = credentialsData.Length - padding;
-            if (actualDataLength < 0) return false;
-
-            byte[] actualData = new byte[credentialsData.Length - padding];
-            Array.Copy(credentialsData, padding, actualData, 0, actualData.Length);
-
             using (SHA256 sha256 = SHA256.Create())
             {
                 byte[] dataHash = sha256.ComputeHash(credentialsData);
                 for (int i = 0; i < dataHash.Length; i++)
                 {
-                    if (dataHash[i] != hash[i]) return false;
+                    if (dataHash[i] != hash[i]) return "Hash mismatch";
                 }
             }
+                        
+            int padding = credentialsData[0];
+            int actualDataLength = credentialsData.Length - padding;
 
-            try
-            {
-                string dataString = Encoding.UTF8.GetString(actualData);
-                credentials = JsonConvert.DeserializeObject<Credentials>(dataString);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (actualDataLength < 0)
+                return "Invalid data and padding length";
+            if (padding < 32)
+                return "Invalid padding length";
+            
+            decryptedData = new byte[actualDataLength];
+            Array.Copy(credentialsData, padding, decryptedData, 0, actualDataLength);
+            return null;
         }
     }
 }

@@ -8,6 +8,9 @@ namespace Telegram.Bot.Types.Passport
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class IdDocumentData
+        #if ENABLE_CRYPTOGRAPHY
+        : IDecryptedData
+        #endif
     {
         /// <summary>
         /// Document number

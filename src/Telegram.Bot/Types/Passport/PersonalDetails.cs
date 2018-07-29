@@ -9,6 +9,9 @@ namespace Telegram.Bot.Types.Passport
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class PersonalDetails
+        #if ENABLE_CRYPTOGRAPHY
+        : IDecryptedData
+        #endif
     {
         /// <summary>
         /// First Name
