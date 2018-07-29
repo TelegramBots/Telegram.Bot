@@ -473,7 +473,8 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default
         ) =>
             MakeRequestAsync(new SendAudioRequest(chatId, audio)
             {
@@ -482,6 +483,7 @@ namespace Telegram.Bot
                 Duration = duration,
                 Performer = performer,
                 Title = title,
+                Thumb = thumb,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup

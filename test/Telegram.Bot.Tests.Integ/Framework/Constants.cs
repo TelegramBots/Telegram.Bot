@@ -138,6 +138,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 private const string AudioDir = FilesDir + "Audio/";
 
+                public const string  AStateOfDespairMp3 = AudioDir + "Ask Again - A State of Despair.mp3";
+
                 public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
 
                 public const string TestOgg = AudioDir + "Test.ogg";
@@ -162,6 +164,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 private const string Dir = FilesDir + "Thumbnail/";
 
                 public const string Video = Dir + "video.jpg";
+
+                public const string TheAbilityToBreak = Dir + "The Ability to Break.jpg";
             }
         }
 
