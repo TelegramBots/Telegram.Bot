@@ -107,8 +107,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
 
             // For backward compatibility, when this field is set, the document field will also be set.
-            // In that case, message type is considered as Animation.
-            Assert.Equal(MessageType.Animation, editedMessage.Type);
+            // In that case, message type is still considered as Document.
+            Assert.Equal(MessageType.Document, editedMessage.Type);
             Assert.NotNull(editedMessage.Document);
             Assert.NotNull(editedMessage.Animation);
 
