@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
@@ -162,6 +163,7 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// The <see cref="Message"/> contains non-default <see cref="Message.Animation"/>
         /// </summary>
+        [Obsolete("Check if Message.Animation has value instead")]
         Animation,
     }
 }
