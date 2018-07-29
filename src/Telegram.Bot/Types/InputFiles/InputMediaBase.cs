@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types
     /// This object represents the content of a media message to be sent
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public abstract class InputMediaBase
+    public abstract class InputMediaBase : IInputMedia
     {
         /// <summary>
         /// Type of the media
@@ -21,7 +21,7 @@ namespace Telegram.Bot.Types
         /// Media to send
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputMedia Media { get; set; }
+        public InputMedia Media { get; set; } // ToDo Should be get-only. Media is set in ctors
 
         /// <summary>
         /// Optional. Caption of the photo to be sent, 0-200 characters

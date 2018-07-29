@@ -71,7 +71,7 @@ namespace Telegram.Bot.Helpers
 
         internal static void AddContentIfInputFileStream(
             this MultipartFormDataContent multipartContent,
-            params InputMediaBase[] inputMedia
+            params IInputMedia[] inputMedia
         )
         {
             foreach (var input in inputMedia)

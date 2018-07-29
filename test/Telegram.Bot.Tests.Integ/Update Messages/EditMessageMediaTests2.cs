@@ -112,10 +112,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.NotNull(editedMessage.Document);
             Assert.NotNull(editedMessage.Animation);
 
-            Assert.NotEqual(editedMessage.Animation.Duration, 0);
-            Assert.NotEqual(editedMessage.Animation.Width, 0);
-            Assert.NotEqual(editedMessage.Animation.Height, 0);
-            Assert.NotEqual(editedMessage.Animation.FileSize, 0);
+            Assert.NotEqual(0, editedMessage.Animation.Duration);
+            Assert.NotEqual(0, editedMessage.Animation.Width);
+            Assert.NotEqual(0, editedMessage.Animation.Height);
+            Assert.NotEqual(0, editedMessage.Animation.FileSize);
             Assert.NotEmpty(editedMessage.Animation.FileId);
             Assert.NotEmpty(editedMessage.Animation.FileName);
             Assert.NotEmpty(editedMessage.Animation.MimeType);

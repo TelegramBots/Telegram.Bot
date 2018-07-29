@@ -8,7 +8,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 {
     public class TestCollectionOrderer : ITestCollectionOrderer
     {
-        private readonly string[] _orderedCollections = {
+        private readonly string[] _orderedCollections =
+        {
             // Tests that require user interaction:
             Constants.TestCollections.CallbackQuery,
             Constants.TestCollections.PrivateChatReplyMarkup,
@@ -33,6 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.SendPhotoMessage,
             Constants.TestCollections.SendVideoMessage,
             Constants.TestCollections.AlbumMessage,
+            Constants.TestCollections.ObsoleteSendMediaGroup,
             Constants.TestCollections.ReplyMarkup,
             Constants.TestCollections.LiveLocation,
             Constants.TestCollections.FileDownload,
@@ -78,7 +80,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                     $"Collection \"{collection.DisplayName}\" not found in execution list.", nameof(collection));
             }
 
-            return (int)order;
+            return (int) order;
         }
     }
 }

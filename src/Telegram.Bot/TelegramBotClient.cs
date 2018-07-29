@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -593,14 +594,35 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        [Obsolete("Use the other overload of this method instead. Only photo and video input types are allowed.")]
         public Task<Message[]> SendMediaGroupAsync(
             ChatId chatId,
             IEnumerable<InputMediaBase> media,
             bool disableNotification = default,
             int replyToMessageId = default,
             CancellationToken cancellationToken = default
+        )
+        {
+            var albumMedia = media
+                .Select(m => m as IAlbumInputMedia)
+                .Where(m => m != null)
+                .ToArray();
+            return MakeRequestAsync(new SendMediaGroupRequest(chatId, albumMedia)
+            {
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+            }, cancellationToken);
+        }
+
+        /// <inheritdoc />
+        public Task<Message[]> SendMediaGroupAsync(
+            IEnumerable<IAlbumInputMedia> inputMedia,
+            ChatId chatId,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SendMediaGroupRequest(chatId, media)
+            MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
