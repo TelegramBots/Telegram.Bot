@@ -9,6 +9,26 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Parameter `vCard` to method `SendContactAsync`
+- Parameter `foursquareType` to method `SendVenueAsync`
+- Property `SendContactRequest.Vcard`
+- Property `SendVenueRequest.FoursquareType`
+- Property `InlineQueryResultContact.Vcard`
+- Property `InlineQueryResultVenue.FoursquareType`
+- Property `InputContactMessageContent.Vcard`
+- Property `InputVenueMessageContent.FoursquareType`
+- Property `Contact.Vcard`
+- Property `Venue.FoursquareType`
+- Enum value `MessageEntityType.Cashtag`
+
+### Changed
+
+- Marked `MessageType.Animation` as obsolete.
+
+## [14.7.0] - 2018-07-29
+
+### Added
+
 - Partial support for Bot API v4.0
 - Method `SendMediaGroupAsync` (overloaded)
 - Method `EditMessageMediaAsync`
