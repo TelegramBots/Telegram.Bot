@@ -79,7 +79,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             await BotClient.PinChatMessageAsync(
                 chatId: _classFixture.Chat.Id,
-                messageId: msg.MessageId
+                messageId: msg.MessageId,
+                disableNotification: true
             );
 
             _classFixture.PinnedMessage = msg;
@@ -267,5 +268,4 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             }
         }
     }
-
 }
