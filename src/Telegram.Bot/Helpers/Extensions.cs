@@ -5,7 +5,6 @@ using System.Net.Http;
 using System.Text;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 
 namespace Telegram.Bot.Helpers
 {
@@ -86,20 +85,6 @@ namespace Telegram.Bot.Helpers
                 if (mediaThumb?.FileType == FileType.Stream)
                 {
                     multipartContent.AddStreamContent(mediaThumb.Content, mediaThumb.FileName);
-                }
-            }
-        }
-
-        internal static void AddContentIfInputFileStream(
-            this MultipartFormDataContent multipartContent,
-            params InputFileStream[] inputMedia
-        )
-        {
-            foreach (var input in inputMedia)
-            {
-                if (input?.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(input.Content, input.FileName);
                 }
             }
         }

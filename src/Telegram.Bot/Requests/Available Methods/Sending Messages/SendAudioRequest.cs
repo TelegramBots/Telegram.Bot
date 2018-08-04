@@ -93,16 +93,28 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         public override HttpContent ToHttpContent()
         {
+            HttpContent httpContent;
             if (Audio.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
             {
-                var httpContent = GenerateMultipartFormDataContent();
-                httpContent.AddContentIfInputFileStream(Audio, Thumb);
-                return httpContent;
+                var multipartContent = GenerateMultipartFormDataContent("audio", "thumb");
+                if (Audio.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(Audio.Content, "audio", Audio.FileName);
+                }
+
+                if (Thumb?.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
+                }
+
+                httpContent = multipartContent;
             }
             else
             {
-                return base.ToHttpContent();
+                httpContent = base.ToHttpContent();
             }
+
+            return httpContent;
         }
     }
 }
