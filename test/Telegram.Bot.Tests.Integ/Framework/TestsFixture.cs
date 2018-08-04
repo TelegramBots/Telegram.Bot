@@ -84,7 +84,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public async Task<Message> SendTestCaseNotificationAsync(string testcase,
             string instructions = default,
             ChatId chatid = default,
-            bool startInlineQuery = default)
+            bool startInlineQuery = default
+        )
         {
             Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid, startInlineQuery);
             return msg;
@@ -164,8 +165,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
 #endif
         }
 
-        private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
-            string instructions = default, ChatId chatid = default, bool switchInlineQuery = default)
+        private Task<Message> SendNotificationToChatAsync(
+            bool isForCollection,
+            string name,
+            string instructions = default,
+            ChatId chatid = default,
+            bool switchInlineQuery = default
+        )
         {
             var textFormat = isForCollection
                 ? Constants.StartCollectionMessageFormat
