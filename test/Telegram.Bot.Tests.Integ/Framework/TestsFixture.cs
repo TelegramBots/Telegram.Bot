@@ -28,12 +28,15 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public RunSummary RunSummary { get; } = new RunSummary();
 
+        public static TestsFixture Instance { get; private set; }
+
         private CancellationToken CancellationToken =>
             new CancellationTokenSource(TimeSpan.FromSeconds(45)).Token;
 
         public TestsFixture()
         {
             InitAsync().GetAwaiter().GetResult();
+            Instance = this;
         }
 
         public void Dispose()
@@ -54,6 +57,28 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 ParseMode.Markdown,
                 cancellationToken: CancellationToken
             ).GetAwaiter().GetResult();
+        }
+
+        public Task<Message> SendTestInstructionsAsync(
+            string instructions,
+            ChatId chatid = default,
+            bool startInlineQuery = default
+        )
+        {
+            string text = string.Format(Constants.InstructionsMessageFormat, instructions);
+            chatid = chatid ?? SupergroupChat.Id;
+
+            IReplyMarkup replyMarkup = startInlineQuery
+                ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
+                : default;
+
+            return BotClient.SendTextMessageAsync(
+                chatid,
+                text,
+                ParseMode.Markdown,
+                replyMarkup: replyMarkup,
+                cancellationToken: CancellationToken
+            );
         }
 
         public async Task<Message> SendTestCaseNotificationAsync(string testcase,

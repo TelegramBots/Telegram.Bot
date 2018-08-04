@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Xunit.Abstractions;
 using Xunit.Sdk;
@@ -17,12 +18,15 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         public IEnumerable<IXunitTestCase> Discover
             (ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
         {
+            string displayName = factAttribute.GetNamedArgument<string>(nameof(OrderedFactAttribute.DisplayName));
             int maxRetries = factAttribute.GetNamedArgument<int>(nameof(OrderedFactAttribute.MaxRetries));
             int delaySeconds = factAttribute.GetNamedArgument<int>(nameof(OrderedFactAttribute.DelaySeconds));
-            string exceptionTypeFullName = factAttribute.GetNamedArgument<string>(nameof(OrderedFactAttribute.ExceptionTypeFullName));
+            string exceptionTypeFullName =
+                factAttribute.GetNamedArgument<string>(nameof(OrderedFactAttribute.ExceptionTypeFullName));
 
             yield return new RetryTestCase
-                (_diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod, maxRetries, delaySeconds, exceptionTypeFullName);
+            (_diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod, displayName, maxRetries,
+                delaySeconds, exceptionTypeFullName);
         }
     }
 }

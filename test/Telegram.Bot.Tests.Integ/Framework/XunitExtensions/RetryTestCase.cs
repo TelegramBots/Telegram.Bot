@@ -11,6 +11,8 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
     [Serializable]
     public class RetryTestCase : XunitTestCase
     {
+        private string _displayName;
+
         private int _maxRetries;
 
         private int _delaySeconds;
@@ -19,18 +21,22 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer", true)]
-        public RetryTestCase() { }
+        public RetryTestCase()
+        {
+        }
 
         public RetryTestCase(
             IMessageSink diagnosticMessageSink,
             TestMethodDisplay testMethodDisplay,
             ITestMethod testMethod,
+            string displayName,
             int maxRetries,
             int delaySeconds,
             string exceptionTypeFullName
         )
             : base(diagnosticMessageSink, testMethodDisplay, testMethod)
         {
+            _displayName = displayName;
             _maxRetries = maxRetries;
             _delaySeconds = delaySeconds;
             _exceptionTypeFullName = exceptionTypeFullName;
@@ -58,17 +64,20 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                 // contain run status) until we know we've decided to accept the final result;
                 var delayedMessageBus = new DelayedMessageBus(messageBus);
 
+                await TestsFixture.Instance.SendTestCaseNotificationAsync(_displayName);
+
                 var summary = await base.RunAsync
-                    (diagnosticMessageSink, delayedMessageBus, constructorArguments, aggregator, cancellationTokenSource);
+                (diagnosticMessageSink, delayedMessageBus, constructorArguments, aggregator,
+                    cancellationTokenSource);
                 if (aggregator.HasExceptions ||
                     summary.Failed == 0 ||
                     ++runCount > _maxRetries ||
-                        (summary.Failed == 1 &&
-                        !string.IsNullOrEmpty(_exceptionTypeFullName) &&
-                        !delayedMessageBus.FailedMessages.ExceptionTypes.Contains(_exceptionTypeFullName))
-                        )
+                    (summary.Failed == 1 &&
+                     !string.IsNullOrEmpty(_exceptionTypeFullName) &&
+                     !delayedMessageBus.FailedMessages.ExceptionTypes.Contains(_exceptionTypeFullName))
+                )
                 {
-                    delayedMessageBus.Dispose();  // Sends all the delayed messages
+                    delayedMessageBus.Dispose(); // Sends all the delayed messages
                     return summary;
                 }
 
@@ -87,6 +96,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         {
             base.Serialize(data);
 
+            data.AddValue(nameof(OrderedFactAttribute.DisplayName), _displayName);
             data.AddValue(nameof(OrderedFactAttribute.MaxRetries), _maxRetries);
             data.AddValue(nameof(OrderedFactAttribute.DelaySeconds), _delaySeconds);
             data.AddValue(nameof(OrderedFactAttribute.ExceptionTypeFullName), _exceptionTypeFullName);
@@ -96,6 +106,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         {
             base.Deserialize(data);
 
+            _displayName = data.GetValue<string>(nameof(OrderedFactAttribute.DisplayName));
             _maxRetries = data.GetValue<int>(nameof(OrderedFactAttribute.MaxRetries));
             _delaySeconds = data.GetValue<int>(nameof(OrderedFactAttribute.DelaySeconds));
             _exceptionTypeFullName = data.GetValue<string>(nameof(OrderedFactAttribute.ExceptionTypeFullName));
