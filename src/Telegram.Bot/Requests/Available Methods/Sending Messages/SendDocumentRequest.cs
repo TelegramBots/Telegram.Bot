@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -18,7 +19,8 @@ namespace Telegram.Bot.Requests
                                        INotifiableMessage,
                                        IReplyMessage,
                                        IReplyMarkupMessage<IReplyMarkup>,
-                                       IFormattableMessage
+                                       IFormattableMessage,
+                                       IThumbMediaMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -37,6 +39,9 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
+
+        /// <inheritdoc />
+        public InputMedia Thumb { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -67,9 +72,30 @@ namespace Telegram.Bot.Requests
         }
 
         /// <inheritdoc />
-        public override HttpContent ToHttpContent() =>
-            Document.FileType == FileType.Stream
-                ? ToMultipartFormDataContent("document", Document)
-                : base.ToHttpContent();
+        public override HttpContent ToHttpContent()
+        {
+            HttpContent httpContent;
+            if (Document.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+            {
+                var multipartContent = GenerateMultipartFormDataContent("document", "thumb");
+                if (Document.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(Document.Content, "document", Document.FileName);
+                }
+
+                if (Thumb?.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
+                }
+
+                httpContent = multipartContent;
+            }
+            else
+            {
+                httpContent = base.ToHttpContent();
+            }
+
+            return httpContent;
+        }
     }
 }

@@ -19,7 +19,8 @@ namespace Telegram.Bot.Types
         /// <param name="fileName">Name of the file to send</param>
         public InputMedia(Stream content, string fileName)
             : base(content, fileName)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes media with either a file_id or a HTTP url
@@ -27,15 +28,12 @@ namespace Telegram.Bot.Types
         /// <param name="value">file_id to send a file that exists on the Telegram servers or an HTTP URL for Telegram to get a file from the Internet</param>
         public InputMedia(string value)
             : base(value)
-        { }
+        {
+        }
 
-        /// <summary>
-        /// ToDo
-        /// </summary>
-        /// <param name="value"></param>
         public static implicit operator InputMedia(string value) =>
             value == null
-                ? default
+                ? null
                 : new InputMedia(value);
     }
 }

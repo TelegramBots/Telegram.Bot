@@ -333,16 +333,24 @@ namespace Telegram.Bot
             InputMedia thumb = default); // ToDo: Should be the 1st parameter
 
         /// <summary>
-        /// Use this method to send general files. On success, the sent Description is returned. Bots can send files of any type of up to 50 MB in size.
+        /// Use this method to send general files. On success, the sent Description is returned. Bots can send files of
+        /// any type of up to 50 MB in size.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="document">File to send.</param>
+        /// <param name="thumb">Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB
+        /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
+        /// uploaded as a new file.</param>
         /// <param name="caption">Document caption</param>
-        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
+        /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
+        /// instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
+        /// notice of cancellation.</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
+        /// URLs in your bot's message.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
         Task<Message> SendDocumentAsync(
@@ -353,7 +361,8 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default); // ToDo: Should be the 1st parameter
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Description is returned.

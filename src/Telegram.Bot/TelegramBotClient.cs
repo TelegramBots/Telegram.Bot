@@ -281,7 +281,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
         public void StartReceiving(UpdateType[] allowedUpdates = null,
-            CancellationToken cancellationToken = default)
+                                   CancellationToken cancellationToken = default)
         {
             _receivingCancellationTokenSource = new CancellationTokenSource();
 
@@ -498,11 +498,13 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default
         ) =>
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
                 Caption = caption,
+                Thumb = thumb,
                 ParseMode = parseMode,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
