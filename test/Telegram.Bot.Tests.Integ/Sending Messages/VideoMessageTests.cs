@@ -86,11 +86,39 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.VideoNote.Thumb.Height > 50);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoWithThumb)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
+        public async Task Should_Send_Video_With_Thumb()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoWithThumb);
+
+            Message message;
+            using (Stream
+                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding),
+                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.TheAbilityToBreak)
+            )
+            {
+                message = await BotClient.SendVideoAsync(
+                    /* chatId: */ _fixture.SupergroupChat,
+                    /* video: */ stream1,
+                    thumb: new InputMedia(stream2, "thumb.jpg")
+                );
+            }
+
+            Assert.NotNull(message.Video.Thumb);
+            Assert.NotEmpty(message.Video.Thumb.FileId);
+            Assert.Equal(90, message.Video.Thumb.Height);
+            Assert.Equal(90, message.Video.Thumb.Width);
+            Assert.True(message.Video.Thumb.FileSize > 10_000);
+        }
+
         private static class FactTitles
         {
             public const string ShouldSendVideo = "Should send a video with caption";
 
             public const string ShouldSendVideoNote = "Should send a video note";
+
+            public const string ShouldSendVideoWithThumb = "Should send a video with thumbail";
         }
     }
 }

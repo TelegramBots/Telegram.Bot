@@ -540,13 +540,15 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default
         ) =>
             MakeRequestAsync(new SendVideoRequest(chatId, video)
             {
                 Duration = duration,
                 Width = width,
                 Height = height,
+                Thumb = thumb,
                 Caption = caption,
                 ParseMode = parseMode,
                 SupportsStreaming = supportsStreaming,
