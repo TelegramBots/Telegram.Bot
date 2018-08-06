@@ -120,7 +120,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="Exceptions.ApiRequestException"> Thrown if token is invalid</exception>
         void StartReceiving(UpdateType[] allowedUpdates = null,
-            CancellationToken cancellationToken = default);
+                            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Stop update receiving
@@ -300,19 +300,28 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format. On success, the sent Description is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
+        /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your
+        /// audio must be in the .mp3 format. On success, the sent Description is returned. Bots can currently send
+        /// audio files of up to 50 MB in size, this limit may be changed in the future.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="audio">Audio file to send.</param>
         /// <param name="caption">Audio caption, 0-200 characters</param>
-        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
+        /// URLs in your bot's message.</param>
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
         /// <param name="title">Track name</param>
-        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="thumb">Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB
+        /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
+        /// uploaded as a new file.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
+        /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
+        /// instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
+        /// notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendaudio"/>
         Task<Message> SendAudioAsync(
@@ -326,19 +335,28 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default); // ToDo inconsistent order of parameters
 
         /// <summary>
-        /// Use this method to send general files. On success, the sent Description is returned. Bots can send files of any type of up to 50 MB in size.
+        /// Use this method to send general files. On success, the sent Description is returned. Bots can send files of
+        /// any type of up to 50 MB in size.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="document">File to send.</param>
+        /// <param name="thumb">Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB
+        /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
+        /// uploaded as a new file.</param>
         /// <param name="caption">Document caption</param>
-        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
+        /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
+        /// instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
+        /// notice of cancellation.</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
+        /// URLs in your bot's message.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
         Task<Message> SendDocumentAsync(
@@ -349,7 +367,8 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Description is returned.
@@ -371,20 +390,28 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as Document). On success, the sent Description is returned. Bots can send video files of up to 50 MB in size.
+        /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as
+        /// Document). On success, the sent Description is returned. Bots can send video files of up to 50 MB in size.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="video">Video to send.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="width">Video width</param>
         /// <param name="height">Video height</param>
+        /// <param name="thumb">Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB
+        /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
+        /// uploaded as a new file.</param>
         /// <param name="caption">Video caption</param>
-        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
+        /// URLs in your bot's message.</param>
         /// <param name="supportsStreaming">Pass True, if the uploaded video is suitable for streaming</param>
-        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
+        /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
+        /// instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
+        /// notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideo"/>
         Task<Message> SendVideoAsync(
@@ -396,6 +423,46 @@ namespace Telegram.Bot
             string caption = default,
             ParseMode parseMode = default,
             bool supportsStreaming = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default); // ToDo inconsistent order of parameters
+
+        /// <summary>
+        /// Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent
+        /// Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be
+        /// changed in the future.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="animation">Animation to send</param>
+        /// <param name="duration">Duration of sent animation in seconds</param>
+        /// <param name="width">Animation width</param>
+        /// <param name="height">Animation height</param>
+        /// <param name="thumb">Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB
+        /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
+        /// uploaded as a new file.</param>
+        /// <param name="caption">Animation caption</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
+        /// URLs in your bot's message.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
+        /// Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
+        /// instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
+        /// notice of cancellation.</param>
+        /// <returns>On success, the sent Message is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendanimation"/>
+        Task<Message> SendAnimationAsync(
+            ChatId chatId,
+            InputOnlineFile animation,
+            int duration = default,
+            int width = default,
+            int height = default,
+            InputMedia thumb = default,
+            string caption = default,
+            ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
@@ -427,16 +494,23 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.
+        /// As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to
+        /// send video messages.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="videoNote">Video note to send.</param>
+        /// <param name="thumb">Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB
+        /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
+        /// uploaded as a new file.</param>
         /// <param name="duration">Duration of sent video in seconds</param>
         /// <param name="length">Video width and height</param>
-        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
+        /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
+        /// instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
+        /// notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
         Task<Message> SendVideoNoteAsync(
@@ -447,7 +521,8 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            InputMedia thumb = default); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
