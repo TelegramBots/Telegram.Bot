@@ -558,6 +558,34 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task<Message> SendAnimationAsync(
+            ChatId chatId,
+            InputOnlineFile animation,
+            int duration = default,
+            int width = default,
+            int height = default,
+            InputMedia thumb = default,
+            string caption = default,
+            ParseMode parseMode = default,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendAnimationRequest(chatId, animation)
+            {
+                Duration = duration,
+                Width = width,
+                Height = height,
+                Thumb = thumb,
+                Caption = caption,
+                ParseMode = parseMode,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup,
+            }, cancellationToken);
+
+        /// <inheritdoc />
         public Task<Message> SendVoiceAsync(
             ChatId chatId,
             InputOnlineFile voice,

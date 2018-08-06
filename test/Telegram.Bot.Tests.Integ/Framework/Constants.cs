@@ -30,6 +30,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SendVideoMessage = "Sending Video Messages";
 
+            public const string SendAnimationMessage = "Sending Animation Messages";
+
             public const string SendAudioMessage = "Sending Audio Messages";
 
             public const string SendVenueMessage = "Sending Venue Messages";
@@ -230,6 +232,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string SendPhoto = "sendPhoto";
 
             public const string SendVideo = "sendVideo";
+
+            public const string SendAnimation = "sendAnimation";
 
             public const string SendAudio = "sendAudio";
 

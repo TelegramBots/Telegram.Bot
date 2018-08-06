@@ -12,27 +12,27 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send video files, Telegram clients support mp4 videos
+    /// Send animation files (GIF or H.264/MPEG-4 AVC video without sound). Bots can currently send animation files of
+    /// up to 50 MB in size, this limit may be changed in the future.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendVideoRequest : FileRequestBase<Message>,
-                                    INotifiableMessage,
-                                    IReplyMessage,
-                                    IReplyMarkupMessage<IReplyMarkup>,
-                                    IFormattableMessage,
-                                    IThumbMediaMessage
+    public class SendAnimationRequest : FileRequestBase<Message>,
+                                        IChatMessage,
+                                        INotifiableMessage,
+                                        IReplyMessage,
+                                        IReplyMarkupMessage<IReplyMarkup>,
+                                        IFormattableMessage,
+                                        IThumbMediaMessage
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Video file to send
+        /// Animation to send
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputOnlineFile Video { get; }
+        public InputOnlineFile Animation { get; }
 
         /// <summary>
         /// Duration of the video in seconds
@@ -52,6 +52,10 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMedia Thumb { get; set; }
+
         /// <summary>
         /// Video caption (may also be used when resending videos by file_id), 0-200 characters
         /// </summary>
@@ -61,16 +65,6 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
-
-        /// <summary>
-        /// Pass True, if the uploaded video is suitable for streaming
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool SupportsStreaming { get; set; }
-
-        /// <inheritdoc />
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMedia Thumb { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -85,27 +79,27 @@ namespace Telegram.Bot.Requests
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and video
+        /// Initializes a new request with chatId and animation
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
-        /// <param name="video">Video to send</param>
-        public SendVideoRequest(ChatId chatId, InputOnlineFile video)
-            : base("sendVideo")
+        /// <param name="animation">Animation to send</param>
+        public SendAnimationRequest(ChatId chatId, InputOnlineFile animation)
+            : base("sendAnimation")
         {
             ChatId = chatId;
-            Video = video;
+            Animation = animation;
         }
 
         /// <inheritdoc />
         public override HttpContent ToHttpContent()
         {
             HttpContent httpContent;
-            if (Video.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+            if (Animation.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
             {
-                var multipartContent = GenerateMultipartFormDataContent("video", "thumb");
-                if (Video.FileType == FileType.Stream)
+                var multipartContent = GenerateMultipartFormDataContent("animation", "thumb");
+                if (Animation.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(Video.Content, "video", Video.FileName);
+                    multipartContent.AddStreamContent(Animation.Content, "animation", Animation.FileName);
                 }
 
                 if (Thumb?.FileType == FileType.Stream)

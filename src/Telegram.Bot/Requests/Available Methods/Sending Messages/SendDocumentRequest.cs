@@ -41,6 +41,7 @@ namespace Telegram.Bot.Requests
         public string Caption { get; set; }
 
         /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMedia Thumb { get; set; }
 
         /// <inheritdoc />
