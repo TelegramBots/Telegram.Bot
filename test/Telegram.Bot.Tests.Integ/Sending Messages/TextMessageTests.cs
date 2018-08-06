@@ -27,20 +27,16 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendTextMessage)]
+        [OrderedFact("Should send text message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Text_Message()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendTextMessage);
-
-            const string text = "Hello world!";
-
             Message message = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                text: text
+                text: "Hello world!"
             );
 
-            Assert.Equal(text, message.Text);
+            Assert.Equal("Hello world!", message.Text);
             Assert.Equal(MessageType.Text, message.Type);
             Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
             Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
@@ -134,7 +130,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseHtmlEntities);
 
             const string url = "https://telegram.org/";
-            (MessageEntityType Type, string Value)[] entityValueMappings = {
+            (MessageEntityType Type, string Value)[] entityValueMappings =
+            {
                 (MessageEntityType.Bold, "<b>bold</b>"),
                 (MessageEntityType.Bold, "<strong>&lt;strong&gt;</strong>"),
                 (MessageEntityType.Italic, "<i>italic</i>"),
@@ -172,7 +169,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageEntitiesIntoValues);
 
-            (MessageEntityType Type, string Value)[] entityValueMappings = {
+            (MessageEntityType Type, string Value)[] entityValueMappings =
+            {
                 (MessageEntityType.PhoneNumber, "+386 12 345 678"),
                 (MessageEntityType.Cashtag, "$EUR"),
                 (MessageEntityType.Hashtag, "#TelegramBots"),
@@ -197,8 +195,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
         private static class FactTitles
         {
-            public const string ShouldSendTextMessage = "Should send text message";
-
             public const string ShouldSendTextMessageToChannel = "Should send text message to channel";
 
             public const string ShouldForwardMessage = "Should forward a message to same chat";
