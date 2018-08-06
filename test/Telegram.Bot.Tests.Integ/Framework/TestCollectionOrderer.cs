@@ -31,6 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.SendContactMessage,
             Constants.TestCollections.SendVenueMessage,
             Constants.TestCollections.SendDocumentMessage,
+            Constants.TestCollections.SendAnimationMessage,
             Constants.TestCollections.SendPhotoMessage,
             Constants.TestCollections.SendVideoMessage,
             Constants.TestCollections.AlbumMessage,

@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [14.9.0] - 2018-08-06
+
+### Added
+
+- Method `SendAnimationAsync`
+- Parameter `thumb` to method `SendAudioAsync`
+- Parameter `thumb` to method `SendDocumentAsync`
+- Parameter `thumb` to method `SendVideoAsync`
+- Parameter `thumb` to method `SendVideoNoteAsync`
+- Type `IChatMessage`
+- Type `IThumbMediaMessage`
+- Type `SendAnimationRequest`
+- Property `SendAudioRequest.Thumb`
+- Property `SendDocumentRequest.Thumb`
+- Property `SendVideoRequest.Thumb`
+- Property `SendVideoNoteRequest.Thumb`
+- Property `Audio.Thumb`
+
 ## [14.8.0] - 2018-07-29
 
 ### Added

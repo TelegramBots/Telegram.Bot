@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -15,10 +16,11 @@ namespace Telegram.Bot.Requests
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendAudioRequest : FileRequestBase<Message>,
-                                    INotifiableMessage,
-                                    IReplyMessage,
-                                    IReplyMarkupMessage<IReplyMarkup>,
-                                    IFormattableMessage
+        INotifiableMessage,
+        IReplyMessage,
+        IReplyMarkupMessage<IReplyMarkup>,
+        IFormattableMessage,
+        IThumbMediaMessage
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -62,6 +64,10 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMedia Thumb { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
@@ -85,9 +91,30 @@ namespace Telegram.Bot.Requests
         }
 
         /// <inheritdoc />
-        public override HttpContent ToHttpContent() =>
-            Audio.FileType == FileType.Stream
-                ? ToMultipartFormDataContent("audio", Audio)
-                : base.ToHttpContent();
+        public override HttpContent ToHttpContent()
+        {
+            HttpContent httpContent;
+            if (Audio.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+            {
+                var multipartContent = GenerateMultipartFormDataContent("audio", "thumb");
+                if (Audio.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(Audio.Content, "audio", Audio.FileName);
+                }
+
+                if (Thumb?.FileType == FileType.Stream)
+                {
+                    multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
+                }
+
+                httpContent = multipartContent;
+            }
+            else
+            {
+                httpContent = base.ToHttpContent();
+            }
+
+            return httpContent;
+        }
     }
 }
