@@ -19,11 +19,9 @@
   <PropertyGroup Condition="'$(AppVeyor)' == 'True'">
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
-  
   <PropertyGroup Condition="'$(TargetFramework)'=='net46' Or '$(TargetFramework)'=='netstandard1.3'">
     <DefineConstants>ENABLE_CRYPTOGRAPHY</DefineConstants>
   </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.3" />

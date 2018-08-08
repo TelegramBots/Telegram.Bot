@@ -9,15 +9,16 @@ namespace Telegram.Bot.Types.Passport
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class PersonalDetails
-        #if ENABLE_CRYPTOGRAPHY
+#if ENABLE_CRYPTOGRAPHY
         : IDecryptedData
-        #endif
+#endif
     {
         /// <summary>
         /// First Name
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string FirstName;
+
         /// <summary>
         /// Last Name
         /// </summary>
@@ -28,13 +29,13 @@ namespace Telegram.Bot.Types.Passport
         /// Date of birth in DD.MM.YYYY format
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Birth_date;
+        public string BirthDate;
 
         /// <summary>
         /// Gender, male or female
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public Gender Gender;
+        public string Gender;
 
         /// <summary>
         /// Citizenship (ISO 3166-1 alpha-2 country code)

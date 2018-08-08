@@ -144,11 +144,5 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains non-default <see cref="Message.MigrateToChatId"/>
         /// </summary>
         MigratedFromGroup,
-
-        /// <summary>
-        /// The <see cref="Message"/> contains non-default <see cref="Message.PassportData"/>
-        /// </summary>
-        [EnumMember(Value = "passport_data")]
-        PassportData
     }
 }
