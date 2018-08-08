@@ -80,7 +80,7 @@ namespace Telegram.Bot.Tests.Integ.Games
         public async Task Should_Set_Game_Score_Inline_Message()
         {
             int playerId = _classFixture.Player.Id;
-            int oldScore = _classFixture.HighScores.Single(highScore => highScore.User.Id == playerId).Score;
+            int oldScore = _classFixture.HighScores.First(highScore => highScore.User.Id == playerId).Score;
             int newScore = oldScore + 1 + new Random().Next(3);
 
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetGameScoreInline,
