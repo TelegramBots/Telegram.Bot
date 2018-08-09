@@ -13,12 +13,12 @@ namespace Telegram.Bot.Types.Passport
         /// Checksum of encrypted data
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string DataHash;
+        public string DataHash { get; set; }
 
         /// <summary>
         /// Secret of encrypted data
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Secret;
+        public string Secret { get; set; }
     }
 }

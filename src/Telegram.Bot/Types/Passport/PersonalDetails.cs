@@ -16,36 +16,36 @@ namespace Telegram.Bot.Types.Passport
         /// First Name
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string FirstName;
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Last Name
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string LastName;
+        public string LastName { get; set; }
 
         /// <summary>
         /// Date of birth in DD.MM.YYYY format
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string BirthDate;
+        public string BirthDate { get; set; }
 
         /// <summary>
         /// Gender, male or female
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Gender;
+        public string Gender { get; set; }
 
         /// <summary>
         /// Citizenship (ISO 3166-1 alpha-2 country code)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string CountryCode;
+        public string CountryCode { get; set; }
 
         /// <summary>
         /// Country of residence (ISO 3166-1 alpha-2 country code)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string ResidenceCountryCode;
+        public string ResidenceCountryCode { get; set; }
     }
 }

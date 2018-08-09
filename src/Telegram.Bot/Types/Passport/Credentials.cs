@@ -13,14 +13,14 @@ namespace Telegram.Bot.Types.Passport
         /// Credentials for encrypted data
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public SecureData SecureData;
+        public SecureData SecureData { get; set; }
 
         /// <summary>
         /// Bot-specified payload
         /// <para>Make sure that the payload is the same as was passed in the request.</para>
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Payload;
+        public string Payload { get; set; }
 
     }
 }
