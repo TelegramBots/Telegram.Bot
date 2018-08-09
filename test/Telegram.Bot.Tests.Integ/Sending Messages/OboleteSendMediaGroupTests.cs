@@ -7,6 +7,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
+    #pragma warning disable CS0618
     [Collection(Constants.TestCollections.ObsoleteSendMediaGroup)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class OboleteSendMediaGroupTests

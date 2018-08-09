@@ -324,8 +324,10 @@ namespace Telegram.Bot.Types
                 if (Document != null)
                     return MessageType.Document;
 
+                #pragma warning disable CS0618 // Obsolete
                 if (Animation != null)
                     return MessageType.Animation;
+                #pragma warning restore CS0618 // Obsolete
 
                 if (Game != null)
                     return MessageType.Game;

@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Types.InputFiles;
@@ -31,6 +31,7 @@ namespace Telegram.Bot.Types
         {
         }
 
+        /// <summary></summary>
         public static implicit operator InputMedia(string value) =>
             value == null
                 ? null
