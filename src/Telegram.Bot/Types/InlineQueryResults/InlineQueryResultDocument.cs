@@ -13,10 +13,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultDocument : InlineQueryResultBase,
-                                             ICaptionInlineQueryResult,
-                                             IThumbnailInlineQueryResult,
-                                             ITitleInlineQueryResult,
-                                             IInputMessageContentResult
+        ICaptionInlineQueryResult,
+        IThumbnailInlineQueryResult,
+        ITitleInlineQueryResult,
+        IInputMessageContentResult
     {
         /// <summary>
         /// A valid URL for the file
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Description { get; set; }
 
         /// <inheritdoc />
@@ -66,7 +66,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         private InlineQueryResultDocument()
             : base(InlineQueryResultType.Document)
-        { }
+        {
+        }
 
         /// <summary>
         /// Initializes a new inline query result

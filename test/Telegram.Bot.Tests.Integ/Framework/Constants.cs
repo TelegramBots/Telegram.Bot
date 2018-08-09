@@ -12,7 +12,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
-        public const string TestCaseOrderer = AssemblyName + "." + nameof(Framework) + "." + nameof(Framework.TestCaseOrderer);
+        public const string TestCaseOrderer =
+            AssemblyName + "." + nameof(Framework) + "." + nameof(Framework.TestCaseOrderer);
 
         public const string TestCaseDiscoverer =
             AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(RetryFactDiscoverer);
@@ -28,6 +29,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string SendPhotoMessage = "Sending Photo Messages";
 
             public const string SendVideoMessage = "Sending Video Messages";
+
+            public const string SendAnimationMessage = "Sending Animation Messages";
 
             public const string SendAudioMessage = "Sending Audio Messages";
 
@@ -55,9 +58,15 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string AlbumMessage = "Sending Album Messages";
 
+            public const string ObsoleteSendMediaGroup = "Refactor SendMediaGroup method";
+
             public const string EditMessage = "Edit message content";
 
             public const string EditMessage2 = "Edit message content (non-interactive)";
+
+            public const string EditMessageMedia = "Edit message media";
+
+            public const string EditMessageMedia2 = "Edit message media (non-interactive)";
 
             public const string DeleteMessage = "Delete message";
 
@@ -131,6 +140,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 private const string AudioDir = FilesDir + "Audio/";
 
+                public const string  AStateOfDespairMp3 = AudioDir + "Ask Again - A State of Despair.mp3";
+
                 public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
 
                 public const string TestOgg = AudioDir + "Test.ogg";
@@ -141,6 +152,22 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 private const string CertificateDir = FilesDir + "Certificate/";
 
                 public const string PublicKey = CertificateDir + "public-key.pem";
+            }
+
+            public static class Animation
+            {
+                private const string Dir = FilesDir + "Animation/";
+
+                public const string Earth = Dir + "earth.gif";
+            }
+
+            public static class Thumbnail
+            {
+                private const string Dir = FilesDir + "Thumbnail/";
+
+                public const string Video = Dir + "video.jpg";
+
+                public const string TheAbilityToBreak = Dir + "The Ability to Break.jpg";
             }
         }
 
@@ -206,6 +233,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SendVideo = "sendVideo";
 
+            public const string SendAnimation = "sendAnimation";
+
             public const string SendAudio = "sendAudio";
 
             public const string SendVenue = "sendVenue";
@@ -219,6 +248,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string SendContact = "sendContact";
 
             public const string EditMessageText = "editMessageText";
+
+            public const string EditMessageMedia = "editMessageMedia";
 
             public const string EditMessageReplyMarkup = "editMessageReplyMarkup";
 

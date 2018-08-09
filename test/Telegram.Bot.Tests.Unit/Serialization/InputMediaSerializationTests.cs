@@ -2,7 +2,6 @@ using System.IO;
 using Newtonsoft.Json;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Serialization

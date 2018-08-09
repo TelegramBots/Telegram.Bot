@@ -1,4 +1,6 @@
+using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -6,26 +8,30 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// Represents a video to be sent
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn)]
-    public class InputMediaVideo : InputMediaBase
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class InputMediaVideo : InputMediaBase, IInputMediaThumb, IAlbumInputMedia
     {
         /// <summary>
         /// Optional. Video width
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Width { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Height { get; set; }
 
         /// <summary>
         /// Optional. Video duration
         /// </summary>
-        [JsonProperty]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int Duration { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InputMedia Thumb { get; set; }
 
         /// <summary>
         /// Optional. Pass True, if the uploaded video is suitable for streaming
@@ -36,6 +42,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Initializes a new video media to send
         /// </summary>
+        [Obsolete("Use the other overload of this constructor with required parameter instead.")]
         public InputMediaVideo()
         {
             Type = "video";
@@ -45,8 +52,8 @@ namespace Telegram.Bot.Types
         /// Initializes a new video media to send with an <see cref="InputMedia"/>
         /// </summary>
         public InputMediaVideo(InputMedia media)
-            : this()
         {
+            Type = "video";
             Media = media;
         }
     }

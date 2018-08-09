@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -26,12 +28,15 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public RunSummary RunSummary { get; } = new RunSummary();
 
+        public static TestsFixture Instance { get; private set; }
+
         private CancellationToken CancellationToken =>
             new CancellationTokenSource(TimeSpan.FromSeconds(45)).Token;
 
         public TestsFixture()
         {
             InitAsync().GetAwaiter().GetResult();
+            Instance = this;
         }
 
         public void Dispose()
@@ -54,10 +59,33 @@ namespace Telegram.Bot.Tests.Integ.Framework
             ).GetAwaiter().GetResult();
         }
 
+        public Task<Message> SendTestInstructionsAsync(
+            string instructions,
+            ChatId chatid = default,
+            bool startInlineQuery = default
+        )
+        {
+            string text = string.Format(Constants.InstructionsMessageFormat, instructions);
+            chatid = chatid ?? SupergroupChat.Id;
+
+            IReplyMarkup replyMarkup = startInlineQuery
+                ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
+                : default;
+
+            return BotClient.SendTextMessageAsync(
+                chatid,
+                text,
+                ParseMode.Markdown,
+                replyMarkup: replyMarkup,
+                cancellationToken: CancellationToken
+            );
+        }
+
         public async Task<Message> SendTestCaseNotificationAsync(string testcase,
             string instructions = default,
             ChatId chatid = default,
-            bool startInlineQuery = default)
+            bool startInlineQuery = default
+        )
         {
             Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid, startInlineQuery);
             return msg;
@@ -130,10 +158,20 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 ParseMode.Markdown,
                 cancellationToken: CancellationToken
             );
+
+#if DEBUG
+            BotClient.MakingApiRequest += OnMakingApiRequest;
+            BotClient.ApiResponseReceived += OnApiResponseReceived;
+#endif
         }
 
-        private Task<Message> SendNotificationToChatAsync(bool isForCollection, string name,
-            string instructions = default, ChatId chatid = default, bool switchInlineQuery = default)
+        private Task<Message> SendNotificationToChatAsync(
+            bool isForCollection,
+            string name,
+            string instructions = default,
+            ChatId chatid = default,
+            bool switchInlineQuery = default
+        )
         {
             var textFormat = isForCollection
                 ? Constants.StartCollectionMessageFormat
@@ -148,10 +186,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
 
             IReplyMarkup replyMarkup = switchInlineQuery
-                ? new InlineKeyboardMarkup(new[]
-                {
-                    InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
-                })
+                ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 : default;
 
             var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown,
@@ -199,6 +234,32 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return allowedUserNames;
         }
 
+#if DEBUG
+        private void OnMakingApiRequest(object sender, ApiRequestEventArgs e)
+        {
+            string content;
+            string[] multipartContent;
+            if (e.HttpContent is MultipartFormDataContent multipartFormDataContent)
+            {
+                multipartContent = multipartFormDataContent
+                    .Select(c => c is StringContent
+                        ? $"{c.Headers}\n{c.ReadAsStringAsync().Result}"
+                        : c.Headers.ToString()
+                    )
+                    .ToArray();
+            }
+            else
+            {
+                content = e.HttpContent.ReadAsStringAsync().Result;
+            }
+        }
+
+        private async void OnApiResponseReceived(object sender, ApiResponseEventArgs e)
+        {
+            string content = await e.ResponseMessage.Content.ReadAsStringAsync()
+                .ConfigureAwait(false);
+        }
+#endif
         private static class Constants
         {
             public const string StartCollectionMessageFormat = "💬 Test Collection:\n*{0}*";

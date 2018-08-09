@@ -81,11 +81,40 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(caption, message.Caption);
         }
 
+        [OrderedFact(DisplayName = FactTitles.ShouldSendDocumentWithThumb)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
+        public async Task Should_Send_Document_With_Thumb()
+        {
+            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendDocumentWithThumb);
+
+            Message message;
+            using (Stream
+                stream1 = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet),
+                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.TheAbilityToBreak)
+            )
+            {
+                message = await BotClient.SendDocumentAsync(
+                    /* chatId: */ _fixture.SupergroupChat,
+                    /* document: */ new InputMedia(stream1, "Hamlet.pdf"),
+                    thumb: new InputMedia(stream2, "thumb.jpg")
+                );
+            }
+
+            Assert.NotNull(message.Document.Thumb);
+            Assert.NotEmpty(message.Document.Thumb.FileId);
+            Assert.Equal(90, message.Document.Thumb.Height);
+            Assert.Equal(90, message.Document.Thumb.Width);
+            Assert.True(message.Document.Thumb.FileSize > 10_000);
+        }
+
         private static class FactTitles
         {
             public const string ShouldSendPdf = "Should send a pdf document with caption";
 
-            public const string ShouldSendDocumentWithNonAsciiName = "Should send a pdf document having a Farsi(non-ASCII) file name";
+            public const string ShouldSendDocumentWithNonAsciiName =
+                "Should send a pdf document having a Farsi(non-ASCII) file name";
+
+            public const string ShouldSendDocumentWithThumb = "Should send a pdf document with thumbnail";
         }
     }
 }

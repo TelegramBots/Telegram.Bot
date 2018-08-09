@@ -9,34 +9,109 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- Additional constructors on `InputMediaPhoto` and `InputMediaVideo`
 - Telegram Passport support
-    - Enum `Gender`
-    - Request `SetPassportDataErrorsRequest`
-    - Method `ITelegramBotClient.SetPassportDataErrorsAsync`
-    - Type `EncryptedCredentials`
-    - Type `EncryptedPassportElement`
-    - Type `PassportElementError`
-    - Type `PassportElementErrorDataField`
-    - Type `PassportElementErrorFile`
-    - Type `PassportElementErrorFiles`
-    - Type `PassportElementErrorFrontSide`
-    - Type `PassportElementErrorReverseSide`
-    - Type `PassportElementErrorSelfie`
-    - Type `PassportData`
-    - Type `PassportElementType`
-    - Type `PassportFile`
-    - Type `Credentials`
-    - Type `DataCredentials`
-    - Type `FileCredentials`
-    - Type `IdDocumentData`
-    - Type `PersonalDetails`
-    - Type `ResidentialAddress`
-    - Type `SecureData`
-    - Type `SecureValue`
+- Method `SetPassportDataErrorsAsync`
+- Type `Enums.Gender`
+- Type `SetPassportDataErrorsRequest`
+- Type `EncryptedCredentials`
+- Type `EncryptedPassportElement`
+- Type `PassportElementError`
+- Type `PassportElementErrorDataField`
+- Type `PassportElementErrorFile`
+- Type `PassportElementErrorFiles`
+- Type `PassportElementErrorFrontSide`
+- Type `PassportElementErrorReverseSide`
+- Type `PassportElementErrorSelfie`
+- Type `PassportData`
+- Type `PassportElementType`
+- Type `PassportFile`
+- Type `Credentials`
+- Type `DataCredentials`
+- Type `FileCredentials`
+- Type `IdDocumentData`
+- Type `PersonalDetails`
+- Type `ResidentialAddress`
+- Type `SecureData`
+- Type `SecureValue`
 
 ### Changed
+
 - Replace reference to `System.Net.Requests` with `System.Net.Http`
+
+## [14.9.0] - 2018-08-06
+
+### Added
+
+- Method `SendAnimationAsync`
+- Parameter `thumb` to method `SendAudioAsync`
+- Parameter `thumb` to method `SendDocumentAsync`
+- Parameter `thumb` to method `SendVideoAsync`
+- Parameter `thumb` to method `SendVideoNoteAsync`
+- Type `IChatMessage`
+- Type `IThumbMediaMessage`
+- Type `SendAnimationRequest`
+- Property `SendAudioRequest.Thumb`
+- Property `SendDocumentRequest.Thumb`
+- Property `SendVideoRequest.Thumb`
+- Property `SendVideoNoteRequest.Thumb`
+- Property `Audio.Thumb`
+
+## [14.8.0] - 2018-07-29
+
+### Added
+
+- Parameter `vCard` to method `SendContactAsync`
+- Parameter `foursquareType` to method `SendVenueAsync`
+- Property `SendContactRequest.Vcard`
+- Property `SendVenueRequest.FoursquareType`
+- Property `InlineQueryResultContact.Vcard`
+- Property `InlineQueryResultVenue.FoursquareType`
+- Property `InputContactMessageContent.Vcard`
+- Property `InputVenueMessageContent.FoursquareType`
+- Property `Contact.Vcard`
+- Property `Venue.FoursquareType`
+- Enum value `MessageEntityType.Cashtag`
+
+### Changed
+
+- Marked `MessageType.Animation` as obsolete.
+
+## [14.7.0] - 2018-07-29
+
+### Added
+
+- Partial support for Bot API v4.0
+- Method `SendMediaGroupAsync` (overloaded)
+- Method `EditMessageMediaAsync`
+- Method `EditMessageMediaAsync`
+- Type `EditMessageMediaRequest`
+- Type `EditInlineMessageMediaRequest`
+- Type `InputMediaAudio`
+- Type `InputMediaDocument`
+- Type `InputMediaAnimation`
+- Type `IInputMedia`
+- Type `IAlbumInputMedia`
+- Type `IInputMediaThumb`
+- Property `Animation.Width`
+- Property `Animation.Height`
+- Property `Animation.Duration`
+- Enum member `MessageType.Animation`
+- Property `InputMediaVideo.Thumb`
+- Property `Message.Animation`
+- Constructor with required parameters for `InputMediaPhoto` (overloaded)
+- Constructor with required parameters for `InputMediaVideo` (overloaded)
+- Constructor with required parameters for `SendMediaGroupRequest` (overloaded)
+
+### Fixed
+
+- Serialization error of `InlineQueryResultDocument.Description` being required
+- Incorrect serialization of `InputMediaVideo`
+
+### Changed
+
+- Marked method `SendMediaGroupAsync` as obsolete. An overload is provided.
+- Marked parameterless constructor of `InputMediaPhoto` as obsolete. An overload is provided.
+- Marked parameterless constructor of `InputMediaVideo` as obsolete. An overload is provided.
 
 ## [14.6.0] - 2018-06-12
 

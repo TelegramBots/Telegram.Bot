@@ -1,8 +1,11 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Polly;
+using Telegram.Bot.Exceptions;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -19,7 +22,9 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer", true)]
-        public RetryTestCase() { }
+        public RetryTestCase()
+        {
+        }
 
         public RetryTestCase(
             IMessageSink diagnosticMessageSink,
@@ -29,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             int delaySeconds,
             string exceptionTypeFullName
         )
-            : base(diagnosticMessageSink, testMethodDisplay, testMethod)
+            : base(diagnosticMessageSink, testMethodDisplay, TestMethodDisplayOptions.All, testMethod)
         {
             _maxRetries = maxRetries;
             _delaySeconds = delaySeconds;
@@ -58,17 +63,33 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                 // contain run status) until we know we've decided to accept the final result;
                 var delayedMessageBus = new DelayedMessageBus(messageBus);
 
+                string testName = DisplayName;
+                if (runCount > 0)
+                {
+                    testName += $"\n\nRETRY:{runCount}";
+                }
+
+                await Policy
+                    .Handle<TaskCanceledException>()
+                    .Or<HttpRequestException>()
+                    .Or<ApiRequestException>()
+                    .WaitAndRetry(1, i => TimeSpan.FromSeconds(30))
+                    .Execute(() =>
+                        TestsFixture.Instance.SendTestCaseNotificationAsync(testName)
+                    );
+
                 var summary = await base.RunAsync
-                    (diagnosticMessageSink, delayedMessageBus, constructorArguments, aggregator, cancellationTokenSource);
+                (diagnosticMessageSink, delayedMessageBus, constructorArguments, aggregator,
+                    cancellationTokenSource);
                 if (aggregator.HasExceptions ||
                     summary.Failed == 0 ||
                     ++runCount > _maxRetries ||
-                        (summary.Failed == 1 &&
-                        !string.IsNullOrEmpty(_exceptionTypeFullName) &&
-                        !delayedMessageBus.FailedMessages.ExceptionTypes.Contains(_exceptionTypeFullName))
-                        )
+                    (summary.Failed == 1 &&
+                     !string.IsNullOrEmpty(_exceptionTypeFullName) &&
+                     !delayedMessageBus.FailedMessages.ExceptionTypes.Contains(_exceptionTypeFullName))
+                )
                 {
-                    delayedMessageBus.Dispose();  // Sends all the delayed messages
+                    delayedMessageBus.Dispose(); // Sends all the delayed messages
                     return summary;
                 }
 
