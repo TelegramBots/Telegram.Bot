@@ -1,7 +1,5 @@
 #if ENABLE_CRYPTOGRAPHY
-using Telegram.Bot.Types.Passport;
-
-namespace Telegram.Bot.Helpers.Passports
+namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
     /// Holds information about a decryption attempt

@@ -2,7 +2,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Security.Cryptography;
-using Telegram.Bot.Helpers.Passports;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Passport;
 using Xunit;

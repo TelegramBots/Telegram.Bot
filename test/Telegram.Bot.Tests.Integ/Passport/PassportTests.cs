@@ -52,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.Passport
 
             Message message = await BotClient.SendTextMessageAsync(
                 /* chatId: */ _fixture.SupergroupChat,
-                /* text: */ "Share your personal_details with bot using Passport:\n\n" +
+                /* text: */ "Share your personal_details with the bot using Passport:\n\n" +
                             $@"<a href=""{url}"">Click to Share</a>" + '\n' +
                             $@"<a href=""{urlAndroid}"">Click to Share(Android)</a>",
                 /* parseMode: */ ParseMode.Html,

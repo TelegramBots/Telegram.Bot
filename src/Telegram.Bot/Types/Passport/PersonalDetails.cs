@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.Passport
 {
@@ -9,9 +8,9 @@ namespace Telegram.Bot.Types.Passport
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class PersonalDetails
-#if ENABLE_CRYPTOGRAPHY
+        #if ENABLE_CRYPTOGRAPHY
         : IDecryptedData
-#endif
+        #endif
     {
         /// <summary>
         /// First Name

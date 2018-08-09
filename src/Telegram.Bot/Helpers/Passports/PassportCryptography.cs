@@ -2,10 +2,9 @@
 using System;
 using System.Text;
 using System.Security.Cryptography;
-using Telegram.Bot.Types.Passport;
 using Newtonsoft.Json;
 
-namespace Telegram.Bot.Helpers.Passports
+namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
     /// Helper methods for Passports cryptography
@@ -19,7 +18,7 @@ namespace Telegram.Bot.Helpers.Passports
         /// <param name="privateKey">The private key whose public component you registered via @BotFather</param>
         /// <param name="credentials">The decrypted credentials (null if not successful)</param>
         /// <returns></returns>
-        public static bool TryDecryptCredentials(EncryptedCredentials encryptedCredentials, RSA privateKey, out Credentials credentials)
+        public static bool TryDecryptCredentials(this EncryptedCredentials encryptedCredentials, RSA privateKey, out Credentials credentials)
         {
             credentials = null;
 
