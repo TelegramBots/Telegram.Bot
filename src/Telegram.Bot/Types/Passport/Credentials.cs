@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
-    /// Credentials is a JSON-serialized object.
+    /// Contains data required for decrypting and authenticating<see cref="EncryptedPassportElement"/> s.See the<see href="https://core.telegram.org/passport#receiving-information"> Telegram Passport Documentation</see> for a complete description of the data decryption and authentication processes.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Credentials
