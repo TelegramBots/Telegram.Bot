@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.Payments;
 
 namespace Telegram.Bot.Types
@@ -302,6 +303,12 @@ namespace Telegram.Bot.Types
         public string ConnectedWebsite { get; set; }
 
         /// <summary>
+        /// Optional. Telegram Passport data
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public PassportData PassportData { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
         /// </summary>
         /// <value>
@@ -317,8 +324,10 @@ namespace Telegram.Bot.Types
                 if (Document != null)
                     return MessageType.Document;
 
+                #pragma warning disable CS0618 // Obsolete
                 if (Animation != null)
                     return MessageType.Animation;
+                #pragma warning restore CS0618 // Obsolete
 
                 if (Game != null)
                     return MessageType.Game;
