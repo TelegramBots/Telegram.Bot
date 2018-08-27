@@ -95,8 +95,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string Exceptions = "Bot API exceptions";
 
             public const string Exceptions2 = "Bot API exceptions (non-interactive)";
-
-            public const string Passport = "Passport";
         }
 
         public static class FileNames

@@ -22,7 +22,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.Payment,
             Constants.TestCollections.ChatMemberAdministration,
             Constants.TestCollections.Exceptions,
-            Constants.TestCollections.Passport,
 
             // Tests without the need for user interaction:
             Constants.TestCollections.GettingUpdates,

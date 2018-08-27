@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
