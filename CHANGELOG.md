@@ -10,34 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 
 - Telegram Passport support
-- Method `SetPassportDataErrorsAsync`
-- Type `Enums.Passport.Scope`
-- Type `Enums.Gender`
-- Type `SetPassportDataErrorsRequest`
 - Type `EncryptedCredentials`
 - Type `EncryptedPassportElement`
-- Type `PassportElementError`
-- Type `PassportElementErrorDataField`
-- Type `PassportElementErrorFile`
-- Type `PassportElementErrorFiles`
-- Type `PassportElementErrorFrontSide`
-- Type `PassportElementErrorReverseSide`
-- Type `PassportElementErrorSelfie`
 - Type `PassportData`
-- Type `PassportElementType`
 - Type `PassportFile`
-- Type `Credentials`
-- Type `DataCredentials`
-- Type `FileCredentials`
-- Type `IdDocumentData`
-- Type `PersonalDetails`
-- Type `ResidentialAddress`
-- Type `SecureData`
-- Type `SecureValue`
-
-### Changed
-
-- Replaced reference to `System.Net.Requests` with `System.Net.Http`
 
 ## [14.9.0] - 2018-08-06
 
