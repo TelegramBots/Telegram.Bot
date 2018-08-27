@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InlineQueryResults;
+using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
 
@@ -352,5 +355,170 @@ namespace Telegram.Bot // Intentionally not in Telegram.Bot.Helpers
             bot.PinChatMessageAsync(message.Chat, message.MessageId, disableNotification, cancellationToken);
 
         #endregion ChatId, MessageId => Message
+
+        #region AnswerQueryAsync
+
+        /// <summary>
+        /// Use this method to send answers to an inline query.
+        /// </summary>
+        /// <param name="bot">The bot instance to use</param>
+        /// <param name="inlineQuery">Query to answered</param>
+        /// <param name="results">A array of results for the inline query</param>
+        /// <param name="cacheTime">The maximum amount of time in seconds the result of the inline query may be cached on the server</param>
+        /// <param name="isPersonal">Pass <c>true</c>, if results may be cached on the server side only for the user that sent the query. By default, results may be returned to any user who sends the same query</param>
+        /// <param name="nextOffset">Pass the offset that a client should send in the next query with the same text to receive more results. Pass an empty string if there are no more results or if you don't support pagination. Offset length can't exceed 64 bytes.</param>
+        /// <param name="switchPmText">If passed, clients will display a button with specified text that switches the user to a private chat with the bot and sends the bot a start message with the parameter switch_pm_parameter</param>
+        /// <param name="switchPmParameter">Parameter for the start message sent to the bot when user presses the switch button</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, <c>true</c> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#answerinlinequery"/>
+        public static Task AnswerInlineQueryAsync(
+            this ITelegramBotClient bot,
+            InlineQuery inlineQuery,
+            IEnumerable<InlineQueryResultBase> results,
+            int? cacheTime = default,
+            bool isPersonal = default,
+            string nextOffset = default,
+            string switchPmText = default,
+            string switchPmParameter = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            bot.AnswerInlineQueryAsync(inlineQuery.Id, results, cacheTime, isPersonal, nextOffset, switchPmText, switchPmParameter, cancellationToken);
+
+        /// <summary>
+        /// Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
+        /// </summary>
+        /// <param name="bot">The bot instance to use</param>
+        /// <param name="callbackQuery">Query to answered</param>
+        /// <param name="text">Text of the notification. If not specified, nothing will be shown to the user</param>
+        /// <param name="showAlert">If true, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.</param>
+        /// <param name="url">
+        /// URL that will be opened by the user's client. If you have created a Game and accepted the conditions via @Botfather, specify the URL that opens your game — note that this will only work if the query comes from a callback_game button.
+        /// Otherwise, you may use links like telegram.me/your_bot? start = XXXX that open your bot with a parameter.
+        /// </param>
+        /// <param name="cacheTime">The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.14.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, <c>true</c> is returned.</returns>
+        /// <remarks>
+        /// Alternatively, the user can be redirected to the specified Game URL. For this option to work, you must first create a game for your bot via BotFather and accept the terms.
+        /// Otherwise, you may use links like telegram.me/your_bot?start=XXXX that open your bot with a parameter.
+        /// </remarks>
+        /// <see href="https://core.telegram.org/bots/api#answercallbackquery"/>
+        public static Task AnswerCallbackQueryAsync(
+            this ITelegramBotClient bot,
+            CallbackQuery callbackQuery,
+            string text = default,
+            bool showAlert = default,
+            string url = default,
+            int cacheTime = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            bot.AnswerCallbackQueryAsync(callbackQuery.Id, text, showAlert, url, cacheTime, cancellationToken);
+
+        /// <summary>
+        /// Use this method to reply to shipping queries with success and shipping options. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot.
+        /// </summary>
+        /// <param name="bot">The bot instance to use</param>
+        /// <param name="shippingQuery">Query to answered</param>
+        /// <param name="shippingOptions">Required if OK is True.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
+        public static Task AnswerShippingQueryAsync(
+            this ITelegramBotClient bot,
+            ShippingQuery shippingQuery,
+            IEnumerable<ShippingOption> shippingOptions,
+            CancellationToken cancellationToken = default
+        ) =>
+            bot.AnswerShippingQueryAsync(shippingQuery.Id, shippingOptions, cancellationToken);
+
+        /// <summary>
+        /// Use this method to reply to shipping queries with failure and error message. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot.
+        /// </summary>
+        /// <param name="bot">The bot instance to use</param>
+        /// <param name="shippingQuery">Query to answered</param>
+        /// <param name="errorMessage">Required if OK is False. Error message in human readable form that explains why it is impossible to complete the order </param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
+        public static Task AnswerShippingQueryAsync(
+            this ITelegramBotClient bot,
+            ShippingQuery shippingQuery,
+            string errorMessage,
+            CancellationToken cancellationToken = default
+        ) =>
+            bot.AnswerShippingQueryAsync(shippingQuery.Id, errorMessage, cancellationToken);
+
+        /// <summary>
+        /// Respond to a pre-checkout query with success
+        /// </summary>
+        /// <param name="bot">The bot instance to use</param>
+        /// <param name="preCheckoutQuery">Query to answered</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <remarks>Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#answerprecheckoutquery"/>
+        public static Task AnswerPreCheckoutQueryAsync(
+            this ITelegramBotClient bot,
+            PreCheckoutQuery preCheckoutQuery,
+            CancellationToken cancellationToken = default
+        ) =>
+            bot.AnswerPreCheckoutQueryAsync(preCheckoutQuery.Id, cancellationToken);
+
+        /// <summary>
+        /// Respond to a pre-checkout query with failure and error message
+        /// </summary>
+        /// <param name="bot">The bot instance to use</param>
+        /// <param name="preCheckoutQuery">Query to answered</param>
+        /// <param name="errorMessage">Required if OK is False. Error message in human readable form that explains the reason for failure to proceed with the checkout</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, True is returned.</returns>
+        /// <remarks>Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#answerprecheckoutquery"/>
+        public static Task AnswerPreCheckoutQueryAsync(
+            this ITelegramBotClient bot,
+            PreCheckoutQuery preCheckoutQuery,
+            string errorMessage,
+            CancellationToken cancellationToken = default
+        ) =>
+            bot.AnswerPreCheckoutQueryAsync(preCheckoutQuery.Id, errorMessage, cancellationToken);
+
+        #endregion AnswerQueryAsync
+
+        #region Other
+
+        /// <summary>
+        /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="bot">The bot instance to use</param>
+        /// <param name="messageFromUser">Message sent by the target user in the target chat</param>
+        /// <param name="canChangeInfo">Pass True, if the administrator can change chat title, photo and other settings</param>
+        /// <param name="canPostMessages">Pass True, if the administrator can create channel posts, channels only</param>
+        /// <param name="canEditMessages">Pass True, if the administrator can edit messages of other users, channels only</param>
+        /// <param name="canDeleteMessages">Pass True, if the administrator can delete messages of other users</param>
+        /// <param name="canInviteUsers">Pass True, if the administrator can invite new users to the chat</param>
+        /// <param name="canRestrictMembers">Pass True, if the administrator can restrict, ban or unban chat members</param>
+        /// <param name="canPinMessages">Pass True, if the administrator can pin messages, supergroups only</param>
+        /// <param name="canPromoteMembers">Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        /// <remarks>Pass False for all boolean parameters to demote a user.</remarks>
+        /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
+        public static Task PromoteChatMemberAsync(
+            this ITelegramBotClient bot,
+            Message messageFromUser,
+            bool? canChangeInfo = default,
+            bool? canPostMessages = default,
+            bool? canEditMessages = default,
+            bool? canDeleteMessages = default,
+            bool? canInviteUsers = default,
+            bool? canRestrictMembers = default,
+            bool? canPinMessages = default,
+            bool? canPromoteMembers = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            bot.PromoteChatMemberAsync(messageFromUser.Chat, messageFromUser.From.Id, canChangeInfo, canPostMessages, canEditMessages, canDeleteMessages, canInviteUsers, canRestrictMembers, canPinMessages, canPromoteMembers, cancellationToken);
+
+        #endregion Other
     }
 }
