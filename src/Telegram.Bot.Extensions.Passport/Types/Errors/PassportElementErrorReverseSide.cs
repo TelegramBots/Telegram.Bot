@@ -40,7 +40,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorReverseSide WithIdentityCard(string fileHash, string message)
             =>
                 new PassportElementErrorReverseSide(
-                    PassportElementType.IdentityCard,
+                    PassportEnums.ElementType.IdentityCard,
                     fileHash,
                     message
                 );
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorReverseSide WithDriverLicense(string fileHash, string message)
             =>
                 new PassportElementErrorReverseSide(
-                    PassportElementType.DriverLicense,
+                    PassportEnums.ElementType.DriverLicense,
                     fileHash,
                     message
                 );

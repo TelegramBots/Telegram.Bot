@@ -2,7 +2,8 @@ using System;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Telegram.Bot.Helpers.Passports;
+using Telegram.Bot;
+using Telegram.Bot.Extensions.Passport;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Passport;
 using Xunit;
@@ -47,7 +48,7 @@ namespace UnitTests
                 {
                     switch (element.Type)
                     {
-                        case PassportElementType.PersonalDetails:
+                        case PassportEnums.ElementType.PersonalDetails:
                             Assert.True(element.DecryptData<PersonalDetails>(credentials.PersonalDetails.Data)
                                 .Successful);
                             Assert.False(element.DecryptData<IdDocumentData>(credentials.PersonalDetails.Data)
@@ -56,13 +57,13 @@ namespace UnitTests
                                 .Successful);
                             break;
 
-                        case PassportElementType.Passport:
+                        case PassportEnums.ElementType.Passport:
                             Assert.True(element.DecryptData<IdDocumentData>(credentials.Passport.Data).Successful);
                             Assert.False(element.DecryptData<PersonalDetails>(credentials.Passport.Data).Successful);
                             Assert.False(element.DecryptData<ResidentialAddress>(credentials.Passport.Data).Successful);
                             break;
 
-                        case PassportElementType.DriverLicense:
+                        case PassportEnums.ElementType.DriverLicense:
                             Assert.True(element.DecryptData<IdDocumentData>(credentials.DriverLicense.Data).Successful);
                             Assert.False(
                                 element.DecryptData<PersonalDetails>(credentials.DriverLicense.Data).Successful);
@@ -70,7 +71,7 @@ namespace UnitTests
                                 .Successful);
                             break;
 
-                        case PassportElementType.IdentityCard:
+                        case PassportEnums.ElementType.IdentityCard:
                             Assert.True(element.DecryptData<IdDocumentData>(credentials.IdentityCard.Data).Successful);
                             Assert.False(element.DecryptData<PersonalDetails>(credentials.IdentityCard.Data)
                                 .Successful);
@@ -78,7 +79,7 @@ namespace UnitTests
                                 .Successful);
                             break;
 
-                        case PassportElementType.InternalPassport:
+                        case PassportEnums.ElementType.InternalPassport:
                             Assert.True(element.DecryptData<IdDocumentData>(credentials.InternalPassport.Data)
                                 .Successful);
                             Assert.False(element.DecryptData<PersonalDetails>(credentials.InternalPassport.Data)
@@ -87,7 +88,7 @@ namespace UnitTests
                                 .Successful);
                             break;
 
-                        case PassportElementType.Address:
+                        case PassportEnums.ElementType.Address:
                             Assert.True(element.DecryptData<ResidentialAddress>(credentials.Address.Data).Successful);
                             Assert.False(element.DecryptData<PersonalDetails>(credentials.Address.Data).Successful);
                             Assert.False(element.DecryptData<IdDocumentData>(credentials.Address.Data).Successful);

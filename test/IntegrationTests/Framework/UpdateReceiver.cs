@@ -76,6 +76,15 @@ namespace IntegrationTests.Framework
             return matchingUpdates;
         }
 
+        public Task<Update> GetSingleUpdateAsync(
+            Func<Update, bool> predicate = default,
+            int offset = default,
+            CancellationToken cancellationToken = default,
+            params UpdateType[] updateTypes
+        ) =>
+            GetUpdatesAsync(predicate, offset, cancellationToken, updateTypes)
+                .ContinueWith(t => t.Result.Single());
+
         public async Task<Update> GetCallbackQueryUpdateAsync(
             int messageId = default,
             string data = default,

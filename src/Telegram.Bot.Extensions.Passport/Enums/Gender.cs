@@ -1,8 +1,8 @@
 ﻿// ReSharper disable once CheckNamespace
 
-namespace Telegram.Bot.Enums
+namespace Telegram.Bot
 {
-    public static class PassportEnums
+    public static partial class PassportEnums
     {
         /// <summary>
         /// Gender, male or female

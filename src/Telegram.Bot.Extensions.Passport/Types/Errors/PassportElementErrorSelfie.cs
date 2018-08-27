@@ -41,7 +41,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorSelfie WithInternalPassport(string fileHash, string message)
             =>
                 new PassportElementErrorSelfie(
-                    PassportElementType.InternalPassport,
+                    PassportEnums.ElementType.InternalPassport,
                     fileHash,
                     message
                 );
@@ -55,7 +55,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorSelfie WithIdentityCard(string fileHash, string message)
             =>
                 new PassportElementErrorSelfie(
-                    PassportElementType.IdentityCard,
+                    PassportEnums.ElementType.IdentityCard,
                     fileHash,
                     message
                 );
@@ -69,7 +69,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorSelfie WithDriverLicense(string fileHash, string message)
             =>
                 new PassportElementErrorSelfie(
-                    PassportElementType.DriverLicense,
+                    PassportEnums.ElementType.DriverLicense,
                     fileHash,
                     message
                 );
@@ -83,7 +83,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorSelfie WithPassport(string fileHash, string message)
             =>
                 new PassportElementErrorSelfie(
-                    PassportElementType.Passport,
+                    PassportEnums.ElementType.Passport,
                     fileHash,
                     message
                 );

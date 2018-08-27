@@ -40,7 +40,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFile WithUtilityBill(string fileHash, string message)
             =>
                 new PassportElementErrorFile(
-                    PassportElementType.UtilityBill,
+                    PassportEnums.ElementType.UtilityBill,
                     fileHash,
                     message
                 );
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFile WithBankStatement(string fileHash, string message)
             =>
                 new PassportElementErrorFile(
-                    PassportElementType.BankStatement,
+                    PassportEnums.ElementType.BankStatement,
                     fileHash,
                     message
                 );
@@ -68,7 +68,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFile WithRentalAgreement(string fileHash, string message)
             =>
                 new PassportElementErrorFile(
-                    PassportElementType.RentalAgreement,
+                    PassportEnums.ElementType.RentalAgreement,
                     fileHash,
                     message
                 );
@@ -82,7 +82,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFile WithPassportRegistration(string fileHash, string message)
             =>
                 new PassportElementErrorFile(
-                    PassportElementType.PassportRegistration,
+                    PassportEnums.ElementType.PassportRegistration,
                     fileHash,
                     message
                 );
@@ -96,7 +96,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFile WithTemporaryRegistration(string fileHash, string message)
             =>
                 new PassportElementErrorFile(
-                    PassportElementType.TemporaryRegistration,
+                    PassportEnums.ElementType.TemporaryRegistration,
                     fileHash,
                     message
                 );

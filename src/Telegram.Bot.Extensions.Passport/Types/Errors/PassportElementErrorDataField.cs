@@ -53,7 +53,7 @@ namespace Telegram.Bot.Types.Passport
             string message)
             =>
                 new PassportElementErrorDataField(
-                    PassportElementType.Address,
+                    PassportEnums.ElementType.Address,
                     fieldName,
                     dataHash,
                     message
@@ -72,7 +72,7 @@ namespace Telegram.Bot.Types.Passport
             string message)
             =>
                 new PassportElementErrorDataField(
-                    PassportElementType.InternalPassport,
+                    PassportEnums.ElementType.InternalPassport,
                     fieldName,
                     dataHash,
                     message
@@ -91,7 +91,7 @@ namespace Telegram.Bot.Types.Passport
             string message)
             =>
                 new PassportElementErrorDataField(
-                    PassportElementType.IdentityCard,
+                    PassportEnums.ElementType.IdentityCard,
                     fieldName,
                     dataHash,
                     message
@@ -110,7 +110,7 @@ namespace Telegram.Bot.Types.Passport
             string message)
             =>
                 new PassportElementErrorDataField(
-                    PassportElementType.DriverLicense,
+                    PassportEnums.ElementType.DriverLicense,
                     fieldName,
                     dataHash,
                     message
@@ -129,7 +129,7 @@ namespace Telegram.Bot.Types.Passport
             string message)
             =>
                 new PassportElementErrorDataField(
-                    PassportElementType.PersonalDetails,
+                    PassportEnums.ElementType.PersonalDetails,
                     fieldName,
                     dataHash,
                     message
@@ -148,7 +148,7 @@ namespace Telegram.Bot.Types.Passport
             string message)
             =>
                 new PassportElementErrorDataField(
-                    PassportElementType.Passport,
+                    PassportEnums.ElementType.Passport,
                     fieldName,
                     dataHash,
                     message

@@ -1,10 +1,11 @@
 using System;
-using System.Text;
 using System.Security.Cryptography;
-using Telegram.Bot.Types.Passport;
+using System.Text;
 using Newtonsoft.Json;
+using Telegram.Bot.Helpers.Passports;
+using Telegram.Bot.Types.Passport;
 
-namespace Telegram.Bot.Helpers.Passports
+namespace Telegram.Bot.Extensions.Passport
 {
     /// <summary>
     /// Helper methods for Passports cryptography
@@ -62,20 +63,20 @@ namespace Telegram.Bot.Helpers.Passports
         {
             switch (encryptedElement.Type)
             {
-                case PassportElementType.Passport:
-                case PassportElementType.DriverLicense:
-                case PassportElementType.IdentityCard:
-                case PassportElementType.InternalPassport:
+                case PassportEnums.ElementType.Passport:
+                case PassportEnums.ElementType.DriverLicense:
+                case PassportEnums.ElementType.IdentityCard:
+                case PassportEnums.ElementType.InternalPassport:
                     if (typeof(T) != typeof(IdDocumentData))
                         return new DecryptionResult<T>("T must be IdDocumentData for this element");
                     break;
 
-                case PassportElementType.PersonalDetails:
+                case PassportEnums.ElementType.PersonalDetails:
                     if (typeof(T) != typeof(PersonalDetails))
                         return new DecryptionResult<T>("T must be PersonalDetails for this element");
                     break;
 
-                case PassportElementType.Address:
+                case PassportEnums.ElementType.Address:
                     if (typeof(T) != typeof(ResidentialAddress))
                         return new DecryptionResult<T>("T must be ResidentialAddress for this element");
                     break;

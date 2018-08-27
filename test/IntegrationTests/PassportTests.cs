@@ -1,29 +1,34 @@
 using System;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
+using IntegrationTests.Framework.Fixtures;
 using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.Passport;
+using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
 namespace IntegrationTests
 {
     [Collection(Constants.TestCollections.Passport)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class PassportTests
+    public class PassportTests : IClassFixture<EntityFixture<Update>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        public PassportTests(TestsFixture fixture)
+        private readonly EntityFixture<Update> _classFixture;
+
+        public PassportTests(TestsFixture fixture, EntityFixture<Update> classFixture)
         {
             _fixture = fixture;
+            _classFixture = classFixture;
         }
 
         [OrderedFact("Should generate passport authorization request link")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Generate_Authorize_Link()
         {
             string botId = _fixture.BotUser.Id.ToString();
@@ -41,21 +46,52 @@ namespace IntegrationTests
                                "FwIDAQAB\n" +
                                "-----END PUBLIC KEY-----";
 
-            string url = "tg://resolve?domain=telegrampassport" +
-                         $"&bot_id={Uri.EscapeDataString(botId)}" +
-                         $"&scope={Uri.EscapeDataString(scope)}" +
-                         $"&public_key={Uri.EscapeDataString(publicKey)}" +
-                         $"&payload={Uri.EscapeDataString("my payload")}";
+            string queryString = "domain=telegrampassport" +
+                                 $"&bot_id={Uri.EscapeDataString(botId)}" +
+                                 $"&scope={Uri.EscapeDataString(scope)}" +
+                                 $"&public_key={Uri.EscapeDataString(publicKey)}" +
+                                 $"&payload={Uri.EscapeDataString("my payload")}";
 
-            // On Android devices, URL should begin with "tg:" instead of "tg://"
-            string urlAndroid = url.Replace("tg://", "tg:");
-
-            Message message = await BotClient.SendTextMessageAsync(
+            await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your personal_details with bot using Passport:\n\n" +
-                $"URL:\n{url}" + "\n\n" +
-                $"URL (Android):\n{urlAndroid}"
+                "Share your personal details with bot using Passport.\n\n" +
+                "1. Click inline button\n" +
+                "2. Open link in browser to redirect you back to Telegram passport\n" +
+                "3. Authorize bot to access your Personal Details",
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
+                    "Share with Passport",
+                    $"https://telegrambots.github.io/Telegram.Bot.Extensions.Passport/redirect.html?{queryString}"
+                )
             );
+
+            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
+                u => u.Message?.PassportData != null,
+                updateTypes: UpdateType.Message
+            );
+
+            Update passportUpdate = Assert.Single(updates);
+
+            _classFixture.Entity = passportUpdate;
+        }
+
+        [OrderedFact("Should validate personal details in a Passport massage")]
+        public void Should_Validate_Passport_Update()
+        {
+            Update update = _classFixture.Entity;
+            PassportData passportData = update.Message.PassportData;
+
+            Assert.NotNull(passportData);
+
+            EncryptedPassportElement encryptedElement = Assert.Single(passportData.Data);
+            Assert.NotNull(encryptedElement);
+            Assert.Equal("personal_details", encryptedElement.Type);
+            Assert.NotEmpty(encryptedElement.Data);
+            Assert.NotEmpty(encryptedElement.Hash);
+
+            Assert.NotNull(passportData.Credentials);
+            Assert.NotEmpty(passportData.Credentials.Data);
+            Assert.NotEmpty(passportData.Credentials.Hash);
+            Assert.NotEmpty(passportData.Credentials.Secret);
         }
     }
 }
