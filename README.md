@@ -1,4 +1,4 @@
-# Telegram Passport - Extension Package
+# Passport Extension for Telegram Bot API Client
 
 Allows you to process Telegram passports
 
