@@ -13,6 +13,26 @@ namespace Telegram.Bot
             /// Personal details
             /// </summary>
             public const string PersonalDetails = "personal_details";
+
+            /// <summary>
+            /// Residential Address
+            /// </summary>
+            public const string ResidentialAddress = "address";
+
+            /// <summary>
+            /// Passport
+            /// </summary>
+            public const string Passport = "passport";
+
+            /// <summary>
+            /// Phone Number
+            /// </summary>
+            public const string PhoneNumber = "phone_number";
+
+            /// <summary>
+            /// Email
+            /// </summary>
+            public const string Email = "email";
         }
     }
 }

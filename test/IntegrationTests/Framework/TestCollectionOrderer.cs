@@ -10,10 +10,10 @@ namespace IntegrationTests.Framework
     {
         private readonly string[] _orderedCollections =
         {
-            // Tests that require user interaction:
+            Constants.TestCollections.PersonalDetails,
+            Constants.TestCollections.ResidentialAddress,
+            Constants.TestCollections.PhoneEmail,
             Constants.TestCollections.Passport,
-
-            // Tests without the need for user interaction:
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

@@ -1,6 +1,7 @@
 // ReSharper disable PossibleNullReferenceException
 
 using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
@@ -16,9 +17,9 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.Passport)]
+    [Collection(Constants.TestCollections.PhoneEmail)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class PassportTests : IClassFixture<EntityFixture<Update>>
+    public class PhoneEmailTests : IClassFixture<EntityFixture<Update>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -26,7 +27,7 @@ namespace IntegrationTests
 
         private readonly EntityFixture<Update> _classFixture;
 
-        public PassportTests(TestsFixture fixture, EntityFixture<Update> classFixture)
+        public PhoneEmailTests(TestsFixture fixture, EntityFixture<Update> classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -37,8 +38,12 @@ namespace IntegrationTests
         {
             string botId = _fixture.BotUser.Id.ToString();
 
-            // Scope is a JSON serialized array of scope names e.g. [ "passport" ]
-            string scope = JsonConvert.SerializeObject(new[] {PassportEnums.Scope.Passport,});
+            // Scope is a JSON serialized array of scope names e.g. [ "phone_number", "email" ]
+            string scope = JsonConvert.SerializeObject(new[]
+            {
+                PassportEnums.Scope.PhoneNumber,
+                PassportEnums.Scope.Email,
+            });
 
             string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
                                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
@@ -58,11 +63,10 @@ namespace IntegrationTests
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your `passport` with bot using Passport.\n\n" +
+                "Share your phone number and email with bot using Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
-                ParseMode.Markdown,
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
                     "Share via Passport",
                     $"https://telegrambots.github.io/Telegram.Bot.Extensions.Passport/redirect.html?{queryString}"
@@ -79,38 +83,27 @@ namespace IntegrationTests
             _classFixture.Entity = passportUpdate;
         }
 
-        [OrderedFact("Should validate fields in a Passport massage")]
+        [OrderedFact("Should validate encrypted data in a Passport massage")]
         public void Should_Validate_Passport_Update()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
 
             Assert.NotNull(passportData);
-
-            /* In the case of "passport" scope, there should be 2 elements in the passport message:
-             * Personal Details and Passport.
-             */
+            Assert.NotNull(passportData.Data);
             Assert.Equal(2, passportData.Data.Length);
-            EncryptedPassportElement personalDetailsEl = Assert.Single(
-                passportData.Data,
-                el => el.Type == "personal_details"
-            );
-            Assert.NotNull(personalDetailsEl);
-            Assert.Equal(PassportEnums.Scope.PersonalDetails, personalDetailsEl.Type);
-            Assert.NotEmpty(personalDetailsEl.Data);
-            Assert.NotEmpty(personalDetailsEl.Hash);
 
-            EncryptedPassportElement passportEl = Assert.Single(
-                passportData.Data,
-                el => el.Type == "passport"
-            );
-            Assert.NotNull(passportEl);
-            Assert.Equal(PassportEnums.Scope.Passport, passportEl.Type);
-            Assert.NotEmpty(passportEl.Data);
-            Assert.NotEmpty(passportEl.Hash);
-            Assert.NotNull(passportEl.FrontSide);
-            Assert.NotEmpty(passportEl.FrontSide.FileId);
-            Assert.NotEqual(default, passportEl.FrontSide.FileDate);
+            // todo there is no need to check for anything in these types. tg has access to them. not encrypted. clear text
+            // There is only
+            EncryptedPassportElement phoneElement = Assert.Single(passportData.Data, el => el.Type == "phone_number");
+            Assert.Equal(PassportEnums.Scope.PhoneNumber, phoneElement.Type);
+            Assert.Null(phoneElement.Data);
+            Assert.NotEmpty(phoneElement.Hash);
+
+            EncryptedPassportElement emailElement = Assert.Single(passportData.Data, el => el.Type == "email");
+            Assert.Equal(PassportEnums.Scope.Email, emailElement.Type);
+            Assert.NotEmpty(emailElement.Data);
+            Assert.NotEmpty(emailElement.Hash);
 
             Assert.NotNull(passportData.Credentials);
             Assert.NotEmpty(passportData.Credentials.Data);
@@ -118,12 +111,15 @@ namespace IntegrationTests
             Assert.NotEmpty(passportData.Credentials.Secret);
         }
 
-        [OrderedFact("Should decrypt passport values")]
+        [OrderedFact("Should decrypt values")]
         public void Should_Decrypt_Passport_Update()
         {
             Update update = _classFixture.Entity;
-            RSA key = EncryptionKeys.ReadAsRsa();
             PassportData passportData = update.Message.PassportData;
+            EncryptedPassportElement phoneElement = passportData.Data.Single(el => el.Type == "phone_number");
+            EncryptedPassportElement emailElement = passportData.Data.Single(el => el.Type == "email");
+
+            RSA key = EncryptionKeys.ReadAsRsa();
 
             IDecrypter decrypter = new Decrypter(key);
 
@@ -134,33 +130,15 @@ namespace IntegrationTests
             Assert.Equal("TEST", credentials.Payload);
             Assert.NotNull(credentials.SecureData);
 
-            /* In the case of "passport" scope, there should be 2 elements in the passport message:
-             * Personal Details and Passport.
-             */
-
-            #region Personal Details Element
-
-            EncryptedPassportElement persDetEl = Assert.Single(passportData.Data, el => el.Type == "personal_details");
-            PersonalDetails personalDetails = decrypter.DecryptData<PersonalDetails>(
-                persDetEl.Data,
-                credentials.SecureData.PersonalDetails.Data
-            );
-
-            Assert.NotNull(personalDetails);
-
-            #endregion
-
-            #region Passport Element
-
-//            EncryptedPassportElement passportEl = Assert.Single(passportData.Data, el => el.Type == "passport");
-//            PassportFile passportFile = decrypter.DecryptElementData<PassportFile>(
-//                passportEl,
+//            string phone = decrypter.DecryptData(
+//                phoneElement.Data,
 //                credentials.SecureData
 //            );
-
-//            Assert.NotNull(passportFile);
-
-            #endregion
+//
+//            string email = decrypter.DecryptData(
+//                emailElement,
+//                credentials.SecureData
+//            );
 
             // ToDo other tests
         }

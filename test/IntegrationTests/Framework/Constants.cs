@@ -4,8 +4,6 @@ namespace IntegrationTests.Framework
 {
     public static class Constants
     {
-        public const string MethodTraitName = "Method";
-
         public const string AssemblyName = "IntegrationTests";
 
         public const string TestCaseOrderer =
@@ -16,6 +14,12 @@ namespace IntegrationTests.Framework
 
         public static class TestCollections
         {
+            public const string PersonalDetails = "Personal details";
+
+            public const string ResidentialAddress = "Residential address";
+
+            public const string PhoneEmail = "Phone and Email";
+
             public const string Passport = "Passport";
         }
     }

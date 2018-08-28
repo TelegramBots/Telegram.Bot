@@ -1,14 +1,14 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
     /// This object represents a residential address.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class ResidentialAddress
-        : IDecryptedData
+    public class ResidentialAddress : IDecryptedValue
     {
         /// <summary>
         /// First line for the address

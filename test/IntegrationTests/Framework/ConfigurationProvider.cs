@@ -22,22 +22,7 @@ namespace IntegrationTests.Framework
                 AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)] ?? string.Empty,
 
                 SuperGroupChatId = configuration[nameof(TestConfigurations.SuperGroupChatId)],
-                ChannelChatId = configuration[nameof(TestConfigurations.ChannelChatId)],
-
-                PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
-
-                RegularGroupMemberId = configuration[nameof(TestConfigurations.RegularGroupMemberId)],
             };
-
-            if (long.TryParse(configuration[nameof(TestConfigurations.TesterPrivateChatId)], out long privateChat))
-            {
-                TestConfigurations.TesterPrivateChatId = privateChat;
-            }
-
-            if (int.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out int stickerOwnerUserId))
-            {
-                TestConfigurations.StickerOwnerUserId = stickerOwnerUserId;
-            }
 
             if (string.IsNullOrWhiteSpace(TestConfigurations.ApiToken))
                 throw new ArgumentNullException(nameof(TestConfigurations.ApiToken),
