@@ -5,13 +5,16 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
-    /// Contains data required for decrypting and authenticating <see cref="EncryptedPassportElement"/>. See the <see href="https://core.telegram.org/telegram-passport#receiving-information">Telegram Passport Documentation</see> for a complete description of the data decryption and authentication processes.
+    /// Contains data required for decrypting and authenticating <see cref="EncryptedPassportElement"/>.
+    /// See the <see href="https://core.telegram.org/passport#receiving-information">Telegram Passport
+    /// Documentation</see> for a complete description of the data decryption and authentication processes.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EncryptedCredentials
     {
         /// <summary>
-        /// Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets required for <see cref="EncryptedPassportElement"/> decryption and authentication.
+        /// Base64-encoded encrypted JSON-serialized data with unique user's payload, data hashes and secrets
+        /// required for <see cref="EncryptedPassportElement"/> decryption and authentication.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Data { get; set; }
