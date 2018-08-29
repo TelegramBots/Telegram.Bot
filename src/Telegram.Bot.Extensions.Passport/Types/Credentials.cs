@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -14,18 +15,19 @@ namespace Telegram.Bot.Types.Passport
         /// Credentials for encrypted data
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public SecureData SecureData;
+        public SecureData SecureData { get; set; }
 
         /// <summary>
         /// Bot-specified payload. Make sure that the payload is the same as was passed in the request.
         /// </summary>
-        [JsonProperty]
-        public string Payload;
+        [Obsolete("Payload is deprecated as of Telegram Passport 1.1. Use Nonce instead.")]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Payload { get; set; }
 
         /// <summary>
         /// Bot-specified nonce. Make sure that the payload is the same as was passed in the request.
         /// </summary>
-        [JsonProperty]
-        public string Nonce;
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Nonce { get; set; }
     }
 }

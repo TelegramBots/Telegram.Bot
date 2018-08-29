@@ -16,14 +16,17 @@ namespace Telegram.Bot.Types.Passport
         /// Document number
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string DocumentNo;
+        public string DocumentNo { get; set; }
 
         /// <summary>
         /// Optional. Date of expiry, in DD.MM.YYYY format
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string ExpiryDate;
+        public string ExpiryDate { get; set; }
 
+        /// <summary>
+        /// Date of exprity if available
+        /// </summary>
         public DateTime? Expiry
         {
             get

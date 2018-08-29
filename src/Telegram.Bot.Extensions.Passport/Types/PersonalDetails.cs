@@ -1,6 +1,7 @@
+using System;
+using System.Globalization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.Passport
@@ -15,36 +16,66 @@ namespace Telegram.Bot.Types.Passport
         /// First Name
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string FirstName;
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Last Name
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string LastName;
+        public string LastName { get; set; }
+
+        /// <summary>
+        /// Optional. Middle Name
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string MiddleName { get; set; }
 
         /// <summary>
         /// Date of birth in DD.MM.YYYY format
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string BirthDate;
+        public string BirthDate { get; set; }
 
         /// <summary>
         /// Gender, male or female
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Gender;
+        public string Gender { get; set; }
 
         /// <summary>
         /// Citizenship (ISO 3166-1 alpha-2 country code)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string CountryCode;
+        public string CountryCode { get; set; }
 
         /// <summary>
         /// Country of residence (ISO 3166-1 alpha-2 country code)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string ResidenceCountryCode;
+        public string ResidenceCountryCode { get; set; }
+
+        /// <summary>
+        /// First Name in the language of the user's country of residence
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string FirstNameNative { get; set; }
+
+        /// <summary>
+        /// Last Name in the language of the user's country of residence
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string LastNameNative { get; set; }
+
+        /// <summary>
+        /// Optional. Middle Name in the language of the user's country of residence
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string MiddleNameNative { get; set; }
+
+        /// <summary>
+        /// Date of birth
+        /// </summary>
+        public DateTime Birthdate =>
+            DateTime.ParseExact(BirthDate, "dd.MM.yyyy", null, DateTimeStyles.None);
     }
 }

@@ -5,7 +5,8 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
-    /// These credentials can be used to decrypt encrypted files from the front_side, reverse_side, selfie and files fields in EncryptedPassportData.
+    /// These credentials can be used to decrypt encrypted files from the front_side, reverse_side, selfie and
+    /// files fields in EncryptedPassportData.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class FileCredentials
@@ -14,12 +15,12 @@ namespace Telegram.Bot.Types.Passport
         /// Checksum of encrypted file
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string FileHash;
+        public string FileHash { get; set; }
 
         /// <summary>
         /// Secret of encrypted file
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Secret;
+        public string Secret { get; set; }
     }
 }
