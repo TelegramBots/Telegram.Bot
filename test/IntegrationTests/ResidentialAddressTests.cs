@@ -37,7 +37,7 @@ namespace IntegrationTests
             string botId = _fixture.BotUser.Id.ToString();
 
             // Scope is a JSON serialized array of scope names e.g. [ "address" ]
-            string scope = JsonConvert.SerializeObject(new[] {PassportEnums.Scope.ResidentialAddress,});
+            string scope = JsonConvert.SerializeObject(new[] {PassportEnums.Scope.Address,});
 
             string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
                                "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
@@ -88,7 +88,7 @@ namespace IntegrationTests
             EncryptedPassportElement encryptedElement = Assert.Single(passportData.Data);
             Assert.NotNull(encryptedElement);
             Assert.Equal("address", encryptedElement.Type);
-            Assert.Equal(PassportEnums.Scope.ResidentialAddress, encryptedElement.Type);
+            Assert.Equal(PassportEnums.Scope.Address, encryptedElement.Type);
             Assert.NotEmpty(encryptedElement.Data);
             Assert.NotEmpty(encryptedElement.Hash);
 

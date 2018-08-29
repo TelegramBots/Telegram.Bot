@@ -5,10 +5,10 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
-    /// Represents an issue with a document scan. The error is considered resolved when the file with the document scan changes.
+    /// Represents an issue with the front side of a document. The error is considered resolved when the file with the front side of the document changes.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class PassportElementErrorFile : PassportElementError
+    public class PassportElementErrorFrontSide : PassportElementError
     {
         /// <summary>
         /// Base64-encoded hash of the file with the front side of the document.
@@ -19,14 +19,14 @@ namespace Telegram.Bot.Types.Passport
         /// <summary>
         ///
         /// </summary>
-        /// <param name="type">The section of the user's Telegram Passport which has the issue, one of “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration”, “temporary_registration”</param>
-        /// <param name="fileHash">Base64-encoded file hash</param>
+        /// <param name="type">The section of the user's Telegram Passport which has the issue, one of “passport”, “driver_license”, “identity_card”, “internal_passport”</param>
+        /// <param name="fileHash">Base64-encoded hash of the file with the front side of the document</param>
         /// <param name="message">Error message</param>
-        public PassportElementErrorFile(
+        public PassportElementErrorFrontSide(
             string type,
             string fileHash,
             string message)
-            : base(type, "file", message)
+            : base(type, "front_side", message)
         {
             FileHash = fileHash;
         }
@@ -37,10 +37,10 @@ namespace Telegram.Bot.Types.Passport
         /// <param name="fileHash">Base64-encoded hash of the file with the front side of the document</param>
         /// <param name="message">Error message</param>
         /// <returns></returns>
-        public static PassportElementErrorFile WithUtilityBill(string fileHash, string message)
+        public static PassportElementErrorFrontSide WithInternalPassport(string fileHash, string message)
             =>
-                new PassportElementErrorFile(
-                    PassportEnums.ElementType.UtilityBill,
+                new PassportElementErrorFrontSide(
+                    PassportEnums.Scope.InternalPassport,
                     fileHash,
                     message
                 );
@@ -51,10 +51,10 @@ namespace Telegram.Bot.Types.Passport
         /// <param name="fileHash">Base64-encoded hash of the file with the front side of the document</param>
         /// <param name="message">Error message</param>
         /// <returns></returns>
-        public static PassportElementErrorFile WithBankStatement(string fileHash, string message)
+        public static PassportElementErrorFrontSide WithIdentityCard(string fileHash, string message)
             =>
-                new PassportElementErrorFile(
-                    PassportEnums.ElementType.BankStatement,
+                new PassportElementErrorFrontSide(
+                    PassportEnums.Scope.IdentityCard,
                     fileHash,
                     message
                 );
@@ -65,10 +65,10 @@ namespace Telegram.Bot.Types.Passport
         /// <param name="fileHash">Base64-encoded hash of the file with the front side of the document</param>
         /// <param name="message">Error message</param>
         /// <returns></returns>
-        public static PassportElementErrorFile WithRentalAgreement(string fileHash, string message)
+        public static PassportElementErrorFrontSide WithDriverLicense(string fileHash, string message)
             =>
-                new PassportElementErrorFile(
-                    PassportEnums.ElementType.RentalAgreement,
+                new PassportElementErrorFrontSide(
+                    PassportEnums.Scope.DriverLicense,
                     fileHash,
                     message
                 );
@@ -79,24 +79,10 @@ namespace Telegram.Bot.Types.Passport
         /// <param name="fileHash">Base64-encoded hash of the file with the front side of the document</param>
         /// <param name="message">Error message</param>
         /// <returns></returns>
-        public static PassportElementErrorFile WithPassportRegistration(string fileHash, string message)
+        public static PassportElementErrorFrontSide WithPassport(string fileHash, string message)
             =>
-                new PassportElementErrorFile(
-                    PassportEnums.ElementType.PassportRegistration,
-                    fileHash,
-                    message
-                );
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="fileHash">Base64-encoded hash of the file with the front side of the document</param>
-        /// <param name="message">Error message</param>
-        /// <returns></returns>
-        public static PassportElementErrorFile WithTemporaryRegistration(string fileHash, string message)
-            =>
-                new PassportElementErrorFile(
-                    PassportEnums.ElementType.TemporaryRegistration,
+                new PassportElementErrorFrontSide(
+                    PassportEnums.Scope.Passport,
                     fileHash,
                     message
                 );

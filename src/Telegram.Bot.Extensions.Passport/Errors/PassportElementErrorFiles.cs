@@ -41,7 +41,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFiles WithUtilityBill(IEnumerable<string> fileHashes, string message)
             =>
                 new PassportElementErrorFiles(
-                    PassportEnums.ElementType.UtilityBill,
+                    PassportEnums.Scope.UtilityBill,
                     fileHashes,
                     message
                 );
@@ -55,7 +55,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFiles WithBankStatement(IEnumerable<string> fileHashes, string message)
             =>
                 new PassportElementErrorFiles(
-                    PassportEnums.ElementType.BankStatement,
+                    PassportEnums.Scope.BankStatement,
                     fileHashes,
                     message
                 );
@@ -69,7 +69,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFiles WithRentalAgreement(IEnumerable<string> fileHashes, string message)
             =>
                 new PassportElementErrorFiles(
-                    PassportEnums.ElementType.RentalAgreement,
+                    PassportEnums.Scope.RentalAgreement,
                     fileHashes,
                     message
                 );
@@ -83,7 +83,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFiles WithPassportRegistration(IEnumerable<string> fileHashes, string message)
             =>
                 new PassportElementErrorFiles(
-                    PassportEnums.ElementType.PassportRegistration,
+                    PassportEnums.Scope.PassportRegistration,
                     fileHashes,
                     message
                 );
@@ -97,7 +97,7 @@ namespace Telegram.Bot.Types.Passport
         public static PassportElementErrorFiles WithTemporaryRegistration(IEnumerable<string> fileHashes, string message)
             =>
                 new PassportElementErrorFiles(
-                    PassportEnums.ElementType.TemporaryRegistration,
+                    PassportEnums.Scope.TemporaryRegistration,
                     fileHashes,
                     message
                 );
