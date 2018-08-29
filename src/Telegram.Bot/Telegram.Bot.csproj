@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <VersionPrefix>14.9.0</VersionPrefix>
+    <VersionPrefix>14.10.0</VersionPrefix>
+    <VersionSuffix>rc</VersionSuffix>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
