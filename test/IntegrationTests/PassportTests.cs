@@ -130,8 +130,8 @@ namespace IntegrationTests
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             Assert.NotNull(credentials);
-            Assert.NotEmpty(credentials.Payload);
-            Assert.Equal("TEST", credentials.Payload);
+            Assert.NotEmpty(credentials.Nonce);
+            Assert.Equal("TEST", credentials.Nonce);
             Assert.NotNull(credentials.SecureData);
 
             /* In the case of "passport" scope, there should be 2 elements in the passport message:

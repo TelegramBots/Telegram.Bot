@@ -10,7 +10,6 @@ namespace IntegrationTests.Framework
     {
         private readonly string[] _orderedCollections =
         {
-            Constants.TestCollections.PersonalDetails1,
             Constants.TestCollections.ResidentialAddress,
             Constants.TestCollections.DriverLicense,
             Constants.TestCollections.PhoneEmail,
@@ -18,6 +17,9 @@ namespace IntegrationTests.Framework
 
             Constants.TestCollections.PersonalDetails2,
             Constants.TestCollections.RentalAgreementAndBill,
+
+            Constants.TestCollections.DriverLicenseErrors,
+            Constants.TestCollections.UnspecifiedError,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

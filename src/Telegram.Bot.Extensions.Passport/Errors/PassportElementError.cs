@@ -5,7 +5,8 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
-    /// This object represents an error in the Telegram Passport element which was submitted that should be resolved by the user.
+    /// This object represents an error in the Telegram Passport element which was submitted that should be resolved
+    /// by the user.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class PassportElementError
@@ -29,12 +30,12 @@ namespace Telegram.Bot.Types.Passport
         public string Message { get; }
 
         /// <summary>
-        ///
+        /// Initializes a new passport element error instance with required parameters
         /// </summary>
-        /// <param name="type">The section of the user's Telegram Passport which has the issue</param>
         /// <param name="source">Error source</param>
+        /// <param name="type">The section of the user's Telegram Passport which has the issue</param>
         /// <param name="message">Error message</param>
-        protected PassportElementError(string type, string source, string message)
+        protected PassportElementError(string source, string type, string message)
         {
             Type = type;
             Source = source;

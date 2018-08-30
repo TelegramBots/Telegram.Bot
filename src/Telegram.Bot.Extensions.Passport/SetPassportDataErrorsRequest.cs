@@ -24,16 +24,16 @@ namespace Telegram.Bot.Requests
         public int UserId { get; }
 
         /// <summary>
-        /// An array describing the errors
+        /// Descriptions of the errors
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public IEnumerable<PassportElementError> Errors { get; }
 
         /// <summary>
-        /// Initializes a new request with userId and an array of <see cref="PassportElementError"/>
+        /// Initializes a new request with required parameters
         /// </summary>
-        /// <param name="userId"></param>
-        /// <param name="errors"></param>
+        /// <param name="userId">User identifier</param>
+        /// <param name="errors">Descriptions of the errors</param>
         public SetPassportDataErrorsRequest(int userId, IEnumerable<PassportElementError> errors)
             : base("setPassportDataErrors")
         {

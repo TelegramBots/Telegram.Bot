@@ -14,8 +14,6 @@ namespace IntegrationTests.Framework
 
         public static class TestCollections
         {
-            public const string PersonalDetails1 = "Personal details v1.0";
-
             public const string PersonalDetails2 = "Personal details v1.1";
 
             public const string ResidentialAddress = "Residential address";
@@ -27,6 +25,10 @@ namespace IntegrationTests.Framework
             public const string PhoneEmail = "Phone and Email";
 
             public const string Passport = "Passport";
+
+            public const string DriverLicenseErrors = "Driver license errors";
+
+            public const string UnspecifiedError = "Unspecified error";
         }
     }
 }
