@@ -1,4 +1,3 @@
-// ReSharper disable InconsistentNaming
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
 
@@ -20,7 +19,7 @@ namespace IntegrationTests
 {
     [Collection(Constants.TestCollections.DriverLicense)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class DriverLicense : IClassFixture<EntityFixture<Update>>
+    public class DriverLicenseTests : IClassFixture<EntityFixture<Update>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -28,7 +27,7 @@ namespace IntegrationTests
 
         private readonly EntityFixture<Update> _classFixture;
 
-        public DriverLicense(TestsFixture fixture, EntityFixture<Update> classFixture)
+        public DriverLicenseTests(TestsFixture fixture, EntityFixture<Update> classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -165,29 +164,15 @@ namespace IntegrationTests
             Assert.NotEmpty(credentials.SecureData.DriverLicense.FrontSide.FileHash);
 
             // decryption of optional selfie file in 'driver_license' element requires accompanying FileCredentials
-            if (element.Selfie is null)
-            {
-                Assert.Null(credentials.SecureData.DriverLicense.Selfie);
-            }
-            else
-            {
-                Assert.NotNull(credentials.SecureData.DriverLicense.Selfie);
-                Assert.NotEmpty(credentials.SecureData.DriverLicense.Selfie.Secret);
-                Assert.NotEmpty(credentials.SecureData.DriverLicense.Selfie.FileHash);
-            }
+            Assert.NotNull(credentials.SecureData.DriverLicense.Selfie);
+            Assert.NotEmpty(credentials.SecureData.DriverLicense.Selfie.Secret);
+            Assert.NotEmpty(credentials.SecureData.DriverLicense.Selfie.FileHash);
 
             // decryption of optional translation file in 'driver_license' element requires accompanying FileCredentials
-            if (element.Translation is null)
-            {
-                Assert.Null(credentials.SecureData.DriverLicense.Translation);
-            }
-            else
-            {
-                Assert.Equal(
-                    element.Translation.Length,
-                    credentials.SecureData.DriverLicense.Translation.Length
-                );
-            }
+            Assert.Equal(
+                element.Translation.Length,
+                credentials.SecureData.DriverLicense.Translation.Length
+            );
         }
 
         [OrderedFact("Should decrypt document data of 'driver_license' element")]
@@ -279,19 +264,13 @@ namespace IntegrationTests
             Assert.NotEmpty(content);
         }
 
-        [OrderedFact("Should decrypt selfie photo file of 'driver_license' element, if available")]
+        [OrderedFact("Should decrypt selfie photo file of 'driver_license' element")]
         public async Task Should_decreypt_selfie_file()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
-
-            // Check if selfie is available
-            if (element.Selfie is null)
-            {
-                return;
-            }
 
             IDecrypter decrypter = new Decrypter(key);
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
@@ -313,19 +292,13 @@ namespace IntegrationTests
             Assert.NotEmpty(content);
         }
 
-        [OrderedFact("Should decrypt translation photo files of 'driver_license' element, if available")]
+        [OrderedFact("Should decrypt translation photo files of 'driver_license' element")]
         public async Task Should_decreypt_translation_file()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
-
-            // Check if any translation file is available
-            if (element.Translation is null)
-            {
-                return;
-            }
 
             IDecrypter decrypter = new Decrypter(key);
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);

@@ -1,8 +1,6 @@
-// ReSharper disable InconsistentNaming
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
 
-using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -19,12 +17,9 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    /// <summary>
-    /// Tests for request personal details using Telegram Passport v1.1
-    /// </summary>
-    [Collection(Constants.TestCollections.PersonalDetails2)]
+    [Collection(Constants.TestCollections.ResidentialAddress)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class PersonalDetailsTests1_1 : IClassFixture<EntityFixture<Update>>
+    public class ResidentialAddressTests : IClassFixture<EntityFixture<Update>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -32,7 +27,7 @@ namespace IntegrationTests
 
         private readonly EntityFixture<Update> _classFixture;
 
-        public PersonalDetailsTests1_1(TestsFixture fixture, EntityFixture<Update> classFixture)
+        public ResidentialAddressTests(TestsFixture fixture, EntityFixture<Update> classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -50,15 +45,10 @@ namespace IntegrationTests
                                      "BHGkV0POQMkkBrvvhAIQu222j+03frm9b2yZrhX/qS01lyjW4VaQytGV0wlewV6B\n" +
                                      "FwIDAQAB\n" +
                                      "-----END PUBLIC KEY-----";
+
             PassportScope scope = new PassportScope
             {
-                Data = new[]
-                {
-                    new PassportScopeElementOne(PassportEnums.Scope.PersonalDetails)
-                    {
-                        NativeNames = true,
-                    },
-                }
+                Data = new[] {new PassportScopeElementOne(PassportEnums.Scope.Address),}
             };
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
@@ -69,7 +59,7 @@ namespace IntegrationTests
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your *personal details* with bot using *Passport v1.1*.\n\n" +
+                "Share your *residential address* with bot using Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
@@ -90,15 +80,18 @@ namespace IntegrationTests
             _classFixture.Entity = passportUpdate;
         }
 
-        [OrderedFact("Should validate personal details in a Passport massage")]
+        [OrderedFact("Should validate address in a Passport massage")]
         public void Should_Validate_Passport_Update()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
 
+            Assert.NotNull(passportData);
+
             EncryptedPassportElement encryptedElement = Assert.Single(passportData.Data);
-            Assert.Equal("personal_details", encryptedElement.Type);
-            Assert.Equal(PassportEnums.Scope.PersonalDetails, encryptedElement.Type);
+            Assert.NotNull(encryptedElement);
+            Assert.Equal("address", encryptedElement.Type);
+            Assert.Equal(PassportEnums.Scope.Address, encryptedElement.Type);
             Assert.NotEmpty(encryptedElement.Data);
             Assert.NotEmpty(encryptedElement.Hash);
 
@@ -108,12 +101,13 @@ namespace IntegrationTests
             Assert.NotEmpty(passportData.Credentials.Secret);
         }
 
-        [OrderedFact("Should decrypt personal details values")]
+        [OrderedFact("Should decrypt residential address values")]
         public void Should_Decrypt_Passport_Update()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             EncryptedPassportElement element = passportData.Data.Single();
+
             RSA key = EncryptionKey.ReadAsRsa();
 
             IDecrypter decrypter = new Decrypter(key);
@@ -121,31 +115,16 @@ namespace IntegrationTests
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             Assert.NotNull(credentials);
-            Assert.NotEmpty(credentials.Nonce);
             Assert.Equal("TEST", credentials.Nonce);
             Assert.NotNull(credentials.SecureData);
 
-            string personalDetailsJson = decrypter.DecryptData(
+            ResidentialAddress residentialAddress = decrypter.DecryptData<ResidentialAddress>(
                 element.Data,
-                credentials.SecureData.PersonalDetails.Data
-            );
-            Assert.NotEmpty(personalDetailsJson);
-            Assert.StartsWith("{\"", personalDetailsJson);
-
-            PersonalDetails personalDetails = decrypter.DecryptData<PersonalDetails>(
-                element.Data,
-                credentials.SecureData.PersonalDetails.Data
+                credentials.SecureData.Address.Data
             );
 
-            Assert.NotNull(personalDetails);
-            Assert.NotEmpty(personalDetails.FirstName);
-            Assert.NotEmpty(personalDetails.Gender);
-            Assert.NotEmpty(personalDetails.CountryCode);
-            Assert.Equal(2, personalDetails.CountryCode.Length);
-            Assert.NotEmpty(personalDetails.ResidenceCountryCode);
-            Assert.Equal(2, personalDetails.ResidenceCountryCode.Length);
-            Assert.NotEmpty(personalDetails.BirthDate);
-            Assert.InRange(personalDetails.Birthdate, new DateTime(1900, 1, 1), DateTime.Today);
+            Assert.NotNull(residentialAddress);
+            // ToDo other tests
         }
     }
 }

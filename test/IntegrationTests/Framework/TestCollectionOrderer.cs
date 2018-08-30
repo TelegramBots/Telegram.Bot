@@ -17,6 +17,7 @@ namespace IntegrationTests.Framework
             Constants.TestCollections.Passport,
 
             Constants.TestCollections.PersonalDetails2,
+            Constants.TestCollections.RentalAgreementAndBill,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

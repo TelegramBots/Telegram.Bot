@@ -1,4 +1,5 @@
 // ReSharper disable PossibleNullReferenceException
+// ReSharper disable CheckNamespace
 
 using System;
 using System.Security.Cryptography;
@@ -10,7 +11,7 @@ using Telegram.Bot.Types.Passport;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace UnitTests.Decryption
+namespace UnitTests
 {
     /// <summary>
     /// Tests for decryption of passport_data received for authorization request with the scope of "passport".

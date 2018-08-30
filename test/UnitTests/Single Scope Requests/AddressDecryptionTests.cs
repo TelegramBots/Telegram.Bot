@@ -1,5 +1,6 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleNullReferenceException
+// ReSharper disable CheckNamespace
 
 using System.Security.Cryptography;
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests.Decryption
+namespace UnitTests
 {
     /// <summary>
     /// Tests for decryption of "message.passport_data" received for authorization request with the scope
