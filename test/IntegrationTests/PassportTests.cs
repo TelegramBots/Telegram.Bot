@@ -122,7 +122,7 @@ namespace IntegrationTests
         public void Should_Decrypt_Passport_Update()
         {
             Update update = _classFixture.Entity;
-            RSA key = EncryptionKeys.ReadAsRsa();
+            RSA key = EncryptionKey.ReadAsRsa();
             PassportData passportData = update.Message.PassportData;
 
             IDecrypter decrypter = new Decrypter(key);

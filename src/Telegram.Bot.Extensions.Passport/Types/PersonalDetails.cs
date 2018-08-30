@@ -57,13 +57,13 @@ namespace Telegram.Bot.Types.Passport
         /// <summary>
         /// First Name in the language of the user's country of residence
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FirstNameNative { get; set; }
 
         /// <summary>
         /// Last Name in the language of the user's country of residence
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastNameNative { get; set; }
 
         /// <summary>

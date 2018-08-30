@@ -5,9 +5,10 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.OpenSsl;
 using Org.BouncyCastle.Security;
 
+// ReSharper disable once CheckNamespace
 namespace IntegrationTests
 {
-    public static class EncryptionKeys
+    public static class EncryptionKey
     {
         public static RSA ReadAsRsa()
         {

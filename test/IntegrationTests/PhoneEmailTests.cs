@@ -119,7 +119,7 @@ namespace IntegrationTests
             EncryptedPassportElement phoneElement = passportData.Data.Single(el => el.Type == "phone_number");
             EncryptedPassportElement emailElement = passportData.Data.Single(el => el.Type == "email");
 
-            RSA key = EncryptionKeys.ReadAsRsa();
+            RSA key = EncryptionKey.ReadAsRsa();
 
             IDecrypter decrypter = new Decrypter(key);
 
