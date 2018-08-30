@@ -40,6 +40,14 @@ namespace Telegram.Bot.Types.Passport
         public FileCredentials Selfie { get; set; }
 
         /// <summary>
+        /// Optional. Credentials for an encrypted translation of the document. Available for "passport",
+        /// "driver_license", "identity_card", "internal_passport", "utility_bill", "bank_statement",
+        /// "rental_agreement", "passport_registration" and "temporary_registration".
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public FileCredentials[] Translation { get; set; }
+
+        /// <summary>
         /// Optional. Credentials for encrypted files. Available for "utility_bill", "bank_statement",
         /// "rental_agreement", "passport_registration" and "temporary_registration" types.
         /// </summary>

@@ -69,7 +69,7 @@ namespace IntegrationTests
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your personal details with bot using *Passport v1.1*.\n\n" +
+                "Share your *personal details* with bot using *Passport v1.1*.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",

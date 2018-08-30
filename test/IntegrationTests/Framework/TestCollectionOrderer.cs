@@ -12,6 +12,7 @@ namespace IntegrationTests.Framework
         {
             Constants.TestCollections.PersonalDetails1,
             Constants.TestCollections.ResidentialAddress,
+            Constants.TestCollections.DriverLicense,
             Constants.TestCollections.PhoneEmail,
             Constants.TestCollections.Passport,
 

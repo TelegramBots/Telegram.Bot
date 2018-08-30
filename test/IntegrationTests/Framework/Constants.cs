@@ -20,6 +20,8 @@ namespace IntegrationTests.Framework
 
             public const string ResidentialAddress = "Residential address";
 
+            public const string DriverLicense = "Driver license";
+
             public const string PhoneEmail = "Phone and Email";
 
             public const string Passport = "Passport";

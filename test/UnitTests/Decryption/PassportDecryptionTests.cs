@@ -40,18 +40,18 @@ namespace UnitTests.Decryption
             Assert.NotEmpty(credentials.Payload);
             Assert.Equal("TEST", credentials.Payload);
 
-            // 'personal_details' element decryption needs accompanying DataCredentials
+            // decryption of 'personal_details' element requires accompanying DataCredentials
             Assert.NotNull(credentials.SecureData.PersonalDetails);
             Assert.NotNull(credentials.SecureData.PersonalDetails.Data);
             Assert.NotEmpty(credentials.SecureData.PersonalDetails.Data.Secret);
             Assert.NotEmpty(credentials.SecureData.PersonalDetails.Data.DataHash);
 
             Assert.NotNull(credentials.SecureData.Passport);
-            // docuemnt data in 'passport' element decryption needs accompanying DataCredentials:
+            // decryption of  docuemnt data in 'passport' element requires accompanying DataCredentials:
             Assert.NotNull(credentials.SecureData.Passport.Data);
             Assert.NotEmpty(credentials.SecureData.Passport.Data.Secret);
             Assert.NotEmpty(credentials.SecureData.Passport.Data.DataHash);
-            // front side of 'passport' element decryption needs accompanying FileCredentials:
+            // decryption of front side of 'passport' element requires accompanying FileCredentials:
             Assert.NotNull(credentials.SecureData.Passport.FrontSide);
             Assert.NotEmpty(credentials.SecureData.Passport.FrontSide.Secret);
             Assert.NotEmpty(credentials.SecureData.Passport.FrontSide.FileHash);
