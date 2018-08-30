@@ -39,5 +39,10 @@ namespace Telegram.Bot.Passport.Request
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? NativeNames { get; set; }
+
+        public PassportScopeElementOne(string type)
+        {
+            Type = type;
+        }
     }
 }

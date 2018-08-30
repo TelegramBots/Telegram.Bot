@@ -1,12 +1,15 @@
-using System;
+// ReSharper disable InconsistentNaming
+// ReSharper disable PossibleNullReferenceException
+// ReSharper disable CheckNamespace
+
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
 using IntegrationTests.Framework.Fixtures;
-using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Passport;
+using Telegram.Bot.Passport.Request;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Passport;
@@ -34,26 +37,26 @@ namespace IntegrationTests
         [OrderedFact("Should generate passport authorization request link")]
         public async Task Should_Generate_Authorize_Link()
         {
-            string botId = _fixture.BotUser.Id.ToString();
+            const string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
+                                     "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
+                                     "wlssO1bjXRx+t+JlIgS6jLPCefyCAcZBv7ElcSPJQIPEXNwN2XdnTc2wEIjZ8bTg\n" +
+                                     "BlBqXppj471bJeX8Mi2uAxAqOUDuvGuqth+mq7DMqol3MNH5P9FO6li7nZxI1FX3\n" +
+                                     "9u2r/4H4PXRiWx13gsVQRL6Clq2jcXFHc9CvNaCQEJX95jgQFAybal216EwlnnVV\n" +
+                                     "giT/TNsfFjW41XJZsHUny9k+dAfyPzqAk54cgrvjgAHJayDWjapq90Fm/+e/DVQ6\n" +
+                                     "BHGkV0POQMkkBrvvhAIQu222j+03frm9b2yZrhX/qS01lyjW4VaQytGV0wlewV6B\n" +
+                                     "FwIDAQAB\n" +
+                                     "-----END PUBLIC KEY-----";
 
-            // Scope is a JSON serialized array of scope names e.g. [ "address" ]
-            string scope = JsonConvert.SerializeObject(new[] {PassportEnums.Scope.Address,});
-
-            string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
-                               "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
-                               "wlssO1bjXRx+t+JlIgS6jLPCefyCAcZBv7ElcSPJQIPEXNwN2XdnTc2wEIjZ8bTg\n" +
-                               "BlBqXppj471bJeX8Mi2uAxAqOUDuvGuqth+mq7DMqol3MNH5P9FO6li7nZxI1FX3\n" +
-                               "9u2r/4H4PXRiWx13gsVQRL6Clq2jcXFHc9CvNaCQEJX95jgQFAybal216EwlnnVV\n" +
-                               "giT/TNsfFjW41XJZsHUny9k+dAfyPzqAk54cgrvjgAHJayDWjapq90Fm/+e/DVQ6\n" +
-                               "BHGkV0POQMkkBrvvhAIQu222j+03frm9b2yZrhX/qS01lyjW4VaQytGV0wlewV6B\n" +
-                               "FwIDAQAB\n" +
-                               "-----END PUBLIC KEY-----";
-
-            string queryString = "domain=telegrampassport" +
-                                 $"&bot_id={Uri.EscapeDataString(botId)}" +
-                                 $"&scope={Uri.EscapeDataString(scope)}" +
-                                 $"&public_key={Uri.EscapeDataString(publicKey)}" +
-                                 $"&payload={Uri.EscapeDataString("TEST")}";
+            PassportScope scope = new PassportScope
+            {
+                Data = new[] {new PassportScopeElementOne(PassportEnums.Scope.Address),}
+            };
+            AuthorizationRequest authReq = new AuthorizationRequest(
+                botId: _fixture.BotUser.Id,
+                publicKey: publicKey,
+                nonce: "TEST",
+                scope: scope
+            );
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
@@ -63,7 +66,7 @@ namespace IntegrationTests
                 "3. Authorize bot to access the info",
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
                     "Share via Passport",
-                    $"https://telegrambots.github.io/Telegram.Bot.Extensions.Passport/redirect.html?{queryString}"
+                    $"https://telegrambots.github.io/Telegram.Bot.Extensions.Passport/redirect.html?{authReq.Query}"
                 )
             );
 

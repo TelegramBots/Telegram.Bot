@@ -14,7 +14,9 @@ namespace IntegrationTests.Framework
 
         public static class TestCollections
         {
-            public const string PersonalDetails = "Personal details";
+            public const string PersonalDetails1 = "Personal details v1.0";
+
+            public const string PersonalDetails2 = "Personal details v1.1";
 
             public const string ResidentialAddress = "Residential address";
 

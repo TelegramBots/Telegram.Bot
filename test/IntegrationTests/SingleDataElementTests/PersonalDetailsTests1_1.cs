@@ -1,7 +1,6 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleNullReferenceException
-
-#pragma warning disable 618
+// ReSharper disable CheckNamespace
 
 using System;
 using System.Linq;
@@ -21,11 +20,11 @@ using Xunit;
 namespace IntegrationTests
 {
     /// <summary>
-    /// Tests for request personal details using Telegram Passport v1.0
+    /// Tests for request personal details using Telegram Passport v1.1
     /// </summary>
-    [Collection(Constants.TestCollections.PersonalDetails)]
+    [Collection(Constants.TestCollections.PersonalDetails2)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class PersonalDetailsTests1_0 : IClassFixture<EntityFixture<Update>>
+    public class PersonalDetailsTests1_1 : IClassFixture<EntityFixture<Update>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -33,7 +32,7 @@ namespace IntegrationTests
 
         private readonly EntityFixture<Update> _classFixture;
 
-        public PersonalDetailsTests1_0(TestsFixture fixture, EntityFixture<Update> classFixture)
+        public PersonalDetailsTests1_1(TestsFixture fixture, EntityFixture<Update> classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -51,20 +50,30 @@ namespace IntegrationTests
                                      "BHGkV0POQMkkBrvvhAIQu222j+03frm9b2yZrhX/qS01lyjW4VaQytGV0wlewV6B\n" +
                                      "FwIDAQAB\n" +
                                      "-----END PUBLIC KEY-----";
-
+            PassportScope scope = new PassportScope
+            {
+                Data = new[]
+                {
+                    new PassportScopeElementOne(PassportEnums.Scope.PersonalDetails)
+                    {
+                        NativeNames = true,
+                    },
+                }
+            };
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                payload: "TEST",
-                scope: PassportEnums.Scope.PersonalDetails
+                nonce: "TEST",
+                scope: scope
             );
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your personal details with bot using Passport.\n\n" +
+                "Share your personal details with bot using *Passport v1.1*.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
+                ParseMode.Markdown,
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
                     "Share via Passport",
                     $"https://telegrambots.github.io/Telegram.Bot.Extensions.Passport/redirect.html?{authReq.Query}"
@@ -112,9 +121,16 @@ namespace IntegrationTests
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             Assert.NotNull(credentials);
-            Assert.NotEmpty(credentials.Payload);
-            Assert.Equal("TEST", credentials.Payload);
+            Assert.NotEmpty(credentials.Nonce);
+            Assert.Equal("TEST", credentials.Nonce);
             Assert.NotNull(credentials.SecureData);
+
+            string personalDetailsJson = decrypter.DecryptData(
+                element.Data,
+                credentials.SecureData.PersonalDetails.Data
+            );
+            Assert.NotEmpty(personalDetailsJson);
+            Assert.StartsWith("{\"", personalDetailsJson);
 
             PersonalDetails personalDetails = decrypter.DecryptData<PersonalDetails>(
                 element.Data,

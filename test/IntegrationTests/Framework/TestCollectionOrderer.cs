@@ -10,10 +10,12 @@ namespace IntegrationTests.Framework
     {
         private readonly string[] _orderedCollections =
         {
-            Constants.TestCollections.PersonalDetails,
+            Constants.TestCollections.PersonalDetails1,
             Constants.TestCollections.ResidentialAddress,
             Constants.TestCollections.PhoneEmail,
             Constants.TestCollections.Passport,
+
+            Constants.TestCollections.PersonalDetails2,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)
