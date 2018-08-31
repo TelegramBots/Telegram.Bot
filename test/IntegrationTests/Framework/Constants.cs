@@ -14,19 +14,19 @@ namespace IntegrationTests.Framework
 
         public static class TestCollections
         {
-            public const string PersonalDetails2 = "Personal details v1.1";
+            public const string PersonalDetails = "Personal details";
 
             public const string ResidentialAddress = "Residential address";
 
-            public const string RentalAgreementAndBill = "Rental agreement and utility bill";
-
             public const string DriverLicense = "Driver license";
 
-            public const string PhoneEmail = "Phone and Email";
+            public const string PhoneAndEmail = "Phone and Email";
 
-            public const string Passport = "Passport";
+            public const string RentalAgreementAndBill = "Rental agreement and utility bill";
 
-            public const string DriverLicenseErrors = "Driver license errors";
+            public const string IdentityCardErrors = "Identity card errors";
+
+            public const string PassportRegistrationErrors = "Passport registration errors";
 
             public const string UnspecifiedError = "Unspecified error";
         }

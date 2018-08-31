@@ -34,7 +34,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should generate passport authorization request link")]
-        public async Task Should_Generate_Authorize_Link()
+        public async Task Should_generate_auth_link()
         {
             const string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
                                      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
@@ -53,7 +53,7 @@ namespace IntegrationTests
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                nonce: "TEST",
+                nonce: "Test nonce for address",
                 scope: scope
             );
 
@@ -70,18 +70,12 @@ namespace IntegrationTests
                 )
             );
 
-            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                u => u.Message?.PassportData != null,
-                updateTypes: UpdateType.Message
-            );
-
-            Update passportUpdate = Assert.Single(updates);
-
+            Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
             _classFixture.Entity = passportUpdate;
         }
 
         [OrderedFact("Should validate address in a Passport massage")]
-        public void Should_Validate_Passport_Update()
+        public void Should_validate_passport_update()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -101,12 +95,11 @@ namespace IntegrationTests
             Assert.NotEmpty(passportData.Credentials.Secret);
         }
 
-        [OrderedFact("Should decrypt residential address values")]
-        public void Should_Decrypt_Passport_Update()
+        [OrderedFact("Should decrypt and validate credentials")]
+        public void Should_decrypt_credentials()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
-            EncryptedPassportElement element = passportData.Data.Single();
 
             RSA key = EncryptionKey.ReadAsRsa();
 
@@ -115,8 +108,20 @@ namespace IntegrationTests
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             Assert.NotNull(credentials);
-            Assert.Equal("TEST", credentials.Nonce);
+            Assert.Equal("Test nonce for address", credentials.Nonce);
             Assert.NotNull(credentials.SecureData);
+        }
+
+        [OrderedFact("Should decrypt data of 'address' element")]
+        public void Should_decreypt_data()
+        {
+            Update update = _classFixture.Entity;
+            PassportData passportData = update.Message.PassportData;
+            EncryptedPassportElement element = passportData.Data.Single();
+
+            RSA key = EncryptionKey.ReadAsRsa();
+            IDecrypter decrypter = new Decrypter(key);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             ResidentialAddress residentialAddress = decrypter.DecryptData<ResidentialAddress>(
                 element.Data,
@@ -124,7 +129,10 @@ namespace IntegrationTests
             );
 
             Assert.NotNull(residentialAddress);
-            // ToDo other tests
+            Assert.NotEmpty(residentialAddress.StreetLine1);
+            Assert.NotEmpty(residentialAddress.City);
+            Assert.NotEmpty(residentialAddress.PostCode);
+            Assert.Equal(2, residentialAddress.CountryCode.Length);
         }
     }
 }

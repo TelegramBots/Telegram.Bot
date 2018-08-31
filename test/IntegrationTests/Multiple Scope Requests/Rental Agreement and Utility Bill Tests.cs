@@ -91,13 +91,7 @@ namespace IntegrationTests
                 )
             );
 
-            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                u => u.Message?.PassportData != null,
-                updateTypes: UpdateType.Message
-            );
-
-            Update passportUpdate = Assert.Single(updates);
-
+            Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
             _classFixture.Entity = passportUpdate;
         }
 

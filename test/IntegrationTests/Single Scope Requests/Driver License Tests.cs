@@ -60,7 +60,7 @@ namespace IntegrationTests
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                nonce: "TEST",
+                nonce: "Test nonce for driver license",
                 scope: scope
             );
 
@@ -77,13 +77,7 @@ namespace IntegrationTests
                 )
             );
 
-            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                u => u.Message?.PassportData != null,
-                updateTypes: UpdateType.Message
-            );
-
-            Update passportUpdate = Assert.Single(updates);
-
+            Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
             _classFixture.Entity = passportUpdate;
         }
 
@@ -149,7 +143,7 @@ namespace IntegrationTests
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             Assert.NotNull(credentials);
-            Assert.Equal("TEST", credentials.Nonce);
+            Assert.Equal("Test nonce for driver license", credentials.Nonce);
             Assert.NotNull(credentials.SecureData);
 
             // decryption of document data in 'driver_license' element requires accompanying DataCredentials

@@ -2,9 +2,11 @@
 // ReSharper disable CheckNamespace
 
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
 using Telegram.Bot;
+using Telegram.Bot.Passport;
 using Telegram.Bot.Passport.Request;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -14,9 +16,9 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.UnspecifiedError)]
+    [Collection(Constants.TestCollections.PassportRegistrationErrors)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class UnspecifiedErrorTests : IClassFixture<UnspecifiedErrorTests.Fixture>
+    public class PassportRegistrationErrorTests : IClassFixture<PassportRegistrationErrorTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -24,7 +26,7 @@ namespace IntegrationTests
 
         private readonly Fixture _classFixture;
 
-        public UnspecifiedErrorTests(TestsFixture fixture, Fixture classFixture)
+        public PassportRegistrationErrorTests(TestsFixture fixture, Fixture classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -47,19 +49,22 @@ namespace IntegrationTests
             {
                 Data = new[]
                 {
-                    new PassportScopeElementOne(PassportEnums.Scope.BankStatement),
+                    new PassportScopeElementOne(PassportEnums.Scope.PassportRegistration)
+                    {
+                        Translation = true,
+                    },
                 }
             };
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                nonce: "Test nonce for bank statement",
+                nonce: "Test nonce for passport registration",
                 scope: scope
             );
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share *only one bank statement* using Passport.\n\n" +
+                "Share *2 files for passport registration as documents with their translations* using Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
@@ -72,22 +77,40 @@ namespace IntegrationTests
 
             Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
 
+            RSA key = EncryptionKey.ReadAsRsa();
+            IDecrypter decrypter = new Decrypter(key);
+            Credentials credentials = decrypter.DecryptCredentials(passportUpdate.Message.PassportData.Credentials);
+
+            Assert.Equal("Test nonce for passport registration", credentials.Nonce);
+
             _classFixture.AuthorizationRequest = authReq;
+            _classFixture.Credentials = credentials;
             _classFixture.Message = passportUpdate.Message;
         }
 
-        [OrderedFact("Should set an unspecified error for the whole document")]
-        public async Task Should_set_error_unspecified()
+        [OrderedFact("Should set multiple errors for passport registration")]
+        public async Task Should_set_errors_for_passport_registration()
         {
             AuthorizationRequest authReq = _classFixture.AuthorizationRequest;
+            Credentials credentials = _classFixture.Credentials;
             Message passportMessage = _classFixture.Message;
 
             PassportElementError[] errors =
             {
-                new PassportElementErrorUnspecified(
-                    PassportEnums.Scope.BankStatement,
-                    passportMessage.PassportData.Data.Single().Hash,
-                    "Address is NOT mentioned in this document"
+                new PassportElementErrorFiles(
+                    PassportEnums.Scope.PassportRegistration,
+                    credentials.SecureData.PassportRegistration.Files.Select(fc => fc.FileHash),
+                    "Uploaded files are blury"
+                ),
+                new PassportElementErrorFile(
+                    PassportEnums.Scope.PassportRegistration,
+                    credentials.SecureData.PassportRegistration.Files[1].FileHash,
+                    "This second file is invalid too"
+                ),
+                new PassportElementErrorTranslationFiles(
+                    PassportEnums.Scope.PassportRegistration,
+                    credentials.SecureData.PassportRegistration.Translation.Select(fc => fc.FileHash),
+                    "Translations are no good"
                 ),
             };
 
@@ -98,7 +121,7 @@ namespace IntegrationTests
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "An error is set on the bank statement.\n" +
+                "Errors are set on all the files for passport registration document.\n" +
                 "You can see error message with opening the request link again.",
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
                     "Passport Authorization Request",
@@ -110,6 +133,8 @@ namespace IntegrationTests
         public class Fixture
         {
             public Message Message;
+
+            public Credentials Credentials;
 
             public AuthorizationRequest AuthorizationRequest;
         }

@@ -15,9 +15,9 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.DriverLicenseErrors)]
+    [Collection(Constants.TestCollections.IdentityCardErrors)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class DriverLicenseErrorTests : IClassFixture<DriverLicenseErrorTests.Fixture>
+    public class IdentityCardErrorTests : IClassFixture<IdentityCardErrorTests.Fixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -25,7 +25,7 @@ namespace IntegrationTests
 
         private readonly Fixture _classFixture;
 
-        public DriverLicenseErrorTests(TestsFixture fixture, Fixture classFixture)
+        public IdentityCardErrorTests(TestsFixture fixture, Fixture classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -48,7 +48,7 @@ namespace IntegrationTests
             {
                 Data = new[]
                 {
-                    new PassportScopeElementOne(PassportEnums.Scope.DriverLicense)
+                    new PassportScopeElementOne(PassportEnums.Scope.IdentityCard)
                     {
                         Selfie = true,
                         Translation = true,
@@ -58,13 +58,13 @@ namespace IntegrationTests
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                nonce: "TEST",
+                nonce: "Test nonce for identity card",
                 scope: scope
             );
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your *driver license with its translation and a selfie* using Passport.\n\n" +
+                "Share your *identity card* with its *translation* and a *selfie* using Telegram Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
@@ -75,26 +75,21 @@ namespace IntegrationTests
                 )
             );
 
-            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                u => u.Message?.PassportData != null,
-                updateTypes: UpdateType.Message
-            );
-
-            Update passportUpdate = Assert.Single(updates);
+            Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
 
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter(key);
             Credentials credentials = decrypter.DecryptCredentials(passportUpdate.Message.PassportData.Credentials);
 
-            Assert.Equal("TEST", credentials.Nonce);
+            Assert.Equal("Test nonce for identity card", credentials.Nonce);
 
             _classFixture.AuthorizationRequest = authReq;
             _classFixture.Credentials = credentials;
             _classFixture.Message = passportUpdate.Message;
         }
 
-        [OrderedFact("Should set error for selfie of deriver license")]
-        public async Task Should_set_error_selfie()
+        [OrderedFact("Should set multiple errors for identity card")]
+        public async Task Should_set_errors_identity_card()
         {
             AuthorizationRequest authReq = _classFixture.AuthorizationRequest;
             Credentials credentials = _classFixture.Credentials;
@@ -103,30 +98,30 @@ namespace IntegrationTests
             PassportElementError[] errors =
             {
                 new PassportElementErrorDataField(
-                    PassportEnums.Scope.DriverLicense,
+                    PassportEnums.Scope.IdentityCard,
                     "document_no",
-                    credentials.SecureData.DriverLicense.Data.DataHash,
-                    "Invalid license number."
+                    credentials.SecureData.IdentityCard.Data.DataHash,
+                    "Invalid card number"
                 ),
                 new PassportElementErrorFrontSide(
-                    PassportEnums.Scope.DriverLicense,
-                    credentials.SecureData.DriverLicense.FrontSide.FileHash,
-                    "Document scan is redacted."
+                    PassportEnums.Scope.IdentityCard,
+                    credentials.SecureData.IdentityCard.FrontSide.FileHash,
+                    "Document scan is redacted"
                 ),
                 new PassportElementErrorReverseSide(
-                    PassportEnums.Scope.DriverLicense,
-                    credentials.SecureData.DriverLicense.ReverseSide.FileHash,
-                    "Bar code is not readable."
+                    PassportEnums.Scope.IdentityCard,
+                    credentials.SecureData.IdentityCard.ReverseSide.FileHash,
+                    "Bar code is not readable"
                 ),
                 new PassportElementErrorSelfie(
-                    PassportEnums.Scope.DriverLicense,
-                    credentials.SecureData.DriverLicense.Selfie.FileHash,
-                    "This is Mr. Bean. Not you!"
+                    PassportEnums.Scope.IdentityCard,
+                    credentials.SecureData.IdentityCard.Selfie.FileHash,
+                    "This is Mr. Bean. Not you"
                 ),
                 new PassportElementErrorTranslationFile(
-                    PassportEnums.Scope.DriverLicense,
-                    credentials.SecureData.DriverLicense.Translation[0].FileHash,
-                    "Document photo is blury."
+                    PassportEnums.Scope.IdentityCard,
+                    credentials.SecureData.IdentityCard.Translation[0].FileHash,
+                    "Document photo is blury"
                 ),
             };
 
@@ -137,7 +132,7 @@ namespace IntegrationTests
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Errors are set on all driver license data.\n" +
+                "Errors are set on all identity card data.\n" +
                 "You can see error message with opening the request link again.",
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
                     "Passport Authorization Request",

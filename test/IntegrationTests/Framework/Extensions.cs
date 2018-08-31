@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -33,6 +34,16 @@ namespace IntegrationTests.Framework
             return string.Join(", ",
                 updateReceiver.AllowedUsernames.Select(username => username.Replace("_", "\\_"))
             );
+        }
+
+        public static async Task<Update> GetPassportUpdate(this UpdateReceiver receiver)
+        {
+            var updates = await receiver.GetUpdatesAsync(
+                u => u.Message?.PassportData != null,
+                updateTypes: UpdateType.Message
+            );
+            await receiver.DiscardNewUpdatesAsync();
+            return updates[0];
         }
     }
 }

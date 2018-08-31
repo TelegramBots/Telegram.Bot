@@ -1,10 +1,12 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
 
-using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
+using IntegrationTests.Framework.Fixtures;
 using Telegram.Bot;
+using Telegram.Bot.Passport;
 using Telegram.Bot.Passport.Request;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -14,17 +16,17 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.UnspecifiedError)]
+    [Collection(Constants.TestCollections.PhoneAndEmail)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class UnspecifiedErrorTests : IClassFixture<UnspecifiedErrorTests.Fixture>
+    public class PhoneAndEmailTests : IClassFixture<EntityFixture<Update>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly TestsFixture _fixture;
 
-        private readonly Fixture _classFixture;
+        private readonly EntityFixture<Update> _classFixture;
 
-        public UnspecifiedErrorTests(TestsFixture fixture, Fixture classFixture)
+        public PhoneAndEmailTests(TestsFixture fixture, EntityFixture<Update> classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -47,19 +49,20 @@ namespace IntegrationTests
             {
                 Data = new[]
                 {
-                    new PassportScopeElementOne(PassportEnums.Scope.BankStatement),
+                    new PassportScopeElementOne(PassportEnums.Scope.PhoneNumber),
+                    new PassportScopeElementOne(PassportEnums.Scope.Email),
                 }
             };
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                nonce: "Test nonce for bank statement",
+                nonce: "Test nonce for phone and email",
                 scope: scope
             );
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share *only one bank statement* using Passport.\n\n" +
+                "Share your *phone number* and *email address* with bot using Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
@@ -71,47 +74,50 @@ namespace IntegrationTests
             );
 
             Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
-
-            _classFixture.AuthorizationRequest = authReq;
-            _classFixture.Message = passportUpdate.Message;
+            _classFixture.Entity = passportUpdate;
         }
 
-        [OrderedFact("Should set an unspecified error for the whole document")]
-        public async Task Should_set_error_unspecified()
+        [OrderedFact("Should validate values in the Passport massage")]
+        public void Should_validate_passport_message()
         {
-            AuthorizationRequest authReq = _classFixture.AuthorizationRequest;
-            Message passportMessage = _classFixture.Message;
+            Update update = _classFixture.Entity;
+            PassportData passportData = update.Message.PassportData;
 
-            PassportElementError[] errors =
-            {
-                new PassportElementErrorUnspecified(
-                    PassportEnums.Scope.BankStatement,
-                    passportMessage.PassportData.Data.Single().Hash,
-                    "Address is NOT mentioned in this document"
-                ),
-            };
+            EncryptedPassportElement phoneElement = Assert.Single(passportData.Data, el => el.Type == "phone_number");
+            Assert.NotNull(phoneElement);
+            Assert.Equal(PassportEnums.Scope.PhoneNumber, phoneElement.Type);
+            Assert.NotEmpty(phoneElement.PhoneNumber);
+            Assert.True(long.TryParse(phoneElement.PhoneNumber, out _));
+            Assert.NotEmpty(phoneElement.Hash);
 
-            await BotClient.SetPassportDataErrorsAsync(
-                passportMessage.From.Id,
-                errors
-            );
+            EncryptedPassportElement emailElement = Assert.Single(passportData.Data, el => el.Type == "email");
+            Assert.NotNull(emailElement);
+            Assert.Equal(PassportEnums.Scope.Email, emailElement.Type);
+            Assert.NotEmpty(emailElement.Email);
+            Assert.NotEmpty(emailElement.Hash);
 
-            await BotClient.SendTextMessageAsync(
-                _fixture.SupergroupChat,
-                "An error is set on the bank statement.\n" +
-                "You can see error message with opening the request link again.",
-                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
-                    "Passport Authorization Request",
-                    $"https://telegrambots.github.io/Telegram.Bot.Extensions.Passport/redirect.html?{authReq.Query}"
-                )
-            );
+            Assert.NotNull(passportData.Credentials);
+            Assert.NotEmpty(passportData.Credentials.Data);
+            Assert.NotEmpty(passportData.Credentials.Hash);
+            Assert.NotEmpty(passportData.Credentials.Secret);
         }
 
-        public class Fixture
+        [OrderedFact("Should decrypt and validate credentials")]
+        public void Should_decrypt_credentials()
         {
-            public Message Message;
+            Update update = _classFixture.Entity;
+            PassportData passportData = update.Message.PassportData;
+            RSA key = EncryptionKey.ReadAsRsa();
 
-            public AuthorizationRequest AuthorizationRequest;
+            IDecrypter decrypter = new Decrypter(key);
+
+            Credentials credentials = decrypter.DecryptCredentials(
+                encryptedCredentials: passportData.Credentials
+            );
+
+            Assert.NotNull(credentials);
+            Assert.NotNull(credentials.SecureData);
+            Assert.Equal("Test nonce for phone and email", credentials.Nonce);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace IntegrationTests
     /// <summary>
     /// Tests for request personal details using Telegram Passport v1.1
     /// </summary>
-    [Collection(Constants.TestCollections.PersonalDetails2)]
+    [Collection(Constants.TestCollections.PersonalDetails)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PersonalDetailsTests : IClassFixture<EntityFixture<Update>>
     {
@@ -38,7 +38,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should generate passport authorization request link")]
-        public async Task Should_Generate_Authorize_Link()
+        public async Task Should_generate_auth_link()
         {
             const string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
                                      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
@@ -62,13 +62,13 @@ namespace IntegrationTests
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                nonce: "TEST",
+                nonce: "Test nonce for personal details",
                 scope: scope
             );
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your *personal details* with bot using *Passport v1.1*.\n\n" +
+                "Share your *personal details* with bot using Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
@@ -79,18 +79,12 @@ namespace IntegrationTests
                 )
             );
 
-            Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                u => u.Message?.PassportData != null,
-                updateTypes: UpdateType.Message
-            );
-
-            Update passportUpdate = Assert.Single(updates);
-
+            Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
             _classFixture.Entity = passportUpdate;
         }
 
         [OrderedFact("Should validate personal details in a Passport massage")]
-        public void Should_Validate_Passport_Update()
+        public void Should_validate_passport_update()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -107,22 +101,32 @@ namespace IntegrationTests
             Assert.NotEmpty(passportData.Credentials.Secret);
         }
 
-        [OrderedFact("Should decrypt personal details values")]
-        public void Should_Decrypt_Passport_Update()
+        [OrderedFact("Should decrypt and validate credentials")]
+        public void Should_decrypt_credentials()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
-            EncryptedPassportElement element = passportData.Data.Single();
             RSA key = EncryptionKey.ReadAsRsa();
 
             IDecrypter decrypter = new Decrypter(key);
-
             Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             Assert.NotNull(credentials);
             Assert.NotEmpty(credentials.Nonce);
-            Assert.Equal("TEST", credentials.Nonce);
+            Assert.Equal("Test nonce for personal details", credentials.Nonce);
             Assert.NotNull(credentials.SecureData);
+        }
+
+        [OrderedFact("Should decrypt data of 'personal_details' element")]
+        public void Should_decreypt_data()
+        {
+            Update update = _classFixture.Entity;
+            PassportData passportData = update.Message.PassportData;
+            EncryptedPassportElement element = passportData.Data.Single();
+
+            RSA key = EncryptionKey.ReadAsRsa();
+            IDecrypter decrypter = new Decrypter(key);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
 
             string personalDetailsJson = decrypter.DecryptData(
                 element.Data,

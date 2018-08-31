@@ -10,15 +10,15 @@ namespace IntegrationTests.Framework
     {
         private readonly string[] _orderedCollections =
         {
+            Constants.TestCollections.PersonalDetails,
             Constants.TestCollections.ResidentialAddress,
             Constants.TestCollections.DriverLicense,
-            Constants.TestCollections.PhoneEmail,
-            Constants.TestCollections.Passport,
 
-            Constants.TestCollections.PersonalDetails2,
+            Constants.TestCollections.PhoneAndEmail,
             Constants.TestCollections.RentalAgreementAndBill,
 
-            Constants.TestCollections.DriverLicenseErrors,
+            Constants.TestCollections.IdentityCardErrors,
+            Constants.TestCollections.PassportRegistrationErrors,
             Constants.TestCollections.UnspecifiedError,
         };
 
