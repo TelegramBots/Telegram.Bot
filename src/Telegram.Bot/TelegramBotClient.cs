@@ -26,6 +26,9 @@ namespace Telegram.Bot
     /// </summary>
     public class TelegramBotClient : ITelegramBotClient
     {
+        /// <inheritdoc/>
+        public int BotId { get; }
+
         private static readonly Update[] EmptyUpdates = { };
 
         private const string BaseUrl = "https://api.telegram.org/bot";
@@ -157,7 +160,20 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, HttpClient httpClient = null)
         {
-            _token = token;
+            _token = token ?? throw new ArgumentNullException(nameof(token));
+            string[] parts = _token.Split(':');
+            if (int.TryParse(parts[0], out int id))
+            {
+                BotId = id;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
+                    nameof(token)
+                );
+            }
+
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
         }
@@ -170,14 +186,26 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, IWebProxy webProxy)
         {
+            _token = token ?? throw new ArgumentNullException(nameof(token));
+            string[] parts = _token.Split(':');
+            if (int.TryParse(parts[0], out int id))
+            {
+                BotId = id;
+            }
+            else
+            {
+                throw new ArgumentException(
+                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
+                    nameof(token)
+                );
+            }
+
+            _baseRequestUrl = $"{BaseUrl}{_token}/";
             var httpClientHander = new HttpClientHandler
             {
                 Proxy = webProxy,
                 UseProxy = true
             };
-
-            _token = token;
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = new HttpClient(httpClientHander);
         }
 

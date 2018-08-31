@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `EncryptedPassportElement`
 - Type `PassportData`
 - Type `PassportFile`
+- Property `ITelegramBotClient.BotId`
 - Property `Message.PassportData`
 
 ## [14.9.0] - 2018-08-06

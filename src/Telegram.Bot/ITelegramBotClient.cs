@@ -20,6 +20,12 @@ namespace Telegram.Bot
     /// </summary>
     public interface ITelegramBotClient
     {
+        /// <summary>
+        /// Unique identifier for the bot from bot token. For example, for the bot token
+        /// "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy", the bot id is "1234567".
+        /// </summary>
+        int BotId { get; }
+
         #region Config Properties
 
         /// <summary>
