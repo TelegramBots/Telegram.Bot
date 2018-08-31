@@ -1,4 +1,8 @@
-﻿using System;
+﻿/* Telegram Passport Quickstart. Read the documentations at:
+ * https://telegrambots.github.io/book/4/passport/quickstart.html
+ */
+
+using System;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
