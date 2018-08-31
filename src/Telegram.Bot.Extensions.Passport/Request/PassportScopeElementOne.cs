@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable once CheckNamespace
@@ -15,7 +16,7 @@ namespace Telegram.Bot.Passport.Request
         /// Element type. One of <see cref="PassportEnums.Scope"/>
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Type { get; set; }
+        public string Type { get; }
 
         /// <summary>
         /// Optional. Use this parameter if you want to request a selfie with the document as well.
@@ -40,9 +41,14 @@ namespace Telegram.Bot.Passport.Request
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? NativeNames { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="PassportScopeElementOne"/> with required parameter
+        /// </summary>
+        /// <param name="type">Element type. One of <see cref="PassportEnums.Scope"/></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public PassportScopeElementOne(string type)
         {
-            Type = type;
+            Type = type ?? throw new ArgumentNullException(nameof(type));
         }
     }
 }

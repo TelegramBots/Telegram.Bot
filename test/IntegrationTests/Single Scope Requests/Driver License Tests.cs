@@ -45,18 +45,14 @@ namespace IntegrationTests
                                      "BHGkV0POQMkkBrvvhAIQu222j+03frm9b2yZrhX/qS01lyjW4VaQytGV0wlewV6B\n" +
                                      "FwIDAQAB\n" +
                                      "-----END PUBLIC KEY-----";
-
-            PassportScope scope = new PassportScope
+            PassportScope scope = new PassportScope(new[]
             {
-                Data = new[]
+                new PassportScopeElementOne(PassportEnums.Scope.DriverLicense)
                 {
-                    new PassportScopeElementOne(PassportEnums.Scope.DriverLicense)
-                    {
-                        Selfie = true,
-                        Translation = true,
-                    },
-                }
-            };
+                    Selfie = true,
+                    Translation = true,
+                },
+            });
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,

@@ -46,10 +46,10 @@ namespace IntegrationTests
                                      "FwIDAQAB\n" +
                                      "-----END PUBLIC KEY-----";
 
-            PassportScope scope = new PassportScope
+            PassportScope scope = new PassportScope(new[]
             {
-                Data = new[] {new PassportScopeElementOne(PassportEnums.Scope.Address),}
-            };
+                new PassportScopeElementOne(PassportEnums.Scope.Address)
+            });
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,

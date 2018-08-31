@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -17,7 +18,7 @@ namespace Telegram.Bot.Passport.Request
         /// "rental_agreement", "passport_registration", "temporary_registration"
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public IEnumerable<PassportScopeElementOne> OneOf { get; set; }
+        public IEnumerable<PassportScopeElementOne> OneOf { get; }
 
         /// <summary>
         /// Optional. Use this parameter if you want to request a selfie with the document from this list that
@@ -33,5 +34,19 @@ namespace Telegram.Bot.Passport.Request
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? Translation { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="PassportScopeElementOneOfSeveral"/> with required parameter
+        /// </summary>
+        /// <param name="oneOf">
+        /// List of elements one of which must be provided; must contain either several of "passport",
+        /// "driver_license", "identity_card", "internal_passport" or several of "utility_bill", "bank_statement",
+        /// "rental_agreement", "passport_registration", "temporary_registration"
+        /// </param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public PassportScopeElementOneOfSeveral(IEnumerable<PassportScopeElementOne> oneOf)
+        {
+            OneOf = oneOf ?? throw new ArgumentNullException(nameof(oneOf));
+        }
     }
 }

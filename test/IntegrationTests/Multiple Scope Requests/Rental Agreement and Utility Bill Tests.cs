@@ -44,32 +44,26 @@ namespace IntegrationTests
                                      "BHGkV0POQMkkBrvvhAIQu222j+03frm9b2yZrhX/qS01lyjW4VaQytGV0wlewV6B\n" +
                                      "FwIDAQAB\n" +
                                      "-----END PUBLIC KEY-----";
-
-            PassportScope scope = new PassportScope
+            PassportScope scope = new PassportScope(new[]
             {
-                Data = new[]
+                new PassportScopeElementOneOfSeveral(new[]
                 {
-                    new PassportScopeElementOneOfSeveral
-                    {
-                        OneOf = new[]
-                        {
-                            new PassportScopeElementOne(PassportEnums.Scope.IdentityCard),
-                            new PassportScopeElementOne(PassportEnums.Scope.Passport),
-                        },
-                        Selfie = true, // selfie can only be requested for documents used as proof of identity
-                    },
-                    new PassportScopeElementOneOfSeveral
-                    {
-                        OneOf = new[]
-                        {
-                            new PassportScopeElementOne(PassportEnums.Scope.UtilityBill),
-                            new PassportScopeElementOne(PassportEnums.Scope.RentalAgreement),
-                        },
-                        Translation = true,
-                        // Selfie = null // selfie cannot be requested for documents used as proof of address
-                    },
-                }
-            };
+                    new PassportScopeElementOne(PassportEnums.Scope.IdentityCard),
+                    new PassportScopeElementOne(PassportEnums.Scope.Passport),
+                })
+                {
+                    Selfie = true, // selfie can only be requested for documents used as proof of identity
+                },
+                new PassportScopeElementOneOfSeveral(new[]
+                {
+                    new PassportScopeElementOne(PassportEnums.Scope.UtilityBill),
+                    new PassportScopeElementOne(PassportEnums.Scope.RentalAgreement),
+                })
+                {
+                    Translation = true,
+                    // Selfie = null // selfie cannot be requested for documents used as proof of address
+                },
+            });
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,

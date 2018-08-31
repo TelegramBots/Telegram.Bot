@@ -5,7 +5,7 @@
     <VersionSuffix>alpha</VersionSuffix>
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <!--<GenerateDocumentationFile>True</GenerateDocumentationFile>-->
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Passport Extension for Telegram Bot API Client</Title>
     <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
     <Authors>TelegramBots</Authors>
