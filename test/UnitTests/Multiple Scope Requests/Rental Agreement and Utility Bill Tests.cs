@@ -2,14 +2,12 @@
 // ReSharper disable CheckNamespace
 
 using System;
-using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
-using File = Telegram.Bot.Types.File;
 
 namespace UnitTests
 {
@@ -122,8 +120,10 @@ namespace UnitTests
 
             await System.IO.File.WriteAllBytesAsync("Files/identity_card-front_side.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
@@ -161,8 +161,10 @@ namespace UnitTests
 
             await System.IO.File.WriteAllBytesAsync("Files/identity_card-reverse_side.jpg", encryptedContent);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
@@ -199,8 +201,10 @@ namespace UnitTests
 
             await System.IO.File.WriteAllBytesAsync("Files/identity_card-selfie.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
@@ -241,8 +245,10 @@ namespace UnitTests
 
             await System.IO.File.WriteAllBytesAsync("Files/utility_bill.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
@@ -283,8 +289,10 @@ namespace UnitTests
 
             await System.IO.File.WriteAllBytesAsync("Files/utility_bill-translation.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,

@@ -1,6 +1,7 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
 
+using System;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
@@ -106,12 +107,15 @@ namespace IntegrationTests
 
             Assert.NotNull(idCardEl.FrontSide);
             Assert.NotEmpty(idCardEl.FrontSide.FileId);
+            Assert.InRange(idCardEl.FrontSide.FileDate, new DateTime(2018, 6, 1), DateTime.UtcNow);
 
             Assert.NotNull(idCardEl.ReverseSide);
             Assert.NotEmpty(idCardEl.ReverseSide.FileId);
+            Assert.InRange(idCardEl.ReverseSide.FileDate, new DateTime(2018, 6, 1), DateTime.UtcNow);
 
             Assert.NotNull(idCardEl.Selfie);
             Assert.NotEmpty(idCardEl.Selfie.FileId);
+            Assert.InRange(idCardEl.Selfie.FileDate, new DateTime(2018, 6, 1), DateTime.UtcNow);
 
             #endregion
 
@@ -127,10 +131,12 @@ namespace IntegrationTests
             PassportFile billScanFile = Assert.Single(billElement.Files);
             Assert.NotNull(billScanFile);
             Assert.NotEmpty(billScanFile.FileId);
+            Assert.InRange(billScanFile.FileDate, new DateTime(2018, 6, 1), DateTime.UtcNow);
 
             PassportFile billTranslationFile = Assert.Single(billElement.Files);
             Assert.NotNull(billTranslationFile);
             Assert.NotEmpty(billTranslationFile.FileId);
+            Assert.InRange(billTranslationFile.FileDate, new DateTime(2018, 6, 1), DateTime.UtcNow);
 
             #endregion
 
@@ -197,7 +203,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt docuemnt data in 'identity_card' element")]
-        public void Should_decreypt_identity_card_element_document()
+        public void Should_decrypt_identity_card_element_document()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -231,15 +237,12 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt front side photo in 'identity_card' element")]
-        public async Task Should_decreypt_identity_card_element_frontside()
+        public async Task Should_decrypt_identity_card_element_frontside()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
-
-            Assert.NotNull(idCardEl.FrontSide);
-            Assert.NotEmpty(idCardEl.FrontSide.FileId);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
@@ -270,9 +273,6 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
-            Assert.NotNull(idCardEl.ReverseSide);
-            Assert.NotEmpty(idCardEl.ReverseSide.FileId);
-
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
@@ -295,15 +295,12 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt selfie photo in 'identity_card' element")]
-        public async Task Should_decreypt_identity_card_element_selfie()
+        public async Task Should_decrypt_identity_card_element_selfie()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
-
-            Assert.NotNull(idCardEl.Selfie);
-            Assert.NotEmpty(idCardEl.Selfie.FileId);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
@@ -327,75 +324,65 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt the single file in 'utility_bill' element")]
-        public async Task Should_decreypt_utility_bill_element_file()
+        public async Task Should_decrypt_utility_bill_element_file()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement billElement = Assert.Single(passportData.Data, el => el.Type == "utility_bill");
 
-            Assert.NotNull(billElement.Files);
             PassportFile billScanFile = Assert.Single(billElement.Files);
-
-            Assert.NotEmpty(billScanFile.FileId);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             FileCredentials billFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Files);
 
-            byte[] encryptedContent;
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream(billScanFile.FileSize))
+            File encryptedFileInfo;
+            using (System.IO.Stream decryptedFile = new System.IO.MemoryStream())
             {
-                await BotClient.GetInfoAndDownloadFileAsync(
-                    billScanFile.FileId,
-                    stream
+                encryptedFileInfo = await BotClient.DownloadAndDecryptPassportFileAsync(
+                    billScanFile,
+                    billFileCreds,
+                    decryptedFile
                 );
-                encryptedContent = stream.ToArray();
+                Assert.Equal(billScanFile.FileSize, decryptedFile.Length);
             }
 
-            byte[] content = decrypter.DecryptFile(
-                encryptedContent,
-                billFileCreds
-            );
-
-            Assert.NotEmpty(content);
+            Assert.NotEmpty(encryptedFileInfo.FilePath);
+            Assert.NotEmpty(encryptedFileInfo.FileId);
+            Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
         }
 
         [OrderedFact("Should decrypt the single translation file in 'utility_bill' element")]
-        public async Task Should_decreypt_utility_bill_element_translation()
+        public async Task Should_decrypt_utility_bill_element_translation()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement billElement = Assert.Single(passportData.Data, el => el.Type == "utility_bill");
 
-            Assert.NotNull(billElement.Translation);
             PassportFile translationFile = Assert.Single(billElement.Translation);
-
-            Assert.NotEmpty(translationFile.FileId);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             FileCredentials billTranslationFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Translation);
 
-            byte[] encryptedContent;
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream(translationFile.FileSize))
+            File encryptedFileInfo;
+            using (System.IO.Stream decryptedFile = new System.IO.MemoryStream())
             {
-                await BotClient.GetInfoAndDownloadFileAsync(
-                    translationFile.FileId,
-                    stream
+                encryptedFileInfo = await BotClient.DownloadAndDecryptPassportFileAsync(
+                    translationFile,
+                    billTranslationFileCreds,
+                    decryptedFile
                 );
-                encryptedContent = stream.ToArray();
+                Assert.Equal(translationFile.FileSize, decryptedFile.Length);
             }
 
-            byte[] content = decrypter.DecryptFile(
-                encryptedContent,
-                billTranslationFileCreds
-            );
-
-            Assert.NotEmpty(content);
+            Assert.NotEmpty(encryptedFileInfo.FilePath);
+            Assert.NotEmpty(encryptedFileInfo.FileId);
+            Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
         }
     }
 }

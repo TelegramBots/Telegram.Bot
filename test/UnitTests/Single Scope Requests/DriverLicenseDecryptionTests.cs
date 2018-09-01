@@ -3,7 +3,6 @@
 // ReSharper disable CheckNamespace
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ using Newtonsoft.Json;
 using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
-using File = Telegram.Bot.Types.File;
 
 namespace UnitTests
 {
@@ -105,8 +103,10 @@ namespace UnitTests
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-front_side.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
@@ -127,7 +127,8 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-reverse_side.jpg.enc");
+            byte[] encryptedContent =
+                await System.IO.File.ReadAllBytesAsync("Files/driver_license-reverse_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.DriverLicense.ReverseSide
@@ -135,8 +136,10 @@ namespace UnitTests
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-reverse_side.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
@@ -165,8 +168,10 @@ namespace UnitTests
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-selfie.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
@@ -187,7 +192,8 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-translation0.jpg.enc");
+            byte[] encryptedContent =
+                await System.IO.File.ReadAllBytesAsync("Files/driver_license-translation0.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.DriverLicense.Translation.Single()
@@ -195,8 +201,10 @@ namespace UnitTests
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-translation0.jpg", content);
 
-            using (var encryptedFileStream = new MemoryStream(encryptedContent))
-            using (var decryptedFileStream = new MemoryStream())
+            using (System.IO.MemoryStream
+                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
+                decryptedFileStream = new System.IO.MemoryStream()
+            )
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,

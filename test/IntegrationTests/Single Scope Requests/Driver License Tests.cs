@@ -98,24 +98,27 @@ namespace IntegrationTests
 
             Assert.NotNull(encryptedElement.FrontSide);
             Assert.NotEmpty(encryptedElement.FrontSide.FileId);
+            Assert.InRange(encryptedElement.FrontSide.FileSize, 1_000, 50_000_000);
 
             Assert.NotNull(encryptedElement.ReverseSide);
             Assert.NotEmpty(encryptedElement.ReverseSide.FileId);
+            Assert.InRange(encryptedElement.ReverseSide.FileSize, 1_000, 50_000_000);
 
-            if (encryptedElement.Selfie != null)
-            {
-                Assert.NotEmpty(encryptedElement.Selfie.FileId);
-            }
+            Assert.NotNull(encryptedElement.Selfie);
+            Assert.NotEmpty(encryptedElement.Selfie.FileId);
+            Assert.InRange(encryptedElement.Selfie.FileSize, 1_000, 50_000_000);
 
-            if (encryptedElement.Translation != null)
-            {
-                Assert.NotEmpty(encryptedElement.Translation);
-                Assert.All(encryptedElement.Translation, Assert.NotNull);
-                Assert.All(
-                    encryptedElement.Translation,
-                    trnsltn => Assert.NotEmpty(trnsltn.FileId)
-                );
-            }
+            Assert.NotNull(encryptedElement.Translation);
+            Assert.NotEmpty(encryptedElement.Translation);
+            Assert.All(encryptedElement.Translation, Assert.NotNull);
+            Assert.All(
+                encryptedElement.Translation,
+                trnsltn => Assert.NotEmpty(trnsltn.FileId)
+            );
+            Assert.All(
+                encryptedElement.Translation,
+                trnsltn => Assert.InRange(trnsltn.FileSize, 1_000, 50_000_000)
+            );
 
             Assert.NotNull(passportData.Credentials);
             Assert.NotEmpty(passportData.Credentials.Data);

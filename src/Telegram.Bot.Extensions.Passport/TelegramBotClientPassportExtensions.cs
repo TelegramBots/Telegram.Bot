@@ -61,14 +61,9 @@ namespace Telegram.Bot
         )
         {
             if (passportFile == null)
-            {
                 throw new ArgumentNullException(nameof(passportFile));
-            }
-
             if (!destination.CanWrite)
-            {
                 throw new ArgumentException("Stream msut be writable.", nameof(destination));
-            }
 
             File fileInfo;
 
