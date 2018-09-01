@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Telegram.Bot.Extensions.Passport;
 using Telegram.Bot.Types.Passport;
 
 // ReSharper disable once CheckNamespace
@@ -67,25 +68,81 @@ namespace Telegram.Bot.Passport
             CancellationToken cancellationToken = default
         )
         {
-            if (encryptedContent == null)
+            encryptedContent = encryptedContent ?? throw new ArgumentNullException(nameof(encryptedContent));
+            fileCredentials = fileCredentials ?? throw new ArgumentNullException(nameof(fileCredentials));
+
+            byte[] hash, secret;
+            hash = Convert.FromBase64String(fileCredentials.FileHash);
+            secret = Convert.FromBase64String(fileCredentials.Secret);
+
+            byte[] aesKey, aesIv;
+
+            #region Step 1: compute aes Key and IV
+
             {
-                throw new ArgumentNullException(nameof(encryptedContent));
+                byte[] dataSecretHash;
+                using (SHA512 sha512 = SHA512.Create())
+                {
+                    byte[] secretAndHashBytes = new byte[secret.Length + hash.Length];
+                    Array.Copy(secret, 0, secretAndHashBytes, 0, secret.Length);
+                    Array.Copy(hash, 0, secretAndHashBytes, secret.Length, hash.Length);
+                    dataSecretHash = sha512.ComputeHash(secretAndHashBytes);
+                }
+
+                aesKey = new byte[32];
+                Array.Copy(dataSecretHash, 0, aesKey, 0, 32);
+
+                aesIv = new byte[16];
+                Array.Copy(dataSecretHash, 32, aesIv, 0, 16);
             }
 
-            if (fileCredentials == null)
+            #endregion
+
+            #region Step 2.1, 2.2 and 3: decrypt, verify, remove paddding
+
+            using (var aes = Aes.Create())
             {
-                throw new ArgumentNullException(nameof(fileCredentials));
+                aes.KeySize = 256;
+                aes.Mode = CipherMode.CBC;
+                aes.Key = aesKey;
+                aes.IV = aesIv;
+                aes.Padding = PaddingMode.None;
+
+                using (var decryptor = aes.CreateDecryptor())
+                using (CryptoStream aesStream = new CryptoStream(encryptedContent, decryptor, CryptoStreamMode.Read))
+                using (var sha256 = SHA256.Create())
+                using (CryptoStream shaStream = new CryptoStream(aesStream, sha256, CryptoStreamMode.Read))
+                {
+                    byte[] buffer = new byte[81920]; // default Stream.CopyTo buffer size
+
+                    int read = await shaStream.ReadAsync(buffer, 0, 81920, cancellationToken).ConfigureAwait(false);
+                    if (read < 0)
+                        throw new DecryptionException("No data in the input stream");
+
+                    int paddingLength = buffer[0];
+                    if (paddingLength < 32)
+                        throw new DecryptionException("Invalid padding size");
+
+                    if (read < paddingLength)
+                        throw new DecryptionException("Invalid data");
+
+                    destination.Write(buffer, paddingLength, read - paddingLength);
+
+                    while ((read = await shaStream.ReadAsync(buffer, 0, 81920, cancellationToken).ConfigureAwait(false)) > 0)
+                    {
+                        await destination.WriteAsync(buffer, 0, read, cancellationToken).ConfigureAwait(false);
+                    }
+
+                    byte[] paddedDataHash = sha256.Hash;
+                    for (int i = 0; i < 32; i++)
+                    {
+                        if (hash[i] != paddedDataHash[i])
+                            throw new DecryptionException("Data hash mismatch");
+                    }
+                }
             }
 
-            encryptedContent.Position = 0;
-            byte[] contentBytes = new byte[encryptedContent.Length];
-            await encryptedContent.ReadAsync(contentBytes, 0, contentBytes.Length, cancellationToken)
-                .ConfigureAwait(false);
-
-            byte[] content = DecryptFile(contentBytes, fileCredentials);
-
-            await destination.WriteAsync(content, 0, content.Length, cancellationToken)
-                .ConfigureAwait(false);
+            #endregion
         }
 
         public byte[] DecryptFile(
@@ -102,16 +159,14 @@ namespace Telegram.Bot.Passport
 
         private static byte[] DecryptDataBytes(byte[] data, byte[] secret, byte[] hash)
         {
-            // ToDo throw DecryptionException
-
             if (data.Length % 16 != 0)
             {
-                throw new Exception($"Invalid data length: {data.Length}");
+                throw new DecryptionException($"Invalid data length: {data.Length}");
             }
 
             if (hash.Length != 32)
             {
-                throw new Exception($"Invalid hash length: {hash.Length}");
+                throw new DecryptionException($"Invalid hash length: {hash.Length}");
             }
 
             byte[] dataKey, dataIv;
@@ -170,7 +225,7 @@ namespace Telegram.Bot.Passport
                 for (int i = 0; i < hash.Length; i++)
                 {
                     if (hash[i] != paddedDataHash[i])
-                        throw new Exception("Data hash mismatch");
+                        throw new DecryptionException("Data hash mismatch");
                 }
             }
 
@@ -184,7 +239,7 @@ namespace Telegram.Bot.Passport
                 int paddingLength = dataWithPadding[0];
                 if (!(32 <= paddingLength && paddingLength < 256))
                 {
-                    throw new Exception("Invalid data padding length");
+                    throw new DecryptionException("Invalid data padding length");
                 }
 
                 int actualDataLength = dataWithPadding.Length - paddingLength;
