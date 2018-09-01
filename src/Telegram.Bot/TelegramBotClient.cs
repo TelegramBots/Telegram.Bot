@@ -784,6 +784,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new GetFileRequest(fileId), cancellationToken);
 
         /// <inheritdoc />
+        [Obsolete("This method will be removed in next major release. Use its overload instead.")]
         public async Task<Stream> DownloadFileAsync(
             string filePath,
             CancellationToken cancellationToken = default
