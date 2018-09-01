@@ -94,16 +94,13 @@ namespace IntegrationTests
 
             Assert.NotNull(encryptedElement.FrontSide);
             Assert.NotEmpty(encryptedElement.FrontSide.FileId);
-            Assert.NotNull(encryptedElement.FrontSide.FileSize);
 
             Assert.NotNull(encryptedElement.ReverseSide);
             Assert.NotEmpty(encryptedElement.ReverseSide.FileId);
-            Assert.NotNull(encryptedElement.ReverseSide.FileSize);
 
             if (encryptedElement.Selfie != null)
             {
                 Assert.NotEmpty(encryptedElement.Selfie.FileId);
-                Assert.NotNull(encryptedElement.Selfie.FileSize);
             }
 
             if (encryptedElement.Translation != null)
@@ -113,10 +110,6 @@ namespace IntegrationTests
                 Assert.All(
                     encryptedElement.Translation,
                     trnsltn => Assert.NotEmpty(trnsltn.FileId)
-                );
-                Assert.All(
-                    encryptedElement.Translation,
-                    trnsltn => Assert.NotNull(trnsltn.FileSize)
                 );
             }
 

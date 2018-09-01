@@ -106,15 +106,12 @@ namespace IntegrationTests
 
             Assert.NotNull(idCardEl.FrontSide);
             Assert.NotEmpty(idCardEl.FrontSide.FileId);
-            Assert.NotNull(idCardEl.FrontSide.FileDate);
 
             Assert.NotNull(idCardEl.ReverseSide);
             Assert.NotEmpty(idCardEl.ReverseSide.FileId);
-            Assert.NotNull(idCardEl.ReverseSide.FileDate);
 
             Assert.NotNull(idCardEl.Selfie);
             Assert.NotEmpty(idCardEl.Selfie.FileId);
-            Assert.NotNull(idCardEl.Selfie.FileDate);
 
             #endregion
 
@@ -130,12 +127,10 @@ namespace IntegrationTests
             PassportFile billScanFile = Assert.Single(billElement.Files);
             Assert.NotNull(billScanFile);
             Assert.NotEmpty(billScanFile.FileId);
-            Assert.NotNull(billScanFile.FileDate);
 
             PassportFile billTranslationFile = Assert.Single(billElement.Files);
             Assert.NotNull(billTranslationFile);
             Assert.NotEmpty(billTranslationFile.FileId);
-            Assert.NotNull(billTranslationFile.FileDate);
 
             #endregion
 
@@ -245,7 +240,6 @@ namespace IntegrationTests
 
             Assert.NotNull(idCardEl.FrontSide);
             Assert.NotEmpty(idCardEl.FrontSide.FileId);
-            Assert.NotNull(idCardEl.FrontSide.FileDate);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
@@ -278,7 +272,6 @@ namespace IntegrationTests
 
             Assert.NotNull(idCardEl.ReverseSide);
             Assert.NotEmpty(idCardEl.ReverseSide.FileId);
-            Assert.NotNull(idCardEl.ReverseSide.FileDate);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
@@ -311,7 +304,6 @@ namespace IntegrationTests
 
             Assert.NotNull(idCardEl.Selfie);
             Assert.NotEmpty(idCardEl.Selfie.FileId);
-            Assert.NotNull(idCardEl.Selfie.FileDate);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
@@ -346,7 +338,6 @@ namespace IntegrationTests
             PassportFile billScanFile = Assert.Single(billElement.Files);
 
             Assert.NotEmpty(billScanFile.FileId);
-            Assert.NotNull(billScanFile.FileDate);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
@@ -383,7 +374,6 @@ namespace IntegrationTests
             PassportFile translationFile = Assert.Single(billElement.Translation);
 
             Assert.NotEmpty(translationFile.FileId);
-            Assert.NotNull(translationFile.FileDate);
 
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
