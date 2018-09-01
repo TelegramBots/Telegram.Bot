@@ -83,11 +83,13 @@ namespace Quickstart
 
         static async Task DecryptPassportDataAsync(Message message)
         {
-            IDecrypter decrypter;
+            IDecrypter decrypter = new Decrypter();
 
             // Step 1: Decrypt credentials
-            decrypter = new Decrypter(GetRsaPrivateKey());
-            Credentials credentials = decrypter.DecryptCredentials(message.PassportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(
+                GetRsaPrivateKey(),
+                message.PassportData.Credentials
+            );
 
             // Step 2: Validate nonce
             if (credentials.Nonce != "Test nonce for this demo")

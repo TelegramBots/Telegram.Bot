@@ -1,6 +1,9 @@
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Types.Passport;
 
@@ -9,22 +12,18 @@ namespace Telegram.Bot.Passport
 {
     public class Decrypter : IDecrypter
     {
-        private readonly RSA _key;
-
-        public Decrypter(RSA key)
-        {
-            _key = key ?? throw new ArgumentNullException(nameof(key));
-        }
-
         public Credentials DecryptCredentials(
+            RSA key,
             EncryptedCredentials encryptedCredentials
         )
         {
+            key = key ?? throw new ArgumentNullException(nameof(key));
+
             byte[] data, hash, secret;
             data = Convert.FromBase64String(encryptedCredentials.Data);
             hash = Convert.FromBase64String(encryptedCredentials.Hash);
             byte[] encryptedSecret = Convert.FromBase64String(encryptedCredentials.Secret);
-            secret = _key.Decrypt(encryptedSecret, RSAEncryptionPadding.OaepSHA1);
+            secret = key.Decrypt(encryptedSecret, RSAEncryptionPadding.OaepSHA1);
 
             byte[] decryptedData = DecryptDataBytes(data, secret, hash);
             string json = Encoding.UTF8.GetString(decryptedData);
@@ -59,6 +58,34 @@ namespace Telegram.Bot.Passport
         {
             string json = DecryptData(encryptedData, dataCredentials);
             return JsonConvert.DeserializeObject<TValue>(json);
+        }
+
+        public async Task DecryptFileAsync(
+            Stream encryptedContent,
+            FileCredentials fileCredentials,
+            Stream destination,
+            CancellationToken cancellationToken = default
+        )
+        {
+            if (encryptedContent == null)
+            {
+                throw new ArgumentNullException(nameof(encryptedContent));
+            }
+
+            if (fileCredentials == null)
+            {
+                throw new ArgumentNullException(nameof(fileCredentials));
+            }
+
+            encryptedContent.Position = 0;
+            byte[] contentBytes = new byte[encryptedContent.Length];
+            await encryptedContent.ReadAsync(contentBytes, 0, contentBytes.Length, cancellationToken)
+                .ConfigureAwait(false);
+
+            byte[] content = DecryptFile(contentBytes, fileCredentials);
+
+            await destination.WriteAsync(content, 0, content.Length, cancellationToken)
+                .ConfigureAwait(false);
         }
 
         public byte[] DecryptFile(

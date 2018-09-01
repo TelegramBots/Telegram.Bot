@@ -22,9 +22,9 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
@@ -44,8 +44,8 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             EncryptedPassportElement addressEl = Assert.Single(passportData.Data, el => el.Type == "address");
 

@@ -74,8 +74,8 @@ namespace IntegrationTests
             Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
 
             RSA key = EncryptionKey.ReadAsRsa();
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportUpdate.Message.PassportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportUpdate.Message.PassportData.Credentials);
 
             Assert.Equal("Test nonce for passport registration", credentials.Nonce);
 

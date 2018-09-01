@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Passport;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Passport;
+using File = Telegram.Bot.Types.File;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot
@@ -30,5 +33,38 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             botClient.MakeRequestAsync(new SetPassportDataErrorsRequest(userId, errors), cancellationToken);
+
+        public static async Task<File> DownloadAndDecryptPassportFileAsync(
+            this ITelegramBotClient botClient,
+            PassportFile passportFile,
+            FileCredentials fileCredentials,
+            Stream destination,
+            CancellationToken cancellationToken = default
+        )
+        {
+            File fileInfo;
+
+            var encryptedContentStream = passportFile.FileSize > 0
+                ? new MemoryStream(passportFile.FileSize)
+                : new MemoryStream();
+
+            using (encryptedContentStream)
+            {
+                fileInfo = await botClient.GetInfoAndDownloadFileAsync(
+                    passportFile.FileId,
+                    encryptedContentStream,
+                    cancellationToken
+                ).ConfigureAwait(false);
+
+                await new Decrypter().DecryptFileAsync(
+                    encryptedContentStream,
+                    fileCredentials,
+                    destination,
+                    cancellationToken
+                ).ConfigureAwait(false);
+            }
+
+            return fileInfo;
+        }
     }
 }

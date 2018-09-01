@@ -62,9 +62,10 @@ namespace IntegrationTests
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your *driver license* with bot using Passport.\n\n" +
+                "Share your *driver license* in addition to *a selfie with it* and *a tranlation scan* " +
+                "with bot using Telegram Passport.\n\n" +
                 "1. Click inline button\n" +
-                "2. Open link in browser to redirect you back to Telegram passport\n" +
+                "2. Open link in browser to so it redirects you to Telegram Passport\n" +
                 "3. Authorize bot to access the info",
                 ParseMode.Markdown,
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
@@ -134,9 +135,9 @@ namespace IntegrationTests
 
             RSA key = EncryptionKey.ReadAsRsa();
 
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             Assert.NotNull(credentials);
             Assert.Equal("Test nonce for driver license", credentials.Nonce);
@@ -172,9 +173,9 @@ namespace IntegrationTests
             PassportData passportData = update.Message.PassportData;
             EncryptedPassportElement element = passportData.Data.Single();
             RSA key = EncryptionKey.ReadAsRsa();
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             string licenseDocJson = decrypter.DecryptData(
                 encryptedData: element.Data,
@@ -205,25 +206,39 @@ namespace IntegrationTests
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+//            using (System.IO.Stream
+//                encryptedContent = new System.IO.MemoryStream(element.FrontSide.FileSize),
+//                decryptedFile = System.IO.File.OpenWrite("/tmp/test-file.jpg")
+//            )
+//            {
+//                await BotClient.GetInfoAndDownloadFileAsync(
+//                    element.FrontSide.FileId,
+//                    encryptedContent
+//                );
+//
+//                await decrypter.DecryptFileAsync(
+//                    encryptedContent,
+//                    credentials.SecureData.DriverLicense.FrontSide,
+//                    decryptedFile
+//                );
+//            }
 
-            byte[] encrypted;
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream(element.FrontSide.FileSize))
+            File encryptedFileInfo;
+            using (System.IO.Stream decryptedFile = System.IO.File.OpenWrite("/tmp/test-file.jpg"))
             {
-                await BotClient.GetInfoAndDownloadFileAsync(
-                    element.FrontSide.FileId,
-                    stream
+                encryptedFileInfo = await BotClient.DownloadAndDecryptPassportFileAsync(
+                    element.FrontSide,
+                    credentials.SecureData.DriverLicense.FrontSide,
+                    decryptedFile
                 );
-                encrypted = stream.ToArray();
             }
 
-            byte[] content = decrypter.DecryptFile(
-                encrypted,
-                credentials.SecureData.DriverLicense.FrontSide
-            );
-            Assert.NotEmpty(content);
+            Assert.NotEmpty(encryptedFileInfo.FilePath);
+            Assert.NotEmpty(encryptedFileInfo.FileId);
+            Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
         }
 
         [OrderedFact("Should decrypt reverse side photo file of 'driver_license' element")]
@@ -233,9 +248,9 @@ namespace IntegrationTests
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encrypted;
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream(element.ReverseSide.FileSize))
@@ -262,8 +277,8 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encrypted;
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream(element.Selfie.FileSize))
@@ -290,8 +305,8 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             for (int i = 0; i < element.Translation.Length; i++)
             {

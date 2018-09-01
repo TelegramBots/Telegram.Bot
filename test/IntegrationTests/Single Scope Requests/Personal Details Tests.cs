@@ -105,8 +105,8 @@ namespace IntegrationTests
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             Assert.NotNull(credentials);
             Assert.NotEmpty(credentials.Nonce);
@@ -122,8 +122,8 @@ namespace IntegrationTests
             EncryptedPassportElement element = passportData.Data.Single();
 
             RSA key = EncryptionKey.ReadAsRsa();
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             string personalDetailsJson = decrypter.DecryptData(
                 element.Data,

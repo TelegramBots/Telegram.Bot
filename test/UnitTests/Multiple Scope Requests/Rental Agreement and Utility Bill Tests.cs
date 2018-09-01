@@ -23,9 +23,9 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(encryptedCredentials: passData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(key, encryptedCredentials: passData.Credentials);
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
@@ -74,8 +74,8 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
@@ -107,8 +107,8 @@ namespace UnitTests
             Assert.InRange(idCardEl.FrontSide.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
             Assert.Equal(0, idCardEl.FrontSide.FileSize);
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/identity_card-front_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
@@ -133,8 +133,8 @@ namespace UnitTests
             Assert.InRange(idCardEl.ReverseSide.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
             Assert.Equal(0, idCardEl.ReverseSide.FileSize);
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encryptedContent =
                 await System.IO.File.ReadAllBytesAsync("Files/identity_card-reverse_side.jpg.enc");
@@ -160,8 +160,8 @@ namespace UnitTests
             Assert.InRange(idCardEl.Selfie.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
             Assert.Equal(0, idCardEl.Selfie.FileSize);
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/identity_card-selfie.jpg.enc");
             byte[] content = decrypter.DecryptFile(
@@ -188,8 +188,8 @@ namespace UnitTests
             Assert.InRange(scanFile.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
             Assert.Equal(0, scanFile.FileSize);
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             FileCredentials billFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Files);
 
@@ -218,8 +218,8 @@ namespace UnitTests
             Assert.InRange(translationFile.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
             Assert.Equal(0, translationFile.FileSize);
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             FileCredentials billTranslationFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Translation);
 

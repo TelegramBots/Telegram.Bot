@@ -105,9 +105,10 @@ namespace IntegrationTests
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
 
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
 
             Credentials credentials = decrypter.DecryptCredentials(
+                key: key,
                 encryptedCredentials: passportData.Credentials
             );
 

@@ -25,9 +25,9 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
+            IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
@@ -64,8 +64,8 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             EncryptedPassportElement licenseEl = Assert.Single(passportData.Data, el => el.Type == "driver_license");
 
@@ -92,8 +92,8 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-front_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
@@ -110,8 +110,8 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-reverse_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
@@ -128,8 +128,8 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-selfie.jpg.enc");
             byte[] content = decrypter.DecryptFile(
@@ -146,8 +146,8 @@ namespace UnitTests
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
-            IDecrypter decrypter = new Decrypter(key);
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials);
+            IDecrypter decrypter = new Decrypter();
+            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-translation0.jpg.enc");
             byte[] content = decrypter.DecryptFile(
