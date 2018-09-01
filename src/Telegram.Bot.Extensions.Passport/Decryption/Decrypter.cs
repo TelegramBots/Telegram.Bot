@@ -113,25 +113,22 @@ namespace Telegram.Bot.Passport
                 using (var sha256 = SHA256.Create())
                 using (CryptoStream shaStream = new CryptoStream(aesStream, sha256, CryptoStreamMode.Read))
                 {
-                    byte[] buffer = new byte[81920]; // default Stream.CopyTo buffer size
+                    byte[] paddingBuffer = new byte[256];
+                    int read = await shaStream.ReadAsync(paddingBuffer, 0, 256, cancellationToken)
+                        .ConfigureAwait(false);
 
-                    int read = await shaStream.ReadAsync(buffer, 0, 81920, cancellationToken).ConfigureAwait(false);
-                    if (read < 0)
-                        throw new DecryptionException("No data in the input stream");
-
-                    int paddingLength = buffer[0];
+                    int paddingLength = paddingBuffer[0];
                     if (paddingLength < 32)
                         throw new DecryptionException("Invalid padding size");
 
                     if (read < paddingLength)
                         throw new DecryptionException("Invalid data");
 
-                    destination.Write(buffer, paddingLength, read - paddingLength);
+                    await destination.WriteAsync(paddingBuffer, paddingLength, read - paddingLength, cancellationToken)
+                        .ConfigureAwait(false);
 
-                    while ((read = await shaStream.ReadAsync(buffer, 0, 81920, cancellationToken).ConfigureAwait(false)) > 0)
-                    {
-                        await destination.WriteAsync(buffer, 0, read, cancellationToken).ConfigureAwait(false);
-                    }
+                    await shaStream.CopyToAsync(destination, 81920, cancellationToken)
+                        .ConfigureAwait(false);
 
                     byte[] paddedDataHash = sha256.Hash;
                     for (int i = 0; i < 32; i++)
