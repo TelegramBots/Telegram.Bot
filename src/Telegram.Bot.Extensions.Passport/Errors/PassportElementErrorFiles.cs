@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -27,6 +28,7 @@ namespace Telegram.Bot.Types.Passport
         /// </param>
         /// <param name="fileHashes">List of base64-encoded file hashes</param>
         /// <param name="message">Error message</param>
+        /// <exception cref="ArgumentNullException">if any argument is null</exception>
         public PassportElementErrorFiles(
             string type,
             IEnumerable<string> fileHashes,
@@ -34,7 +36,7 @@ namespace Telegram.Bot.Types.Passport
         )
             : base("files", type, message)
         {
-            FileHashes = fileHashes;
+            FileHashes = fileHashes ?? throw new ArgumentNullException(nameof(fileHashes));
         }
     }
 }

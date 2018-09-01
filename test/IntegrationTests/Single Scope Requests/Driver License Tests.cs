@@ -14,6 +14,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegrationTests
 {
@@ -27,10 +28,13 @@ namespace IntegrationTests
 
         private readonly EntityFixture<Update> _classFixture;
 
-        public DriverLicenseTests(TestsFixture fixture, EntityFixture<Update> classFixture)
+        private readonly ITestOutputHelper _output;
+
+        public DriverLicenseTests(TestsFixture fixture, EntityFixture<Update> classFixture, ITestOutputHelper output)
         {
             _fixture = fixture;
             _classFixture = classFixture;
+            _output = output;
         }
 
         [OrderedFact("Should generate passport authorization request link")]
@@ -174,7 +178,6 @@ namespace IntegrationTests
             EncryptedPassportElement element = passportData.Data.Single();
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
-
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             string licenseDocJson = decrypter.DecryptData(
@@ -209,25 +212,9 @@ namespace IntegrationTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-//            using (System.IO.Stream
-//                encryptedContent = new System.IO.MemoryStream(element.FrontSide.FileSize),
-//                decryptedFile = System.IO.File.OpenWrite("/tmp/test-file.jpg")
-//            )
-//            {
-//                await BotClient.GetInfoAndDownloadFileAsync(
-//                    element.FrontSide.FileId,
-//                    encryptedContent
-//                );
-//
-//                await decrypter.DecryptFileAsync(
-//                    encryptedContent,
-//                    credentials.SecureData.DriverLicense.FrontSide,
-//                    decryptedFile
-//                );
-//            }
-
             File encryptedFileInfo;
-            using (System.IO.Stream decryptedFile = System.IO.File.OpenWrite("/tmp/test-file.jpg"))
+            string decyptedFilePath = System.IO.Path.GetTempFileName();
+            using (System.IO.Stream decryptedFile = System.IO.File.OpenWrite(decyptedFilePath))
             {
                 encryptedFileInfo = await BotClient.DownloadAndDecryptPassportFileAsync(
                     element.FrontSide,
@@ -235,6 +222,8 @@ namespace IntegrationTests
                     decryptedFile
                 );
             }
+
+            _output.WriteLine("Front side JPEG file is written to \"{0}\".", decyptedFilePath);
 
             Assert.NotEmpty(encryptedFileInfo.FilePath);
             Assert.NotEmpty(encryptedFileInfo.FileId);
@@ -249,52 +238,75 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
             IDecrypter decrypter = new Decrypter();
-
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encrypted;
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream(element.ReverseSide.FileSize))
+            File encryptedFileInfo;
+            string decyptedFilePath = System.IO.Path.GetTempFileName();
+            using (System.IO.Stream
+                encryptedContent = new System.IO.MemoryStream(element.ReverseSide.FileSize),
+                decryptedFile = System.IO.File.OpenWrite(decyptedFilePath)
+            )
             {
-                await BotClient.GetInfoAndDownloadFileAsync(
+                encryptedFileInfo = await BotClient.GetInfoAndDownloadFileAsync(
                     element.ReverseSide.FileId,
-                    stream
+                    encryptedContent
                 );
-                encrypted = stream.ToArray();
+
+                await decrypter.DecryptFileAsync(
+                    encryptedContent,
+                    credentials.SecureData.DriverLicense.ReverseSide,
+                    decryptedFile
+                );
             }
 
-            byte[] content = decrypter.DecryptFile(
-                encrypted,
-                credentials.SecureData.DriverLicense.ReverseSide
-            );
-            Assert.NotEmpty(content);
+            _output.WriteLine("Reverse side JPEG file is written to \"{0}\".", decyptedFilePath);
+
+            Assert.NotEmpty(encryptedFileInfo.FilePath);
+            Assert.NotEmpty(encryptedFileInfo.FileId);
+            Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
         }
 
-        [OrderedFact("Should decrypt selfie photo file of 'driver_license' element")]
+        [OrderedFact("Should decrypt selfie photo file of 'driver_license' element and send it to chat")]
         public async Task Should_decreypt_selfie_file()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
-
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encrypted;
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream(element.Selfie.FileSize))
+            byte[] encryptedContent;
             {
-                await BotClient.GetInfoAndDownloadFileAsync(
-                    element.Selfie.FileId,
-                    stream
-                );
-                encrypted = stream.ToArray();
+                File encryptedFileInfo = await BotClient.GetFileAsync(element.Selfie.FileId);
+
+                Assert.NotEmpty(encryptedFileInfo.FilePath);
+                Assert.NotEmpty(encryptedFileInfo.FileId);
+                Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
+
+                using (System.IO.MemoryStream stream = new System.IO.MemoryStream(encryptedFileInfo.FileSize))
+                {
+                    await BotClient.DownloadFileAsync(encryptedFileInfo.FilePath, stream);
+                    encryptedContent = stream.ToArray();
+                }
             }
 
-            byte[] content = decrypter.DecryptFile(
-                encrypted,
+            byte[] selfieContent = decrypter.DecryptFile(
+                encryptedContent,
                 credentials.SecureData.DriverLicense.Selfie
             );
-            Assert.NotEmpty(content);
+
+            Assert.NotEmpty(selfieContent);
+
+            using (System.IO.Stream stream = new System.IO.MemoryStream(selfieContent))
+            {
+                await BotClient.SendPhotoAsync(
+                    _fixture.SupergroupChat,
+                    stream,
+                    "selfie with driver license",
+                    replyToMessageId: update.Message.MessageId
+                );
+            }
         }
 
         [OrderedFact("Should decrypt translation photo files of 'driver_license' element")]
@@ -310,24 +322,34 @@ namespace IntegrationTests
 
             for (int i = 0; i < element.Translation.Length; i++)
             {
-                PassportFile encryptedFileInfo = element.Translation[i];
+                PassportFile passportFile = element.Translation[i];
                 FileCredentials fileCredentials = credentials.SecureData.DriverLicense.Translation[i];
 
-                byte[] encrypted;
-                using (System.IO.MemoryStream stream = new System.IO.MemoryStream(encryptedFileInfo.FileSize))
+                byte[] encryptedContent;
                 {
-                    await BotClient.GetInfoAndDownloadFileAsync(
-                        encryptedFileInfo.FileId,
-                        stream
-                    );
-                    encrypted = stream.ToArray();
+                    File encryptedFileInfo = await BotClient.GetFileAsync(passportFile.FileId);
+
+                    Assert.NotEmpty(encryptedFileInfo.FilePath);
+                    Assert.NotEmpty(encryptedFileInfo.FileId);
+                    Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
+
+                    using (System.IO.MemoryStream stream = new System.IO.MemoryStream(encryptedFileInfo.FileSize))
+                    {
+                        await BotClient.DownloadFileAsync(encryptedFileInfo.FilePath, stream);
+                        encryptedContent = stream.ToArray();
+                    }
                 }
 
-                byte[] content = decrypter.DecryptFile(
-                    encrypted,
+                byte[] translationContent = decrypter.DecryptFile(
+                    encryptedContent,
                     fileCredentials
                 );
-                Assert.NotEmpty(content);
+
+                Assert.NotEmpty(translationContent);
+
+                string decyptedFilePath = System.IO.Path.GetTempFileName();
+                await System.IO.File.WriteAllBytesAsync(decyptedFilePath, translationContent);
+                _output.WriteLine("Translation JPEG file is written to \"{0}\".", decyptedFilePath);
             }
         }
     }
