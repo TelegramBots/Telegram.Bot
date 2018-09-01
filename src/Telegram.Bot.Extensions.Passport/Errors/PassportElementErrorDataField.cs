@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable CheckNamespace
@@ -33,6 +34,7 @@ namespace Telegram.Bot.Types.Passport
         /// <param name="fieldName">Name of the data field which has the error</param>
         /// <param name="dataHash">Base64-encoded data hash</param>
         /// <param name="message">Error message</param>
+        /// <exception cref="ArgumentNullException">if any argument is null</exception>
         public PassportElementErrorDataField(
             string type,
             string fieldName,
@@ -41,8 +43,8 @@ namespace Telegram.Bot.Types.Passport
         )
             : base("data", type, message)
         {
-            FieldName = fieldName;
-            DataHash = dataHash;
+            FieldName = fieldName ?? throw new ArgumentNullException(nameof(fieldName));
+            DataHash = dataHash ?? throw new ArgumentNullException(nameof(dataHash));
         }
     }
 }

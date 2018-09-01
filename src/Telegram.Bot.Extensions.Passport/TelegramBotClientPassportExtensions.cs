@@ -1,3 +1,4 @@
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -10,6 +11,9 @@ using File = Telegram.Bot.Types.File;
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot
 {
+    /// <summary>
+    /// Contains extension methods for <see cref="ITelegramBotClient"/> instances
+    /// </summary>
     public static class TelegramBotClientPassportExtensions
     {
         /// <summary>
@@ -23,8 +27,8 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="botClient">Instance of bot client</param>
         /// <param name="userId">User identifier</param>
-        /// <param name="errors">A JSON-serialized array describing the errors</param>
-        /// <param name="cancellationToken">Task cancellation token</param>
+        /// <param name="errors">Descriptions of the errors</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
         /// <see href="https://core.telegram.org/bots/api#setpassportdataerrors"/>
         public static Task SetPassportDataErrorsAsync(
             this ITelegramBotClient botClient,
@@ -34,6 +38,20 @@ namespace Telegram.Bot
         ) =>
             botClient.MakeRequestAsync(new SetPassportDataErrorsRequest(userId, errors), cancellationToken);
 
+        /// <summary>
+        /// Downloads an ecnrypted Passport file, decrypts it, and writes the content to
+        /// <paramref name="destination"/> stream
+        /// </summary>
+        /// <param name="botClient">Instance of bot client</param>
+        /// <param name="passportFile"></param>
+        /// <param name="fileCredentials"></param>
+        /// <param name="destination"></param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
+        /// <returns>File information of the encrypted Passport file on Telegram servers.</returns>
+        /// <exception cref="ArgumentNullException">If null arguments are passed</exception>
+        /// <exception cref="ArgumentException">
+        /// If <paramref name="destination"/> stream is not writable.
+        /// </exception>
         public static async Task<File> DownloadAndDecryptPassportFileAsync(
             this ITelegramBotClient botClient,
             PassportFile passportFile,
@@ -42,6 +60,16 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         )
         {
+            if (passportFile == null)
+            {
+                throw new ArgumentNullException(nameof(passportFile));
+            }
+
+            if (!destination.CanWrite)
+            {
+                throw new ArgumentException("Stream msut be writable.", nameof(destination));
+            }
+
             File fileInfo;
 
             var encryptedContentStream = passportFile.FileSize > 0

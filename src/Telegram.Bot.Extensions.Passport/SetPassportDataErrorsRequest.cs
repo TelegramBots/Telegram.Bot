@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Passport;
@@ -34,11 +35,14 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="userId">User identifier</param>
         /// <param name="errors">Descriptions of the errors</param>
+        /// <exception cref="ArgumentNullException">
+        /// If <paramref name="errors"/> is null
+        /// </exception>
         public SetPassportDataErrorsRequest(int userId, IEnumerable<PassportElementError> errors)
             : base("setPassportDataErrors")
         {
             UserId = userId;
-            Errors = errors;
+            Errors = errors ?? throw new ArgumentNullException(nameof(errors));
         }
     }
 }

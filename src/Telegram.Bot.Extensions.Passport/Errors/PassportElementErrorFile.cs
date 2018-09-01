@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable CheckNamespace
@@ -26,6 +27,7 @@ namespace Telegram.Bot.Types.Passport
         /// </param>
         /// <param name="fileHash">Base64-encoded file hash</param>
         /// <param name="message">Error message</param>
+        /// <exception cref="ArgumentNullException">if any argument is null</exception>
         public PassportElementErrorFile(
             string type,
             string fileHash,
@@ -33,7 +35,7 @@ namespace Telegram.Bot.Types.Passport
         )
             : base("file", type, message)
         {
-            FileHash = fileHash;
+            FileHash = fileHash ?? throw new ArgumentNullException(nameof(fileHash));
         }
     }
 }

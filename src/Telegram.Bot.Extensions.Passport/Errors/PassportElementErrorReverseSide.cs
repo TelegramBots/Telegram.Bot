@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable CheckNamespace
@@ -25,6 +26,7 @@ namespace Telegram.Bot.Types.Passport
         /// </param>
         /// <param name="fileHash">Base64-encoded hash of the file with the reverse side of the document</param>
         /// <param name="message">Error message</param>
+        /// <exception cref="ArgumentNullException">if any argument is null</exception>
         public PassportElementErrorReverseSide(
             string type,
             string fileHash,
@@ -32,7 +34,7 @@ namespace Telegram.Bot.Types.Passport
         )
             : base("reverse_side", type, message)
         {
-            FileHash = fileHash;
+            FileHash = fileHash ?? throw new ArgumentNullException(nameof(fileHash));
         }
     }
 }
