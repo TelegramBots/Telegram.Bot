@@ -3,6 +3,7 @@
 // ReSharper disable CheckNamespace
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using Newtonsoft.Json;
 using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
+using File = Telegram.Bot.Types.File;
 
 namespace UnitTests
 {
@@ -59,7 +61,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt document data of 'driver_license' element")]
-        public void Should_decreypt_document_data()
+        public void Should_decrypt_document_data()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -87,7 +89,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt front side photo file of 'driver_license' element")]
-        public async Task Should_decreypt_front_side_file()
+        public async Task Should_decrypt_front_side_file()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -95,17 +97,29 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-front_side.jpg.enc");
+            byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-front_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
-                encrypted,
+                encryptedContent,
                 credentials.SecureData.DriverLicense.FrontSide
             );
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-front_side.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    credentials.SecureData.DriverLicense.FrontSide,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         [Fact(DisplayName = "Should decrypt reverse side photo file of 'driver_license' element")]
-        public async Task Should_decreypt_reverse_side_file()
+        public async Task Should_decrypt_reverse_side_file()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -113,17 +127,29 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-reverse_side.jpg.enc");
+            byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-reverse_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
-                encrypted,
+                encryptedContent,
                 credentials.SecureData.DriverLicense.ReverseSide
             );
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-reverse_side.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    credentials.SecureData.DriverLicense.ReverseSide,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         [Fact(DisplayName = "Should decrypt selfie photo file of 'driver_license' element")]
-        public async Task Should_decreypt_selfie_file()
+        public async Task Should_decrypt_selfie_file()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -131,17 +157,29 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-selfie.jpg.enc");
+            byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-selfie.jpg.enc");
             byte[] content = decrypter.DecryptFile(
-                encrypted,
+                encryptedContent,
                 credentials.SecureData.DriverLicense.Selfie
             );
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-selfie.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    credentials.SecureData.DriverLicense.Selfie,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         [Fact(DisplayName = "Should decrypt translation photo file of 'driver_license' element")]
-        public async Task Should_decreypt_translation_file()
+        public async Task Should_decrypt_translation_file()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -149,13 +187,25 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encrypted = await System.IO.File.ReadAllBytesAsync("Files/driver_license-translation0.jpg.enc");
+            byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-translation0.jpg.enc");
             byte[] content = decrypter.DecryptFile(
-                encrypted,
+                encryptedContent,
                 credentials.SecureData.DriverLicense.Translation.Single()
             );
             Assert.NotEmpty(content);
             await System.IO.File.WriteAllBytesAsync("Files/driver_license-translation0.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    credentials.SecureData.DriverLicense.Translation.Single(),
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         static PassportData GetPassportData() =>

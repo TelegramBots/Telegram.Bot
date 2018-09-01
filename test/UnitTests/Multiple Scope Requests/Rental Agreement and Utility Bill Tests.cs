@@ -2,12 +2,14 @@
 // ReSharper disable CheckNamespace
 
 using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
+using File = Telegram.Bot.Types.File;
 
 namespace UnitTests
 {
@@ -69,7 +71,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt docuemnt data in 'identity_card' element")]
-        public void Should_decreypt_element_document()
+        public void Should_decrypt_element_document()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -96,7 +98,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt front side photo in 'identity_card' element")]
-        public async Task Should_decreypt_identity_card_element_frontside()
+        public async Task Should_decrypt_identity_card_element_frontside()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -119,10 +121,22 @@ namespace UnitTests
             Assert.NotEmpty(content);
 
             await System.IO.File.WriteAllBytesAsync("Files/identity_card-front_side.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    credentials.SecureData.IdentityCard.FrontSide,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         [Fact(DisplayName = "Should decrypt reverse side photo in 'identity_card' element")]
-        public async Task Should_decreypt_identity_card_element_reverseside()
+        public async Task Should_decrypt_identity_card_element_reverseside()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -145,11 +159,23 @@ namespace UnitTests
 
             Assert.NotEmpty(content);
 
-            await System.IO.File.WriteAllBytesAsync("Files/identity_card-reverse_side.jpg", content);
+            await System.IO.File.WriteAllBytesAsync("Files/identity_card-reverse_side.jpg", encryptedContent);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    credentials.SecureData.IdentityCard.ReverseSide,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         [Fact(DisplayName = "Should decrypt selfie photo in 'identity_card' element")]
-        public async Task Should_decreypt_identity_card_element_selfie()
+        public async Task Should_decrypt_identity_card_element_selfie()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -172,10 +198,22 @@ namespace UnitTests
             Assert.NotEmpty(content);
 
             await System.IO.File.WriteAllBytesAsync("Files/identity_card-selfie.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    credentials.SecureData.IdentityCard.Selfie,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         [Fact(DisplayName = "Should decrypt the single file in 'utility_bill' element")]
-        public async Task Should_decreypt_utility_bill_element_file()
+        public async Task Should_decrypt_utility_bill_element_file()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -202,10 +240,22 @@ namespace UnitTests
             Assert.NotEmpty(content);
 
             await System.IO.File.WriteAllBytesAsync("Files/utility_bill.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    billFileCreds,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         [Fact(DisplayName = "Should decrypt the single translation file in 'utility_bill' element")]
-        public async Task Should_decreypt_utility_bill_element_translation()
+        public async Task Should_decrypt_utility_bill_element_translation()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -232,6 +282,18 @@ namespace UnitTests
             Assert.NotEmpty(content);
 
             await System.IO.File.WriteAllBytesAsync("Files/utility_bill-translation.jpg", content);
+
+            using (var encryptedFileStream = new MemoryStream(encryptedContent))
+            using (var decryptedFileStream = new MemoryStream())
+            {
+                await decrypter.DecryptFileAsync(
+                    encryptedFileStream,
+                    billTranslationFileCreds,
+                    decryptedFileStream
+                );
+
+                Assert.Equal(content, decryptedFileStream.ToArray());
+            }
         }
 
         static PassportData GetPassportData() =>
