@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -10,7 +10,7 @@ using File = Telegram.Bot.Types.File;
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot
 {
-    public static class TelegramBotClientExtensions
+    public static class TelegramBotClientPassportExtensions
     {
         /// <summary>
         /// Informs a user that some of the Telegram Passport elements they provided contains errors. The user will
