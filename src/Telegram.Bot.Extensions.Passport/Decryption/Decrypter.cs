@@ -100,6 +100,10 @@ namespace Telegram.Bot.Passport
                 throw new ArgumentNullException(nameof(encryptedContent));
             if (fileCredentials is null)
                 throw new ArgumentNullException(nameof(fileCredentials));
+            if (!encryptedContent.CanRead)
+                throw new ArgumentException("Stream does not support reading.", nameof(encryptedContent));
+            if (encryptedContent.CanSeek && encryptedContent.Length % 16 != 0)
+                throw new PassportDataDecryptionException($"Invalid data length: {encryptedContent.Length}");
             if (!destination.CanWrite)
                 throw new ArgumentException("Stream does not support writing.", nameof(destination));
 
@@ -144,56 +148,48 @@ namespace Telegram.Bot.Passport
         {
             FindDataKeyAndIv(secret, hash, out byte[] dataKey, out byte[] dataIv);
 
-            try
+            using (var aes = Aes.Create())
             {
-                using (var aes = Aes.Create())
+                // ReSharper disable once PossibleNullReferenceException
+                aes.KeySize = 256;
+                aes.Mode = CipherMode.CBC;
+                aes.Key = dataKey;
+                aes.IV = dataIv;
+                aes.Padding = PaddingMode.None;
+
+                using (var decryptor = aes.CreateDecryptor())
+                using (CryptoStream aesStream = new CryptoStream(data, decryptor, CryptoStreamMode.Read))
+                using (var sha256 = SHA256.Create())
+                using (CryptoStream shaStream = new CryptoStream(aesStream, sha256, CryptoStreamMode.Read))
                 {
-                    // ReSharper disable once PossibleNullReferenceException
-                    aes.KeySize = 256;
-                    aes.Mode = CipherMode.CBC;
-                    aes.Key = dataKey;
-                    aes.IV = dataIv;
-                    aes.Padding = PaddingMode.None;
+                    byte[] paddingBuffer = new byte[256];
+                    int read = await shaStream.ReadAsync(paddingBuffer, 0, 256, cancellationToken)
+                        .ConfigureAwait(false);
 
-                    using (var decryptor = aes.CreateDecryptor())
-                    using (CryptoStream aesStream = new CryptoStream(data, decryptor, CryptoStreamMode.Read))
-                    using (var sha256 = SHA256.Create())
-                    using (CryptoStream shaStream = new CryptoStream(aesStream, sha256, CryptoStreamMode.Read))
+                    byte paddingLength = paddingBuffer[0];
+                    if (paddingLength < 32)
+                        throw new PassportDataDecryptionException("Invalid data padding length");
+
+                    int actualDataLength = read - paddingLength;
+                    if (actualDataLength < 1)
+                        throw new PassportDataDecryptionException("Invalid data");
+
+                    await destination.WriteAsync(paddingBuffer, paddingLength, actualDataLength, cancellationToken)
+                        .ConfigureAwait(false);
+
+                    // 81920 is the default Stream.CopyTo buffer size
+                    // The overload without the buffer size does not accept a cancellation token
+                    const int defaultBufferSize = 81920;
+                    await shaStream.CopyToAsync(destination, defaultBufferSize, cancellationToken)
+                        .ConfigureAwait(false);
+
+                    byte[] paddedDataHash = sha256.Hash;
+                    for (int i = 0; i < hash.Length; i++)
                     {
-                        byte[] paddingBuffer = new byte[256];
-                        int read = await shaStream.ReadAsync(paddingBuffer, 0, 256, cancellationToken)
-                            .ConfigureAwait(false);
-
-                        int paddingLength = paddingBuffer[0];
-                        if (paddingLength < 32)
-                            throw new PassportDataDecryptionException("Invalid padding size");
-
-                        if (read < paddingLength)
-                            throw new PassportDataDecryptionException("Invalid data");
-
-                        await destination.WriteAsync(paddingBuffer, paddingLength, read - paddingLength, cancellationToken)
-                            .ConfigureAwait(false);
-
-                        // 81920 is the default Stream.CopyTo buffer size
-                        // The overload without the buffer size does not accept a cancellation token
-                        await shaStream.CopyToAsync(destination, 81920, cancellationToken)
-                            .ConfigureAwait(false);
-
-                        byte[] paddedDataHash = sha256.Hash;
-                        for (int i = 0; i < 32; i++)
-                        {
-                            if (hash[i] != paddedDataHash[i])
-                                throw new PassportDataDecryptionException("Data hash mismatch");
-                        }
+                        if (hash[i] != paddedDataHash[i])
+                            throw new PassportDataDecryptionException("Data hash mismatch");
                     }
                 }
-            }
-            catch (CryptographicException ce)
-            when (ce.Message.Equals("The input data is not a complete block.", StringComparison.Ordinal))
-            {
-                // The length check in this case can not be performed before decryption
-                // since we could be dealing with a stream that does not support seeking
-                throw new PassportDataDecryptionException("Invalid data length");
             }
         }
 
@@ -250,13 +246,13 @@ namespace Telegram.Bot.Passport
             #region Step 3: remove padding to get the actual data
 
             {
-                int paddingLength = dataWithPadding[0];
+                byte paddingLength = dataWithPadding[0];
                 if (paddingLength < 32)
-                {
                     throw new PassportDataDecryptionException("Invalid data padding length");
-                }
 
                 int actualDataLength = dataWithPadding.Length - paddingLength;
+                if (actualDataLength < 1)
+                    throw new PassportDataDecryptionException("Invalid data");
 
                 decryptedData = new byte[actualDataLength];
                 Array.Copy(dataWithPadding, paddingLength, decryptedData, 0, actualDataLength);

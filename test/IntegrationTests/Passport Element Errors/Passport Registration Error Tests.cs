@@ -16,7 +16,7 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.PassportRegistrationErrors)]
+    [Collection("Passport registration errors")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PassportRegistrationErrorTests : IClassFixture<PassportRegistrationErrorTests.Fixture>
     {
@@ -75,7 +75,8 @@ namespace IntegrationTests
 
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportUpdate.Message.PassportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(key, passportUpdate.Message.PassportData.Credentials);
 
             Assert.Equal("Test nonce for passport registration", credentials.Nonce);
 

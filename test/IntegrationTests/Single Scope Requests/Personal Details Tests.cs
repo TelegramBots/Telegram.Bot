@@ -19,9 +19,9 @@ using Xunit;
 namespace IntegrationTests
 {
     /// <summary>
-    /// Tests for request personal details using Telegram Passport v1.1
+    /// Tests for request personal details
     /// </summary>
-    [Collection(Constants.TestCollections.PersonalDetails)]
+    [Collection("Personal details")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PersonalDetailsTests : IClassFixture<EntityFixture<Update>>
     {

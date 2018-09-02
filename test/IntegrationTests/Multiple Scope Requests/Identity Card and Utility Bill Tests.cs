@@ -2,6 +2,7 @@
 // ReSharper disable CheckNamespace
 
 using System;
+using System.Net.Http;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
@@ -14,12 +15,13 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.RentalAgreementAndBill)]
+    [Collection("Identity card and utility bill")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class RentalAgreementAndBillTests : IClassFixture<EntityFixture<Update>>
+    public class IdentityCardAndUtilityBillTests : IClassFixture<EntityFixture<Update>>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -27,10 +29,15 @@ namespace IntegrationTests
 
         private readonly EntityFixture<Update> _classFixture;
 
-        public RentalAgreementAndBillTests(TestsFixture fixture, EntityFixture<Update> classFixture)
+        private readonly ITestOutputHelper _output;
+
+        public IdentityCardAndUtilityBillTests(
+            TestsFixture fixture, EntityFixture<Update> classFixture, ITestOutputHelper output
+        )
         {
             _fixture = fixture;
             _classFixture = classFixture;
+            _output = output;
         }
 
         [OrderedFact("Should generate passport authorization request link")]
@@ -265,7 +272,8 @@ namespace IntegrationTests
             Assert.NotEmpty(content);
         }
 
-        [OrderedFact("Should decrypt reverse side photo in 'identity_card' element")]
+        [OrderedFact("Should decrypt reverse side photo in 'identity_card' element from HTTP response " +
+                     "and write it to a file on disk")]
         public async Task Should_decreypt_identity_card_element_reverseside()
         {
             Update update = _classFixture.Entity;
@@ -276,22 +284,28 @@ namespace IntegrationTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encryptedContent;
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream(idCardEl.ReverseSide.FileSize))
+            string botToken = ConfigurationProvider.TestConfigurations.ApiToken;
+            File encFileInfo = await BotClient.GetFileAsync(idCardEl.ReverseSide.FileId);
+
+            HttpClient http = new HttpClient();
+            System.IO.Stream encFileStream = await http.GetStreamAsync(
+                $"https://api.telegram.org/file/bot{botToken}/{encFileInfo.FilePath}"
+            );
+            string destFilePath = System.IO.Path.GetTempFileName();
+
+            using (encFileStream)
+            using (System.IO.Stream reverseSideFile = System.IO.File.OpenWrite(destFilePath))
             {
-                await BotClient.GetInfoAndDownloadFileAsync(
-                    idCardEl.ReverseSide.FileId,
-                    stream
+                await decrypter.DecryptFileAsync(
+                    encFileStream,
+                    credentials.SecureData.IdentityCard.ReverseSide,
+                    reverseSideFile
                 );
-                encryptedContent = stream.ToArray();
+
+                Assert.InRange(reverseSideFile.Length, encFileInfo.FileSize - 256, encFileInfo.FileSize + 256);
             }
 
-            byte[] content = decrypter.DecryptFile(
-                encryptedContent,
-                credentials.SecureData.IdentityCard.ReverseSide
-            );
-
-            Assert.NotEmpty(content);
+            _output.WriteLine("Reverse side photo is written to file \"{0}\".", destFilePath);
         }
 
         [OrderedFact("Should decrypt selfie photo in 'identity_card' element")]
@@ -346,7 +360,7 @@ namespace IntegrationTests
                     billFileCreds,
                     decryptedFile
                 );
-                Assert.Equal(billScanFile.FileSize, decryptedFile.Length);
+                Assert.InRange(decryptedFile.Length, billScanFile.FileSize - 256, billScanFile.FileSize + 256);
             }
 
             Assert.NotEmpty(encryptedFileInfo.FilePath);
@@ -377,7 +391,7 @@ namespace IntegrationTests
                     billTranslationFileCreds,
                     decryptedFile
                 );
-                Assert.Equal(translationFile.FileSize, decryptedFile.Length);
+                Assert.InRange(decryptedFile.Length, translationFile.FileSize - 256, translationFile.FileSize + 256);
             }
 
             Assert.NotEmpty(encryptedFileInfo.FilePath);

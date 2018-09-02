@@ -14,7 +14,7 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.UnspecifiedError)]
+    [Collection("Unspecified error")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class UnspecifiedErrorTests : IClassFixture<UnspecifiedErrorTests.Fixture>
     {

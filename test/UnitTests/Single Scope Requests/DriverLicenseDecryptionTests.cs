@@ -160,17 +160,9 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-selfie.jpg.enc");
-            byte[] content = decrypter.DecryptFile(
-                encryptedContent,
-                credentials.SecureData.DriverLicense.Selfie
-            );
-            Assert.NotEmpty(content);
-            await System.IO.File.WriteAllBytesAsync("Files/driver_license-selfie.jpg", content);
-
-            using (System.IO.MemoryStream
-                encryptedFileStream = new System.IO.MemoryStream(encryptedContent),
-                decryptedFileStream = new System.IO.MemoryStream()
+            using (System.IO.Stream
+                encryptedFileStream = System.IO.File.OpenRead("Files/driver_license-selfie.jpg.enc"),
+                decryptedFileStream = System.IO.File.OpenWrite("Files/driver_license-selfie.jpg")
             )
             {
                 await decrypter.DecryptFileAsync(
@@ -178,8 +170,6 @@ namespace UnitTests
                     credentials.SecureData.DriverLicense.Selfie,
                     decryptedFileStream
                 );
-
-                Assert.Equal(content, decryptedFileStream.ToArray());
             }
         }
 

@@ -10,16 +10,19 @@ namespace IntegrationTests.Framework
     {
         private readonly string[] _orderedCollections =
         {
-            Constants.TestCollections.PersonalDetails,
-            Constants.TestCollections.ResidentialAddress,
-            Constants.TestCollections.DriverLicense,
+            // single scope
+            "Personal details",
+            "Residential address",
+            "Driver license",
 
-            Constants.TestCollections.PhoneAndEmail,
-            Constants.TestCollections.RentalAgreementAndBill,
+            // multiple scopes
+            "Phone and email",
+            "Identity card and utility bill",
 
-            Constants.TestCollections.IdentityCardErrors,
-            Constants.TestCollections.PassportRegistrationErrors,
-            Constants.TestCollections.UnspecifiedError,
+            // setting data errors
+            "Identity card errors",
+            "Passport registration errors",
+            "Unspecified error",
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

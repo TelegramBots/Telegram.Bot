@@ -18,7 +18,7 @@ using Xunit.Abstractions;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.DriverLicense)]
+    [Collection("Driver license")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class DriverLicenseTests : IClassFixture<EntityFixture<Update>>
     {
@@ -247,6 +247,7 @@ namespace IntegrationTests
                     element.ReverseSide.FileId,
                     encryptedContent
                 );
+                encryptedContent.Position = 0;
 
                 await decrypter.DecryptFileAsync(
                     encryptedContent,

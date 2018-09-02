@@ -16,7 +16,7 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.PhoneAndEmail)]
+    [Collection("Phone and email")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PhoneAndEmailTests : IClassFixture<EntityFixture<Update>>
     {

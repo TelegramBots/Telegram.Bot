@@ -79,6 +79,8 @@ namespace Telegram.Bot
                     cancellationToken
                 ).ConfigureAwait(false);
 
+                encryptedContentStream.Position = 0;
+
                 await new Decrypter().DecryptFileAsync(
                     encryptedContentStream,
                     fileCredentials,

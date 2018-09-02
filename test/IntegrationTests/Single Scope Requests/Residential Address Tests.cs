@@ -17,7 +17,7 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.ResidentialAddress)]
+    [Collection("Residential address")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ResidentialAddressTests : IClassFixture<EntityFixture<Update>>
     {

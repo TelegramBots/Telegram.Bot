@@ -15,7 +15,7 @@ using Xunit;
 
 namespace IntegrationTests
 {
-    [Collection(Constants.TestCollections.IdentityCardErrors)]
+    [Collection("Identity card errors")]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class IdentityCardErrorTests : IClassFixture<IdentityCardErrorTests.Fixture>
     {
