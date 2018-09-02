@@ -324,9 +324,6 @@ namespace Telegram.Bot.Types
                 if (Document != null)
                     return MessageType.Document;
 
-                if (Animation != null)
-                    return MessageType.Animation;
-
                 if (Game != null)
                     return MessageType.Game;
 

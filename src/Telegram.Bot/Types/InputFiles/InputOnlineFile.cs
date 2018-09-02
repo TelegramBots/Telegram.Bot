@@ -38,7 +38,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// <param name="content"></param>
         public InputOnlineFile(Stream content)
             : this(content, default)
-        { }
+        {
+        }
 
         /// <summary>
         /// ToDo
