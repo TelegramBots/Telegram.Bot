@@ -162,7 +162,7 @@ namespace Telegram.Bot
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
-            if (int.TryParse(parts[0], out int id))
+            if (parts.Length > 1 && int.TryParse(parts[0], out int id))
             {
                 BotId = id;
             }
