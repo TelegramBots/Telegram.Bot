@@ -174,7 +174,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(null, null, null)
             );
 
-            Assert.Equal("Value cannot be null.\nParameter name: encryptedContent", exception.Message);
+            Assert.Matches(@"^Value cannot be null.\s+Parameter name: encryptedContent$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -187,7 +187,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), null, null)
             );
 
-            Assert.Equal("Value cannot be null.\nParameter name: fileCredentials", exception.Message);
+            Assert.Matches(@"^Value cannot be null.\s+Parameter name: fileCredentials$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -199,7 +199,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), new FileCredentials(), new MemoryStream())
             );
 
-            Assert.Equal("Value cannot be null.\nParameter name: Secret", exception.Message);
+            Assert.Matches(@"^Value cannot be null.\s+Parameter name: Secret$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -213,7 +213,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
             );
 
-            Assert.Equal("Value cannot be null.\nParameter name: FileHash", exception.Message);
+            Assert.Matches(@"^Value cannot be null.\s+Parameter name: FileHash$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -231,7 +231,7 @@ namespace UnitTests
                 );
             }
 
-            Assert.Equal("Stream does not support reading.\nParameter name: encryptedContent", exception.Message);
+            Assert.Matches(@"^Stream does not support reading.\s+Parameter name: encryptedContent$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
 
@@ -263,7 +263,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, null)
             );
 
-            Assert.Equal("Value cannot be null.\nParameter name: destination", exception.Message);
+            Assert.Matches(@"^Value cannot be null.\s+Parameter name: destination$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -281,7 +281,7 @@ namespace UnitTests
                 );
             }
 
-            Assert.Equal("Stream does not support writing.\nParameter name: destination", exception.Message);
+            Assert.Matches(@"^Stream does not support writing.\s+Parameter name: destination$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
 
