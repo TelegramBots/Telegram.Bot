@@ -1,6 +1,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace UnitTests
     public class DriverLicenseDecryptionTests
     {
         [Fact(DisplayName = "Should decrypt 'passport_data.credentials'")]
-        public void Should_decrypt_credentials()
+        public void Should_Decrypt_Credentials()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -52,14 +53,16 @@ namespace UnitTests
 
             // decryption of translation file in 'driver_license' element requires accompanying FileCredentials
             Assert.NotEmpty(credentials.SecureData.DriverLicense.Translation);
-            FileCredentials translationFileCreds = Assert.Single(credentials.SecureData.DriverLicense.Translation);
-            Assert.NotNull(translationFileCreds);
-            Assert.NotEmpty(translationFileCreds.Secret);
-            Assert.NotEmpty(translationFileCreds.FileHash);
+            FileCredentials translationFileCredentials = Assert.Single(
+                credentials.SecureData.DriverLicense.Translation
+            );
+            Assert.NotNull(translationFileCredentials);
+            Assert.NotEmpty(translationFileCredentials.Secret);
+            Assert.NotEmpty(translationFileCredentials.FileHash);
         }
 
         [Fact(DisplayName = "Should decrypt document data of 'driver_license' element")]
-        public void Should_decrypt_document_data()
+        public void Should_Decrypt_Document_Data()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -68,12 +71,6 @@ namespace UnitTests
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             EncryptedPassportElement licenseEl = Assert.Single(passportData.Data, el => el.Type == "driver_license");
-
-            string licenseDocJson = decrypter.DecryptData(
-                encryptedData: licenseEl.Data,
-                dataCredentials: credentials.SecureData.DriverLicense.Data
-            );
-            Assert.StartsWith("{", licenseDocJson);
 
             IdDocumentData licenseDoc = decrypter.DecryptData<IdDocumentData>(
                 encryptedData: licenseEl.Data,
@@ -87,7 +84,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt front side photo file of 'driver_license' element")]
-        public async Task Should_decrypt_front_side_file()
+        public async Task Should_Decrypt_Front_Side_File()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -119,7 +116,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt reverse side photo file of 'driver_license' element")]
-        public async Task Should_decrypt_reverse_side_file()
+        public async Task Should_Decrypt_Reverse_Side_File()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -152,7 +149,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt selfie photo file of 'driver_license' element")]
-        public async Task Should_decrypt_selfie_file()
+        public async Task Should_Decrypt_Selfie_File()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -174,7 +171,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt translation photo file of 'driver_license' element")]
-        public async Task Should_decrypt_translation_file()
+        public async Task Should_Decrypt_Translation_File()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();

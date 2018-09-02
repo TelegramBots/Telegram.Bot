@@ -1,5 +1,6 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System;
 using System.Security.Cryptography;
@@ -15,10 +16,10 @@ namespace UnitTests
     /// Tests for decryption of passport_data received for authorization request with the scopes
     /// "identity_card" and "utility_bill"
     /// </summary>
-    public class RentalAgreementAndBillDecryptionTests
+    public class IdentityCardAndUtilityBillTests
     {
         [Fact(DisplayName = "Should decrypt 'passport_data.credentials'")]
-        public void Should_decrypt_credentials()
+        public void Should_Decrypt_Credentials()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passData = GetPassportData();
@@ -31,7 +32,7 @@ namespace UnitTests
             Assert.NotNull(credentials.SecureData);
             Assert.Equal("TEST", credentials.Nonce);
 
-            // decryption of docuemnt data in 'identity_card' element requires accompanying DataCredentials
+            // decryption of document data in 'identity_card' element requires accompanying DataCredentials
             Assert.NotNull(credentials.SecureData.IdentityCard);
             Assert.NotNull(credentials.SecureData.IdentityCard.Data);
             Assert.NotEmpty(credentials.SecureData.IdentityCard.Data.Secret);
@@ -57,19 +58,20 @@ namespace UnitTests
 
             // decryption of file scan in 'utility_bill' element requires accompanying FileCredentials
             Assert.NotNull(credentials.SecureData.UtilityBill.Files);
-            FileCredentials billFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Files);
-            Assert.NotEmpty(billFileCreds.Secret);
-            Assert.NotEmpty(billFileCreds.FileHash);
+            FileCredentials billFileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Files);
+            Assert.NotEmpty(billFileCredentials.Secret);
+            Assert.NotEmpty(billFileCredentials.FileHash);
 
             // decryption of translation file scan in 'utility_bill' element requires accompanying FileCredentials
             Assert.NotNull(credentials.SecureData.UtilityBill.Files);
-            FileCredentials billTranslationFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Translation);
-            Assert.NotEmpty(billTranslationFileCreds.Secret);
-            Assert.NotEmpty(billTranslationFileCreds.FileHash);
+            FileCredentials billTranslationFileCredentials =
+                Assert.Single(credentials.SecureData.UtilityBill.Translation);
+            Assert.NotEmpty(billTranslationFileCredentials.Secret);
+            Assert.NotEmpty(billTranslationFileCredentials.FileHash);
         }
 
         [Fact(DisplayName = "Should decrypt docuemnt data in 'identity_card' element")]
-        public void Should_decrypt_element_document()
+        public void Should_Decrypt_Element_Document()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -78,12 +80,6 @@ namespace UnitTests
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
-
-            string documentDataJson = decrypter.DecryptData(
-                idCardEl.Data,
-                credentials.SecureData.IdentityCard.Data
-            );
-            Assert.StartsWith("{", documentDataJson);
 
             IdDocumentData documentData = decrypter.DecryptData<IdDocumentData>(
                 idCardEl.Data,
@@ -96,7 +92,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt front side photo in 'identity_card' element")]
-        public async Task Should_decrypt_identity_card_element_frontside()
+        public async Task Should_Decrypt_Identity_Card_Element_Front_Side()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -136,7 +132,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt reverse side photo in 'identity_card' element")]
-        public async Task Should_decrypt_identity_card_element_reverseside()
+        public async Task Should_Decrypt_Identity_Card_Element_Reverse_Side()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -217,7 +213,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt the single file in 'utility_bill' element")]
-        public async Task Should_decrypt_utility_bill_element_file()
+        public async Task Should_Decrypt_Utility_Bill_Element_File()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -233,12 +229,12 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            FileCredentials billFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Files);
+            FileCredentials billFileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Files);
 
             byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/utility_bill.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
-                billFileCreds
+                billFileCredentials
             );
 
             Assert.NotEmpty(content);
@@ -252,7 +248,7 @@ namespace UnitTests
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
-                    billFileCreds,
+                    billFileCredentials,
                     decryptedFileStream
                 );
 
@@ -261,7 +257,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt the single translation file in 'utility_bill' element")]
-        public async Task Should_decrypt_utility_bill_element_translation()
+        public async Task Should_Decrypt_Utility_Bill_Element_Translation()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -277,12 +273,12 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            FileCredentials billTranslationFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Translation);
+            FileCredentials translationFileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Translation);
 
             byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/utility_bill-translation.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
-                billTranslationFileCreds
+                translationFileCredentials
             );
 
             Assert.NotEmpty(content);
@@ -296,7 +292,7 @@ namespace UnitTests
             {
                 await decrypter.DecryptFileAsync(
                     encryptedFileStream,
-                    billTranslationFileCreds,
+                    translationFileCredentials,
                     decryptedFileStream
                 );
 

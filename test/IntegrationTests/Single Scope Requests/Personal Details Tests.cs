@@ -1,5 +1,6 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should generate passport authorization request link")]
-        public async Task Should_generate_auth_link()
+        public async Task Should_Generate_Auth_Link()
         {
             const string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
                                      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
@@ -81,7 +82,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should validate personal details in a Passport massage")]
-        public void Should_validate_passport_update()
+        public void Should_Validate_Passport_Update()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -99,7 +100,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt and validate credentials")]
-        public void Should_decrypt_credentials()
+        public void Should_Decrypt_Credentials()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -115,7 +116,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt data of 'personal_details' element")]
-        public void Should_decreypt_data()
+        public void Should_Decrypt_Data()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -124,13 +125,6 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
-
-            string personalDetailsJson = decrypter.DecryptData(
-                element.Data,
-                credentials.SecureData.PersonalDetails.Data
-            );
-            Assert.NotEmpty(personalDetailsJson);
-            Assert.StartsWith("{\"", personalDetailsJson);
 
             PersonalDetails personalDetails = decrypter.DecryptData<PersonalDetails>(
                 element.Data,

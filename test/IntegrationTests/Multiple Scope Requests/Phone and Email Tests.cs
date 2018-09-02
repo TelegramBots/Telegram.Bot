@@ -1,5 +1,6 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System.Security.Cryptography;
 using System.Threading.Tasks;

@@ -1,5 +1,6 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System;
 using System.Net.Http;
@@ -41,7 +42,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should generate passport authorization request link")]
-        public async Task Should_generate_auth_link()
+        public async Task Should_Generate_Auth_Link()
         {
             const string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
                                      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
@@ -75,14 +76,14 @@ namespace IntegrationTests
             AuthorizationRequest authReq = new AuthorizationRequest(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
-                nonce: "TEST",
+                nonce: "Test nonce for id card & utility bill",
                 scope: scope
             );
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
                 "Share your *identity card with a selfie* and " +
-                "a *utiltiy bill with its translation* with bot using Passport.\n\n" +
+                "a *utility bill with its translation* with bot using Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to redirect you back to Telegram passport\n" +
                 "3. Authorize bot to access the info",
@@ -98,7 +99,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should validate values in the Passport massage")]
-        public void Should_validate_passport_message()
+        public void Should_Validate_Passport_Message()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -154,7 +155,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt and validate credentials")]
-        public void Should_decrypt_credentials()
+        public void Should_Decrypt_Credentials()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -170,9 +171,9 @@ namespace IntegrationTests
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
-            Assert.Equal("TEST", credentials.Nonce);
+            Assert.Equal("Test nonce for id card & utility bill", credentials.Nonce);
 
-            // decryption of docuemnt data in 'identity_card' element requires accompanying DataCredentials
+            // decryption of document data in 'identity_card' element requires accompanying DataCredentials
             Assert.NotNull(credentials.SecureData.IdentityCard);
             Assert.NotNull(credentials.SecureData.IdentityCard.Data);
             Assert.NotEmpty(credentials.SecureData.IdentityCard.Data.Secret);
@@ -198,19 +199,20 @@ namespace IntegrationTests
 
             // decryption of file scan in 'utility_bill' element requires accompanying FileCredentials
             Assert.NotNull(credentials.SecureData.UtilityBill.Files);
-            FileCredentials billFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Files);
-            Assert.NotEmpty(billFileCreds.Secret);
-            Assert.NotEmpty(billFileCreds.FileHash);
+            FileCredentials billCredentials = Assert.Single(credentials.SecureData.UtilityBill.Files);
+            Assert.NotEmpty(billCredentials.Secret);
+            Assert.NotEmpty(billCredentials.FileHash);
 
             // decryption of translation file scan in 'utility_bill' element requires accompanying FileCredentials
             Assert.NotNull(credentials.SecureData.UtilityBill.Files);
-            FileCredentials billTranslationFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Translation);
-            Assert.NotEmpty(billTranslationFileCreds.Secret);
-            Assert.NotEmpty(billTranslationFileCreds.FileHash);
+            FileCredentials billTranslationFileCredentials =
+                Assert.Single(credentials.SecureData.UtilityBill.Translation);
+            Assert.NotEmpty(billTranslationFileCredentials.Secret);
+            Assert.NotEmpty(billTranslationFileCredentials.FileHash);
         }
 
-        [OrderedFact("Should decrypt docuemnt data in 'identity_card' element")]
-        public void Should_decrypt_identity_card_element_document()
+        [OrderedFact("Should decrypt document data in 'identity_card' element")]
+        public void Should_Decrypt_Identity_Card_Element_Document()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -220,12 +222,6 @@ namespace IntegrationTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
-
-            string documentDataJson = decrypter.DecryptData(
-                idCardEl.Data,
-                credentials.SecureData.IdentityCard.Data
-            );
-            Assert.StartsWith("{", documentDataJson);
 
             IdDocumentData documentData = decrypter.DecryptData<IdDocumentData>(
                 idCardEl.Data,
@@ -244,7 +240,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt front side photo in 'identity_card' element")]
-        public async Task Should_decrypt_identity_card_element_frontside()
+        public async Task Should_Decrypt_Identity_Card_Element_Front_Side()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -274,7 +270,7 @@ namespace IntegrationTests
 
         [OrderedFact("Should decrypt reverse side photo in 'identity_card' element from HTTP response " +
                      "and write it to a file on disk")]
-        public async Task Should_decreypt_identity_card_element_reverseside()
+        public async Task Should_Decrypt_Identity_Card_Element_Reverse_Side()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -309,7 +305,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt selfie photo in 'identity_card' element")]
-        public async Task Should_decrypt_identity_card_element_selfie()
+        public async Task Should_Decrypt_Identity_Card_Element_Selfie()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -338,7 +334,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt the single file in 'utility_bill' element")]
-        public async Task Should_decrypt_utility_bill_element_file()
+        public async Task Should_Decrypt_Utility_Bill_Element_File()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -350,14 +346,14 @@ namespace IntegrationTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            FileCredentials billFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Files);
+            FileCredentials fileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Files);
 
             File encryptedFileInfo;
             using (System.IO.Stream decryptedFile = new System.IO.MemoryStream())
             {
                 encryptedFileInfo = await BotClient.DownloadAndDecryptPassportFileAsync(
                     billScanFile,
-                    billFileCreds,
+                    fileCredentials,
                     decryptedFile
                 );
                 Assert.InRange(decryptedFile.Length, billScanFile.FileSize - 256, billScanFile.FileSize + 256);
@@ -381,14 +377,14 @@ namespace IntegrationTests
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
-            FileCredentials billTranslationFileCreds = Assert.Single(credentials.SecureData.UtilityBill.Translation);
+            FileCredentials fileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Translation);
 
             File encryptedFileInfo;
             using (System.IO.Stream decryptedFile = new System.IO.MemoryStream())
             {
                 encryptedFileInfo = await BotClient.DownloadAndDecryptPassportFileAsync(
                     translationFile,
-                    billTranslationFileCreds,
+                    fileCredentials,
                     decryptedFile
                 );
                 Assert.InRange(decryptedFile.Length, translationFile.FileSize - 256, translationFile.FileSize + 256);

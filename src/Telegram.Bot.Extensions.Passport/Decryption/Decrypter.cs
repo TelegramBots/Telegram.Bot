@@ -46,33 +46,6 @@ namespace Telegram.Bot.Passport
         }
 
         /// <inheritdoc />
-        public string DecryptData(
-            string encryptedData,
-            DataCredentials dataCredentials
-        )
-        {
-            if (encryptedData is null)
-                throw new ArgumentNullException(nameof(encryptedData));
-            if (dataCredentials is null)
-                throw new ArgumentNullException(nameof(dataCredentials));
-
-            byte[] data = Convert.FromBase64String(encryptedData);
-            if (data.Length % 16 != 0)
-                throw new PassportDataDecryptionException($"Invalid data length: {data.Length}");
-
-            byte[] dataHash = Convert.FromBase64String(dataCredentials.DataHash);
-            if (dataHash.Length != 32)
-                throw new PassportDataDecryptionException($"Invalid hash length: {dataHash.Length}");
-
-            byte[] dataSecret = Convert.FromBase64String(dataCredentials.Secret);
-
-            byte[] decryptedData = DecryptDataBytes(data, dataSecret, dataHash);
-            string content = Encoding.UTF8.GetString(decryptedData);
-
-            return content;
-        }
-
-        /// <inheritdoc />
         public TValue DecryptData<TValue>(
             string encryptedData,
             DataCredentials dataCredentials
@@ -83,9 +56,28 @@ namespace Telegram.Bot.Passport
                 throw new ArgumentNullException(nameof(encryptedData));
             if (dataCredentials is null)
                 throw new ArgumentNullException(nameof(dataCredentials));
+            if (dataCredentials.Secret is null)
+                throw new ArgumentNullException(nameof(dataCredentials.Secret));
+            if (dataCredentials.DataHash is null)
+                throw new ArgumentNullException(nameof(dataCredentials.DataHash));
 
-            string json = DecryptData(encryptedData, dataCredentials);
-            return JsonConvert.DeserializeObject<TValue>(json);
+            byte[] data = Convert.FromBase64String(encryptedData);
+            if (data.Length == 0)
+                throw new ArgumentException("Data array is empty.", nameof(encryptedData));
+            if (data.Length % 16 != 0)
+                throw new PassportDataDecryptionException
+                    ($"Data length is not divisible by 16: {data.Length}.");
+
+            byte[] dataSecret = Convert.FromBase64String(dataCredentials.Secret);
+
+            byte[] dataHash = Convert.FromBase64String(dataCredentials.DataHash);
+            if (dataHash.Length != 32)
+                throw new PassportDataDecryptionException($"Hash length is not 32: {dataHash.Length}.");
+
+            byte[] decryptedData = DecryptDataBytes(data, dataSecret, dataHash);
+            string content = Encoding.UTF8.GetString(decryptedData);
+
+            return JsonConvert.DeserializeObject<TValue>(content);
         }
 
         /// <inheritdoc />

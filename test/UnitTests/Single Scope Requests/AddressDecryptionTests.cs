@@ -39,7 +39,7 @@ namespace UnitTests
         }
 
         [Fact(DisplayName = "Should decrypt 'address' element")]
-        public void Should_decreypt_address_element()
+        public void Should_decrypt_address_element()
         {
             RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
@@ -48,12 +48,6 @@ namespace UnitTests
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             EncryptedPassportElement addressEl = Assert.Single(passportData.Data, el => el.Type == "address");
-
-            string addressJson = decrypter.DecryptData(
-                encryptedData: addressEl.Data,
-                dataCredentials: credentials.SecureData.Address.Data
-            );
-            Assert.StartsWith("{", addressJson);
 
             ResidentialAddress residentialAddress = decrypter.DecryptData<ResidentialAddress>(
                 encryptedData: addressEl.Data,
@@ -69,6 +63,7 @@ namespace UnitTests
         }
 
         static PassportData GetPassportData() =>
+            // ReSharper disable StringLiteralTypo
             JsonConvert.DeserializeObject<PassportData>(@"
 {
   ""data"": [
@@ -85,5 +80,6 @@ namespace UnitTests
   }
 }
             ");
+        // ReSharper restore StringLiteralTypo
     }
 }

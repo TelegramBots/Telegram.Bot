@@ -1,5 +1,6 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System.Linq;
 using System.Security.Cryptography;
@@ -38,7 +39,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should generate passport authorization request link")]
-        public async Task Should_generate_auth_link()
+        public async Task Should_Generate_Auth_Link()
         {
             const string publicKey = "-----BEGIN PUBLIC KEY-----\n" +
                                      "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0VElWoQA2SK1csG2/sY/\n" +
@@ -66,7 +67,7 @@ namespace IntegrationTests
 
             await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat,
-                "Share your *driver license* in addition to *a selfie with it* and *a tranlation scan* " +
+                "Share your *driver license* in addition to *a selfie with it* and *a translation scan* " +
                 "with bot using Telegram Passport.\n\n" +
                 "1. Click inline button\n" +
                 "2. Open link in browser to so it redirects you to Telegram Passport\n" +
@@ -83,7 +84,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should validate driver license values in the Passport massage")]
-        public void Should_validate_passport_update()
+        public void Should_Validate_Passport_Update()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -113,11 +114,11 @@ namespace IntegrationTests
             Assert.All(encryptedElement.Translation, Assert.NotNull);
             Assert.All(
                 encryptedElement.Translation,
-                trnsltn => Assert.NotEmpty(trnsltn.FileId)
+                translation => Assert.NotEmpty(translation.FileId)
             );
             Assert.All(
                 encryptedElement.Translation,
-                trnsltn => Assert.InRange(trnsltn.FileSize, 1_000, 50_000_000)
+                translation => Assert.InRange(translation.FileSize, 1_000, 50_000_000)
             );
 
             Assert.NotNull(passportData.Credentials);
@@ -127,7 +128,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt and validate credentials")]
-        public void Should_decrypt_credentials()
+        public void Should_Decrypt_Credentials()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -167,7 +168,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt document data of 'driver_license' element")]
-        public void Should_decreypt_document_data()
+        public void Should_Decrypt_Document_Data()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -175,12 +176,6 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
-
-            string licenseDocJson = decrypter.DecryptData(
-                encryptedData: element.Data,
-                dataCredentials: credentials.SecureData.DriverLicense.Data
-            );
-            Assert.StartsWith("{", licenseDocJson);
 
             IdDocumentData licenseDoc = decrypter.DecryptData<IdDocumentData>(
                 encryptedData: element.Data,
@@ -199,7 +194,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt front side photo file of 'driver_license' element")]
-        public async Task Should_decreypt_front_side_file()
+        public async Task Should_Decrypt_Front_Side_File()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -209,8 +204,8 @@ namespace IntegrationTests
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             File encryptedFileInfo;
-            string decyptedFilePath = System.IO.Path.GetTempFileName();
-            using (System.IO.Stream decryptedFile = System.IO.File.OpenWrite(decyptedFilePath))
+            string decryptedFilePath = System.IO.Path.GetTempFileName();
+            using (System.IO.Stream decryptedFile = System.IO.File.OpenWrite(decryptedFilePath))
             {
                 encryptedFileInfo = await BotClient.DownloadAndDecryptPassportFileAsync(
                     element.FrontSide,
@@ -219,7 +214,7 @@ namespace IntegrationTests
                 );
             }
 
-            _output.WriteLine("Front side JPEG file is written to \"{0}\".", decyptedFilePath);
+            _output.WriteLine("Front side JPEG file is written to \"{0}\".", decryptedFilePath);
 
             Assert.NotEmpty(encryptedFileInfo.FilePath);
             Assert.NotEmpty(encryptedFileInfo.FileId);
@@ -227,7 +222,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt reverse side photo file of 'driver_license' element")]
-        public async Task Should_decreypt_reverse_side_file()
+        public async Task Should_Decrypt_Reverse_Side_File()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -237,10 +232,10 @@ namespace IntegrationTests
             Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
 
             File encryptedFileInfo;
-            string decyptedFilePath = System.IO.Path.GetTempFileName();
+            string decryptedFilePath = System.IO.Path.GetTempFileName();
             using (System.IO.Stream
                 encryptedContent = new System.IO.MemoryStream(element.ReverseSide.FileSize),
-                decryptedFile = System.IO.File.OpenWrite(decyptedFilePath)
+                decryptedFile = System.IO.File.OpenWrite(decryptedFilePath)
             )
             {
                 encryptedFileInfo = await BotClient.GetInfoAndDownloadFileAsync(
@@ -256,7 +251,7 @@ namespace IntegrationTests
                 );
             }
 
-            _output.WriteLine("Reverse side JPEG file is written to \"{0}\".", decyptedFilePath);
+            _output.WriteLine("Reverse side JPEG file is written to \"{0}\".", decryptedFilePath);
 
             Assert.NotEmpty(encryptedFileInfo.FilePath);
             Assert.NotEmpty(encryptedFileInfo.FileId);
@@ -264,7 +259,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt selfie photo file of 'driver_license' element and send it to chat")]
-        public async Task Should_decreypt_selfie_file()
+        public async Task Should_Decrypt_Selfie_File()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -307,7 +302,7 @@ namespace IntegrationTests
         }
 
         [OrderedFact("Should decrypt translation photo files of 'driver_license' element")]
-        public async Task Should_decreypt_translation_file()
+        public async Task Should_Decrypt_Translation_File()
         {
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
@@ -344,9 +339,9 @@ namespace IntegrationTests
 
                 Assert.NotEmpty(translationContent);
 
-                string decyptedFilePath = System.IO.Path.GetTempFileName();
-                await System.IO.File.WriteAllBytesAsync(decyptedFilePath, translationContent);
-                _output.WriteLine("Translation JPEG file is written to \"{0}\".", decyptedFilePath);
+                string decryptedFilePath = System.IO.Path.GetTempFileName();
+                await System.IO.File.WriteAllBytesAsync(decryptedFilePath, translationContent);
+                _output.WriteLine("Translation JPEG file is written to \"{0}\".", decryptedFilePath);
             }
         }
     }

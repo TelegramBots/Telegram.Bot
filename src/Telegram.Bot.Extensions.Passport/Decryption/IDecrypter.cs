@@ -14,11 +14,6 @@ namespace Telegram.Bot.Passport
             EncryptedCredentials encryptedCredentials
         );
 
-        string DecryptData(
-            string encryptedData,
-            DataCredentials dataCredentials
-        );
-
         TValue DecryptData<TValue>(
             string encryptedData,
             DataCredentials dataCredentials
