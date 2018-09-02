@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         public StickersTestsFixture(TestsFixture testsFixture)
         {
-            TestStickerSetName = $"test14_by_{testsFixture.BotUser.Username}";
+            TestStickerSetName = $"test_set_by_{testsFixture.BotUser.Username}";
             OwnerUserId = GetStickerOwnerIdAsync(testsFixture, Constants.TestCollections.Stickers)
                 .GetAwaiter().GetResult();
         }
