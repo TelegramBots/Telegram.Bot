@@ -40,9 +40,9 @@ namespace Telegram.Bot.Passport
 
             byte[] decryptedData = DecryptDataBytes(data, secret, hash);
             string json = Encoding.UTF8.GetString(decryptedData);
-            Credentials creds = JsonConvert.DeserializeObject<Credentials>(json);
+            Credentials credentials = JsonConvert.DeserializeObject<Credentials>(json);
 
-            return creds;
+            return credentials;
         }
 
         /// <inheritdoc />
@@ -98,14 +98,21 @@ namespace Telegram.Bot.Passport
                 throw new ArgumentNullException(nameof(encryptedContent));
             if (fileCredentials is null)
                 throw new ArgumentNullException(nameof(fileCredentials));
+            if (fileCredentials.Secret is null)
+                throw new ArgumentNullException(nameof(fileCredentials.Secret));
+            if (fileCredentials.FileHash is null)
+                throw new ArgumentNullException(nameof(fileCredentials.FileHash));
+            if (encryptedContent.Length == 0)
+                throw new ArgumentException("Data array is empty.", nameof(encryptedContent));
             if (encryptedContent.Length % 16 != 0)
-                throw new PassportDataDecryptionException($"Invalid data length: {encryptedContent.Length}");
+                throw new PassportDataDecryptionException
+                    ($"Data length is not divisible by 16: {encryptedContent.Length}.");
 
             byte[] dataSecret = Convert.FromBase64String(fileCredentials.Secret);
             byte[] dataHash = Convert.FromBase64String(fileCredentials.FileHash);
 
             if (dataHash.Length != 32)
-                throw new PassportDataDecryptionException($"Invalid hash length: {dataHash.Length}");
+                throw new PassportDataDecryptionException($"Hash length is not 32: {dataHash.Length}.");
 
             return DecryptDataBytes(encryptedContent, dataSecret, dataHash);
         }
@@ -130,9 +137,11 @@ namespace Telegram.Bot.Passport
                 throw new ArgumentNullException(nameof(destination));
             if (!encryptedContent.CanRead)
                 throw new ArgumentException("Stream does not support reading.", nameof(encryptedContent));
+            if (encryptedContent.CanSeek && encryptedContent.Length == 0)
+                throw new ArgumentException("Stream is empty.", nameof(encryptedContent));
             if (encryptedContent.CanSeek && encryptedContent.Length % 16 != 0)
-                throw new PassportDataDecryptionException
-                    ($"Length of padded data is not divisible by 16: {encryptedContent.Length}.");
+                throw new PassportDataDecryptionException("Data length is not divisible by 16: " +
+                                                          $"{encryptedContent.Length}.");
             if (!destination.CanWrite)
                 throw new ArgumentException("Stream does not support writing.", nameof(destination));
 
@@ -140,7 +149,7 @@ namespace Telegram.Bot.Passport
             byte[] dataHash = Convert.FromBase64String(fileCredentials.FileHash);
 
             if (dataHash.Length != 32)
-                throw new PassportDataDecryptionException($"file hash has invalid length: {dataHash.Length}.");
+                throw new PassportDataDecryptionException($"Hash length is not 32: {dataHash.Length}.");
 
             return DecryptDataStreamAsync(encryptedContent, dataSecret, dataHash, destination, cancellationToken);
         }
@@ -175,12 +184,11 @@ namespace Telegram.Bot.Passport
 
                     byte paddingLength = paddingBuffer[0];
                     if (paddingLength < 32)
-                        throw new PassportDataDecryptionException($"Data has invalid padding length: {paddingLength}.");
+                        throw new PassportDataDecryptionException($"Data padding length is invalid: {paddingLength}.");
 
                     int actualDataLength = read - paddingLength;
                     if (actualDataLength < 1)
-                        // ToDo test
-                        throw new PassportDataDecryptionException($"Data has invalid length: {actualDataLength}.");
+                        throw new PassportDataDecryptionException($"Data length is invalid: {actualDataLength}.");
 
                     await destination.WriteAsync(paddingBuffer, paddingLength, actualDataLength, cancellationToken)
                         .ConfigureAwait(false);
@@ -222,9 +230,9 @@ namespace Telegram.Bot.Passport
                     aes.Key = dataKey;
                     aes.IV = dataIv;
                     aes.Padding = PaddingMode.None;
-                    using (var decryptor = aes.CreateDecryptor())
+                    using (var decrypter = aes.CreateDecryptor())
                     {
-                        dataWithPadding = decryptor.TransformFinalBlock(data, 0, data.Length);
+                        dataWithPadding = decrypter.TransformFinalBlock(data, 0, data.Length);
                     }
                 }
             }
@@ -243,7 +251,7 @@ namespace Telegram.Bot.Passport
                 for (int i = 0; i < hash.Length; i++)
                 {
                     if (hash[i] != paddedDataHash[i])
-                        throw new PassportDataDecryptionException("Data hash mismatch.");
+                        throw new PassportDataDecryptionException($"Data hash mismatch at position {i}.");
                 }
             }
 
@@ -256,11 +264,11 @@ namespace Telegram.Bot.Passport
             {
                 byte paddingLength = dataWithPadding[0];
                 if (paddingLength < 32)
-                    throw new PassportDataDecryptionException("Invalid data padding length");
+                    throw new PassportDataDecryptionException($"Data padding length is invalid: {paddingLength}.");
 
                 int actualDataLength = dataWithPadding.Length - paddingLength;
                 if (actualDataLength < 1)
-                    throw new PassportDataDecryptionException("Invalid data");
+                    throw new PassportDataDecryptionException($"Data length is invalid: {actualDataLength}.");
 
                 decryptedData = new byte[actualDataLength];
                 Array.Copy(dataWithPadding, paddingLength, decryptedData, 0, actualDataLength);

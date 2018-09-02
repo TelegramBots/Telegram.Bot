@@ -1,4 +1,5 @@
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System;
 using System.IO;
@@ -131,12 +132,12 @@ namespace UnitTests
                 );
             }
 
-            Assert.Matches(@"^Data has invalid padding length: \d+\.", exception.Message);
+            Assert.Matches(@"^Data padding length is invalid: \d+\.", exception.Message);
             Assert.IsType<PassportDataDecryptionException>(exception);
         }
 
         [Fact(DisplayName = "Should throw when decrypting a file(selfie) using wrong file credentials(front side)")]
-        public async Task Should_Throw_Decrypting_With_Wrong_FileCredentials()
+        public async Task Should_Throw_Decrypting_Stream_With_Wrong_FileCredentials()
         {
             FileCredentials wrongFileCredentials = new FileCredentials
             {
@@ -161,7 +162,7 @@ namespace UnitTests
                 );
             }
 
-            Assert.Matches(@"^Data hash mismatch at position \d+.$", exception.Message);
+            Assert.Matches(@"^Data hash mismatch at position \d+\.$", exception.Message);
             Assert.IsType<PassportDataDecryptionException>(exception);
         }
 
@@ -174,7 +175,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(null, null, null)
             );
 
-            Assert.Matches(@"^Value cannot be null.\s+Parameter name: encryptedContent$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: encryptedContent$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -187,7 +188,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), null, null)
             );
 
-            Assert.Matches(@"^Value cannot be null.\s+Parameter name: fileCredentials$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: fileCredentials$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -199,7 +200,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), new FileCredentials(), new MemoryStream())
             );
 
-            Assert.Matches(@"^Value cannot be null.\s+Parameter name: Secret$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: Secret$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -213,7 +214,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
             );
 
-            Assert.Matches(@"^Value cannot be null.\s+Parameter name: FileHash$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: FileHash$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -231,12 +232,29 @@ namespace UnitTests
                 );
             }
 
-            Assert.Matches(@"^Stream does not support reading.\s+Parameter name: encryptedContent$", exception.Message);
+            Assert.Matches(
+                @"^Stream does not support reading\.\s+Parameter name: encryptedContent$",
+                exception.Message
+            );
             Assert.IsType<ArgumentException>(exception);
         }
 
-        [Fact(DisplayName = "Should throw when readable data stream has invalid length")]
-        public async Task Should_Throw_If_Invalid_Readable_Data_Stream_Length()
+        [Fact(DisplayName = "Should throw when seekable data stream is empty")]
+        public async Task Should_Throw_If_Empty_Data_Stream()
+        {
+            FileCredentials fileCredentials = new FileCredentials {Secret = "", FileHash = ""};
+            IDecrypter decrypter = new Decrypter();
+
+            Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
+                decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
+            );
+
+            Assert.Matches(@"^Stream is empty\.\s+Parameter name: encryptedContent$", exception.Message);
+            Assert.IsType<ArgumentException>(exception);
+        }
+
+        [Fact(DisplayName = "Should throw when seekable data stream has invalid length")]
+        public async Task Should_Throw_If_Invalid_Seekable_Data_Stream_Length()
         {
             IDecrypter decrypter = new Decrypter();
             FileCredentials fileCredentials = new FileCredentials {Secret = "", FileHash = ""};
@@ -249,7 +267,7 @@ namespace UnitTests
                 );
             }
 
-            Assert.Equal("Length of padded data is not divisible by 16: 15.", exception.Message);
+            Assert.Equal("Data length is not divisible by 16: 15.", exception.Message);
             Assert.IsType<PassportDataDecryptionException>(exception);
         }
 
@@ -263,7 +281,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, null)
             );
 
-            Assert.Matches(@"^Value cannot be null.\s+Parameter name: destination$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: destination$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -277,14 +295,13 @@ namespace UnitTests
             using (Stream destStream = File.OpenRead("Files/driver_license-selfie.jpg"))
             {
                 exception = await Assert.ThrowsAnyAsync<Exception>(() =>
-                    decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, destStream)
+                    decrypter.DecryptFileAsync(new MemoryStream(new byte[16]), fileCredentials, destStream)
                 );
             }
 
-            Assert.Matches(@"^Stream does not support writing.\s+Parameter name: destination$", exception.Message);
+            Assert.Matches(@"^Stream does not support writing\.\s+Parameter name: destination$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
-
 
         [Theory(DisplayName = "Should throw when secret is not a valid base64-encoded string")]
         [InlineData("foo")]
@@ -295,7 +312,7 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
 
             await Assert.ThrowsAsync<FormatException>(() =>
-                decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
+                decrypter.DecryptFileAsync(new MemoryStream(new byte[16]), fileCredentials, new MemoryStream())
             );
         }
 
@@ -308,24 +325,24 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
 
             await Assert.ThrowsAnyAsync<FormatException>(() =>
-                decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
+                decrypter.DecryptFileAsync(new MemoryStream(new byte[16]), fileCredentials, new MemoryStream())
             );
         }
 
-        [Theory(DisplayName = "Should throw when file_hash is not a valid base64-encoded string")]
+        [Theory(DisplayName = "Should throw when length of file_hash is not 32")]
         [InlineData("")]
         [InlineData("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==")]
         [InlineData("Zm9v")]
-        public async Task Should_Throw_If_Invalid_Hash2(string fileHash)
+        public async Task Should_Throw_If_Invalid_Hash_Length(string fileHash)
         {
             FileCredentials fileCredentials = new FileCredentials {Secret = "", FileHash = fileHash};
             IDecrypter decrypter = new Decrypter();
 
             Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
-                decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
+                decrypter.DecryptFileAsync(new MemoryStream(new byte[16]), fileCredentials, new MemoryStream())
             );
 
-            Assert.Matches(@"^file hash has invalid length: \d+\.$", exception.Message);
+            Assert.Matches(@"^Hash length is not 32: \d+\.$", exception.Message);
             Assert.IsType<PassportDataDecryptionException>(exception);
         }
 
