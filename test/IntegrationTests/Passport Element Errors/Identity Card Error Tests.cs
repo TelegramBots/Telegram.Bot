@@ -75,7 +75,8 @@ namespace IntegrationTests
 
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportUpdate.Message.PassportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(key, passportUpdate.Message.PassportData.Credentials);
 
             Assert.Equal("Test nonce for identity card", credentials.Nonce);
 

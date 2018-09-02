@@ -89,34 +89,6 @@ namespace Telegram.Bot.Passport
         }
 
         /// <inheritdoc />
-        public Task DecryptFileAsync(
-            Stream encryptedContent,
-            FileCredentials fileCredentials,
-            Stream destination,
-            CancellationToken cancellationToken = default
-        )
-        {
-            if (encryptedContent is null)
-                throw new ArgumentNullException(nameof(encryptedContent));
-            if (fileCredentials is null)
-                throw new ArgumentNullException(nameof(fileCredentials));
-            if (!encryptedContent.CanRead)
-                throw new ArgumentException("Stream does not support reading.", nameof(encryptedContent));
-            if (encryptedContent.CanSeek && encryptedContent.Length % 16 != 0)
-                throw new PassportDataDecryptionException($"Invalid data length: {encryptedContent.Length}");
-            if (!destination.CanWrite)
-                throw new ArgumentException("Stream does not support writing.", nameof(destination));
-
-            byte[] dataSecret = Convert.FromBase64String(fileCredentials.Secret);
-            byte[] dataHash = Convert.FromBase64String(fileCredentials.FileHash);
-
-            if (dataHash.Length != 32)
-                throw new PassportDataDecryptionException($"Invalid hash length: {dataHash.Length}");
-
-            return DecryptDataStreamAsync(encryptedContent, dataSecret, dataHash, destination, cancellationToken);
-        }
-
-        /// <inheritdoc />
         public byte[] DecryptFile(
             byte[] encryptedContent,
             FileCredentials fileCredentials
@@ -138,6 +110,41 @@ namespace Telegram.Bot.Passport
             return DecryptDataBytes(encryptedContent, dataSecret, dataHash);
         }
 
+        /// <inheritdoc />
+        public Task DecryptFileAsync(
+            Stream encryptedContent,
+            FileCredentials fileCredentials,
+            Stream destination,
+            CancellationToken cancellationToken = default
+        )
+        {
+            if (encryptedContent is null)
+                throw new ArgumentNullException(nameof(encryptedContent));
+            if (fileCredentials is null)
+                throw new ArgumentNullException(nameof(fileCredentials));
+            if (fileCredentials.Secret is null)
+                throw new ArgumentNullException(nameof(fileCredentials.Secret));
+            if (fileCredentials.FileHash is null)
+                throw new ArgumentNullException(nameof(fileCredentials.FileHash));
+            if (destination is null)
+                throw new ArgumentNullException(nameof(destination));
+            if (!encryptedContent.CanRead)
+                throw new ArgumentException("Stream does not support reading.", nameof(encryptedContent));
+            if (encryptedContent.CanSeek && encryptedContent.Length % 16 != 0)
+                throw new PassportDataDecryptionException
+                    ($"Length of padded data is not divisible by 16: {encryptedContent.Length}.");
+            if (!destination.CanWrite)
+                throw new ArgumentException("Stream does not support writing.", nameof(destination));
+
+            byte[] dataSecret = Convert.FromBase64String(fileCredentials.Secret);
+            byte[] dataHash = Convert.FromBase64String(fileCredentials.FileHash);
+
+            if (dataHash.Length != 32)
+                throw new PassportDataDecryptionException($"file hash has invalid length: {dataHash.Length}.");
+
+            return DecryptDataStreamAsync(encryptedContent, dataSecret, dataHash, destination, cancellationToken);
+        }
+
         private static async Task DecryptDataStreamAsync(
             Stream data,
             byte[] secret,
@@ -157,8 +164,8 @@ namespace Telegram.Bot.Passport
                 aes.IV = dataIv;
                 aes.Padding = PaddingMode.None;
 
-                using (var decryptor = aes.CreateDecryptor())
-                using (CryptoStream aesStream = new CryptoStream(data, decryptor, CryptoStreamMode.Read))
+                using (var decrypter = aes.CreateDecryptor())
+                using (CryptoStream aesStream = new CryptoStream(data, decrypter, CryptoStreamMode.Read))
                 using (var sha256 = SHA256.Create())
                 using (CryptoStream shaStream = new CryptoStream(aesStream, sha256, CryptoStreamMode.Read))
                 {
@@ -168,11 +175,12 @@ namespace Telegram.Bot.Passport
 
                     byte paddingLength = paddingBuffer[0];
                     if (paddingLength < 32)
-                        throw new PassportDataDecryptionException("Invalid data padding length");
+                        throw new PassportDataDecryptionException($"Data has invalid padding length: {paddingLength}.");
 
                     int actualDataLength = read - paddingLength;
                     if (actualDataLength < 1)
-                        throw new PassportDataDecryptionException("Invalid data");
+                        // ToDo test
+                        throw new PassportDataDecryptionException($"Data has invalid length: {actualDataLength}.");
 
                     await destination.WriteAsync(paddingBuffer, paddingLength, actualDataLength, cancellationToken)
                         .ConfigureAwait(false);
@@ -187,7 +195,7 @@ namespace Telegram.Bot.Passport
                     for (int i = 0; i < hash.Length; i++)
                     {
                         if (hash[i] != paddedDataHash[i])
-                            throw new PassportDataDecryptionException("Data hash mismatch");
+                            throw new PassportDataDecryptionException($"Data hash mismatch at position {i}.");
                     }
                 }
             }
@@ -235,7 +243,7 @@ namespace Telegram.Bot.Passport
                 for (int i = 0; i < hash.Length; i++)
                 {
                     if (hash[i] != paddedDataHash[i])
-                        throw new PassportDataDecryptionException("Data hash mismatch");
+                        throw new PassportDataDecryptionException("Data hash mismatch.");
                 }
             }
 
