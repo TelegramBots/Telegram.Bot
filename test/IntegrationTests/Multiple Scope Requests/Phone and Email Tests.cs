@@ -50,7 +50,7 @@ namespace IntegrationTests
                 new PassportScopeElementOne(PassportEnums.Scope.PhoneNumber),
                 new PassportScopeElementOne(PassportEnums.Scope.Email),
             });
-            AuthorizationRequest authReq = new AuthorizationRequest(
+            AuthorizationRequestParameters authReq = new AuthorizationRequestParameters(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
                 nonce: "Test nonce for phone and email",

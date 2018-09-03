@@ -2,7 +2,7 @@ using System.IO;
 
 namespace UnitTests
 {
-    public static class FileDuplicator
+    public static class FixtureHelpers
     {
         /// <summary>
         /// Copies test files before unit tests parallel execution starts in order to avoid file access errors

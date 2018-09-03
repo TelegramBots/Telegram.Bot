@@ -73,7 +73,7 @@ namespace IntegrationTests
                     // Selfie = null // selfie cannot be requested for documents used as proof of address
                 },
             });
-            AuthorizationRequest authReq = new AuthorizationRequest(
+            AuthorizationRequestParameters authReq = new AuthorizationRequestParameters(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
                 nonce: "Test nonce for id card & utility bill",

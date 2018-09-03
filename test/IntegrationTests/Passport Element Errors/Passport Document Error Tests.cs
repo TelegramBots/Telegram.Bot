@@ -52,7 +52,7 @@ namespace IntegrationTests
                     Translation = true,
                 },
             });
-            AuthorizationRequest authReq = new AuthorizationRequest(
+            AuthorizationRequestParameters authReq = new AuthorizationRequestParameters(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
                 nonce: "Test nonce for passport",
@@ -81,7 +81,7 @@ namespace IntegrationTests
 
             Assert.Equal("Test nonce for passport", credentials.Nonce);
 
-            _classFixture.AuthorizationRequest = authReq;
+            _classFixture.AuthorizationRequestParameters = authReq;
             _classFixture.Credentials = credentials;
             _classFixture.Message = passportUpdate.Message;
         }
@@ -89,7 +89,7 @@ namespace IntegrationTests
         [OrderedFact("Should set multiple errors for passport")]
         public async Task Should_Set_Errors_Passport()
         {
-            AuthorizationRequest authReq = _classFixture.AuthorizationRequest;
+            AuthorizationRequestParameters authReq = _classFixture.AuthorizationRequestParameters;
             Credentials credentials = _classFixture.Credentials;
             Message passportMessage = _classFixture.Message;
 
@@ -140,7 +140,7 @@ namespace IntegrationTests
 
             public Credentials Credentials;
 
-            public AuthorizationRequest AuthorizationRequest;
+            public AuthorizationRequestParameters AuthorizationRequestParameters;
         }
     }
 }

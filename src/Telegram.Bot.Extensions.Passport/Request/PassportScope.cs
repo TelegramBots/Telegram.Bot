@@ -26,28 +26,15 @@ namespace Telegram.Bot.Passport.Request
         public int V { get; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PassportScope"/> with latest scope version
-        /// </summary>
-        /// <param name="data">
-        /// List of requested elements, each type may be used only once in the entire array of
-        /// <see cref="IPassportScopeElement"/> objects
-        /// </param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public PassportScope(IEnumerable<IPassportScopeElement> data)
-            : this(data, 1)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new instance of <see cref="PassportScope"/> with required parameters
         /// </summary>
         /// <param name="data">
         /// List of requested elements, each type may be used only once in the entire array of
         /// <see cref="IPassportScopeElement"/> objects
         /// </param>
-        /// <param name="v">Scope version</param>
+        /// <param name="v">Scope version. Defaults to 1.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public PassportScope(IEnumerable<IPassportScopeElement> data, int v)
+        public PassportScope(IEnumerable<IPassportScopeElement> data, int v = 1)
         {
             Data = data ?? throw new ArgumentNullException(nameof(data));
             V = v;

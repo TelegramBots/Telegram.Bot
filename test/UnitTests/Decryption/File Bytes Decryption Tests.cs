@@ -19,7 +19,7 @@ namespace UnitTests
         public class Fixture
         {
             public Fixture() =>
-                FileDuplicator.CopyTestFiles(
+                FixtureHelpers.CopyTestFiles(
                     ("driver_license-selfie.jpg.enc", "bytes_dec1.driver_license-selfie.jpg.enc"),
                     ("driver_license-selfie.jpg", "bytes_dec2.driver_license-selfie.jpg"),
                     ("driver_license-selfie.jpg.enc", "bytes_dec3.driver_license-selfie.jpg.enc")

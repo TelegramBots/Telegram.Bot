@@ -25,7 +25,7 @@ namespace Telegram.Bot.Types.Passport
         public string ExpiryDate { get; set; }
 
         /// <summary>
-        /// Date of exprity if available
+        /// Date of expiry if available
         /// </summary>
         public DateTime? Expiry
         {

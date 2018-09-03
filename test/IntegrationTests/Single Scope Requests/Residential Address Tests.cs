@@ -3,7 +3,6 @@
 // ReSharper disable StringLiteralTypo
 
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 using IntegrationTests.Framework;
 using IntegrationTests.Framework.Fixtures;
@@ -51,7 +50,7 @@ namespace IntegrationTests
             {
                 new PassportScopeElementOne(PassportEnums.Scope.Address)
             });
-            AuthorizationRequest authReq = new AuthorizationRequest(
+            AuthorizationRequestParameters authReq = new AuthorizationRequestParameters(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
                 nonce: "Test nonce for address",
@@ -102,11 +101,8 @@ namespace IntegrationTests
             Update update = _classFixture.Entity;
             PassportData passportData = update.Message.PassportData;
 
-            RSA key = EncryptionKey.ReadAsRsa();
-
             IDecrypter decrypter = new Decrypter();
-
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials,EncryptionKey.ReadAsRsa());
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.ReadAsRsa());
 
             Assert.NotNull(credentials);
             Assert.Equal("Test nonce for address", credentials.Nonce);
@@ -120,9 +116,8 @@ namespace IntegrationTests
             PassportData passportData = update.Message.PassportData;
             EncryptedPassportElement element = passportData.Data.Single();
 
-            RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials,EncryptionKey.ReadAsRsa());
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.ReadAsRsa());
 
             ResidentialAddress residentialAddress = decrypter.DecryptData<ResidentialAddress>(
                 element.Data,

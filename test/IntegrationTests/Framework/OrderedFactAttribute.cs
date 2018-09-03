@@ -8,7 +8,7 @@ namespace IntegrationTests.Framework
 {
     /// <summary>
     /// Attribute that is applied to a test method. Test methods in a collection will be executed in order based on their line number.
-    /// By defalut, test cases will rerun once if test method throws a <see cref="TaskCanceledException"/>.
+    /// By default, test cases will rerun once if test method throws a <see cref="TaskCanceledException"/>.
     /// </summary>
     [XunitTestCaseDiscoverer(Constants.TestCaseDiscoverer, Constants.AssemblyName)]
     public class OrderedFactAttribute : FactAttribute

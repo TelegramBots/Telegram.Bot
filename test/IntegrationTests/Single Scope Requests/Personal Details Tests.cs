@@ -57,7 +57,7 @@ namespace IntegrationTests
                     NativeNames = true,
                 },
             });
-            AuthorizationRequest authReq = new AuthorizationRequest(
+            AuthorizationRequestParameters authReq = new AuthorizationRequestParameters(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
                 nonce: "Test nonce for personal details",

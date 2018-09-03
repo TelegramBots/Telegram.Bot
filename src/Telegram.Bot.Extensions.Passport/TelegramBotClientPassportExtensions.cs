@@ -39,7 +39,7 @@ namespace Telegram.Bot
             botClient.MakeRequestAsync(new SetPassportDataErrorsRequest(userId, errors), cancellationToken);
 
         /// <summary>
-        /// Downloads an ecnrypted Passport file, decrypts it, and writes the content to
+        /// Downloads an encrypted Passport file, decrypts it, and writes the content to
         /// <paramref name="destination"/> stream
         /// </summary>
         /// <param name="botClient">Instance of bot client</param>
@@ -48,10 +48,7 @@ namespace Telegram.Bot
         /// <param name="destination"></param>
         /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
         /// <returns>File information of the encrypted Passport file on Telegram servers.</returns>
-        /// <exception cref="ArgumentNullException">If null arguments are passed</exception>
-        /// <exception cref="ArgumentException">
-        /// If <paramref name="destination"/> stream is not writable.
-        /// </exception>
+        /// <exception cref="ArgumentNullException"></exception>
         public static async Task<File> DownloadAndDecryptPassportFileAsync(
             this ITelegramBotClient botClient,
             PassportFile passportFile,
@@ -62,8 +59,10 @@ namespace Telegram.Bot
         {
             if (passportFile == null)
                 throw new ArgumentNullException(nameof(passportFile));
-            if (!destination.CanWrite)
-                throw new ArgumentException("Stream msut be writable.", nameof(destination));
+            if (fileCredentials == null)
+                throw new ArgumentNullException(nameof(fileCredentials));
+            if (destination == null)
+                throw new ArgumentNullException(nameof(destination));
 
             File fileInfo;
 

@@ -11,9 +11,7 @@ using Telegram.Bot.Types.Passport;
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Passport
 {
-    /// <summary>
-    /// Default implementation of <see cref="IDecrypter"/>
-    /// </summary>
+    /// <inheritdoc />
     public class Decrypter : IDecrypter
     {
         /// <inheritdoc />

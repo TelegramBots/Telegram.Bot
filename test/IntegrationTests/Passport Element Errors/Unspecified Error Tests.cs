@@ -47,7 +47,7 @@ namespace IntegrationTests
             {
                 new PassportScopeElementOne(PassportEnums.Scope.BankStatement),
             });
-            AuthorizationRequest authReq = new AuthorizationRequest(
+            AuthorizationRequestParameters authReq = new AuthorizationRequestParameters(
                 botId: _fixture.BotUser.Id,
                 publicKey: publicKey,
                 nonce: "Test nonce for bank statement",
@@ -69,14 +69,14 @@ namespace IntegrationTests
 
             Update passportUpdate = await _fixture.UpdateReceiver.GetPassportUpdate();
 
-            _classFixture.AuthorizationRequest = authReq;
+            _classFixture.AuthorizationRequestParameters = authReq;
             _classFixture.Message = passportUpdate.Message;
         }
 
         [OrderedFact("Should set an unspecified error for the whole document")]
         public async Task Should_set_error_unspecified()
         {
-            AuthorizationRequest authReq = _classFixture.AuthorizationRequest;
+            AuthorizationRequestParameters authReq = _classFixture.AuthorizationRequestParameters;
             Message passportMessage = _classFixture.Message;
 
             PassportElementError[] errors =
@@ -108,7 +108,7 @@ namespace IntegrationTests
         {
             public Message Message;
 
-            public AuthorizationRequest AuthorizationRequest;
+            public AuthorizationRequestParameters AuthorizationRequestParameters;
         }
     }
 }

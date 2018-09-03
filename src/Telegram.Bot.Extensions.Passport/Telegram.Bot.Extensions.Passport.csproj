@@ -1,25 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
-    <VersionPrefix>0.1.0</VersionPrefix>
-    <VersionSuffix>alpha</VersionSuffix>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <!--<VersionSuffix></VersionSuffix>-->
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Title>Passport Extension for Telegram Bot API Client</Title>
-    <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
+    <Title>Telegram Passport Extension for Telegram Bot API Client</Title>
+    <Description>
+      Telegram Passport is a unified authorization method for services that require personal identification.
+      This package provides extension methods for Telegram Passport API and decryption utilities for
+      Telegram Passport encrypted data.
+    </Description>
     <Authors>TelegramBots</Authors>
     <Copyright>Copyright © Telegram Bots 2018</Copyright>
-    <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
+    <RepositoryUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Passport</RepositoryUrl>
     <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Passport</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot.Extensions.Passport/master/LICENSE</PackageLicenseUrl>
-    <RepositoryUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Passport</RepositoryUrl>
-    <PackageTags>Telegram;Bot;Api;Passport</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot.Extensions.Passport/master/package-icon.gif</PackageIconUrl>
+    <PackageTags>Telegram;Bot;Api;Passport;Telegram Passport</PackageTags>
   </PropertyGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
     <ProjectReference Include="..\..\deps\Telegram.Bot\src\Telegram.Bot\Telegram.Bot.csproj" />
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release'">
-    <PackageReference Include="Telegram.Bot" Version="14.9.0" />
+    <PackageReference Include="Telegram.Bot" Version="14.10.0" />
   </ItemGroup>
 </Project>

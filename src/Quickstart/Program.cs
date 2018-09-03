@@ -60,7 +60,7 @@ namespace Quickstart
                 new PassportScopeElementOne(PassportEnums.Scope.Address),
                 new PassportScopeElementOne(PassportEnums.Scope.PhoneNumber),
             });
-            AuthorizationRequest authReq = new AuthorizationRequest(
+            AuthorizationRequestParameters authReq = new AuthorizationRequestParameters(
                 botId: _botClient.BotId,
                 publicKey: PublicKey,
                 nonce: "Test nonce for this demo",
