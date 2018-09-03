@@ -7,10 +7,6 @@ branches:
   except:
   - master
 script: >
-  cd test/UnitTests &&
-  dotnet test --configuration Release --list-tests &&
-  dotnet xunit -configuration Release -nobuild -stoponfail -verbose &&
-  cd - &&
   cd test/IntegrationTests &&
   dotnet test --configuration Release --list-tests &&
   dotnet xunit -configuration Release -nobuild -stoponfail -verbose

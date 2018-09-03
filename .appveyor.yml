@@ -29,9 +29,9 @@ nuget:
 #       branch: master
 
 
-# for:
-# -
-#   branches:
-#     only:
-#       - master
-#   configuration: Release
+for:
+-
+  branches:
+    only:
+      - master
+  configuration: Release
