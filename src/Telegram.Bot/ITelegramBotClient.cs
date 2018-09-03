@@ -20,6 +20,12 @@ namespace Telegram.Bot
     /// </summary>
     public interface ITelegramBotClient
     {
+        /// <summary>
+        /// Unique identifier for the bot from bot token. For example, for the bot token
+        /// "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy", the bot id is "1234567".
+        /// </summary>
+        int BotId { get; }
+
         #region Config Properties
 
         /// <summary>
@@ -683,8 +689,9 @@ namespace Telegram.Bot
         /// Use this method to download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
         /// </summary>
         /// <param name="filePath">Path to file on server</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         /// <returns>File stream</returns>
+        [Obsolete("This method will be removed in next major release. Use its overload instead.")]
         Task<Stream> DownloadFileAsync(
             string filePath,
             CancellationToken cancellationToken = default);
@@ -694,7 +701,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="filePath">Path to file on server</param>
         /// <param name="destination">Destination stream to write file to</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
         Task DownloadFileAsync(
             string filePath,
             Stream destination,

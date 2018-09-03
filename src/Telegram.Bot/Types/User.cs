@@ -85,12 +85,14 @@ namespace Telegram.Bot.Types
         {
             unchecked
             {
+                // ReSharper disable NonReadonlyMemberInGetHashCode
                 var hashCode = Id;
                 hashCode = (hashCode * 397) ^ IsBot.GetHashCode();
                 hashCode = (hashCode * 397) ^ (FirstName?.GetHashCode() ?? 0);
                 hashCode = (hashCode * 397) ^ (LastName?.GetHashCode() ?? 0);
                 hashCode = (hashCode * 397) ^ (Username?.GetHashCode() ?? 0);
                 hashCode = (hashCode * 397) ^ (LanguageCode?.GetHashCode() ?? 0);
+                // ReSharper restore NonReadonlyMemberInGetHashCode
                 return hashCode;
             }
         }

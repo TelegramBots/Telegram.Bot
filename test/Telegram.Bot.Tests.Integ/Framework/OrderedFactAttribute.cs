@@ -105,7 +105,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 throw new ArgumentOutOfRangeException(nameof(line));
 
             if (!string.IsNullOrWhiteSpace(description))
+            {
+                // ReSharper disable once VirtualMemberCallInConstructor
                 DisplayName = description;
+            }
 
             LineNumber = line;
             MaxRetries = 1;

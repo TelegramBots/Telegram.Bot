@@ -80,7 +80,8 @@ namespace Telegram.Bot.Exceptions
         /// <param name="errorCode">The error code</param>
         /// <param name="parameters">Response parameters</param>
         /// <param name="innerException">The inner exception</param>
-        public ApiRequestException(string message, int errorCode, ResponseParameters parameters, Exception innerException)
+        public ApiRequestException(string message, int errorCode, ResponseParameters parameters,
+                                   Exception innerException)
             : base(message, innerException)
         {
             ErrorCode = errorCode;
@@ -95,7 +96,7 @@ namespace Telegram.Bot.Exceptions
         /// <returns><see cref="ApiRequestException"/></returns>
         public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
         {
-            return ApiExceptionParser.Parse<T>(apiResponse);
+            return ApiExceptionParser.Parse(apiResponse);
             /*
             string message;
             switch (apiResponse.ErrorCode)
@@ -104,7 +105,7 @@ namespace Telegram.Bot.Exceptions
                 case 400:
                     message = apiResponse.Description.Remove(0, "Bad Request: ".Length);
                     switch (message.Trim())
-                    {                       
+                    {
                         case "have no rights to send a message":
                             return new BotRestrictedException(apiResponse.Description)
                             {
@@ -142,7 +143,7 @@ namespace Telegram.Bot.Exceptions
                             return new BotBlockedException(apiResponse.Description)
                             {
                                 Parameters = apiResponse.Parameters
-                            };                        
+                            };
                         default:
                             LogMissingError(apiResponse);
                             return new ApiRequestException(apiResponse.Description, 403)
