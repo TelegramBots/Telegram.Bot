@@ -1,6 +1,7 @@
 // ReSharper disable InconsistentNaming
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using Newtonsoft.Json;
 using Telegram.Bot.Passport;
@@ -62,7 +63,6 @@ namespace UnitTests
         }
 
         static PassportData GetPassportData() =>
-            // ReSharper disable StringLiteralTypo
             JsonConvert.DeserializeObject<PassportData>(@"
 {
   ""data"": [
@@ -79,6 +79,5 @@ namespace UnitTests
   }
 }
             ");
-        // ReSharper restore StringLiteralTypo
     }
 }

@@ -16,8 +16,23 @@ namespace UnitTests
     /// <summary>
     /// Tests for decrypting file streams using <see cref="IDecrypter.DecryptFileAsync"/> method
     /// </summary>
-    public class FileStreamDecryptionTests
+    public class FileStreamDecryptionTests : IClassFixture<FileStreamDecryptionTests.Fixture>
     {
+        public class Fixture
+        {
+            public Fixture() =>
+                FileDuplicator.CopyTestFiles(
+                    ("driver_license-selfie.jpg.enc", "s_dec1.driver_license-selfie.jpg.enc"),
+                    ("driver_license-selfie.jpg.enc", "s_dec2.driver_license-selfie.jpg.enc"),
+                    ("driver_license-selfie.jpg", "s_dec3.driver_license-selfie.jpg"),
+                    ("driver_license-selfie.jpg.enc", "s_dec3.driver_license-selfie.jpg.enc"),
+                    ("driver_license-selfie.jpg.enc", "s_dec4.driver_license-selfie.jpg.enc"),
+                    ("driver_license-selfie.jpg.enc", "s_dec5.driver_license-selfie.jpg.enc"),
+                    ("driver_license-selfie.jpg", "s_dec6.driver_license-selfie.jpg"),
+                    ("driver_license-selfie.jpg", "s_dec7.driver_license-selfie.jpg")
+                );
+        }
+
         [Fact(DisplayName = "Should decrypt from a seekable stream")]
         public async Task Should_Decrypt_From_Seekable_Stream()
         {
@@ -30,7 +45,7 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
 
             Stream encContentStream = new MemoryStream();
-            using (Stream encFileStream = new NonSeekableFileReadStream("Files/driver_license-selfie.jpg.enc"))
+            using (Stream encFileStream = new NonSeekableFileReadStream("Files/s_dec1.driver_license-selfie.jpg.enc"))
             {
                 await encFileStream.CopyToAsync(encContentStream);
             }
@@ -60,7 +75,7 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
 
             using (Stream
-                encFileStream = new NonSeekableFileReadStream("Files/driver_license-selfie.jpg.enc"),
+                encFileStream = new NonSeekableFileReadStream("Files/s_dec2.driver_license-selfie.jpg.enc"),
                 fileStream = new MemoryStream()
             )
             {
@@ -85,7 +100,7 @@ namespace UnitTests
 
             Exception exception;
             using (Stream
-                encFileStream = new NonSeekableFileReadStream("Files/driver_license-selfie.jpg"),
+                encFileStream = new NonSeekableFileReadStream("Files/s_dec3.driver_license-selfie.jpg"),
                 fileStream = new MemoryStream()
             )
             {
@@ -114,7 +129,7 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
 
             Stream encContentStream = new MemoryStream();
-            using (Stream encFileStream = new NonSeekableFileReadStream("Files/driver_license-selfie.jpg.enc"))
+            using (Stream encFileStream = new NonSeekableFileReadStream("Files/s_dec4.driver_license-selfie.jpg.enc"))
             {
                 await encFileStream.CopyToAsync(encContentStream);
             }
@@ -149,7 +164,7 @@ namespace UnitTests
 
             Exception exception;
             using (Stream
-                encFileStream = new NonSeekableFileReadStream("Files/driver_license-selfie.jpg.enc"),
+                encFileStream = new NonSeekableFileReadStream("Files/s_dec5.driver_license-selfie.jpg.enc"),
                 fileStream = new MemoryStream()
             )
             {
@@ -225,7 +240,7 @@ namespace UnitTests
             FileCredentials fileCredentials = new FileCredentials {Secret = "", FileHash = ""};
 
             Exception exception;
-            using (Stream encStream = File.OpenWrite("Files/driver_license-selfie.jpg"))
+            using (Stream encStream = File.OpenWrite("Files/s_dec6.driver_license-selfie.jpg"))
             {
                 exception = await Assert.ThrowsAnyAsync<Exception>(() =>
                     decrypter.DecryptFileAsync(encStream, fileCredentials, new MemoryStream())
@@ -292,7 +307,7 @@ namespace UnitTests
             FileCredentials fileCredentials = new FileCredentials {Secret = "", FileHash = ""};
 
             Exception exception;
-            using (Stream destStream = File.OpenRead("Files/driver_license-selfie.jpg"))
+            using (Stream destStream = File.OpenRead("Files/s_dec7.driver_license-selfie.jpg"))
             {
                 exception = await Assert.ThrowsAnyAsync<Exception>(() =>
                     decrypter.DecryptFileAsync(new MemoryStream(new byte[16]), fileCredentials, destStream)

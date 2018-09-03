@@ -14,8 +14,18 @@ namespace UnitTests
     /// <summary>
     /// Tests for decrypting file byte arrays using <see cref="IDecrypter.DecryptFile"/> method
     /// </summary>
-    public class FileBytesDecryptionTests
+    public class FileBytesDecryptionTests : IClassFixture<FileBytesDecryptionTests.Fixture>
     {
+        public class Fixture
+        {
+            public Fixture() =>
+                FileDuplicator.CopyTestFiles(
+                    ("driver_license-selfie.jpg.enc", "bytes_dec1.driver_license-selfie.jpg.enc"),
+                    ("driver_license-selfie.jpg", "bytes_dec2.driver_license-selfie.jpg"),
+                    ("driver_license-selfie.jpg.enc", "bytes_dec3.driver_license-selfie.jpg.enc")
+                );
+        }
+
         [Fact(DisplayName = "Should decrypt from file bytes")]
         public async Task Should_Decrypt_From_Bytes()
         {
@@ -27,7 +37,7 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            byte[] encContent = await File.ReadAllBytesAsync("Files/driver_license-selfie.jpg.enc");
+            byte[] encContent = await File.ReadAllBytesAsync("Files/bytes_dec1.driver_license-selfie.jpg.enc");
 
             byte[] content = decrypter.DecryptFile(
                 encContent,
@@ -48,7 +58,7 @@ namespace UnitTests
             };
 
             IDecrypter decrypter = new Decrypter();
-            byte[] encContent = await File.ReadAllBytesAsync("Files/driver_license-selfie.jpg");
+            byte[] encContent = await File.ReadAllBytesAsync("Files/bytes_dec2.driver_license-selfie.jpg");
 
             Exception exception = Assert.ThrowsAny<Exception>(() =>
                 decrypter.DecryptFile(
@@ -94,7 +104,7 @@ namespace UnitTests
             };
 
             IDecrypter decrypter = new Decrypter();
-            byte[] encContent = await File.ReadAllBytesAsync("Files/driver_license-selfie.jpg.enc");
+            byte[] encContent = await File.ReadAllBytesAsync("Files/bytes_dec3.driver_license-selfie.jpg.enc");
 
             Exception exception = Assert.ThrowsAny<Exception>(() =>
                 decrypter.DecryptFile(
