@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <VersionPrefix>14.9.0</VersionPrefix>
+    <VersionPrefix>14.10.0</VersionPrefix>
+    <!--<VersionSuffix></VersionSuffix>-->
     <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -9,7 +10,7 @@
     <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
     <Authors>RoundRobin,Poulad</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
-    <PackageIconUrl>https://telegram.org/file/811140058/2/7GzMJk4Ij54/a1649c56fa9f805828</PackageIconUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot/master/package-icon.gif</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
@@ -20,10 +21,10 @@
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
+    <PackageReference Include="System.Net.Requests" Version="4.3.0"/>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http"/>
   </ItemGroup>
 </Project>

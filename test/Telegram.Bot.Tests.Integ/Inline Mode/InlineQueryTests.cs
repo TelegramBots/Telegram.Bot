@@ -24,20 +24,26 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithArticle)]
+        [OrderedFact("Should answer inline query with an article")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Article()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithArticle,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "1. Start an inline query\n" +
+                "2. Wait for bot to answer it\n" +
+                "3. Choose the answer",
+                startInlineQuery: true
+            );
 
+            // Wait for tester to start an inline query
+            // This looks for an Update having a value on "inline_query" field
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            const string resultId = "article:bot-api";
+            // Prepare results of the query
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultArticle(
-                    id: resultId,
+                    id: "article:bot-api",
                     title: "Telegram Bot API",
                     inputMessageContent: new InputTextMessageContent(
                         "https://core.telegram.org/bots/api")
@@ -47,17 +53,21 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 },
             };
 
+            // Answer the query
             await BotClient.AnswerInlineQueryAsync(
                 inlineQueryId: iqUpdate.InlineQuery.Id,
                 results: results,
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
-            ChosenInlineResult chosenResult = chosenResultUpdate.ChosenInlineResult;
+            // Wait for tester to choose a result and send it(as a message) to the chat
+            (
+                Update messageUpdate,
+                Update chosenResultUpdate
+            ) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
 
             Assert.Equal(MessageType.Text, messageUpdate.Message.Type);
-            Assert.Equal(resultId, chosenResult.ResultId);
+            Assert.Equal("article:bot-api", chosenResultUpdate.ChosenInlineResult.ResultId);
             Assert.Equal(iqUpdate.InlineQuery.Query, chosenResultUpdate.ChosenInlineResult.Query);
         }
 
@@ -88,7 +98,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Contact);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Contact);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Contact, messageUpdate.Message.Type);
@@ -121,7 +132,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Location);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Location);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Location, messageUpdate.Message.Type);
@@ -155,7 +167,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Venue);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Venue);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Venue, messageUpdate.Message.Type);
@@ -193,7 +206,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Photo, messageUpdate.Message.Type);
@@ -214,7 +228,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 photoMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat,
                     photo: stream,
-                    replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                         .WithSwitchInlineQueryCurrentChat("Start inline query")
                 );
             }
@@ -240,7 +254,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Photo, messageUpdate.Message.Type);
@@ -279,7 +294,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Video);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Video);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Video, messageUpdate.Message.Type);
@@ -324,7 +340,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Text, messageUpdate.Message.Type);
@@ -342,7 +359,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Message videoMessage = await BotClient.SendVideoAsync(
                 chatId: _fixture.SupergroupChat,
                 video: "https://pixabay.com/en/videos/download/video-7122_medium.mp4",
-                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
             );
 
@@ -367,7 +384,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Video);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Video);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Video, messageUpdate.Message.Type);
@@ -405,7 +423,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Audio);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Audio);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Audio, messageUpdate.Message.Type);
@@ -428,7 +447,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     audio: stream,
                     performer: "Jackson F. Smith",
                     duration: 201,
-                    replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                         .WithSwitchInlineQueryCurrentChat("Start inline query")
                 );
             }
@@ -453,7 +472,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Audio);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Audio);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Audio, messageUpdate.Message.Type);
@@ -490,7 +510,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Voice);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Voice);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Voice, messageUpdate.Message.Type);
@@ -511,7 +532,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     chatId: _fixture.SupergroupChat,
                     voice: stream,
                     duration: 24,
-                    replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                         .WithSwitchInlineQueryCurrentChat("Start inline query")
                 );
             }
@@ -534,7 +555,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Voice);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Voice);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Voice, messageUpdate.Message.Type);
@@ -572,7 +594,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Document, messageUpdate.Message.Type);
@@ -592,7 +615,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,
                     document: stream,
-                    replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
+                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                         .WithSwitchInlineQueryCurrentChat("Start inline query")
                 );
             }
@@ -619,7 +642,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Document, messageUpdate.Message.Type);
@@ -659,7 +683,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Document, messageUpdate.Message.Type);
@@ -676,7 +701,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Message gifMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
                 document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
-                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query"));
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
@@ -699,7 +724,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Document, messageUpdate.Message.Type);
@@ -735,7 +761,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Video);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Video);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Video, messageUpdate.Message.Type);
@@ -752,7 +779,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Message gifMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
                 document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
-                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query"));
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
@@ -775,7 +802,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Document);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Document, messageUpdate.Message.Type);
@@ -810,7 +838,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Sticker);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Sticker);
             Update resultUpdate = chosenResultUpdate;
 
             Assert.Equal(MessageType.Sticker, messageUpdate.Message.Type);
@@ -850,7 +879,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Photo);
 
             Assert.Equal(MessageType.Photo, messageUpdate.Message.Type);
             Assert.Equal(photoCaption, messageUpdate.Message.Caption);
@@ -863,8 +893,6 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
         private static class FactTitles
         {
-            public const string ShouldAnswerInlineQueryWithArticle = "Should answer inline query with an article";
-
             public const string ShouldAnswerInlineQueryWithContact = "Should answer inline query with a contact";
 
             public const string ShouldAnswerInlineQueryWithLocation = "Should answer inline query with a location";

@@ -3,6 +3,9 @@
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
 {
+    /// <summary>
+    /// A marker interface for input media content
+    /// </summary>
     public interface IInputMedia
     {
         /// <summary>

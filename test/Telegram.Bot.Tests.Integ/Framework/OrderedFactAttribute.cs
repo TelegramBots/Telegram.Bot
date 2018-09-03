@@ -77,12 +77,38 @@ namespace Telegram.Bot.Tests.Integ.Framework
         /// Initializes an instance of <see cref="OrderedFactAttribute"/> with 1 retry attempt and delay of 30 seconds if a <see cref="TaskCanceledException"/> is thrown.
         /// </summary>
         /// <param name="line">Line number in source file.</param>
+        [Obsolete]
         public OrderedFactAttribute(
             [CallerLineNumber] int line = default
         )
         {
             if (line < 1)
                 throw new ArgumentOutOfRangeException(nameof(line));
+
+            LineNumber = line;
+            MaxRetries = 1;
+            DelaySeconds = 60;
+            ExceptionType = typeof(TaskCanceledException);
+        }
+
+        /// <summary>
+        /// Initializes an instance of <see cref="OrderedFactAttribute"/> with 1 retry attempt and delay of 30 seconds if a <see cref="TaskCanceledException"/> is thrown.
+        /// </summary>
+        /// <param name="description">Description of test case.</param>
+        /// <param name="line">Line number in source file.</param>
+        public OrderedFactAttribute(
+            string description,
+            [CallerLineNumber] int line = default
+        )
+        {
+            if (line < 1)
+                throw new ArgumentOutOfRangeException(nameof(line));
+
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                // ReSharper disable once VirtualMemberCallInConstructor
+                DisplayName = description;
+            }
 
             LineNumber = line;
             MaxRetries = 1;

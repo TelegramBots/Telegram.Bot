@@ -28,12 +28,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendPhotoFile)]
+        [OrderedFact("Should Send photo using a file")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Send_Photo_File()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPhotoFile);
-
             Message message;
             using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
             {
@@ -55,12 +53,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture.Entity = message;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendPhotoUsingFileId)]
+        [OrderedFact("Should Send previous photo using its file_id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Send_Photo_FileId()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendPhotoUsingFileId);
-
             PhotoSize[] uploadedPhoto = _classFixture.Entity.Photo;
             string fileId = uploadedPhoto.First().FileId;
 
@@ -75,12 +71,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             ));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldParseMessageCaptionEntitiesIntoValues)]
+        [OrderedFact("Should send photo message and parse its caption entity values")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Parse_Message_Caption_Entities_Into_Values()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
-
             (MessageEntityType Type, string Value)[] entityValueMappings =
             {
                 (MessageEntityType.PhoneNumber, "+386 12 345 678"),
@@ -110,12 +104,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(entityValueMappings.Select(t => t.Value), message.CaptionEntityValues);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendPhotoWithMarkdownEncodedCaption)]
+        [OrderedFact("Should send photo with markdown encoded caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Send_Photo_With_Markdown_Encoded_Caption()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldParseMessageCaptionEntitiesIntoValues);
-
             var entityValueMappings = new (MessageEntityType Type, string EntityBody, string EncodedEntity)[]
             {
                 (MessageEntityType.Bold, "bold", "*bold*"),
@@ -141,12 +133,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(entityValueMappings.Select(t => t.EntityBody), message.CaptionEntityValues);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendDeserializedPhotoRequest)]
+        [OrderedFact("Should deserialize a sendPhoto request from JSON and send it")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Send_Deserialized_Photo_Request()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendDeserializedPhotoRequest);
-
             string json = $@"{{
                 chat_id: ""{_fixture.SupergroupChat.Id}"",
                 photo: ""https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"",
@@ -158,22 +148,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Message message = await BotClient.MakeRequestAsync(request);
 
             Assert.Equal(MessageType.Photo, message.Type);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendPhotoFile = "Should Send photo using a file";
-
-            public const string ShouldSendPhotoUsingFileId = "Should Send previous photo using its file_id";
-
-            public const string ShouldParseMessageCaptionEntitiesIntoValues =
-                "Should send photo message and parse its caption entity values";
-
-            public const string ShouldSendPhotoWithMarkdownEncodedCaption =
-                "Should send photo with markdown encoded caption";
-
-            public const string ShouldSendDeserializedPhotoRequest =
-                "Should deserialize a sendPhoto request from JSON and send it";
         }
     }
 }

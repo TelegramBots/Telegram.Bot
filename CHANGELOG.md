@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Telegram Passport support
+- Type `EncryptedCredentials`
+- Type `EncryptedPassportElement`
+- Type `PassportData`
+- Type `PassportFile`
+- Property `ITelegramBotClient.BotId`
+- Property `Message.PassportData`
+
+### Changed
+
+- Marked `DownloadFileAsync(string,CancellationToken)` obsolete.
+
+## [14.9.0] - 2018-08-06
+
+### Added
+
 - Method `SendAnimationAsync`
 - Parameter `thumb` to method `SendAudioAsync`
 - Parameter `thumb` to method `SendDocumentAsync`
