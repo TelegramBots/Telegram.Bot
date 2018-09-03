@@ -63,7 +63,7 @@ namespace Telegram.Bot.Passport
 
             byte[] data = Convert.FromBase64String(encryptedData);
             if (data.Length == 0)
-                throw new ArgumentException("Data array is empty.", nameof(encryptedData));
+                throw new ArgumentException("Data is empty.", nameof(encryptedData));
             if (data.Length % 16 != 0)
                 throw new PassportDataDecryptionException
                     ($"Data length is not divisible by 16: {data.Length}.");

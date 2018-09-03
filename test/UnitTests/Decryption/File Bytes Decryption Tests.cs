@@ -57,7 +57,7 @@ namespace UnitTests
                 )
             );
 
-            Assert.Matches(@"^Length of padded data is not divisible by 16: \d|\.$", exception.Message);
+            Assert.Matches(@"^Data length is not divisible by 16: \d+\.$", exception.Message);
             Assert.IsType<PassportDataDecryptionException>(exception);
         }
 
