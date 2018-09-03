@@ -20,7 +20,7 @@ namespace IntegrationTests.Framework
             "Identity card and utility bill",
 
             // setting data errors
-            "Identity card errors",
+            "Passport document errors",
             "Passport registration errors",
             "Unspecified error",
         };
