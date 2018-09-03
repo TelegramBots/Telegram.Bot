@@ -18,7 +18,7 @@ namespace Telegram.Bot.Passport
             string encryptedData,
             DataCredentials dataCredentials
         )
-            where TValue : IDecryptedValue;
+            where TValue : class, IDecryptedValue;
 
         byte[] DecryptFile(
             byte[] encryptedContent,

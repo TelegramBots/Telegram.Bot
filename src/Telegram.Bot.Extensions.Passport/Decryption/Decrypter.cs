@@ -26,16 +26,26 @@ namespace Telegram.Bot.Passport
                 throw new ArgumentNullException(nameof(encryptedCredentials));
             if (key is null)
                 throw new ArgumentNullException(nameof(key));
+            if (encryptedCredentials.Data is null)
+                throw new ArgumentNullException(nameof(encryptedCredentials.Data));
+            if (encryptedCredentials.Secret is null)
+                throw new ArgumentNullException(nameof(encryptedCredentials.Secret));
+            if (encryptedCredentials.Hash is null)
+                throw new ArgumentNullException(nameof(encryptedCredentials.Hash));
 
             byte[] data = Convert.FromBase64String(encryptedCredentials.Data);
+            if (data.Length == 0)
+                throw new ArgumentException("Data is empty.", nameof(encryptedCredentials.Data));
             if (data.Length % 16 != 0)
-                throw new PassportDataDecryptionException($"Invalid data length: {data.Length}");
+                throw new PassportDataDecryptionException
+                    ($"Data length is not divisible by 16: {data.Length}.");
+
+            byte[] encryptedSecret = Convert.FromBase64String(encryptedCredentials.Secret);
 
             byte[] hash = Convert.FromBase64String(encryptedCredentials.Hash);
             if (hash.Length != 32)
-                throw new PassportDataDecryptionException($"Invalid hash length: {hash.Length}");
+                throw new PassportDataDecryptionException($"Hash length is not 32: {hash.Length}.");
 
-            byte[] encryptedSecret = Convert.FromBase64String(encryptedCredentials.Secret);
             byte[] secret = key.Decrypt(encryptedSecret, RSAEncryptionPadding.OaepSHA1);
 
             byte[] decryptedData = DecryptDataBytes(data, secret, hash);
@@ -50,7 +60,7 @@ namespace Telegram.Bot.Passport
             string encryptedData,
             DataCredentials dataCredentials
         )
-            where TValue : IDecryptedValue
+            where TValue : class, IDecryptedValue
         {
             if (encryptedData is null)
                 throw new ArgumentNullException(nameof(encryptedData));
@@ -102,7 +112,6 @@ namespace Telegram.Bot.Passport
 
             byte[] dataSecret = Convert.FromBase64String(fileCredentials.Secret);
             byte[] dataHash = Convert.FromBase64String(fileCredentials.FileHash);
-
             if (dataHash.Length != 32)
                 throw new PassportDataDecryptionException($"Hash length is not 32: {dataHash.Length}.");
 
@@ -139,7 +148,6 @@ namespace Telegram.Bot.Passport
 
             byte[] dataSecret = Convert.FromBase64String(fileCredentials.Secret);
             byte[] dataHash = Convert.FromBase64String(fileCredentials.FileHash);
-
             if (dataHash.Length != 32)
                 throw new PassportDataDecryptionException($"Hash length is not 32: {dataHash.Length}.");
 

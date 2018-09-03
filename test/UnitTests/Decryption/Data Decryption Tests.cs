@@ -2,6 +2,7 @@
 // ReSharper disable StringLiteralTypo
 
 using System;
+using Newtonsoft.Json;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
@@ -103,7 +104,7 @@ namespace UnitTests
                 decrypter.DecryptData<IDecryptedValue>("", dataCredentials)
             );
 
-            Assert.Matches(@"^Data is empty\.\s+Parameter name: encryptedData", exception.Message);
+            Assert.Matches(@"^Data is empty\.\s+Parameter name: encryptedData$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
 
@@ -208,6 +209,28 @@ namespace UnitTests
 
             Assert.Matches(@"^Data hash mismatch at position \d+\.$", exception.Message);
             Assert.IsType<PassportDataDecryptionException>(exception);
+        }
+
+        [Fact(DisplayName = "Should throw when decrypting data to a non-concrete type(interface)")]
+        public void Should_Throw_Decrypting_Data_To_NonConcrete_Type()
+        {
+            const string data =
+                "r9y49J5oJiFTmPzvFtqf80ngL2Ymr90QzmTBptvhFsovZ4yBc06CU2wPhq0hSSLOkmbJq4NTy54sCIpmpIw7rM/QQQYvS5NRWH" +
+                "S7wHpSrgCU0FIP6G1Jp1Gx36ksy3/Z6KAyHY85LX99Odjl0SD3iIArtIQXNFHxIypNZWzdVgyWXKiOtBkKztAEYL+6vRJ8Uj1j" +
+                "5njMCThNJg3T0Ju+3QpjNUYpKd/dgOZRcm/z1ae0pcMiIUO0mpoeV0okSDnOEUGTTj3J2yrSxjeF39okufr0bwCQZQ7xQ8px2n" +
+                "BMiKuxwxGID9d9EjiQBvFofzNtDw56H/KQNwe57M4FfrV4Gv2JM+q3RyI0/81gOc+hXnIOq9Hi6PXl5DBfuPqQq7a6d0+WeyL2" +
+                "Q7/ruRwknggmUFxmgPadmZMTZS1XwcYBQtvLnXUtBiK+/asCCbNsZsM9qcUcpUn2hYIlpqu16Un7cA==";
+
+            DataCredentials dataCredentials = new DataCredentials
+            {
+                DataHash = "s8B6UA9rwy3Z+rNvqSyJf/qGyKD01XnWDkF+esIzm14=",
+                Secret = "s5+CjA48fIOabQuvTHJGu5JLvPrCbhN/AFtJg5hxJg4=",
+            };
+
+            IDecrypter decrypter = new Decrypter();
+            Assert.Throws<JsonSerializationException>(() =>
+                decrypter.DecryptData<IDecryptedValue>(data, dataCredentials)
+            );
         }
     }
 }
