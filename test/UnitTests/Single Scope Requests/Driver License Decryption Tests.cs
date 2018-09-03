@@ -23,12 +23,12 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt 'passport_data.credentials'")]
         public void Should_Decrypt_Credentials()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
@@ -64,11 +64,11 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt document data of 'driver_license' element")]
         public void Should_Decrypt_Document_Data()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             EncryptedPassportElement licenseEl = Assert.Single(passportData.Data, el => el.Type == "driver_license");
 
@@ -86,11 +86,11 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt front side photo file of 'driver_license' element")]
         public async Task Should_Decrypt_Front_Side_File()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             byte[] encryptedContent = await System.IO.File.ReadAllBytesAsync("Files/driver_license-front_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
@@ -118,11 +118,11 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt reverse side photo file of 'driver_license' element")]
         public async Task Should_Decrypt_Reverse_Side_File()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             byte[] encryptedContent =
                 await System.IO.File.ReadAllBytesAsync("Files/driver_license-reverse_side.jpg.enc");
@@ -151,11 +151,11 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt selfie photo file of 'driver_license' element")]
         public async Task Should_Decrypt_Selfie_File()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             using (System.IO.Stream
                 encryptedFileStream = System.IO.File.OpenRead("Files/driver_license-selfie.jpg.enc"),
@@ -173,11 +173,11 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt translation photo file of 'driver_license' element")]
         public async Task Should_Decrypt_Translation_File()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             byte[] encryptedContent =
                 await System.IO.File.ReadAllBytesAsync("Files/driver_license-translation0.jpg.enc");

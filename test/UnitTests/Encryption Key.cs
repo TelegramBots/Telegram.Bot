@@ -9,9 +9,11 @@ namespace UnitTests
 {
     internal static class EncryptionKey
     {
-        public static RSA GetRsaPrivateKey()
+        public static RSA RsaPrivateKey
         {
-            string privateKeyPem = @"-----BEGIN RSA PRIVATE KEY-----
+            get
+            {
+                string privateKeyPem = @"-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEA0VElWoQA2SK1csG2/sY/wlssO1bjXRx+t+JlIgS6jLPCefyC
 AcZBv7ElcSPJQIPEXNwN2XdnTc2wEIjZ8bTgBlBqXppj471bJeX8Mi2uAxAqOUDu
 vGuqth+mq7DMqol3MNH5P9FO6li7nZxI1FX39u2r/4H4PXRiWx13gsVQRL6Clq2j
@@ -39,11 +41,13 @@ dAbaMIAVw0DIMKG8tTYNEjEpyGuHvSht4vZRgarCNqDk13EKY80LkyOv2H/J01rt
 gaZk6+H62W5zGnIbtzodB2n7JasK561Ic/QcrEtheC4Qmr+RXe03pg==
 -----END RSA PRIVATE KEY-----
 ";
-            PemReader pemReader = new PemReader(new StringReader(privateKeyPem));
-            AsymmetricCipherKeyPair keyPair = (AsymmetricCipherKeyPair) pemReader.ReadObject();
-            RSAParameters parameters = DotNetUtilities.ToRSAParameters(keyPair.Private as RsaPrivateCrtKeyParameters);
-            RSA rsa = RSA.Create(parameters);
-            return rsa;
+                PemReader pemReader = new PemReader(new StringReader(privateKeyPem));
+                AsymmetricCipherKeyPair keyPair = (AsymmetricCipherKeyPair) pemReader.ReadObject();
+                RSAParameters parameters =
+                    DotNetUtilities.ToRSAParameters(keyPair.Private as RsaPrivateCrtKeyParameters);
+                RSA rsa = RSA.Create(parameters);
+                return rsa;
+            }
         }
     }
 }

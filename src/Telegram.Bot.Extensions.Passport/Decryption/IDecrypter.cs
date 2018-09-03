@@ -10,8 +10,8 @@ namespace Telegram.Bot.Passport
     public interface IDecrypter
     {
         Credentials DecryptCredentials(
-            RSA key,
-            EncryptedCredentials encryptedCredentials
+            EncryptedCredentials encryptedCredentials,
+            RSA key
         );
 
         TValue DecryptData<TValue>(

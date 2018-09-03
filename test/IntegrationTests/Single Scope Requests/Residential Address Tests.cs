@@ -106,7 +106,7 @@ namespace IntegrationTests
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials,EncryptionKey.ReadAsRsa());
 
             Assert.NotNull(credentials);
             Assert.Equal("Test nonce for address", credentials.Nonce);
@@ -122,7 +122,7 @@ namespace IntegrationTests
 
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials,EncryptionKey.ReadAsRsa());
 
             ResidentialAddress residentialAddress = decrypter.DecryptData<ResidentialAddress>(
                 element.Data,

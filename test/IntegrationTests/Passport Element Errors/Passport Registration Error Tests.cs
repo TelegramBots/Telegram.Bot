@@ -1,5 +1,6 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
+// ReSharper disable StringLiteralTypo
 
 using System.Linq;
 using System.Security.Cryptography;
@@ -76,7 +77,7 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
             Credentials credentials =
-                decrypter.DecryptCredentials(key, passportUpdate.Message.PassportData.Credentials);
+                decrypter.DecryptCredentials(passportUpdate.Message.PassportData.Credentials, key);
 
             Assert.Equal("Test nonce for passport registration", credentials.Nonce);
 

@@ -220,7 +220,7 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
             IdDocumentData documentData = decrypter.DecryptData<IdDocumentData>(
@@ -248,7 +248,7 @@ namespace IntegrationTests
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             byte[] encryptedContent;
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream(idCardEl.FrontSide.FileSize))
@@ -278,7 +278,7 @@ namespace IntegrationTests
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             string botToken = ConfigurationProvider.TestConfigurations.ApiToken;
             File encFileInfo = await BotClient.GetFileAsync(idCardEl.ReverseSide.FileId);
@@ -313,7 +313,7 @@ namespace IntegrationTests
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             byte[] encryptedContent;
             using (System.IO.MemoryStream stream = new System.IO.MemoryStream(idCardEl.Selfie.FileSize))
@@ -344,7 +344,7 @@ namespace IntegrationTests
             PassportFile billScanFile = Assert.Single(billElement.Files);
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             FileCredentials fileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Files);
 
@@ -375,7 +375,7 @@ namespace IntegrationTests
             PassportFile translationFile = Assert.Single(billElement.Translation);
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             FileCredentials fileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Translation);
 

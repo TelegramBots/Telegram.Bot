@@ -138,7 +138,7 @@ namespace IntegrationTests
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             Assert.NotNull(credentials);
             Assert.Equal("Test nonce for driver license", credentials.Nonce);
@@ -175,7 +175,7 @@ namespace IntegrationTests
             EncryptedPassportElement element = passportData.Data.Single();
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             IdDocumentData licenseDoc = decrypter.DecryptData<IdDocumentData>(
                 encryptedData: element.Data,
@@ -201,7 +201,7 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             File encryptedFileInfo;
             string decryptedFilePath = System.IO.Path.GetTempFileName();
@@ -229,7 +229,7 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             File encryptedFileInfo;
             string decryptedFilePath = System.IO.Path.GetTempFileName();
@@ -266,7 +266,7 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
             EncryptedPassportElement element = passportData.Data.Single();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             byte[] encryptedContent;
             {
@@ -310,7 +310,7 @@ namespace IntegrationTests
             EncryptedPassportElement element = passportData.Data.Single();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             for (int i = 0; i < element.Translation.Length; i++)
             {

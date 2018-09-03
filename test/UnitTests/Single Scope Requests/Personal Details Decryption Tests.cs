@@ -4,7 +4,6 @@
 // ReSharper disable StringLiteralTypo
 
 using System;
-using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Telegram.Bot;
 using Telegram.Bot.Passport;
@@ -22,12 +21,12 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt 'passport_data.credentials'")]
         public void Should_Decrypt_Credentials()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
@@ -44,11 +43,11 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt 'personal_details' element")]
         public void Should_Decrypt_Personal_Details_Element()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             EncryptedPassportElement element = Assert.Single(passportData.Data, el => el.Type == "personal_details");
 

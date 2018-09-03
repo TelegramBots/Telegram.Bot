@@ -107,7 +107,7 @@ namespace IntegrationTests
             RSA key = EncryptionKey.ReadAsRsa();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             Assert.NotNull(credentials);
             Assert.NotEmpty(credentials.Nonce);
@@ -124,7 +124,7 @@ namespace IntegrationTests
 
             RSA key = EncryptionKey.ReadAsRsa();
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials = decrypter.DecryptCredentials(passportData.Credentials, key);
 
             PersonalDetails personalDetails = decrypter.DecryptData<PersonalDetails>(
                 element.Data,

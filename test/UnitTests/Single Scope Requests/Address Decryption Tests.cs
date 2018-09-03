@@ -2,7 +2,6 @@
 // ReSharper disable PossibleNullReferenceException
 // ReSharper disable CheckNamespace
 
-using System.Security.Cryptography;
 using Newtonsoft.Json;
 using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
@@ -19,12 +18,12 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt 'passport_data.credentials'")]
         public void Should_decrypt_credentials()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
@@ -41,11 +40,11 @@ namespace UnitTests
         [Fact(DisplayName = "Should decrypt 'address' element")]
         public void Should_decrypt_address_element()
         {
-            RSA key = EncryptionKey.GetRsaPrivateKey();
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials = decrypter.DecryptCredentials(key, passportData.Credentials);
+            Credentials credentials =
+                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
 
             EncryptedPassportElement addressEl = Assert.Single(passportData.Data, el => el.Type == "address");
 

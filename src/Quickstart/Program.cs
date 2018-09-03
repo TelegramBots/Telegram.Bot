@@ -87,8 +87,8 @@ namespace Quickstart
 
             // Step 1: Decrypt credentials
             Credentials credentials = decrypter.DecryptCredentials(
-                GetRsaPrivateKey(),
-                message.PassportData.Credentials
+                message.PassportData.Credentials,
+                GetRsaPrivateKey()
             );
 
             // Step 2: Validate nonce

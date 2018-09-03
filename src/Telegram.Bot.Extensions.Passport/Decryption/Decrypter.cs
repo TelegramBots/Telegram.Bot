@@ -18,14 +18,14 @@ namespace Telegram.Bot.Passport
     {
         /// <inheritdoc />
         public Credentials DecryptCredentials(
-            RSA key,
-            EncryptedCredentials encryptedCredentials
+            EncryptedCredentials encryptedCredentials,
+            RSA key
         )
         {
-            if (key is null)
-                throw new ArgumentNullException(nameof(key));
             if (encryptedCredentials is null)
                 throw new ArgumentNullException(nameof(encryptedCredentials));
+            if (key is null)
+                throw new ArgumentNullException(nameof(key));
 
             byte[] data = Convert.FromBase64String(encryptedCredentials.Data);
             if (data.Length % 16 != 0)
