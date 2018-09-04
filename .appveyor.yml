@@ -22,12 +22,12 @@ test:
 nuget:
   disable_publish_on_pr: true
 
-deploy:
-  - provider: NuGet
-    api_key:
-      secure: HHTe2/56sywbQ4uGD1fOeOBWjggVknMVXKhBu7978+LPJQCLJ28Ji9suN7nIfSGY
-    on:
-      branch: master
+# deploy:
+#   - provider: NuGet
+#     api_key:
+#       secure: HHTe2/56sywbQ4uGD1fOeOBWjggVknMVXKhBu7978+LPJQCLJ28Ji9suN7nIfSGY
+#     on:
+#       branch: master
 
 
 for:

@@ -1,4 +1,4 @@
-﻿/* Telegram Passport Quickstart. Read the documentations at:
+/* Telegram Passport Quickstart. Read the documentations at:
  * https://telegrambots.github.io/book/4/passport/quickstart.html
  */
 
@@ -31,7 +31,7 @@ namespace Quickstart
         {
             _botClient = new TelegramBotClient("YOUR_ACCESS_TOKEN_HERE");
 
-            var me = _botClient.GetMeAsync().Result;
+            User me = _botClient.GetMeAsync().Result;
             Console.WriteLine(
                 $"Hello, World! I am user {me.Id} and my name is {me.FirstName}."
             );
@@ -74,7 +74,7 @@ namespace Quickstart
                 "2. Open link in browser so it redirects you to Telegram Passport\n" +
                 "3. Authorize bot to access the info",
                 ParseMode.Markdown,
-                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton.WithUrl(
+                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton.WithUrl(
                     "Share via Passport",
                     $"https://telegrambots.github.io/Telegram.Bot.Extensions.Passport/redirect.html?{authReq.Query}"
                 )
@@ -124,7 +124,7 @@ namespace Quickstart
         static RSA GetRsaPrivateKey()
         {
             PemReader pemReader = new PemReader(new StringReader(PrivateKey));
-            AsymmetricCipherKeyPair keyPair = (AsymmetricCipherKeyPair) pemReader.ReadObject();
+            AsymmetricCipherKeyPair keyPair = (AsymmetricCipherKeyPair)pemReader.ReadObject();
             RSAParameters parameters = DotNetUtilities.ToRSAParameters(keyPair.Private as RsaPrivateCrtKeyParameters);
             RSA rsa = RSA.Create(parameters);
             return rsa;
