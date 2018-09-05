@@ -58,7 +58,7 @@ namespace IntegrationTests
                 new PassportScopeElementOneOfSeveral(new[]
                 {
                     new PassportScopeElementOne(PassportEnums.Scope.IdentityCard),
-                    new PassportScopeElementOne(PassportEnums.Scope.Passport),
+                    new PassportScopeElementOne(PassportEnums.Scope.InternalPassport),
                 })
                 {
                     Selfie = true, // selfie can only be requested for documents used as proof of identity
