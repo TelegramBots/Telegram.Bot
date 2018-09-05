@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="BouncyCastle" Version="1.8.2"/>
+    <PackageReference Include="BouncyCastle" Version="1.8.3"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Telegram.Bot.Extensions.Passport\Telegram.Bot.Extensions.Passport.csproj"/>

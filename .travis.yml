@@ -6,14 +6,14 @@ dotnet: 2.0.0
 branches:
   except:
   - master
-script: >
-  cd test/UnitTests &&
-  dotnet test --configuration Release --list-tests &&
-  dotnet xunit -configuration Release -nobuild -stoponfail -verbose &&
-  cd - &&
-  cd test/IntegrationTests &&
-  dotnet test --configuration Release --list-tests &&
-  dotnet xunit -configuration Release -nobuild -stoponfail -verbose
+script:
+  - cd test/UnitTests
+  - dotnet test --configuration Release --list-tests
+  - dotnet xunit -configuration Release -nobuild -stoponfail -verbose
+  - cd -
+  - cd test/IntegrationTests
+  - dotnet test --configuration Release --list-tests
+  - dotnet xunit -configuration Release -nobuild -stoponfail -verbose
 notifications:
   email: false
 
