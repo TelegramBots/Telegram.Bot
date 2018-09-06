@@ -18,8 +18,7 @@ namespace IntegrationTests.Framework.XunitExtensions
                                                           IMessageSink diagnosticMessageSink,
                                                           IMessageSink executionMessageSink,
                                                           ITestFrameworkExecutionOptions executionOptions)
-            : base(testAssembly, testCases, diagnosticMessageSink, executionMessageSink, executionOptions)
-        { }
+            : base(testAssembly, testCases, diagnosticMessageSink, executionMessageSink, executionOptions) { }
 
         protected override async Task AfterTestAssemblyStartingAsync()
         {
@@ -29,14 +28,32 @@ namespace IntegrationTests.Framework.XunitExtensions
             // Go find all the AssemblyFixtureAttributes adorned on the test assembly
             Aggregator.Run(() =>
             {
-                var fixturesAttrs = ((IReflectionAssemblyInfo)TestAssembly.Assembly).Assembly
-                                                                                    .GetCustomAttributes(typeof(AssemblyFixtureAttribute))
-                                                                                    .Cast<AssemblyFixtureAttribute>()
-                                                                                    .ToList();
+                var fixturesAttrs = ((IReflectionAssemblyInfo) TestAssembly.Assembly).Assembly
+                    .GetCustomAttributes(typeof(AssemblyFixtureAttribute))
+                    .Cast<AssemblyFixtureAttribute>()
+                    .ToList();
 
                 // Instantiate all the fixtures
                 foreach (var fixtureAttr in fixturesAttrs)
-                    _assemblyFixtureMappings[fixtureAttr.FixtureType] = Activator.CreateInstance(fixtureAttr.FixtureType);
+                {
+                    try
+                    {
+                        _assemblyFixtureMappings[fixtureAttr.FixtureType] = Activator
+                            .CreateInstance(fixtureAttr.FixtureType);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.WriteLine("Failed to create an instance of assembly fixture \"{0}\".{1}{2}",
+                            fixtureAttr.FixtureType.FullName,
+                            Environment.NewLine,
+                            e
+                        );
+                        Console.ResetColor();
+                        throw;
+                    }
+                }
             });
         }
 
@@ -53,15 +70,15 @@ namespace IntegrationTests.Framework.XunitExtensions
                                                                    ITestCollection testCollection,
                                                                    IEnumerable<IXunitTestCase> testCases,
                                                                    CancellationTokenSource cancellationTokenSource)
-        => new XunitTestCollectionRunnerWithAssemblyFixture
-                (_assemblyFixtureMappings, testCollection, testCases, DiagnosticMessageSink, messageBus, TestCaseOrderer, new ExceptionAggregator(Aggregator), cancellationTokenSource)
+            => new XunitTestCollectionRunnerWithAssemblyFixture
+                (_assemblyFixtureMappings, testCollection, testCases, DiagnosticMessageSink, messageBus,
+                    TestCaseOrderer, new ExceptionAggregator(Aggregator), cancellationTokenSource)
                 .RunAsync()
                 .ContinueWith(t =>
-                    {
-                        var fixture = (TestsFixture)_assemblyFixtureMappings.Single().Value;
-                        fixture.RunSummary.Aggregate(t.Result);
-                        return t.Result;
-                    })
-                ;
+                {
+                    var fixture = (TestsFixture) _assemblyFixtureMappings.Single().Value;
+                    fixture.RunSummary.Aggregate(t.Result);
+                    return t.Result;
+                });
     }
 }

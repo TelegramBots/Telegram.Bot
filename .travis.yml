@@ -1,21 +1,19 @@
-language: csharp
 dist: trusty
-sudo: false
-mono: none
-dotnet: 2.0.0
+services:
+  - docker
 branches:
   except:
   - master
-script:
-  - cd test/UnitTests
-  - dotnet test --configuration Release --list-tests
-  - dotnet xunit -configuration Release -nobuild -stoponfail -verbose
-  - cd -
-  - cd test/IntegrationTests
-  - dotnet test --configuration Release --list-tests
-  - dotnet xunit -configuration Release -nobuild -stoponfail -verbose
+  - gh-pages
 notifications:
   email: false
+install:
+  - docker pull microsoft/dotnet:2.0.0-sdk-stretch
+  - cd ci
+  - npm install
+script:
+  - npm run travis-ci
+
 
 ## Notes:
 ### Limit concurrent jobs to only 1
