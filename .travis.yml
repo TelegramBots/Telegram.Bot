@@ -6,6 +6,7 @@ dotnet: 2.0.0
 branches:
   except:
   - master
+  - gh-pages
 script: >
   cd test/UnitTests &&
   dotnet test --configuration Release --list-tests &&
@@ -18,7 +19,6 @@ notifications:
   email: false
 
 ## Notes:
-### Limit concurrent jobs to only 1
 ### Disable building PRs (might expose env vars)
 
 ## Environment Variables:

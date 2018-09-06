@@ -24,6 +24,7 @@ nuget:
 
 deploy:
   - provider: NuGet
+    artifact: /.*Telegram.Bot.Extensions.Passport.*\.nupkg/
     api_key:
       secure: HHTe2/56sywbQ4uGD1fOeOBWjggVknMVXKhBu7978+LPJQCLJ28Ji9suN7nIfSGY
     on:
@@ -35,4 +36,5 @@ for:
   branches:
     only:
       - master
+      - develop
   configuration: Release
