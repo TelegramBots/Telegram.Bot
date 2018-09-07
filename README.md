@@ -1,58 +1,65 @@
 # .NET Client for Telegram Bot API
 
-[![Telegram Chat](https://img.shields.io/badge/Chat-Telegram-blue.svg)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)
-[![license](https://img.shields.io/github/license/TelegramBots/telegram.bot.svg?maxAge=2592000)](https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt)
+[![package](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&style=flat-square)](https://www.nuget.org/packages/Telegram.Bot)
+[![documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book)
+[![telegram chat](https://img.shields.io/badge/Support_Chat-Telegram-blue.svg?style=flat-square)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)
 
-|Package|Branch|Build|Test|
-|:-----:|:----:|:---:|:--:|
-| [NuGet ![NuGet Release](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&maxAge=3600)](https://www.nuget.org/packages/Telegram.Bot/) | `master` | [![Build status](https://ci.appveyor.com/api/projects/status/x0vwuxdhe644sys0/branch/master?svg=true)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master) | [![Test Status](https://img.shields.io/travis/TelegramBots/Telegram.Bot/master.svg?maxAge=3600&label=Test)](https://travis-ci.org/TelegramBots/Telegram.Bot) |
-| [MyGet ![MyGet](https://img.shields.io/myget/telegram-bot/v/Telegram.bot.svg?label=Telegram.Bot&maxAge=3600)](https://www.myget.org/feed/telegram-bot/package/nuget/Telegram.Bot) | `develop` | [![Build status](https://ci.appveyor.com/api/projects/status/x0vwuxdhe644sys0/branch/develop?svg=true)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/develop) | [![Test Status](https://img.shields.io/travis/TelegramBots/Telegram.Bot/develop.svg?maxAge=3600&label=Test)](https://travis-ci.org/TelegramBots/Telegram.Bot) |
+[![build](https://img.shields.io/appveyor/ci/MrRoundRobin/telegram-bot/master.svg?style=flat-square&label=Build)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master)
+[![downloads](https://img.shields.io/nuget/dt/Telegram.Bot.svg?style=flat-square&label=Package%20Downloads)](https://www.nuget.org/packages/Telegram.Bot)
+![contributors](https://img.shields.io/github/contributors/TelegramBots/Telegram.Bot.svg?style=flat-square&label=Contributors)
+[![license](https://img.shields.io/github/license/TelegramBots/telegram.bot.svg?style=flat-square&maxAge=2592000&label=License)](https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt)
 
-.NET client for [Telegram Bot API](https://core.telegram.org/bots/api). The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.
+**Telegram.Bot** is the most popular .NET Client for 🤖 [Telegram Bot API].
 
-For news about the library, join our [channel on Telegram](https://t.me/tgbots_dotnet)
+The Bot API is an HTTP-based interface created for developers keen on building bots for [Telegram].
 
-> If you need the latest features(tested but unstable), use [MyGet feed](https://www.myget.org/feed/telegram-bot/package/nuget/Telegram.Bot) (auto deployed from `develop` branch) until we update the NuGet package with stable changes.
+Check 👉 [_Bots: An introduction for developers_] 👈 to understand what a Telegram bot is and what it can do.
 
-## Migrate to v14
+We, the [Telegram Bots team], mainly focus on developing multiple [NuGet packages] for creating chatbots.
 
-In our last major release, version 14, almost all of the library is re-written. If you are planning to upgrade, have a look at [**v13 to v14 migration wiki**](https://telegrambots.github.io/book/Migration-Guide-to-Version-14.x.html).
+|Package|Documentation|News Channel|Team|Group Chat|
+|:-----:|:-----------:|:----------:|:--:|:--------:|
+| [![package](docs/logo-nuget.png)](https://www.nuget.org/packages/Telegram.Bot) | [![documentations](docs/logo-docs.png)](https://telegrambots.github.io/book) | [![News Channel](docs/logo-channel.jpg)](https://t.me/tgbots_dotnet) | [![Team](docs/logo-gh.png)](https://github.com/orgs/TelegramBots/people) | [![Group Chat](docs/logo-chat.jpg)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA) |
+| This package on NuGet | Telegram bots book | Subscribe to 📣 [`@tgbots_dotnet`] channel to get our latest news | The team contributing to this work | [Join our chat] 💬 to talk about bots and ask questions |
 
-## Getting Started
+## 🔨 Getting Started
 
-First, talk to [BotFather](https://t.me/botfather) on Telegram to get an API token. Place your token in method below and call the method.
+Please check ➡️ [the Quickstart guide].
 
-```c#
-static async Task TestApiAsync()
-{
-    var botClient = new Telegram.Bot.TelegramBotClient("your API access Token");
-    var me = await botClient.GetMeAsync();
-    System.Console.WriteLine($"Hello! My name is {me.FirstName}");
-}
-```
+## 🚧 Supported Platforms
 
-## Learning More
+Project targets **.NET Standard 1.1** and **.NET Framework 4.5** at minimum.
 
-If you don't know how to use this project or what is available for a Telegram bot, check the self-documented [Systems Integration tests](./test/Telegram.Bot.Tests.Integ/) which are runnable examples of API methods.
+## 📦 Extension Packages
 
-Before submitting issues please consult following resources:
+This project is referred to as the core package and is always required for developing Telegram bots.
+There are extension packages that you can include in your bot projects for additional functionality:
 
-* [Changelog](https://github.com/TelegramBots/telegram.bot/blob/master/CHANGELOG.md)
-* [Documentation](https://telegrambots.github.io/book)
-* [Examples](https://github.com/TelegramBots/telegram.bot.examples)
+- [Telegram.Bot.Extensions.LoginWidget]
+- [Telegram.Bot.Extensions.Passport]
 
-## Installation
+## ✅ Correctness & Testing
 
-Install as [NuGet package](https://www.nuget.org/packages/Telegram.Bot/):
+This project is fully tested using Unit tests and Systems Integration tests before each release.
+In fact, our test cases are self-documenting and serve as examples for Bot API methods.
+Once you learn the basics of Telegram chatbots, you will be able to easily understand the code in examples and
+use it in your own bot projects.
 
-Package manager:
+## 🗂 References
 
-```powershell
-Install-Package Telegram.Bot
-```
+- [Changelog](CHANGELOG.md)
+- [Documentation](https://telegrambots.github.io/book)
+- [Examples](https://github.com/TelegramBots/telegram.bot.examples)
 
-.NET CLI:
+<!-- ---- -->
 
-```bash
-dotnet add package Telegram.Bot
-```
+[Telegram Bot API]: https://core.telegram.org/bots/api
+[Telegram]: https://www.telegram.org/
+[_Bots: An introduction for developers_]: https://core.telegram.org/bots
+[Telegram Bots team]: https://github.com/orgs/TelegramBots/people
+[NuGet packages]: https://www.nuget.org/profiles/TelegramBots
+[`@tgbots_dotnet`]: https://t.me/tgbots_dotnet
+[Join our chat]: https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA
+[the Quickstart guide]: https://telegrambots.github.io/book/1/quickstart.html
+[Telegram.Bot.Extensions.LoginWidget]: https://github.com/TelegramBots/Telegram.Bot.Extensions.LoginWidget
+[Telegram.Bot.Extensions.Passport]: https://github.com/TelegramBots/Telegram.Bot.Extensions.Passport
