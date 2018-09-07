@@ -1,6 +1,6 @@
 # .NET Client for Telegram Bot API
 
-[![Telegram Chat](https://img.shields.io/badge/Chat-Telegram-blue.svg)](https://t.me/tgbots_dotnet)
+[![Telegram Chat](https://img.shields.io/badge/Chat-Telegram-blue.svg)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)
 [![license](https://img.shields.io/github/license/TelegramBots/telegram.bot.svg?maxAge=2592000)](https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt)
 
 |Package|Branch|Build|Test|
@@ -10,13 +10,13 @@
 
 .NET client for [Telegram Bot API](https://core.telegram.org/bots/api). The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.
 
-Join our **super group on Telegram**: [`@tgbots_dotnet`](https://t.me/tgbots_dotnet)
+For news about the library, join our [channel on Telegram](https://t.me/tgbots_dotnet)
 
 > If you need the latest features(tested but unstable), use [MyGet feed](https://www.myget.org/feed/telegram-bot/package/nuget/Telegram.Bot) (auto deployed from `develop` branch) until we update the NuGet package with stable changes.
 
 ## Migrate to v14
 
-In our last major release, version 14, almost all of the library is re-written. If you are planning to upgrade, have a look at [**v13 to v14 migration wiki**](./docs/wikis/migration/v13-to-v14.md).
+In our last major release, version 14, almost all of the library is re-written. If you are planning to upgrade, have a look at [**v13 to v14 migration wiki**](https://telegrambots.github.io/book/Migration-Guide-to-Version-14.x.html).
 
 ## Getting Started
 
@@ -38,10 +38,8 @@ If you don't know how to use this project or what is available for a Telegram bo
 Before submitting issues please consult following resources:
 
 * [Changelog](https://github.com/TelegramBots/telegram.bot/blob/master/CHANGELOG.md)
-* [API docs](https://core.telegram.org/bots/api)
-* [Webhook docs](https://core.telegram.org/bots/webhooks)
+* [Documentation](https://telegrambots.github.io/book)
 * [Examples](https://github.com/TelegramBots/telegram.bot.examples)
-* [Tests cases](./test/Telegram.Bot.Tests.Integ/)
 
 ## Installation
 
@@ -58,5 +56,3 @@ Install-Package Telegram.Bot
 ```bash
 dotnet add package Telegram.Bot
 ```
-
-For testing you can use the [MyGet feed](https://www.myget.org/gallery/telegram-bot) with automated builds.
