@@ -26,7 +26,10 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials = decrypter.DecryptCredentials(encryptedCredentials: passData.Credentials, key);
+            Credentials credentials = decrypter.DecryptCredentials(
+                encryptedCredentials: passData.Credentials,
+                key: key
+            );
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
