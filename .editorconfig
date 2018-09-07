@@ -4,7 +4,6 @@
 # This file is the top-most EditorConfig file
 root = true
 
-# All Files
 [*]
 charset = utf-8
 end_of_line = lf
@@ -13,7 +12,6 @@ indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# C# Files
 [*.cs]
 csharp_align_multiline_parameter = true
 csharp_align_multiline_extends_list = true
@@ -22,13 +20,13 @@ csharp_place_attribute_on_same_line = false
 csharp_empty_block_style = together_same_line
 csharp_space_within_single_line_array_initializer_braces = true
 
-# Solution Files
 [*.sln]
 indent_style = tab
 
 # XML Project Files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
+xml_wrap_tags_and_pi = false
 
 # Configuration Files
 [*.{json,xml,yml,config,props,targets,nuspec,resx,ruleset,vsixmanifest,vsct}]

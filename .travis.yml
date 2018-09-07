@@ -1,22 +1,18 @@
-language: csharp
 dist: trusty
-sudo: false
-mono: none
-dotnet: 2.0.0
+services:
+  - docker
 branches:
   except:
   - master
   - gh-pages
-script: >
-  cd test/UnitTests &&
-  dotnet test --configuration Release --list-tests &&
-  dotnet xunit -configuration Release -nobuild -stoponfail -verbose &&
-  cd - &&
-  cd test/IntegrationTests &&
-  dotnet test --configuration Release --list-tests &&
-  dotnet xunit -configuration Release -nobuild -stoponfail -verbose
 notifications:
   email: false
+install:
+  - docker pull microsoft/dotnet:2.0.0-sdk-stretch
+  - cd ci && npm install && cd -
+script:
+  - node ci/travis-ci.js
+
 
 ## Notes:
 ### Disable building PRs (might expose env vars)
