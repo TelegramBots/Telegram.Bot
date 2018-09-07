@@ -4,6 +4,9 @@ using System.Security.Cryptography;
 
 namespace Quickstart
 {
+    /// <summary>
+    /// Represents the standard parameters of RSA algorithm
+    /// </summary>
     public struct EncryptionKeyParameters
     {
         public byte[] E;
