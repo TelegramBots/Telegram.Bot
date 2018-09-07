@@ -1,12 +1,22 @@
-# Passport Extension for Telegram Bot API Client
+# Telegram Passport
+
+[![package](https://img.shields.io/nuget/v/Telegram.Bot.Extensions.Passport.svg?style=flat-square)](https://www.nuget.org/packages/Telegram.Bot.Extensions.Passport)
+[![build](https://img.shields.io/appveyor/tests/pouladpld/telegram-bot-extensions-passport/master.svg?style=flat-square)](https://ci.appveyor.com/project/pouladpld/telegram-bot-extensions-passport)
+[![documentations](https://img.shields.io/badge/docs-book-orange.svg?style=flat-square)](https://telegrambots.github.io/book/4/passport)
 
 This project is an extension to [Telegram.Bot] package for supporting [Telegram Passport] feature.
+You need to add `Telegram.Bot.Extensions.Passport` extension package to your project
+in addition to the core package (`Telegram.Bot`).
 
-## Documentation
+```bash
+dotnet add package Telegram.Bot.Extensions.Passport
+```
 
-You can find documentation for this project in [Telegram Bots Book].
+## 📖 Documentation
 
-## Build
+You can find documentation for this project including the quickstart guide in [Telegram Bots Book].
+
+## 🔨 Build & Contribute 👋
 
 ```bash
 # ensure sub modules are updated
@@ -19,4 +29,4 @@ git checkout ext-passport
 
 [Telegram.Bot]: https://github.com/TelegramBots/Telegram.Bot
 [Telegram Passport]: https://telegram.org/blog/passport
-[Telegram Bots Book]: https://telegrambots.github.io/book
+[Telegram Bots Book]: https://telegrambots.github.io/book/4/passport
