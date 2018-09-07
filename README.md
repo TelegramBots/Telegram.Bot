@@ -16,6 +16,10 @@ dotnet add package Telegram.Bot.Extensions.Passport
 
 You can find documentation for this project including the quickstart guide in [Telegram Bots Book].
 
+## 🚧 Supported Platforms
+
+Project targets **.NET Standard 2.0** and **.NET Framework 4.6.1** at minimum.
+
 ## 🔨 Build & Contribute 👋
 
 ```bash
