@@ -1,7 +1,7 @@
 # Telegram Passport
 
 [![package](https://img.shields.io/nuget/v/Telegram.Bot.Extensions.Passport.svg?style=flat-square)](https://www.nuget.org/packages/Telegram.Bot.Extensions.Passport)
-[![build](https://img.shields.io/appveyor/tests/pouladpld/telegram-bot-extensions-passport/master.svg?style=flat-square)](https://ci.appveyor.com/project/pouladpld/telegram-bot-extensions-passport)
+[![build](https://img.shields.io/appveyor/tests/poulad/telegram-bot-extensions-passport/master.svg?style=flat-square)](https://ci.appveyor.com/project/poulad/telegram-bot-extensions-passport)
 [![documentations](https://img.shields.io/badge/docs-book-orange.svg?style=flat-square)](https://telegrambots.github.io/book/4/passport)
 
 This project is an extension to [Telegram.Bot] package for supporting [Telegram Passport] feature.
