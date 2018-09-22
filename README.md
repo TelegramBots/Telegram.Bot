@@ -3,6 +3,7 @@
 [![package](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&style=flat-square)](https://www.nuget.org/packages/Telegram.Bot)
 [![documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book)
 [![telegram chat](https://img.shields.io/badge/Support_Chat-Telegram-blue.svg?style=flat-square)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTelegramBots%2FTelegram.Bot.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FTelegramBots%2FTelegram.Bot?ref=badge_shield)
 
 [![build](https://img.shields.io/appveyor/ci/MrRoundRobin/telegram-bot/master.svg?style=flat-square&label=Build)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master)
 [![downloads](https://img.shields.io/nuget/dt/Telegram.Bot.svg?style=flat-square&label=Package%20Downloads)](https://www.nuget.org/packages/Telegram.Bot)
@@ -63,3 +64,7 @@ use it in your own bot projects.
 [the Quickstart guide]: https://telegrambots.github.io/book/1/quickstart.html
 [Telegram.Bot.Extensions.LoginWidget]: https://github.com/TelegramBots/Telegram.Bot.Extensions.LoginWidget
 [Telegram.Bot.Extensions.Passport]: https://github.com/TelegramBots/Telegram.Bot.Extensions.Passport
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FTelegramBots%2FTelegram.Bot.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FTelegramBots%2FTelegram.Bot?ref=badge_large)
