@@ -824,7 +824,7 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var fileUri = new Uri(BaseFileUrl + filePath);
+            var fileUri = new Uri(_baseFileRequestUrl + filePath);
 
             var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
