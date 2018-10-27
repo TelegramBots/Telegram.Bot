@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -27,7 +28,6 @@ namespace Telegram.Bot
     public class TelegramBotClient : ITelegramBotClient
     {
         /// <inheritdoc/>
-        public int BotId { get; }
 
         private static readonly Update[] EmptyUpdates = { };
 
@@ -35,11 +35,67 @@ namespace Telegram.Bot
 
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
-        private readonly string _baseRequestUrl;
+        private bool _isBotClientConfigured = false;
 
-        private readonly string _token;
+        private int _BotIdField;
+        /// <summary>
+        /// Gets the Bot ID
+        /// </summary>
+        public int BotId
+        {
+            get
+            {
+                if (!_isBotClientConfigured)
+                    throw new ArgumentException("You must configure the BotClient before using it. " +
+                    "Use a parameterful constructor or use the Configure method before calling anything.");
+                return _BotIdField;
+            }
+        }
 
-        private readonly HttpClient _httpClient;
+        private string _baseRequestUrl;
+        /// <summary>
+        /// Gets the Base Request Url
+        /// </summary>
+        protected string BaseRequestUrl
+        {
+            get
+            {
+                if (!_isBotClientConfigured)
+                    throw new ArgumentException("You must configure the BotClient before using it. " +
+                    "Use a parameterful constructor or use the Configure method before calling anything.");
+                return _baseRequestUrl;
+            }
+        }
+
+        private string _token;
+        /// <summary>
+        /// Gets the bot token
+        /// </summary>
+        protected string Token
+        {
+            get
+            {
+                if (!_isBotClientConfigured)
+                    throw new ArgumentException("You must configure the BotClient before using it. " +
+                    "Use a parameterful constructor or use the Configure method before calling anything.");
+                return _token;
+            }
+        }
+
+        private HttpClient _httpBotClient;
+        /// <summary>
+        /// Gets the HttpClient bot instance
+        /// </summary>
+        protected HttpClient HttpBotClient
+        {
+            get
+            {
+                if (!_isBotClientConfigured)
+                    throw new ArgumentException("You must configure the BotClient before using it. " +
+                    "Use a parameterful constructor or use the Configure method before calling anything.");
+                return _httpBotClient;
+            }
+        }
 
         #region Config Properties
 
@@ -48,8 +104,8 @@ namespace Telegram.Bot
         /// </summary>
         public TimeSpan Timeout
         {
-            get => _httpClient.Timeout;
-            set => _httpClient.Timeout = value;
+            get => HttpBotClient.Timeout;
+            set => HttpBotClient.Timeout = value;
         }
 
         /// <summary>
@@ -153,29 +209,24 @@ namespace Telegram.Bot
         #endregion
 
         /// <summary>
+        /// Create a new <see cref="TelegramBotClient"/> instance without configuring it. Call
+        /// <see cref="Configure"/> for configuring it before using.
+        /// </summary>
+        public TelegramBotClient() { }
+
+        /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance.
         /// </summary>
         /// <param name="token">API token</param>
-        /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+        /// <param name="httpClient">A custom <see cref="System.Net.Http.HttpClient"/></param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, HttpClient httpClient = null)
         {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
-            if (parts.Length > 1 && int.TryParse(parts[0], out int id))
+            this.Configure(options =>
             {
-                BotId = id;
-            }
-            else
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
-                    nameof(token)
-                );
-            }
-
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
-            _httpClient = httpClient ?? new HttpClient();
+                options.Token = token;
+                options.HttpClient = httpClient;
+            });
         }
 
         /// <summary>
@@ -186,27 +237,56 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, IWebProxy webProxy)
         {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
-            if (int.TryParse(parts[0], out int id))
+            this.Configure(options =>
             {
-                BotId = id;
+                options.Token = token;
+                options.HttpClient =
+                    new HttpClient(new HttpClientHandler()
+                    {
+                        Proxy = webProxy,
+                        UseProxy = true
+                    });
+            });
+        }
+
+        /// <summary>
+        /// Use this method for configuring the bot 
+        /// </summary>
+        /// <param name="GetOptions">The options action</param>
+        public void Configure(Action<TelegramBotClientOptions> optionsAction)
+        {
+            TelegramBotClientOptions _options = new TelegramBotClientOptions();
+            optionsAction.Invoke(_options);
+
+            // Check if it is previously configured
+            if (_isBotClientConfigured)
+            {
+                throw new InvalidOperationException("BotClient is already configured. This will happen if you used a " +
+                    "constructor with parameters or if you called this method previously when using a parameterless constructor.");
+            }
+
+            // Token configuration
+            _token = _options.Token ?? throw new ArgumentNullException(nameof(_options.Token).ToLower());
+            string[] parts = _token.Split(':');
+            if (parts.Length > 1 && int.TryParse(parts[0], out int id))
+            {
+                this._BotIdField = id;
             }
             else
             {
                 throw new ArgumentException(
                     "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
-                    nameof(token)
+                    nameof(_options.Token).ToLower()
                 );
             }
 
             _baseRequestUrl = $"{BaseUrl}{_token}/";
-            var httpClientHander = new HttpClientHandler
-            {
-                Proxy = webProxy,
-                UseProxy = true
-            };
-            _httpClient = new HttpClient(httpClientHander);
+
+            // HttpBotClient configuration
+            _httpBotClient = _options.HttpClient ?? new HttpClient();
+
+            // Mark as configured
+            _isBotClientConfigured = true;
         }
 
         #region Helpers
@@ -216,7 +296,7 @@ namespace Telegram.Bot
             IRequest<TResponse> request,
             CancellationToken cancellationToken = default)
         {
-            string url = _baseRequestUrl + request.MethodName;
+            string url = BaseRequestUrl + request.MethodName;
 
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
@@ -233,7 +313,7 @@ namespace Telegram.Bot
             HttpResponseMessage httpResponse;
             try
             {
-                httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
+                httpResponse = await HttpBotClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
             catch (TaskCanceledException e)
@@ -813,9 +893,9 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
+            var fileUri = new Uri($"{BaseFileUrl}{Token}/{filePath}");
 
-            var response = await _httpClient
+            var response = await HttpBotClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
