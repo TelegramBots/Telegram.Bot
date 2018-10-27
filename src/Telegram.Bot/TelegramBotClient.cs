@@ -27,7 +27,7 @@ namespace Telegram.Bot
     public class TelegramBotClient : ITelegramBotClient
     {
         /// <inheritdoc/>
-        public int BotId { get; }
+        public int BotId { get; private set; }
 
         private static readonly Update[] EmptyUpdates = { };
 
@@ -35,9 +35,11 @@ namespace Telegram.Bot
 
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
-        private readonly string _baseRequestUrl;
+        private string _baseRequestUrl;
 
-        private readonly string _token;
+        private string _baseFileRequestUrl;
+
+        private string _token;
 
         private readonly HttpClient _httpClient;
 
@@ -63,6 +65,33 @@ namespace Telegram.Bot
         /// The current message offset
         /// </summary>
         public int MessageOffset { get; set; }
+
+        /// <summary>
+        /// API token to use when making requests
+        /// <para>Will throw an <see cref="ArgumentException"/> if the token format is invalid</para>
+        /// </summary>
+        public string Token
+        {
+            get => _token;
+            set
+            {
+                _token = value ?? throw new ArgumentNullException(nameof(Token));
+                int colonIndex = _token.IndexOf(':');
+                if (colonIndex > 1 && int.TryParse(_token.Substring(0, colonIndex), out int id))
+                {
+                    BotId = id;
+                }
+                else
+                {
+                    throw new ArgumentException(
+                        "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
+                        nameof(Token)
+                    );
+                }
+                _baseRequestUrl = $"{BaseUrl}{_token}/";
+                _baseFileRequestUrl = $"{BaseFileUrl}{_token}/";
+            }
+        }
 
         #endregion Config Properties
 
@@ -160,21 +189,7 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, HttpClient httpClient = null)
         {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
-            if (parts.Length > 1 && int.TryParse(parts[0], out int id))
-            {
-                BotId = id;
-            }
-            else
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
-                    nameof(token)
-                );
-            }
-
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
+            Token = token;
             _httpClient = httpClient ?? new HttpClient();
         }
 
@@ -186,27 +201,23 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         public TelegramBotClient(string token, IWebProxy webProxy)
         {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
-            if (int.TryParse(parts[0], out int id))
-            {
-                BotId = id;
-            }
-            else
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
-                    nameof(token)
-                );
-            }
+            Token = token;
 
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
             var httpClientHander = new HttpClientHandler
             {
                 Proxy = webProxy,
                 UseProxy = true
             };
             _httpClient = new HttpClient(httpClientHander);
+        }
+
+        /// <summary>
+        /// Create a new <see cref="TelegramBotClient"/> instance. <see cref="Token"/> has to be set after the initialization!
+        /// </summary>
+        /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+        public TelegramBotClient(HttpClient httpClient)
+        {
+            _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
         #region Helpers
@@ -813,7 +824,7 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
+            var fileUri = new Uri(BaseFileUrl + filePath);
 
             var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
