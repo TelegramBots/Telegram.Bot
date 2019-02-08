@@ -7,7 +7,7 @@
 [![build](https://img.shields.io/appveyor/ci/MrRoundRobin/telegram-bot/master.svg?style=flat-square&label=Build)](https://ci.appveyor.com/project/MrRoundRobin/telegram-bot/branch/master)
 [![downloads](https://img.shields.io/nuget/dt/Telegram.Bot.svg?style=flat-square&label=Package%20Downloads)](https://www.nuget.org/packages/Telegram.Bot)
 ![contributors](https://img.shields.io/github/contributors/TelegramBots/Telegram.Bot.svg?style=flat-square&label=Contributors)
-[![license](https://img.shields.io/github/license/TelegramBots/telegram.bot.svg?style=flat-square&maxAge=2592000&label=License)](https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt)
+[![license](https://img.shields.io/github/license/TelegramBots/telegram.bot.svg?style=flat-square&maxAge=2592000&label=License)](https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE)
 
 **Telegram.Bot** is the most popular .NET Client for 🤖 [Telegram Bot API].
 
