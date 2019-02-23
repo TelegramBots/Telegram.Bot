@@ -7,9 +7,9 @@ namespace Telegram.Bot.Extensions.Polling
 {
     public interface IUpdateHandler
     {
-        Task UpdateReceived(Update update);
+        Task HandleUpdate(Update update);
 
-        Task ErrorOccurred(Exception exception);
+        Task HandleError(Exception exception);
 
         UpdateType[]? AllowedUpdates { get; }
     }

@@ -31,7 +31,7 @@ namespace Telegram.Bot
                 }
                 catch (Exception ex)
                 {
-                    await updateHandler.ErrorOccurred(ex);
+                    await updateHandler.HandleError(ex);
                 }
             });
         }
@@ -73,12 +73,12 @@ namespace Telegram.Bot
                 }
                 catch (Exception ex)
                 {
-                    await updateHandler.ErrorOccurred(ex).ConfigureAwait(false);
+                    await updateHandler.HandleError(ex).ConfigureAwait(false);
                 }
 
                 foreach (var update in updates)
                 {
-                    await updateHandler.UpdateReceived(update).ConfigureAwait(false);
+                    await updateHandler.HandleUpdate(update).ConfigureAwait(false);
                     messageOffset = update.Id + 1;
                 }
             }

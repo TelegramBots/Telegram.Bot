@@ -11,26 +11,26 @@ namespace Telegram.Bot.Extensions.Polling
 
         private readonly Func<Update, Task> _updateHandler;
 
-        private readonly Func<Exception, Task> _exceptionHandler;
+        private readonly Func<Exception, Task> _errorHandler;
 
         public DefaultUpdateHandler(
             Func<Update, Task> updateHandler,
-            Func<Exception, Task> exceptionHandler,
+            Func<Exception, Task> errorHandler,
             UpdateType[]? allowedUpdates = default)
         {
             _updateHandler = updateHandler ?? throw new ArgumentNullException(nameof(updateHandler));
-            _exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
+            _errorHandler = errorHandler ?? throw new ArgumentNullException(nameof(errorHandler));
             AllowedUpdates = allowedUpdates;
         }
 
-        public Task UpdateReceived(Update update)
+        public Task HandleUpdate(Update update)
         {
             return _updateHandler(update);
         }
 
-        public Task ErrorOccurred(Exception exception)
+        public Task HandleError(Exception exception)
         {
-            return _exceptionHandler(exception);
+            return _errorHandler(exception);
         }
     }
 }
