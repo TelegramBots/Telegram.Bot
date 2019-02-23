@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28606.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telegram.Bot.Extensions.Polling", "src\Telegram.Bot.Extensions.Polling\Telegram.Bot.Extensions.Polling.csproj", "{437A7244-12E6-45F8-A230-9E1241DFA857}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{338ECE13-AF3D-4C77-A3B9-AF0E7C7298C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{437A7244-12E6-45F8-A230-9E1241DFA857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{437A7244-12E6-45F8-A230-9E1241DFA857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{437A7244-12E6-45F8-A230-9E1241DFA857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{437A7244-12E6-45F8-A230-9E1241DFA857}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{437A7244-12E6-45F8-A230-9E1241DFA857} = {338ECE13-AF3D-4C77-A3B9-AF0E7C7298C8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90F2F608-0C73-4233-8D9F-8D375CC014D0}
+	EndGlobalSection
+EndGlobal
