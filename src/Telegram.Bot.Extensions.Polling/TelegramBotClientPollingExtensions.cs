@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -8,41 +9,40 @@ namespace Telegram.Bot
 {
     public static class TelegramBotClientPollingExtensions
     {
-        public static void StartReceiving(
-            this ITelegramBotClient botClient,
-            Func<Update, Task> updateHandler,
-            Func<Exception, Task> exceptionHandler, // ApiRequestException, GeneralException, AS WELL AS exceptions from updateHandler - in that case stop receiving
-            UpdateType[]? allowedUpdates = null,
-            CancellationToken cancellationToken = default)
+        public static void StartReceiving<TUpdateHandler>(this ITelegramBotClient botClient, CancellationToken cancellationToken = default)
+            where TUpdateHandler : IUpdateHandler, new()
+        {
+            StartReceiving(botClient, new TUpdateHandler(), cancellationToken);
+        }
+
+        public static void StartReceiving(this ITelegramBotClient botClient, IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
         {
             if (botClient == null)
                 throw new ArgumentNullException(nameof(botClient));
 
             if (updateHandler == null)
                 throw new ArgumentNullException(nameof(updateHandler));
-
-            if (exceptionHandler == null)
-                throw new ArgumentNullException(nameof(exceptionHandler));
 
             Task.Run(async () =>
             {
                 try
                 {
-                    await ReceiveAsync(botClient, updateHandler, exceptionHandler, allowedUpdates, cancellationToken);
+                    await ReceiveAsync(botClient, updateHandler, cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    await exceptionHandler(ex);
+                    await updateHandler.ErrorOccurred(ex);
                 }
             });
         }
 
-        public static async Task ReceiveAsync(
-            this ITelegramBotClient botClient,
-            Func<Update, Task> updateHandler,
-            Func<Exception, Task>? exceptionHandler = null, // ApiRequestException, GeneralException
-            UpdateType[]? allowedUpdates = null,
-            CancellationToken cancellationToken = default)
+        public static Task ReceiveAsync<TUpdateHandler>(this ITelegramBotClient botClient, CancellationToken cancellationToken = default)
+            where TUpdateHandler : IUpdateHandler, new()
+        {
+            return ReceiveAsync(botClient, new TUpdateHandler(), cancellationToken);
+        }
+
+        public static async Task ReceiveAsync(this ITelegramBotClient botClient, IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
         {
             if (botClient == null)
                 throw new ArgumentNullException(nameof(botClient));
@@ -50,6 +50,7 @@ namespace Telegram.Bot
             if (updateHandler == null)
                 throw new ArgumentNullException(nameof(updateHandler));
 
+            UpdateType[]? allowedUpdates = updateHandler.AllowedUpdates;
             int messageOffset = 0;
             var emptyUpdates = new Update[] { };
 
@@ -72,15 +73,12 @@ namespace Telegram.Bot
                 }
                 catch (Exception ex)
                 {
-                    if (exceptionHandler != null)
-                    {
-                        await exceptionHandler(ex).ConfigureAwait(false);
-                    }
+                    await updateHandler.ErrorOccurred(ex).ConfigureAwait(false);
                 }
 
                 foreach (var update in updates)
                 {
-                    await updateHandler(update).ConfigureAwait(false);
+                    await updateHandler.UpdateReceived(update).ConfigureAwait(false);
                     messageOffset = update.Id + 1;
                 }
             }
