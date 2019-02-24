@@ -8,34 +8,54 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Extensions.Polling
 {
+    /// <summary>
+    /// Supports asynchronous iteration over <see cref="Update"/>s
+    /// </summary>
     public class BlockingUpdateReceiver : IYieldingUpdateReceiver
     {
         private static readonly Update[] EmptyUpdates = { };
 
+        /// <summary>
+        /// The <see cref="ITelegramBotClient"/> used for making GetUpdates calls
+        /// </summary>
         public readonly ITelegramBotClient BotClient;
 
-        private readonly UpdateType[]? _allowedUpdates;
-        private readonly Func<Exception, Task>? _exceptionHandler;
-        private readonly CancellationToken _cancellationToken;
-
+        /// <summary>
+        /// Constructs a new <see cref="BlockingUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
+        /// </summary>
+        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="allowedUpdates">Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates</param>
+        /// <param name="errorHandler">The function used to handle <see cref="Exception"/>s</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public BlockingUpdateReceiver(
             ITelegramBotClient botClient,
             UpdateType[]? allowedUpdates = default,
-            Func<Exception, Task>? exceptionHandler = default,
+            Func<Exception, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
             BotClient = botClient;
             _allowedUpdates = allowedUpdates;
-            _exceptionHandler = exceptionHandler;
+            this.errorHandler = errorHandler;
             _cancellationToken = cancellationToken;
         }
 
-        private Update[] _updateArray = EmptyUpdates;
+        private readonly UpdateType[]? _allowedUpdates;
+        private readonly Func<Exception, Task>? errorHandler;
+        private readonly CancellationToken _cancellationToken;
         private int _updateIndex = 0;
+        private Update[] _updateArray = EmptyUpdates;
+        private int _messageOffset;
 
+        /// <summary>
+        /// Indicates how many <see cref="Update"/>s are ready to be returned by <see cref="YieldUpdatesAsync"/>
+        /// </summary>
         public int PendingUpdates => _updateArray.Length - _updateIndex;
-        public int MessageOffset { get; private set; }
 
+        /// <summary>
+        /// Yields <see cref="Update"/>s as they are received (or inside <see cref="PendingUpdates"/>).
+        /// <para>GetUpdates will be called AFTER all the <see cref="Update"/>s are processed</para>
+        /// </summary>
+        /// <returns>An <see cref="IAsyncEnumerable{T}"/> of <see cref="Update"/></returns>
         public async IAsyncEnumerable<Update> YieldUpdatesAsync()
         {
             // Access to YieldUpdatesAsync is not thread-safe!
@@ -58,7 +78,7 @@ namespace Telegram.Bot.Extensions.Polling
                     try
                     {
                         _updateArray = await BotClient.GetUpdatesAsync(
-                            offset: MessageOffset,
+                            offset: _messageOffset,
                             timeout: timeout,
                             allowedUpdates: _allowedUpdates,
                             cancellationToken: _cancellationToken
@@ -70,15 +90,15 @@ namespace Telegram.Bot.Extensions.Polling
                     }
                     catch (Exception ex)
                     {
-                        if (_exceptionHandler != null)
+                        if (errorHandler != null)
                         {
-                            await _exceptionHandler(ex).ConfigureAwait(false);
+                            await errorHandler(ex).ConfigureAwait(false);
                         }
                     }
                 }
 
                 if (_updateArray.Length > 0)
-                    MessageOffset = _updateArray[^1].Id + 1;
+                    _messageOffset = _updateArray[^1].Id + 1;
             }
         }
     }

@@ -9,17 +9,32 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Extensions.Polling
 {
+    /// <summary>
+    /// Supports asynchronous iteration over <see cref="Update"/>s.
+    /// <para>Updates are received on a different thread and enqueued. <see cref="YieldUpdatesAsync"/> yields updates one by one</para>
+    /// </summary>
     public class QueuedUpdateReceiver : IYieldingUpdateReceiver
     {
         private static readonly Update[] EmptyUpdates = { };
 
+        /// <summary>
+        /// The <see cref="ITelegramBotClient"/> used for making GetUpdates calls
+        /// </summary>
         public readonly ITelegramBotClient BotClient;
 
+        /// <summary>
+        /// Constructs a new <see cref="QueuedUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
+        /// </summary>
+        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         public QueuedUpdateReceiver(ITelegramBotClient botClient)
         {
             BotClient = botClient;
         }
 
+        /// <summary>
+        /// Indicates whether <see cref="Update"/>s are being received.
+        /// <para>Controlled by StartReceiving and StopReceiving</para>
+        /// </summary>
         public bool IsReceiving { get; private set; }
 
         private readonly object _lock = new object();
@@ -29,12 +44,20 @@ namespace Telegram.Bot.Extensions.Polling
         private int _consumerQueueInnerIndex = 0;
         private List<Update[]?> _consumerQueue = new List<Update[]?>(16);
         private List<Update[]?> _producerQueue = new List<Update[]?>(16);
-
+        private int _messageOffset;
         private int _pendingUpdates;
+
+        /// <summary>
+        /// Indicates how many <see cref="Update"/>s are ready to be returned by <see cref="YieldUpdatesAsync"/>
+        /// </summary>
         public int PendingUpdates => _pendingUpdates;
-        public int MessageOffset { get; private set; }
 
-
+        /// <summary>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool
+        /// </summary>
+        /// <param name="allowedUpdates">Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates</param>
+        /// <param name="errorHandler">The function used to handle <see cref="Exception"/>s</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public void StartReceiving(
             UpdateType[]? allowedUpdates = default,
             Func<Exception, Task>? errorHandler = default,
@@ -73,7 +96,7 @@ namespace Telegram.Bot.Extensions.Polling
                     try
                     {
                         updates = await BotClient.GetUpdatesAsync(
-                            offset: MessageOffset,
+                            offset: _messageOffset,
                             timeout: timeout,
                             allowedUpdates: allowedUpdates,
                             cancellationToken: cancellationToken
@@ -95,7 +118,7 @@ namespace Telegram.Bot.Extensions.Polling
                     if (updates.Length > 0)
                     {
                         Interlocked.Add(ref _pendingUpdates, updates.Length);
-                        MessageOffset = updates[^1].Id + 1;
+                        _messageOffset = updates[^1].Id + 1;
 
                         lock (_lock)
                         {
@@ -118,6 +141,10 @@ namespace Telegram.Bot.Extensions.Polling
             });
         }
 
+        /// <summary>
+        /// Stops receiving <see cref="Update"/>s.
+        /// <para><see cref="YieldUpdatesAsync"/> will continue to yield <see cref="Update"/>s as long as <see cref="PendingUpdates"/> are available</para>
+        /// </summary>
         public void StopReceiving()
         {
             lock (_lock)
@@ -131,6 +158,13 @@ namespace Telegram.Bot.Extensions.Polling
             // IsReceiving is set to false by the receiver
         }
 
+        /// <summary>
+        /// Yields <see cref="Update"/>s as they are received (or inside <see cref="PendingUpdates"/>).
+        /// <para>Call StartReceiving before using this <see cref="IAsyncEnumerable{T}"/>.</para>
+        /// <para>This <see cref="IAsyncEnumerable{T}"/> will continue to yield <see cref="Update"/>s
+        /// as long as <see cref="IsReceiving"/> is set or there are <see cref="PendingUpdates"/></para>
+        /// </summary>
+        /// <returns>An <see cref="IAsyncEnumerable{T}"/> of <see cref="Update"/></returns>
         public async IAsyncEnumerable<Update> YieldUpdatesAsync()
         {
             // Access to YieldUpdatesAsync is not thread-safe!

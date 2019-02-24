@@ -6,6 +6,7 @@
     <LangVersion>8.0</LangVersion>
     <NullableContextOptions>enable</NullableContextOptions>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>0.1.0</Version>
     <Authors>MihaZupan,TelegramBots</Authors>
     <Copyright>Copyright © Telegram Bots 2019</Copyright>

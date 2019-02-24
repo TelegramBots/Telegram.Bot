@@ -7,14 +7,31 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot
 {
+    /// <summary>
+    /// Provides extension methods for <see cref="ITelegramBotClient"/> that allow for <see cref="Update"/> polling
+    /// </summary>
     public static class TelegramBotClientPollingExtensions
     {
+        /// <summary>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
+        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// </summary>
+        /// <typeparam name="TUpdateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
+        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public static void StartReceiving<TUpdateHandler>(this ITelegramBotClient botClient, CancellationToken cancellationToken = default)
             where TUpdateHandler : IUpdateHandler, new()
         {
             StartReceiving(botClient, new TUpdateHandler(), cancellationToken);
         }
 
+        /// <summary>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
+        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// </summary>
+        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public static void StartReceiving(this ITelegramBotClient botClient, IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
         {
             if (botClient == null)
@@ -36,12 +53,28 @@ namespace Telegram.Bot
             });
         }
 
+        /// <summary>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
+        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// </summary>
+        /// <typeparam name="TUpdateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
+        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
+        /// <returns></returns>
         public static Task ReceiveAsync<TUpdateHandler>(this ITelegramBotClient botClient, CancellationToken cancellationToken = default)
             where TUpdateHandler : IUpdateHandler, new()
         {
             return ReceiveAsync(botClient, new TUpdateHandler(), cancellationToken);
         }
 
+        /// <summary>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
+        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// </summary>
+        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
+        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
+        /// <returns></returns>
         public static async Task ReceiveAsync(this ITelegramBotClient botClient, IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
         {
             if (botClient == null)
