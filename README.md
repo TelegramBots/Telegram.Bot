@@ -23,7 +23,7 @@ async Task HandleErrorAsync(Exception exception)
 {
     if (exception is ApiRequestException apiRequestException)
     {
-        await Bot.SendTextMessageAsync(123, apiRequestException.ToString()));
+        await Bot.SendTextMessageAsync(123, apiRequestException.ToString());
     }
 }
 ```
