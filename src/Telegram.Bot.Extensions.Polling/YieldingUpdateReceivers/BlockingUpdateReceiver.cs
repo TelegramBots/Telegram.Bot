@@ -14,48 +14,71 @@ namespace Telegram.Bot.Extensions.Polling
 
         public readonly ITelegramBotClient BotClient;
 
-        public BlockingUpdateReceiver(ITelegramBotClient botClient)
-        {
-            BotClient = botClient;
-        }
+        private readonly UpdateType[]? _allowedUpdates;
+        private readonly Func<Exception, Task>? _exceptionHandler;
+        private readonly CancellationToken _cancellationToken;
 
-        public async IAsyncEnumerable<Update> YieldUpdatesAsync(
+        public BlockingUpdateReceiver(
+            ITelegramBotClient botClient,
             UpdateType[]? allowedUpdates = default,
             Func<Exception, Task>? exceptionHandler = default,
             CancellationToken cancellationToken = default)
         {
-            int messageOffset = 0;
+            BotClient = botClient;
+            _allowedUpdates = allowedUpdates;
+            _exceptionHandler = exceptionHandler;
+            _cancellationToken = cancellationToken;
+        }
 
-            while (!cancellationToken.IsCancellationRequested)
+        private Update[] _updateArray = EmptyUpdates;
+        private int _updateIndex = 0;
+
+        public int PendingUpdates => _updateArray.Length - _updateIndex;
+        public int MessageOffset { get; private set; }
+
+        public async IAsyncEnumerable<Update> YieldUpdatesAsync()
+        {
+            // Access to YieldUpdatesAsync is not thread-safe!
+
+            while (!_cancellationToken.IsCancellationRequested)
             {
-                int timeout = (int)BotClient.Timeout.TotalSeconds;
-                var updates = EmptyUpdates;
-                try
+                while (_updateIndex < _updateArray.Length)
                 {
-                    updates = await BotClient.GetUpdatesAsync(
-                        offset: messageOffset,
-                        timeout: timeout,
-                        allowedUpdates: allowedUpdates,
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
+                    // It is vital that we increment before yielding
+                    _updateIndex++;
+                    yield return _updateArray[_updateIndex - 1];
                 }
-                catch (OperationCanceledException)
+
+                _updateArray = EmptyUpdates;
+                _updateIndex = 0;
+
+                while (!_cancellationToken.IsCancellationRequested && _updateArray.Length == 0)
                 {
-                    // Ignore
-                }
-                catch (Exception ex)
-                {
-                    if (exceptionHandler != null)
+                    int timeout = (int)BotClient.Timeout.TotalSeconds;
+                    try
                     {
-                        await exceptionHandler(ex).ConfigureAwait(false);
+                        _updateArray = await BotClient.GetUpdatesAsync(
+                            offset: MessageOffset,
+                            timeout: timeout,
+                            allowedUpdates: _allowedUpdates,
+                            cancellationToken: _cancellationToken
+                        ).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // Ignore
+                    }
+                    catch (Exception ex)
+                    {
+                        if (_exceptionHandler != null)
+                        {
+                            await _exceptionHandler(ex).ConfigureAwait(false);
+                        }
                     }
                 }
 
-                foreach (var update in updates)
-                {
-                    yield return update;
-                    messageOffset = update.Id + 1;
-                }
+                if (_updateArray.Length > 0)
+                    MessageOffset = _updateArray[^1].Id + 1;
             }
         }
     }

@@ -20,30 +20,52 @@ namespace Telegram.Bot.Extensions.Polling
             BotClient = botClient;
         }
 
-        public bool StartedReceiving { get; private set; }
+        public bool IsReceiving { get; private set; }
 
-        private int _queuedUpdates;
-        public int QueuedUpdates => _queuedUpdates;
+        private readonly object _lock = new object();
+        private CancellationTokenSource? _cancellationTokenSource;
+        private TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
+        private int _consumerQueueIndex = 0;
+        private int _consumerQueueInnerIndex = 0;
+        private List<Update[]?> _consumerQueue = new List<Update[]?>(16);
+        private List<Update[]?> _producerQueue = new List<Update[]?>(16);
 
-        public async IAsyncEnumerable<Update> YieldUpdatesAsync(
+        private int _pendingUpdates;
+        public int PendingUpdates => _pendingUpdates;
+        public int MessageOffset { get; private set; }
+
+
+        public void StartReceiving(
             UpdateType[]? allowedUpdates = default,
             Func<Exception, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
-            if (StartedReceiving) throw new InvalidOperationException("YieldUpdatesAsync has already been called");
-            StartedReceiving = true;
-
-            // Only access producerQueue and exchange tcs under a lock
-            // We could use other objects instead, but this way it's very obvious what we're doing
-            object lockObject = new object();
-
-            List<Update[]> producerQueue = new List<Update[]>();
-            List<Update[]> consumerQueue = new List<Update[]>();
-            TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
-
-            _ = Task.Run(async () =>
+            lock (_lock)
             {
-                int messageOffset = 0;
+                if (IsReceiving)
+                    throw new InvalidOperationException("Receiving is already in progress");
+
+                IsReceiving = true;
+
+                if (cancellationToken.IsCancellationRequested)
+                    return;
+
+                _cancellationTokenSource = new CancellationTokenSource();
+                cancellationToken.Register(() => _cancellationTokenSource?.Cancel());
+                cancellationToken = _cancellationTokenSource.Token;
+            }
+
+            StartReceivingInternal(allowedUpdates, errorHandler, cancellationToken);
+        }
+
+        private void StartReceivingInternal(
+            UpdateType[]? allowedUpdates = default,
+            Func<Exception, Task>? errorHandler = default,
+            CancellationToken cancellationToken = default)
+        {
+            Debug.Assert(IsReceiving);
+            Task.Run(async () =>
+            {
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     int timeout = (int)BotClient.Timeout.TotalSeconds;
@@ -51,7 +73,7 @@ namespace Telegram.Bot.Extensions.Polling
                     try
                     {
                         updates = await BotClient.GetUpdatesAsync(
-                            offset: messageOffset,
+                            offset: MessageOffset,
                             timeout: timeout,
                             allowedUpdates: allowedUpdates,
                             cancellationToken: cancellationToken
@@ -72,48 +94,94 @@ namespace Telegram.Bot.Extensions.Polling
 
                     if (updates.Length > 0)
                     {
-                        Interlocked.Add(ref _queuedUpdates, updates.Length);
-                        messageOffset = updates[^1].Id + 1;
+                        Interlocked.Add(ref _pendingUpdates, updates.Length);
+                        MessageOffset = updates[^1].Id + 1;
 
-                        lock (lockObject)
+                        lock (_lock)
                         {
-                            producerQueue.Add(updates);
-                            tcs.TrySetResult(true);
+                            _producerQueue.Add(updates);
+                            _tcs.TrySetResult(true);
                         }
                     }
                 }
+
+                Debug.Assert(_cancellationTokenSource != null);
+                Debug.Assert(IsReceiving);
+                _cancellationTokenSource = null;
+                IsReceiving = false;
             });
+        }
 
-            while (!cancellationToken.IsCancellationRequested)
+        public void StopReceiving()
+        {
+            lock (_lock)
             {
-                // Don't await if it's obvious we already have updates
-                if (producerQueue.Count == 0)
-                    await tcs.Task.ConfigureAwait(false);
+                if (!IsReceiving || _cancellationTokenSource == null)
+                    return;
 
-                lock (lockObject)
+                _cancellationTokenSource.Cancel();
+            }
+
+            // IsReceiving is set to false by the receiver
+        }
+
+        public async IAsyncEnumerable<Update> YieldUpdatesAsync()
+        {
+            // Access to YieldUpdatesAsync is not thread-safe!
+
+            while (true)
+            {
+                while (_consumerQueueIndex < _consumerQueue.Count)
+                {
+                    Debug.Assert(_consumerQueue[_consumerQueueIndex] != null);
+                    Update[] updateArray = _consumerQueue[_consumerQueueIndex]!;
+
+                    while (_consumerQueueInnerIndex < updateArray.Length)
+                    {
+                        Interlocked.Decrement(ref _pendingUpdates);
+
+                        // It is vital that we increment before yielding
+                        _consumerQueueInnerIndex++;
+                        yield return updateArray[_consumerQueueInnerIndex - 1];
+                    }
+
+                    // We have reached the end of the current Update[]
+                    Debug.Assert(_consumerQueue[_consumerQueueIndex] != null);
+                    Debug.Assert(_consumerQueueInnerIndex == _consumerQueue[_consumerQueueIndex]!.Length);
+
+                    // Let the GC collect the Update[], this amortizes the cost of GC on queue swaps
+                    _consumerQueue[_consumerQueueIndex] = null;
+
+                    _consumerQueueIndex++;
+                    _consumerQueueInnerIndex = 0;
+                }
+
+                Debug.Assert(_consumerQueueIndex == _consumerQueue.Count);
+                Debug.Assert(_consumerQueueInnerIndex == 0);
+
+                _consumerQueueIndex = 0;
+
+                // We still have to clear all the null references
+                Debug.Assert(_consumerQueue.TrueForAll(updateArray => updateArray == null));
+                _consumerQueue.Clear();
+
+                // now wait for new updates
+                // (no need for await if it's obvious we already have updates pending)
+                if (_producerQueue.Count == 0)
+                    await _tcs.Task.ConfigureAwait(false);
+
+                lock (_lock)
                 {
                     // Swap
-                    var temp = producerQueue;
-                    producerQueue = consumerQueue;
-                    consumerQueue = temp;
+                    var temp = _producerQueue;
+                    _producerQueue = _consumerQueue;
+                    _consumerQueue = temp;
+
+                    // Reset the TCS
+                    _tcs = new TaskCompletionSource<bool>();
                 }
 
-                Debug.Assert(consumerQueue.Count > 0);
-                foreach (var updateArray in consumerQueue)
-                {
-                    Debug.Assert(updateArray.Length > 0);
-                    foreach (var update in updateArray)
-                    {
-                        Interlocked.Decrement(ref _queuedUpdates);
-                        yield return update;
-                    }
-                }
-
-                consumerQueue.Clear();
-
-                // We could save an allocation here by having a custom TCS,
-                // but it does not matter as we're also allocating Updates and making network requests
-                lock (lockObject) tcs = new TaskCompletionSource<bool>();
+                Debug.Assert(_consumerQueue.Count > 0);
             }
         }
     }
