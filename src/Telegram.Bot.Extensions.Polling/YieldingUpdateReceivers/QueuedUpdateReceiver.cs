@@ -21,6 +21,9 @@ namespace Telegram.Bot.Extensions.Polling
 
         public bool StartedReceiving { get; private set; }
 
+        private int _queuedUpdates;
+        public int QueuedUpdates => _queuedUpdates;
+
         public async IAsyncEnumerable<Update> YieldUpdatesAsync(
             UpdateType[]? allowedUpdates = default,
             Func<Exception, Task>? errorHandler = default,
@@ -68,6 +71,7 @@ namespace Telegram.Bot.Extensions.Polling
 
                     if (updates.Length > 0)
                     {
+                        Interlocked.Add(ref _queuedUpdates, updates.Length);
                         lock (lockObject)
                         {
                             producerQueue.Add(updates);
@@ -93,8 +97,13 @@ namespace Telegram.Bot.Extensions.Polling
                 }
 
                 foreach (var updateArray in consumerQueue)
+                {
                     foreach (var update in updateArray)
+                    {
+                        Interlocked.Decrement(ref _queuedUpdates);
                         yield return update;
+                    }
+                }
 
                 consumerQueue.Clear();
 
