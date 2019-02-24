@@ -1,6 +1,7 @@
 ﻿#if NETCOREAPP3_0
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -50,7 +51,7 @@ namespace Telegram.Bot.Extensions.Polling
                     try
                     {
                         updates = await BotClient.GetUpdatesAsync(
-                            messageOffset,
+                            offset: messageOffset,
                             timeout: timeout,
                             allowedUpdates: allowedUpdates,
                             cancellationToken: cancellationToken
@@ -72,12 +73,13 @@ namespace Telegram.Bot.Extensions.Polling
                     if (updates.Length > 0)
                     {
                         Interlocked.Add(ref _queuedUpdates, updates.Length);
+                        messageOffset = updates[^1].Id + 1;
+
                         lock (lockObject)
                         {
                             producerQueue.Add(updates);
                             tcs.TrySetResult(true);
                         }
-                        messageOffset = updates[^1].Id + 1;
                     }
                 }
             });
@@ -96,8 +98,10 @@ namespace Telegram.Bot.Extensions.Polling
                     consumerQueue = temp;
                 }
 
+                Debug.Assert(consumerQueue.Count > 0);
                 foreach (var updateArray in consumerQueue)
                 {
+                    Debug.Assert(updateArray.Length > 0);
                     foreach (var update in updateArray)
                     {
                         Interlocked.Decrement(ref _queuedUpdates);

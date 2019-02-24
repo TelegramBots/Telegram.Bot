@@ -61,7 +61,7 @@ namespace Telegram.Bot
                 try
                 {
                     updates = await botClient.GetUpdatesAsync(
-                        messageOffset,
+                        offset: messageOffset,
                         timeout: timeout,
                         allowedUpdates: allowedUpdates,
                         cancellationToken: cancellationToken

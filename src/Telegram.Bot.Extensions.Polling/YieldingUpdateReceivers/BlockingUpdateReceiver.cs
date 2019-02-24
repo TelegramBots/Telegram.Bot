@@ -33,7 +33,7 @@ namespace Telegram.Bot.Extensions.Polling
                 try
                 {
                     updates = await BotClient.GetUpdatesAsync(
-                        messageOffset,
+                        offset: messageOffset,
                         timeout: timeout,
                         allowedUpdates: allowedUpdates,
                         cancellationToken: cancellationToken
