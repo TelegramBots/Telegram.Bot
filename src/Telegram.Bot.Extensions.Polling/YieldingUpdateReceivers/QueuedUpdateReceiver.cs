@@ -105,10 +105,16 @@ namespace Telegram.Bot.Extensions.Polling
                     }
                 }
 
-                Debug.Assert(_cancellationTokenSource != null);
-                Debug.Assert(IsReceiving);
-                _cancellationTokenSource = null;
-                IsReceiving = false;
+                lock (_lock)
+                {
+                    Debug.Assert(_cancellationTokenSource != null);
+                    Debug.Assert(IsReceiving);
+                    _cancellationTokenSource = null;
+                    IsReceiving = false;
+
+                    // Signal the TCS so that we can stop the yielding loop
+                    _tcs.TrySetResult(true);
+                }
             });
         }
 
@@ -168,7 +174,13 @@ namespace Telegram.Bot.Extensions.Polling
                 // now wait for new updates
                 // (no need for await if it's obvious we already have updates pending)
                 if (_producerQueue.Count == 0)
+                {
+                    // If there are no obvious updates and IsReceiving is false, yield break
+                    if (!IsReceiving)
+                        yield break;
+
                     await _tcs.Task.ConfigureAwait(false);
+                }
 
                 lock (_lock)
                 {
@@ -181,7 +193,19 @@ namespace Telegram.Bot.Extensions.Polling
                     _tcs = new TaskCompletionSource<bool>();
                 }
 
-                Debug.Assert(_consumerQueue.Count > 0);
+                // We either:
+                // a) have updates in the consumer queue
+                // b) the consumer queue is empty because IsReceiving was set to false
+
+                if (_consumerQueue.Count == 0)
+                {
+                    // IsReceiving could theoretically be true at this point, if Stop/Start have been called quickly
+                    lock (_lock)
+                    {
+                        if (!IsReceiving)
+                            yield break;
+                    }
+                }
             }
         }
     }
