@@ -45,10 +45,10 @@ namespace Telegram.Bot.Extensions.Polling
                 if (IsReceiving)
                     throw new InvalidOperationException("Receiving is already in progress");
 
-                IsReceiving = true;
-
                 if (cancellationToken.IsCancellationRequested)
                     return;
+
+                IsReceiving = true;
 
                 _cancellationTokenSource = new CancellationTokenSource();
                 cancellationToken.Register(() => _cancellationTokenSource?.Cancel());
