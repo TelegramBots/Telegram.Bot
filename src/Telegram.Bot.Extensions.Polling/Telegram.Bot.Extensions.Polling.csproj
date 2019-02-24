@@ -16,6 +16,8 @@
     <PackageTags>Telegram;Bot;Api;Polling</PackageTags>
     <PackageLicenseUrl></PackageLicenseUrl>
     <Description>Provides ITelegramBotClient extensions for polling updates.</Description>
+    <PackageIconUrl>https://telegram.org/img/tl_card_store.gif</PackageIconUrl>
+    <Company>TelegramBots</Company>
   </PropertyGroup>
 
   <ItemGroup>  
