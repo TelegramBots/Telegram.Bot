@@ -1,4 +1,3 @@
-﻿using System;
 using System.Net.Http;
 
 namespace Telegram.Bot.Args
@@ -6,7 +5,7 @@ namespace Telegram.Bot.Args
     /// <summary>
     /// Provides data for MakingApiRequest event
     /// </summary>
-    public class ApiRequestEventArgs : EventArgs
+    public class ApiRequestEventArgs
     {
         /// <summary>
         /// Bot API method name
