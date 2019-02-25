@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
@@ -35,7 +35,7 @@ namespace Telegram.Bot.Requests
         public InputOnlineFile Audio { get; }
 
         /// <summary>
-        /// Photo caption (may also be used when resending photos by file_id), 0-200 characters
+        /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }

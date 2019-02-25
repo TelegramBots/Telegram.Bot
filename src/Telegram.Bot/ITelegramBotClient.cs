@@ -248,7 +248,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="audio">Audio file to send.</param>
-        /// <param name="caption">Audio caption, 0-200 characters</param>
+        /// <param name="caption">Audio caption, 0-1024 characters</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
         /// URLs in your bot's message.</param>
         /// <param name="duration">Duration of the audio in seconds</param>
@@ -415,7 +415,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="voice">Audio file to send.</param>
-        /// <param name="caption">Voice message caption, 0-200 characters</param>
+        /// <param name="caption">Voice message caption, 0-1024 characters</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>

@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
@@ -53,7 +53,7 @@ namespace Telegram.Bot.Requests
         public int Height { get; set; }
 
         /// <summary>
-        /// Video caption (may also be used when resending videos by file_id), 0-200 characters
+        /// Video caption (may also be used when resending videos by file_id), 0-1024 characters
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }

@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -19,7 +19,7 @@ namespace Telegram.Bot.Types
         InputMedia Media { get; }
 
         /// <summary>
-        /// Optional. Caption of the photo to be sent, 0-200 characters
+        /// Optional. Caption of the photo to be sent, 0-1024 characters
         /// </summary>
         string Caption { get; }
 

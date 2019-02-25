@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
@@ -24,7 +24,7 @@ namespace Telegram.Bot.Types
         public InputMedia Media { get; set; } // ToDo Should be get-only. Media is set in ctors
 
         /// <summary>
-        /// Optional. Caption of the photo to be sent, 0-200 characters
+        /// Optional. Caption of the photo to be sent, 0-1024 characters
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
