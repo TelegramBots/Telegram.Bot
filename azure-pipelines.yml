@@ -1,0 +1,12 @@
+pool:
+  vmImage: 'Ubuntu-16.04'
+
+steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Install Core 3.0 SDK'
+  inputs:
+    packageType: 'sdk'
+    version: '3.0.100-preview-010184'
+
+- script: dotnet build -c Release
+  displayName: 'dotnet build Release'
