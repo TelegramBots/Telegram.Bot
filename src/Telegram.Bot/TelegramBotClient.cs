@@ -490,27 +490,6 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
-        [Obsolete("Use the other overload of this method instead. Only photo and video input types are allowed.")]
-        public Task<Message[]> SendMediaGroupAsync(
-            ChatId chatId,
-            IEnumerable<InputMediaBase> media,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            CancellationToken cancellationToken = default
-        )
-        {
-            var inputMedia = media
-                .Select(m => m as IAlbumInputMedia)
-                .Where(m => m != null)
-                .ToArray();
-            return MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
-            {
-                DisableNotification = disableNotification,
-                ReplyToMessageId = replyToMessageId,
-            }, cancellationToken);
-        }
-
-        /// <inheritdoc />
         public Task<Message[]> SendMediaGroupAsync(
             IEnumerable<IAlbumInputMedia> inputMedia,
             ChatId chatId,
@@ -614,19 +593,6 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new GetFileRequest(fileId), cancellationToken);
-
-        /// <inheritdoc />
-        [Obsolete("This method will be removed in next major release. Use its overload instead.")]
-        public async Task<Stream> DownloadFileAsync(
-            string filePath,
-            CancellationToken cancellationToken = default
-        )
-        {
-            var stream = new MemoryStream();
-            await DownloadFileAsync(filePath, stream, cancellationToken)
-                .ConfigureAwait(false);
-            return stream;
-        }
 
         /// <inheritdoc />
         public async Task DownloadFileAsync(

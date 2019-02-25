@@ -58,8 +58,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string AlbumMessage = "Sending Album Messages";
 
-            public const string ObsoleteSendMediaGroup = "Refactor SendMediaGroup method";
-
             public const string EditMessage = "Edit message content";
 
             public const string EditMessage2 = "Edit message content (non-interactive)";

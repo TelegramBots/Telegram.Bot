@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Exceptions;
@@ -68,11 +68,14 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             int fileSize = _classFixture.File.FileSize;
 
-            System.IO.Stream stream = await BotClient.DownloadFileAsync(
-                filePath: _classFixture.File.FilePath
-            );
+            using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+            {
+                await BotClient.DownloadFileAsync(
+                    filePath: _classFixture.File.FilePath,
+                    destination: stream);
 
-            Assert.InRange(stream.Length, fileSize - 100, fileSize + 100);
+                Assert.InRange(stream.Length, fileSize - 100, fileSize + 100);
+            }
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldDownloadWriteUsingFilePath)]
@@ -141,15 +144,16 @@ namespace Telegram.Bot.Tests.Integ.Other
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath);
 
-            System.IO.Stream content = default;
-
             HttpRequestException exception = await Assert.ThrowsAnyAsync<HttpRequestException>(async () =>
             {
-                content = await BotClient.DownloadFileAsync("Invalid_File_Path");
+                using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
+                {
+                    await BotClient.DownloadFileAsync("Invalid_File_Path", stream);
+                    Assert.Equal(0, stream.Length);
+                }
             });
 
             Assert.Contains("404", exception.Message);
-            Assert.Null(content);
         }
 
         private static class FactTitles

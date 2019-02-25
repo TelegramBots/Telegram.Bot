@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -38,22 +38,6 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
-
-        /// <summary>
-        /// Initializes a request with chat_id and media
-        /// </summary>
-        /// <param name="chatId">ID of target chat</param>
-        /// <param name="media">Media items to send</param>
-        [Obsolete("Use the other constructor. Only photo and video input types are allowed.")]
-        public SendMediaGroupRequest(ChatId chatId, IEnumerable<InputMediaBase> media)
-            : base("sendMediaGroup")
-        {
-            ChatId = chatId;
-            Media = media
-                .Select(m => m as IAlbumInputMedia)
-                .Where(m => m != null)
-                .ToArray();
-        }
 
         /// <summary>
         /// Initializes a request with chat_id and media

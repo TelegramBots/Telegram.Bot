@@ -470,24 +470,6 @@ namespace Telegram.Bot
         /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
-        /// <param name="media">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
-        /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
-        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
-        /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
-        [Obsolete("Use the other overload of this method instead. Only photo and video input types are allowed.")]
-        Task<Message[]> SendMediaGroupAsync(
-            ChatId chatId,
-            IEnumerable<InputMediaBase> media,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
-        /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
         /// <param name="inputMedia">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
         /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -619,17 +601,6 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#getfile"/>
         Task<File> GetFileAsync(
             string fileId,
-            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Use this method to download a file. Get <paramref name="filePath"/> by calling <see cref="GetFileAsync"/>
-        /// </summary>
-        /// <param name="filePath">Path to file on server</param>
-        /// <param name="cancellationToken">The cancellation token to cancel operation</param>
-        /// <returns>File stream</returns>
-        [Obsolete("This method will be removed in next major release. Use its overload instead.")]
-        Task<Stream> DownloadFileAsync(
-            string filePath,
             CancellationToken cancellationToken = default);
 
         /// <summary>
