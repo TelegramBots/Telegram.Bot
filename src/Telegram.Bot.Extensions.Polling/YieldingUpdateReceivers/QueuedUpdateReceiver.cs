@@ -218,6 +218,13 @@ namespace Telegram.Bot.Extensions.Polling
 
                 lock (_lock)
                 {
+                    // We either:
+                    // a) have updates in the producer queue
+                    // b) the producer queue is empty because StopReceiving was called
+
+                    if (_producerQueue.Count == 0 && !IsReceiving)
+                        yield break;
+
                     // Swap
                     var temp = _producerQueue;
                     _producerQueue = _consumerQueue;
@@ -225,20 +232,6 @@ namespace Telegram.Bot.Extensions.Polling
 
                     // Reset the TCS
                     _tcs = new TaskCompletionSource<bool>();
-                }
-
-                // We either:
-                // a) have updates in the consumer queue
-                // b) the consumer queue is empty because IsReceiving was set to false
-
-                if (_consumerQueue.Count == 0)
-                {
-                    // IsReceiving could theoretically be true at this point, if Stop/Start have been called quickly
-                    lock (_lock)
-                    {
-                        if (!IsReceiving)
-                            yield break;
-                    }
                 }
             }
         }
