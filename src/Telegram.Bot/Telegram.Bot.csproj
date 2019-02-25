@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <VersionPrefix>14.10.0</VersionPrefix>
@@ -12,7 +12,7 @@
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIconUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot/master/package-icon.gif</PackageIconUrl>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
   </PropertyGroup>
@@ -21,6 +21,6 @@
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 </Project>
