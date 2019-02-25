@@ -33,16 +33,6 @@ namespace Telegram.Bot
         /// </summary>
         TimeSpan Timeout { get; set; }
 
-        /// <summary>
-        /// Indicates if receiving updates
-        /// </summary>
-        bool IsReceiving { get; }
-
-        /// <summary>
-        /// The current message offset
-        /// </summary>
-        int MessageOffset { get; set; }
-
         #endregion  Config Properties
 
         #region Events
@@ -56,46 +46,6 @@ namespace Telegram.Bot
         /// Occurs after receiving the response to an API request
         /// </summary>
         event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
-
-        /// <summary>
-        /// Occurs when an <see cref="Update"/> is received.
-        /// </summary>
-        event EventHandler<UpdateEventArgs> OnUpdate;
-
-        /// <summary>
-        /// Occurs when a <see cref="Message"/> is received.
-        /// </summary>
-        event EventHandler<MessageEventArgs> OnMessage;
-
-        /// <summary>
-        /// Occurs when <see cref="Message"/> was edited.
-        /// </summary>
-        event EventHandler<MessageEventArgs> OnMessageEdited;
-
-        /// <summary>
-        /// Occurs when an <see cref="InlineQuery"/> is received.
-        /// </summary>
-        event EventHandler<InlineQueryEventArgs> OnInlineQuery;
-
-        /// <summary>
-        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
-        /// </summary>
-        event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
-
-        /// <summary>
-        /// Occurs when an <see cref="CallbackQuery"/> is received
-        /// </summary>
-        event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
-
-        /// <summary>
-        /// Occurs when an error occurs during the background update pooling.
-        /// </summary>
-        event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
-
-        /// <summary>
-        /// Occurs when an error occurs during the background update pooling.
-        /// </summary>
-        event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
 
         #endregion Events
 
@@ -118,20 +68,6 @@ namespace Telegram.Bot
         /// <param name="cancellationToken"></param>
         /// <returns><c>true</c> if token is valid</returns>
         Task<bool> TestApiAsync(CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Start update receiving
-        /// </summary>
-        /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="Exceptions.ApiRequestException"> Thrown if token is invalid</exception>
-        void StartReceiving(UpdateType[] allowedUpdates = null,
-                            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Stop update receiving
-        /// </summary>
-        void StopReceiving();
 
         #endregion Helpers
 
