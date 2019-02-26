@@ -10,7 +10,7 @@ using Telegram.Bot.Extensions.Polling;
 // StartReceiving does not block the caller thread. Receiving is done on the ThreadPool.
 Bot.StartReceiving(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync));
 
-// awaiting ReceiveAsync will block
+// awaiting ReceiveAsync will block (both methods accept a CancellationToken)
 await Bot.ReceiveAsync(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync));
 
 async Task HandleUpdateAsync(Update update)
