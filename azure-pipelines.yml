@@ -10,3 +10,6 @@ steps:
 
 - script: dotnet build -c Release
   displayName: 'dotnet build Release'
+  
+- script: dotnet test -c Debug
+  displayName: 'dotnet test Debug'
