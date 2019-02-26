@@ -1,4 +1,4 @@
-# Telegram.Bot.Extensions.Polling [![NuGet](https://img.shields.io/nuget/v/Telegram.Bot.Extensions.Polling.svg)](https://www.nuget.org/packages/Telegram.Bot.Extensions.Polling/)
+# Telegram.Bot.Extensions.Polling [![NuGet](https://img.shields.io/nuget/v/Telegram.Bot.Extensions.Polling.svg)](https://www.nuget.org/packages/Telegram.Bot.Extensions.Polling/) [![Build Status](https://dev.azure.com/tgbots/Telegram.Bot.Extensions.Polling/_apis/build/status/TelegramBots.Telegram.Bot.Extensions.Polling?branchName=master)](https://dev.azure.com/tgbots/Telegram.Bot.Extensions.Polling/_build/latest?definitionId=3&branchName=master)
 
 Provides `ITelegramBotClient` extensions for polling updates.
 
@@ -7,8 +7,10 @@ Provides `ITelegramBotClient` extensions for polling updates.
 ```csharp
 using Telegram.Bot.Extensions.Polling;
 
+// StartReceiving does not block the caller thread. Receiving is done on the ThreadPool.
 Bot.StartReceiving(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync));
-// or
+
+// awaiting ReceiveAsync will block
 await Bot.ReceiveAsync(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync));
 
 async Task HandleUpdateAsync(Update update)
