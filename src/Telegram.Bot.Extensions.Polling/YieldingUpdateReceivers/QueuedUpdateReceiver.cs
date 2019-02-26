@@ -39,7 +39,7 @@ namespace Telegram.Bot.Extensions.Polling
 
         private readonly object _lock = new object();
         private CancellationTokenSource? _cancellationTokenSource;
-        private TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>();
+        private TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _consumerQueueIndex = 0;
         private int _consumerQueueInnerIndex = 0;
         private List<Update[]?> _consumerQueue = new List<Update[]?>(16);
@@ -231,7 +231,7 @@ namespace Telegram.Bot.Extensions.Polling
                     _consumerQueue = temp;
 
                     // Reset the TCS
-                    _tcs = new TaskCompletionSource<bool>();
+                    _tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
                 }
             }
         }
