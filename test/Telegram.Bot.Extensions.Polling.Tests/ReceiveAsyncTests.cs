@@ -16,7 +16,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             int updateCount = 0;
-            async Task HandleUpdate(Update update)
+            async Task HandleUpdate(Update update, CancellationToken cancellationToken)
             {
                 updateCount++;
                 Assert.Contains(update.Message.Text, "start end");
@@ -25,7 +25,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests
                     cancellationTokenSource.Cancel();
             }
 
-            var updateHandler = new DefaultUpdateHandler(HandleUpdate, errorHandler: async e => await Task.Delay(10));
+            var updateHandler = new DefaultUpdateHandler(HandleUpdate, errorHandler: async (e, token) => await Task.Delay(10, token));
 
             var cancellationToken = cancellationTokenSource.Token;
             await bot.ReceiveAsync(updateHandler, cancellationToken);
@@ -41,15 +41,15 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             var bot = new MockTelegramBotClient("foo-bar", "throw");
 
             int updateCount = 0;
-            async Task HandleUpdate(Update update)
+            async Task HandleUpdate(Update update, CancellationToken cancellationToken)
             {
                 updateCount++;
-                await Task.Delay(10);
+                await Task.Delay(10, cancellationToken);
                 if (update.Message.Text == "throw")
                     throw new InvalidOperationException("Oops");
             }
 
-            var updateHandler = new DefaultUpdateHandler(HandleUpdate, errorHandler: async e => await Task.Delay(10));
+            var updateHandler = new DefaultUpdateHandler(HandleUpdate, errorHandler: async (e, token) => await Task.Delay(10, token));
 
             try
             {
