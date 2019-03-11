@@ -89,54 +89,59 @@ namespace Telegram.Bot.Extensions.Polling
             Debug.Assert(IsReceiving);
             Task.Run(async () =>
             {
-                while (!cancellationToken.IsCancellationRequested)
+                try
                 {
-                    int timeout = (int)BotClient.Timeout.TotalSeconds;
-                    var updates = EmptyUpdates;
-                    try
+                    while (!cancellationToken.IsCancellationRequested)
                     {
-                        updates = await BotClient.GetUpdatesAsync(
-                            offset: _messageOffset,
-                            timeout: timeout,
-                            allowedUpdates: allowedUpdates,
-                            cancellationToken: cancellationToken
-                        ).ConfigureAwait(false);
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        // Ignore
-                    }
-                    catch (Exception ex)
-                    {
-                        if (errorHandler != null)
+                        int timeout = (int)BotClient.Timeout.TotalSeconds;
+                        var updates = EmptyUpdates;
+                        try
                         {
-                            // If the error handler throws then the consumer of this IAsyncEnumerable will wait forever
-                            await errorHandler(ex, cancellationToken).ConfigureAwait(false);
+                            updates = await BotClient.GetUpdatesAsync(
+                                offset: _messageOffset,
+                                timeout: timeout,
+                                allowedUpdates: allowedUpdates,
+                                cancellationToken: cancellationToken
+                            ).ConfigureAwait(false);
                         }
-                    }
-
-                    if (updates.Length > 0)
-                    {
-                        Interlocked.Add(ref _pendingUpdates, updates.Length);
-                        _messageOffset = updates[^1].Id + 1;
-
-                        lock (_lock)
+                        catch (OperationCanceledException)
                         {
-                            _producerQueue.Add(updates);
-                            _tcs.TrySetResult(true);
+                            // Ignore
+                        }
+                        catch (Exception ex)
+                        {
+                            if (errorHandler != null)
+                            {
+                                await errorHandler(ex, cancellationToken).ConfigureAwait(false);
+                            }
+                        }
+
+                        if (updates.Length > 0)
+                        {
+                            Interlocked.Add(ref _pendingUpdates, updates.Length);
+                            _messageOffset = updates[^1].Id + 1;
+
+                            lock (_lock)
+                            {
+                                _producerQueue.Add(updates);
+                                _tcs.TrySetResult(true);
+                            }
                         }
                     }
                 }
-
-                lock (_lock)
+                // catch { } If the errorHandler throws, stop receiving
+                finally
                 {
-                    Debug.Assert(_cancellationTokenSource != null);
-                    Debug.Assert(IsReceiving);
-                    _cancellationTokenSource = null;
-                    IsReceiving = false;
+                    lock (_lock)
+                    {
+                        Debug.Assert(_cancellationTokenSource != null);
+                        Debug.Assert(IsReceiving);
+                        _cancellationTokenSource = null;
+                        IsReceiving = false;
 
-                    // Signal the TCS so that we can stop the yielding loop
-                    _tcs.TrySetResult(true);
+                        // Signal the TCS so that we can stop the yielding loop
+                        _tcs.TrySetResult(true);
+                    }
                 }
             }, cancellationToken);
         }
