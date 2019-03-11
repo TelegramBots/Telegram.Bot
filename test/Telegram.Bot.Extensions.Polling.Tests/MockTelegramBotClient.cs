@@ -32,7 +32,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             IEnumerable<UpdateType> allowedUpdates = default,
             CancellationToken cancellationToken = default)
         {
-            await Task.Delay(10);
+            await Task.Delay(10, cancellationToken);
 
             if (!_messages.TryDequeue(out string[] messages))
                 return new Update[0];
