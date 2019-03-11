@@ -13,7 +13,7 @@ Bot.StartReceiving(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync)
 // awaiting ReceiveAsync will block (both methods accept a CancellationToken)
 await Bot.ReceiveAsync(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync));
 
-async Task HandleUpdateAsync(Update update)
+async Task HandleUpdateAsync(Update update, CancellationToken cancellationToken)
 {
     if (update.Message is Message message)
     {
@@ -21,7 +21,7 @@ async Task HandleUpdateAsync(Update update)
     }
 }
 
-async Task HandleErrorAsync(Exception exception)
+async Task HandleErrorAsync(Exception exception, CancellationToken cancellationToken)
 {
     if (exception is ApiRequestException apiRequestException)
     {

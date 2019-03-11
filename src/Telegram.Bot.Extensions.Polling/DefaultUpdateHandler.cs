@@ -27,8 +27,8 @@ namespace Telegram.Bot.Extensions.Polling
         /// <param name="errorHandler">The function to invoke when an error occurs</param>
         /// <param name="allowedUpdates">Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates</param>
         public DefaultUpdateHandler(
-            Func<Update, Task> updateHandler,
-            Func<Exception, Task> errorHandler,
+            Func<Update, CancellationToken, Task> updateHandler,
+            Func<Exception, CancellationToken, Task> errorHandler,
             UpdateType[]? allowedUpdates = default)
         {
             _updateHandler = updateHandler ?? throw new ArgumentNullException(nameof(updateHandler));

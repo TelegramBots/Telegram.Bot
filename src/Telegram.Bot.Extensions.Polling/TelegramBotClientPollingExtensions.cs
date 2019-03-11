@@ -13,8 +13,8 @@ namespace Telegram.Bot
     public static class TelegramBotClientPollingExtensions
     {
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
-        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> for each.
+        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> returns</para>
         /// </summary>
         /// <typeparam name="TUpdateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
@@ -26,8 +26,8 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
-        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> for each.
+        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> returns</para>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
@@ -54,8 +54,8 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
-        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> for each.
+        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> returns</para>
         /// </summary>
         /// <typeparam name="TUpdateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
@@ -68,8 +68,8 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update)"/> for each.
-        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> for each.
+        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(Update, CancellationToken)"/> returns</para>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
