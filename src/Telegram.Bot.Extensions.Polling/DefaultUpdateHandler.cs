@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -15,9 +16,9 @@ namespace Telegram.Bot.Extensions.Polling
         /// </summary>
         public UpdateType[]? AllowedUpdates { get; set; }
 
-        private readonly Func<Update, Task> _updateHandler;
+        private readonly Func<Update, CancellationToken, Task> _updateHandler;
 
-        private readonly Func<Exception, Task> _errorHandler;
+        private readonly Func<Exception, CancellationToken, Task> _errorHandler;
 
         /// <summary>
         /// Constructs a new <see cref="DefaultUpdateHandler"/> with the specified callback functions
@@ -39,20 +40,22 @@ namespace Telegram.Bot.Extensions.Polling
         /// Handles an <see cref="Update"/>
         /// </summary>
         /// <param name="update">The <see cref="Update"/> to handle</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task HandleUpdate(Update update)
+        public Task HandleUpdate(Update update, CancellationToken cancellationToken)
         {
-            return _updateHandler(update);
+            return _updateHandler(update, cancellationToken);
         }
 
         /// <summary>
         /// Handles an <see cref="Exception"/>
         /// </summary>
         /// <param name="exception">The <see cref="Exception"/> to handle</param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task HandleError(Exception exception)
+        public Task HandleError(Exception exception, CancellationToken cancellationToken)
         {
-            return _errorHandler(exception);
+            return _errorHandler(exception, cancellationToken);
         }
     }
 }

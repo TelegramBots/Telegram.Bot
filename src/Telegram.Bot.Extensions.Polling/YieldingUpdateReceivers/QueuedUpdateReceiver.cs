@@ -60,7 +60,7 @@ namespace Telegram.Bot.Extensions.Polling
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public void StartReceiving(
             UpdateType[]? allowedUpdates = default,
-            Func<Exception, Task>? errorHandler = default,
+            Func<Exception, CancellationToken, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
             lock (_lock)
@@ -83,7 +83,7 @@ namespace Telegram.Bot.Extensions.Polling
 
         private void StartReceivingInternal(
             UpdateType[]? allowedUpdates = default,
-            Func<Exception, Task>? errorHandler = default,
+            Func<Exception, CancellationToken, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
             Debug.Assert(IsReceiving);
@@ -111,7 +111,7 @@ namespace Telegram.Bot.Extensions.Polling
                         if (errorHandler != null)
                         {
                             // If the error handler throws then the consumer of this IAsyncEnumerable will wait forever
-                            await errorHandler(ex).ConfigureAwait(false);
+                            await errorHandler(ex, cancellationToken).ConfigureAwait(false);
                         }
                     }
 
@@ -138,7 +138,7 @@ namespace Telegram.Bot.Extensions.Polling
                     // Signal the TCS so that we can stop the yielding loop
                     _tcs.TrySetResult(true);
                 }
-            });
+            }, cancellationToken);
         }
 
         /// <summary>

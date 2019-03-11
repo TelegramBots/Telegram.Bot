@@ -48,9 +48,9 @@ namespace Telegram.Bot
                 }
                 catch (Exception ex)
                 {
-                    await updateHandler.HandleError(ex);
+                    await updateHandler.HandleError(ex, cancellationToken);
                 }
-            });
+            }, cancellationToken);
         }
 
         /// <summary>
@@ -106,12 +106,12 @@ namespace Telegram.Bot
                 }
                 catch (Exception ex)
                 {
-                    await updateHandler.HandleError(ex).ConfigureAwait(false);
+                    await updateHandler.HandleError(ex, cancellationToken).ConfigureAwait(false);
                 }
 
                 foreach (var update in updates)
                 {
-                    await updateHandler.HandleUpdate(update).ConfigureAwait(false);
+                    await updateHandler.HandleUpdate(update, cancellationToken).ConfigureAwait(false);
                     messageOffset = update.Id + 1;
                 }
             }

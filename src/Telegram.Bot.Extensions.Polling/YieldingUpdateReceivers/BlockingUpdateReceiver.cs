@@ -30,7 +30,7 @@ namespace Telegram.Bot.Extensions.Polling
         public BlockingUpdateReceiver(
             ITelegramBotClient botClient,
             UpdateType[]? allowedUpdates = default,
-            Func<Exception, Task>? errorHandler = default,
+            Func<Exception, CancellationToken, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
             BotClient = botClient;
@@ -40,7 +40,7 @@ namespace Telegram.Bot.Extensions.Polling
         }
 
         private readonly UpdateType[]? _allowedUpdates;
-        private readonly Func<Exception, Task>? errorHandler;
+        private readonly Func<Exception, CancellationToken, Task>? errorHandler;
         private readonly CancellationToken _cancellationToken;
         private int _updateIndex = 0;
         private Update[] _updateArray = EmptyUpdates;
@@ -92,7 +92,7 @@ namespace Telegram.Bot.Extensions.Polling
                     {
                         if (errorHandler != null)
                         {
-                            await errorHandler(ex).ConfigureAwait(false);
+                            await errorHandler(ex, _cancellationToken).ConfigureAwait(false);
                         }
                     }
                 }
