@@ -33,7 +33,7 @@ namespace Telegram.Bot.Extensions.Polling
             Func<Exception, CancellationToken, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
-            BotClient = botClient;
+            BotClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
             _allowedUpdates = allowedUpdates;
             this.errorHandler = errorHandler;
             _cancellationToken = cancellationToken;

@@ -28,7 +28,7 @@ namespace Telegram.Bot.Extensions.Polling
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         public QueuedUpdateReceiver(ITelegramBotClient botClient)
         {
-            BotClient = botClient;
+            BotClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
         }
 
         /// <summary>
