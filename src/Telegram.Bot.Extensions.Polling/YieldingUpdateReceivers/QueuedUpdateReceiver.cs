@@ -41,9 +41,8 @@ namespace Telegram.Bot.Extensions.Polling
         private CancellationTokenSource? _cancellationTokenSource;
         private TaskCompletionSource<bool> _tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _consumerQueueIndex = 0;
-        private int _consumerQueueInnerIndex = 0;
-        private List<Update[]?> _consumerQueue = new List<Update[]?>(16);
-        private List<Update[]?> _producerQueue = new List<Update[]?>(16);
+        private List<Update?> _consumerQueue = new List<Update?>(16);
+        private List<Update?> _producerQueue = new List<Update?>(16);
         private int _messageOffset;
         private int _pendingUpdates;
 
@@ -123,7 +122,7 @@ namespace Telegram.Bot.Extensions.Polling
 
                             lock (_lock)
                             {
-                                _producerQueue.Add(updates);
+                                _producerQueue.AddRange(updates);
                                 _tcs.TrySetResult(true);
                             }
                         }
@@ -143,7 +142,7 @@ namespace Telegram.Bot.Extensions.Polling
                         _tcs.TrySetResult(true);
                     }
                 }
-            }, cancellationToken);
+            });
         }
 
         /// <summary>
@@ -168,55 +167,37 @@ namespace Telegram.Bot.Extensions.Polling
         /// <para>Call StartReceiving before using this <see cref="IAsyncEnumerable{T}"/>.</para>
         /// <para>This <see cref="IAsyncEnumerable{T}"/> will continue to yield <see cref="Update"/>s
         /// as long as <see cref="IsReceiving"/> is set or there are <see cref="PendingUpdates"/></para>
+        /// <para>Note that this method is NOT thread-safe (but CAN be called multiple times)</para>
         /// </summary>
         /// <returns>An <see cref="IAsyncEnumerable{T}"/> of <see cref="Update"/></returns>
         public async IAsyncEnumerable<Update> YieldUpdatesAsync()
         {
-            // Access to YieldUpdatesAsync is not thread-safe!
-
             while (true)
             {
                 while (_consumerQueueIndex < _consumerQueue.Count)
                 {
-                    Debug.Assert(_consumerQueue[_consumerQueueIndex] != null);
-                    Update[] updateArray = _consumerQueue[_consumerQueueIndex]!;
+                    Interlocked.Decrement(ref _pendingUpdates);
+                    // It is vital that we increment before yielding
+                    int index = _consumerQueueIndex++;
 
-                    while (_consumerQueueInnerIndex < updateArray.Length)
-                    {
-                        Interlocked.Decrement(ref _pendingUpdates);
+                    Update? update = _consumerQueue[index];
+                    _consumerQueue[index] = null; // Helping out the GC
 
-                        // It is vital that we increment before yielding
-                        _consumerQueueInnerIndex++;
-                        yield return updateArray[_consumerQueueInnerIndex - 1];
-                    }
-
-                    // We have reached the end of the current Update[]
-                    Debug.Assert(_consumerQueue[_consumerQueueIndex] != null);
-                    Debug.Assert(_consumerQueueInnerIndex == _consumerQueue[_consumerQueueIndex]!.Length);
-
-                    // Let the GC collect the Update[], this amortizes the cost of GC on queue swaps
-                    _consumerQueue[_consumerQueueIndex] = null;
-
-                    _consumerQueueIndex++;
-                    _consumerQueueInnerIndex = 0;
+                    yield return update!; // Can only be null if YieldUpdatesAsync is called from multiple threads
                 }
 
-                Debug.Assert(_consumerQueueIndex == _consumerQueue.Count);
-                Debug.Assert(_consumerQueueInnerIndex == 0);
-
                 _consumerQueueIndex = 0;
-
-                // We still have to clear all the null references
-                Debug.Assert(_consumerQueue.TrueForAll(updateArray => updateArray == null));
+                Debug.Assert(_consumerQueue.TrueForAll(u => u is null));
                 _consumerQueue.Clear();
 
                 // now wait for new updates
-                // (no need for await if it's obvious we already have updates pending)
                 if (_producerQueue.Count == 0)
                 {
-                    // If there are no obvious updates and IsReceiving is false, yield break
-                    if (!IsReceiving)
-                        yield break;
+                    lock (_lock)
+                    {
+                        if (!IsReceiving)
+                            yield break;
+                    }
 
                     await _tcs.Task.ConfigureAwait(false);
                 }
