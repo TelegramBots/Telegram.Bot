@@ -72,6 +72,12 @@ namespace Telegram.Bot.Types
         public string ForwardSignature { get; set; }
 
         /// <summary>
+        /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string ForwardSenderName { get; set; }
+
+        /// <summary>
         /// Optional. For forwarded messages, date the original message was sent in Unix time
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

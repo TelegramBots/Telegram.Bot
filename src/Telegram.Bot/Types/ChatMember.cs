@@ -86,6 +86,12 @@ namespace Telegram.Bot.Types
         public bool? CanPromoteMembers { get; set; }
 
         /// <summary>
+        /// Optional. Restricted only. True, if the user is a member of the chat at the moment of the request
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? IsMember { get; set; }
+
+        /// <summary>
         /// Optional. Restricted only. True, if the user can send text messages, contacts, locations and venues
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
