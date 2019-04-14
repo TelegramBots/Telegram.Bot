@@ -219,6 +219,12 @@ namespace Telegram.Bot.Types
         public Venue Venue { get; set; }
 
         /// <summary>
+        /// Optional. Message is a native poll, information about the poll
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Poll Poll { get; set; }
+
+        /// <summary>
         /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -395,6 +401,9 @@ namespace Telegram.Bot.Types
 
                 if (MigrateToChatId != default)
                     return MessageType.MigratedToSupergroup;
+
+                if (Poll != default)
+                    return MessageType.Poll;
 
                 return MessageType.Unknown;
             }

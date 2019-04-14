@@ -165,5 +165,11 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [Obsolete("Check if Message.Animation has value instead")]
         Animation,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.Poll"/>
+        /// </summary>
+        [EnumMember(Value = "poll")]
+        Poll,
     }
 }
