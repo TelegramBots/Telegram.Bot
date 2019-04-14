@@ -40,6 +40,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SendContactMessage = "Sending Contact Messages";
 
+            public const string NativePolls = "Native Polls";
+
             public const string ReplyMarkup = "Messages with Reply Markup";
 
             public const string PrivateChatReplyMarkup = "Messages with Reply Markup - Private Chat";
@@ -290,6 +292,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string DeleteWebhook = "deleteWebhook";
 
             public const string GetWebhookInfo = "getWebhookInfo";
+
+            public const string SendPoll = "sendPoll";
+
+            public const string StopPoll = "stopPoll";
         }
     }
 }

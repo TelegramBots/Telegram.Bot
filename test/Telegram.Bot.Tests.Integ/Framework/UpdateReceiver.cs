@@ -47,6 +47,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Func<Update, bool> predicate = default,
             int offset = default,
             CancellationToken cancellationToken = default,
+            bool allowAnyone = false,
             params UpdateType[] updateTypes)
         {
             if (cancellationToken == default)
@@ -56,7 +57,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
+                IEnumerable<Update> updates = allowAnyone
+                    ? await _botClient.GetUpdatesAsync(
+                        offset,
+                        allowedUpdates: updateTypes,
+                        cancellationToken: cancellationToken)
+                    : await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
                 updates = updates
                     .Where(u =>
                         updateTypes.Contains(u.Type) &&
@@ -170,6 +176,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
+                case UpdateType.Poll:
                     return false;
                 default:
                     throw new ArgumentOutOfRangeException();
