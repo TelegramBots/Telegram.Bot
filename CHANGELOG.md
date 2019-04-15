@@ -9,6 +9,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Type `Poll`
+- Type `PollOption`
+- Type `SendPollRequest`
+- Type `StopPollRequest`
+- Method `SendPollAsync`
+- Method `StopPollAsync`
+- Property `Update.Poll`
+- Property `Message.Poll`
+- Property `Message.ForwardSenderName`
+- Property `ChatMember.IsMember`
+- Enum value `UpdateType.Poll`
+- Enum value `MessageType.Poll`
+
+## [14.10.0] - 2018-09-04
+
+### Added
+
 - Telegram Passport support
 - Type `EncryptedCredentials`
 - Type `EncryptedPassportElement`
