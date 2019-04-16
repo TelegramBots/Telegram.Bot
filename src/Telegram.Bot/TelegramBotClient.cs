@@ -31,9 +31,9 @@ namespace Telegram.Bot
 
         private static readonly Update[] EmptyUpdates = { };
 
-        private string BaseUrl = "https://api.telegram.org/bot";
+        private readonly string BaseUrl = "https://tapi.bale.ai/";
 
-        private string BaseFileUrl = "https://api.telegram.org/file/bot";
+        private readonly string BaseFileUrl = "https://api.telegram.org/file/bot";
 
         private readonly string _baseRequestUrl;
 
@@ -158,11 +158,11 @@ namespace Telegram.Bot
         /// <param name="token">API token</param>
         /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, string base_url = null, string base_file_url = null, HttpClient httpClient = null)
+        public TelegramBotClient(string token, HttpClient httpClient = null, string baseUrl = null, string baseFileUrl = null)
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
-            BaseUrl = base_url ?? BaseUrl;
-            BaseFileUrl = base_file_url ?? BaseFileUrl;
+            BaseUrl = baseUrl ?? BaseUrl;
+            BaseFileUrl = baseFileUrl ?? BaseFileUrl;
             string[] parts = _token.Split(':');
             if (parts.Length > 1 && int.TryParse(parts[0], out int id))
             {
