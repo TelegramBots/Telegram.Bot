@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -77,6 +78,21 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.True(poll.IsClosed);
         }
 
+        [OrderedFact(FactTitles.ShouldThrowExceptionNotEnoughOptions)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
+        public async Task Should_Throw_Exception_Not_Enough_Options()
+        {
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                BotClient.SendPollAsync(
+                    /* chatId: */ _fixture.SupergroupChat,
+                    /* question: */ "You should never see this poll",
+                    /* options: */ new[] { "The only poll option" }
+                )
+            );
+
+            Assert.Equal("Bad Request: poll must have at least 2 option", exception.Message);
+        }
+
         private static class FactTitles
         {
             public const string ShouldSendPoll = "Should send a poll";
@@ -84,6 +100,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
             public const string ShouldReceivePollStateUpdate = "Should poll state update";
 
             public const string ShouldStopPoll = "Should stop the poll";
+
+            public const string ShouldThrowExceptionNotEnoughOptions = "Should throw exception due to not having enough poll options";
         }
     }
 }
