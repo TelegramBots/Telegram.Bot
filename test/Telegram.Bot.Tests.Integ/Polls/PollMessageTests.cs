@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -28,30 +26,23 @@ namespace Telegram.Bot.Tests.Integ.Polls
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Send_Poll()
         {
-            string pollQuestion = "Poll question";
-            string[] pollOptions =
-            {
-                "Poll option 1",
-                "Poll option 2",
-            };
-
-            SendPollRequest sendPollRequest = new SendPollRequest(
-                _fixture.SupergroupChat,
-                pollQuestion,
-                pollOptions
+            Message message = await BotClient.SendPollAsync(
+                /* chatId: */ _fixture.SupergroupChat,
+                /* question: */ "Who shot first?",
+                /* options: */ new[] { "Han Solo", "Greedo", "I don't care" }
             );
 
-            Message message = await BotClient.MakeRequestAsync(sendPollRequest);
-
             Assert.Equal(MessageType.Poll, message.Type);
-            Assert.NotNull(message.Poll.Id);
-            Assert.Equal(pollQuestion, message.Poll.Question);
+            Assert.NotEmpty(message.Poll.Id);
             Assert.False(message.Poll.IsClosed);
 
-            foreach (var pollOption in message.Poll.Options)
-            {
-                Assert.Contains(pollOption.Text, pollOptions, StringComparer.Ordinal);
-            }
+            Assert.Equal("Who shot first?", message.Poll.Question);
+            Assert.Equal(3, message.Poll.Options.Length);
+            Assert.Equal("Han Solo", message.Poll.Options[0].Text);
+            Assert.Equal("Greedo", message.Poll.Options[1].Text);
+            Assert.Equal("I don't care", message.Poll.Options[2].Text);
+
+            Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
 
             _classFixture.PollMessage = message;
         }
@@ -77,12 +68,10 @@ namespace Telegram.Bot.Tests.Integ.Polls
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
         public async Task Should_Stop_Poll()
         {
-            StopPollRequest stopPollRequest = new StopPollRequest(
-                _classFixture.PollMessage.Chat,
-                _classFixture.PollMessage.MessageId
+            Poll poll = await BotClient.StopPollAsync(
+                /* chatId: */ _classFixture.PollMessage.Chat,
+                /* messageId: */ _classFixture.PollMessage.MessageId
             );
-
-            Poll poll = await BotClient.MakeRequestAsync(stopPollRequest);
 
             Assert.Equal(_classFixture.PollMessage.Poll.Id, poll.Id);
             Assert.True(poll.IsClosed);
