@@ -47,22 +47,18 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Func<Update, bool> predicate = default,
             int offset = default,
             CancellationToken cancellationToken = default,
-            bool allowAnyone = false,
-            params UpdateType[] updateTypes)
+            params UpdateType[] updateTypes
+        )
         {
             if (cancellationToken == default)
                 cancellationToken = new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token;
 
             Update[] matchingUpdates = Array.Empty<Update>();
 
+            // ToDo use Polly instead
             while (!cancellationToken.IsCancellationRequested)
             {
-                IEnumerable<Update> updates = allowAnyone
-                    ? await _botClient.GetUpdatesAsync(
-                        offset,
-                        allowedUpdates: updateTypes,
-                        cancellationToken: cancellationToken)
-                    : await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
+                IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
                 updates = updates
                     .Where(u =>
                         updateTypes.Contains(u.Type) &&
@@ -85,7 +81,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             int messageId = default,
             string data = default,
             bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default
+        )
         {
             Func<Update, bool> predicate = u =>
                 (messageId == default || u.CallbackQuery.Message.MessageId == messageId) &&
@@ -102,8 +99,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return update;
         }
 
-        public async Task<Update> GetInlineQueryUpdateAsync(bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default)
+        public async Task<Update> GetInlineQueryUpdateAsync(
+            bool discardNewUpdates = true,
+            CancellationToken cancellationToken = default
+        )
         {
             var updates = await GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -122,8 +121,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
         /// <param name="messageType">Type of message for chosen inline query e.g. Text message for article results</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Message update generated for chosen result, and the update for chosen inline query result</returns>
-        public async Task<(Update MessageUpdate, Update ChosenResultUpdate)> GetInlineQueryResultUpdates
-            (MessageType messageType, CancellationToken cancellationToken = default)
+        public async Task<(Update MessageUpdate, Update ChosenResultUpdate)> GetInlineQueryResultUpdates(
+            MessageType messageType,
+            CancellationToken cancellationToken = default
+        )
         {
             Update messageUpdate = default;
             Update chosenResultUpdate = default;
@@ -148,7 +149,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
         }
 
         private async Task<Update[]> GetOnlyAllowedUpdatesAsync(
-            int offset, CancellationToken cancellationToken, params UpdateType[] types)
+            int offset,
+            CancellationToken cancellationToken,
+            params UpdateType[] types
+        )
         {
             var updates = await _botClient.GetUpdatesAsync(
                 offset,
@@ -164,6 +168,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             if (AllowedUsernames is null || AllowedUsernames.All(string.IsNullOrWhiteSpace))
                 return true;
 
+            bool isAllowed;
             switch (update.Type)
             {
                 case UpdateType.Message:
@@ -172,15 +177,21 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 case UpdateType.PreCheckoutQuery:
                 case UpdateType.ShippingQuery:
                 case UpdateType.ChosenInlineResult:
-                    return AllowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
+                    isAllowed = AllowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
+                    break;
+                case UpdateType.Poll:
+                    isAllowed = true;
+                    break;
                 case UpdateType.EditedMessage:
                 case UpdateType.ChannelPost:
                 case UpdateType.EditedChannelPost:
-                case UpdateType.Poll:
-                    return false;
+                    isAllowed = false;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            return isAllowed;
         }
     }
 }

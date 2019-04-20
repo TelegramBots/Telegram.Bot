@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -23,14 +24,14 @@ namespace Telegram.Bot.Tests.Integ.Polls
             _classFixture = classFixture;
         }
 
-        [OrderedFact(FactTitles.ShouldSendPoll)]
+        [OrderedFact("Should send a poll")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Send_Poll()
         {
             Message message = await BotClient.SendPollAsync(
                 /* chatId: */ _fixture.SupergroupChat,
                 /* question: */ "Who shot first?",
-                /* options: */ new[] { "Han Solo", "Greedo", "I don't care" }
+                /* options: */ new[] {"Han Solo", "Greedo", "I don't care"}
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
@@ -42,30 +43,26 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.Equal("Han Solo", message.Poll.Options[0].Text);
             Assert.Equal("Greedo", message.Poll.Options[1].Text);
             Assert.Equal("I don't care", message.Poll.Options[2].Text);
-
             Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
 
             _classFixture.PollMessage = message;
         }
 
-        [OrderedFact(FactTitles.ShouldReceivePollStateUpdate)]
+        [OrderedFact("Should receive a poll update")]
         public async Task Should_Receive_Poll_State_Update()
         {
-            await _fixture.SendTestCaseNotificationAsync(
-                "Any member of the test supergroup should vote in the poll"
-            );
+            string pollId = _classFixture.PollMessage.Poll.Id;
 
-            Update update = (await _fixture.UpdateReceiver
-                .GetUpdatesAsync(allowAnyone: true, updateTypes: UpdateType.Poll))
-                .First();
+            await _fixture.SendTestInstructionsAsync("🗳 Vote for any of the options on the poll above 👆");
+            Update update = (
+                await _fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll)
+            ).First();
 
-            Poll poll = update.Poll;
-
-            Assert.Equal(_classFixture.PollMessage.Poll.Id, poll.Id);
-            Assert.False(poll.IsClosed);
+            Assert.Equal(UpdateType.Poll, update.Type);
+            Assert.Equal(pollId, update.Poll.Id);
         }
 
-        [OrderedFact(FactTitles.ShouldStopPoll)]
+        [OrderedFact("Should stop the poll")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
         public async Task Should_Stop_Poll()
         {
@@ -78,30 +75,20 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.True(poll.IsClosed);
         }
 
-        [OrderedFact(FactTitles.ShouldThrowExceptionNotEnoughOptions)]
+        [OrderedFact("Should throw exception due to not having enough poll options")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Throw_Exception_Not_Enough_Options()
         {
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
                 BotClient.SendPollAsync(
                     /* chatId: */ _fixture.SupergroupChat,
                     /* question: */ "You should never see this poll",
-                    /* options: */ new[] { "The only poll option" }
+                    /* options: */ new[] {"The only poll option"}
                 )
             );
 
+            Assert.IsType<ApiRequestException>(exception);
             Assert.Equal("Bad Request: poll must have at least 2 option", exception.Message);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendPoll = "Should send a poll";
-
-            public const string ShouldReceivePollStateUpdate = "Should poll state update";
-
-            public const string ShouldStopPoll = "Should stop the poll";
-
-            public const string ShouldThrowExceptionNotEnoughOptions = "Should throw exception due to not having enough poll options";
         }
     }
 }
