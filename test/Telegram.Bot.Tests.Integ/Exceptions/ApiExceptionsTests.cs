@@ -28,8 +28,9 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         public async Task Should_Throw_Exception_ChatNotInitiatedException()
         {
             //ToDo add exception. forward message from another bot. Forbidden: bot can't send messages to bots
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionChatNotInitiatedException,
-                "Forward a message to this chat from a user that never started a chat with this bot");
+            await _fixture.SendTestInstructionsAsync(
+                "Forward a message to this chat from a user that never started a chat with this bot"
+            );
 
             Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
                     u.Message.ForwardFrom != null, updateTypes: UpdateType.Message
@@ -50,8 +51,10 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Throw_Exception_QueryIdInvalidException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionInvalidQueryIdException,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Write an inline query that I'll never answer!",
+                startInlineQuery: true
+            );
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 

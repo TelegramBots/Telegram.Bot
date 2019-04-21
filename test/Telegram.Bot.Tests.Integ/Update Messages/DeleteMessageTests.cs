@@ -25,8 +25,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Delete_Message_From_InlineQuery()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteMessageFromInlineQuery,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Starting the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -43,7 +45,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
 
             await Task.Delay(1_000);
 

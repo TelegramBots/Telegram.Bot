@@ -29,20 +29,23 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Inline_Message_Text()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageText,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Starting the inline query with this message...",
+                startInlineQuery: true
+            );
 
             #region Answer Inline Query with an Article
 
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             const string originalMessagePrefix = "original\n";
-            (MessageEntityType Type, string Value)[] entityValueMappings = {
+            (MessageEntityType Type, string Value)[] entityValueMappings =
+            {
                 (MessageEntityType.Bold, "<b>bold</b>"),
                 (MessageEntityType.Italic, "<i>italic</i>"),
             };
             string messageText = originalMessagePrefix +
-                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+                                 string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
             string data = "change-text" + new Random().Next(2_000);
 
             InlineQueryResultBase[] inlineQueryResults =
@@ -51,10 +54,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                     id: "bot-api",
                     title: "Telegram Bot API",
                     inputMessageContent:
-                        new InputTextMessageContent(messageText)
-                        {
-                            ParseMode = ParseMode.Html
-                        }
+                    new InputTextMessageContent(messageText)
+                    {
+                        ParseMode = ParseMode.Html
+                    }
                 )
                 {
                     ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to modify text", data)
@@ -70,7 +73,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             const string modifiedMessagePrefix = "✌ modified 👌\n";
             messageText = modifiedMessagePrefix +
-                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+                          string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
 
             await BotClient.EditMessageTextAsync(
                 inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
@@ -84,8 +87,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         public async Task Should_Edit_Inline_Message_Markup()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageMarkup,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Starting the inline query with this message...",
+                startInlineQuery: true
+            );
 
             #region Answer Inline Query with an Article
 
@@ -130,8 +135,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Inline_Message_Caption()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageCaption,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Starting the inline query with this message...",
+                startInlineQuery: true
+            );
 
             #region Answer Inline Query with an Article
 

@@ -81,13 +81,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
             );
         }
 
-        public async Task<Message> SendTestCaseNotificationAsync(string testcase,
-                                                                 string instructions = default,
-                                                                 ChatId chatid = default,
-                                                                 bool startInlineQuery = default
-        )
+        public async Task<Message> SendTestCaseNotificationAsync(string testcase)
         {
-            Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid, startInlineQuery);
+            Message msg = await SendNotificationToChatAsync(false, testcase);
             return msg;
         }
 
@@ -155,7 +151,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 SupergroupChat.Id,
                 "```\nTest execution is starting...\n```\n" +
                 "#testers\n" +
-                "These users are allowed to interact with the bot:\n" + UpdateReceiver.GetTesters(),
+                "These users are allowed to interact with the bot:\n\n" + UpdateReceiver.GetTesters(),
                 ParseMode.Markdown,
                 disableNotification: true,
                 cancellationToken: CancellationToken
@@ -240,6 +236,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 // Disable "The variable ‘x’ is assigned but its value is never used":
 #pragma warning disable 219
         // ReSharper disable NotAccessedVariable
+        // ReSharper disable RedundantAssignment
         private void OnMakingApiRequest(object sender, ApiRequestEventArgs e)
         {
             bool hasContent;
@@ -268,6 +265,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP request values. */
         }
 
+        // ReSharper disable UnusedVariable
         private async void OnApiResponseReceived(object sender, ApiResponseEventArgs e)
         {
             string content = await e.ResponseMessage.Content.ReadAsStringAsync()

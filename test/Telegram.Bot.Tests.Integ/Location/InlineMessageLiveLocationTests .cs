@@ -30,8 +30,10 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Answer_Inline_Query_With_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithLocation,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -64,8 +66,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Edit_Inline_Message_Live_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageLiveLocation,
-                "Click on location message's button to edit the location");
+            await _fixture.SendTestInstructionsAsync("Click on location message's button to edit the location");
 
             Update cqUpdate = await _fixture.UpdateReceiver
                 .GetCallbackQueryUpdateAsync(data: _classFixture.CallbackQueryData);
@@ -86,8 +87,6 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
         public async Task Should_Stop_Inline_Message_Live_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldStopInlineMessageLiveLocation);
-
             await BotClient.StopMessageLiveLocationAsync(
                 inlineMessageId: _classFixture.InlineMessageId
             );

@@ -24,8 +24,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_Album_Using_Array()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendAlbumUsingArray);
-
             Message[] messages = await BotClient.SendMediaGroupAsync(
                 /* chatId: */ _fixture.SupergroupChat.Id,
                 /* media: */ new InputMediaBase[]
@@ -52,8 +50,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Ignore_Invalid_Input_Media_Types()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldIgnoreInvalidMediaTypes);
-
             InputMediaBase[] inputMedia =
             {
                 new InputMediaPhoto
@@ -80,8 +76,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Ignore_Invalid_Input_Media_Types2()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldIgnoreInvalidMediaTypes);
-
             InputMediaBase[] inputMedia =
             {
                 new InputMediaPhoto

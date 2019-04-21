@@ -24,8 +24,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
         public async Task Should_Send_Audio()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendAudio);
-
             const string performer = "Jackson F. Smith";
             const string title = "Cantina Rag";
             const int duration = 201;
@@ -58,8 +56,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
         public async Task Should_Send_Audio_With_Thumb()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendAudioWithThumbnail);
-
             // Both audio file and its thumbnail should be uploaded
             Message message;
             using (Stream
@@ -85,8 +81,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVoice)]
         public async Task Should_Send_Voice()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVoice);
-
             const int duration = 24;
             const string caption = "Test Voice in .ogg format";
 
