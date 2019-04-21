@@ -6,25 +6,11 @@ using Xunit.Abstractions;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
+    // ReSharper disable once UnusedMember.Global
     public class TestCollectionOrderer : ITestCollectionOrderer
     {
         private readonly string[] _orderedCollections =
         {
-            // Tests that require user interaction:
-            Constants.TestCollections.CallbackQuery,
-            Constants.TestCollections.PrivateChatReplyMarkup,
-            Constants.TestCollections.InlineMessageLiveLocation,
-            Constants.TestCollections.InlineQuery,
-            Constants.TestCollections.EditMessage,
-            Constants.TestCollections.EditMessageMedia,
-            Constants.TestCollections.DeleteMessage,
-            Constants.TestCollections.Stickers,
-            Constants.TestCollections.Games,
-            Constants.TestCollections.Payment,
-            Constants.TestCollections.ChatMemberAdministration,
-            Constants.TestCollections.Exceptions,
-            Constants.TestCollections.NativePolls,
-
             // Tests without the need for user interaction:
             Constants.TestCollections.GettingUpdates,
             Constants.TestCollections.Webhook,
@@ -52,6 +38,21 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.SupergroupAdminBots,
             Constants.TestCollections.ChannelAdminBots,
             Constants.TestCollections.Exceptions2,
+
+            // Tests that require user interaction:
+            Constants.TestCollections.CallbackQuery,
+            Constants.TestCollections.PrivateChatReplyMarkup,
+            Constants.TestCollections.InlineMessageLiveLocation,
+            Constants.TestCollections.InlineQuery,
+            Constants.TestCollections.EditMessage,
+            Constants.TestCollections.EditMessageMedia,
+            Constants.TestCollections.DeleteMessage,
+            Constants.TestCollections.Stickers,
+            Constants.TestCollections.Games,
+            Constants.TestCollections.Payment,
+            Constants.TestCollections.ChatMemberAdministration,
+            Constants.TestCollections.Exceptions,
+            Constants.TestCollections.NativePolls,
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

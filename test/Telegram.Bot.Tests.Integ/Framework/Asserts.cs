@@ -1,14 +1,73 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     public static class Asserts
     {
-        public static void JsonEquals(object obj1, object obj2) =>
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(obj1),
-                JToken.FromObject(obj2)
-            ));
+        public static void JsonEquals(
+            object expected,
+            object actual,
+            params string[] excludeFields
+        )
+        {
+            if (expected == null || actual == null)
+            {
+                Assert.Equal(expected, actual);
+            }
+            else
+            {
+                var expectedToken = JToken.FromObject(expected).RemoveFields(excludeFields);
+                var actualToken = JToken.FromObject(actual).RemoveFields(excludeFields);
+                bool equals = JToken.DeepEquals(expectedToken, actualToken);
+
+                if (equals)
+                {
+                    Assert.True(equals);
+                }
+                else
+                {
+                    // Print out both JSON values in the case of an inequality
+                    string expectedJson = JsonConvert.SerializeObject(expectedToken);
+                    string actualJson = JsonConvert.SerializeObject(actualToken);
+                    Assert.Equal(expectedJson, actualJson);
+                }
+            }
+        }
+
+        private static JToken RemoveFields(this JToken token, params string[] fields)
+        {
+            if (fields?.Length > 0)
+            {
+                _RemoveFields(token, fields);
+            }
+
+            return token;
+        }
+
+        private static void _RemoveFields(JToken token, string[] fields)
+        {
+            if (fields.Length > 0 && token is JContainer container)
+            {
+                var removeList = new List<JToken>();
+                foreach (var el in container.Children())
+                {
+                    if (el is JProperty p && fields.Contains(p.Name))
+                    {
+                        removeList.Add(el);
+                    }
+
+                    _RemoveFields(el, fields);
+                }
+
+                foreach (var el in removeList)
+                {
+                    el.Remove();
+                }
+            }
+        }
     }
 }

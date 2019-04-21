@@ -21,14 +21,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendAnimation)]
+        [OrderedFact("Should send an animation with caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAnimation)]
         public async Task Should_Send_Animation()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendAnimation);
-
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Animation.Earth))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
             {
                 message = await BotClient.SendAnimationAsync(
                     /* chatId: */ _fixture.SupergroupChat.Id,
@@ -42,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
-            // For backwards compatiblity, message type is set to Document
+            // For backwards compatibility, message type is set to Document
             Assert.Equal(MessageType.Document, message.Type);
             Assert.NotNull(message.Document);
             Assert.NotNull(message.Animation);
@@ -60,16 +58,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Animation.FileSize > 80_000);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendAnimationWithThumb)]
+        [OrderedFact("Should send an animation with thumbnail")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAnimation)]
         public async Task Should_Send_Animation_With_Thumb()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendAnimationWithThumb);
-
             Message message;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Animation.Earth),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.TheAbilityToBreak)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
             )
             {
                 message = await BotClient.SendAnimationAsync(
@@ -82,16 +78,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.NotNull(message.Animation);
             Assert.NotNull(message.Animation.Thumb);
             Assert.NotEmpty(message.Animation.Thumb.FileId);
-            Assert.Equal(90, message.Animation.Thumb.Height);
-            Assert.Equal(90, message.Animation.Thumb.Width);
+            Assert.Equal(320, message.Animation.Thumb.Height);
+            Assert.Equal(320, message.Animation.Thumb.Width);
             Assert.True(message.Animation.Thumb.FileSize > 10_000);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendAnimation = "Should send an animation with caption";
-
-            public const string ShouldSendAnimationWithThumb = "Should send an animation with thumbail";
         }
     }
 }

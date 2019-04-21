@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             // Send a video to chat. This media will be changed later in test.
             Message originalMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Animation.Earth))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
             {
                 originalMessage = await BotClient.SendVideoAsync(
                     chatId: _fixture.SupergroupChat,
@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             // Replace vidoe with a document by uploading the new file
             Message editedMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Certificate.PublicKey))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
             {
                 editedMessage = await BotClient.EditMessageMediaAsync(
                     originalMessage.Chat,
@@ -89,7 +89,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
             Message editedMessage;
-            using (Stream thumbStream = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.Video))
+            using (Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video))
             {
                 editedMessage = await BotClient.EditMessageMediaAsync(
                     originalMessage.Chat,

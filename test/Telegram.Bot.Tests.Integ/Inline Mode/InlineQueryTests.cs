@@ -223,7 +223,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedPhoto);
 
             Message photoMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Apes))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
             {
                 photoMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat,
@@ -440,7 +440,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedAudio);
 
             Message audioMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRagMp3))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 audioMessage = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
@@ -526,7 +526,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedAudio);
 
             Message voiceMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Audio.TestOgg))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
             {
                 voiceMessage = await BotClient.SendVoiceAsync(
                     chatId: _fixture.SupergroupChat,
@@ -610,7 +610,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedDocument);
 
             Message documentMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,

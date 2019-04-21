@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             const string caption = "Audio File in .mp3 format";
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRagMp3))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 message = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
@@ -63,8 +63,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             // Both audio file and its thumbnail should be uploaded
             Message message;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Audio.AStateOfDespairMp3),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.TheAbilityToBreak)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Audio.AStateOfDespairMp3),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
             )
             {
                 message = await BotClient.SendAudioAsync(
@@ -91,7 +91,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             const string caption = "Test Voice in .ogg format";
 
             Message message;
-            using (var stream = System.IO.File.OpenRead(Constants.FileNames.Audio.TestOgg))
+            using (var stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
             {
                 message = await BotClient.SendVoiceAsync(
                     chatId: _fixture.SupergroupChat,

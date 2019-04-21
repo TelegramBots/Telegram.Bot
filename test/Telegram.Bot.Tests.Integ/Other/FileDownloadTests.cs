@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             #region Send Document
 
             Message documentMessage;
-            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
+            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,

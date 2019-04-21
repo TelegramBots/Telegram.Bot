@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -26,44 +25,38 @@ namespace Telegram.Bot.Tests.Integ.Games
             _classFixture = classFixture;
         }
 
-        #region Regular Game Message
-
-        [OrderedFact(DisplayName = FactTitles.ShouldSendGame)]
+        [OrderedFact("Should send game")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Send_Game()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendGame);
-
             Message gameMessage = await BotClient.SendGameAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                gameShortName: _classFixture.GameShortName
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* gameShortName: */ _classFixture.GameShortName
             );
 
             Assert.Equal(MessageType.Game, gameMessage.Type);
             Assert.NotEmpty(gameMessage.Game.Title);
             Assert.NotEmpty(gameMessage.Game.Description);
             Assert.NotNull(gameMessage.Game.Photo);
-            Assert.NotEmpty(gameMessage.Game.Photo.Select(_ => _.FileId));
-            Assert.All(gameMessage.Game.Photo, _ => Assert.True(_.FileSize > 50));
-            Assert.All(gameMessage.Game.Photo, _ => Assert.True(_.Width > 25));
-            Assert.All(gameMessage.Game.Photo, _ => Assert.True(_.Height > 25));
+            Assert.NotEmpty(gameMessage.Game.Photo.Select(p => p.FileId));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.FileSize > 1_000));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Width > 80));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Height > 40));
 
             _classFixture.GameMessage = gameMessage;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendGameWithReplyMarkup)]
+        [OrderedFact("Should send game with a custom reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Send_Game_With_ReplyMarkup()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendGameWithReplyMarkup);
-
             Message gameMessage = await BotClient.SendGameAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                gameShortName: _classFixture.GameShortName,
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* gameShortName: */ _classFixture.GameShortName,
                 replyMarkup: new[]
                 {
-                    InlineKeyboardButton.WithCallBackGame("Play"),
-                    InlineKeyboardButton.WithCallbackData("Second button")
+                    InlineKeyboardButton.WithCallBackGame( /* text: */"Play"),
+                    InlineKeyboardButton.WithCallbackData( /* textAndCallbackData: */ "Second button")
                 }
             );
 
@@ -71,32 +64,30 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.NotEmpty(gameMessage.Game.Title);
             Assert.NotEmpty(gameMessage.Game.Description);
             Assert.NotNull(gameMessage.Game.Photo);
-            Assert.NotEmpty(gameMessage.Game.Photo.Select(_ => _.FileId));
-            Assert.All(gameMessage.Game.Photo, _ => Assert.True(_.FileSize > 50));
-            Assert.All(gameMessage.Game.Photo, _ => Assert.True(_.Width > 25));
-            Assert.All(gameMessage.Game.Photo, _ => Assert.True(_.Height > 25));
+            Assert.NotEmpty(gameMessage.Game.Photo.Select(p => p.FileId));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.FileSize > 1_000));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Width > 80));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Height > 40));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetHighScores)]
+        [OrderedFact("Should get game high score")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
         public async Task Should_Get_High_Scores()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetHighScores);
-
             GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
-                userId: _classFixture.Player.Id,
-                chatId: _fixture.SupergroupChat.Id,
-                messageId: _classFixture.GameMessage.MessageId
+                /* userId: */ _classFixture.Player.Id,
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* messageId: */ _classFixture.GameMessage.MessageId
             );
 
-            Assert.All(highScores, _ => Assert.True(_.Position > 0));
-            Assert.All(highScores, _ => Assert.True(_.Score > 0));
-            Assert.All(highScores.Select(_ => _.User), Assert.NotNull);
+            Assert.All(highScores, hs => Assert.True(hs.Position > 0));
+            Assert.All(highScores, hs => Assert.True(hs.Score > 0));
+            Assert.All(highScores.Select(hs => hs.User), Assert.NotNull);
 
             _classFixture.HighScores = highScores;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSetGameScore)]
+        [OrderedFact("Should set game score")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetGameScore)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
         public async Task Should_Set_Game_Score()
@@ -112,26 +103,27 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             int newScore = oldScore + 1 + new Random().Next(3);
 
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetGameScore,
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}.");
-
-            Message gameMessage = await BotClient.SetGameScoreAsync(
-                userId: playerId,
-                score: newScore,
-                chatId: _fixture.SupergroupChat.Id,
-                messageId: _classFixture.GameMessage.MessageId
+            await _fixture.SendTestInstructionsAsync(
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}."
             );
 
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_classFixture.GameMessage),
-                JToken.FromObject(gameMessage)
-            ));
+            Message gameMessage = await BotClient.SetGameScoreAsync(
+                /* userId: */ playerId,
+                /* score: */ newScore,
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* messageId: */ _classFixture.GameMessage.MessageId
+            );
 
-            _classFixture.HighScores =
-                await BotClient.GetGameHighScoresAsync(playerId, _fixture.SupergroupChat.Id, gameMessage.MessageId);
+            Assert.Equal(_classFixture.GameMessage.MessageId, gameMessage.MessageId);
+
+            // update the high scores cache
+            await Task.Delay(1_000);
+            _classFixture.HighScores = await BotClient.GetGameHighScoresAsync(
+                playerId, _fixture.SupergroupChat.Id, gameMessage.MessageId
+            );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDeductGameScore)]
+        [OrderedFact("Should deduct game score by setting it forcefully")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetGameScore)]
         public async Task Should_Deduct_Game_Score()
         {
@@ -139,33 +131,19 @@ namespace Telegram.Bot.Tests.Integ.Games
             int oldScore = _classFixture.HighScores.Single(highScore => highScore.User.Id == playerId).Score;
             int newScore = oldScore - 1;
 
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeductGameScore,
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}.");
+            await _fixture.SendTestInstructionsAsync(
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}."
+            );
 
             Message gameMessage = await BotClient.SetGameScoreAsync(
-                userId: playerId,
-                score: newScore,
-                chatId: _fixture.SupergroupChat.Id,
-                messageId: _classFixture.GameMessage.MessageId,
-                force: true
+                /* userId: */ playerId,
+                /* score: */ newScore,
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* messageId: */ _classFixture.GameMessage.MessageId,
+                /* force: */ true
             );
 
             Assert.Equal(MessageType.Game, gameMessage.Type);
-        }
-
-        #endregion
-
-        private static class FactTitles
-        {
-            public const string ShouldSendGame = "Should send game";
-
-            public const string ShouldSendGameWithReplyMarkup = "Should send game with a custom reply markup";
-
-            public const string ShouldGetHighScores = "Should get game high score";
-
-            public const string ShouldSetGameScore = "Should set game score";
-
-            public const string ShouldDeductGameScore = "Should deduct game score by setting it forcefully";
         }
     }
 }

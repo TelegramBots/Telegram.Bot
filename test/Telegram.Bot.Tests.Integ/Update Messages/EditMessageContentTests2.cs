@@ -102,7 +102,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageCaption);
 
             Message originalMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
             {
                 originalMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,

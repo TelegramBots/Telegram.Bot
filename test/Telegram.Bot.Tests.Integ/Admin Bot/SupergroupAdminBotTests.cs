@@ -133,7 +133,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatPhoto);
 
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
             {
                 await BotClient.SetChatPhotoAsync(
                     chatId: _classFixture.Chat.Id,

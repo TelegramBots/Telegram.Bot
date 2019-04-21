@@ -81,7 +81,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
             string animationFileId;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Animation.Earth))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
             {
                 Message gifMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,

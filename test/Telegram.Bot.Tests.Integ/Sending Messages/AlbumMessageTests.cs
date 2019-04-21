@@ -33,8 +33,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Message[] messages;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
                 IAlbumInputMedia[] inputMedia =
@@ -126,9 +126,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Message[] messages;
             using (Stream
-                stream0 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+                stream0 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
                 IAlbumInputMedia[] inputMedia =
@@ -180,8 +180,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Message[] messages;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
                 IAlbumInputMedia[] inputMedia =
@@ -219,8 +219,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Message[] messages;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.Video)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
             )
             {
                 IAlbumInputMedia[] inputMedia =
