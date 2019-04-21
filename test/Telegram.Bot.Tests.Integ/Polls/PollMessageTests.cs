@@ -10,6 +10,7 @@ using Xunit;
 namespace Telegram.Bot.Tests.Integ.Polls
 {
     [Collection(Constants.TestCollections.NativePolls)]
+    [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PollMessageTests : IClassFixture<PollTestsFixture>
     {
