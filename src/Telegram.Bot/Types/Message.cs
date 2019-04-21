@@ -408,7 +408,7 @@ namespace Telegram.Bot.Types
                 if (MigrateToChatId != default)
                     return MessageType.MigratedToSupergroup;
 
-                if (Poll != default)
+                if (Poll != null)
                     return MessageType.Poll;
 
                 return MessageType.Unknown;
