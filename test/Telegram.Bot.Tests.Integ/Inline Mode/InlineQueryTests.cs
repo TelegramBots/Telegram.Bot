@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -71,7 +72,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Assert.Equal(iqUpdate.InlineQuery.Query, chosenResultUpdate.ChosenInlineResult.Query);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithContact)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithContact,
+            Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Contact()
         {
@@ -900,6 +902,42 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Assert.Equal(UpdateType.ChosenInlineResult, chosenResultUpdate.Type);
             Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
             Assert.Equal(iqUpdate.InlineQuery.Query, chosenResultUpdate.ChosenInlineResult.Query);
+        }
+
+        [OrderedFact("Should throw exception when answering an inline query after 10 seconds")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        public async Task Should_Throw_Exception_When_Answering_Late()
+        {
+            await _fixture.SendTestInstructionsAsync(
+                "Write an inline query that I'll never answer!",
+                startInlineQuery: true
+            );
+
+            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultArticle(
+                    /* id: */ "article:bot-api",
+                    /* title: */ "Telegram Bot API",
+                    /* inputMessageContent: */ new InputTextMessageContent("https://core.telegram.org/bots/api"))
+                {
+                    Description = "The Bot API is an HTTP-based interface created for developers",
+                },
+            };
+
+            await Task.Delay(10_000);
+
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                BotClient.AnswerInlineQueryAsync(
+                    /* inlineQueryId: */ queryUpdate.InlineQuery.Id,
+                    /* results: */ results,
+                    /* cacheTime: */ 0
+                )
+            );
+
+            Assert.Equal("query is too old and response timeout expired or query ID is invalid", e.Message);
+            Assert.Equal(400, e.ErrorCode);
         }
 
         private static class FactTitles

@@ -22,6 +22,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Enum value `UpdateType.Poll`
 - Enum value `MessageType.Poll`
 
+### Changed
+
+- Marked `InvalidQueryIdException` as obsolete
+
 ## [14.10.0] - 2018-09-04
 
 ### Added
@@ -36,7 +40,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Marked `DownloadFileAsync(string,CancellationToken)` obsolete.
+- Marked `DownloadFileAsync(string,CancellationToken)` obsolete
 
 ## [14.9.0] - 2018-08-06
 
@@ -74,7 +78,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Marked `MessageType.Animation` as obsolete.
+- Marked `MessageType.Animation` as obsolete
 
 ## [14.7.0] - 2018-07-29
 
