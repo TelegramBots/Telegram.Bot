@@ -23,12 +23,10 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetUserProfilePhotos)]
         public async Task Should_Get_User_Profile_Photos()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetBotProfilePhotos);
-
             UserProfilePhotos profilePhotos = await BotClient.GetUserProfilePhotosAsync(
                 userId: _fixture.BotUser.Id
             );
-            
+
             Assert.True(1 <= profilePhotos.TotalCount);
             Assert.NotNull(profilePhotos.Photos.First());
         }

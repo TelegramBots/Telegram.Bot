@@ -28,8 +28,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Message_Text()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageText);
-
             const string originalMessagePrefix = "original\n";
             (MessageEntityType Type, string Value)[] entityValueMappings = {
                 (MessageEntityType.Bold, "<b>bold</b>"),
@@ -72,8 +70,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         public async Task Should_Edit_Message_Markup()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageMarkup);
-
             Message message = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 text: "Inline keyboard will be updated shortly",
@@ -99,10 +95,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Message_Caption()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditMessageCaption);
-
             Message originalMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
             {
                 originalMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,

@@ -32,8 +32,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatTitle)]
         public async Task Should_Set_Chat_Title()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatTitle);
-
             await BotClient.SetChatTitleAsync(
                 chatId: _classFixture.Chat.Id,
                 title: _classFixture.ChatTitle
@@ -48,8 +46,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Set_Chat_Description()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatDescription);
-
             await BotClient.SetChatDescriptionAsync(
                 chatId: _classFixture.Chat.Id,
                 description: "Test Chat Description"
@@ -60,8 +56,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Delete_Chat_Description()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatDescription);
-
             await BotClient.SetChatDescriptionAsync(_classFixture.Chat.Id);
         }
 
@@ -73,8 +67,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PinChatMessage)]
         public async Task Should_Pin_Message()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPinMessage);
-
             Message msg = await BotClient.SendTextMessageAsync(_classFixture.Chat.Id, "Description to pin");
 
             await BotClient.PinChatMessageAsync(
@@ -90,8 +82,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_Pinned_Message()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatPinnedMessage);
-
             Message pinnedMsg = _classFixture.PinnedMessage;
 
             Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
@@ -105,8 +95,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnpinChatMessage)]
         public async Task Should_Unpin_Message()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnpinMessage);
-
             await BotClient.UnpinChatMessageAsync(_classFixture.Chat.Id);
         }
 
@@ -114,8 +102,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_With_No_Pinned_Message()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatWithNoPinnedMessage);
-
             Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
 
             Assert.Null(chat.PinnedMessage);
@@ -129,9 +115,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
         public async Task Should_Set_Chat_Photo()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetChatPhoto);
-
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
             {
                 await BotClient.SetChatPhotoAsync(
                     chatId: _classFixture.Chat.Id,
@@ -144,8 +128,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_Photo()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatPhoto);
-
             Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
 
             Assert.NotEmpty(chat.Photo.BigFileId);
@@ -156,8 +138,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Delete_Chat_Photo()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteChatPhoto);
-
             await BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id);
         }
 
@@ -165,8 +145,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto);
-
             Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
                 BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id));
 
@@ -181,8 +159,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
         public async Task Should_Reset_Old_Chat_Photo_If_Existed()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldResetOldChatPhoto);
-
             // "Chat.Photo" might be null if there is no photo currently set
             string previousChatPhotoId = _classFixture.Chat.Photo?.BigFileId;
             if (previousChatPhotoId == default)
@@ -214,8 +190,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatStickerSet)]
         public async Task Should_Throw_On_Setting_Chat_Sticker_Set()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowOnSetChannelStickerSet);
-
             const string setName = "EvilMinds";
 
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>

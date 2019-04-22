@@ -31,8 +31,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_For_Ever()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberForEver);
-
             await BotClient.KickChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId
@@ -43,8 +41,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnbanChatMember)]
         public async Task Should_Unban_Chat_Member()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUnbanChatMember);
-
             await BotClient.UnbanChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId
@@ -55,8 +51,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
         public async Task Should_Export_Chat_Invite_Link()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldExportChatInviteLink);
-
             string result = await BotClient.ExportChatInviteLinkAsync(_fixture.SupergroupChat.Id);
 
             Assert.StartsWith("https://t.me/joinchat/", result);
@@ -67,9 +61,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [OrderedFact(DisplayName = FactTitles.ShouldReceiveNewChatMemberNotification)]
         public async Task Should_Receive_New_Chat_Member_Notification()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveNewChatMemberNotification,
+            await _fixture.SendTestInstructionsAsync(
                 $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should join the group using invite link sent to " +
-                "him/her in private chat");
+                "him/her in private chat"
+            );
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -104,8 +99,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             //ToDo exception when user isn't in group. Bad Request: bots can't add new chat members
 
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldPromoteUserToChangeChatInfo);
-
             await BotClient.PromoteChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
@@ -119,8 +112,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             //ToDo exception when user isn't in group. Bad Request: USER_NOT_MUTUAL_CONTACT
 
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDemoteUser);
-
             await BotClient.PromoteChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
@@ -132,7 +123,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RestrictChatMember)]
         public async Task Should_Restrict_Sending_Stickers_Temporarily()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRestrictSendingStickersTemporarily);
             const int banSeconds = 35;
 
             await BotClient.RestrictChatMemberAsync(
@@ -154,9 +144,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task Should_Kick_Chat_Member_Temporarily()
         {
             const int banSeconds = 35;
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldKickChatMemberTemporarily,
+            await _fixture.SendTestInstructionsAsync(
                 $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in" +
-                $" *{banSeconds} seconds* via the link shared in private chat with him/her");
+                $" *{banSeconds} seconds* via the link shared in private chat with him/her"
+            );
 
             await BotClient.KickChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,

@@ -35,8 +35,6 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendLocation)]
         public async Task Should_Send_Live_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendLiveLocation);
-
             const float latBerlin = 52.5200f;
             const float lonBerlin = 13.4050f;
 
@@ -58,9 +56,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Update_Live_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUpdateLocation);
-
-            Location[] locations = new[] {
+            Location[] locations = {
                 new Location { Latitude = 43.6532f, Longitude = -79.3832f }, // Toronto
                 new Location { Latitude = 59.9343f, Longitude = 30.3351f },  // Saint Petersburg
                 new Location { Latitude = 35.6892f, Longitude = 51.3890f },  // Tehran
@@ -91,8 +87,6 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
         public async Task Should_Stop_Live_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldStopMessageLiveLocation);
-
             Message message = await BotClient.StopMessageLiveLocationAsync(
                 chatId: LocationMessage.Chat,
                 messageId: LocationMessage.MessageId
