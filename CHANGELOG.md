@@ -5,7 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+<!--
+
 ## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+-->
+
+## [14.11.0] - 2019-04-23
 
 ### Added
 
@@ -178,7 +192,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Exception `MissingParameterException`
 - Exception `NotEnoughRightsException`
 - Exception `WrongChatTypeException`
-
 
 ## [14.2.0-rc-452] - 2018-02-24
 
