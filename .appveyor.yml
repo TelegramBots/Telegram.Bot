@@ -27,7 +27,7 @@ deploy:
       branch: develop
   - provider: NuGet
     api_key:
-      secure: DqUxlRZM6BaC2obxTNn3ZPXMMX8g4Ho44FBmbAsafkf0CiSEARlTdW8lhS5t6Q8E
+      secure: 7vq3dhrjk/WgsRrUDz2zwpAZbGtijXgwicnw/J1Wjx0syYVWobKArlIeBdLj4D0i
     on:
       branch: master
 
