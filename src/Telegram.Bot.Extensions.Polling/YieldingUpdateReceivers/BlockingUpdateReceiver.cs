@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -77,12 +78,12 @@ namespace Telegram.Bot.Extensions.Polling
                     int timeout = (int)BotClient.Timeout.TotalSeconds;
                     try
                     {
-                        _updateArray = await BotClient.GetUpdatesAsync(
-                            offset: _messageOffset,
-                            timeout: timeout,
-                            allowedUpdates: _allowedUpdates,
-                            cancellationToken: _cancellationToken
-                        ).ConfigureAwait(false);
+                        _updateArray = await BotClient.MakeRequestAsync(new GetUpdatesRequest()
+                        {
+                            Offset = _messageOffset,
+                            Timeout = timeout,
+                            AllowedUpdates = _allowedUpdates,
+                        }, _cancellationToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException)
                     {

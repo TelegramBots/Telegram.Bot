@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -25,26 +26,25 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             _messages = new Queue<string[]>(messages.Select(message => message.Split('-').ToArray()));
         }
 
-        public async Task<Update[]> GetUpdatesAsync(
-            int offset = 0,
-            int limit = 0,
-            int timeout = 0,
-            IEnumerable<UpdateType> allowedUpdates = default,
-            CancellationToken cancellationToken = default)
+        public async Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
         {
-            await Task.Delay(10, cancellationToken);
-
-            if (!_messages.TryDequeue(out string[] messages))
-                return new Update[0];
-
-            return messages.Select((message, i) => new Update()
+            if (request is GetUpdatesRequest getUpdatesRequest)
             {
-                Message = new Message()
+                await Task.Delay(10, cancellationToken);
+
+                if (!_messages.TryDequeue(out string[] messages))
+                    return (TResponse)(object)new Update[0];
+
+                return (TResponse)(object)messages.Select((message, i) => new Update()
                 {
-                    Text = messages[i]
-                },
-                Id = offset + i + 1
-            }).ToArray();
+                    Message = new Message()
+                    {
+                        Text = messages[i]
+                    },
+                    Id = getUpdatesRequest.Offset + i + 1
+                }).ToArray();
+            }
+            else throw new NotImplementedException();
         }
 
         public TimeSpan Timeout { get; set; } = TimeSpan.FromMilliseconds(50);
@@ -110,7 +110,6 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         public Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
         public Task KickChatMemberAsync(ChatId chatId, int userId, DateTime untilDate = default(DateTime), CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
         public Task LeaveChatAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
-        public Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
         public Task PinChatMessageAsync(ChatId chatId, int messageId, bool disableNotification = false, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
         public Task PromoteChatMemberAsync(ChatId chatId, int userId, bool? canChangeInfo = null, bool? canPostMessages = null, bool? canEditMessages = null, bool? canDeleteMessages = null, bool? canInviteUsers = null, bool? canRestrictMembers = null, bool? canPinMessages = null, bool? canPromoteMembers = null, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
         public Task RestrictChatMemberAsync(ChatId chatId, int userId, DateTime untilDate = default(DateTime), bool? canSendMessages = null, bool? canSendMediaMessages = null, bool? canSendOtherMessages = null, bool? canAddWebPagePreviews = null, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
@@ -147,5 +146,6 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         public Task UnbanChatMemberAsync(ChatId chatId, int userId, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
         public Task UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
         public Task<Types.File> UploadStickerFileAsync(int userId, InputFileStream pngSticker, CancellationToken cancellationToken = default(CancellationToken)) => throw new NotImplementedException();
+        public Task<Update[]> GetUpdatesAsync(int offset = 0, int limit = 0, int timeout = 0, IEnumerable<UpdateType> allowedUpdates = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
     }
 }

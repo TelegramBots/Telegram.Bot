@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -96,12 +97,12 @@ namespace Telegram.Bot.Extensions.Polling
                         var updates = EmptyUpdates;
                         try
                         {
-                            updates = await BotClient.GetUpdatesAsync(
-                                offset: _messageOffset,
-                                timeout: timeout,
-                                allowedUpdates: allowedUpdates,
-                                cancellationToken: cancellationToken
-                            ).ConfigureAwait(false);
+                            updates = await BotClient.MakeRequestAsync(new GetUpdatesRequest()
+                            {
+                                Offset = _messageOffset,
+                                Timeout = timeout,
+                                AllowedUpdates = allowedUpdates,
+                            }, cancellationToken).ConfigureAwait(false);
                         }
                         catch (OperationCanceledException)
                         {
