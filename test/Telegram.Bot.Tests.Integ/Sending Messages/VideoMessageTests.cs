@@ -20,82 +20,68 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVideo)]
+        [OrderedFact("Should send a video with caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideo)]
         public async Task Should_Send_Video()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideo);
-
-            const int duration = 104;
-            const int width = 320;
-            const int height = 240;
-            const string caption = "Moon Landing";
-            const string mimeType = "video/mp4";
-
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
             {
                 message = await BotClient.SendVideoAsync(
-                    _fixture.SupergroupChat.Id,
-                    stream,
-                    duration,
-                    width,
-                    height,
-                    caption
+                    /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* video: */ stream,
+                    /* duration: */ 104,
+                    /* width */ 320,
+                    /* height: */ 240,
+                    /* caption: */ "Moon Landing"
                 );
             }
 
             Assert.Equal(MessageType.Video, message.Type);
-            Assert.Equal(caption, message.Caption);
-            Assert.Equal(duration, message.Video.Duration);
-            Assert.Equal(width, message.Video.Width);
-            Assert.Equal(height, message.Video.Height);
-            Assert.Equal(mimeType, message.Video.MimeType);
+            Assert.Equal("Moon Landing", message.Caption);
+            Assert.Equal(104, message.Video.Duration);
+            Assert.Equal(320, message.Video.Width);
+            Assert.Equal(240, message.Video.Height);
+            Assert.Equal("video/mp4", message.Video.MimeType);
             Assert.NotEmpty(message.Video.Thumb.FileId);
             Assert.True(message.Video.Thumb.FileSize > 200);
-            Assert.True(message.Video.Thumb.Width > 50);
-            Assert.True(message.Video.Thumb.Height > 50);
+            Assert.Equal(320, message.Video.Thumb.Width);
+            Assert.Equal(240, message.Video.Thumb.Height);
+            Assert.InRange(message.Video.Thumb.FileSize, 600, 900);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoNote)]
+        [OrderedFact("Should send a video note")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideoNote)]
         public async Task Should_Send_Video_Note()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoNote);
-
-            const int duration = 28;
-            const int widthAndHeight = 240;
-
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
             {
                 message = await BotClient.SendVideoNoteAsync(
-                    chatId: _fixture.SupergroupChat.Id,
-                    videoNote: stream,
-                    duration: duration,
-                    length: widthAndHeight
+                    /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* videoNote: */ stream,
+                    /* duration: */ 28,
+                    /* length */ 240
                 );
             }
 
             Assert.Equal(MessageType.VideoNote, message.Type);
-            Assert.Equal(duration, message.VideoNote.Duration);
-            Assert.Equal(widthAndHeight, message.VideoNote.Length);
+            Assert.Equal(28, message.VideoNote.Duration);
+            Assert.Equal(240, message.VideoNote.Length);
             Assert.NotEmpty(message.VideoNote.Thumb.FileId);
-            Assert.True(message.VideoNote.Thumb.FileSize > 200);
-            Assert.True(message.VideoNote.Thumb.Width > 50);
-            Assert.True(message.VideoNote.Thumb.Height > 50);
+            Assert.Equal(240, message.VideoNote.Thumb.Width);
+            Assert.Equal(240, message.VideoNote.Thumb.Height);
+            Assert.InRange(message.VideoNote.Thumb.FileSize, 1_000, 1_500);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoWithThumb)]
+        [OrderedFact("Should send a video with thumbnail")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
         public async Task Should_Send_Video_With_Thumb()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoWithThumb);
-
             Message message;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.TheAbilityToBreak)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
             )
             {
                 message = await BotClient.SendVideoAsync(
@@ -107,21 +93,19 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.NotNull(message.Video.Thumb);
             Assert.NotEmpty(message.Video.Thumb.FileId);
-            Assert.Equal(90, message.Video.Thumb.Height);
-            Assert.Equal(90, message.Video.Thumb.Width);
-            Assert.True(message.Video.Thumb.FileSize > 10_000);
+            Assert.Equal(320, message.Video.Thumb.Width);
+            Assert.Equal(240, message.Video.Thumb.Height);
+            Assert.InRange(message.Video.Thumb.FileSize, 600, 900);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoNoteWithThumb)]
+        [OrderedFact("Should send a video note with thumbnail")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideoNote)]
         public async Task Should_Send_Video_Note_With_Thumb()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoNoteWithThumb);
-
             Message message;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.Video)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
             )
             {
                 message = await BotClient.SendVideoNoteAsync(
@@ -133,20 +117,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.NotNull(message.VideoNote.Thumb);
             Assert.NotEmpty(message.VideoNote.Thumb.FileId);
-            Assert.Equal(90, message.VideoNote.Thumb.Height);
-            Assert.Equal(90, message.VideoNote.Thumb.Width);
-            Assert.True(message.VideoNote.Thumb.FileSize > 10_000);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendVideo = "Should send a video with caption";
-
-            public const string ShouldSendVideoNote = "Should send a video note";
-
-            public const string ShouldSendVideoWithThumb = "Should send a video with thumbail";
-
-            public const string ShouldSendVideoNoteWithThumb = "Should send a video note with thumbnail";
+            Assert.Equal(240, message.VideoNote.Thumb.Height);
+            Assert.Equal(240, message.VideoNote.Thumb.Width);
+            Assert.InRange(message.VideoNote.Thumb.FileSize, 1_000, 1_500);
         }
     }
 }

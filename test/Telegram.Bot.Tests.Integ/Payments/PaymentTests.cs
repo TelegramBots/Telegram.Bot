@@ -32,12 +32,12 @@ namespace Telegram.Bot.Tests.Integ.Payments
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Send_Invoice()
         {
-            await _fixture.SendTestCaseNotificationAsync(
-                FactTitles.ShouldSendInvoice,
+            await _fixture.SendTestInstructionsAsync(
                 "Click on *Pay <amount>* and send your shipping address. " +
                 "You should see shipment options afterwards. " +
                 "Transaction should be completed.",
-                chatid: _classFixture.PrivateChat.Id);
+                chatid: _classFixture.PrivateChat.Id
+            );
 
             _classFixture.Payload = "my-payload";
             const string url = "https://cdn.pixabay.com/photo/2017/09/07/08/54/money-2724241_640.jpg";
@@ -58,7 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             Message message = await BotClient.SendInvoiceAsync(
-                chatId: (int)_classFixture.PrivateChat.Id,
+                chatId: (int) _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: _classFixture.Payload,
@@ -176,9 +176,10 @@ namespace Telegram.Bot.Tests.Integ.Payments
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
         public async Task Should_Answer_Shipping_Query_With_Error()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerShippingQueryWithError,
+            await _fixture.SendTestInstructionsAsync(
                 "Click on *Pay <amount>* and send your shipping address. You should receive an error afterwards.",
-                chatid: _classFixture.PrivateChat.Id);
+                chatid: _classFixture.PrivateChat.Id
+            );
 
             const string payload = "shipping_query-error-payload";
 
@@ -197,7 +198,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int)_classFixture.PrivateChat.Id,
+                chatId: (int) _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -222,10 +223,10 @@ namespace Telegram.Bot.Tests.Integ.Payments
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Answer_PreCheckout_Query_With_Error_For_No_Shipment_Option()
         {
-            await _fixture.SendTestCaseNotificationAsync(
-                FactTitles.ShouldAnswerPreCheckoutQueryWithErrorForNoShipmentOption,
+            await _fixture.SendTestInstructionsAsync(
                 "Click on *Pay <amount>* and confirm payment.",
-                chatid: _classFixture.PrivateChat.Id);
+                chatid: _classFixture.PrivateChat.Id
+            );
 
             const string payload = "pre_checkout-error-payload";
 
@@ -244,7 +245,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int)_classFixture.PrivateChat.Id,
+                chatId: (int) _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -267,10 +268,6 @@ namespace Telegram.Bot.Tests.Integ.Payments
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Throw_When_Send_Invoice_Invalid_Provider_Data()
         {
-            await _fixture.SendTestCaseNotificationAsync(
-                FactTitles.ShouldThrowWhenSendInvoiceInvalidJson,
-                chatid: _classFixture.PrivateChat.Id);
-
             const string payload = "my-payload";
 
             LabeledPrice[] prices =
@@ -289,7 +286,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendInvoiceAsync(
-                    chatId: (int)_classFixture.PrivateChat.Id,
+                    chatId: (int) _classFixture.PrivateChat.Id,
                     title: invoice.Title,
                     description: invoice.Description,
                     payload: payload,
@@ -309,10 +306,6 @@ namespace Telegram.Bot.Tests.Integ.Payments
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Throw_When_Answer_Shipping_Query_With_Duplicate_Shipping_Id()
         {
-            await _fixture.SendTestCaseNotificationAsync(
-                FactTitles.ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId,
-                chatid: _classFixture.PrivateChat.Id);
-
             const string payload = "my-payload";
 
             LabeledPrice[] productPrices =
@@ -330,7 +323,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int)_classFixture.PrivateChat.Id,
+                chatId: (int) _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -359,7 +352,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 _fixture.BotClient.AnswerShippingQueryAsync(
                     shippingQueryId: shippingUpdate.ShippingQuery.Id,
-                    shippingOptions: new[] { shippingOption, shippingOption }
+                    shippingOptions: new[] {shippingOption, shippingOption}
                 )
             );
 
@@ -377,24 +370,23 @@ namespace Telegram.Bot.Tests.Integ.Payments
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Send_Invoice_With_Reply_Markup()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInvoiceWithReplyMarkup);
-
             await BotClient.SendInvoiceAsync(
-                chatId: (int)_classFixture.PrivateChat.Id,
+                chatId: (int) _classFixture.PrivateChat.Id,
                 title: "Product",
                 description: "product description",
                 payload: "test payload",
                 providerToken: _classFixture.PaymentProviderToken,
                 startParameter: "start_parameter",
                 currency: "USD",
-                prices: new[] { new LabeledPrice("price", 150), },
-                replyMarkup: new InlineKeyboardMarkup(new[] {
-                    new []
+                prices: new[] {new LabeledPrice("price", 150),},
+                replyMarkup: new InlineKeyboardMarkup(new[]
+                {
+                    new[]
                     {
                         InlineKeyboardButton.WithPayment("Pay this invoice"),
                         InlineKeyboardButton.WithUrl("Repository", "https://github.com/TelegramBots/Telegram.Bot")
                     },
-                    new []
+                    new[]
                     {
                         InlineKeyboardButton.WithCallbackData("Some other button")
                     }

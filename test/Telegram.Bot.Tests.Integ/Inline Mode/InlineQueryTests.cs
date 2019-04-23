@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -71,12 +72,15 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Assert.Equal(iqUpdate.InlineQuery.Query, chosenResultUpdate.ChosenInlineResult.Query);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithContact)]
+        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithContact,
+            Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Contact()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithContact,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -111,8 +115,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Location()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithLocation,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -145,8 +151,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Venue()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithVenue,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -180,8 +188,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Photo()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithPhoto,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -220,10 +230,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Photo()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedPhoto);
-
             Message photoMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Apes))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
             {
                 photoMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat,
@@ -268,8 +276,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Video()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithVideo,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -309,8 +319,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         {
             // ToDo exception when input_message_content not specified. Bad Request: SEND_MESSAGE_MEDIA_INVALID
 
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithHtmlVideo,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -353,8 +365,6 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Video()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedVideo);
-
             // Video from https://pixabay.com/en/videos/fireworks-rocket-new-year-s-eve-7122/
             Message videoMessage = await BotClient.SendVideoAsync(
                 chatId: _fixture.SupergroupChat,
@@ -397,8 +407,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Audio()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithAudio,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -437,10 +449,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Audio()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedAudio);
-
             Message audioMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Audio.CantinaRagMp3))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 audioMessage = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
@@ -485,8 +495,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Voice()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithAudio,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -523,10 +535,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Voice()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedAudio);
-
             Message voiceMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Audio.TestOgg))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
             {
                 voiceMessage = await BotClient.SendVoiceAsync(
                     chatId: _fixture.SupergroupChat,
@@ -568,8 +578,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Document()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithDocument,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -607,10 +619,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Document()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedDocument);
-
             Message documentMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
+            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,
@@ -655,8 +665,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Gif()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithGif,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -696,8 +708,6 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Gif()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedGif);
-
             Message gifMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
                 document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
@@ -737,8 +747,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Mpeg4Gif()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithMpeg4Gif,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -774,8 +786,6 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Mpeg4Gif()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedMpeg4Gif);
-
             Message gifMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
                 document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
@@ -816,8 +826,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Cached_Sticker()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithCachedSticker,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -851,9 +863,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_Photo_With_Markdown_Encoded_Caption()
         {
-            await _fixture.SendTestCaseNotificationAsync(
-                FactTitles.ShouldAnswerInlineQueryWithPhotoWithMarkdownEncodedCaption,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -889,6 +902,42 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Assert.Equal(UpdateType.ChosenInlineResult, chosenResultUpdate.Type);
             Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
             Assert.Equal(iqUpdate.InlineQuery.Query, chosenResultUpdate.ChosenInlineResult.Query);
+        }
+
+        [OrderedFact("Should throw exception when answering an inline query after 10 seconds")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        public async Task Should_Throw_Exception_When_Answering_Late()
+        {
+            await _fixture.SendTestInstructionsAsync(
+                "Write an inline query that I'll never answer!",
+                startInlineQuery: true
+            );
+
+            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultArticle(
+                    /* id: */ "article:bot-api",
+                    /* title: */ "Telegram Bot API",
+                    /* inputMessageContent: */ new InputTextMessageContent("https://core.telegram.org/bots/api"))
+                {
+                    Description = "The Bot API is an HTTP-based interface created for developers",
+                },
+            };
+
+            await Task.Delay(10_000);
+
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+                BotClient.AnswerInlineQueryAsync(
+                    /* inlineQueryId: */ queryUpdate.InlineQuery.Id,
+                    /* results: */ results,
+                    /* cacheTime: */ 0
+                )
+            );
+
+            Assert.Equal("query is too old and response timeout expired or query ID is invalid", e.Message);
+            Assert.Equal(400, e.ErrorCode);
         }
 
         private static class FactTitles

@@ -24,8 +24,6 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowChatNotFoundException);
-
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.SendTextMessageAsync(0, "test")
             );
@@ -37,8 +35,6 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_InvalidUserIdException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidUserIdException);
-
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456)
             );
@@ -50,8 +46,6 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_ContactRequestException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionContactRequestException);
-
             ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup(new[]
             {
                 KeyboardButton.WithRequestContact("Share Contact"),
@@ -71,8 +65,6 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_MessageIsNotModifiedException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowExceptionMessageIsNotModifiedException);
-
             const string messageTextToModify = "Message text to modify";
             Message message = await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat.Id,

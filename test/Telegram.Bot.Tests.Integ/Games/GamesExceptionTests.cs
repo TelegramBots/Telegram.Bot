@@ -22,8 +22,6 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidGameShortNameException);
-
             InvalidGameShortNameException e = await Assert.ThrowsAsync<InvalidGameShortNameException>(() =>
                 BotClient.SendGameAsync(
                     chatId: _fixture.SupergroupChat.Id,
@@ -38,8 +36,6 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException_2()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidGameShortNameException2);
-
             InvalidGameShortNameException e = await Assert.ThrowsAsync<InvalidGameShortNameException>(() =>
                 BotClient.SendGameAsync(
                     chatId: _fixture.SupergroupChat.Id,
@@ -54,8 +50,6 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException_3()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidGameShortNameException3);
-
             InvalidGameShortNameException e = await Assert.ThrowsAsync<InvalidGameShortNameException>(() =>
                 BotClient.SendGameAsync(
                     chatId: _fixture.SupergroupChat.Id,

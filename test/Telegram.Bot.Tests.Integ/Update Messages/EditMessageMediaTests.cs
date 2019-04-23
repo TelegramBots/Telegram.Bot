@@ -29,8 +29,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
         public async Task Should_Edit_Inline_Message_Photo()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessagePhotoWithUrl,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Starting the inline query with this message...",
+                startInlineQuery: true
+            );
 
             #region Answer Inline Query with a media message
 
@@ -77,11 +79,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
         public async Task ShouldEditInlineMessageDocumentWithFileId()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldEditInlineMessageDocumentWithFileId);
-
             // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
             string animationFileId;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Animation.Earth))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
             {
                 Message gifMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,

@@ -40,6 +40,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SendContactMessage = "Sending Contact Messages";
 
+            public const string NativePolls = "Native Polls";
+
             public const string ReplyMarkup = "Messages with Reply Markup";
 
             public const string PrivateChatReplyMarkup = "Messages with Reply Markup - Private Chat";
@@ -97,7 +99,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string Exceptions2 = "Bot API exceptions (non-interactive)";
         }
 
-        public static class FileNames
+        public static class PathToFile
         {
             private const string FilesDir = "Files/";
 
@@ -140,7 +142,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 private const string AudioDir = FilesDir + "Audio/";
 
-                public const string  AStateOfDespairMp3 = AudioDir + "Ask Again - A State of Despair.mp3";
+                public const string AStateOfDespairMp3 = AudioDir + "Ask Again - A State of Despair.mp3";
 
                 public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
 
@@ -290,6 +292,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string DeleteWebhook = "deleteWebhook";
 
             public const string GetWebhookInfo = "getWebhookInfo";
+
+            public const string SendPoll = "sendPoll";
+
+            public const string StopPoll = "stopPoll";
         }
     }
 }

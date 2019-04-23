@@ -81,18 +81,14 @@ namespace Telegram.Bot.Tests.Integ.Framework
             );
         }
 
-        public async Task<Message> SendTestCaseNotificationAsync(string testcase,
-            string instructions = default,
-            ChatId chatid = default,
-            bool startInlineQuery = default
-        )
+        public async Task<Message> SendTestCaseNotificationAsync(string testcase)
         {
-            Message msg = await SendNotificationToChatAsync(false, testcase, instructions, chatid, startInlineQuery);
+            Message msg = await SendNotificationToChatAsync(false, testcase);
             return msg;
         }
 
         public async Task<Message> SendTestCollectionNotificationAsync(string collectionName,
-            string instructions = null, ChatId chatid = null)
+                                                                       string instructions = null, ChatId chatid = null)
         {
             Message msg = await SendNotificationToChatAsync(true, collectionName, instructions, chatid);
             return msg;
@@ -153,9 +149,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await BotClient.SendTextMessageAsync(
                 SupergroupChat.Id,
-                "```\nTest execution is starting...\n```" +
-                "Testers are: \n" + UpdateReceiver.GetTesters(),
+                "```\nTest execution is starting...\n```\n" +
+                "#testers\n" +
+                "These users are allowed to interact with the bot:\n\n" + UpdateReceiver.GetTesters(),
                 ParseMode.Markdown,
+                disableNotification: true,
                 cancellationToken: CancellationToken
             );
 
@@ -235,12 +233,22 @@ namespace Telegram.Bot.Tests.Integ.Framework
         }
 
 #if DEBUG
+// Disable "The variable ‘x’ is assigned but its value is never used":
+#pragma warning disable 219
+        // ReSharper disable NotAccessedVariable
+        // ReSharper disable RedundantAssignment
         private void OnMakingApiRequest(object sender, ApiRequestEventArgs e)
         {
+            bool hasContent;
             string content;
             string[] multipartContent;
-            if (e.HttpContent is MultipartFormDataContent multipartFormDataContent)
+            if (e.HttpContent == null)
             {
+                hasContent = false;
+            }
+            else if (e.HttpContent is MultipartFormDataContent multipartFormDataContent)
+            {
+                hasContent = true;
                 multipartContent = multipartFormDataContent
                     .Select(c => c is StringContent
                         ? $"{c.Headers}\n{c.ReadAsStringAsync().Result}"
@@ -250,15 +258,22 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
             else
             {
+                hasContent = true;
                 content = e.HttpContent.ReadAsStringAsync().Result;
             }
+
+            /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP request values. */
         }
 
+        // ReSharper disable UnusedVariable
         private async void OnApiResponseReceived(object sender, ApiResponseEventArgs e)
         {
             string content = await e.ResponseMessage.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
+
+            /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP response received. */
         }
+#pragma warning restore 219
 #endif
         private static class Constants
         {

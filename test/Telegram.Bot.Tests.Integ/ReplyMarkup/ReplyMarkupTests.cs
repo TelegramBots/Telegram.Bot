@@ -22,8 +22,6 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Force_Reply()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldForceReply);
-
             await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat,
                 text: "Message with force_reply",
@@ -35,8 +33,6 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_MultiRow_Keyboard()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendMultiRowKeyboard);
-
             ReplyKeyboardMarkup replyMarkup = new[] {
                 new[] {    "Top-Left",   "Top" , "Top-Right"    },
                 new[] {        "Left", "Center", "Right"        },
@@ -54,8 +50,6 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Remove_Reply_Keyboard()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldRemoveReplyKeyboard);
-
             await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat,
                 text: "Message to remove keyboard",
@@ -67,8 +61,6 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Inline_Keyboard()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendInlineKeyboardMarkup);
-
             await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat,
                 text: "Message with inline keyboard markup",

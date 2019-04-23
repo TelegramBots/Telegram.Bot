@@ -30,8 +30,10 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_InlineQuery_With_Game()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerInlineQueryWithGame,
-                startInlineQuery: true);
+            await _fixture.SendTestInstructionsAsync(
+                "Staring the inline query with this message...",
+                startInlineQuery: true
+            );
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
@@ -48,7 +50,8 @@ namespace Telegram.Bot.Tests.Integ.Games
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
+            (Update messageUpdate, Update chosenResultUpdate) =
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
 
             Assert.Equal(MessageType.Game, messageUpdate.Message.Type);
             Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
@@ -61,8 +64,6 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
         public async Task Should_Get_High_Scores_Inline_Message()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetHighScoresInline);
-
             GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
                 userId: _classFixture.Player.Id,
                 inlineMessageId: _classFixture.InlineGameMessageId
@@ -83,8 +84,9 @@ namespace Telegram.Bot.Tests.Integ.Games
             int oldScore = _classFixture.HighScores.Single(highScore => highScore.User.Id == playerId).Score;
             int newScore = oldScore + 1 + new Random().Next(3);
 
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSetGameScoreInline,
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}.");
+            await _fixture.SendTestInstructionsAsync(
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}."
+            );
 
             await BotClient.SetGameScoreAsync(
                 userId: playerId,
@@ -97,8 +99,9 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_CallbackQuery_With_Game_Url()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerGameCallbackQuery,
-                "Click on any Play button on any of the game messges above 👆");
+            await _fixture.SendTestInstructionsAsync(
+                "Click on any Play button on any of the game messages above 👆"
+            );
 
             Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
 
