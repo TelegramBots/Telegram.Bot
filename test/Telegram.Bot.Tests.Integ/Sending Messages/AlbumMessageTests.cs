@@ -29,12 +29,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadPhotosInAlbum);
-
             Message[] messages;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
                 IAlbumInputMedia[] inputMedia =
@@ -73,8 +71,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_3_Photos_Album_Using_FileId()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendFileIdPhotosInAlbum);
-
             // Take file_id of photos uploaded in previous test case
             string[] fileIds = _classFixture.Entities
                 .Select(msg => msg.Photo.First().FileId)
@@ -99,8 +95,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Send_Photo_Album_Using_Url()
         {
             // ToDo add exception: Bad Request: failed to get HTTP URL content
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendUrlPhotosInAlbum);
-
             int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
@@ -122,13 +116,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Videos_Album()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldUploadVideosInAlbum);
-
             Message[] messages;
             using (Stream
-                stream0 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.MoonLanding),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+                stream0 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
                 IAlbumInputMedia[] inputMedia =
@@ -175,13 +167,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles
-                .ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions);
-
             Message[] messages;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
                 IAlbumInputMedia[] inputMedia =
@@ -215,12 +204,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Video_With_Thumbnail_In_Album()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVideoWithThumb);
-
             Message[] messages;
             using (Stream
-                stream1 = System.IO.File.OpenRead(Constants.FileNames.Videos.GoldenRatio),
-                stream2 = System.IO.File.OpenRead(Constants.FileNames.Thumbnail.Video)
+                stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
             )
             {
                 IAlbumInputMedia[] inputMedia =

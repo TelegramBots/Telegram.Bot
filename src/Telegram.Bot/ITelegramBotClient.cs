@@ -565,6 +565,28 @@ namespace Telegram.Bot
             string vCard = default); // ToDo inconsistent order of parameters
 
         /// <summary>
+        /// Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent <see cref="Message"/> is returned.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="question">Poll question, 1-255 characters</param>
+        /// <param name="options">List of answer options, 2-10 strings 1-100 characters each</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#sendpoll"/>
+        Task<Message> SendPollAsync(
+            ChatId chatId,
+            string question,
+            IEnumerable<string> options,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        );
+
+        /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
@@ -994,6 +1016,22 @@ namespace Telegram.Bot
             float longitude,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent <see cref="Message"/> is returned.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="messageId">Identifier of the original message with the poll</param>
+        /// <param name="replyMarkup">A JSON-serialized object for a new message inline keyboard.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, the stopped <see cref="Poll"/> with the final results is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#stoppoll"/>
+        Task<Poll> StopPollAsync(
+            ChatId chatId,
+            int messageId,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        );
 
         /// <summary>
         /// Use this method to delete a message. A message can only be deleted if it was sent less than 48 hours ago. Any such recently sent outgoing message may be deleted. Additionally, if the bot is an administrator in a group chat, it can delete any message. If the bot is an administrator in a supergroup, it can delete messages from any other user and service messages about people joining or leaving the group (other types of service messages may only be removed by the group creator). In channels, bots can only remove their own messages.

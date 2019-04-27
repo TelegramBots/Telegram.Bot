@@ -33,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Send_Photo_File()
         {
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Bot))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
             {
                 message = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,
@@ -88,7 +88,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             };
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
             {
                 message = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,
@@ -116,7 +116,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             };
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
+            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
             {
                 message = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,

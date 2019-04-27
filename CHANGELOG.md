@@ -5,7 +5,42 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+<!--
+
 ## [Unreleased]
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+-->
+
+## [14.11.0] - 2019-04-23
+
+### Added
+
+- Type `Poll`
+- Type `PollOption`
+- Type `SendPollRequest`
+- Type `StopPollRequest`
+- Method `SendPollAsync`
+- Method `StopPollAsync`
+- Property `Update.Poll`
+- Property `Message.Poll`
+- Property `Message.ForwardSenderName`
+- Property `ChatMember.IsMember`
+- Enum value `UpdateType.Poll`
+- Enum value `MessageType.Poll`
+
+### Changed
+
+- Marked `InvalidQueryIdException` as obsolete
+
+## [14.10.0] - 2018-09-04
 
 ### Added
 
@@ -19,7 +54,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Marked `DownloadFileAsync(string,CancellationToken)` obsolete.
+- Marked `DownloadFileAsync(string,CancellationToken)` obsolete
 
 ## [14.9.0] - 2018-08-06
 
@@ -57,7 +92,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 
-- Marked `MessageType.Animation` as obsolete.
+- Marked `MessageType.Animation` as obsolete
 
 ## [14.7.0] - 2018-07-29
 
@@ -157,7 +192,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Exception `MissingParameterException`
 - Exception `NotEnoughRightsException`
 - Exception `WrongChatTypeException`
-
 
 ## [14.2.0-rc-452] - 2018-02-24
 

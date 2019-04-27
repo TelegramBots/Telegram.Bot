@@ -19,12 +19,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendContact)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendContact, Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendContact);
-
             const string phoneNumber = "+1234567890";
             const string firstName = "Han";
             const string lastName = "Solo";
@@ -42,12 +40,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(lastName, message.Contact.LastName);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendContactWithVCardd)]
+        [OrderedFact(DisplayName = FactTitles.ShouldSendContactWithVCardd,
+            Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact_With_VCard()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendContactWithVCardd);
-
             const string vcard =
                 "BEGIN:VCARD" + "\n" +
                 "VERSION:2.1" + "\n" +

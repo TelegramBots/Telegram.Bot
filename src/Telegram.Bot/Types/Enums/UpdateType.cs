@@ -67,5 +67,11 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "pre_checkout_query")]
         PreCheckoutQuery,
+
+        /// <summary>
+        /// The <see cref="Update"/> contains an <see cref="Poll"/>
+        /// </summary>
+        [EnumMember(Value = "poll")]
+        Poll
     }
 }

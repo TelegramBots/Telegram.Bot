@@ -25,8 +25,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
         public async Task Should_Send_Venue()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendVenue);
-
             const string title = "Rubirosa Ristorante";
             const string address = "235 Mulberry St";
             const float lat = 40.722728f;
@@ -54,8 +52,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
         public async Task Should_Deserialize_Send_Venue()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeserializeSendVenue);
-
             string json = $@"{{
                 chat_id: ""{_fixture.SupergroupChat.Id}"",
                 latitude: 48.204296,

@@ -25,8 +25,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Supergroup_Chat()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChat);
-
             Chat supergroupChat = _fixture.SupergroupChat;
 
             Chat chat = await BotClient.GetChatAsync(
@@ -51,8 +49,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMember)]
         public async Task Should_Get_Bot_Chat_Member()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetBotChatMember);
-
             ChatMember memberBot = await BotClient.GetChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _fixture.BotUser.Id
@@ -83,8 +79,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
         public async Task Should_Get_Chat_Admins()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetSupergroupChatAdmins);
-
             ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
                 chatId: _fixture.SupergroupChat.Id
             );
@@ -118,8 +112,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Private_Chat()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetPrivateChat);
-
             long privateChatId;
             {
                 /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
@@ -156,8 +148,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMembersCount)]
         public async Task Should_Get_Chat_Members_Count()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetChatMembersCount);
-
             int membersCount = await BotClient.GetChatMembersCountAsync(
                 chatId: _fixture.SupergroupChat.Id
             );
@@ -173,8 +163,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendChatAction)]
         public async Task Should_Send_Chat_Action()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldSendChatAction);
-
             await BotClient.SendChatActionAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 chatAction: ChatAction.RecordAudio

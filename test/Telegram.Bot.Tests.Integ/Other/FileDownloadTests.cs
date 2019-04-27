@@ -32,15 +32,13 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
         public async Task Should_Get_File_Info()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldGetFileInfo);
-
             const int fileSize = 253736;
             string fileId;
 
             #region Send Document
 
             Message documentMessage;
-            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Documents.Hamlet))
+            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,
@@ -64,25 +62,18 @@ namespace Telegram.Bot.Tests.Integ.Other
         [OrderedFact(DisplayName = FactTitles.ShouldDownloadUsingFilePath)]
         public async Task Should_Download_Using_FilePath()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDownloadUsingFilePath);
-
             int fileSize = _classFixture.File.FileSize;
 
-            using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
-            {
-                await BotClient.DownloadFileAsync(
-                    filePath: _classFixture.File.FilePath,
-                    destination: stream);
+            System.IO.Stream stream = await BotClient.DownloadFileAsync(
+                filePath: _classFixture.File.FilePath
+            );
 
-                Assert.InRange(stream.Length, fileSize - 100, fileSize + 100);
-            }
+            Assert.InRange(stream.Length, fileSize - 100, fileSize + 100);
         }
 
         [OrderedFact(DisplayName = FactTitles.ShouldDownloadWriteUsingFilePath)]
         public async Task Should_Download_Write_Using_FilePath()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDownloadWriteUsingFilePath);
-
             int fileSize = _classFixture.File.FileSize;
 
             string destinationFilePath = $"{System.IO.Path.GetTempFileName()}.{Fixture.FileType}";
@@ -103,8 +94,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         [OrderedFact(DisplayName = FactTitles.ShouldDownloadWriteUsingFileId)]
         public async Task Should_Download_Write_Using_FileId()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDownloadWriteUsingFileId);
-
             int fileSize = _classFixture.File.FileSize;
 
             string destinationFilePath = $"{System.IO.Path.GetTempFileName()}.{Fixture.FileType}";
@@ -125,13 +114,11 @@ namespace Telegram.Bot.Tests.Integ.Other
                 ));
             }
         }
-        
+
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidParameterExceptionForFileId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
         public async Task Should_Throw_FileId_InvalidParameterException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidParameterExceptionForFileId);
-
             InvalidParameterException exception = await Assert.ThrowsAnyAsync<InvalidParameterException>(
                 () => BotClient.GetFileAsync("Invalid_File_id")
             );
@@ -142,18 +129,15 @@ namespace Telegram.Bot.Tests.Integ.Other
         [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath)]
         public async Task Should_Throw_FilePath_HttpRequestException()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldThrowInvalidHttpRequestExceptionForFilePath);
+            System.IO.Stream content = default;
 
             HttpRequestException exception = await Assert.ThrowsAnyAsync<HttpRequestException>(async () =>
             {
-                using (System.IO.MemoryStream stream = new System.IO.MemoryStream())
-                {
-                    await BotClient.DownloadFileAsync("Invalid_File_Path", stream);
-                    Assert.Equal(0, stream.Length);
-                }
+                content = await BotClient.DownloadFileAsync("Invalid_File_Path");
             });
 
             Assert.Contains("404", exception.Message);
+            Assert.Null(content);
         }
 
         private static class FactTitles

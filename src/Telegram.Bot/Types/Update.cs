@@ -77,6 +77,12 @@ namespace Telegram.Bot.Types
         public PreCheckoutQuery PreCheckoutQuery { get; set; }
 
         /// <summary>
+        /// New poll state. Bots receive only updates about polls, which are sent or stopped by the bot
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Poll Poll { get; set; }
+
+        /// <summary>
         /// Gets the update type.
         /// </summary>
         /// <value>
@@ -95,6 +101,7 @@ namespace Telegram.Bot.Types
                 if (EditedChannelPost != null) return UpdateType.EditedChannelPost;
                 if (ShippingQuery != null) return UpdateType.ShippingQuery;
                 if (PreCheckoutQuery != null) return UpdateType.PreCheckoutQuery;
+                if (Poll != null) return UpdateType.Poll;
 
                 return UpdateType.Unknown;
             }

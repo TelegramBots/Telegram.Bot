@@ -23,8 +23,6 @@ namespace Telegram.Bot.Tests.Integ.Other
         public async Task Should_Get_Private_Chat()
         {
             // ToDo: Exception when leaving private chat
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldLeaveChat);
-
             await BotClient.LeaveChatAsync(
                 chatId: _fixture.SupergroupChat
             );

@@ -567,6 +567,23 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task<Message> SendPollAsync(
+            ChatId chatId,
+            string question,
+            IEnumerable<string> options,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendPollRequest(chatId, question, options)
+            {
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
         public Task SendChatActionAsync(
             ChatId chatId,
             ChatAction chatAction,
@@ -918,6 +935,18 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
+            {
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<Poll> StopPollAsync(
+            ChatId chatId,
+            int messageId,
+            InlineKeyboardMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new StopPollRequest(chatId, messageId)
             {
                 ReplyMarkup = replyMarkup
             }, cancellationToken);

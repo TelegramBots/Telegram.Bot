@@ -23,8 +23,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessage)]
         public async Task Should_Delete_Message()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldDeleteMessage);
-
             Message message = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 text: "This message will be deleted shortly"

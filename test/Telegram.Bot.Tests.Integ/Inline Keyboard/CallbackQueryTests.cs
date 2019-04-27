@@ -29,8 +29,6 @@ namespace Telegram.Bot.Tests.Integ.Interactive
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Notification()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldReceiveAnswerCallbackQuery);
-
             string callbackQueryData = 'a' + new Random().Next(5_000).ToString();
 
             Message message = await BotClient.SendTextMessageAsync(
@@ -69,8 +67,6 @@ namespace Telegram.Bot.Tests.Integ.Interactive
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Alert()
         {
-            await _fixture.SendTestCaseNotificationAsync(FactTitles.ShouldAnswerCallbackQueryWithAlert);
-
             string callbackQueryData = 'b' + new Random().Next(5_000).ToString();
 
             Message message = await BotClient.SendTextMessageAsync(
