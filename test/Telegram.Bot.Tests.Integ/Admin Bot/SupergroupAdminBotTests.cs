@@ -28,7 +28,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region 1. Changing Chat Title
 
-        [OrderedFact(FactTitles.ShouldSetChatTitle)]
+        [OrderedFact("Should set chat title")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatTitle)]
         public async Task Should_Set_Chat_Title()
         {
@@ -42,7 +42,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region 2. Changing Chat Description
 
-        [OrderedFact(FactTitles.ShouldSetChatDescription)]
+        [OrderedFact("Should set chat description")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Set_Chat_Description()
         {
@@ -52,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(FactTitles.ShouldDeleteChatDescription)]
+        [OrderedFact("Should delete chat description")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Delete_Chat_Description()
         {
@@ -67,7 +67,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region 3. Pinning Chat Description
 
-        [OrderedFact(FactTitles.ShouldPinMessage)]
+        [OrderedFact("Should pin chat message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PinChatMessage)]
         public async Task Should_Pin_Message()
         {
@@ -82,7 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             _classFixture.PinnedMessage = msg;
         }
 
-        [OrderedFact(FactTitles.ShouldGetChatPinnedMessage)]
+        [OrderedFact("Should get chat's pinned message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_Pinned_Message()
         {
@@ -95,14 +95,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             ));
         }
 
-        [OrderedFact(FactTitles.ShouldUnpinMessage)]
+        [OrderedFact("Should unpin chat message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnpinChatMessage)]
         public async Task Should_Unpin_Message()
         {
             await BotClient.UnpinChatMessageAsync(_classFixture.Chat.Id);
         }
 
-        [OrderedFact(FactTitles.ShouldGetChatWithNoPinnedMessage)]
+        [OrderedFact("Should get the chat info without a pinned message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_With_No_Pinned_Message()
         {
@@ -115,7 +115,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region 4. Changing Chat Photo
 
-        [OrderedFact(FactTitles.ShouldSetChatPhoto)]
+        [OrderedFact("Should set chat photo")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
         public async Task Should_Set_Chat_Photo()
         {
@@ -128,14 +128,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             }
         }
 
-        [OrderedFact(FactTitles.ShouldDeleteChatPhoto)]
+        [OrderedFact("Should delete chat photo")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Delete_Chat_Photo()
         {
             await BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id);
         }
 
-        [OrderedFact(FactTitles.ShouldThrowOnDeletingChatDeletedPhoto)]
+        [OrderedFact("Should throw exception in deleting chat photo with no photo currently set")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
@@ -150,7 +150,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         /// <summary>
         /// If chat had a photo before, reset the photo back.
         /// </summary>
-        [OrderedFact(FactTitles.ShouldResetOldChatPhoto)]
+        [OrderedFact("Should reset the same old chat photo if existed")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
         public async Task Should_Reset_Old_Chat_Photo_If_Existed()
         {
@@ -164,7 +164,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             using (Stream photoStream = new MemoryStream())
             {
-                // pass photo's file_id, prepare file for download, and download the file into memroy
+                // pass photo's file_id, prepare file for download, and download the file into memory
                 await BotClient.GetInfoAndDownloadFileAsync(previousChatPhotoId, photoStream);
 
                 // need to set position of memory stream back to its start so next method reads photo stream from the beginning
@@ -181,7 +181,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region 5. Chat Sticker Set
 
-        [OrderedFact(FactTitles.ShouldThrowOnSettingChatStickerSet)]
+        [OrderedFact("Should throw exception when trying to set sticker set for a chat with less than 100 members")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatStickerSet)]
         public async Task Should_Throw_On_Setting_Chat_Sticker_Set()
         {
@@ -197,34 +197,5 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         }
 
         #endregion
-
-        private static class FactTitles
-        {
-            public const string ShouldSetChatTitle = "Should set chat title";
-
-            public const string ShouldSetChatDescription = "Should set chat description";
-
-            public const string ShouldDeleteChatDescription = "Should delete chat description";
-
-            public const string ShouldPinMessage = "Should pin chat message";
-
-            public const string ShouldGetChatPinnedMessage = "Should get chat's pinned message";
-
-            public const string ShouldUnpinMessage = "Should unpin chat message";
-
-            public const string ShouldGetChatWithNoPinnedMessage = "Should get the chat info without a pinned message";
-
-            public const string ShouldSetChatPhoto = "Should set chat photo";
-
-            public const string ShouldDeleteChatPhoto = "Should delete chat photo";
-
-            public const string ShouldThrowOnDeletingChatDeletedPhoto =
-                "Should throw exception in deleting chat photo with no photo currently set";
-
-            public const string ShouldResetOldChatPhoto = "Should reset the same old chat photo if existed";
-
-            public const string ShouldThrowOnSettingChatStickerSet =
-                "Should throw exception when trying to set sticker set for a chat with less than 100 members";
-        }
     }
 }

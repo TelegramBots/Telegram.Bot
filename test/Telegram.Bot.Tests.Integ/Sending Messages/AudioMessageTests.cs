@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(FactTitles.ShouldSendAudio)]
+        [OrderedFact("Should send an audio with caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
         public async Task Should_Send_Audio()
         {
@@ -52,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Audio.FileSize > 200);
         }
 
-        [OrderedFact(FactTitles.ShouldSendAudioWithThumbnail)]
+        [OrderedFact("Should send an audio with its thumbnail")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
         public async Task Should_Send_Audio_With_Thumb()
         {
@@ -77,7 +77,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Audio.Thumb.FileSize > 10_000);
         }
 
-        [OrderedFact(FactTitles.ShouldSendVoice)]
+        [OrderedFact("Should send a voice with caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVoice)]
         public async Task Should_Send_Voice()
         {
@@ -101,15 +101,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("audio/ogg", message.Voice.MimeType);
             Assert.NotEmpty(message.Voice.FileId);
             Assert.True(message.Voice.FileSize > 200);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendAudio = "Should send an audio with caption";
-
-            public const string ShouldSendAudioWithThumbnail = "Should send an audio with its thumbnail";
-
-            public const string ShouldSendVoice = "Should send a voice with caption";
         }
     }
 }

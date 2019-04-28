@@ -28,7 +28,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             _classFixture = classFixture;
         }
 
-        [OrderedFact(FactTitles.ShouldSendInvoice)]
+        [OrderedFact("Should send an invoice")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Send_Invoice()
         {
@@ -85,7 +85,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             _classFixture.Invoice = message.Invoice;
         }
 
-        [OrderedFact(FactTitles.ShouldAnswerShippingQueryWithOk)]
+        [OrderedFact("Should receive shipping address query and reply with shipping options")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
         public async Task Should_Answer_Shipping_Query_With_Ok()
@@ -126,7 +126,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.PostCode);
         }
 
-        [OrderedFact(FactTitles.ShouldAnswerPreCheckoutQueryWithOkAndShipmentOption)]
+        [OrderedFact("Should send invoice for no shipment option, and reply pre-checkout query with OK.")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Answer_PreCheckout_Query_With_Ok_And_Shipment_Option()
@@ -154,7 +154,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal(_classFixture.ShippingOption.Id, query.ShippingOptionId);
         }
 
-        [OrderedFact(FactTitles.ShouldReceiveSuccessfulPaymentWithShipmentOption)]
+        [OrderedFact("Should receive successful payment.")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Receive_Successful_Payment_With_Shipment_Option()
@@ -171,7 +171,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal(_classFixture.ShippingOption.Id, successfulPayment.ShippingOptionId);
         }
 
-        [OrderedFact(FactTitles.ShouldAnswerShippingQueryWithError)]
+        [OrderedFact("Should receive shipping address query and reply with an error")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
         public async Task Should_Answer_Shipping_Query_With_Error()
@@ -218,7 +218,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [OrderedFact(FactTitles.ShouldAnswerPreCheckoutQueryWithErrorForNoShipmentOption)]
+        [OrderedFact("Should send invoice for no shipment option, and reply pre-checkout query with an error.")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Answer_PreCheckout_Query_With_Error_For_No_Shipment_Option()
@@ -264,7 +264,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [OrderedFact(FactTitles.ShouldThrowWhenSendInvoiceInvalidJson)]
+        [OrderedFact("Should throw exception when sending invoice with invalid provider data")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Throw_When_Send_Invoice_Invalid_Provider_Data()
         {
@@ -302,7 +302,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal("Bad Request: DATA_JSON_INVALID", exception.Message);
         }
 
-        [OrderedFact(FactTitles.ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId)]
+        [OrderedFact("Should throw exception when answering shipping query with duplicate shipping Id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Throw_When_Answer_Shipping_Query_With_Duplicate_Shipping_Id()
         {
@@ -366,7 +366,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [OrderedFact(FactTitles.ShouldSendInvoiceWithReplyMarkup)]
+        [OrderedFact("Should send an invoice with custom reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Send_Invoice_With_Reply_Markup()
         {
@@ -434,34 +434,6 @@ namespace Telegram.Bot.Tests.Integ.Payments
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
             return update;
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendInvoice = "Should send an invoice";
-
-            public const string ShouldAnswerShippingQueryWithOk =
-                "Should receive shipping address query and reply with shipping options";
-
-            public const string ShouldAnswerPreCheckoutQueryWithOkAndShipmentOption =
-                "Should send invoice for no shipment option, and reply pre-checkout query with OK.";
-
-            public const string ShouldReceiveSuccessfulPaymentWithShipmentOption =
-                "Should receive successful payment.";
-
-            public const string ShouldAnswerShippingQueryWithError =
-                "Should receive shipping address query and reply with an error";
-
-            public const string ShouldAnswerPreCheckoutQueryWithErrorForNoShipmentOption =
-                "Should send invoice for no shipment option, and reply pre-checkout query with an error.";
-
-            public const string ShouldThrowWhenSendInvoiceInvalidJson =
-                "Should throw exception when sending invoice with invalid provider data";
-
-            public const string ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId =
-                "Should throw exception when answering shipping query with duplicate shipping Id";
-
-            public const string ShouldSendInvoiceWithReplyMarkup = "Should send an invoice with custom reply markup";
         }
     }
 }

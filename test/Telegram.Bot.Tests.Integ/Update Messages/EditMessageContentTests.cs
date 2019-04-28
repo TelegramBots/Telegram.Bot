@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(FactTitles.ShouldEditInlineMessageText)]
+        [OrderedFact("Should edit an inline message's text")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Inline_Message_Text()
@@ -82,7 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(FactTitles.ShouldEditInlineMessageMarkup)]
+        [OrderedFact("Should edit an inline message's markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         public async Task Should_Edit_Inline_Message_Markup()
@@ -130,7 +130,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(FactTitles.ShouldEditInlineMessageCaption)]
+        [OrderedFact("Should edit an inline message's caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Inline_Message_Caption()
@@ -176,15 +176,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 caption: "_Caption is edited_ 👌",
                 parseMode: ParseMode.Markdown
             );
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldEditInlineMessageText = "Should edit an inline message's text";
-
-            public const string ShouldEditInlineMessageMarkup = "Should edit an inline message's markup";
-
-            public const string ShouldEditInlineMessageCaption = "Should edit an inline message's caption";
         }
     }
 }

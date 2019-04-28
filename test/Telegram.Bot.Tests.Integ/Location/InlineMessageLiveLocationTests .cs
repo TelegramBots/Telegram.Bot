@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture = classFixture;
         }
 
-        [OrderedFact(FactTitles.ShouldAnswerInlineQueryWithLocation)]
+        [OrderedFact("Should answer inline query with a location result")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Answer_Inline_Query_With_Location()
         {
@@ -62,7 +62,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture.CallbackQueryData = callbackQueryData;
         }
 
-        [OrderedFact(FactTitles.ShouldEditInlineMessageLiveLocation)]
+        [OrderedFact("Should edit live location of previously sent inline message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Edit_Inline_Message_Live_Location()
         {
@@ -83,25 +83,13 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture.InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId;
         }
 
-        [OrderedFact(FactTitles.ShouldStopInlineMessageLiveLocation)]
+        [OrderedFact("Should stop live locations of previously sent inline message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
         public async Task Should_Stop_Inline_Message_Live_Location()
         {
             await BotClient.StopMessageLiveLocationAsync(
                 inlineMessageId: _classFixture.InlineMessageId
             );
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldAnswerInlineQueryWithLocation =
-                "Should answer inline query with a location result";
-
-            public const string ShouldEditInlineMessageLiveLocation =
-                "Should edit live location of previously sent inline message";
-
-            public const string ShouldStopInlineMessageLiveLocation =
-                "Should stop live locations of previously sent inline message";
         }
 
         public class Fixture

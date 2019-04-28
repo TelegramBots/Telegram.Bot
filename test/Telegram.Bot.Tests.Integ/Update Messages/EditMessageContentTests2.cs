@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(FactTitles.ShouldEditMessageText)]
+        [OrderedFact("Should edit a message's text")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Message_Text()
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(FactTitles.ShouldEditMessageMarkup)]
+        [OrderedFact("Should edit a message's markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         public async Task Should_Edit_Message_Markup()
@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.True(timeBeforeEdition < editedMessage.EditDate);
         }
 
-        [OrderedFact(FactTitles.ShouldEditMessageCaption)]
+        [OrderedFact("Should edit a message's caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Message_Caption()
@@ -124,15 +124,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.StartsWith(captionPrefix, editedMessage.Caption);
 
             Assert.Equal(editedMessage.CaptionEntities.Single().Type, captionEntity.Type);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldEditMessageText = "Should edit a message's text";
-
-            public const string ShouldEditMessageMarkup = "Should edit a message's markup";
-
-            public const string ShouldEditMessageCaption = "Should edit a message's caption";
         }
     }
 }

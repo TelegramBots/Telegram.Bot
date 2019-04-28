@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             _fixture = fixture;
         }
 
-        [OrderedFact(FactTitles.ShouldGetSupergroupChat)]
+        [OrderedFact("Should get supergroup chat info")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Supergroup_Chat()
         {
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.False(chat.AllMembersAreAdministrators);
         }
 
-        [OrderedFact(FactTitles.ShouldGetBotChatMember)]
+        [OrderedFact("Should get chat member: bot(admin)")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMember)]
         public async Task Should_Get_Bot_Chat_Member()
         {
@@ -75,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             ));
         }
 
-        [OrderedFact(FactTitles.ShouldGetSupergroupChatAdmins)]
+        [OrderedFact("Should get supergroup chat administrators")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
         public async Task Should_Get_Chat_Admins()
         {
@@ -107,7 +107,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             ));
         }
 
-        [OrderedFact(FactTitles.ShouldGetPrivateChat)]
+        [OrderedFact("Should get private chat info")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Private_Chat()
@@ -144,7 +144,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(chat.CanSetStickerSet);
         }
 
-        [OrderedFact(FactTitles.ShouldGetChatMembersCount)]
+        [OrderedFact("Should get chat members count")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMembersCount)]
         public async Task Should_Get_Chat_Members_Count()
         {
@@ -159,7 +159,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         /// The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear
         /// its typing status)
         /// </remarks>
-        [OrderedFact(FactTitles.ShouldSendChatAction)]
+        [OrderedFact("Should send action to chat: recording audio")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendChatAction)]
         public async Task Should_Send_Chat_Action()
         {
@@ -169,21 +169,6 @@ namespace Telegram.Bot.Tests.Integ.Other
             );
 
             await Task.Delay(5_000);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldGetPrivateChat = "Should get private chat info";
-
-            public const string ShouldGetSupergroupChat = "Should get supergroup chat info";
-
-            public const string ShouldGetBotChatMember = "Should get chat member: bot(admin)";
-
-            public const string ShouldGetSupergroupChatAdmins = "Should get supergroup chat administrators";
-
-            public const string ShouldGetChatMembersCount = "Should get chat members count";
-
-            public const string ShouldSendChatAction = "Should send action to chat: recording audio";
         }
     }
 }

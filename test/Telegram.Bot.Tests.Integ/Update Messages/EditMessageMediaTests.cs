@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(FactTitles.ShouldEditInlineMessagePhotoWithUrl)]
+        [OrderedFact("Should change an inline message's photo to an audio using URL")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
         public async Task Should_Edit_Inline_Message_Photo()
@@ -73,7 +73,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(FactTitles.ShouldEditInlineMessageDocumentWithFileId)]
+        [OrderedFact("Should change an inline message's document to an animation using file_id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
@@ -125,15 +125,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
                 media: new InputMediaAnimation(animationFileId)
             );
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldEditInlineMessagePhotoWithUrl =
-                "Should change an inline message's photo to an audio using URL";
-
-            public const string ShouldEditInlineMessageDocumentWithFileId =
-                "Should change an inline message's document to an animation using file_id";
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             _fixture = fixture;
         }
 
-        [OrderedFact(FactTitles.ShouldReceiveAnswerCallbackQuery)]
+        [OrderedFact("Should receive and answer callback query result with a notification")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Notification()
@@ -62,7 +62,7 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             ));
         }
 
-        [OrderedFact(FactTitles.ShouldAnswerCallbackQueryWithAlert)]
+        [OrderedFact("Should receive and answer callback query result with an alert")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Alert()
@@ -98,15 +98,6 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(message), JToken.FromObject(callbackQuery.Message)
             ));
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldReceiveAnswerCallbackQuery =
-                "Should receive and answer callback query result with a notification";
-
-            public const string ShouldAnswerCallbackQueryWithAlert =
-                "Should receive and answer callback query result with an alert";
         }
     }
 }

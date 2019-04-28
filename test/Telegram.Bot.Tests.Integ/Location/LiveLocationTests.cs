@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture = classFixture;
         }
 
-        [OrderedFact(FactTitles.ShouldSendLiveLocation)]
+        [OrderedFact("Should send a location with live period to update")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendLocation)]
         public async Task Should_Send_Live_Location()
         {
@@ -52,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             LocationMessage = message;
         }
 
-        [OrderedFact(FactTitles.ShouldUpdateLocation)]
+        [OrderedFact("Should update live location 3 times")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Update_Live_Location()
         {
@@ -83,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             LocationMessage = editedMessage;
         }
 
-        [OrderedFact(FactTitles.ShouldStopMessageLiveLocation)]
+        [OrderedFact("Should stop live locations")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
         public async Task Should_Stop_Live_Location()
         {
@@ -97,15 +97,6 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(LocationMessage), JToken.FromObject(message)
             ));
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendLiveLocation = "Should send a location with live period to update";
-
-            public const string ShouldUpdateLocation = "Should update live location 3 times";
-
-            public const string ShouldStopMessageLiveLocation = "Should stop live locations";
         }
     }
 }

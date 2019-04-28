@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Kick, Unban, and Invite chat member back
 
-        [OrderedFact(FactTitles.ShouldKickChatMemberForEver)]
+        [OrderedFact("Should kick user from chat and ban him/her for ever")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_For_Ever()
         {
@@ -37,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(FactTitles.ShouldUnbanChatMember)]
+        [OrderedFact("Should unban a chat member")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnbanChatMember)]
         public async Task Should_Unban_Chat_Member()
         {
@@ -47,7 +47,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(FactTitles.ShouldExportChatInviteLink)]
+        [OrderedFact("Should export an invite link to the group")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
         public async Task Should_Export_Chat_Invite_Link()
         {
@@ -58,7 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             _classFixture.GroupInviteLink = result;
         }
 
-        [OrderedFact(FactTitles.ShouldReceiveNewChatMemberNotification)]
+        [OrderedFact("Should receive a notification of new member (same kicked member) joining the chat")]
         public async Task Should_Receive_New_Chat_Member_Notification()
         {
             await _fixture.SendTestInstructionsAsync(
@@ -93,7 +93,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Promote and Restrict Chat Member
 
-        [OrderedFact(FactTitles.ShouldPromoteUserToChangeChatInfo)]
+        [OrderedFact("Should promote chat member to change chat information")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Promote_User_To_Change_Chat_Info()
         {
@@ -106,7 +106,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(FactTitles.ShouldDemoteUser)]
+        [OrderedFact("Should demote chat member by taking his/her only admin right: change_info")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Demote_User()
         {
@@ -119,7 +119,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(FactTitles.ShouldRestrictSendingStickersTemporarily)]
+        [OrderedFact("Should restrict chat member from sending stickers temporarily")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RestrictChatMember)]
         public async Task Should_Restrict_Sending_Stickers_Temporarily()
         {
@@ -139,7 +139,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Kick chat member temporarily
 
-        [OrderedFact(FactTitles.ShouldKickChatMemberTemporarily)]
+        [OrderedFact("Should kick user from chat and ban him/her temporarily")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_Temporarily()
         {
@@ -157,29 +157,5 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         }
 
         #endregion
-
-        private static class FactTitles
-        {
-            public const string ShouldKickChatMemberForEver = "Should kick user from chat and ban him/her for ever";
-
-            public const string ShouldUnbanChatMember = "Should unban a chat member";
-
-            public const string ShouldExportChatInviteLink = "Should export an invite link to the group";
-
-            public const string ShouldReceiveNewChatMemberNotification =
-                "Should receive a notification of new member (same kicked member) joining the chat";
-
-            public const string ShouldKickChatMemberTemporarily =
-                "Should kick user from chat and ban him/her temporarily";
-
-            public const string ShouldPromoteUserToChangeChatInfo =
-                "Should promote chat member to change chat information";
-
-            public const string ShouldDemoteUser =
-                "Should demote chat member by taking his/her only admin right: change_info";
-
-            public const string ShouldRestrictSendingStickersTemporarily =
-                "Should restrict chat member from sending stickers temporarily";
-        }
     }
 }

@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _classFixture = fixture;
         }
 
-        [OrderedFact(FactTitles.ShouldReceiveContactInfo,
+        [OrderedFact("Should get contact info from keyboard reply markup",
             Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Contact_Info()
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(FactTitles.ShouldReceiveLocation)]
+        [OrderedFact("Should get location from keyboard reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Location()
         {
@@ -82,13 +82,6 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                     updateTypes: UpdateType.Message
                 )
                 .ContinueWith(t => t.Result.Single().Message);
-
-        private static class FactTitles
-        {
-            public const string ShouldReceiveContactInfo = "Should get contact info from keyboard reply markup";
-
-            public const string ShouldReceiveLocation = "Should get location from keyboard reply markup";
-        }
 
         public class Fixture : PrivateChatFixture
         {
