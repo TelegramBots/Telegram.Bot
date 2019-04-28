@@ -25,7 +25,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
+        [OrderedFact(FactTitles.ShouldUploadPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album()
         {
@@ -67,7 +67,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture.Entities = messages.ToList();
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
+        [OrderedFact(FactTitles.ShouldSendFileIdPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_3_Photos_Album_Using_FileId()
         {
@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
+        [OrderedFact(FactTitles.ShouldSendUrlPhotosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
@@ -112,7 +112,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
+        [OrderedFact(FactTitles.ShouldUploadVideosInAlbum)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Videos_Album()
         {
@@ -163,7 +163,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("Bot", messages[2].Caption);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
+        [OrderedFact(FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
@@ -200,7 +200,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(MessageEntityType.Italic, messages[1].CaptionEntities.Single().Type);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoWithThumb)]
+        [OrderedFact(FactTitles.ShouldSendVideoWithThumb)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Video_With_Thumbnail_In_Album()
         {

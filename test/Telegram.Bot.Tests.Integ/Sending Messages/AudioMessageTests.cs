@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendAudio)]
+        [OrderedFact(FactTitles.ShouldSendAudio)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
         public async Task Should_Send_Audio()
         {
@@ -52,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Audio.FileSize > 200);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendAudioWithThumbnail)]
+        [OrderedFact(FactTitles.ShouldSendAudioWithThumbnail)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
         public async Task Should_Send_Audio_With_Thumb()
         {
@@ -77,7 +77,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Audio.Thumb.FileSize > 10_000);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVoice)]
+        [OrderedFact(FactTitles.ShouldSendVoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVoice)]
         public async Task Should_Send_Voice()
         {

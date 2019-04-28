@@ -28,7 +28,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             _classFixture = classFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendInvoice)]
+        [OrderedFact(FactTitles.ShouldSendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Send_Invoice()
         {
@@ -85,7 +85,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             _classFixture.Invoice = message.Invoice;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithOk)]
+        [OrderedFact(FactTitles.ShouldAnswerShippingQueryWithOk)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
         public async Task Should_Answer_Shipping_Query_With_Ok()
@@ -126,7 +126,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.NotNull(shippingUpdate.ShippingQuery.ShippingAddress.PostCode);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithOkAndShipmentOption)]
+        [OrderedFact(FactTitles.ShouldAnswerPreCheckoutQueryWithOkAndShipmentOption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Answer_PreCheckout_Query_With_Ok_And_Shipment_Option()
@@ -154,7 +154,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal(_classFixture.ShippingOption.Id, query.ShippingOptionId);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldReceiveSuccessfulPaymentWithShipmentOption)]
+        [OrderedFact(FactTitles.ShouldReceiveSuccessfulPaymentWithShipmentOption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Receive_Successful_Payment_With_Shipment_Option()
@@ -171,7 +171,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal(_classFixture.ShippingOption.Id, successfulPayment.ShippingOptionId);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerShippingQueryWithError)]
+        [OrderedFact(FactTitles.ShouldAnswerShippingQueryWithError)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
         public async Task Should_Answer_Shipping_Query_With_Error()
@@ -218,7 +218,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerPreCheckoutQueryWithErrorForNoShipmentOption)]
+        [OrderedFact(FactTitles.ShouldAnswerPreCheckoutQueryWithErrorForNoShipmentOption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Answer_PreCheckout_Query_With_Error_For_No_Shipment_Option()
@@ -264,7 +264,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowWhenSendInvoiceInvalidJson)]
+        [OrderedFact(FactTitles.ShouldThrowWhenSendInvoiceInvalidJson)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Throw_When_Send_Invoice_Invalid_Provider_Data()
         {
@@ -302,7 +302,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal("Bad Request: DATA_JSON_INVALID", exception.Message);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId)]
+        [OrderedFact(FactTitles.ShouldThrowWhenAnswerShippingQueryWithDuplicateShippingId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Throw_When_Answer_Shipping_Query_With_Duplicate_Shipping_Id()
         {
@@ -366,7 +366,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendInvoiceWithReplyMarkup)]
+        [OrderedFact(FactTitles.ShouldSendInvoiceWithReplyMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         public async Task Should_Send_Invoice_With_Reply_Markup()
         {

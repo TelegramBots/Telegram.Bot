@@ -17,7 +17,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldLeaveChat,
+        [OrderedFact(FactTitles.ShouldLeaveChat,
             Skip = "Bot should stay in chat for other the test cases")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.LeaveChat)]
         public async Task Should_Get_Private_Chat()

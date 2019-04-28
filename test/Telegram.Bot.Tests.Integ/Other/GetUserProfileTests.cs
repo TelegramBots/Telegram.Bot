@@ -19,7 +19,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetBotProfilePhotos)]
+        [OrderedFact(FactTitles.ShouldGetBotProfilePhotos)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetUserProfilePhotos)]
         public async Task Should_Get_User_Profile_Photos()
         {

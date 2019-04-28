@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVenue)]
+        [OrderedFact(FactTitles.ShouldSendVenue)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
         public async Task Should_Send_Venue()
         {
@@ -48,7 +48,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.InRange(message.Venue.Location.Longitude, lon - 0.001f, lon + 0.001f);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDeserializeSendVenue)]
+        [OrderedFact(FactTitles.ShouldDeserializeSendVenue)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
         public async Task Should_Deserialize_Send_Venue()
         {

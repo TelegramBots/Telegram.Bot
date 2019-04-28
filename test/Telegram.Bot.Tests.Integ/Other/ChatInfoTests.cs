@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChat)]
+        [OrderedFact(FactTitles.ShouldGetSupergroupChat)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Supergroup_Chat()
         {
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.False(chat.AllMembersAreAdministrators);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetBotChatMember)]
+        [OrderedFact(FactTitles.ShouldGetBotChatMember)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMember)]
         public async Task Should_Get_Bot_Chat_Member()
         {
@@ -75,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             ));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetSupergroupChatAdmins)]
+        [OrderedFact(FactTitles.ShouldGetSupergroupChatAdmins)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
         public async Task Should_Get_Chat_Admins()
         {
@@ -107,7 +107,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             ));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetPrivateChat)]
+        [OrderedFact(FactTitles.ShouldGetPrivateChat)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatAdministrators)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Private_Chat()
@@ -144,7 +144,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(chat.CanSetStickerSet);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetChatMembersCount)]
+        [OrderedFact(FactTitles.ShouldGetChatMembersCount)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMembersCount)]
         public async Task Should_Get_Chat_Members_Count()
         {
@@ -159,7 +159,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         /// The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear
         /// its typing status)
         /// </remarks>
-        [OrderedFact(DisplayName = FactTitles.ShouldSendChatAction)]
+        [OrderedFact(FactTitles.ShouldSendChatAction)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendChatAction)]
         public async Task Should_Send_Chat_Action()
         {

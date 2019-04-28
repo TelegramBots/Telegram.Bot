@@ -18,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDeleteMessage)]
+        [OrderedFact(FactTitles.ShouldDeleteMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessage)]
         public async Task Should_Delete_Message()

@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDeleteMessageFromInlineQuery)]
+        [OrderedFact(FactTitles.ShouldDeleteMessageFromInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Delete_Message_From_InlineQuery()
         {

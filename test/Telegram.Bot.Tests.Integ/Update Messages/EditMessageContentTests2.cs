@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditMessageText)]
+        [OrderedFact(FactTitles.ShouldEditMessageText)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Message_Text()
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditMessageMarkup)]
+        [OrderedFact(FactTitles.ShouldEditMessageMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         public async Task Should_Edit_Message_Markup()
@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.True(timeBeforeEdition < editedMessage.EditDate);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditMessageCaption)]
+        [OrderedFact(FactTitles.ShouldEditMessageCaption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Message_Caption()

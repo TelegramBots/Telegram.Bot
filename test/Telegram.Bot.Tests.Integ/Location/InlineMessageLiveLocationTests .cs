@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture = classFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithLocation)]
+        [OrderedFact(FactTitles.ShouldAnswerInlineQueryWithLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Answer_Inline_Query_With_Location()
         {
@@ -62,7 +62,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture.CallbackQueryData = callbackQueryData;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageLiveLocation)]
+        [OrderedFact(FactTitles.ShouldEditInlineMessageLiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
         public async Task Should_Edit_Inline_Message_Live_Location()
         {
@@ -83,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             _classFixture.InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldStopInlineMessageLiveLocation)]
+        [OrderedFact(FactTitles.ShouldStopInlineMessageLiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
         public async Task Should_Stop_Inline_Message_Live_Location()
         {

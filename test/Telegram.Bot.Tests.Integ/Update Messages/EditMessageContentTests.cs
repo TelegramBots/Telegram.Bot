@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageText)]
+        [OrderedFact(FactTitles.ShouldEditInlineMessageText)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Inline_Message_Text()
@@ -82,7 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageMarkup)]
+        [OrderedFact(FactTitles.ShouldEditInlineMessageMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         public async Task Should_Edit_Inline_Message_Markup()
@@ -130,7 +130,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageCaption)]
+        [OrderedFact(FactTitles.ShouldEditInlineMessageCaption)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Inline_Message_Caption()

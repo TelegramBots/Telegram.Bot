@@ -19,7 +19,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendContact, Skip = "Due to unexpected rate limiting errors")]
+        [OrderedFact(FactTitles.ShouldSendContact, Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact()
         {
@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(lastName, message.Contact.LastName);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendContactWithVCardd,
+        [OrderedFact(FactTitles.ShouldSendContactWithVCardd,
             Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact_With_VCard()

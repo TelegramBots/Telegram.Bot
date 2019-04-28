@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _classFixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldReceiveContactInfo,
+        [OrderedFact(FactTitles.ShouldReceiveContactInfo,
             Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Contact_Info()
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldReceiveLocation)]
+        [OrderedFact(FactTitles.ShouldReceiveLocation)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Location()
         {

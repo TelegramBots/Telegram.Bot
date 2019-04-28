@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Kick, Unban, and Invite chat member back
 
-        [OrderedFact(DisplayName = FactTitles.ShouldKickChatMemberForEver)]
+        [OrderedFact(FactTitles.ShouldKickChatMemberForEver)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_For_Ever()
         {
@@ -37,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldUnbanChatMember)]
+        [OrderedFact(FactTitles.ShouldUnbanChatMember)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnbanChatMember)]
         public async Task Should_Unban_Chat_Member()
         {
@@ -47,7 +47,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldExportChatInviteLink)]
+        [OrderedFact(FactTitles.ShouldExportChatInviteLink)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
         public async Task Should_Export_Chat_Invite_Link()
         {
@@ -58,7 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             _classFixture.GroupInviteLink = result;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldReceiveNewChatMemberNotification)]
+        [OrderedFact(FactTitles.ShouldReceiveNewChatMemberNotification)]
         public async Task Should_Receive_New_Chat_Member_Notification()
         {
             await _fixture.SendTestInstructionsAsync(
@@ -93,7 +93,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Promote and Restrict Chat Member
 
-        [OrderedFact(DisplayName = FactTitles.ShouldPromoteUserToChangeChatInfo)]
+        [OrderedFact(FactTitles.ShouldPromoteUserToChangeChatInfo)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Promote_User_To_Change_Chat_Info()
         {
@@ -106,7 +106,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDemoteUser)]
+        [OrderedFact(FactTitles.ShouldDemoteUser)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Demote_User()
         {
@@ -119,7 +119,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldRestrictSendingStickersTemporarily)]
+        [OrderedFact(FactTitles.ShouldRestrictSendingStickersTemporarily)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RestrictChatMember)]
         public async Task Should_Restrict_Sending_Stickers_Temporarily()
         {
@@ -139,7 +139,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Kick chat member temporarily
 
-        [OrderedFact(DisplayName = FactTitles.ShouldKickChatMemberTemporarily)]
+        [OrderedFact(FactTitles.ShouldKickChatMemberTemporarily)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_Temporarily()
         {

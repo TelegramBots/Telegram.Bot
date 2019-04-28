@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
+        [OrderedFact(FactTitles.ShouldThrowChatNotFoundException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ChatNotFoundException>(e);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
+        [OrderedFact(FactTitles.ShouldThrowInvalidUserIdException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_InvalidUserIdException()
         {
@@ -42,7 +42,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<InvalidUserIdException>(e);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
+        [OrderedFact(FactTitles.ShouldThrowExceptionContactRequestException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_ContactRequestException()
         {
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ContactRequestException>(e);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
+        [OrderedFact(FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_MessageIsNotModifiedException()
         {

@@ -18,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException)]
+        [OrderedFact(FactTitles.ShouldThrowInvalidGameShortNameException)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException()
         {
@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.Equal("game_short_name", e.Parameter);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException2)]
+        [OrderedFact(FactTitles.ShouldThrowInvalidGameShortNameException2)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException_2()
         {
@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.Equal("game_short_name", e.Parameter);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException3)]
+        [OrderedFact(FactTitles.ShouldThrowInvalidGameShortNameException3)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException_3()
         {

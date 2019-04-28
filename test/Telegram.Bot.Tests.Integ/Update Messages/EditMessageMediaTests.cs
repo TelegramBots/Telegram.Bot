@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessagePhotoWithUrl)]
+        [OrderedFact(FactTitles.ShouldEditInlineMessagePhotoWithUrl)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
         public async Task Should_Edit_Inline_Message_Photo()
@@ -73,7 +73,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageDocumentWithFileId)]
+        [OrderedFact(FactTitles.ShouldEditInlineMessageDocumentWithFileId)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]

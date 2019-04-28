@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldReceiveAnswerCallbackQuery)]
+        [OrderedFact(FactTitles.ShouldReceiveAnswerCallbackQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Notification()
@@ -62,7 +62,7 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             ));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerCallbackQueryWithAlert)]
+        [OrderedFact(FactTitles.ShouldAnswerCallbackQueryWithAlert)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Alert()

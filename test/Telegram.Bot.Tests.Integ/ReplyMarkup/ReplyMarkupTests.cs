@@ -18,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _fixture = testsFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldForceReply)]
+        [OrderedFact(FactTitles.ShouldForceReply)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Force_Reply()
         {
@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendMultiRowKeyboard)]
+        [OrderedFact(FactTitles.ShouldSendMultiRowKeyboard)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_MultiRow_Keyboard()
         {
@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldRemoveReplyKeyboard)]
+        [OrderedFact(FactTitles.ShouldRemoveReplyKeyboard)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Remove_Reply_Keyboard()
         {
@@ -57,7 +57,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendInlineKeyboardMarkup)]
+        [OrderedFact(FactTitles.ShouldSendInlineKeyboardMarkup)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Inline_Keyboard()
         {
