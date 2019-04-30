@@ -12,9 +12,8 @@ namespace Telegram.Bot.Types
         /// Initializes a new photo media to send with an <see cref="InputMedia"/>
         /// </summary>
         public InputMediaPhoto(InputMedia media)
+            : base(media, "photo")
         {
-            Type = "photo";
-            Media = media;
         }
     }
 }

@@ -36,9 +36,8 @@ namespace Telegram.Bot.Types
         /// Initializes a new audio media to send with an <see cref="InputMedia"/>
         /// </summary>
         public InputMediaAudio(InputMedia media)
+            : base(media, "audio")
         {
-            Type = "audio";
-            Media = media;
         }
     }
 }

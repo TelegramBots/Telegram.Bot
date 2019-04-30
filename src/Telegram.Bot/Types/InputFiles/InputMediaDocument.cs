@@ -18,9 +18,8 @@ namespace Telegram.Bot.Types
         /// Initializes a new document media to send with an <see cref="InputMedia"/>
         /// </summary>
         public InputMediaDocument(InputMedia media)
+            : base(media, "document")
         {
-            Type = "document";
-            Media = media;
         }
     }
 }

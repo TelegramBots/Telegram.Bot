@@ -15,13 +15,13 @@ namespace Telegram.Bot.Types
         /// Type of the media
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Type { get; protected set; }
+        public string Type { get; }
 
         /// <summary>
         /// Media to send
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputMedia Media { get; set; } // ToDo Should be get-only. Media is set in ctors
+        public InputMedia Media { get; }
 
         /// <summary>
         /// Optional. Caption of the photo to be sent, 0-1024 characters
@@ -34,5 +34,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
+
+        protected InputMediaBase(InputMedia media, string type)
+        {
+            Type = type;
+            Media = media;
+        }
     }
 }

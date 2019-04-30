@@ -43,9 +43,8 @@ namespace Telegram.Bot.Types
         /// Initializes a new video media to send with an <see cref="InputMedia"/>
         /// </summary>
         public InputMediaVideo(InputMedia media)
+            : base(media, "video")
         {
-            Type = "video";
-            Media = media;
         }
     }
 }

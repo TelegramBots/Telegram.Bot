@@ -36,9 +36,8 @@ namespace Telegram.Bot.Types
         /// Initializes a new animation media to send with an <see cref="InputMedia"/>
         /// </summary>
         public InputMediaAnimation(InputMedia media)
+            : base(media, "animation")
         {
-            Type = "animation";
-            Media = media;
         }
     }
 }
