@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 message = await BotClient.SendDocumentAsync(
                     /* chatId: */ _fixture.SupergroupChat.Id,
                     /* document: */ new InputOnlineFile( /* content: */ stream, /* fileName: */ "HAMLET.pdf"),
-                    /* caption: */ "The Tragedy of Hamlet,\nPrince of Denmark"
+                    caption: "The Tragedy of Hamlet,\nPrince of Denmark"
                 );
             }
 
