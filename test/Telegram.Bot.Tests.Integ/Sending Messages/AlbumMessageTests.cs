@@ -48,8 +48,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    /* inputMedia: */ inputMedia,
                     /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* media: */ inputMedia,
                     /* disableNotification: */ true
                 );
             }
@@ -77,8 +77,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 .ToArray();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                inputMedia: new[]
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* media: */ new[]
                 {
                     new InputMediaPhoto(fileIds[0]),
                     new InputMediaPhoto(fileIds[1]),
@@ -98,12 +98,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                /* inputMedia: */ new[]
+                /* inputMedia: */
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* media: */ new[]
                 {
                     new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg"),
                     new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
                 },
-                /* chatId: */ _fixture.SupergroupChat.Id,
                 replyToMessageId: replyToMessageId
             );
 
@@ -123,7 +124,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
-                IAlbumInputMedia[] inputMedia =
+                IAlbumInputMedia[] media =
                 {
                     new InputMediaVideo(new InputMedia(stream0, "GoldenRatio.mp4"))
                     {
@@ -143,8 +144,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    chatId: _fixture.SupergroupChat.Id,
-                    inputMedia: inputMedia
+                    /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* media: */ media
                 );
             }
 
@@ -173,7 +174,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
             {
-                IAlbumInputMedia[] inputMedia =
+                IAlbumInputMedia[] media =
                 {
                     new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
                     {
@@ -188,8 +189,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    chatId: _fixture.SupergroupChat.Id,
-                    inputMedia: inputMedia
+                    /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* media: */ media
                 );
             }
 
@@ -210,7 +211,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
             )
             {
-                IAlbumInputMedia[] inputMedia =
+                IAlbumInputMedia[] media =
                 {
                     new InputMediaVideo(new InputMedia(stream1, "GoldenRatio.mp4"))
                     {
@@ -221,8 +222,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    /* media: */ inputMedia,
-                    /* chatId: */ _fixture.SupergroupChat.Id
+                    /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* media: */ media
                 );
             }
 

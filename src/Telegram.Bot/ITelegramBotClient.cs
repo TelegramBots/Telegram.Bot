@@ -274,11 +274,11 @@ namespace Telegram.Bot
             int duration = default,
             string performer = default,
             string title = default,
+            InputMedia thumb = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Description is returned. Bots can send files of
@@ -290,6 +290,8 @@ namespace Telegram.Bot
         /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
         /// uploaded as a new file.</param>
         /// <param name="caption">Document caption</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
+        /// URLs in your bot's message.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -297,20 +299,18 @@ namespace Telegram.Bot
         /// instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
         /// notice of cancellation.</param>
-        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
-        /// URLs in your bot's message.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
         Task<Message> SendDocumentAsync(
             ChatId chatId,
             InputOnlineFile document,
+            InputMedia thumb = default,
             string caption = default,
             ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Description is returned.
@@ -362,14 +362,14 @@ namespace Telegram.Bot
             int duration = default,
             int width = default,
             int height = default,
+            InputMedia thumb = default,
             string caption = default,
             ParseMode parseMode = default,
             bool supportsStreaming = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent
@@ -441,11 +441,11 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="videoNote">Video note to send.</param>
+        /// <param name="duration">Duration of sent video in seconds</param>
+        /// <param name="length">Video width and height</param>
         /// <param name="thumb">Thumbnail of the file sent. The thumbnail should be in JPEG format and less than 200 kB
         /// in size. A thumbnail's width and height should not exceed 90. Thumbnails can't be reused and can be only
         /// uploaded as a new file.</param>
-        /// <param name="duration">Duration of sent video in seconds</param>
-        /// <param name="length">Video width and height</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -460,25 +460,25 @@ namespace Telegram.Bot
             InputTelegramFile videoNote,
             int duration = default,
             int length = default,
+            InputMedia thumb = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
-        /// <param name="inputMedia">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="media"></param>
         /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
         Task<Message[]> SendMediaGroupAsync(
-            IEnumerable<IAlbumInputMedia> inputMedia, // ToDo: Parameter is called "media" on API docs
-            ChatId chatId, // ToDo: Should be the 1st parameter
+            ChatId chatId,
+            IEnumerable<IAlbumInputMedia> media,
             bool disableNotification = default,
             int replyToMessageId = default,
             CancellationToken cancellationToken = default);
@@ -533,11 +533,11 @@ namespace Telegram.Bot
             string title,
             string address,
             string foursquareId = default,
+            string foursquareType = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            string foursquareType = default); // ToDo inconsistent order of parameters
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send phone contacts.
@@ -558,11 +558,11 @@ namespace Telegram.Bot
             string phoneNumber,
             string firstName,
             string lastName = default,
+            string vCard = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            string vCard = default); // ToDo inconsistent order of parameters
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent <see cref="Message"/> is returned.

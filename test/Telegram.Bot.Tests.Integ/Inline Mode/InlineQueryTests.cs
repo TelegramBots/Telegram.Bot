@@ -455,8 +455,8 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 audioMessage = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
                     audio: stream,
-                    performer: "Jackson F. Smith",
                     duration: 201,
+                    performer: "Jackson F. Smith",
                     replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                         .WithSwitchInlineQueryCurrentChat("Start inline query")
                 );

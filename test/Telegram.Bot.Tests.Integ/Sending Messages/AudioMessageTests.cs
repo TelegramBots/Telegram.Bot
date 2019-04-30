@@ -33,13 +33,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 message = await BotClient.SendAudioAsync(
-                    chatId: _fixture.SupergroupChat,
-                    audio: stream,
-                    title: title,
+                    /* chatId: */ _fixture.SupergroupChat,
+                    /* audio: */ stream,
+                    /* caption: */ caption,
+                    duration: duration,
                     performer: performer,
-                    caption: caption,
-                    duration: duration
-                );
+                    title: title);
             }
 
             Assert.Equal(MessageType.Audio, message.Type);
@@ -88,9 +87,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             using (var stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
             {
                 message = await BotClient.SendVoiceAsync(
-                    chatId: _fixture.SupergroupChat,
-                    voice: stream,
-                    caption: caption,
+                    /* chatId: */ _fixture.SupergroupChat,
+                    /* voice: */ stream,
+                    /* caption: */ caption,
                     duration: duration
                 );
             }

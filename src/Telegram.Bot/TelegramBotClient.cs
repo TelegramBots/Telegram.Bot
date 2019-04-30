@@ -330,11 +330,11 @@ namespace Telegram.Bot
             int duration = default,
             string performer = default,
             string title = default,
+            InputMedia thumb = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendAudioRequest(chatId, audio)
             {
@@ -353,13 +353,13 @@ namespace Telegram.Bot
         public Task<Message> SendDocumentAsync(
             ChatId chatId,
             InputOnlineFile document,
+            InputMedia thumb = default,
             string caption = default,
             ParseMode parseMode = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
@@ -394,14 +394,14 @@ namespace Telegram.Bot
             int duration = default,
             int width = default,
             int height = default,
+            InputMedia thumb = default,
             string caption = default,
             ParseMode parseMode = default,
             bool supportsStreaming = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVideoRequest(chatId, video)
             {
@@ -473,11 +473,11 @@ namespace Telegram.Bot
             InputTelegramFile videoNote,
             int duration = default,
             int length = default,
+            InputMedia thumb = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            InputMedia thumb = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVideoNoteRequest(chatId, videoNote)
             {
@@ -491,13 +491,13 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<Message[]> SendMediaGroupAsync(
-            IEnumerable<IAlbumInputMedia> inputMedia,
             ChatId chatId,
+            IEnumerable<IAlbumInputMedia> media,
             bool disableNotification = default,
             int replyToMessageId = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
+            MakeRequestAsync(new SendMediaGroupRequest(chatId, media)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -530,11 +530,11 @@ namespace Telegram.Bot
             string title,
             string address,
             string foursquareId = default,
+            string foursquareType = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            string foursquareType = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
@@ -551,11 +551,11 @@ namespace Telegram.Bot
             string phoneNumber,
             string firstName,
             string lastName = default,
+            string vCard = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default,
-            string vCard = default
+            CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName)
             {
