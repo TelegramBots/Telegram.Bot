@@ -20,6 +20,12 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public string Url { get; set; }
 
         /// <summary>
+        /// Optional. An HTTP URL used to automatically authorize the user
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public LoginUrl LoginUrl { get; set; }
+
+        /// <summary>
         /// Optional. Data to be sent in a callback query to the bot when button is pressed
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -71,6 +77,19 @@ namespace Telegram.Bot.Types.ReplyMarkups
             {
                 Text = text,
                 Url = url
+            };
+
+        /// <summary>
+        /// Creates an inline keyboard button that opens a HTTP URL to automatically authorize the user
+        /// </summary>
+        /// <param name="text">Label text on the button</param>
+        /// <param name="loginUrl">An HTTP URL used to automatically authorize the user</param>
+        /// <returns></returns>
+        public static InlineKeyboardButton WithLoginUrl(string text, LoginUrl loginUrl) =>
+            new InlineKeyboardButton
+            {
+                Text = text,
+                LoginUrl = loginUrl
             };
 
         /// <summary>

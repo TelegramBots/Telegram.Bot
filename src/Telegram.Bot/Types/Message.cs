@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.Payments;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot.Types
 {
@@ -319,6 +320,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PassportData PassportData { get; set; }
+
+        /// <summary>
+        /// Optional. Inline keyboard attached to the message
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public InlineKeyboardButton[][] ReplyMarkup { get; set; }
 
         /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
