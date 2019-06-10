@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
@@ -18,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _fixture = testsFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldForceReply)]
+        [OrderedFact("Should send a message with force reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Force_Reply()
         {
@@ -29,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendMultiRowKeyboard)]
+        [OrderedFact("Should send a message multi-row keyboard reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_MultiRow_Keyboard()
         {
@@ -46,7 +48,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldRemoveReplyKeyboard)]
+        [OrderedFact("Should remove reply keyboard")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Remove_Reply_Keyboard()
         {
@@ -57,16 +59,22 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendInlineKeyboardMarkup)]
+        [OrderedFact("Should send a message with multiple inline keyboard markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Inline_Keyboard()
         {
-            await BotClient.SendTextMessageAsync(
+            Message sentMessage = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat,
                 text: "Message with inline keyboard markup",
                 replyMarkup: new InlineKeyboardMarkup(new[]
                 {
-                    new [] { InlineKeyboardButton.WithUrl("Link to Repository", "https://github.com/TelegramBots/Telegram.Bot"), },
+                    new []
+                    {
+                        InlineKeyboardButton.WithUrl(
+                            "Link to Repository",
+                            "https://github.com/TelegramBots/Telegram.Bot"
+                        ),
+                    },
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("callback_data1"),
@@ -76,17 +84,39 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                     new [] { InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"), },
                 })
             );
-        }
 
-        private static class FactTitles
-        {
-            public const string ShouldForceReply = "Should send a message with force reply markup";
-
-            public const string ShouldSendMultiRowKeyboard = "Should send a message multi-row keyboard reply markup";
-
-            public const string ShouldRemoveReplyKeyboard = "Should remove reply keyboard";
-
-            public const string ShouldSendInlineKeyboardMarkup = "Should send a message with multiple inline keyboard markup";
+            Assert.True(
+                JToken.DeepEquals(
+                    JToken.FromObject(sentMessage.ReplyMarkup),
+                    JToken.FromObject(
+                        new InlineKeyboardMarkup(
+                            new[]
+                            {
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithUrl(
+                                        "Link to Repository",
+                                        "https://github.com/TelegramBots/Telegram.Bot"
+                                    ),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithCallbackData("callback_data1"),
+                                    InlineKeyboardButton.WithCallbackData("callback_data2", "data"),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"),
+                                },
+                            }
+                        )
+                    )
+                )
+            );
         }
     }
 }

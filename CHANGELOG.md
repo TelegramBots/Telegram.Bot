@@ -19,6 +19,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -->
 
+## [Unreleased]
+
+### Added
+
+- Type `LoginUrl`
+- Property `Message.ReplyMarkup`
+- Property `InlineKeyboardButton.LoginUrl`
+- Method `InlineKeyboardButton.WithLoginUrl`
+
 ## [14.11.0] - 2019-04-23
 
 ### Added
