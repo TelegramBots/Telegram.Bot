@@ -325,7 +325,7 @@ namespace Telegram.Bot.Types
         /// Optional. Inline keyboard attached to the message
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InlineKeyboardButton[][] ReplyMarkup { get; set; }
+        public InlineKeyboardMarkup ReplyMarkup { get; set; }
 
         /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>

@@ -88,29 +88,33 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             Assert.True(
                 JToken.DeepEquals(
                     JToken.FromObject(sentMessage.ReplyMarkup),
-                    JToken.FromObject(new[]
-                    {
-                        new[]
-                        {
-                            InlineKeyboardButton.WithUrl(
-                                "Link to Repository",
-                                "https://github.com/TelegramBots/Telegram.Bot"
-                            ),
-                        },
-                        new[]
-                        {
-                            InlineKeyboardButton.WithCallbackData("callback_data1"),
-                            InlineKeyboardButton.WithCallbackData("callback_data2", "data"),
-                        },
-                        new[]
-                        {
-                            InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"),
-                        },
-                        new[]
-                        {
-                            InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"),
-                        },
-                    })
+                    JToken.FromObject(
+                        new InlineKeyboardMarkup(
+                            new[]
+                            {
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithUrl(
+                                        "Link to Repository",
+                                        "https://github.com/TelegramBots/Telegram.Bot"
+                                    ),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithCallbackData("callback_data1"),
+                                    InlineKeyboardButton.WithCallbackData("callback_data2", "data"),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"),
+                                },
+                            }
+                        )
+                    )
                 )
             );
         }

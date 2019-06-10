@@ -44,6 +44,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class.
         /// </summary>
         /// <param name="inlineKeyboard">The inline keyboard.</param>
+        [JsonConstructor]
         public InlineKeyboardMarkup(IEnumerable<IEnumerable<InlineKeyboardButton>> inlineKeyboard)
         {
             InlineKeyboard = inlineKeyboard;
