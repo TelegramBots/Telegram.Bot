@@ -5,13 +5,19 @@ branches:
     - gh-pages
     - docs
 image: Visual Studio 2017
+environment:
+  SonarToken:
+    secure: BKErYiAo2Ct/t6MlvMtPvPLrsEWziM3aI73D33ZrTXGExxdc1sLsEHCl6MH03GJR
 before_build:
+  - cmd: choco install "sonarscanner-msbuild-net46" -y
+  - cmd: SonarScanner.MSBuild.exe begin /k:"TelegramBots_Telegram.Bot" /d:sonar.organization="telegrambots" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="%SonarToken%"
   - nuget restore Telegram.Bot.sln
 build:
   project: Telegram.Bot.sln
   publish_nuget: true
   verbosity: normal
 after_build:
+  - cmd: SonarScanner.MSBuild.exe end /d:sonar.login="%SonarToken%"
   - cmd: cd test/Telegram.Bot.Tests.Unit
   - cmd: dotnet test
 test: off
