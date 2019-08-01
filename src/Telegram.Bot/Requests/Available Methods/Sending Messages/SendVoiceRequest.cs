@@ -39,7 +39,7 @@ namespace Telegram.Bot.Requests
         public int Duration { get; set; }
 
         /// <summary>
-        /// Voice message caption, 0-200 characters
+        /// Voice message caption, 0-1024 characters
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Caption { get; set; }
