@@ -104,6 +104,12 @@ namespace Telegram.Bot.Types
         public bool? CanSendMediaMessages { get; set; }
 
         /// <summary>
+        /// Optional. Restricted only. True, if the user is allowed to send polls
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanSendPolls { get; set; }
+
+        /// <summary>
         /// Optional. Restricted only. True, if the user can send animations, games, stickers and use inline bots, implies <see cref="CanSendMediaMessages"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

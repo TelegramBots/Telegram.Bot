@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
@@ -50,6 +51,7 @@ namespace Telegram.Bot.Types
         /// Optional. True if a group has 'All Members Are Admins' enabled.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [Obsolete("Use Permissions field instead")]
         public bool AllMembersAreAdministrators { get; set; }
 
         /// <summary>
@@ -75,6 +77,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message PinnedMessage { get; set; }
+
+        /// <summary>
+        /// Optional. Pinned message, for groups, supergroups and channels. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ChatPermissions Permissions { get; set; }
 
         /// <summary>
         /// Optional. For supergroups, name of group sticker set. Returned only in getChat.
