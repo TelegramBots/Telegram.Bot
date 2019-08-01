@@ -7,8 +7,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     public class ChannelAdminBotTestFixture
     {
         public Chat Chat { get; }
-
         public Message PinnedMessage { get; set; }
+
         public ChannelAdminBotTestFixture(TestsFixture fixture)
         {
             Chat = new ChannelChatFixture(fixture, Constants.TestCollections.ChannelAdminBots).ChannelChat;
