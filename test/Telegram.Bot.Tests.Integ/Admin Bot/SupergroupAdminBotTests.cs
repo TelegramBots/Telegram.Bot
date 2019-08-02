@@ -45,11 +45,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             ChatPermissions newDefaultPermissions = new ChatPermissions()
             {
                 CanInviteUsers = false,
-                CanSendMediaMessages = false,
+                CanSendMediaMessages = true,
                 CanChangeInfo = true,
                 CanSendMessages = true,
                 CanPinMessages = true,
-                CanSendPolls = true,
+                CanSendPolls = false,
                 CanSendOtherMessages = false,
                 CanAddWebPagePreviews = false
             };
@@ -58,9 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             Chat supergroup = await BotClient.GetChatAsync(_classFixture.Chat.Id);
             ChatPermissions setChatPermissions = supergroup.Permissions;
 
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(newDefaultPermissions), JToken.FromObject(setChatPermissions)
-            ));
+            Asserts.JsonEquals(newDefaultPermissions, setChatPermissions);
         }
 
         #endregion
