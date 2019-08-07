@@ -312,7 +312,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="audio">Audio file to send.</param>
-        /// <param name="caption">Audio caption, 0-200 characters</param>
+        /// <param name="caption">Audio caption, 0-1024 characters</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
         /// URLs in your bot's message.</param>
         /// <param name="duration">Duration of the audio in seconds</param>
@@ -479,7 +479,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
         /// <param name="voice">Audio file to send.</param>
-        /// <param name="caption">Voice message caption, 0-200 characters</param>
+        /// <param name="caption">Voice message caption, 0-1024 characters</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
@@ -857,11 +857,8 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="permissions">New user permissions</param>
         /// <param name="untilDate"><see cref="DateTime"/> when restrictions will be lifted for the user. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever</param>
-        /// <param name="canSendMessages">Pass True, if the user can send text messages, contacts, locations and venues</param>
-        /// <param name="canSendMediaMessages">Pass True, if the user can send audios, documents, photos, videos, video notes and voice notes, implies can_send_messages</param>
-        /// <param name="canSendOtherMessages">Pass True, if the user can send animations, games, stickers and use inline bots, implies can_send_media_messages</param>
-        /// <param name="canAddWebPagePreviews">Pass True, if the user may add web page previews to their messages, implies can_send_media_messages</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, <c>true</c> is returned</returns>
         /// <remarks>Pass True for all boolean parameters to lift restrictions from a user.</remarks>
@@ -869,11 +866,8 @@ namespace Telegram.Bot
         Task RestrictChatMemberAsync(
             ChatId chatId,
             int userId,
+            ChatPermissions permissions,
             DateTime untilDate = default,
-            bool? canSendMessages = default,
-            bool? canSendMediaMessages = default,
-            bool? canSendOtherMessages = default,
-            bool? canAddWebPagePreviews = default,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -904,6 +898,18 @@ namespace Telegram.Bot
             bool? canRestrictMembers = default,
             bool? canPinMessages = default,
             bool? canPromoteMembers = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights. Returns True on success.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="permissions">New default permissions</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        Task SetChatPermissionsAsync(
+            ChatId chatId,
+            ChatPermissions permissions,
             CancellationToken cancellationToken = default);
 
         #endregion Available methods

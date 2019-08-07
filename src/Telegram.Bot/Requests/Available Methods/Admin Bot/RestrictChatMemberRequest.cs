@@ -25,6 +25,9 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public int UserId { get; }
 
+        [JsonProperty(Required = Required.Always)]
+        public ChatPermissions Permissions { get; }
+
         /// <summary>
         /// Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever.
         /// </summary>
@@ -33,39 +36,17 @@ namespace Telegram.Bot.Requests
         public DateTime UntilDate { get; set; }
 
         /// <summary>
-        /// Pass True, if the user can send text messages, contacts, locations and venues
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? CanSendMessages { get; set; }
-
-        /// <summary>
-        /// Pass True, if the user can send audios, documents, photos, videos, video notes and voice notes, implies <see cref="CanSendMessages"/>
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? CanSendMediaMessages { get; set; }
-
-        /// <summary>
-        /// Pass True, if the user can send animations, games, stickers and use inline bots, implies <see cref="CanSendMediaMessages"/>
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? CanSendOtherMessages { get; set; }
-
-        /// <summary>
-        /// Pass True, if the user may add web page previews to their messages, implies <see cref="CanSendMediaMessages"/>
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? CanAddWebPagePreviews { get; set; }
-
-        /// <summary>
-        /// Initializes a new request with chatId and userId
+        /// Initializes a new request with chatId, userId and new user permissions
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public RestrictChatMemberRequest(ChatId chatId, int userId)
+        /// <param name="permissions">New user permissions</param>
+        public RestrictChatMemberRequest(ChatId chatId, int userId, ChatPermissions permissions)
             : base("restrictChatMember")
         {
             ChatId = chatId;
             UserId = userId;
+            Permissions = permissions;
         }
     }
 }
