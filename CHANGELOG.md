@@ -23,6 +23,27 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Type `ChatPermissions`
+- Type `SetChatPermissionsRequest`
+- Property `Sticker.IsAnimated`
+- Property `StickerSet.IsAnimated`
+- Property `Chat.Permissions`
+- Property `ChatMember.CanSendPolls`
+
+### Changed
+
+- Individual permission properties in `RestrictChatMemberRequest` changed to `Permissions` property of type `ChatPermissions`
+- Individual permission parameters in `ITelegramBotClient.RestrictChatMemberAsync` changed to a single parameter of type `ChatPermissions`
+- Marked `Chat.AllMembersAreAdministrators` as obsolete
+
+### Fixed
+
+- XML doc comments about caption maximum length
+
+## [14.12.0] - 2019-06-10
+
+### Added
+
 - Type `LoginUrl`
 - Property `Message.ReplyMarkup`
 - Property `InlineKeyboardButton.LoginUrl`

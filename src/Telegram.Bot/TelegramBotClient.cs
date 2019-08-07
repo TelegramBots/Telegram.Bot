@@ -937,21 +937,16 @@ namespace Telegram.Bot
         public Task RestrictChatMemberAsync(
             ChatId chatId,
             int userId,
+            ChatPermissions permissions,
             DateTime untilDate = default,
-            bool? canSendMessages = default,
-            bool? canSendMediaMessages = default,
-            bool? canSendOtherMessages = default,
-            bool? canAddWebPagePreviews = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new RestrictChatMemberRequest(chatId, userId)
-            {
-                CanSendMessages = canSendMessages,
-                CanSendMediaMessages = canSendMediaMessages,
-                CanSendOtherMessages = canSendOtherMessages,
-                CanAddWebPagePreviews = canAddWebPagePreviews,
-                UntilDate = untilDate
-            }, cancellationToken);
+            MakeRequestAsync(
+                new RestrictChatMemberRequest(chatId, userId, permissions)
+                {
+                    UntilDate = untilDate
+                },
+                cancellationToken);
 
         /// <inheritdoc />
         public Task PromoteChatMemberAsync(
@@ -978,6 +973,14 @@ namespace Telegram.Bot
                 CanPinMessages = canPinMessages,
                 CanPromoteMembers = canPromoteMembers
             }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetChatPermissionsAsync(
+            ChatId chatId,
+            ChatPermissions permissions,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> StopMessageLiveLocationAsync(

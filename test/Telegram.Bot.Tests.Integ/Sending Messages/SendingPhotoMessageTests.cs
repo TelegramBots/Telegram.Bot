@@ -108,7 +108,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Send_Photo_With_Markdown_Encoded_Caption()
         {
-            var entityValueMappings = new (MessageEntityType Type, string EntityBody, string EncodedEntity)[]
+            (MessageEntityType Type, string EntityBody, string EncodedEntity)[] entityValueMappings =
             {
                 (MessageEntityType.Bold, "bold", "*bold*"),
                 (MessageEntityType.Italic, "italic", "_italic_"),
