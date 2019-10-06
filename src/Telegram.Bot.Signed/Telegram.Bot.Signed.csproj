@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <VersionPrefix>15.0.0</VersionPrefix>
     <!--<VersionSuffix></VersionSuffix>-->
     <LangVersion>latest</LangVersion>
@@ -8,7 +8,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Telegram Bot API Client</Title>
     <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
-    <PackageId>Telegram.Bot</PackageId>
+    <PackageId>Telegram.Bot.Signed</PackageId>
     <Authors>RoundRobin,Poulad</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIconUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot/master/package-icon.gif</PackageIconUrl>
@@ -16,6 +16,8 @@
     <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE.txt</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <!-- when building on AppVeyor -->
@@ -23,12 +25,11 @@
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-    <Reference Include="System.Net.Http"/>
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.1'">
-    <PackageReference Include="System.Net.Requests" Version="4.3.0"/>
+  <ItemGroup>
+    <Compile Include="..\Telegram.Bot\**\*.cs" Exclude="..\Telegram.Bot\obj\**;..\Telegram.Bot\bin\**">
+      <Link>%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Compile>
   </ItemGroup>
 </Project>
