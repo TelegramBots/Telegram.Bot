@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
@@ -18,6 +17,12 @@ using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
+
+#if NETSTANDARD2_0
+using System.Text.Json;
+#else
+using Newtonsoft.Json;
+#endif
 
 namespace Telegram.Bot
 {
@@ -40,6 +45,10 @@ namespace Telegram.Bot
         private readonly string _token;
 
         private readonly HttpClient _httpClient;
+
+#if NETSTANDARD2_0
+        private static readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+#endif
 
         #region Config Properties
 
@@ -214,7 +223,8 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public async Task<TResponse> MakeRequestAsync<TResponse>(
             IRequest<TResponse> request,
-            CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default
+        )
         {
             string url = _baseRequestUrl + request.MethodName;
 
@@ -246,8 +256,12 @@ namespace Telegram.Bot
 
             // required since user might be able to set new status code using following event arg
             var actualResponseStatusCode = httpResponse.StatusCode;
-            string responseJson = await httpResponse.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
+
+#if NETSTANDARD2_0
+            var responseStream = await httpResponse.Content.ReadAsStreamAsync().ConfigureAwait(false);
+#else
+            string responseJson = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+#endif
 
             ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
             {
@@ -255,14 +269,21 @@ namespace Telegram.Bot
                 ApiRequestEventArgs = reqDataArgs
             });
 
+            bool hasResponseSomeContent;
+#if NETSTANDARD2_0
+            hasResponseSomeContent = responseStream.Length > 0; // ToDo is this good enough?
+#else
+            hasResponseSomeContent = !string.IsNullOrWhiteSpace(responseJson);
+#endif
+
             switch (actualResponseStatusCode)
             {
                 case HttpStatusCode.OK:
                     break;
                 case HttpStatusCode.Unauthorized:
-                case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
+                case HttpStatusCode.BadRequest when hasResponseSomeContent:
+                case HttpStatusCode.Forbidden when hasResponseSomeContent:
+                case HttpStatusCode.Conflict when hasResponseSomeContent:
                     // Do NOT throw here, an ApiRequestException will be thrown next
                     break;
                 default:
@@ -270,13 +291,23 @@ namespace Telegram.Bot
                     break;
             }
 
-            var apiResponse =
-                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
-                ?? new ApiResponse<TResponse> // ToDo is required? unit test
+            ApiResponse<TResponse> apiResponse;
+#if NETSTANDARD2_0
+            apiResponse = await JsonSerializer
+                .DeserializeAsync<ApiResponse<TResponse>>(responseStream, _serializerOptions, cancellationToken)
+                .ConfigureAwait(false);
+#else
+            apiResponse = JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson);
+#endif
+
+            if (apiResponse is null)
+            {
+                apiResponse = new ApiResponse<TResponse> // ToDo is required? unit test
                 {
                     Ok = false,
                     Description = "No response received"
                 };
+            }
 
             if (!apiResponse.Ok)
                 throw ApiExceptionParser.Parse(apiResponse);

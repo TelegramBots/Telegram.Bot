@@ -1,8 +1,13 @@
 using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+
+#if NETSTANDARD2_0
+using System.Text.Json.Serialization;
+#else
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+#endif
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -10,31 +15,43 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Receive incoming updates using long polling. An Array of <see cref="Update" /> objects is returned.
     /// </summary>
+#if !NETSTANDARD2_0
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+#endif
     public class GetUpdatesRequest : RequestBase<Update[]>
     {
         /// <summary>
         /// Identifier of the first update to be returned
         /// </summary>
+#if !NETSTANDARD2_0
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+#endif
         public int Offset { get; set; }
 
         /// <summary>
         /// Limits the number of updates to be retrieved. Values between 1—100 are accepted. Defaults to 100.
         /// </summary>
+#if !NETSTANDARD2_0
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+#endif
         public int Limit { get; set; }
 
         /// <summary>
         /// Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling.
         /// </summary>
+#if !NETSTANDARD2_0
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+#endif
         public int Timeout { get; set; }
 
         /// <summary>
         /// List the types of updates you want your bot to receive. Specify an empty list to receive all updates regardless of type (default). If not specified, the previous setting will be used.
         /// </summary>
+#if NETSTANDARD2_0
+        [JsonPropertyName("allowed_updates")]
+#else
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+#endif
         public IEnumerable<UpdateType> AllowedUpdates { get; set; }
 
         /// <summary>

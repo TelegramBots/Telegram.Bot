@@ -1,49 +1,76 @@
-﻿using System;
+using System;
+
+#if NETSTANDARD2_0
+using System.Text.Json.Serialization;
+#else
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+#endif
 
 namespace Telegram.Bot.Types
 {
     /// <summary>
     /// This object represents a Telegram user or bot.
     /// </summary>
+#if !NETSTANDARD2_0
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+#endif
     public class User : IEquatable<User>
     {
         /// <summary>
         /// Unique identifier for this user or bot
         /// </summary>
+#if !NETSTANDARD2_0
         [JsonProperty(Required = Required.Always)]
+#endif
         public int Id { get; set; }
 
         /// <summary>
         /// True, if this user is a bot
         /// </summary>
+#if NETSTANDARD2_0
+        [JsonPropertyName("is_bot")]
+#else
         [JsonProperty(Required = Required.Always)]
+#endif
         public bool IsBot { get; set; }
 
         /// <summary>
         /// User's or bot's first name
         /// </summary>
+#if NETSTANDARD2_0
+        [JsonPropertyName("first_name")]
+#else
         [JsonProperty(Required = Required.Always)]
+#endif
         public string FirstName { get; set; }
 
         /// <summary>
         /// Optional. User's or bot's last name
         /// </summary>
+#if NETSTANDARD2_0
+        [JsonPropertyName("last_name")]
+#else
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+#endif
         public string LastName { get; set; }
 
         /// <summary>
         /// Optional. User's or bot's username
         /// </summary>
+#if !NETSTANDARD2_0
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+#endif
         public string Username { get; set; }
 
         /// <summary>
         /// Optional. IETF language tag of the user's language
         /// </summary>
+#if NETSTANDARD2_0
+        [JsonPropertyName("language_code")]
+#else
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+#endif
         public string LanguageCode { get; set; }
 
         /// <inheritdoc />

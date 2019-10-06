@@ -1,7 +1,12 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Text;
-using Newtonsoft.Json;
 using Telegram.Bot.Requests.Abstractions;
+
+#if NETSTANDARD2_0
+using System.Text.Json;
+#else
+using Newtonsoft.Json;
+#endif
 
 namespace Telegram.Bot.Requests
 {
@@ -16,6 +21,10 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         public string MethodName { get; protected set; }
+
+#if NETSTANDARD2_0
+        private static readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+#endif
 
         /// <summary>
         /// Initializes an instance of request
@@ -42,7 +51,13 @@ namespace Telegram.Bot.Requests
         /// <returns>Content of HTTP request</returns>
         public virtual HttpContent ToHttpContent()
         {
-            string payload = JsonConvert.SerializeObject(this);
+            string payload;
+#if NETSTANDARD2_0
+            payload = JsonSerializer.Serialize(this, _serializerOptions);
+#else
+            payload = JsonConvert.SerializeObject(this);
+#endif
+
             return new StringContent(payload, Encoding.UTF8, "application/json");
         }
     }
