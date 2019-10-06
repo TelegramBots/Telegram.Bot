@@ -5,7 +5,8 @@ mono: none
 dotnet: 2.0.0
 branches:
   except:
-  - master
+    - master
+    - gh-pages
 
 # run interactive tests on the "develop" branch only
 script: >
@@ -15,7 +16,6 @@ script: >
 
 notifications:
   email: false
-
 ## Notes:
 ### Limit concurrent jobs to only 1
 ### Disable building PRs (might expose env vars)

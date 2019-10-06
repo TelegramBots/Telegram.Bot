@@ -1,0 +1,193 @@
+trigger:
+  batch: true
+  branches:
+    exclude:
+      - gh-pages
+  paths:
+    exclude:
+      - docs/*
+      - "**/*.md"
+      - .travis.yml
+
+stages:
+  - stage: Build
+    displayName: 🚧
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+    jobs:
+      - job: BuildOnWindows
+        displayName: "Build with VS 2019 on Windows"
+        pool:
+          vmImage: windows-2019
+        steps:
+          - bash: echo "##vso[task.setvariable variable=VERSION_SUFFIX]${BUILD_BUILDID}.${BUILD_SOURCEVERSION}"
+            displayName: "Set Package VERSION_SUFFIX environment variable"
+          - task: NuGetToolInstaller@1
+          - task: NuGetCommand@2
+            inputs:
+              restoreSolution: Telegram.Bot.sln
+          - task: VSBuild@1
+            inputs:
+              solution: Telegram.Bot.sln
+              platform: Any CPU
+              configuration: Release
+          - publish: .
+            artifact: windows-build
+          - task: NuGetCommand@2
+            displayName: "Publish Package to Azure Artifacts"
+            inputs:
+              command: push
+              publishVstsFeed: Telegram.Bot
+              packagesToPush: src/**/*.nupkg
+
+      - job: BuildOnUnix
+        displayName: "Build with .NET Core 3.0 on "
+        strategy:
+          matrix:
+            Ubuntu:
+              VM_IMAGE: ubuntu-16.04
+            macOS:
+              VM_IMAGE: macOS-10.13
+        pool:
+          vmImage: $(VM_IMAGE)
+        steps:
+          - task: DotNetCoreInstaller@2
+            displayName: "Install .NET Core 3.0"
+            inputs:
+              version: 3.0.100
+          - task: DotNetCoreCLI@2
+            displayName: "Initialize .NET Core Environment"
+            inputs:
+              command: custom
+              custom: help
+          - task: DotNetCoreCLI@2
+            displayName: "Build Project for .NET Standard 1.1"
+            inputs:
+              command: build
+              projects: src/**/*.csproj
+              arguments: --configuration Release --framework netstandard1.1
+          - task: DotNetCoreCLI@2
+            displayName: "Build Project for .NET Standard 2.0"
+            inputs:
+              command: build
+              projects: src/**/*.csproj
+              arguments: --configuration Release --framework netstandard2.0
+          - task: DotNetCoreCLI@2
+            displayName: "Build Test Projects"
+            inputs:
+              command: build
+              projects: test/Telegram.Bot.Tests.Unit/*.csproj
+              arguments: --configuration Release
+          - task: DotNetCoreCLI@2
+            displayName: "Build Benchmarks Project for .NET Core 2.1"
+            inputs:
+              command: build
+              projects: test/Benchmarks/*.csproj
+              arguments: --configuration Release --framework netcoreapp2.1
+          - task: DotNetCoreCLI@2
+            displayName: "Build Benchmarks Project for .NET Core 3.0"
+            inputs:
+              command: build
+              projects: test/Benchmarks/*.csproj
+              arguments: --configuration Release --framework netcoreapp3.0
+
+  - stage: UnitTest
+    displayName: 🧪
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+    jobs:
+      - job: UnitTest
+        displayName: "Run Unit Tests with .NET Core 3.0 on "
+        strategy:
+          matrix:
+            Windows:
+              VM_IMAGE: windows-2019
+            Ubuntu:
+              VM_IMAGE: ubuntu-16.04
+            macOS:
+              VM_IMAGE: macOS-10.13
+        pool:
+          vmImage: $(VM_IMAGE)
+        steps:
+          - checkout: none
+          - download: current
+            artifact: windows-build
+          - task: DotNetCoreInstaller@2
+            displayName: "Install .NET Core 3.0"
+            inputs:
+              version: 3.0.100
+          - task: DotNetCoreCLI@2
+            displayName: "Initialize .NET Core Environment"
+            inputs:
+              command: custom
+              custom: help
+          - task: DotNetCoreCLI@2
+            displayName: "List Unit Tests"
+            inputs:
+              command: test
+              projects: ../windows-build/test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
+              arguments: --configuration Release --no-build --list-tests
+          - task: DotNetCoreCLI@2
+            displayName: "Execute Unit Tests"
+            inputs:
+              command: test
+              projects: ../windows-build/test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
+              publishTestResults: true
+              arguments: --configuration Release --no-build --verbosity normal
+
+  - stage: Benchmark
+    displayName: ⏱️
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+    jobs:
+      - job: BenchmarkOnWindows
+        displayName: Benchmark on Windows with .NET & .NET Core
+        pool:
+          vmImage: windows-2019
+        workspace:
+          clean: all
+        steps:
+          - checkout: none
+          - download: current
+            artifact: windows-build
+          - task: DotNetCoreCLI@2
+            displayName: Initialize .NET Core Environment
+            inputs:
+              command: custom
+              custom: help
+          - task: DotNetCoreCLI@2
+            displayName: Install BenchmarkDotNet Tool
+            inputs:
+              command: custom
+              custom: tool
+              arguments: install --global BenchmarkDotNet.Tool
+          - task: DotNetCoreCLI@2
+            displayName: Run Benchmarks
+            inputs:
+              command: custom
+              custom: benchmark
+              arguments: ../windows-build/test/Benchmarks/bin/Release/netcoreapp3.0/Benchmarks.dll --filter "*" --runtimes net461 net472 netcoreapp3.0
+
+  - stage: Release
+    displayName: 🚀
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    jobs:
+      - job: Release
+        displayName: "Publish Package to NuGet"
+        pool:
+          vmImage: windows-2019
+        steps:
+          - task: NuGetToolInstaller@1
+          - task: NuGetCommand@2
+            inputs:
+              restoreSolution: Telegram.Bot.sln
+          - task: VSBuild@1
+            inputs:
+              solution: Telegram.Bot.sln
+              platform: Any CPU
+              configuration: Release
+          - task: NuGetCommand@2
+            displayName: "Publish Package to NuGet"
+            inputs:
+              command: push
+              includeNugetOrg: true
+              nuGetFeedType: external
+              publishFeedCredentials: NuGet
+              packagesToPush: src/**/*.nupkg
