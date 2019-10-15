@@ -1,0 +1,89 @@
+trigger:
+  batch: true
+  branches:
+    exclude:
+      - gh-pages
+  paths:
+    exclude:
+      - docs/*
+      - "**/*.md"
+      - .travis.yml
+
+stages:
+  - stage: Build
+    displayName: 🚧
+    jobs:
+      - job: BuildOnWindows
+        displayName: "Build with VS 2019 on Windows"
+        pool:
+          vmImage: windows-2019
+        steps:
+          - bash: dotnet help
+            displayName: "Initialize .NET Core Environment"
+          - bash: dotnet build --configuration Release
+            displayName: "Build Solution"
+          - publish: .
+            artifact: windows-build
+          - bash: dotnet build --configuration Release --version-suffix "ci-${BUILD_BUILDID}+${BUILD_SOURCEVERSION}" src/Telegram.Bot/
+            displayName: "Build Package with CI version"
+          - task: NuGetCommand@2
+            displayName: "Publish CI Package to Azure Artifacts"
+            inputs:
+              command: push
+              publishVstsFeed: Telegram.Bot
+              packagesToPush: src/**/*-ci-*.nupkg
+
+  - stage: UnitTest
+    displayName: 🧪
+    condition: ne(variables['Build.SourceBranch'], 'refs/heads/master')
+    jobs:
+      - job: UnitTest
+        displayName: "Run Unit Tests with .NET Core 3.0 on "
+        strategy:
+          matrix:
+            Windows:
+              VM_IMAGE: windows-2019
+            Ubuntu:
+              VM_IMAGE: ubuntu-16.04
+            macOS:
+              VM_IMAGE: macOS-10.13
+        pool:
+          vmImage: $(VM_IMAGE)
+        steps:
+          - task: DotNetCoreInstaller@2
+            displayName: "Install .NET Core 3.0"
+            inputs:
+              version: 3.0.100
+          - bash: dotnet help
+            displayName: "Initialize .NET Core Environment"
+          - bash: dotnet test --configuration Release --list-tests test/Telegram.Bot.Tests.Unit/
+            displayName: "List Unit Tests"
+          - task: DotNetCoreCLI@2
+            displayName: "Execute Unit Tests"
+            inputs:
+              command: test
+              projects: test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
+              arguments: --configuration Release --no-build --verbosity normal
+              publishTestResults: true
+              workingDirectory: $(Build.SourcesDirectory)
+
+  - stage: Release
+    displayName: 🚀
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    jobs:
+      - job: Release
+        displayName: "Publish Package to NuGet"
+        pool:
+          vmImage: windows-2019
+        steps:
+          - checkout: none
+          - download: current
+          - task: NuGetToolInstaller@1
+          - task: NuGetCommand@2
+            displayName: "Publish Package to NuGet"
+            inputs:
+              command: push
+              includeNugetOrg: true
+              nuGetFeedType: external
+              publishFeedCredentials: NuGet
+              packagesToPush: $(Agent.BuildDirectory)/**/src/**/Release/*.nupkg
