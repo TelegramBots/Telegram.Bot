@@ -14,13 +14,13 @@ namespace Telegram.Bot.Types
         /// Optional. Title of the audio
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Title { get; set; }
+        public string Title { get; set; }
 
         /// <summary>
         /// Optional. Performer of the audio
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Performer { get; set; }
+        public string Performer { get; set; }
 
         /// <summary>
         /// Optional. Duration of the audio in seconds
