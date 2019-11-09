@@ -24,7 +24,7 @@ namespace Telegram.Bot
     /// <summary>
     /// A client to use the Telegram Bot API
     /// </summary>
-    public class TelegramBotClient : ITelegramBotClient
+    public class TelegramBotClient : ITelegramBotClient, IDisposable
     {
         /// <inheritdoc/>
         public int BotId { get; }
@@ -152,6 +152,8 @@ namespace Telegram.Bot
 
         #endregion
 
+        #region Construction and disposal
+
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance.
         /// </summary>
@@ -208,6 +210,34 @@ namespace Telegram.Bot
             };
             _httpClient = new HttpClient(httpClientHander);
         }
+
+        private bool _isDisposed;
+
+        /// <summary>
+        /// Allows a <see cref="TelegramBotClient"/> to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.
+        /// </summary>
+        ~TelegramBotClient() => dispose();
+
+        /// <summary>
+        /// Disposes this <see cref="TelegramBotClient"/>
+        /// </summary>
+        public void Dispose()
+        {
+            dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        private void dispose()
+        {
+            if (_isDisposed)
+                return;
+
+            _httpClient.Dispose();
+
+            _isDisposed = true;
+        }
+
+        #endregion
 
         #region Helpers
 
