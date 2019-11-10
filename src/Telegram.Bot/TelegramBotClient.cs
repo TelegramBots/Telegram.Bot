@@ -178,6 +178,7 @@ namespace Telegram.Bot
 
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
+            _isCustomHttpClientUsed = httpClient != null;
         }
 
         /// <summary>
@@ -212,6 +213,7 @@ namespace Telegram.Bot
         }
 
         private bool _isDisposed;
+        private readonly bool _isCustomHttpClientUsed;
 
         /// <summary>
         /// Allows a <see cref="TelegramBotClient"/> to try to free resources and perform other cleanup operations before it is reclaimed by garbage collection.
@@ -232,7 +234,8 @@ namespace Telegram.Bot
             if (_isDisposed)
                 return;
 
-            _httpClient.Dispose();
+            if (!_isCustomHttpClientUsed)
+                _httpClient.Dispose();
 
             _isDisposed = true;
         }
