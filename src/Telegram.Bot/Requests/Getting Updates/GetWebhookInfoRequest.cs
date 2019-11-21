@@ -1,4 +1,6 @@
-﻿using Telegram.Bot.Types;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -6,6 +8,7 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Get current webhook status.
     /// </summary>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetWebhookInfoRequest : ParameterlessRequest<WebhookInfo>
     {
         /// <summary>

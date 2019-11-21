@@ -28,6 +28,8 @@ namespace Telegram.Bot.Requests
         }
 
         /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
-        public override HttpContent ToHttpContent() => null;
+        public override HttpContent ToHttpContent() => IsWebhookResponse
+            ? base.ToHttpContent()
+            : null;
     }
 }
