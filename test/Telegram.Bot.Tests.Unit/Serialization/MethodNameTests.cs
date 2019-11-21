@@ -9,7 +9,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
         [Fact(DisplayName = "Should serialize method name in webhook responses")]
         public void Should_Serialize_MethodName_In_Webhook_Responses()
         {
-            var sendMessageRequest = new SendMessageRequest(1, "text")
+            SendMessageRequest sendMessageRequest = new SendMessageRequest(1, "text")
             {
                 IsWebhookResponse = true
             };
@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
         [Fact(DisplayName = "Should not serialize method name in webhook responses")]
         public void Should_Not_Serialize_MethodName_In_Webhook_Responses()
         {
-            var sendMessageRequest = new SendMessageRequest(1, "text")
+            SendMessageRequest sendMessageRequest = new SendMessageRequest(1, "text")
             {
                 IsWebhookResponse = false
             };
