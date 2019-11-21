@@ -45,5 +45,18 @@ namespace Telegram.Bot.Requests
             string payload = JsonConvert.SerializeObject(this);
             return new StringContent(payload, Encoding.UTF8, "application/json");
         }
+
+        /// <summary>
+        /// Allows this object to be used as a response in webhooks
+        /// </summary>
+        public bool IsWebhookResponse { get; set; }
+
+        /// <summary>
+        /// If <see cref="IsWebhookResponse"/> is set to <see langword="true"/> is set to the method
+        /// name, otherwise it won't be serialized
+        /// </summary>
+
+        [JsonProperty("method", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        internal string WebHookMethodName => IsWebhookResponse ? MethodName : default;
     }
 }
