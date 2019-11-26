@@ -24,10 +24,5 @@ namespace Telegram.Bot.Requests.Abstractions
         /// </summary>
         /// <returns>Content of HTTP request</returns>
         HttpContent ToHttpContent();
-
-        /// <summary>
-        /// Allows this object to be used as a response in webhooks
-        /// </summary>
-        bool IsWebhookResponse { get; set; }
     }
 }
