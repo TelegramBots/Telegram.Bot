@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 - Property `RequestBase.IsWebhookResponse`
 - The client outputs `method` property in the resulting HTTP body with the value from `IRequest<T>.MethodName` when `RequestBase.IsWebhookResponse` is set to true
+- Constructor with `Uri` param for `InputOnlineFile` (overloaded)
 
 ## [15.0.0] - 2019-08-07
 
