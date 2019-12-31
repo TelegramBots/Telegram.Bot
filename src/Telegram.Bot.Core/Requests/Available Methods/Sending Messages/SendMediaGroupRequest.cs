@@ -42,7 +42,7 @@ namespace Telegram.Bot.Requests
         [Obsolete("Use the other constructor. Only photo and video input types are allowed.")]
         public SendMediaGroupRequest(ChatId chatId, IEnumerable<InputMediaBase> media,
                                      ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "sendMediaGroup")
+            : base("sendMediaGroup")
         {
             ChatId = chatId;
             Media = media
@@ -58,7 +58,7 @@ namespace Telegram.Bot.Requests
         /// <param name="media">Media items to send</param>
         public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media,
                                      ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "sendMediaGroup")
+            : base("sendMediaGroup")
         {
             ChatId = chatId;
             Media = media;

@@ -34,7 +34,7 @@ namespace Telegram.Bot.Requests
         /// <param name="permissions">New user permissions</param>
         public RestrictChatMemberRequest(ChatId chatId, int userId, ChatPermissions permissions,
                                          ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "restrictChatMember")
+            : base("restrictChatMember")
         {
             ChatId = chatId;
             UserId = userId;

@@ -18,7 +18,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         public GetChatAdministratorsRequest(ChatId chatId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "getChatAdministrators")
+            : base("getChatAdministrators")
         {
             ChatId = chatId;
         }

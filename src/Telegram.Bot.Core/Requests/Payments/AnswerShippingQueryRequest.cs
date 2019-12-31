@@ -30,7 +30,7 @@ namespace Telegram.Bot.Requests
         public string ErrorMessage { get; set; }
 
         private AnswerShippingQueryRequest(ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "answerShippingQuery")
+            : base("answerShippingQuery")
         { }
 
         /// <summary>

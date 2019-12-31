@@ -72,7 +72,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="animation">Animation to send</param>
         public SendAnimationRequest(ChatId chatId, InputOnlineFile animation, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "sendAnimation")
+            : base("sendAnimation")
         {
             ChatId = chatId;
             Animation = animation;

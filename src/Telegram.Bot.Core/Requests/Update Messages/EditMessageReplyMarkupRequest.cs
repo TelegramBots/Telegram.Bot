@@ -35,7 +35,7 @@ namespace Telegram.Bot.Requests
             int messageId,
             ITelegramBotJsonConverter jsonConverter,
             InlineKeyboardMarkup replyMarkup = default)
-            : base(jsonConverter, "editMessageReplyMarkup")
+            : base("editMessageReplyMarkup")
         {
             ChatId = chatId;
             MessageId = messageId;

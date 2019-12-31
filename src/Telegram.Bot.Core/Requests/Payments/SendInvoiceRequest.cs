@@ -138,7 +138,7 @@ namespace Telegram.Bot.Requests
             IEnumerable<LabeledPrice> prices,
             ITelegramBotJsonConverter jsonConverter
         )
-            : base(jsonConverter, "sendInvoice")
+            : base("sendInvoice")
         {
             ChatId = chatId;
             Title = title;

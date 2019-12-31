@@ -77,7 +77,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="video">Video to send</param>
         public SendVideoRequest(ChatId chatId, InputOnlineFile video, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "sendVideo")
+            : base("sendVideo")
         {
             ChatId = chatId;
             Video = video;

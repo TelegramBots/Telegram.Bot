@@ -15,8 +15,8 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="jsonConverter"></param>
         /// <param name="methodName">Name of request method</param>
-        public ParameterlessRequest(ITelegramBotJsonConverter jsonConverter, string methodName)
-            : base(jsonConverter, methodName)
+        public ParameterlessRequest(string methodName)
+            : base(methodName)
         {
         }
 
@@ -26,8 +26,8 @@ namespace Telegram.Bot.Requests
         /// <param name="jsonConverter"></param>
         /// <param name="methodName">Name of request method</param>
         /// <param name="method">HTTP request method</param>
-        public ParameterlessRequest(ITelegramBotJsonConverter jsonConverter, string methodName, HttpMethod method)
-            : base(jsonConverter, methodName, method)
+        public ParameterlessRequest(string methodName, HttpMethod method)
+            : base(methodName, method)
         {
         }
 

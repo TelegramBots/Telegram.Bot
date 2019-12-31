@@ -49,7 +49,7 @@ namespace Telegram.Bot.Requests
         /// <param name="latitude">Latitude of the location</param>
         /// <param name="longitude">Longitude of the location</param>
         public SendLocationRequest(ChatId chatId, float latitude, float longitude, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "sendLocation")
+            : base("sendLocation")
         {
             ChatId = chatId;
             Latitude = latitude;

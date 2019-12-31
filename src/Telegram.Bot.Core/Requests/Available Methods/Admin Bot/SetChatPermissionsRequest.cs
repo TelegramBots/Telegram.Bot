@@ -25,7 +25,7 @@ namespace Telegram.Bot.Requests
         /// <param name="permissions">New default permissions</param>
         public SetChatPermissionsRequest(ChatId chatId, ChatPermissions permissions,
                                          ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "setChatPermissions")
+            : base("setChatPermissions")
         {
             ChatId = chatId;
             Permissions = permissions;

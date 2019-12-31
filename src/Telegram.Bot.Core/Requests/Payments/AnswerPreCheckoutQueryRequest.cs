@@ -24,7 +24,7 @@ namespace Telegram.Bot.Requests
         public string ErrorMessage { get; set; }
 
         private AnswerPreCheckoutQueryRequest(ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "answerPreCheckoutQuery")
+            : base("answerPreCheckoutQuery")
         { }
 
         /// <summary>

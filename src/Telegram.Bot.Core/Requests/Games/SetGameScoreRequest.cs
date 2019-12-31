@@ -47,7 +47,7 @@ namespace Telegram.Bot.Requests
         /// <param name="messageId">Identifier of the sent message</param>
         public SetGameScoreRequest(int userId, int score, long chatId, int messageId,
                                    ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "setGameScore")
+            : base("setGameScore")
         {
             UserId = userId;
             Score = score;

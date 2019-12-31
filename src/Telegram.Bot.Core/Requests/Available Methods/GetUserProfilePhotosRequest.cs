@@ -28,7 +28,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="userId">Unique identifier of the target user</param>
         public GetUserProfilePhotosRequest(int userId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "getUserProfilePhotos")
+            : base("getUserProfilePhotos")
         {
             UserId = userId;
         }

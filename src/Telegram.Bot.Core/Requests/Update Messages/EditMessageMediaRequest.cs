@@ -41,7 +41,7 @@ namespace Telegram.Bot.Requests
         /// <param name="media">New media content of the message</param>
         public EditMessageMediaRequest(ChatId chatId, int messageId, InputMediaBase media,
                                        ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "editMessageMedia")
+            : base("editMessageMedia")
         {
             ChatId = chatId;
             MessageId = messageId;

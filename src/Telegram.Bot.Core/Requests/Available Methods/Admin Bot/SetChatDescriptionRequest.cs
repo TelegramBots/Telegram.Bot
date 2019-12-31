@@ -25,7 +25,7 @@ namespace Telegram.Bot.Requests
         /// <param name="description">New chat Description, 0-255 characters</param>
         public SetChatDescriptionRequest(ChatId chatId, ITelegramBotJsonConverter jsonConverter,
                                          string description = default)
-            : base(jsonConverter, "setChatDescription")
+            : base("setChatDescription")
         {
             ChatId = chatId;
             Description = description;

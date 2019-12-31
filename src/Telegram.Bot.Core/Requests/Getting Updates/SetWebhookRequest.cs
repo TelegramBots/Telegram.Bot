@@ -38,8 +38,8 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="url">HTTPS url to send updates to</param>
         /// <param name="certificate">ToDo</param>
-        public SetWebhookRequest(string url, InputFileStream certificate, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "setWebhook")
+        public SetWebhookRequest(string url, InputFileStream certificate)
+            : base("setWebhook")
         {
             Url = url;
             Certificate = certificate;

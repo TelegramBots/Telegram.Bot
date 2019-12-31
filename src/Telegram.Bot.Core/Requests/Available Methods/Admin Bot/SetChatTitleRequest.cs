@@ -24,7 +24,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="title">New chat title, 1-255 characters</param>
         public SetChatTitleRequest(ChatId chatId, string title, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "setChatTitle")
+            : base("setChatTitle")
         {
             ChatId = chatId;
             Title = title;

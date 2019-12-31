@@ -22,7 +22,7 @@ namespace Telegram.Bot.Requests
         /// <param name="sticker">File identifier of the sticker</param>
         /// <param name="position">New sticker position in the set, zero-based</param>
         public SetStickerPositionInSetRequest(string sticker, int position, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "setStickerPositionInSet")
+            : base("setStickerPositionInSet")
         {
             Sticker = sticker;
             Position = position;

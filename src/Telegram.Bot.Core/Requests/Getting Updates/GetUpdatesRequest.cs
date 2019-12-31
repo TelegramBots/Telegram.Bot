@@ -34,7 +34,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new GetUpdates request
         /// </summary>
         public GetUpdatesRequest(ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "getUpdates")
+            : base("getUpdates")
         {
         }
     }

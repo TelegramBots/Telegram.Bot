@@ -48,7 +48,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="text">Text of the message to be sent</param>
         public SendMessageRequest(ChatId chatId, string text, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "sendMessage")
+            : base("sendMessage")
         {
             ChatId = chatId;
             Text = text;

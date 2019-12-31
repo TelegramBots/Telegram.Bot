@@ -24,7 +24,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="stickerSetName">Name of the sticker set to be set as the group sticker set</param>
         public SetChatStickerSetRequest(ChatId chatId, string stickerSetName, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "setChatStickerSet")
+            : base("setChatStickerSet")
         {
             ChatId = chatId;
             StickerSetName = stickerSetName;

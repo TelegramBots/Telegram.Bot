@@ -46,7 +46,7 @@ namespace Telegram.Bot.Requests
         /// <param name="messageId">Identifier of the sent message</param>
         /// <param name="text">New text of the message</param>
         public EditMessageTextRequest(ChatId chatId, int messageId, string text, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "editMessageText")
+            : base("editMessageText")
         {
             ChatId = chatId;
             MessageId = messageId;

@@ -16,20 +16,18 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes an instance of request
         /// </summary>
-        /// <param name="jsonConverter"></param>
         /// <param name="methodName">Bot API method</param>
-        protected FileRequestBase(ITelegramBotJsonConverter jsonConverter, string methodName)
-            : base(jsonConverter, methodName)
+        protected FileRequestBase(string methodName)
+            : base(methodName)
         { }
 
         /// <summary>
         /// Initializes an instance of request
         /// </summary>
-        /// <param name="jsonConverter"></param>
         /// <param name="methodName">Bot API method</param>
         /// <param name="method">HTTP method to use</param>
-        protected FileRequestBase(ITelegramBotJsonConverter jsonConverter, string methodName, HttpMethod method)
-            : base(jsonConverter, methodName, method)
+        protected FileRequestBase(string methodName, HttpMethod method)
+            : base(methodName, method)
         { }
 
         /// <summary>
@@ -58,6 +56,8 @@ namespace Telegram.Bot.Requests
         protected async ValueTask<MultipartFormDataContent> GenerateMultipartFormDataContent(
             CancellationToken ct, params string[] exceptPropertyNames)
         {
+            CheckJsonConverter();
+
             var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
 
             var nodes = await JsonConverter.ToNodesAsync(this, exceptPropertyNames, ct);

@@ -55,7 +55,7 @@ namespace Telegram.Bot.Requests
         /// <param name="firstName">Contact's first name</param>
         public SendContactRequest(ChatId chatId, string phoneNumber, string firstName,
                                   ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "sendContact")
+            : base("sendContact")
         {
             ChatId = chatId;
             PhoneNumber = phoneNumber;

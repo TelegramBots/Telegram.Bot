@@ -22,7 +22,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         public StopInlineMessageLiveLocationRequest(string inlineMessageId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "stopMessageLiveLocation")
+            : base("stopMessageLiveLocation")
         {
             InlineMessageId = inlineMessageId;
         }

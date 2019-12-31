@@ -31,7 +31,7 @@ namespace Telegram.Bot.Requests
         /// <param name="messageId">Identifier of the sent message</param>
         /// <param name="jsonConverter"></param>
         public StopPollRequest(ChatId chatId, int messageId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "stopPoll")
+            : base("stopPoll")
         {
             ChatId = chatId;
             MessageId = messageId;

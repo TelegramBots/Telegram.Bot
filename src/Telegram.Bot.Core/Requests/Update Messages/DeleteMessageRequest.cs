@@ -30,7 +30,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="messageId">Identifier of the sent message</param>
         public DeleteMessageRequest(ChatId chatId, int messageId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "deleteMessage")
+            : base("deleteMessage")
         {
             ChatId = chatId;
             MessageId = messageId;

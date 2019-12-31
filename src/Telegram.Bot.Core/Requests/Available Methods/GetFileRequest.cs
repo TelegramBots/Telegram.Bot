@@ -18,7 +18,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="fileId">File identifier to get info about</param>
         public GetFileRequest(string fileId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "getFile")
+            : base("getFile")
         {
             FileId = fileId;
         }

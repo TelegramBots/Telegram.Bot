@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -13,31 +14,25 @@ namespace Telegram.Bot.Requests
     /// <typeparam name="TResponse">Type of result expected in result</typeparam>
     public abstract class RequestBase<TResponse> : IRequest<TResponse>
     {
-        private protected readonly ITelegramBotJsonConverter JsonConverter;
-
-        /// <inheritdoc />
         public HttpMethod Method { get; }
-
-        /// <inheritdoc />
-        public string MethodName { get; protected set; }
+        public string MethodName { get; }
+        public ITelegramBotJsonConverter JsonConverter { get; set; }
 
         /// <summary>
         /// Initializes an instance of request
         /// </summary>
         /// <param name="methodName">Bot API method</param>
-        protected RequestBase(ITelegramBotJsonConverter jsonConverter, string methodName)
-            : this(jsonConverter, methodName, HttpMethod.Post)
+        protected RequestBase(string methodName)
+            : this(methodName, HttpMethod.Post)
         { }
 
         /// <summary>
         /// Initializes an instance of request
         /// </summary>
-        /// <param name="jsonConverter"></param>
         /// <param name="methodName">Bot API method</param>
         /// <param name="method">HTTP method to use</param>
-        protected RequestBase(ITelegramBotJsonConverter jsonConverter, string methodName, HttpMethod method)
+        protected RequestBase(string methodName, HttpMethod method)
         {
-            JsonConverter = jsonConverter;
             MethodName = methodName;
             Method = method;
         }
@@ -49,6 +44,8 @@ namespace Telegram.Bot.Requests
         /// <returns>Content of HTTP request</returns>
         public virtual async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
         {
+            CheckJsonConverter();
+
             var stream = new MemoryStream();
             await JsonConverter.SerializeAsync(stream, this, GetType(), ct);
             stream.Position = 0L;
@@ -59,6 +56,12 @@ namespace Telegram.Bot.Requests
                     ContentType = MediaTypeHeaderValue.Parse("application/json")
                 }
             };
+        }
+
+        private protected void CheckJsonConverter()
+        {
+            if (JsonConverter == null)
+                throw new NullReferenceException("Json converter is null");
         }
 
         /// <summary>

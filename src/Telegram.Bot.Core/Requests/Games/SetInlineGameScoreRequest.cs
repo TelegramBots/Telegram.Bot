@@ -40,7 +40,7 @@ namespace Telegram.Bot.Requests
         /// <param name="score">New score, must be non-negative</param>
         public SetInlineGameScoreRequest(int userId, int score, string inlineMessageId,
                                          ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "setGameScore")
+            : base("setGameScore")
         {
             UserId = userId;
             Score = score;

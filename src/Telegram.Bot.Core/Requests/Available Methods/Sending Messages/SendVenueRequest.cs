@@ -74,7 +74,7 @@ namespace Telegram.Bot.Requests
             string address,
             ITelegramBotJsonConverter jsonConverter
         )
-            : base(jsonConverter, "sendVenue")
+            : base("sendVenue")
         {
             ChatId = chatId;
             Latitude = latitude;

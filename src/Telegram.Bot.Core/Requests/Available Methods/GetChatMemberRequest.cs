@@ -24,7 +24,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
         public GetChatMemberRequest(ChatId chatId, int userId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "getChatMember")
+            : base("getChatMember")
         {
             ChatId = chatId;
             UserId = userId;

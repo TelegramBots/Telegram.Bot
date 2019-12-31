@@ -28,7 +28,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="messageId">Identifier of a message to pin</param>
         public PinChatMessageRequest(ChatId chatId, int messageId, ITelegramBotJsonConverter jsonConverter)
-            : base(jsonConverter, "pinChatMessage")
+            : base("pinChatMessage")
         {
             ChatId = chatId;
             MessageId = messageId;
