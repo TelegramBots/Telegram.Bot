@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests.Abstractions;
@@ -30,19 +31,14 @@ namespace Telegram.Bot
         #region Config Properties
 
         /// <summary>
-        /// Timeout for requests
-        /// </summary>
-        TimeSpan Timeout { get; set; }
-
-        /// <summary>
-        /// Indicates if receiving updates
-        /// </summary>
-        bool IsReceiving { get; }
-
-        /// <summary>
         /// The current message offset
         /// </summary>
         int MessageOffset { get; set; }
+
+        /// <summary>
+        /// HTTP client that is used for sending requests
+        /// </summary>
+        HttpClient HttpClient { get; set; }
 
         #endregion  Config Properties
 
