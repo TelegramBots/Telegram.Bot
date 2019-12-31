@@ -29,7 +29,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public string ErrorMessage { get; set; }
 
-        private AnswerShippingQueryRequest(ITelegramBotJsonConverter jsonConverter)
+        private AnswerShippingQueryRequest()
             : base("answerShippingQuery")
         { }
 
@@ -38,9 +38,8 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
         /// <param name="errorMessage">Error message in human readable form</param>
-        public AnswerShippingQueryRequest(string shippingQueryId, string errorMessage,
-                                          ITelegramBotJsonConverter jsonConverter)
-            : this(jsonConverter)
+        public AnswerShippingQueryRequest(string shippingQueryId, string errorMessage)
+            : this()
         {
             ShippingQueryId = shippingQueryId;
             ErrorMessage = errorMessage;
@@ -51,9 +50,8 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
         /// <param name="shippingOptions">A JSON-serialized array of available shipping options</param>
-        public AnswerShippingQueryRequest(string shippingQueryId, IEnumerable<ShippingOption> shippingOptions,
-                                          ITelegramBotJsonConverter jsonConverter)
-            : this(shippingQueryId, null as string, jsonConverter)
+        public AnswerShippingQueryRequest(string shippingQueryId, IEnumerable<ShippingOption> shippingOptions)
+            : this(shippingQueryId, null as string)
         {
             Ok = true;
             ShippingOptions = shippingOptions;

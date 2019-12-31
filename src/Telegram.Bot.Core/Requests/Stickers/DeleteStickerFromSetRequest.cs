@@ -17,7 +17,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with sticker
         /// </summary>
         /// <param name="sticker">File identifier of the sticker</param>
-        public DeleteStickerFromSetRequest(string sticker, ITelegramBotJsonConverter jsonConverter)
+        public DeleteStickerFromSetRequest(string sticker)
             : base("deleteStickerFromSet")
         {
             Sticker = sticker;

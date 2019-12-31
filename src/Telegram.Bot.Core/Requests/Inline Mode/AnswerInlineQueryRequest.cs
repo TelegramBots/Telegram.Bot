@@ -52,8 +52,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="inlineQueryId">Unique identifier for the answered query</param>
         /// <param name="results">A JSON-serialized array of results for the inline query</param>
-        public AnswerInlineQueryRequest(string inlineQueryId, IEnumerable<InlineQueryResultBase> results,
-                                        ITelegramBotJsonConverter jsonConverter)
+        public AnswerInlineQueryRequest(string inlineQueryId, IEnumerable<InlineQueryResultBase> results)
             : base("answerInlineQuery")
         {
             InlineQueryId = inlineQueryId;

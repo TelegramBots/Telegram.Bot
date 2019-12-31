@@ -56,7 +56,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel.</param>
         /// <param name="voice">Voice to send.</param>
-        public SendVoiceRequest(ChatId chatId, InputOnlineFile voice, ITelegramBotJsonConverter jsonConverter)
+        public SendVoiceRequest(ChatId chatId, InputOnlineFile voice)
             : base("sendVoice")
         {
             ChatId = chatId;

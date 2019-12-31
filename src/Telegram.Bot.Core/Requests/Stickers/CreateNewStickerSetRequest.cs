@@ -57,7 +57,7 @@ namespace Telegram.Bot.Requests
         /// <param name="pngSticker">Png image with the sticker</param>
         /// <param name="emojis">One or more emoji corresponding to the sticker</param>
         public CreateNewStickerSetRequest(int userId, string name, string title, InputOnlineFile pngSticker,
-                                          string emojis, ITelegramBotJsonConverter jsonConverter)
+                                          string emojis)
             : base("createNewStickerSet")
         {
             UserId = userId;

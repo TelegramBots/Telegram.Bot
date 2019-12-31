@@ -40,7 +40,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="messageId">Identifier of the sent message</param>
         /// <param name="caption">New caption of the message</param>
-        public EditMessageCaptionRequest(ChatId chatId, int messageId, ITelegramBotJsonConverter jsonConverter,
+        public EditMessageCaptionRequest(ChatId chatId, int messageId,
                                          string caption = default)
             : base("editMessageCaption")
         {

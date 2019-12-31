@@ -51,7 +51,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="photo">Photo to send</param>
-        public SendPhotoRequest(ChatId chatId, InputOnlineFile photo, ITelegramBotJsonConverter jsonConverter)
+        public SendPhotoRequest(ChatId chatId, InputOnlineFile photo)
             : base("sendPhoto")
         {
             ChatId = chatId;

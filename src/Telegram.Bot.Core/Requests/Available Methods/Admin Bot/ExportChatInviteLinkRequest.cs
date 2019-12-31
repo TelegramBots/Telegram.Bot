@@ -17,7 +17,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with chatId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel.</param>
-        public ExportChatInviteLinkRequest(ChatId chatId, ITelegramBotJsonConverter jsonConverter)
+        public ExportChatInviteLinkRequest(ChatId chatId)
             : base("exportChatInviteLink")
         {
             ChatId = chatId;

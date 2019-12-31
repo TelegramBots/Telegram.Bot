@@ -32,7 +32,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="caption">New caption of the message</param>
-        public EditInlineMessageCaptionRequest(string inlineMessageId, ITelegramBotJsonConverter jsonConverter,
+        public EditInlineMessageCaptionRequest(string inlineMessageId,
                                                string caption = default)
             : base("editMessageCaption")
         {

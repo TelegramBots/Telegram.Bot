@@ -23,7 +23,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="userId">User identifier</param>
         /// <param name="inlineMessageId">Unique identifier of the inline message</param>
-        public GetInlineGameHighScoresRequest(int userId, string inlineMessageId, ITelegramBotJsonConverter jsonConverter)
+        public GetInlineGameHighScoresRequest(int userId, string inlineMessageId)
             : base("getGameHighScores")
         {
             UserId = userId;

@@ -37,7 +37,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with callbackQueryId
         /// </summary>
         /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
-        public AnswerCallbackQueryRequest(string callbackQueryId, ITelegramBotJsonConverter jsonConverter)
+        public AnswerCallbackQueryRequest(string callbackQueryId)
             : base("answerCallbackQuery")
         {
             CallbackQueryId = callbackQueryId;

@@ -17,7 +17,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with name
         /// </summary>
         /// <param name="name">Name of the sticker set</param>
-        public GetStickerSetRequest(string name, ITelegramBotJsonConverter jsonConverter)
+        public GetStickerSetRequest(string name)
             : base("getStickerSet")
         {
             Name = name;

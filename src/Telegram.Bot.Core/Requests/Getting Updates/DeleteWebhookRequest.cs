@@ -10,7 +10,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request
         /// </summary>
-        public DeleteWebhookRequest(ITelegramBotJsonConverter jsonConverter)
+        public DeleteWebhookRequest()
             : base("deleteWebhook")
         { }
     }

@@ -71,8 +71,7 @@ namespace Telegram.Bot.Requests
             float latitude,
             float longitude,
             string title,
-            string address,
-            ITelegramBotJsonConverter jsonConverter
+            string address
         )
             : base("sendVenue")
         {

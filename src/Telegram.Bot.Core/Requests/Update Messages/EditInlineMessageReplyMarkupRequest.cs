@@ -24,7 +24,6 @@ namespace Telegram.Bot.Requests
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard</param>
         public EditInlineMessageReplyMarkupRequest(
             string inlineMessageId,
-            ITelegramBotJsonConverter jsonConverter,
             InlineKeyboardMarkup replyMarkup = default)
             : base("editMessageReplyMarkup")
         {

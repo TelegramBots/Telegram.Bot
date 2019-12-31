@@ -23,7 +23,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         public string ErrorMessage { get; set; }
 
-        private AnswerPreCheckoutQueryRequest(ITelegramBotJsonConverter jsonConverter)
+        private AnswerPreCheckoutQueryRequest()
             : base("answerPreCheckoutQuery")
         { }
 
@@ -31,8 +31,8 @@ namespace Telegram.Bot.Requests
         /// Initializes a new successful answerPreCheckoutQuery request
         /// </summary>
         /// <param name="preCheckoutQuery">Unique identifier for the query to be answered</param>
-        public AnswerPreCheckoutQueryRequest(string preCheckoutQuery, ITelegramBotJsonConverter jsonConverter)
-            : this(preCheckoutQuery, null, jsonConverter)
+        public AnswerPreCheckoutQueryRequest(string preCheckoutQuery)
+            : this(preCheckoutQuery, null)
         {
             Ok = true;
         }
@@ -42,9 +42,8 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="preCheckoutQuery">Unique identifier for the query to be answered</param>
         /// <param name="errorMessage">Error message in human readable form</param>
-        public AnswerPreCheckoutQueryRequest(string preCheckoutQuery, string errorMessage,
-                                             ITelegramBotJsonConverter jsonConverter)
-            : this(jsonConverter)
+        public AnswerPreCheckoutQueryRequest(string preCheckoutQuery, string errorMessage)
+            : this()
         {
             PreCheckoutQueryId = preCheckoutQuery;
             ErrorMessage = errorMessage;

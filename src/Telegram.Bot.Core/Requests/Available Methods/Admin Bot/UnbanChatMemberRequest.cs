@@ -23,7 +23,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public UnbanChatMemberRequest(ChatId chatId, int userId, ITelegramBotJsonConverter jsonConverter)
+        public UnbanChatMemberRequest(ChatId chatId, int userId)
             : base("unbanChatMember")
         {
             ChatId = chatId;

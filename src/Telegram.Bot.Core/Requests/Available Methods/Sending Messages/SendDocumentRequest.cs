@@ -56,7 +56,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="document">Document to send</param>
-        public SendDocumentRequest(ChatId chatId, InputOnlineFile document, ITelegramBotJsonConverter jsonConverter)
+        public SendDocumentRequest(ChatId chatId, InputOnlineFile document)
             : base("sendDocument")
         {
             ChatId = chatId;

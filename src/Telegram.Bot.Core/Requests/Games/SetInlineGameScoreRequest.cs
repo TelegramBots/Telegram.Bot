@@ -38,8 +38,7 @@ namespace Telegram.Bot.Requests
         /// <param name="userId">User identifier</param>
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="score">New score, must be non-negative</param>
-        public SetInlineGameScoreRequest(int userId, int score, string inlineMessageId,
-                                         ITelegramBotJsonConverter jsonConverter)
+        public SetInlineGameScoreRequest(int userId, int score, string inlineMessageId)
             : base("setGameScore")
         {
             UserId = userId;

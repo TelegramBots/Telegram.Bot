@@ -32,8 +32,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="permissions">New user permissions</param>
-        public RestrictChatMemberRequest(ChatId chatId, int userId, ChatPermissions permissions,
-                                         ITelegramBotJsonConverter jsonConverter)
+        public RestrictChatMemberRequest(ChatId chatId, int userId, ChatPermissions permissions)
             : base("restrictChatMember")
         {
             ChatId = chatId;

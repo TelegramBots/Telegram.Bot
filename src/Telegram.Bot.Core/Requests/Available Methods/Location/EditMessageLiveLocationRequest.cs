@@ -41,8 +41,7 @@ namespace Telegram.Bot.Requests
         /// <param name="messageId">Identifier of the sent message</param>
         /// <param name="latitude">Latitude of new location</param>
         /// <param name="longitude">Longitude of new location</param>
-        public EditMessageLiveLocationRequest(ChatId chatId, int messageId, float latitude, float longitude,
-                                              ITelegramBotJsonConverter jsonConverter)
+        public EditMessageLiveLocationRequest(ChatId chatId, int messageId, float latitude, float longitude)
             : base("editMessageLiveLocation")
         {
             ChatId = chatId;

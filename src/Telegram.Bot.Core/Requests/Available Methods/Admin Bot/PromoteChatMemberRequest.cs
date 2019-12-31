@@ -63,7 +63,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public PromoteChatMemberRequest(ChatId chatId, int userId, ITelegramBotJsonConverter jsonConverter)
+        public PromoteChatMemberRequest(ChatId chatId, int userId)
             : base("promoteChatMember")
         {
             ChatId = chatId;

@@ -37,7 +37,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="text">New text of the message</param>
-        public EditInlineMessageTextRequest(string inlineMessageId, string text, ITelegramBotJsonConverter jsonConverter)
+        public EditInlineMessageTextRequest(string inlineMessageId, string text)
             : base("editMessageText")
         {
             InlineMessageId = inlineMessageId;

@@ -40,7 +40,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request chatId and sticker
         /// </summary>
-        public SendStickerRequest(ChatId chatId, InputOnlineFile sticker, ITelegramBotJsonConverter jsonConverter)
+        public SendStickerRequest(ChatId chatId, InputOnlineFile sticker)
             : base("sendSticker")
         {
             ChatId = chatId;

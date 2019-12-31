@@ -30,8 +30,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with chatId, fromChatId and messageId
         /// </summary>
-        public ForwardMessageRequest(ChatId chatId, ChatId fromChatId, int messageId,
-                                     ITelegramBotJsonConverter jsonConverter)
+        public ForwardMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
             : base("forwardMessage")
         {
             ChatId = chatId;

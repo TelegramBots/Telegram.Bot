@@ -71,7 +71,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="audio">Audio to send</param>
-        public SendAudioRequest(ChatId chatId, InputOnlineFile audio, ITelegramBotJsonConverter jsonConverter)
+        public SendAudioRequest(ChatId chatId, InputOnlineFile audio)
             : base("sendAudio")
         {
             ChatId = chatId;

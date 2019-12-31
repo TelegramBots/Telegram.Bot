@@ -135,8 +135,7 @@ namespace Telegram.Bot.Requests
             string providerToken,
             string startParameter,
             string currency,
-            IEnumerable<LabeledPrice> prices,
-            ITelegramBotJsonConverter jsonConverter
+            IEnumerable<LabeledPrice> prices
         )
             : base("sendInvoice")
         {

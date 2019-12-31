@@ -29,7 +29,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="messageId">Identifier of the sent message</param>
-        public StopMessageLiveLocationRequest(ChatId chatId, int messageId, ITelegramBotJsonConverter jsonConverter)
+        public StopMessageLiveLocationRequest(ChatId chatId, int messageId)
             : base("stopMessageLiveLocation")
         {
             ChatId = chatId;

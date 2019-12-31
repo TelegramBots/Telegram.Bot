@@ -33,7 +33,6 @@ namespace Telegram.Bot.Requests
         public EditMessageReplyMarkupRequest(
             ChatId chatId,
             int messageId,
-            ITelegramBotJsonConverter jsonConverter,
             InlineKeyboardMarkup replyMarkup = default)
             : base("editMessageReplyMarkup")
         {

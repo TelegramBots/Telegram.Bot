@@ -17,7 +17,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with chat_id and photo
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
-        public DeleteChatPhotoRequest(ChatId chatId, ITelegramBotJsonConverter jsonConverter)
+        public DeleteChatPhotoRequest(ChatId chatId)
             : base("deleteChatPhoto")
         {
             ChatId = chatId;

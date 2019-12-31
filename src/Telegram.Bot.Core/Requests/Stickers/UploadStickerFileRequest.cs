@@ -26,7 +26,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with userId and pngSticker
         /// </summary>
-        public UploadStickerFileRequest(int userId, InputFileStream pngSticker, ITelegramBotJsonConverter jsonConverter)
+        public UploadStickerFileRequest(int userId, InputFileStream pngSticker)
             : base("uploadStickerFile")
         {
             UserId = userId;

@@ -11,7 +11,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request
         /// </summary>
-        public GetMeRequest(ITelegramBotJsonConverter jsonConverter)
+        public GetMeRequest()
             : base("getMe")
         { }
     }

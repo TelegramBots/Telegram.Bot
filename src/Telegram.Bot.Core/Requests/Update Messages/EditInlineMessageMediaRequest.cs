@@ -28,8 +28,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="media">New media content of the message</param>
-        public EditInlineMessageMediaRequest(string inlineMessageId, InputMediaBase media,
-                                             ITelegramBotJsonConverter jsonConverter)
+        public EditInlineMessageMediaRequest(string inlineMessageId, InputMediaBase media)
             : base("editMessageMedia")
         {
             InlineMessageId = inlineMessageId;

@@ -29,7 +29,7 @@ namespace Telegram.Bot.Requests
         /// <param name="userId">Target user id</param>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="messageId">Identifier of the sent message</param>
-        public GetGameHighScoresRequest(int userId, long chatId, int messageId, ITelegramBotJsonConverter jsonConverter)
+        public GetGameHighScoresRequest(int userId, long chatId, int messageId)
             : base("getGameHighScores")
         {
             UserId = userId;

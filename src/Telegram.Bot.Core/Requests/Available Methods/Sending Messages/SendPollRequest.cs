@@ -44,8 +44,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="question">Poll question, 1-255 characters</param>
         /// <param name="options">List of answer options, 2-10 strings 1-100 characters each</param>
-        public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options,
-                               ITelegramBotJsonConverter jsonConverter)
+        public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)
             : base("sendPoll")
         {
             ChatId = chatId;

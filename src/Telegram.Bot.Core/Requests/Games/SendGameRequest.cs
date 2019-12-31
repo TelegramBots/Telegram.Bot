@@ -37,7 +37,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game</param>
-        public SendGameRequest(long chatId, string gameShortName, ITelegramBotJsonConverter jsonConverter)
+        public SendGameRequest(long chatId, string gameShortName)
             : base("sendGame")
         {
             ChatId = chatId;
