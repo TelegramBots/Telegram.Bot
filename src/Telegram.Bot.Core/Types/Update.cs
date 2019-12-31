@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types.Enums;
+﻿using System.Runtime.Serialization;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
 
 namespace Telegram.Bot.Types
@@ -9,6 +10,7 @@ namespace Telegram.Bot.Types
     /// <remarks>
     /// Only one of the optional parameters can be present in any given update.
     /// </remarks>
+    [DataContract]
     public class Update
     {
         /// <summary>
@@ -16,56 +18,67 @@ namespace Telegram.Bot.Types
         /// This ID becomes especially handy if you're using Webhooks, since it allows you to ignore repeated updates or to
         /// restore the correct update sequence, should they get out of order.
         /// </summary>
+        [DataMember(Name = "update_id", IsRequired = true)]
         public int Id { get; set; }
 
         /// <summary>
         /// Optional. New incoming message of any kind — text, photo, sticker, etc.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public Message Message { get; set; }
 
         /// <summary>
         /// Optional. New version of a message that is known to the bot and was edited
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public Message EditedMessage { get; set; }
 
         /// <summary>
         /// Optional. New incoming inline query
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public InlineQuery InlineQuery { get; set; }
 
         /// <summary>
         /// Optional. The result of a inline query that was chosen by a user and sent to their chat partner
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public ChosenInlineResult ChosenInlineResult { get; set; }
 
         /// <summary>
         /// Optional. New incoming callback query
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public CallbackQuery CallbackQuery { get; set; }
 
         /// <summary>
         /// Optional. New incoming channel post of any kind — text, photo, sticker, etc.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public Message ChannelPost { get; set; }
 
         /// <summary>
         /// Optional. New version of a channel post that is known to the bot and was edited
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public Message EditedChannelPost { get; set; }
 
         /// <summary>
         /// Optional. New incoming shipping query. Only for invoices with flexible price
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public ShippingQuery ShippingQuery { get; set; }
 
         /// <summary>
         /// Optional. New incoming pre-checkout query. Contains full information about checkout
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public PreCheckoutQuery PreCheckoutQuery { get; set; }
 
         /// <summary>
         /// New poll state. Bots receive only updates about polls, which are sent or stopped by the bot
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public Poll Poll { get; set; }
 
         /// <summary>

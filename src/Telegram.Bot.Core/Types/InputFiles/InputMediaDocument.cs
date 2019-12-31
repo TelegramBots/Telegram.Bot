@@ -1,14 +1,19 @@
 
 
 // ReSharper disable once CheckNamespace
+
+using System.Runtime.Serialization;
+
 namespace Telegram.Bot.Types
 {
     /// <summary>
     /// Represents a general file to be sent
     /// </summary>
+    [DataContract]
     public class InputMediaDocument : InputMediaBase, IInputMediaThumb
     {
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public InputMedia Thumb { get; set; }
 
         /// <summary>

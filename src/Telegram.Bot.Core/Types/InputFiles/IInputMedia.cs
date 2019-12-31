@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types.Enums;
+﻿using ParseMode = Telegram.Bot.Types.Enums.ParseMode;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types

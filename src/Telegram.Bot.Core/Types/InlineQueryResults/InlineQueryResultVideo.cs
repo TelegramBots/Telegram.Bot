@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
@@ -6,6 +7,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <summary>
     /// Represents link to a page containing an embedded video player or a video file.
     /// </summary>
+    [DataContract]
     public class InlineQueryResultVideo : InlineQueryResultBase,
         ICaptionInlineQueryResult,
         IThumbnailUrlInlineQueryResult,
@@ -15,46 +17,57 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// A valid URL for the embedded video player or video file
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string VideoUrl { get; set; }
 
         /// <summary>
         /// Mime type of the content of video url, i.e. "text/html" or "video/mp4"
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string MimeType { get; set; }
 
         /// <inheritdoc />
+        [DataMember(IsRequired = true)]
         public string ThumbUrl { get; set; }
 
         /// <inheritdoc />
+        [DataMember(IsRequired = true)]
         public string Title { get; set; }
 
         /// <summary>
         /// Optional. Video width
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int VideoWidth { get; set; }
 
         /// <summary>
         /// Optional. Video height
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int VideoHeight { get; set; }
 
         /// <summary>
         /// Optional. Video duration in seconds
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int VideoDuration { get; set; }
 
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string Description { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public string Caption { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public ParseMode ParseMode { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
         private InlineQueryResultVideo()

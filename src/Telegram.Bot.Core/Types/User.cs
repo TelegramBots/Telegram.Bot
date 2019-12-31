@@ -1,40 +1,48 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types
 {
     /// <summary>
     /// This object represents a Telegram user or bot.
     /// </summary>
+    [DataContract]
     public class User : IEquatable<User>
     {
         /// <summary>
         /// Unique identifier for this user or bot
         /// </summary>
+        [DataMember(IsRequired = true)]
         public int Id { get; set; }
 
         /// <summary>
         /// True, if this user is a bot
         /// </summary>
+        [DataMember(IsRequired = true)]
         public bool IsBot { get; set; }
 
         /// <summary>
         /// User's or bot's first name
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Optional. User's or bot's last name
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string LastName { get; set; }
 
         /// <summary>
         /// Optional. User's or bot's username
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string Username { get; set; }
 
         /// <summary>
         /// Optional. IETF language tag of the user's language
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string LanguageCode { get; set; }
 
         /// <inheritdoc />

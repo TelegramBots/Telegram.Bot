@@ -1,26 +1,31 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
     /// <summary>
     /// Represents a custom keyboard with reply options
     /// </summary>
+    [DataContract]
     public class ReplyKeyboardMarkup : ReplyMarkupBase
     {
         /// <summary>
         /// Array of button rows, each represented by an Array of KeyboardButton objects
         /// </summary>
+        [DataMember(IsRequired = true)]
         public IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
 
         /// <summary>
         /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of <see cref="KeyboardButton"/>). Defaults to <c>false</c>, in which case the custom keyboard is always of the same height as the app's standard keyboard.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public bool ResizeKeyboard { get; set; }
 
         /// <summary>
         /// Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to <c>false</c>.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public bool OneTimeKeyboard { get; set; }
 
         /// <summary>

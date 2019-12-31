@@ -1,11 +1,15 @@
 ﻿
 
 // ReSharper disable once CheckNamespace
+
+using System.Runtime.Serialization;
+
 namespace Telegram.Bot.Types.Passport
 {
     /// <summary>
     /// Contains information about documents or other Telegram Passport elements shared with the bot by the user.
     /// </summary>
+    [DataContract]
     public class EncryptedPassportElement
     {
         /// <summary>
@@ -13,11 +17,13 @@ namespace Telegram.Bot.Types.Passport
         /// "internal_passport", "address", "utility_bill", "bank_statement", "rental_agreement",
         /// "passport_registration", "temporary_registration", "phone_number", "email".
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string Type { get; set; }
 
         /// <summary>
         /// Base64-encoded element hash for using in PassportElementErrorUnspecified
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string Hash { get; set; }
 
         /// <summary>
@@ -25,16 +31,19 @@ namespace Telegram.Bot.Types.Passport
         /// "personal_details", "passport", "driver_license", "identity_card", "identity_passport" and "address"
         /// types. Can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string Data { get; set; }
 
         /// <summary>
         /// Optional. User's verified phone number, available only for "phone_number" type.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Optional. User's verified email address, available only for "email" type.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string Email { get; set; }
 
         /// <summary>
@@ -42,6 +51,7 @@ namespace Telegram.Bot.Types.Passport
         /// "bank_statement", "rental_agreement", "passport_registration" and "temporary_registration" types.
         /// Files can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public PassportFile[] Files { get; set; }
 
         /// <summary>
@@ -49,6 +59,7 @@ namespace Telegram.Bot.Types.Passport
         /// "passport", "driver_license", "identity_card" and "internal_passport". The file can be decrypted and
         /// verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public PassportFile FrontSide { get; set; }
 
         /// <summary>
@@ -56,6 +67,7 @@ namespace Telegram.Bot.Types.Passport
         /// "driver_license" and "identity_card". The file can be decrypted and verified using the accompanying
         /// <see cref="EncryptedCredentials"/>.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public PassportFile ReverseSide { get; set; }
 
         /// <summary>
@@ -63,6 +75,7 @@ namespace Telegram.Bot.Types.Passport
         /// available for "passport", "driver_license", "identity_card" and "internal_passport". The file can
         /// be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public PassportFile Selfie { get; set; }
 
         /// <summary>
@@ -72,6 +85,7 @@ namespace Telegram.Bot.Types.Passport
         /// "temporary_registration" types. Files can be decrypted and verified using the accompanying
         /// <see cref="EncryptedCredentials"/>.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public PassportFile[] Translation { get; set; }
     }
 }

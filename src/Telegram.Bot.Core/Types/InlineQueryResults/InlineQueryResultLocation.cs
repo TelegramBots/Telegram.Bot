@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
@@ -8,6 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <remarks>
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
     /// </remarks>
+    [DataContract]
     public class InlineQueryResultLocation : InlineQueryResultBase,
         IThumbnailInlineQueryResult,
         ITitleInlineQueryResult,
@@ -15,29 +17,37 @@ namespace Telegram.Bot.Types.InlineQueryResults
         ILocationInlineQueryResult
     {
         /// <inheritdoc />
+        [DataMember(IsRequired = true)]
         public float Latitude { get; set; }
 
         /// <inheritdoc />
+        [DataMember(IsRequired = true)]
         public float Longitude { get; set; }
 
         /// <inheritdoc />
+        [DataMember(IsRequired = true)]
         public string Title { get; set; }
 
         /// <summary>
         /// Period in seconds for which the location can be updated, should be between 60 and 86400.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int LivePeriod { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public string ThumbUrl { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ThumbWidth { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ThumbHeight { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
         private InlineQueryResultLocation()

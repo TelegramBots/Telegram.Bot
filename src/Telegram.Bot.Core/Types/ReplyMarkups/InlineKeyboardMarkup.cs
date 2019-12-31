@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Telegram.Bot.Types.ReplyMarkups
 {
@@ -8,11 +9,13 @@ namespace Telegram.Bot.Types.ReplyMarkups
     /// <remarks>
     /// Inline keyboards are currently being tested and are not available in channels yet. For now, feel free to use them in one-on-one chats or groups.
     /// </remarks>
+    [DataContract]
     public class InlineKeyboardMarkup : IReplyMarkup
     {
         /// <summary>
         /// Array of <see cref="InlineKeyboardButton"/> rows, each represented by an Array of <see cref="InlineKeyboardButton"/>.
         /// </summary>
+        [DataMember(IsRequired = true)]
         public IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; }
 
         /// <summary>
@@ -40,6 +43,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class.
         /// </summary>
         /// <param name="inlineKeyboard">The inline keyboard.</param>
+        //[JsonConstructor]
         public InlineKeyboardMarkup(IEnumerable<IEnumerable<InlineKeyboardButton>> inlineKeyboard)
         {
             InlineKeyboard = inlineKeyboard;

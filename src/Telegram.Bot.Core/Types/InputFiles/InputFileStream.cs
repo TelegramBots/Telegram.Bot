@@ -1,4 +1,5 @@
 using System.IO;
+using System.Runtime.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types.InputFiles
@@ -6,6 +7,7 @@ namespace Telegram.Bot.Types.InputFiles
     /// <summary>
     /// Used for sending files to Telegram
     /// </summary>
+    [DataContract]
     public class InputFileStream : IInputFile
     {
         /// <summary>

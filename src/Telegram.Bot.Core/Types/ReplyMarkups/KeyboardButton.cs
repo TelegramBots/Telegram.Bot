@@ -1,21 +1,27 @@
+using System.Runtime.Serialization;
+
 namespace Telegram.Bot.Types.ReplyMarkups
 {
     /// <summary>
     /// This object represents one button of the reply keyboard. For simple text buttons String can be used instead of this object to specify text of the button.
     /// </summary>
+    [DataContract]
     public class KeyboardButton : IKeyboardButton
     {
         /// <inheritdoc />
+        [DataMember(IsRequired = true)]
         public string Text { get; set; }
 
         /// <summary>
         /// If <c>true</c>, the user's current location will be sent when the button is pressed. Available in private chats only
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public bool RequestLocation { get; set; }
 
         /// <summary>
         /// If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public bool RequestContact { get; set; }
 
         /// <summary>

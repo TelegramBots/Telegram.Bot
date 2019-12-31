@@ -1,13 +1,17 @@
+using System.Runtime.Serialization;
+
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Represents a <see cref="Game"/>.
     /// </summary>
+    [DataContract]
     public class InlineQueryResultGame : InlineQueryResultBase
     {
         /// <summary>
         /// Short name of the game
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string GameShortName { get; set; }
 
         private InlineQueryResultGame()

@@ -1,26 +1,33 @@
-﻿namespace Telegram.Bot.Types.ReplyMarkups
+﻿using System.Runtime.Serialization;
+
+namespace Telegram.Bot.Types.ReplyMarkups
 {
     /// <summary>
     /// This object represents one button of an inline keyboard.
     /// </summary>
+    [DataContract]
     public class InlineKeyboardButton : IKeyboardButton
     {
         /// <inheritdoc />
+        [DataMember(IsRequired = true)]
         public string Text { get; set; }
 
         /// <summary>
         /// Optional. HTTP url to be opened when button is pressed
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string Url { get; set; }
 
         /// <summary>
         /// Optional. An HTTP URL used to automatically authorize the user
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public LoginUrl LoginUrl { get; set; }
 
         /// <summary>
         /// Optional. Data to be sent in a callback query to the bot when button is pressed
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string CallbackData { get; set; }
 
         /// <summary>
@@ -29,6 +36,7 @@
         /// <remarks>
         /// Note: This offers an easy way for users to start using your bot in inline mode when they are currently in a private chat with it. Especially useful when combined with switchPm[...] parameters (see <see cref="TelegramBotClient.AnswerInlineQueryAsync"/>)  – in this case the user will be automatically returned to the chat they switched from, skipping the chat selection screen.
         /// </remarks>
+        [DataMember(EmitDefaultValue = false)]
         public string SwitchInlineQuery { get; set; }
 
         /// <summary>
@@ -37,6 +45,7 @@
         /// <remarks>
         /// Note: This offers a quick way for the user to open your bot in inline mode in the same chat – good for selecting something from multiple options.
         /// </remarks>
+        [DataMember(EmitDefaultValue = false)]
         public string SwitchInlineQueryCurrentChat { get; set; }
 
         /// <summary>
@@ -45,6 +54,7 @@
         /// <remarks>
         /// Note: This type of button must always be the first button in the first row.
         /// </remarks>
+        [DataMember(EmitDefaultValue = false)]
         public CallbackGame CallbackGame { get; set; }
 
         /// <summary>
@@ -53,6 +63,7 @@
         /// <remarks>
         /// Note: This type of button must always be the first button in the first row.
         /// </remarks>
+        [DataMember(EmitDefaultValue = false)]
         public bool Pay { get; set; }
 
         /// <summary>

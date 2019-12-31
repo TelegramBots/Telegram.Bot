@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types.Enums;
+﻿using FileType = Telegram.Bot.Types.Enums.FileType;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types

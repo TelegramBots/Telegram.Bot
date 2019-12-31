@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
 namespace Telegram.Bot.Types.InlineQueryResults
@@ -8,6 +9,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
     /// <remarks>
     /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
     /// </remarks>
+    [DataContract]
     public class InlineQueryResultContact : InlineQueryResultBase,
         IThumbnailInlineQueryResult,
         IInputMessageContentResult
@@ -15,33 +17,41 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <summary>
         /// Contact's phone number
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string PhoneNumber { get; set; }
 
         /// <summary>
         /// Contact's first name
         /// </summary>
+        [DataMember(IsRequired = true)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Optional. Contact's last name
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string LastName { get; set; }
 
         /// <summary>
         /// Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public string Vcard { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public string ThumbUrl { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ThumbWidth { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ThumbHeight { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
         private InlineQueryResultContact()

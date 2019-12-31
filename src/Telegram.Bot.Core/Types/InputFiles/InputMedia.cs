@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using Telegram.Bot.Types.InputFiles;
+using InputOnlineFile = Telegram.Bot.Types.InputFiles.InputOnlineFile;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -7,7 +7,7 @@ namespace Telegram.Bot.Types
     /// <summary>
     /// Media to send in request that could be a file_id, HTTP url, or a file
     /// </summary>
-    public class InputMedia : InputOnlineFile
+    public class InputMedia : InputFiles.InputOnlineFile
     {
         /// <summary>
         /// Initializes media with a file to send
