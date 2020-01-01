@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using Telegram.Bot.Types;
 
-namespace Telegram.Bot.Converters
+namespace Telegram.Bot.Json.Converters
 {
-    internal class ChatIdConverter : JsonConverter
+    internal sealed class ChatIdConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {

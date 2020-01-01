@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 
-namespace Telegram.Bot.Converters
+namespace Telegram.Bot.Json.Converters
 {
     internal class InputFileConverter : JsonConverter
     {
@@ -35,18 +35,15 @@ namespace Telegram.Bot.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string value = JToken.ReadFrom(reader).Value<string>();
+            var value = JToken.ReadFrom(reader).Value<string>();
             if (value == null)
             {
                 return new InputFileStream(Stream.Null);
             }
-            else
-            {
-                if (Uri.TryCreate(value, UriKind.Absolute, out Uri _))
-                    return new InputOnlineFile(value);
-                else
-                    return new InputTelegramFile(value);
-            }
+
+            return Uri.TryCreate(value, UriKind.Absolute, out _)
+                ? new InputOnlineFile(value)
+                : new InputTelegramFile(value);
         }
     }
 }

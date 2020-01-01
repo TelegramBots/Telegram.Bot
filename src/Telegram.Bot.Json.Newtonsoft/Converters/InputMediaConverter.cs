@@ -5,9 +5,9 @@ using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Converters
+namespace Telegram.Bot.Json.Converters
 {
-    internal class InputMediaConverter : InputFileConverter
+    internal sealed class InputMediaConverter : InputFileConverter
     {
         public override bool CanConvert(Type objectType) => typeof(InputMedia) == objectType;
 
@@ -30,7 +30,7 @@ namespace Telegram.Bot.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string value = JToken.ReadFrom(reader).Value<string>();
+            var value = JToken.ReadFrom(reader).Value<string>();
             return value?.StartsWith("attach://") == true
                     ? new InputMedia(Stream.Null, value.Substring(9))
                     : new InputMedia(value);
