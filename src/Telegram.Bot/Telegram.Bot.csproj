@@ -22,10 +22,10 @@
     <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2"/>
-    <PackageReference Include="System.Net.Requests" Version="4.3.0"/>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
-    <Reference Include="System.Net.Http"/>
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
 </Project>

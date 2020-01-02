@@ -79,7 +79,17 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// Unknown entity type
         /// </summary>
-        Unknown
+        Unknown,
+
+        /// <summary>
+        /// Underlined text
+        /// </summary>
+        Underline,
+
+        /// <summary>
+        /// Strikethrough text
+        /// </summary>
+        Strikethrough,
     }
 
     internal static class MessageEntityTypeExtensions
@@ -100,6 +110,8 @@ namespace Telegram.Bot.Types.Enums
                 { "text_mention", MessageEntityType.TextMention },
                 { "phone_number", MessageEntityType.PhoneNumber },
                 { "cashtag", MessageEntityType.Cashtag },
+                { "underline", MessageEntityType.Underline },
+                { "strikethrough", MessageEntityType.Strikethrough },
             };
 
         private static readonly IDictionary<MessageEntityType, string> EnumToString =
@@ -119,6 +131,8 @@ namespace Telegram.Bot.Types.Enums
                 { MessageEntityType.PhoneNumber, "phone_number" },
                 { MessageEntityType.Cashtag, "cashtag" },
                 { MessageEntityType.Unknown, "unknown" },
+                { MessageEntityType.Underline, "underline" },
+                { MessageEntityType.Strikethrough, "strikethrough" },
             };
 
         internal static MessageEntityType ToMessageType(this string value) =>

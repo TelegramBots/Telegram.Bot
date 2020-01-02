@@ -25,6 +25,12 @@ namespace Telegram.Bot.Types
         public ChatMemberStatus Status { get; set; }
 
         /// <summary>
+        /// Optional. Owner and administrators only. Custom title for this user
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string CustomTitle { get; set; }
+
+        /// <summary>
         /// Optional. Restricted and kicked only. Date when restrictions will be lifted for this user, UTC time
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
