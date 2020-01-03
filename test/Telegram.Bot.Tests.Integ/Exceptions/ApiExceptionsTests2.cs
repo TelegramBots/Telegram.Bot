@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowChatNotFoundException)]
+        [OrderedFact("Should throw ChatNotFoundException while trying to send message to an invalid chat")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
@@ -31,18 +31,19 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ChatNotFoundException>(e);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidUserIdException)]
+        [OrderedFact("Should throw UserNotFoundException while trying to promote an invalid user id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        public async Task Should_Throw_Exception_InvalidUserIdException()
+        public async Task Should_Throw_Exception_UserNotFoundException()
         {
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456)
             );
 
-            Assert.IsType<InvalidUserIdException>(e);
+            Assert.IsType<UserNotFoundException>(e);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionContactRequestException)]
+        [OrderedFact("Should throw ContactRequestException while asking for user's phone number " +
+                     "in non-private chat via reply keyboard markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_ContactRequestException()
         {
@@ -61,7 +62,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<ContactRequestException>(e);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowExceptionMessageIsNotModifiedException)]
+        [OrderedFact("Should throw MessageIsNotModifiedException while editing previously " +
+                     "sent message with the same text")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_MessageIsNotModifiedException()
         {
@@ -79,23 +81,6 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             );
 
             Assert.IsType<MessageIsNotModifiedException>(e);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldThrowChatNotFoundException =
-                "Should throw ChatNotFoundException while trying to send message to an invalid chat";
-
-            public const string ShouldThrowInvalidUserIdException =
-                "Should throw InvalidUserIdException while trying to promote an invalid user id";
-
-            public const string ShouldThrowExceptionContactRequestException =
-                "Should throw ContactRequestException while asking for user's phone number in non-private " +
-                "chat via reply keyboard markup";
-
-            public const string ShouldThrowExceptionMessageIsNotModifiedException =
-                "Should throw MessageIsNotModifiedException while editing previously sent message " +
-                "with the same text";
         }
     }
 }

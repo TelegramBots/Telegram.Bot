@@ -23,6 +23,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Type `SetChatAdministratorCustomTitleRequest`
+- Method `ITelegramBotClient.SetChatAdministratorCustomTitleAsync`
+- Property `FileBase.FileUniqueId`
+- Property `Animation.FileUniqueId`
+- Property `ChatPhoto.BigFileUniqueId`
+- Property `ChatPhoto.SmallFileUniqueId`
+- Property `Chat.SlowModeDelay`
+- Property `ChatMember.CustomTitle`
+- Enum value `ParseMode.MarkdownV2`
+- Enum value `MessageEntityType.Underline`
+- Enum value `MessageEntityType.Strikethrough`
+
+## [15.1.0] - 2019-11-29
+
+### Added
+
 - Property `RequestBase.IsWebhookResponse`
 - The client outputs `method` property in the resulting HTTP body with the value from `IRequest<T>.MethodName` when `RequestBase.IsWebhookResponse` is set to true
 - Constructor with `Uri` param for `InputOnlineFile` (overloaded)

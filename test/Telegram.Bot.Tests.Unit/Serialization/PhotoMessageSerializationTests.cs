@@ -33,24 +33,28 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                 ""photo"": [
                     {
                         ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABN7x5HqnrHW_wp4BAAEC"",
+                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
                         ""file_size"": 3134,
                         ""width"": 90,
                         ""height"": 90
                     },
                     {
                         ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIrxzSBLXOQYw54BAAEC"",
+                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
                         ""file_size"": 52433,
                         ""width"": 320,
                         ""height"": 320
                     },
                     {
                         ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIJONRZpTJFnxJ4BAAEC"",
+                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
                         ""file_size"": 231019,
                         ""width"": 800,
                         ""height"": 800
                     },
                     {
                         ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABP6uRLtwe8Z8wZ4BAAEC"",
+                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
                         ""file_size"": 489108,
                         ""width"": 1280,
                         ""height"": 1280
@@ -92,6 +96,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     new PhotoSize
                     {
                         FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABN7x5HqnrHW_wp4BAAEC",
+                        FileUniqueId = "AgADcOsAAhUdZAc",
                         FileSize = 3134,
                         Width = 90,
                         Height = 90,
@@ -99,6 +104,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     new PhotoSize
                     {
                         FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIrxzSBLXOQYw54BAAEC",
+                        FileUniqueId = "AgADcOsAAhUdZAc",
                         FileSize = 52433,
                         Width = 320,
                         Height = 320,
@@ -106,6 +112,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     new PhotoSize
                     {
                         FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIJONRZpTJFnxJ4BAAEC",
+                        FileUniqueId = "AgADcOsAAhUdZAc",
                         FileSize = 231019,
                         Width = 800,
                         Height = 800,
@@ -113,6 +120,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     new PhotoSize
                     {
                         FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABP6uRLtwe8Z8wZ4BAAEC",
+                        FileUniqueId = "AgADcOsAAhUdZAc",
                         FileSize = 489108,
                         Width = 1280,
                         Height = 1280,

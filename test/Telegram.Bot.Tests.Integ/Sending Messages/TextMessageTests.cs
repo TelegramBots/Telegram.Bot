@@ -141,6 +141,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 ),
                 (MessageEntityType.Code, @"inline <code>""fixed-width code""</code>"),
                 (MessageEntityType.Pre, "<pre>pre-formatted fixed-width code block</pre>"),
+                (MessageEntityType.Strikethrough, "<s>strikethrough</s>"),
+                (MessageEntityType.Underline, "<u>underline</u>"),
             };
 
             Message message = await BotClient.SendTextMessageAsync(
@@ -187,6 +189,42 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 message.Entities.Select(e => e.Type)
             );
             Assert.Equal(entityValueMappings.Select(t => t.Value), message.EntityValues);
+        }
+
+        [OrderedFact("Should send MarkdownV2 formatted text message and parse its entities. " +
+                     "Link preview should not appear.")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        public async Task Should_Parse_MarkdownV2_Entities()
+        {
+            const string url = "https://telegram.org/";
+            Dictionary<MessageEntityType, string> entityValueMappings = new Dictionary<MessageEntityType, string>
+            {
+                {MessageEntityType.Bold, "*bold*"},
+                {MessageEntityType.Italic, "_italic_"},
+                {MessageEntityType.TextLink, $"[inline url to Telegram\\.org]({url})"},
+                {
+                    MessageEntityType.TextMention,
+                    $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
+                },
+                {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
+                {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
+                {MessageEntityType.Strikethrough, "~strikethrough~"},
+                {MessageEntityType.Underline, "__underline__"},
+            };
+
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                text: string.Join("\n", entityValueMappings.Values),
+                parseMode: ParseMode.MarkdownV2,
+                disableWebPagePreview: true
+            );
+
+            Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
+            Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(_fixture.BotUser),
+                JToken.FromObject(message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User)
+            ));
         }
 
         public class Fixture : ChannelChatFixture

@@ -19,13 +19,18 @@ namespace Telegram.Bot.Types.Enums
         Default = 0,
 
         /// <summary>
-        /// <see cref="Message.Text"/> is formated in Markdown
+        /// <see cref="Message.Text"/> is formatted in Markdown
         /// </summary>
         Markdown,
 
         /// <summary>
-        /// <see cref="Message.Text"/> is formated in HTML
+        /// <see cref="Message.Text"/> is formatted in HTML
         /// </summary>
         Html,
+
+        /// <summary>
+        /// <see cref="Message.Text"/> is formatted in MarkdownV2
+        /// </summary>
+        MarkdownV2,
     }
 }
