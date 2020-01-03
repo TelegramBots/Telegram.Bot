@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -28,14 +29,36 @@ namespace Telegram.Bot.Json
             return JsonSerializer.DeserializeAsync<Update>(jsonStream, _serializerOptions, ct);
         }
 
-        public async ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken ct)
+        public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken ct)
         {
-            await JsonSerializer.SerializeAsync(outputStream, inputModel, inputType, _serializerOptions, ct);
+            return new ValueTask(JsonSerializer.SerializeAsync(outputStream, inputModel, inputType, _serializerOptions, ct));
         }
 
-        public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, string[] propertyNamesToExcept, CancellationToken ct)
+        public async ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, string[] propertyNamesToExcept, CancellationToken ct)
         {
-            throw new NotImplementedException();
+            // TODO temporary workaround
+            // https://github.com/dahomey-technologies/Dahomey.Json/issues/14
+
+            JsonObject jsonObject;
+            using (var jsonStream = new MemoryStream())
+            {
+                await JsonSerializer.SerializeAsync(jsonStream, value, value.GetType(), _serializerOptions, ct);
+                jsonStream.Position = 0L;
+
+                jsonObject = await JsonSerializer.DeserializeAsync<JsonObject>(jsonStream, _serializerOptions, ct);
+            }
+
+            var result = new Dictionary<string, HttpContent>();
+
+            foreach (var (name, node) in jsonObject)
+            {
+                if (propertyNamesToExcept.Contains(name))
+                    continue;
+
+                result.Add(name, new StringContent(node.ToString()));
+            }
+
+            return result;
         }
     }
 }
