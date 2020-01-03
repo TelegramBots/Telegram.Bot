@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types
     public class Animation
     {
         /// <summary>
-        /// Unique file identifier.
+        /// Identifier for this file, which can be used to download or reuse the file
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string FileId { get; set; }
