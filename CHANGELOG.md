@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `SetChatAdministratorCustomTitleRequest`
 - Method `ITelegramBotClient.SetChatAdministratorCustomTitleAsync`
 - Property `FileBase.FileUniqueId`
+- Property `Animation.FileUniqueId`
 - Property `ChatPhoto.BigFileUniqueId`
 - Property `ChatPhoto.SmallFileUniqueId`
 - Property `Chat.SlowModeDelay`
