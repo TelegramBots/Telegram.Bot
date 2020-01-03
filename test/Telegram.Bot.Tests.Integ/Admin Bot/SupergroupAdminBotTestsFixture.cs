@@ -14,7 +14,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public TestsFixture TestsFixture { get; }
         public Chat Chat => TestsFixture.SupergroupChat;
         public Message PinnedMessage { get; set; }
-        public ChatPermissions ExistingDefaultPermissions { get; set; }
+        public ChatPermissions ExistingDefaultPermissions { get; private set; }
 
         public SupergroupAdminBotTestsFixture(TestsFixture testsFixture)
         {

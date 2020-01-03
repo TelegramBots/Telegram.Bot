@@ -130,7 +130,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
 
             Assert.NotEmpty(chat.Photo.BigFileId);
+            Assert.NotEmpty(chat.Photo.BigFileUniqueId);
             Assert.NotEmpty(chat.Photo.SmallFileId);
+            Assert.NotEmpty(chat.Photo.SmallFileUniqueId);
         }
 
         [OrderedFact("Should delete chat photo")]

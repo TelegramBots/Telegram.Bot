@@ -39,7 +39,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("HAMLET.pdf", message.Document.FileName);
             Assert.Equal("application/pdf", message.Document.MimeType);
             Assert.InRange(message.Document.FileSize, 253_000, 257_000);
-            Assert.InRange(message.Document.FileId.Length, 20, 40);
+            Assert.NotEmpty(message.Document.FileId);
+            Assert.NotEmpty(message.Document.FileUniqueId);
             Assert.Equal("The Tragedy of Hamlet,\nPrince of Denmark", message.Caption);
         }
 
@@ -62,7 +63,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("هملت.pdf", message.Document.FileName);
             Assert.Equal("application/pdf", message.Document.MimeType);
             Assert.InRange(message.Document.FileSize, 253_000, 257_000);
-            Assert.InRange(message.Document.FileId.Length, 20, 40);
+            Assert.NotEmpty(message.Document.FileId);
+            Assert.NotEmpty(message.Document.FileUniqueId);
             Assert.Equal("تراژدی هملت\nشاهزاده دانمارک", message.Caption);
         }
 
@@ -85,6 +87,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.NotNull(message.Document.Thumb);
             Assert.NotEmpty(message.Document.Thumb.FileId);
+            Assert.NotEmpty(message.Document.Thumb.FileUniqueId);
             Assert.Equal(90, message.Document.Thumb.Height);
             Assert.Equal(90, message.Document.Thumb.Width);
             Assert.InRange(message.Document.Thumb.FileSize, 11_000, 12_000);
@@ -93,7 +96,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("Hamlet.pdf", message.Document.FileName);
             Assert.Equal("application/pdf", message.Document.MimeType);
             Assert.InRange(message.Document.FileSize, 253_000, 257_000);
-            Assert.InRange(message.Document.FileId.Length, 20, 40);
+            Assert.NotEmpty(message.Document.FileId);
+            Assert.NotEmpty(message.Document.FileUniqueId);
             Assert.Null(message.Caption);
         }
     }
