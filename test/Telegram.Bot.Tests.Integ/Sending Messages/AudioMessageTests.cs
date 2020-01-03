@@ -49,6 +49,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(duration, message.Audio.Duration);
             Assert.Equal("audio/mpeg", message.Audio.MimeType);
             Assert.NotEmpty(message.Audio.FileId);
+            Assert.NotEmpty(message.Audio.FileUniqueId);
             Assert.True(message.Audio.FileSize > 200);
         }
 
@@ -72,6 +73,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.NotNull(message.Audio.Thumb);
             Assert.NotEmpty(message.Audio.Thumb.FileId);
+            Assert.NotEmpty(message.Audio.Thumb.FileUniqueId);
             Assert.Equal(90, message.Audio.Thumb.Height);
             Assert.Equal(90, message.Audio.Thumb.Width);
             Assert.True(message.Audio.Thumb.FileSize > 10_000);
@@ -100,6 +102,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(duration, message.Voice.Duration);
             Assert.Equal("audio/ogg", message.Voice.MimeType);
             Assert.NotEmpty(message.Voice.FileId);
+            Assert.NotEmpty(message.Voice.FileUniqueId);
             Assert.True(message.Voice.FileSize > 200);
         }
     }

@@ -46,9 +46,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             {
                 CanInviteUsers = false,
                 CanSendMediaMessages = true,
-                CanChangeInfo = true,
+                CanChangeInfo = false,
                 CanSendMessages = true,
-                CanPinMessages = true,
+                CanPinMessages = false,
                 CanSendPolls = false,
                 CanSendOtherMessages = false,
                 CanAddWebPagePreviews = false

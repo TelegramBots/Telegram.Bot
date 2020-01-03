@@ -901,6 +901,21 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// <inheritdoc cref="Telegram.Bot.Requests.SetChatAdministratorCustomTitleRequest"/>
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="customTitle">New custom title for the administrator; 0-16 characters, emoji are not allowed</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setchatadministratorcustomtitle"/>
+        Task SetChatAdministratorCustomTitleAsync(
+            ChatId chatId,
+            int userId,
+            string customTitle,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights. Returns True on success.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>

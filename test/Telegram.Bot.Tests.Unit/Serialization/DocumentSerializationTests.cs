@@ -30,6 +30,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                 Document = new Document
                 {
                     FileId = "KLAHCVUydfS_jHIBildtwpmvxZg",
+                    FileUniqueId = "AgADcOsAAhUdZAc",
                     FileName = "test_file.txt",
                     FileSize = 123_456,
                     MimeType = "plain/text"
@@ -89,6 +90,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     ""file_name"": ""test_file.txt"",
                     ""mime_type"": ""plain/text"",
                     ""file_id"": ""KLAHCVUydfS_jHIBildtwpmvxZg"",
+                    ""file_unique_id"": ""AgADcOsAAhUdZAc"",
                     ""file_size"": 123456,
                     ""file_path"": null
                 },
