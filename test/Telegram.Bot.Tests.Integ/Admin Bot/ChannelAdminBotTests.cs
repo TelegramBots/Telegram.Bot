@@ -153,36 +153,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
         }
 
-        /// <summary>
-        /// If chat had a photo before, reset the photo back.
-        /// </summary>
-        [OrderedFact("Should reset the same old chat photo if existed")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
-        public async Task Should_Reset_Old_Chat_Photo_If_Existed()
-        {
-            // "Chat.Photo" might be null if there is no photo currently set
-            string previousChatPhotoId = _classFixture.Chat.Photo?.BigFileId;
-            if (previousChatPhotoId == default)
-            {
-                // chat didn't have a photo
-                return;
-            }
-
-            using (Stream photoStream = new MemoryStream())
-            {
-                // pass photo's file_id, prepare file for download, and download the file into memroy
-                await BotClient.GetInfoAndDownloadFileAsync(previousChatPhotoId, photoStream);
-
-                // need to set position of memory stream back to its start so next method reads photo stream from the beginning
-                photoStream.Position = 0;
-
-                await BotClient.SetChatPhotoAsync(
-                    chatId: _classFixture.Chat.Id,
-                    photo: photoStream
-                );
-            }
-        }
-
         #endregion
 
         #region 5. Chat Sticker Set
