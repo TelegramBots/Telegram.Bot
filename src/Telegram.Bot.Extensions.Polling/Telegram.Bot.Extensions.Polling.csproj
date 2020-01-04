@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <NullableContextOptions>enable</NullableContextOptions>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -17,6 +17,7 @@
     <Description>Provides ITelegramBotClient extensions for polling updates.</Description>
     <PackageIconUrl>https://telegram.org/img/tl_card_store.gif</PackageIconUrl>
     <Company>TelegramBots</Company>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
