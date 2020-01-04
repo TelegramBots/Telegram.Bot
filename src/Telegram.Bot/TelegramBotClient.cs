@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
@@ -29,8 +28,6 @@ namespace Telegram.Bot
         /// <inheritdoc/>
         public int BotId { get; }
 
-        private static readonly Update[] EmptyUpdates = { };
-
         private const string BaseUrl = "https://api.telegram.org/bot";
 
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
@@ -39,126 +36,28 @@ namespace Telegram.Bot
 
         private readonly string _token;
 
-        private readonly HttpClient _httpClient;
-
         #region Config Properties
 
-        /// <summary>
-        /// Timeout for requests
-        /// </summary>
-        public TimeSpan Timeout
-        {
-            get => _httpClient.Timeout;
-            set => _httpClient.Timeout = value;
-        }
-
-        /// <summary>
-        /// Indicates if receiving updates
-        /// </summary>
-        public bool IsReceiving { get; set; }
-
-        private CancellationTokenSource _receivingCancellationTokenSource;
-
-        /// <summary>
-        /// The current message offset
-        /// </summary>
+        /// <inheritdoc />
         public int MessageOffset { get; set; }
 
-        #endregion Config Properties
-
-        #region Events
-
-        /// <summary>
-        /// Occurs before sending a request to API
-        /// </summary>
-        public event EventHandler<ApiRequestEventArgs> MakingApiRequest;
-
-        /// <summary>
-        /// Occurs after receiving the response to an API request
-        /// </summary>
-        public event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
-
-        /// <summary>
-        /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>, <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and <see cref="OnCallbackQuery"/> events.
-        /// </summary>
-        /// <param name="e">The <see cref="UpdateEventArgs"/> instance containing the event data.</param>
-        protected virtual void OnUpdateReceived(UpdateEventArgs e)
+        /// <inheritdoc />
+        public HttpClient HttpClient
         {
-            OnUpdate?.Invoke(this, e);
-
-            switch (e.Update.Type)
-            {
-                case UpdateType.Message:
-                    OnMessage?.Invoke(this, e);
-                    break;
-
-                case UpdateType.InlineQuery:
-                    OnInlineQuery?.Invoke(this, e);
-                    break;
-
-                case UpdateType.ChosenInlineResult:
-                    OnInlineResultChosen?.Invoke(this, e);
-                    break;
-
-                case UpdateType.CallbackQuery:
-                    OnCallbackQuery?.Invoke(this, e);
-                    break;
-
-                case UpdateType.EditedMessage:
-                    OnMessageEdited?.Invoke(this, e);
-                    break;
-            }
+            get => _httpClient;
+            set => _httpClient = value ?? throw new ArgumentException("Http client can't be null.");
         }
 
-        /// <summary>
-        /// Occurs when an <see cref="Update"/> is received.
-        /// </summary>
-        public event EventHandler<UpdateEventArgs> OnUpdate;
+        private HttpClient _httpClient;
 
-        /// <summary>
-        /// Occurs when a <see cref="Message"/> is received.
-        /// </summary>
-        public event EventHandler<MessageEventArgs> OnMessage;
-
-        /// <summary>
-        /// Occurs when <see cref="Message"/> was edited.
-        /// </summary>
-        public event EventHandler<MessageEventArgs> OnMessageEdited;
-
-        /// <summary>
-        /// Occurs when an <see cref="InlineQuery"/> is received.
-        /// </summary>
-        public event EventHandler<InlineQueryEventArgs> OnInlineQuery;
-
-        /// <summary>
-        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
-        /// </summary>
-        public event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
-
-        /// <summary>
-        /// Occurs when an <see cref="CallbackQuery"/> is received
-        /// </summary>
-        public event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
-
-        /// <summary>
-        /// Occurs when an error occurs during the background update pooling.
-        /// </summary>
-        public event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
-
-        /// <summary>
-        /// Occurs when an error occurs during the background update pooling.
-        /// </summary>
-        public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
-
-        #endregion
+        #endregion Config Properties
 
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance.
         /// </summary>
         /// <param name="token">API token</param>
-        /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, HttpClient httpClient = null)
+        public TelegramBotClient(string token)
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
@@ -175,7 +74,6 @@ namespace Telegram.Bot
             }
 
             _baseRequestUrl = $"{BaseUrl}{_token}/";
-            _httpClient = httpClient ?? new HttpClient();
         }
 
         /// <summary>
@@ -220,15 +118,8 @@ namespace Telegram.Bot
 
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
-                Content = request.ToHttpContent()
+                Content = await request.ToHttpContentAsync(cancellationToken)
             };
-
-            var reqDataArgs = new ApiRequestEventArgs
-            {
-                MethodName = request.MethodName,
-                HttpContent = httpRequest.Content,
-            };
-            MakingApiRequest?.Invoke(this, reqDataArgs);
 
             HttpResponseMessage httpResponse;
             try
@@ -248,12 +139,6 @@ namespace Telegram.Bot
             var actualResponseStatusCode = httpResponse.StatusCode;
             string responseJson = await httpResponse.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
-
-            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
-            {
-                ResponseMessage = httpResponse,
-                ApiRequestEventArgs = reqDataArgs
-            });
 
             switch (actualResponseStatusCode)
             {
@@ -302,89 +187,8 @@ namespace Telegram.Bot
             }
         }
 
-        /// <summary>
-        /// Start update receiving
-        /// </summary>
-        /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
-        public void StartReceiving(UpdateType[] allowedUpdates = null,
-                                   CancellationToken cancellationToken = default)
-        {
-            _receivingCancellationTokenSource = new CancellationTokenSource();
-
-            cancellationToken.Register(() => _receivingCancellationTokenSource.Cancel());
-
-            ReceiveAsync(allowedUpdates, _receivingCancellationTokenSource.Token);
-        }
-
-#pragma warning disable AsyncFixer03 // Avoid fire & forget async void methods
-        private async void ReceiveAsync(
-            UpdateType[] allowedUpdates,
-            CancellationToken cancellationToken = default)
-        {
-            IsReceiving = true;
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                var timeout = Convert.ToInt32(Timeout.TotalSeconds);
-                var updates = EmptyUpdates;
-
-                try
-                {
-                    updates = await GetUpdatesAsync(
-                        MessageOffset,
-                        timeout: timeout,
-                        allowedUpdates: allowedUpdates,
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
-                }
-                catch (OperationCanceledException)
-                {
-                }
-                catch (ApiRequestException apiException)
-                {
-                    OnReceiveError?.Invoke(this, apiException);
-                }
-                catch (Exception generalException)
-                {
-                    OnReceiveGeneralError?.Invoke(this, generalException);
-                }
-
-                try
-                {
-                    foreach (var update in updates)
-                    {
-                        OnUpdateReceived(new UpdateEventArgs(update));
-                        MessageOffset = update.Id + 1;
-                    }
-                }
-                catch
-                {
-                    IsReceiving = false;
-                    throw;
-                }
-            }
-
-            IsReceiving = false;
-        }
-#pragma warning restore AsyncFixer03 // Avoid fire & forget async void methods
-
-        /// <summary>
-        /// Stop update receiving
-        /// </summary>
-        public void StopReceiving()
-        {
-            try
-            {
-                _receivingCancellationTokenSource.Cancel();
-            }
-            catch (WebException)
-            {
-            }
-            catch (TaskCanceledException)
-            {
-            }
-        }
+        /// <inheritdoc />
+        public ITelegramBotJsonConverter JsonConverter { get; set; }
 
         #endregion Helpers
 
@@ -400,7 +204,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new GetUpdatesRequest
             {
-                Offset = offset,
+                JsonConverter = JsonConverter,
+				Offset = offset,
                 Limit = limit,
                 Timeout = timeout,
                 AllowedUpdates = allowedUpdates
@@ -416,7 +221,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SetWebhookRequest(url, certificate)
             {
-                MaxConnections = maxConnections,
+                JsonConverter = JsonConverter,
+				MaxConnections = maxConnections,
                 AllowedUpdates = allowedUpdates
             }, cancellationToken);
 
@@ -449,7 +255,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendMessageRequest(chatId, text)
             {
-                ParseMode = parseMode,
+                JsonConverter = JsonConverter,
+				ParseMode = parseMode,
                 DisableWebPagePreview = disableWebPagePreview,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -466,7 +273,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new ForwardMessageRequest(chatId, fromChatId, messageId)
             {
-                DisableNotification = disableNotification
+                JsonConverter = JsonConverter,
+				DisableNotification = disableNotification
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -482,7 +290,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendPhotoRequest(chatId, photo)
             {
-                Caption = caption,
+                JsonConverter = JsonConverter,
+				Caption = caption,
                 ParseMode = parseMode,
                 ReplyToMessageId = replyToMessageId,
                 DisableNotification = disableNotification,
@@ -506,7 +315,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendAudioRequest(chatId, audio)
             {
-                Caption = caption,
+                JsonConverter = JsonConverter,
+				Caption = caption,
                 ParseMode = parseMode,
                 Duration = duration,
                 Performer = performer,
@@ -531,7 +341,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
-                Caption = caption,
+                JsonConverter = JsonConverter,
+				Caption = caption,
                 Thumb = thumb,
                 ParseMode = parseMode,
                 DisableNotification = disableNotification,
@@ -550,7 +361,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendStickerRequest(chatId, sticker)
             {
-                DisableNotification = disableNotification,
+                JsonConverter = JsonConverter,
+				DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -573,7 +385,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVideoRequest(chatId, video)
             {
-                Duration = duration,
+                JsonConverter = JsonConverter,
+				Duration = duration,
                 Width = width,
                 Height = height,
                 Thumb = thumb,
@@ -602,7 +415,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendAnimationRequest(chatId, animation)
             {
-                Duration = duration,
+                JsonConverter = JsonConverter,
+				Duration = duration,
                 Width = width,
                 Height = height,
                 Thumb = thumb,
@@ -627,7 +441,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVoiceRequest(chatId, voice)
             {
-                Caption = caption,
+                JsonConverter = JsonConverter,
+				Caption = caption,
                 ParseMode = parseMode,
                 Duration = duration,
                 DisableNotification = disableNotification,
@@ -649,7 +464,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVideoNoteRequest(chatId, videoNote)
             {
-                Duration = duration,
+                JsonConverter = JsonConverter,
+				Duration = duration,
                 Length = length,
                 Thumb = thumb,
                 DisableNotification = disableNotification,
@@ -673,7 +489,8 @@ namespace Telegram.Bot
                 .ToArray();
             return MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
             {
-                DisableNotification = disableNotification,
+                JsonConverter = JsonConverter,
+				DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
             }, cancellationToken);
         }
@@ -688,7 +505,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
             {
-                DisableNotification = disableNotification,
+                JsonConverter = JsonConverter,
+				DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
             }, cancellationToken);
 
@@ -705,7 +523,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendLocationRequest(chatId, latitude, longitude)
             {
-                LivePeriod = livePeriod,
+                JsonConverter = JsonConverter,
+				LivePeriod = livePeriod,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
@@ -727,7 +546,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
-                FoursquareId = foursquareId,
+                JsonConverter = JsonConverter,
+				FoursquareId = foursquareId,
                 FoursquareType = foursquareType,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -748,7 +568,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName)
             {
-                LastName = lastName,
+                JsonConverter = JsonConverter,
+				LastName = lastName,
                 Vcard = vCard,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -767,7 +588,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendPollRequest(chatId, question, options)
             {
-                DisableNotification = disableNotification,
+                JsonConverter = JsonConverter,
+				DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -789,7 +611,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new GetUserProfilePhotosRequest(userId)
             {
-                Offset = offset,
+                JsonConverter = JsonConverter,
+				Offset = offset,
                 Limit = limit
             }, cancellationToken);
 
@@ -869,7 +692,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new KickChatMemberRequest(chatId, userId)
             {
-                UntilDate = untilDate
+                JsonConverter = JsonConverter,
+				UntilDate = untilDate
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -927,7 +751,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new AnswerCallbackQueryRequest(callbackQueryId)
             {
-                Text = text,
+                JsonConverter = JsonConverter,
+				Text = text,
                 ShowAlert = showAlert,
                 Url = url,
                 CacheTime = cacheTime
@@ -942,9 +767,10 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(
-                new RestrictChatMemberRequest(chatId, userId, permissions)
+                new RestrictChatMemberRequest(chatId, userId)
                 {
-                    UntilDate = untilDate
+                    UntilDate = untilDate,
+                    Permissions = permissions
                 },
                 cancellationToken);
 
@@ -964,7 +790,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new PromoteChatMemberRequest(chatId, userId)
             {
-                CanChangeInfo = canChangeInfo,
+                JsonConverter = JsonConverter,
+				CanChangeInfo = canChangeInfo,
                 CanPostMessages = canPostMessages,
                 CanEditMessages = canEditMessages,
                 CanDeleteMessages = canDeleteMessages,
@@ -990,7 +817,7 @@ namespace Telegram.Bot
             ChatPermissions permissions,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
+            MakeRequestAsync(new SetChatPermissionsRequest(chatId) { Permissions = permissions }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> StopMessageLiveLocationAsync(
@@ -1001,7 +828,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new StopMessageLiveLocationRequest(chatId, messageId)
             {
-                ReplyMarkup = replyMarkup
+                JsonConverter = JsonConverter,
+				ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1012,7 +840,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new StopInlineMessageLiveLocationRequest(inlineMessageId)
             {
-                ReplyMarkup = replyMarkup
+                JsonConverter = JsonConverter,
+				ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         #endregion Available methods
@@ -1031,7 +860,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageTextRequest(chatId, messageId, text)
             {
-                ParseMode = parseMode,
+                JsonConverter = JsonConverter,
+				ParseMode = parseMode,
                 DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -1047,7 +877,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageTextRequest(inlineMessageId, text)
             {
-                DisableWebPagePreview = disableWebPagePreview,
+                JsonConverter = JsonConverter,
+				DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup,
                 ParseMode = parseMode
             }, cancellationToken);
@@ -1063,7 +894,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId, caption)
             {
-                ParseMode = parseMode,
+                JsonConverter = JsonConverter,
+				ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
 
@@ -1077,7 +909,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId, caption)
             {
-                ParseMode = parseMode,
+                JsonConverter = JsonConverter,
+				ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
 
@@ -1091,7 +924,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageMediaRequest(chatId, messageId, media)
             {
-                ReplyMarkup = replyMarkup
+                JsonConverter = JsonConverter,
+				ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1103,7 +937,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageMediaRequest(inlineMessageId, media)
             {
-                ReplyMarkup = replyMarkup
+                JsonConverter = JsonConverter,
+				ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1138,7 +973,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
             {
-                ReplyMarkup = replyMarkup
+                JsonConverter = JsonConverter,
+				ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1151,7 +987,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
             {
-                ReplyMarkup = replyMarkup
+                JsonConverter = JsonConverter,
+				ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1163,7 +1000,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new StopPollRequest(chatId, messageId)
             {
-                ReplyMarkup = replyMarkup
+                JsonConverter = JsonConverter,
+				ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1191,7 +1029,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new AnswerInlineQueryRequest(inlineQueryId, results)
             {
-                CacheTime = cacheTime,
+                JsonConverter = JsonConverter,
+				CacheTime = cacheTime,
                 IsPersonal = isPersonal,
                 NextOffset = nextOffset,
                 SwitchPmText = switchPmText,
@@ -1300,7 +1139,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendGameRequest(chatId, gameShortName)
             {
-                DisableNotification = disableNotification,
+                JsonConverter = JsonConverter,
+				DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -1317,7 +1157,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SetGameScoreRequest(userId, score, chatId, messageId)
             {
-                Force = force,
+                JsonConverter = JsonConverter,
+				Force = force,
                 DisableEditMessage = disableEditMessage
             }, cancellationToken);
 
@@ -1332,7 +1173,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SetInlineGameScoreRequest(userId, score, inlineMessageId)
             {
-                Force = force,
+                JsonConverter = JsonConverter,
+				Force = force,
                 DisableEditMessage = disableEditMessage
             }, cancellationToken);
 
@@ -1408,7 +1250,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new PinChatMessageRequest(chatId, messageId)
             {
-                DisableNotification = disableNotification
+                JsonConverter = JsonConverter,
+				DisableNotification = disableNotification
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1465,7 +1308,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new CreateNewStickerSetRequest(userId, name, title, pngSticker, emojis)
             {
-                ContainsMasks = isMasks,
+                JsonConverter = JsonConverter,
+				ContainsMasks = isMasks,
                 MaskPosition = maskPosition
             }, cancellationToken);
 
@@ -1480,7 +1324,8 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new AddStickerToSetRequest(userId, name, pngSticker, emojis)
             {
-                MaskPosition = maskPosition
+                JsonConverter = JsonConverter,
+				MaskPosition = maskPosition
             }, cancellationToken);
 
         /// <inheritdoc />
