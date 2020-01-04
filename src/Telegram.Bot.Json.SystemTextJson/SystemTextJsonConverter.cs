@@ -8,8 +8,12 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Dahomey.Json;
-using Telegram.Bot.Json.Helpers;
+using Dahomey.Json.NamingPolicies;
 using Telegram.Bot.Types;
+
+#if NETSTANDARD2_0
+using Telegram.Bot.Json.Helpers;
+#endif
 
 namespace Telegram.Bot.Json
 {
@@ -17,10 +21,10 @@ namespace Telegram.Bot.Json
     {
         private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
         {
-            PropertyNamingPolicy = new JsonSnakeCaseNamingPolicy(),
+            PropertyNamingPolicy = new SnakeCaseNamingPolicy(),
             Converters =
             {
-                new JsonStringEnumConverter(new JsonSnakeCaseNamingPolicy(), false)
+                new JsonStringEnumConverter(new SnakeCaseNamingPolicy(), false)
             }
         }.SetupExtensions();
 
@@ -34,20 +38,12 @@ namespace Telegram.Bot.Json
             return new ValueTask(JsonSerializer.SerializeAsync(outputStream, inputModel, inputType, _serializerOptions, ct));
         }
 
-        public async ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, string[] propertyNamesToExcept, CancellationToken ct)
+        public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, string[] propertyNamesToExcept, CancellationToken ct)
         {
-            // TODO temporary workaround
-            // https://github.com/dahomey-technologies/Dahomey.Json/issues/14
+            // waiting for non-generic version of FromObject method
+            // https://github.com/dahomey-technologies/Dahomey.Json/pull/18
 
-            JsonObject jsonObject;
-            using (var jsonStream = new MemoryStream())
-            {
-                await JsonSerializer.SerializeAsync(jsonStream, value, value.GetType(), _serializerOptions, ct);
-                jsonStream.Position = 0L;
-
-                jsonObject = await JsonSerializer.DeserializeAsync<JsonObject>(jsonStream, _serializerOptions, ct);
-            }
-
+            var jsonObject = JsonObject.FromObject(value, _serializerOptions);
             var result = new Dictionary<string, HttpContent>();
 
             foreach (var (name, node) in jsonObject)
@@ -58,7 +54,7 @@ namespace Telegram.Bot.Json
                 result.Add(name, new StringContent(node.ToString()));
             }
 
-            return result;
+            return new ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>>(result);
         }
     }
 }
