@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -6,17 +7,12 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass False for all boolean parameters to demote a user.
     /// </summary>
-    public class PromoteChatMemberRequest : RequestBase<bool>
+    public sealed class PromoteChatMemberRequest : ChatIdRequestBase<bool>
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
-        public ChatId ChatId { get; }
-
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
-        public int UserId { get; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can change chat title, photo and other settings
@@ -59,11 +55,18 @@ namespace Telegram.Bot.Requests
         public bool? CanPromoteMembers { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and userId
+        /// Initializes a new request with both <see cref="ChatId"/> and <see cref="UserId"/> set to 0
+        /// </summary>
+        public PromoteChatMemberRequest() : this(0, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new request with specified <see cref="ChatId"/> and <see cref="UserId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public PromoteChatMemberRequest(ChatId chatId, int userId)
+        public PromoteChatMemberRequest([NotNull] ChatId chatId, int userId)
             : base("promoteChatMember")
         {
             ChatId = chatId;

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
@@ -11,17 +12,13 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
     /// </summary>
-    public class SetChatPhotoRequest : FileRequestBase<bool>
+    public sealed class SetChatPhotoRequest : ChatIdFileRequestBase<bool>
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
-        public ChatId ChatId { get; }
-
         /// <summary>
         /// New chat photo
         /// </summary>
-        public InputFileStream Photo { get; }
+        [NotNull]
+        public InputFileStream Photo { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and photo
@@ -35,7 +32,6 @@ namespace Telegram.Bot.Requests
             Photo = photo;
         }
 
-        /// <param name="ct"></param>
         /// <inheritdoc />
         public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct) =>
             Photo.FileType == FileType.Stream

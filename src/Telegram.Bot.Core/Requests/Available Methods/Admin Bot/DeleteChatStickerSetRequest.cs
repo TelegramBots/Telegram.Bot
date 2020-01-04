@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -6,19 +7,20 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Delete a group sticker set from a supergroup
     /// </summary>
-    public class DeleteChatStickerSetRequest : RequestBase<bool>
+    public sealed class DeleteChatStickerSetRequest : ChatIdRequestBase<bool>
     {
         /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+        /// Initializes a new request with <see cref="ChatId"/> set to 0
         /// </summary>
-        public ChatId ChatId { get; }
+        public DeleteChatStickerSetRequest() : this(0)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new request with chatId
+        /// Initializes a new request with specified <see cref="ChatId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
-        public DeleteChatStickerSetRequest(ChatId chatId)
-            : base("deleteChatStickerSet")
+        public DeleteChatStickerSetRequest([NotNull] ChatId chatId) : base("deleteChatStickerSet")
         {
             ChatId = chatId;
         }

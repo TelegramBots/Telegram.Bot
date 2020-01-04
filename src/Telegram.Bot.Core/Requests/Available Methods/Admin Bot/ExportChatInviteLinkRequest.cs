@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -6,18 +7,20 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Export an invite link to a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
     /// </summary>
-    public class ExportChatInviteLinkRequest : RequestBase<string>
+    public sealed class ExportChatInviteLinkRequest : ChatIdRequestBase<string>
     {
         /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+        /// Initializes a new request with <see cref="ChatId"/> set to 0
         /// </summary>
-        public ChatId ChatId { get; }
+        public ExportChatInviteLinkRequest() : this(0)
+        {
+        }
 
         /// <summary>
-        /// Initializes a new request with chatId
+        /// Initializes a new request with specified <see cref="ChatId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel.</param>
-        public ExportChatInviteLinkRequest(ChatId chatId)
+        public ExportChatInviteLinkRequest([NotNull] ChatId chatId)
             : base("exportChatInviteLink")
         {
             ChatId = chatId;

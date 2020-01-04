@@ -5,9 +5,10 @@ using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
 {
-    internal static class ApiExceptionParser
+    public static class ApiExceptionParser
     {
-        private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos = {
+        private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos =
+        {
             new BadRequestExceptionInfo<ChatNotFoundException>("chat not found"),
             new BadRequestExceptionInfo<UserNotFoundException>("user not found"),
             new BadRequestExceptionInfo<InvalidUserIdException>("USER_ID_INVALID"),
@@ -30,7 +31,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<InvalidGameShortNameException>("wrong game short name specified"),
 
             #endregion
-            
+
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -7,17 +8,12 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Kick a user from a group, a supergroup or a channel
     /// </summary>
-    public class KickChatMemberRequest : RequestBase<bool>
+    public sealed class KickChatMemberRequest : ChatIdRequestBase<bool>
     {
-        /// <summary>
-        /// Unique identifier for the target group or username of the target supergroup or channel
-        /// </summary>
-        public ChatId ChatId { get; }
-
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
-        public int UserId { get; }
+        public int UserId { get; set; }
 
         /// <summary>
         /// Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever.
@@ -25,11 +21,18 @@ namespace Telegram.Bot.Requests
         public DateTime UntilDate { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and userId
+        /// Initializes a new request with both <see cref="ChatId"/> and <see cref="UserId"/> set to 0
+        /// </summary>
+        public KickChatMemberRequest() : this(0, 0)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new request with specified <see cref="ChatId"/> and <see cref="UserId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public KickChatMemberRequest(ChatId chatId, int userId)
+        public KickChatMemberRequest([NotNull] ChatId chatId, int userId)
             : base("kickChatMember")
         {
             ChatId = chatId;
