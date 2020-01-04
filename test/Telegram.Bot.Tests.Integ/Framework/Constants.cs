@@ -197,6 +197,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SetChatPermissions = "setChatPermissions";
 
+            public const string SetChatAdministratorCustomTitle = "setChatAdministratorCustomTitle";
+
             public const string ExportChatInviteLink = "exportChatInviteLink";
 
             public const string PinChatMessage = "pinChatMessage";

@@ -25,7 +25,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture = classFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldUploadPhotosInAlbum)]
+        [OrderedFact("Should upload 2 photos with captions and send them in an album")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album()
         {
@@ -67,7 +67,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _classFixture.Entities = messages.ToList();
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendFileIdPhotosInAlbum)]
+        [OrderedFact("Should send an album with 3 photos using their file_id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_3_Photos_Album_Using_FileId()
         {
@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendUrlPhotosInAlbum)]
+        [OrderedFact("Should send an album using HTTP urls in reply to 1st album message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
@@ -112,7 +112,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldUploadVideosInAlbum)]
+        [OrderedFact("Should upload 2 videos and a photo with captions and send them in an album")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Videos_Album()
         {
@@ -163,7 +163,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("Bot", messages[2].Caption);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions)]
+        [OrderedFact("Should upload 2 photos with markdown encoded captions and send them in an album")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
@@ -200,7 +200,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(MessageEntityType.Italic, messages[1].CaptionEntities.Single().Type);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVideoWithThumb)]
+        [OrderedFact("Should send a video with thumbnail in an album")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Video_With_Thumbnail_In_Album()
         {
@@ -228,27 +228,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(MessageType.Video, messages[0].Type);
             Assert.NotNull(messages[0].Video.Thumb);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldUploadPhotosInAlbum =
-                "Should upload 2 photos with captions and send them in an album";
-
-            public const string ShouldSendFileIdPhotosInAlbum =
-                "Should send an album with 3 photos using their file_id";
-
-            public const string ShouldSendUrlPhotosInAlbum =
-                "Should send an album using HTTP urls in reply to 1st album message";
-
-            public const string ShouldUploadVideosInAlbum =
-                "Should upload 2 videos and a photo with captions and send them in an album";
-
-            public const string ShouldUpload2PhotosAlbumWithMarkdownEncodedCaptions =
-                "Should upload 2 photos with markdown encoded captions and send them in an album";
-
-            public const string ShouldSendVideoWithThumb =
-                "Should send a video with thumbnail in an album";
         }
     }
 }

@@ -54,6 +54,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(400, message.Animation.Height);
             Assert.Equal("video/mp4", message.Animation.MimeType);
             Assert.NotEmpty(message.Animation.FileId);
+            Assert.NotEmpty(message.Animation.FileUniqueId);
             Assert.NotEmpty(message.Animation.FileName);
             Assert.True(message.Animation.FileSize > 80_000);
         }
@@ -78,6 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.NotNull(message.Animation);
             Assert.NotNull(message.Animation.Thumb);
             Assert.NotEmpty(message.Animation.Thumb.FileId);
+            Assert.NotEmpty(message.Animation.Thumb.FileUniqueId);
             Assert.Equal(320, message.Animation.Thumb.Height);
             Assert.Equal(320, message.Animation.Thumb.Width);
             Assert.True(message.Animation.Thumb.FileSize > 10_000);

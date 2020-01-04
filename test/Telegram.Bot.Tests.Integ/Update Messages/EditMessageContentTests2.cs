@@ -23,7 +23,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditMessageText)]
+        [OrderedFact("Should edit a message's text")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Message_Text()
@@ -42,7 +42,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 parseMode: ParseMode.Html
             );
 
-            DateTime timeBeforeEdition = DateTime.UtcNow;
             await Task.Delay(1_000);
 
             const string modifiedMessagePrefix = "modified\n";
@@ -57,7 +56,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Assert.StartsWith(modifiedMessagePrefix, editedMessage.Text);
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
-            Assert.True(timeBeforeEdition < editedMessage.EditDate);
+            Assert.Equal(originalMessage.Date, editedMessage.Date);
+            Assert.True(originalMessage.Date < editedMessage.EditDate);
 
             Assert.Equal(
                 entityValueMappings.Select(tuple => tuple.Type),
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditMessageMarkup)]
+        [OrderedFact("Should edit a message's markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageReplyMarkup)]
         public async Task Should_Edit_Message_Markup()
@@ -76,7 +76,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 replyMarkup: (InlineKeyboardMarkup)"Original markup"
             );
 
-            DateTime timeBeforeEdition = DateTime.UtcNow;
             await Task.Delay(1_000);
 
             Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
@@ -87,10 +86,11 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Assert.Equal(message.MessageId, editedMessage.MessageId);
             Assert.Equal(message.Text, editedMessage.Text);
-            Assert.True(timeBeforeEdition < editedMessage.EditDate);
+            Assert.True(message.Date < editedMessage.EditDate);
+            Assert.Equal(message.Date, editedMessage.Date);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditMessageCaption)]
+        [OrderedFact("Should edit a message's caption")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Message_Caption()
@@ -105,7 +105,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 );
             }
 
-            DateTime timeBeforeEdition = DateTime.UtcNow;
             await Task.Delay(1_000);
 
             const string captionPrefix = "Modified caption";
@@ -120,19 +119,11 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
 
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
-            Assert.True(timeBeforeEdition < editedMessage.EditDate);
+            Assert.True(originalMessage.Date < editedMessage.EditDate);
+            Assert.Equal(originalMessage.Date, editedMessage.Date);
             Assert.StartsWith(captionPrefix, editedMessage.Caption);
 
             Assert.Equal(editedMessage.CaptionEntities.Single().Type, captionEntity.Type);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldEditMessageText = "Should edit a message's text";
-
-            public const string ShouldEditMessageMarkup = "Should edit a message's markup";
-
-            public const string ShouldEditMessageCaption = "Should edit a message's caption";
         }
     }
 }

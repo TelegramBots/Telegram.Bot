@@ -84,6 +84,12 @@ namespace Telegram.Bot.Types
         public ChatPermissions Permissions { get; set; }
 
         /// <summary>
+        /// Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? SlowModeDelay { get; set; }
+
+        /// <summary>
         /// Optional. For supergroups, name of group sticker set. Returned only in getChat.
         /// </summary>
         [DataMember(EmitDefaultValue = false)]

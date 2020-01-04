@@ -975,6 +975,16 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task SetChatAdministratorCustomTitleAsync(
+            ChatId chatId,
+            int userId,
+            string customTitle,
+            CancellationToken cancellationToken = default)
+            => MakeRequestAsync(
+                new SetChatAdministratorCustomTitleRequest(chatId, userId, customTitle),
+                cancellationToken);
+
+        /// <inheritdoc />
         public Task SetChatPermissionsAsync(
             ChatId chatId,
             ChatPermissions permissions,
