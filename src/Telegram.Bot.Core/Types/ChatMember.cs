@@ -25,7 +25,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. Owner and administrators only. Custom title for this user
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(EmitDefaultValue = false)]
         public string CustomTitle { get; set; }
 
         /// <summary>

@@ -86,7 +86,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user. Returned only in getChat.
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [DataMember(EmitDefaultValue = false)]
         public int? SlowModeDelay { get; set; }
 
         /// <summary>

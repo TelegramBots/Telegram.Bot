@@ -17,7 +17,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unique file identifier of big (640x640) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [DataMember(IsRequired = true)]
         public string BigFileUniqueId { get; set; }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unique file identifier of small (160x160) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [DataMember(IsRequired = true)]
         public string SmallFileUniqueId { get; set; }
     }
 }
