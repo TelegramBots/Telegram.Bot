@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,15 +29,6 @@ namespace Telegram.Bot
         /// </summary>
         [SuppressMessage("ReSharper", "CommentTypo")]
         int BotId { get; }
-
-        #region Config Properties
-
-        /// <summary>
-        /// HTTP client that is used for sending requests
-        /// </summary>
-        HttpClient HttpClient { get; set; }
-
-        #endregion  Config Properties
 
         #region Helpers
 
