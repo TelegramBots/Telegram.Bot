@@ -5,7 +5,7 @@ using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
 {
-    public static class ApiExceptionParser
+    internal static class ApiExceptionParser
     {
         private static readonly IApiExceptionInfo<ApiRequestException>[] ExceptionInfos =
         {
