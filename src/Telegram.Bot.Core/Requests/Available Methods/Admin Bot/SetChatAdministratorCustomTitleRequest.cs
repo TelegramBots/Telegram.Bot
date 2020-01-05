@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System.Runtime.Serialization;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -8,25 +7,25 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
     /// </summary>
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [DataContract]
     public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [DataMember(IsRequired = true)]
         public ChatId ChatId { get; }
 
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [DataMember(IsRequired = true)]
         public int UserId { get; set; }
 
         /// <summary>
         /// New custom title for the administrator; 0-16 characters, emoji are not allowed
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [DataMember(IsRequired = true)]
         public string CustomTitle { get; }
 
         /// <summary>
