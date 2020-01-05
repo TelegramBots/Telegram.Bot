@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Helpers;
+using Telegram.Bot.Json;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -38,8 +39,11 @@ namespace Telegram.Bot
         /// Create a new <see cref="TelegramBotClient"/> instance.
         /// </summary>
         /// <param name="token">API token</param>
+        /// <param name="httpClient">Http client that is used to send the request to Telegram Bot API</param>
+        /// <param name="jsonConverter">Json converter. Defaults to NewtonsoftTelegramBotJsonConverter</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, HttpClient httpClient = null)
+        public TelegramBotClient(string token, HttpClient httpClient = null,
+                                 ITelegramBotJsonConverter jsonConverter = null)
         {
             _ = token ?? throw new ArgumentNullException(nameof(token));
 
@@ -59,6 +63,9 @@ namespace Telegram.Bot
             _httpClient = httpClient ?? new HttpClient();
             _baseRequestUrl = $"{Defaults.BaseUrl}{token}/";
             _baseFileRequestUrl = $"{Defaults.BaseFileUrl}{token}/";
+
+            if (jsonConverter != null)
+                JsonConverter = jsonConverter;
         }
 
         #region Helpers
@@ -142,7 +149,7 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
-        public ITelegramBotJsonConverter JsonConverter { get; set; }
+        public ITelegramBotJsonConverter JsonConverter { get; } = new NewtonsoftTelegramBotJsonConverter();
 
         #endregion Helpers
 

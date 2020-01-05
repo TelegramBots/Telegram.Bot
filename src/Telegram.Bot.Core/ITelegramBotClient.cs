@@ -51,7 +51,7 @@ namespace Telegram.Bot
         Task<bool> TestApiAsync(CancellationToken cancellationToken = default);
 
         /// <inheritdoc cref="ITelegramBotJsonConverter"/>
-        ITelegramBotJsonConverter JsonConverter { get; set; }
+        ITelegramBotJsonConverter JsonConverter { get; }
 
         #endregion Helpers
 
