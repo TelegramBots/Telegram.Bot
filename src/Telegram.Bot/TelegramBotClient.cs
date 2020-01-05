@@ -39,9 +39,6 @@ namespace Telegram.Bot
         #region Config Properties
 
         /// <inheritdoc />
-        public int MessageOffset { get; set; }
-
-        /// <inheritdoc />
         public HttpClient HttpClient
         {
             get => _httpClient;

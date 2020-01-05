@@ -34,11 +34,6 @@ namespace Telegram.Bot
         #region Config Properties
 
         /// <summary>
-        /// The current message offset
-        /// </summary>
-        int MessageOffset { get; set; }
-
-        /// <summary>
         /// HTTP client that is used for sending requests
         /// </summary>
         HttpClient HttpClient { get; set; }
