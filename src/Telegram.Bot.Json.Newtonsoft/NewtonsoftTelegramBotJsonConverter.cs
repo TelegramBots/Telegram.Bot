@@ -10,7 +10,6 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Json.Converters;
-using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Json
 {
@@ -81,9 +80,10 @@ namespace Telegram.Bot.Json
             return default;
         }
 
-        public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, string[] propertyNamesToExcept, CancellationToken ct)
+        public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(
+            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken ct)
         {
-            var stringContents = JObject.FromObject(this)
+            var stringContents = JObject.FromObject(value)
                 .Properties()
                 .Where(prop => propertyNamesToExcept?.Contains(prop.Name) == false)
                 .Select(prop => new KeyValuePair<string, HttpContent>(prop.Name, new StringContent(prop.Value.ToString())));
@@ -91,12 +91,12 @@ namespace Telegram.Bot.Json
             return new ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>>(stringContents);
         }
 
-        public ValueTask<Update> DeserializeAsync(Stream jsonStream, CancellationToken ct)
+        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken ct)
         {
             using (var sr = new StreamReader(jsonStream))
             using (var jsonTextReader = new JsonTextReader(sr))
             {
-                return new ValueTask<Update>(_jsonSerializer.Deserialize<Update>(jsonTextReader));
+                return new ValueTask<TOutput>(_jsonSerializer.Deserialize<TOutput>(jsonTextReader));
             }
         }
     }

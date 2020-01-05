@@ -60,7 +60,7 @@ namespace Telegram.Bot.Requests
 
             var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
 
-            var nodes = await JsonConverter.ToNodesAsync(this, exceptPropertyNames, ct);
+            var nodes = await JsonConverter.ToNodesAsync(this, GetType(), exceptPropertyNames, ct);
 
             foreach (var strContent in nodes)
                 multipartContent.Add(strContent.Value, strContent.Key);

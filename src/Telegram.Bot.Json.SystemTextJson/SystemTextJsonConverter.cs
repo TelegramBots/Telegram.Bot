@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -9,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Dahomey.Json;
 using Dahomey.Json.NamingPolicies;
-using Telegram.Bot.Types;
 
 #if NETSTANDARD2_0
 using Telegram.Bot.Json.Helpers;
@@ -28,9 +28,9 @@ namespace Telegram.Bot.Json
             }
         }.SetupExtensions();
 
-        public ValueTask<Update> DeserializeAsync(Stream jsonStream, CancellationToken ct)
+        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken ct)
         {
-            return JsonSerializer.DeserializeAsync<Update>(jsonStream, _serializerOptions, ct);
+            return JsonSerializer.DeserializeAsync<TOutput>(jsonStream, _serializerOptions, ct);
         }
 
         public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken ct)
@@ -38,12 +38,10 @@ namespace Telegram.Bot.Json
             return new ValueTask(JsonSerializer.SerializeAsync(outputStream, inputModel, inputType, _serializerOptions, ct));
         }
 
-        public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, string[] propertyNamesToExcept, CancellationToken ct)
+        public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(
+            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken ct)
         {
-            // waiting for non-generic version of FromObject method
-            // https://github.com/dahomey-technologies/Dahomey.Json/pull/18
-
-            var jsonObject = JsonObject.FromObject(value, _serializerOptions);
+            var jsonObject = JsonObject.FromObject(value, valueType, _serializerOptions);
             var result = new Dictionary<string, HttpContent>();
 
             foreach (var (name, node) in jsonObject)
@@ -54,7 +52,8 @@ namespace Telegram.Bot.Json
                 result.Add(name, new StringContent(node.ToString()));
             }
 
-            return new ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>>(result);
+            return new ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>>(
+                new ReadOnlyDictionary<string, HttpContent>(result));
         }
     }
 }
