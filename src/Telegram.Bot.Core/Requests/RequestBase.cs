@@ -42,7 +42,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="ct">Cancellation token</param>
         /// <returns>Content of HTTP request</returns>
-        public virtual async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
+        public virtual async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
             CheckJsonConverter();
 

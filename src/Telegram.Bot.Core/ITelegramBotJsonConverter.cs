@@ -19,7 +19,7 @@ namespace Telegram.Bot
         /// <param name="jsonStream">UTF-8 stream which contains JSON data.</param>
         /// <param name="ct">Cancellation token used for cancellation of the deserialization task.</param>
         /// <returns>Update model.</returns>
-        ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken ct);
+        ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken cancellationToken);
 
         /// <summary>
         /// Serializing model of type <see cref="inputType"/> to output stream.
@@ -28,7 +28,7 @@ namespace Telegram.Bot
         /// <param name="inputModel">Value to serialize.</param>
         /// <param name="inputType">Type of <see cref="inputModel"/>.</param>
         /// <param name="ct">Cancellation token used for cancellation of the deserialization task.</param>
-        ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken ct);
+        ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken cancellationToken);
 
         /// <summary>
         /// Reading enumeration of <see cref="KeyValuePair{TKey,TValue}"/> type with <see cref="string"/> key
@@ -40,6 +40,6 @@ namespace Telegram.Bot
         /// <param name="ct">Cancellation token used for cancellation of this conversion.</param>
         /// <returns>Enumeration of name-content pairs for <see cref="value"/> object.</returns>
         ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, Type valueType,
-            string[] propertyNamesToExcept, CancellationToken ct);
+            string[] propertyNamesToExcept, CancellationToken cancellationToken);
     }
 }

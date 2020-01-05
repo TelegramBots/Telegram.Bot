@@ -69,7 +69,7 @@ namespace Telegram.Bot.Json
             }
         }
 
-        public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken ct)
+        public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken cancellationToken)
         {
             using (var sw = new StreamWriter(outputStream))
             using (var jsonTextWriter = new JsonTextWriter(sw))
@@ -81,7 +81,7 @@ namespace Telegram.Bot.Json
         }
 
         public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(
-            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken ct)
+            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken cancellationToken)
         {
             var stringContents = JObject.FromObject(value)
                 .Properties()
@@ -91,7 +91,7 @@ namespace Telegram.Bot.Json
             return new ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>>(stringContents);
         }
 
-        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken ct)
+        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken cancellationToken)
         {
             using (var sr = new StreamReader(jsonStream))
             using (var jsonTextReader = new JsonTextReader(sr))

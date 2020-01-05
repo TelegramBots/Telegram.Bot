@@ -38,7 +38,7 @@ namespace Telegram.Bot.Requests
         /// <param name="ct"></param>
         /// <returns></returns>
         protected async ValueTask<MultipartFormDataContent> ToMultipartFormDataContentAsync(string fileParameterName,
-            InputFileStream inputFile, CancellationToken ct)
+            InputFileStream inputFile, CancellationToken cancellationToken)
         {
             var multipartContent = await GenerateMultipartFormDataContent(ct, fileParameterName);
 
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Requests
         /// <param name="exceptPropertyNames">Property names to remove from multipart form-data content.</param>
         /// <returns></returns>
         protected async ValueTask<MultipartFormDataContent> GenerateMultipartFormDataContent(
-            CancellationToken ct, params string[] exceptPropertyNames)
+            CancellationToken cancellationToken, params string[] exceptPropertyNames)
         {
             CheckJsonConverter();
 

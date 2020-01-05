@@ -28,18 +28,18 @@ namespace Telegram.Bot.Json
             }
         }.SetupExtensions();
 
-        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken ct)
+        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken cancellationToken)
         {
             return JsonSerializer.DeserializeAsync<TOutput>(jsonStream, _serializerOptions, ct);
         }
 
-        public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken ct)
+        public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken cancellationToken)
         {
             return new ValueTask(JsonSerializer.SerializeAsync(outputStream, inputModel, inputType, _serializerOptions, ct));
         }
 
         public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(
-            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken ct)
+            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken cancellationToken)
         {
             var jsonObject = JsonObject.FromObject(value, valueType, _serializerOptions);
             var result = new Dictionary<string, HttpContent>();
