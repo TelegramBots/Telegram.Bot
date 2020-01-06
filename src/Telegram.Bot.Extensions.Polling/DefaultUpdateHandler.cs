@@ -16,9 +16,9 @@ namespace Telegram.Bot.Extensions.Polling
         /// </summary>
         public UpdateType[]? AllowedUpdates { get; set; }
 
-        private readonly Func<Update, CancellationToken, Task> _updateHandler;
+        private readonly Func<ITelegramBotClient, Update, CancellationToken, Task> _updateHandler;
 
-        private readonly Func<Exception, CancellationToken, Task> _errorHandler;
+        private readonly Func<ITelegramBotClient, Exception, CancellationToken, Task> _errorHandler;
 
         /// <summary>
         /// Constructs a new <see cref="DefaultUpdateHandler"/> with the specified callback functions
@@ -27,8 +27,8 @@ namespace Telegram.Bot.Extensions.Polling
         /// <param name="errorHandler">The function to invoke when an error occurs</param>
         /// <param name="allowedUpdates">Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates</param>
         public DefaultUpdateHandler(
-            Func<Update, CancellationToken, Task> updateHandler,
-            Func<Exception, CancellationToken, Task> errorHandler,
+            Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
+            Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler,
             UpdateType[]? allowedUpdates = default)
         {
             _updateHandler = updateHandler ?? throw new ArgumentNullException(nameof(updateHandler));
@@ -36,26 +36,16 @@ namespace Telegram.Bot.Extensions.Polling
             AllowedUpdates = allowedUpdates;
         }
 
-        /// <summary>
-        /// Handles an <see cref="Update"/>
-        /// </summary>
-        /// <param name="update">The <see cref="Update"/> to handle</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public Task HandleUpdate(Update update, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
-            return _updateHandler(update, cancellationToken);
+            return _updateHandler(botClient, update, cancellationToken);
         }
 
-        /// <summary>
-        /// Handles an <see cref="Exception"/>
-        /// </summary>
-        /// <param name="exception">The <see cref="Exception"/> to handle</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public Task HandleError(Exception exception, CancellationToken cancellationToken)
+        /// <inheritdoc />
+        public Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            return _errorHandler(exception, cancellationToken);
+            return _errorHandler(botClient, exception, cancellationToken);
         }
     }
 }

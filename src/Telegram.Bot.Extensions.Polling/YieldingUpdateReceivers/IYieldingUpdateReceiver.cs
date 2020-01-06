@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_0
+﻿#if NETSTANDARD2_1
 using System.Collections.Generic;
 using Telegram.Bot.Types;
 
