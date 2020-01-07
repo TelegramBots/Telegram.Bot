@@ -21,13 +21,6 @@ namespace Telegram.Bot.Requests
         public DateTime UntilDate { get; set; }
 
         /// <summary>
-        /// Initializes a new request with both <see cref="ChatId"/> and <see cref="UserId"/> set to 0
-        /// </summary>
-        public KickChatMemberRequest() : this(0, 0)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new request with specified <see cref="ChatId"/> and <see cref="UserId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>

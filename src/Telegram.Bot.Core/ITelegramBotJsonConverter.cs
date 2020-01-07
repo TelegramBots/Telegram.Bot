@@ -4,7 +4,6 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Telegram.Bot.Types;
 
 namespace Telegram.Bot
 {
@@ -17,7 +16,7 @@ namespace Telegram.Bot
         /// Deserializing json stream into Update class.
         /// </summary>
         /// <param name="jsonStream">UTF-8 stream which contains JSON data.</param>
-        /// <param name="ct">Cancellation token used for cancellation of the deserialization task.</param>
+        /// <param name="cancellationToken">Cancellation token used for cancellation of the deserialization task.</param>
         /// <returns>Update model.</returns>
         ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken cancellationToken);
 
@@ -27,7 +26,7 @@ namespace Telegram.Bot
         /// <param name="outputStream">UTF-8 stream to serialize to.</param>
         /// <param name="inputModel">Value to serialize.</param>
         /// <param name="inputType">Type of <see cref="inputModel"/>.</param>
-        /// <param name="ct">Cancellation token used for cancellation of the deserialization task.</param>
+        /// <param name="cancellationToken">Cancellation token used for cancellation of the deserialization task.</param>
         ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken cancellationToken);
 
         /// <summary>
@@ -37,7 +36,7 @@ namespace Telegram.Bot
         /// <param name="value">Value to serialize.</param>
         /// <param name="valueType">Type of <see cref="value"/></param>
         /// <param name="propertyNamesToExcept">Names of properties which must be ignored.</param>
-        /// <param name="ct">Cancellation token used for cancellation of this conversion.</param>
+        /// <param name="cancellationToken">Cancellation token used for cancellation of this conversion.</param>
         /// <returns>Enumeration of name-content pairs for <see cref="value"/> object.</returns>
         ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(object value, Type valueType,
             string[] propertyNamesToExcept, CancellationToken cancellationToken);

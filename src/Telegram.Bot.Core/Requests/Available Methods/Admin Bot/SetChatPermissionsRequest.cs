@@ -13,16 +13,18 @@ namespace Telegram.Bot.Requests
         /// New default chat permissions
         /// </summary>
         [NotNull]
-        public ChatPermissions Permissions { get; set; } = new ChatPermissions();
+        public ChatPermissions Permissions { get; set; }
 
         /// <summary>
         /// Initializes a new request with specified <see cref="ChatId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
-        public SetChatPermissionsRequest([NotNull] ChatId chatId)
+        /// <param name="permissions">New default chat permissions</param>
+        public SetChatPermissionsRequest([NotNull] ChatId chatId, [NotNull] ChatPermissions permissions)
             : base("setChatPermissions")
         {
             ChatId = chatId;
+            Permissions = permissions;
         }
     }
 }

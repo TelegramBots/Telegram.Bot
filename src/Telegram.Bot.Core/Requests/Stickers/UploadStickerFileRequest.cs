@@ -33,11 +33,11 @@ namespace Telegram.Bot.Requests
             PngSticker = pngSticker;
         }
 
-        /// <param name="ct"></param>
+        /// <param name="cancellationToken"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct) =>
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) =>
             PngSticker.FileType == FileType.Stream
-                ? await ToMultipartFormDataContentAsync("png_sticker", PngSticker, ct)
-                : await base.ToHttpContentAsync(ct);
+                ? await ToMultipartFormDataContentAsync("png_sticker", PngSticker, cancellationToken)
+                : await base.ToHttpContentAsync(cancellationToken);
     }
 }

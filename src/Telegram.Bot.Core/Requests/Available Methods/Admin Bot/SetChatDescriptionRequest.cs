@@ -12,14 +12,8 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// New chat Description, 0-255 characters
         /// </summary>
+        [AllowNull]
         public string? Description { get; set; }
-
-        /// <summary>
-        /// Initializes a new request with <see cref="ChatId"/> set to 0 and <see cref="Description"/> set to <see langword="null"/>
-        /// </summary>
-        public SetChatDescriptionRequest() : this(0)
-        {
-        }
 
         /// <summary>
         /// Initializes a new request with <see cref="ChatId"/> and new <see cref="Description"/>

@@ -10,13 +10,6 @@ namespace Telegram.Bot.Requests
     public sealed class DeleteChatStickerSetRequest : ChatIdRequestBase<bool>
     {
         /// <summary>
-        /// Initializes a new request with <see cref="ChatId"/> set to 0
-        /// </summary>
-        public DeleteChatStickerSetRequest() : this(0)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new request with specified <see cref="ChatId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>

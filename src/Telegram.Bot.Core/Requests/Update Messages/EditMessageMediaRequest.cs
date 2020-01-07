@@ -48,11 +48,11 @@ namespace Telegram.Bot.Requests
         }
 
         // ToDo: If there is no file stream in the request, request content should be string
-        /// <param name="ct"></param>
+        /// <param name="cancellationToken"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
-            var httpContent = await GenerateMultipartFormDataContent(ct);
+            var httpContent = await GenerateMultipartFormDataContent(cancellationToken);
             httpContent.AddContentIfInputFileStream(Media);
             return httpContent;
         }

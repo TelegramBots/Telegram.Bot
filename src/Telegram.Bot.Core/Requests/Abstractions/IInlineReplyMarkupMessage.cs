@@ -10,6 +10,6 @@ namespace Telegram.Bot.Requests.Abstractions
         /// <summary>
         /// A JSON-serialized object for an inline keyboard
         /// </summary>
-        new InlineKeyboardMarkup ReplyMarkup { get; set; }
+        new InlineKeyboardMarkup? ReplyMarkup { get; set; }
     }
 }

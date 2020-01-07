@@ -25,7 +25,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="photo">New chat photo</param>
-        public SetChatPhotoRequest(ChatId chatId, InputFileStream photo)
+        public SetChatPhotoRequest([NotNull] ChatId chatId, [NotNull] InputFileStream photo)
             : base("setChatPhoto")
         {
             ChatId = chatId;
@@ -35,7 +35,7 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) =>
             Photo.FileType == FileType.Stream
-                ? await ToMultipartFormDataContentAsync("photo", Photo, ct)
-                : await base.ToHttpContentAsync(ct);
+                ? await ToMultipartFormDataContentAsync("photo", Photo, cancellationToken)
+                : await base.ToHttpContentAsync(cancellationToken);
     }
 }

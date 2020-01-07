@@ -29,8 +29,8 @@ namespace Telegram.Bot.Requests.Abstractions
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
-        /// <param name="ct"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>Content of HTTP request</returns>
-        ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct);
+        ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken);
     }
 }

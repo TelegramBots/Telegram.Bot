@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Helpers;
@@ -12,83 +14,80 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send documents
+    /// Send general files.
+    /// Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
     /// </summary>
-    public class SendDocumentRequest : FileRequestBase<Message>,
-                                       INotifiableMessage,
-                                       IReplyMessage,
-                                       IReplyMarkupMessage<IReplyMarkup>,
-                                       IFormattableMessage,
-                                       IThumbMediaMessage
+    public sealed class SendDocumentRequest : FileRequestBase<Message>,
+                                              IChatMessage,
+                                              INotifiableMessage,
+                                              IReplyMessage,
+                                              IReplyMarkupMessage<IReplyMarkup>,
+                                              IFormattableMessage,
+                                              IThumbMediaMessage
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc />
+        [DataMember(IsRequired = true), NotNull]
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Document to send.
+        /// File to send.
         /// </summary>
+        [DataMember(IsRequired = true), NotNull]
         public InputOnlineFile Document { get; }
 
         /// <summary>
-        /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters
+        /// Document caption (may also be used when resending documents by file_id), 0-1024 characters
         /// </summary>
-        public string Caption { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public string? Caption { get; set; }
 
         /// <inheritdoc />
-        public InputMedia Thumb { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public InputMedia? Thumb { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public ParseMode ParseMode { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ReplyToMessageId { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
-        public IReplyMarkup ReplyMarkup { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and document
+        /// Initializes a new request
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="document">Document to send</param>
-        public SendDocumentRequest(ChatId chatId, InputOnlineFile document)
+        public SendDocumentRequest([DisallowNull] ChatId chatId, [DisallowNull] InputOnlineFile document)
             : base("sendDocument")
         {
             ChatId = chatId;
             Document = document;
         }
 
-        /// <param name="ct"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
-            HttpContent httpContent;
-            if (Document.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
-            {
-                var multipartContent = await GenerateMultipartFormDataContent(ct, "document", "thumb");
-                if (Document.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(Document.Content, "document", Document.FileName);
-                }
+            if (Document.FileType != FileType.Stream && Thumb?.FileType != FileType.Stream)
+                return await base.ToHttpContentAsync(cancellationToken);
 
-                if (Thumb?.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
-                }
+            var multipartContent = await GenerateMultipartFormDataContent(cancellationToken, "document", "thumb");
 
-                httpContent = multipartContent;
-            }
-            else
-            {
-                httpContent = await base.ToHttpContentAsync(ct);
-            }
+            if (Document.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(Document.Content, "document", Document.FileName);
+            if (Thumb?.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
 
-            return httpContent;
+            return multipartContent;
+
         }
     }
 }

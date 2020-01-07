@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -8,14 +9,8 @@ namespace Telegram.Bot.Requests
     /// Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
     /// </summary>
     [DataContract]
-    public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>
+    public class SetChatAdministratorCustomTitleRequest : ChatIdRequestBase<bool>
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
-        [DataMember(IsRequired = true)]
-        public ChatId ChatId { get; }
-
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
@@ -26,6 +21,7 @@ namespace Telegram.Bot.Requests
         /// New custom title for the administrator; 0-16 characters, emoji are not allowed
         /// </summary>
         [DataMember(IsRequired = true)]
+        [NotNull]
         public string CustomTitle { get; }
 
         /// <summary>
@@ -34,7 +30,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="customTitle">New custom title for the administrator; 0-16 characters, emoji are not allowed</param>
-        public SetChatAdministratorCustomTitleRequest(ChatId chatId, int userId, string customTitle)
+        public SetChatAdministratorCustomTitleRequest([NotNull] ChatId chatId, int userId, [NotNull] string customTitle)
             : base("setChatAdministratorCustomTitle")
         {
             ChatId = chatId;

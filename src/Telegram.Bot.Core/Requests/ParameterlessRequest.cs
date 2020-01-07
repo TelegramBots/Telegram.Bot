@@ -31,10 +31,10 @@ namespace Telegram.Bot.Requests
         {
         }
 
-        /// <param name="ct"></param>
+        /// <param name="cancellationToken"></param>
         /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContentAsync"/>
         public override ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) => IsWebhookResponse
-            ? base.ToHttpContentAsync(ct)
+            ? base.ToHttpContentAsync(cancellationToken)
             : default;
     }
 }

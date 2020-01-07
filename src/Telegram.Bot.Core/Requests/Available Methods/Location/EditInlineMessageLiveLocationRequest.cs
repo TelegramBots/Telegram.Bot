@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Requests.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -33,7 +34,7 @@ namespace Telegram.Bot.Requests
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="latitude">Latitude of new location</param>
         /// <param name="longitude">Longitude of new location</param>
-        public EditInlineMessageLiveLocationRequest(string inlineMessageId, float latitude, float longitude)
+        public EditInlineMessageLiveLocationRequest([NotNull] string inlineMessageId, float latitude, float longitude)
             : base("editMessageLiveLocation")
         {
             InlineMessageId = inlineMessageId;

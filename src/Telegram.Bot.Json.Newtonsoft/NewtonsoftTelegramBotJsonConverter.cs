@@ -1,5 +1,7 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -31,45 +33,19 @@ namespace Telegram.Bot.Json
             }
         };
 
-        public NewtonsoftTelegramBotJsonConverter(JsonSerializer baseSerializer = default)
+        public NewtonsoftTelegramBotJsonConverter(ITraceWriter? traceWriter = default)
         {
-            if (baseSerializer == default)
+            if (traceWriter == default)
                 return;
 
-            _jsonSerializer.Context = baseSerializer.Context;
-            _jsonSerializer.Culture = baseSerializer.Culture;
-            _jsonSerializer.Formatting = baseSerializer.Formatting;
-            _jsonSerializer.ConstructorHandling = baseSerializer.ConstructorHandling;
-            _jsonSerializer.EqualityComparer = baseSerializer.EqualityComparer;
-            _jsonSerializer.MaxDepth = baseSerializer.MaxDepth;
-            _jsonSerializer.ReferenceResolver = baseSerializer.ReferenceResolver;
-            _jsonSerializer.SerializationBinder = baseSerializer.SerializationBinder;
-            _jsonSerializer.TraceWriter = baseSerializer.TraceWriter;
-            _jsonSerializer.CheckAdditionalContent = baseSerializer.CheckAdditionalContent;
-            _jsonSerializer.DateFormatHandling = baseSerializer.DateFormatHandling;
-            _jsonSerializer.DateFormatString = baseSerializer.DateFormatString;
-            _jsonSerializer.DateParseHandling = baseSerializer.DateParseHandling;
-            _jsonSerializer.DefaultValueHandling = baseSerializer.DefaultValueHandling;
-            _jsonSerializer.FloatFormatHandling = baseSerializer.FloatFormatHandling;
-            _jsonSerializer.FloatParseHandling = baseSerializer.FloatParseHandling;
-            _jsonSerializer.MetadataPropertyHandling = baseSerializer.MetadataPropertyHandling;
-            _jsonSerializer.MissingMemberHandling = baseSerializer.MissingMemberHandling;
-            _jsonSerializer.NullValueHandling = baseSerializer.NullValueHandling;
-            _jsonSerializer.ObjectCreationHandling = baseSerializer.ObjectCreationHandling;
-            _jsonSerializer.PreserveReferencesHandling = baseSerializer.PreserveReferencesHandling;
-            _jsonSerializer.ReferenceLoopHandling = baseSerializer.ReferenceLoopHandling;
-            _jsonSerializer.StringEscapeHandling = baseSerializer.StringEscapeHandling;
-            _jsonSerializer.TypeNameHandling = baseSerializer.TypeNameHandling;
-            _jsonSerializer.DateTimeZoneHandling = baseSerializer.DateTimeZoneHandling;
-            _jsonSerializer.TypeNameAssemblyFormatHandling = baseSerializer.TypeNameAssemblyFormatHandling;
-
-            foreach (var jsonSerializerConverter in baseSerializer.Converters)
-            {
-                _jsonSerializer.Converters.Add(jsonSerializerConverter);
-            }
+            _jsonSerializer.TraceWriter = traceWriter;
         }
 
-        public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken cancellationToken)
+        public ValueTask SerializeAsync(
+            [DisallowNull] Stream outputStream,
+            object? inputModel,
+            [DisallowNull] Type inputType,
+            CancellationToken cancellationToken)
         {
             using (var sw = new StreamWriter(outputStream))
             using (var jsonTextWriter = new JsonTextWriter(sw))
@@ -81,7 +57,10 @@ namespace Telegram.Bot.Json
         }
 
         public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(
-            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken cancellationToken)
+            [DisallowNull] object value,
+            [DisallowNull] Type valueType,
+            [DisallowNull] string[] propertyNamesToExcept,
+            CancellationToken cancellationToken)
         {
             var stringContents = JObject.FromObject(value)
                 .Properties()
@@ -91,7 +70,9 @@ namespace Telegram.Bot.Json
             return new ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>>(stringContents);
         }
 
-        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken cancellationToken)
+        public ValueTask<TOutput> DeserializeAsync<TOutput>(
+            [DisallowNull] Stream jsonStream,
+            CancellationToken cancellationToken)
         {
             using (var sr = new StreamReader(jsonStream))
             using (var jsonTextReader = new JsonTextReader(sr))

@@ -19,13 +19,6 @@ namespace Telegram.Bot.Requests
         public bool DisableNotification { get; set; }
 
         /// <summary>
-        /// Initializes a new request with both <see cref="ChatId"/> and <see cref="MessageId"/> set to 0
-        /// </summary>
-        public PinChatMessageRequest() : this(0, 0)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new request with specified <see cref="ChatId"/> and <see cref="MessageId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>

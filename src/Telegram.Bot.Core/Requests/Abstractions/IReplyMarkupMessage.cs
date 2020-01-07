@@ -6,11 +6,12 @@ namespace Telegram.Bot.Requests.Abstractions
     /// Represents a message with reply markup
     /// </summary>
     public interface IReplyMarkupMessage<TMarkup>
-        where TMarkup : IReplyMarkup
+        where TMarkup : class, IReplyMarkup
     {
         /// <summary>
-        /// Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
+        /// A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to remove reply
+        /// keyboard or to force a reply from the user.
         /// </summary>
-        TMarkup ReplyMarkup { get; set; }
+        TMarkup? ReplyMarkup { get; set; }
     }
 }

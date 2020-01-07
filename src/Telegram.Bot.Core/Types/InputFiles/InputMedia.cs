@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using InputOnlineFile = Telegram.Bot.Types.InputFiles.InputOnlineFile;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types

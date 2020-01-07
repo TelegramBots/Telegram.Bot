@@ -40,14 +40,14 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
-        /// <param name="ct">Cancellation token</param>
+        /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Content of HTTP request</returns>
         public virtual async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
             CheckJsonConverter();
 
             var stream = new MemoryStream();
-            await JsonConverter.SerializeAsync(stream, this, GetType(), ct);
+            await JsonConverter.SerializeAsync(stream, this, GetType(), cancellationToken);
             stream.Position = 0L;
             return new StreamContent(stream)
             {

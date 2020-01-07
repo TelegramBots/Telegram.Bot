@@ -17,49 +17,50 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Pass True, if the administrator can change chat title, photo and other settings
         /// </summary>
+        [AllowNull]
         public bool? CanChangeInfo { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can create channel posts, channels only
         /// </summary>
+        [AllowNull]
         public bool? CanPostMessages { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can edit messages of other users and can pin messages, channels only
         /// </summary>
+        [AllowNull]
         public bool? CanEditMessages { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can delete messages of other users
         /// </summary>
+        [AllowNull]
         public bool? CanDeleteMessages { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can invite new users to the chat
         /// </summary>
+        [AllowNull]
         public bool? CanInviteUsers { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can restrict, ban or unban chat members
         /// </summary>
+        [AllowNull]
         public bool? CanRestrictMembers { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can pin messages, supergroups only
         /// </summary>
+        [AllowNull]
         public bool? CanPinMessages { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
         /// </summary>
+        [AllowNull]
         public bool? CanPromoteMembers { get; set; }
-
-        /// <summary>
-        /// Initializes a new request with both <see cref="ChatId"/> and <see cref="UserId"/> set to 0
-        /// </summary>
-        public PromoteChatMemberRequest() : this(0, 0)
-        {
-        }
 
         /// <summary>
         /// Initializes a new request with specified <see cref="ChatId"/> and <see cref="UserId"/>

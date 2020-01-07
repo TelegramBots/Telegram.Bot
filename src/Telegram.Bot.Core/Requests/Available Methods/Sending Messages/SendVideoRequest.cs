@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Helpers;
@@ -12,103 +14,104 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send video files, Telegram clients support mp4 videos
+    /// Send video files.
+    /// Telegram clients support mp4 videos (other formats may be sent as Document).
+    /// Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
     /// </summary>
-    public class SendVideoRequest : FileRequestBase<Message>,
-                                    INotifiableMessage,
-                                    IReplyMessage,
-                                    IReplyMarkupMessage<IReplyMarkup>,
-                                    IFormattableMessage,
-                                    IThumbMediaMessage
+    public sealed class SendVideoRequest : FileRequestBase<Message>,
+                                           IChatMessage,
+                                           INotifiableMessage,
+                                           IReplyMessage,
+                                           IReplyMarkupMessage<IReplyMarkup>,
+                                           IFormattableMessage,
+                                           IThumbMediaMessage
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc />
+        [DataMember(IsRequired = true), NotNull]
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Video file to send
+        /// Video to send
         /// </summary>
+        [DataMember(IsRequired = true), NotNull]
         public InputOnlineFile Video { get; }
 
         /// <summary>
         /// Duration of the video in seconds
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int Duration { get; set; }
 
         /// <summary>
         /// Video width
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int Width { get; set; }
 
         /// <summary>
         /// Video height
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int Height { get; set; }
 
         /// <summary>
         /// Video caption (may also be used when resending videos by file_id), 0-1024 characters
         /// </summary>
-        public string Caption { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public string? Caption { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public ParseMode ParseMode { get; set; }
 
         /// <summary>
         /// Pass True, if the uploaded video is suitable for streaming
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public bool SupportsStreaming { get; set; }
 
         /// <inheritdoc />
-        public InputMedia Thumb { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public InputMedia? Thumb { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ReplyToMessageId { get; set; }
 
         /// <inheritdoc />
-        public IReplyMarkup ReplyMarkup { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and video
+        /// Initializes a new request
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="video">Video to send</param>
-        public SendVideoRequest(ChatId chatId, InputOnlineFile video)
+        public SendVideoRequest([DisallowNull] ChatId chatId, [DisallowNull] InputOnlineFile video)
             : base("sendVideo")
         {
             ChatId = chatId;
             Video = video;
         }
 
-        /// <param name="ct"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
-            HttpContent httpContent;
-            if (Video.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
-            {
-                var multipartContent = await GenerateMultipartFormDataContent(ct, "video", "thumb");
-                if (Video.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(Video.Content, "video", Video.FileName);
-                }
+            if (Video.FileType != FileType.Stream && Thumb?.FileType != FileType.Stream)
+                return await base.ToHttpContentAsync(cancellationToken);
 
-                if (Thumb?.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
-                }
+            var multipartContent = await GenerateMultipartFormDataContent(cancellationToken, "video", "thumb");
 
-                httpContent = multipartContent;
-            }
-            else
-            {
-                httpContent = await base.ToHttpContentAsync(ct);
-            }
+            if (Video.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(Video.Content, "video", Video.FileName);
+            if (Thumb?.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
 
-            return httpContent;
+            return multipartContent;
         }
     }
 }

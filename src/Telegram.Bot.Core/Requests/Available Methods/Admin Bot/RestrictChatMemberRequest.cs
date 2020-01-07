@@ -19,7 +19,7 @@ namespace Telegram.Bot.Requests
         /// Describes the permissions to set for specified user
         /// </summary>
         [NotNull]
-        public ChatPermissions Permissions { get; set; } = new ChatPermissions();
+        public ChatPermissions Permissions { get; set; }
 
         /// <summary>
         /// Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever.
@@ -27,22 +27,17 @@ namespace Telegram.Bot.Requests
         public DateTime UntilDate { get; set; }
 
         /// <summary>
-        /// Initializes a new request with both <see cref="ChatId"/> and <see cref="UserId"/> set to 0
-        /// </summary>
-        public RestrictChatMemberRequest() : this(0, 0)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new request with specified <see cref="ChatId"/> and <see cref="UserId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public RestrictChatMemberRequest([NotNull] ChatId chatId, int userId)
+        /// <param name="permissions"></param>
+        public RestrictChatMemberRequest([NotNull] ChatId chatId, int userId, [NotNull] ChatPermissions permissions)
             : base("restrictChatMember")
         {
             ChatId = chatId;
             UserId = userId;
+            Permissions = permissions;
         }
     }
 }

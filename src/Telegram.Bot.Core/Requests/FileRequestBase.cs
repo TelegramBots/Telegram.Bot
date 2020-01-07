@@ -35,12 +35,12 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="fileParameterName"></param>
         /// <param name="inputFile"></param>
-        /// <param name="ct"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         protected async ValueTask<MultipartFormDataContent> ToMultipartFormDataContentAsync(string fileParameterName,
             InputFileStream inputFile, CancellationToken cancellationToken)
         {
-            var multipartContent = await GenerateMultipartFormDataContent(ct, fileParameterName);
+            var multipartContent = await GenerateMultipartFormDataContent(cancellationToken, fileParameterName);
 
             multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
 
@@ -50,7 +50,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// ToDo
         /// </summary>
-        /// <param name="ct">Cancellation token used for cancellation of the multipart form-data generation.</param>
+        /// <param name="cancellationToken">Cancellation token used for cancellation of the multipart form-data generation.</param>
         /// <param name="exceptPropertyNames">Property names to remove from multipart form-data content.</param>
         /// <returns></returns>
         protected async ValueTask<MultipartFormDataContent> GenerateMultipartFormDataContent(
@@ -60,10 +60,10 @@ namespace Telegram.Bot.Requests
 
             var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
 
-            var nodes = await JsonConverter.ToNodesAsync(this, GetType(), exceptPropertyNames, ct);
+            var nodes = await JsonConverter.ToNodesAsync(this, GetType(), exceptPropertyNames, cancellationToken);
 
-            foreach (var strContent in nodes)
-                multipartContent.Add(strContent.Value, strContent.Key);
+            foreach (var (name, content) in nodes)
+                multipartContent.Add(content, name);
 
             return multipartContent;
         }

@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Helpers;
@@ -12,98 +14,98 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .mp3 format.
+    /// Send audio files, if you want Telegram clients to display them in the music player.
+    /// Your audio must be in the .MP3 or .M4A format.
+    /// Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
     /// </summary>
-    public class SendAudioRequest : FileRequestBase<Message>,
-        INotifiableMessage,
-        IReplyMessage,
-        IReplyMarkupMessage<IReplyMarkup>,
-        IFormattableMessage,
-        IThumbMediaMessage
+    public sealed class SendAudioRequest : FileRequestBase<Message>,
+                                           IChatMessage,
+                                           INotifiableMessage,
+                                           IReplyMessage,
+                                           IReplyMarkupMessage<IReplyMarkup>,
+                                           IFormattableMessage,
+                                           IThumbMediaMessage
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc />
+        [DataMember(IsRequired = true), NotNull]
         public ChatId ChatId { get; }
 
         /// <summary>
         /// Audio file to send
         /// </summary>
+        [DataMember(IsRequired = true), NotNull]
         public InputOnlineFile Audio { get; }
 
         /// <summary>
-        /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters
+        /// Audio caption, 0-1024 characters
         /// </summary>
-        public string Caption { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public string? Caption { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public ParseMode ParseMode { get; set; }
 
         /// <summary>
         /// Duration of the audio in seconds
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int Duration { get; set; }
 
         /// <summary>
         /// Performer
         /// </summary>
-        public string Performer { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public string? Performer { get; set; }
 
         /// <summary>
         /// Track name
         /// </summary>
-        public string Title { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public string? Title { get; set; }
 
         /// <inheritdoc />
-        public InputMedia Thumb { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public InputMedia? Thumb { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ReplyToMessageId { get; set; }
 
         /// <inheritdoc />
-        public IReplyMarkup ReplyMarkup { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and audio
+        /// Initializes a new request
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="audio">Audio to send</param>
-        public SendAudioRequest(ChatId chatId, InputOnlineFile audio)
+        public SendAudioRequest([DisallowNull] ChatId chatId, [DisallowNull] InputOnlineFile audio)
             : base("sendAudio")
         {
             ChatId = chatId;
             Audio = audio;
         }
 
-        /// <param name="ct"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
-            HttpContent httpContent;
-            if (Audio.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
-            {
-                var multipartContent = await GenerateMultipartFormDataContent(ct, "audio", "thumb");
-                if (Audio.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(Audio.Content, "audio", Audio.FileName);
-                }
+            if (Audio.FileType != FileType.Stream && Thumb?.FileType != FileType.Stream)
+                return await base.ToHttpContentAsync(cancellationToken);
 
-                if (Thumb?.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
-                }
+            var multipartContent = await GenerateMultipartFormDataContent(cancellationToken, "audio", "thumb");
 
-                httpContent = multipartContent;
-            }
-            else
-            {
-                httpContent = await base.ToHttpContentAsync(ct);
-            }
+            if (Audio.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(Audio.Content, "audio", Audio.FileName);
+            if (Thumb?.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
 
-            return httpContent;
+            return multipartContent;
         }
     }
 }

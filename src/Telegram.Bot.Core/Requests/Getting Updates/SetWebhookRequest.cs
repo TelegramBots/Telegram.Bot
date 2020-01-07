@@ -45,11 +45,11 @@ namespace Telegram.Bot.Requests
             Certificate = certificate;
         }
 
-        /// <param name="ct"></param>
+        /// <param name="cancellationToken"></param>
         /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContentAsync"/>
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct) =>
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) =>
             Certificate == null
-                ? await base.ToHttpContentAsync(ct)
-                : await ToMultipartFormDataContentAsync("certificate", Certificate, ct);
+                ? await base.ToHttpContentAsync(cancellationToken)
+                : await ToMultipartFormDataContentAsync("certificate", Certificate, cancellationToken);
     }
 }

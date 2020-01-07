@@ -15,6 +15,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
 
 [assembly:InternalsVisibleTo("Telegram.Bot, PublicKey=null")]
+[assembly:InternalsVisibleTo("Telegram.Bot.Json.SystemTextJson, PublicKey=null")]
+[assembly:InternalsVisibleTo("Telegram.Bot.Json.Newtonsoft, PublicKey=null")]
 
 namespace Telegram.Bot
 {

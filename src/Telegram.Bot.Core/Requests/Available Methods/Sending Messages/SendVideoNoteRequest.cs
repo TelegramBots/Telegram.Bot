@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Helpers;
@@ -12,84 +14,79 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send rounded video messages
+    /// Send rounded square mp4 video messages of up to 1 minute long.
     /// </summary>
-    public class SendVideoNoteRequest : FileRequestBase<Message>,
-                                        INotifiableMessage,
-                                        IReplyMessage,
-                                        IReplyMarkupMessage<IReplyMarkup>,
-                                        IThumbMediaMessage
+    public sealed class SendVideoNoteRequest : FileRequestBase<Message>,
+                                               IChatMessage,
+                                               INotifiableMessage,
+                                               IReplyMessage,
+                                               IReplyMarkupMessage<IReplyMarkup>,
+                                               IThumbMediaMessage
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc />
+        [DataMember(IsRequired = true), NotNull]
         public ChatId ChatId { get; }
 
         /// <summary>
         /// Video note to send
         /// </summary>
+        [DataMember(IsRequired = true), NotNull]
         public InputTelegramFile VideoNote { get; }
 
         /// <summary>
         /// Duration of sent video in seconds
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int Duration { get; set; }
 
         /// <summary>
-        /// Video width and height
+        /// Video width and height, i.e. diameter of the video message
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public int Length { get; set; }
 
         /// <inheritdoc />
-        public InputMedia Thumb { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public InputMedia? Thumb { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ReplyToMessageId { get; set; }
 
         /// <inheritdoc />
-        public IReplyMarkup ReplyMarkup { get; set; }
+        [DataMember(EmitDefaultValue = false)]
+        public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and video note
+        /// Initializes a new request
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="videoNote">Video note to send</param>
-        public SendVideoNoteRequest(ChatId chatId, InputTelegramFile videoNote)
+        public SendVideoNoteRequest([DisallowNull] ChatId chatId, [DisallowNull] InputTelegramFile videoNote)
             : base("sendVideoNote")
         {
             ChatId = chatId;
             VideoNote = videoNote;
         }
 
-        /// <param name="ct"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
-            HttpContent httpContent;
-            if (VideoNote.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
-            {
-                var multipartContent = await GenerateMultipartFormDataContent(ct, "video_note", "thumb");
-                if (VideoNote.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(VideoNote.Content, "video_note", VideoNote.FileName);
-                }
+            if (VideoNote.FileType != FileType.Stream && Thumb?.FileType != FileType.Stream)
+                return await base.ToHttpContentAsync(cancellationToken);
 
-                if (Thumb?.FileType == FileType.Stream)
-                {
-                    multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
-                }
+            var multipartContent = await GenerateMultipartFormDataContent(cancellationToken, "video_note", "thumb");
 
-                httpContent = multipartContent;
-            }
-            else
-            {
-                httpContent = await base.ToHttpContentAsync(ct);
-            }
+            if (VideoNote.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(VideoNote.Content, "video_note", VideoNote.FileName);
+            if (Thumb?.FileType == FileType.Stream)
+                multipartContent.AddStreamContent(Thumb.Content, "thumb", Thumb.FileName);
 
-            return httpContent;
+            return multipartContent;
         }
     }
 }

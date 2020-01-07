@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Requests
@@ -10,6 +11,7 @@ namespace Telegram.Bot.Requests
         /// Unique identifier for the target chat or username of the target channel (in the format @channel_username)
         /// </summary>
         [NotNull]
+        [DataMember(IsRequired = true)]
         public ChatId ChatId { get; set; }
 
         protected ChatIdRequestBase([NotNull] string methodName) : base(methodName)

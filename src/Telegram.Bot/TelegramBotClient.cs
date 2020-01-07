@@ -728,7 +728,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(
-                new RestrictChatMemberRequest(chatId, userId)
+                new RestrictChatMemberRequest(chatId, userId, TODO)
                 {
                     UntilDate = untilDate,
                     Permissions = permissions

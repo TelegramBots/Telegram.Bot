@@ -10,13 +10,6 @@ namespace Telegram.Bot.Requests
     public sealed class ExportChatInviteLinkRequest : ChatIdRequestBase<string>
     {
         /// <summary>
-        /// Initializes a new request with <see cref="ChatId"/> set to 0
-        /// </summary>
-        public ExportChatInviteLinkRequest() : this(0)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new request with specified <see cref="ChatId"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel.</param>

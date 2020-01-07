@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -6,16 +7,12 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
     /// </summary>
-    public class SetChatTitleRequest : RequestBase<bool>
+    public class SetChatTitleRequest : ChatIdRequestBase<bool>
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
-        public ChatId ChatId { get; }
-
         /// <summary>
         /// New chat title, 1-255 characters
         /// </summary>
+        [NotNull]
         public string Title { get; }
 
         /// <summary>
@@ -23,7 +20,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="title">New chat title, 1-255 characters</param>
-        public SetChatTitleRequest(ChatId chatId, string title)
+        public SetChatTitleRequest([NotNull] ChatId chatId, [NotNull] string title)
             : base("setChatTitle")
         {
             ChatId = chatId;

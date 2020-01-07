@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests.Abstractions;
@@ -13,56 +15,62 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send photos
     /// </summary>
-    public class SendPhotoRequest : FileRequestBase<Message>,
-                                    INotifiableMessage,
-                                    IReplyMessage,
-                                    IReplyMarkupMessage<IReplyMarkup>,
-                                    IFormattableMessage
+    public sealed class SendPhotoRequest : FileRequestBase<Message>,
+                                           IChatMessage,
+                                           INotifiableMessage,
+                                           IReplyMessage,
+                                           IReplyMarkupMessage<IReplyMarkup>,
+                                           IFormattableMessage
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc />
+        [DataMember(IsRequired = true), NotNull]
         public ChatId ChatId { get; }
 
         /// <summary>
         /// Photo to send
         /// </summary>
+        [DataMember(IsRequired = true), NotNull]
         public InputOnlineFile Photo { get; }
 
         /// <summary>
         /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters
         /// </summary>
-        public string Caption { get; set; }
+        [DataMember(EmitDefaultValue = false), AllowNull, MaybeNull]
+        public string? Caption { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public ParseMode ParseMode { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ReplyToMessageId { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
-        public IReplyMarkup ReplyMarkup { get; set; }
+        [DataMember(EmitDefaultValue = false), AllowNull, MaybeNull]
+        public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId and photo
+        /// Initializes a new request
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="photo">Photo to send</param>
-        public SendPhotoRequest(ChatId chatId, InputOnlineFile photo)
+        public SendPhotoRequest([DisallowNull] ChatId chatId, [DisallowNull] InputOnlineFile photo)
             : base("sendPhoto")
         {
             ChatId = chatId;
             Photo = photo;
         }
 
-        /// <param name="ct"></param>
+        /// <param name="cancellationToken"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct) =>
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) =>
             Photo.FileType == FileType.Stream
-                ? await ToMultipartFormDataContentAsync("photo", Photo, ct)
-                : await base.ToHttpContentAsync(ct);
+                ? await ToMultipartFormDataContentAsync("photo", Photo, cancellationToken)
+                : await base.ToHttpContentAsync(cancellationToken);
     }
 }

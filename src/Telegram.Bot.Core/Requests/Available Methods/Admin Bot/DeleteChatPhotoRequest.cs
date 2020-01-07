@@ -10,13 +10,6 @@ namespace Telegram.Bot.Requests
     public sealed class DeleteChatPhotoRequest : ChatIdRequestBase<bool>
     {
         /// <summary>
-        /// Initializes a new request with <see cref="ChatId"/> set to 0
-        /// </summary>
-        public DeleteChatPhotoRequest() : this(0)
-        {
-        }
-
-        /// <summary>
         /// Initializes a new request with chat_id and photo
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>

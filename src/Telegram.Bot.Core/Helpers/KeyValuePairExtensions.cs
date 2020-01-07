@@ -1,7 +1,7 @@
 ﻿#if NETSTANDARD2_0
 using System.Collections.Generic;
 
-namespace Telegram.Bot.Json.Helpers
+namespace Telegram.Bot.Helpers
 {
     internal static class KeyValuePairExtensions
     {

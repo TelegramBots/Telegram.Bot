@@ -1,7 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Helpers;
@@ -14,48 +15,35 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
     /// </summary>
-    public class SendMediaGroupRequest : FileRequestBase<Message[]>,
-        INotifiableMessage,
-        IReplyMessage
+    public sealed class SendMediaGroupRequest : FileRequestBase<Message[]>,
+                                                IChatMessage,
+                                                INotifiableMessage,
+                                                IReplyMessage
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc />
+        [DataMember(IsRequired = true), NotNull]
         public ChatId ChatId { get; }
 
         /// <summary>
         /// A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
         /// </summary>
+        [DataMember(IsRequired = true), NotNull]
         public IEnumerable<IAlbumInputMedia> Media { get; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public bool DisableNotification { get; set; }
 
         /// <inheritdoc />
+        [DataMember(EmitDefaultValue = false)]
         public int ReplyToMessageId { get; set; }
 
         /// <summary>
-        /// Initializes a request with chat_id and media
+        /// Initializes a request
         /// </summary>
-        /// <param name="chatId">ID of target chat</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="media">Media items to send</param>
-        [Obsolete("Use the other constructor. Only photo and video input types are allowed.")]
-        public SendMediaGroupRequest(ChatId chatId, IEnumerable<InputMediaBase> media)
-            : base("sendMediaGroup")
-        {
-            ChatId = chatId;
-            Media = media
-                .Select(m => m as IAlbumInputMedia)
-                .Where(m => m != null)
-                .ToArray();
-        }
-
-        /// <summary>
-        /// Initializes a request with chat_id and media
-        /// </summary>
-        /// <param name="chatId">ID of target chat</param>
-        /// <param name="media">Media items to send</param>
-        public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media)
+        public SendMediaGroupRequest([DisallowNull] ChatId chatId, [DisallowNull] IEnumerable<IAlbumInputMedia> media)
             : base("sendMediaGroup")
         {
             ChatId = chatId;
@@ -63,11 +51,10 @@ namespace Telegram.Bot.Requests
         }
 
         // ToDo: If there is no file stream in the request, request content should be string
-        /// <param name="ct"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken ct)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
         {
-            var httpContent = await GenerateMultipartFormDataContent(ct);
+            var httpContent = await GenerateMultipartFormDataContent(cancellationToken);
             httpContent.AddContentIfInputFileStream(Media.Cast<IInputMedia>().ToArray());
             return httpContent;
         }
