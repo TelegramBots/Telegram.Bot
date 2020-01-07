@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -12,7 +13,7 @@ using Dahomey.Json;
 using Dahomey.Json.NamingPolicies;
 
 #if NETSTANDARD2_0
-using Telegram.Bot.Json.Helpers;
+using Telegram.Bot.Helpers;
 #endif
 
 namespace Telegram.Bot.Json
@@ -20,26 +21,37 @@ namespace Telegram.Bot.Json
     public sealed class SystemTextJsonConverter : ITelegramBotJsonConverter
     {
         private readonly JsonSerializerOptions _serializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = new SnakeCaseNamingPolicy(),
-            Converters =
             {
-                new JsonStringEnumConverter(new SnakeCaseNamingPolicy(), false)
+                PropertyNamingPolicy = new SnakeCaseNamingPolicy(),
+                Converters =
+                {
+                    new JsonStringEnumConverter(new SnakeCaseNamingPolicy(), false)
+                }
             }
-        }.SetupExtensions();
+            .SetupExtensions();
 
-        public ValueTask<TOutput> DeserializeAsync<TOutput>(Stream jsonStream, CancellationToken cancellationToken)
+        public ValueTask<TOutput> DeserializeAsync<TOutput>(
+            [DisallowNull] Stream jsonStream,
+            CancellationToken cancellationToken)
         {
-            return JsonSerializer.DeserializeAsync<TOutput>(jsonStream, _serializerOptions, ct);
+            return JsonSerializer.DeserializeAsync<TOutput>(jsonStream, _serializerOptions, cancellationToken);
         }
 
-        public ValueTask SerializeAsync(Stream outputStream, object inputModel, Type inputType, CancellationToken cancellationToken)
+        public ValueTask SerializeAsync(
+            [DisallowNull] Stream outputStream,
+            object? inputModel,
+            [DisallowNull] Type inputType,
+            CancellationToken cancellationToken)
         {
-            return new ValueTask(JsonSerializer.SerializeAsync(outputStream, inputModel, inputType, _serializerOptions, ct));
+            return new ValueTask(JsonSerializer.SerializeAsync(outputStream, inputModel, inputType, _serializerOptions,
+                cancellationToken));
         }
 
         public ValueTask<IEnumerable<KeyValuePair<string, HttpContent>>> ToNodesAsync(
-            object value, Type valueType, string[] propertyNamesToExcept, CancellationToken cancellationToken)
+            [DisallowNull] object value,
+            [DisallowNull] Type valueType,
+            [DisallowNull] string[] propertyNamesToExcept,
+            CancellationToken cancellationToken)
         {
             var jsonObject = JsonObject.FromObject(value, valueType, _serializerOptions);
             var result = new Dictionary<string, HttpContent>();
