@@ -11,6 +11,7 @@ namespace Telegram.Bot.Requests
     /// The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights.
     /// Pass True for all permissions to lift restrictions from a user.
     /// </summary>
+    [DataContract]
     public sealed class RestrictChatMemberRequest : RequestBase<bool>
     {
         /// <summary>
