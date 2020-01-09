@@ -12,6 +12,7 @@ namespace Telegram.Bot.Requests
     /// using invite links, etc., unless unbanned first.
     /// The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
     /// </summary>
+    [DataContract]
     public sealed class KickChatMemberRequest : RequestBase<bool>
     {
         /// <summary>

@@ -10,6 +10,7 @@ namespace Telegram.Bot.Requests
     /// Photos can't be changed for private chats.
     /// The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
     /// </summary>
+    [DataContract]
     public sealed class DeleteChatPhotoRequest : RequestBase<bool>
     {
         /// <summary>

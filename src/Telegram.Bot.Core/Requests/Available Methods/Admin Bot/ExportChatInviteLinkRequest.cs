@@ -16,6 +16,7 @@ namespace Telegram.Bot.Requests
     /// If you want your bot to work with invite links, it will need to generate its own link
     /// using exportChatInviteLink – after this the link will become available to the bot via the getChat method.
     /// If your bot needs to generate a new invite link replacing its previous one, use exportChatInviteLink again.
+    [DataContract]
     public sealed class ExportChatInviteLinkRequest : RequestBase<string>
     {
         /// <summary>
