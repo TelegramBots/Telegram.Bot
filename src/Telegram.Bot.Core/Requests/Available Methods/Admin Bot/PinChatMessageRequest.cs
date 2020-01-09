@@ -22,7 +22,7 @@ namespace Telegram.Bot.Requests
         /// Identifier of a message to pin
         /// </summary>
         [DataMember(IsRequired = true)]
-        public int MessageId { get; set; }
+        public int MessageId { get; }
 
         /// <summary>
         /// Pass True, if it is not necessary to send a notification to all chat members about the new pinned message.
