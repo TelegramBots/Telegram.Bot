@@ -6,11 +6,17 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to set a custom title for an administrator in a supergroup promoted by the bot. Returns True on success.
+    /// Set a custom title for an administrator in a supergroup promoted by the bot.
     /// </summary>
     [DataContract]
-    public class SetChatAdministratorCustomTitleRequest : ChatIdRequestBase<bool>
+    public sealed class SetChatAdministratorCustomTitleRequest : RequestBase<bool>
     {
+        /// <summary>
+        /// Unique identifier for the target chat or username of the target supergroup (in the format @supergroup_username)
+        /// </summary>
+        [DataMember(IsRequired = true), NotNull]
+        public ChatId ChatId { get; }
+
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
@@ -20,17 +26,19 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// New custom title for the administrator; 0-16 characters, emoji are not allowed
         /// </summary>
-        [DataMember(IsRequired = true)]
-        [NotNull]
+        [DataMember(IsRequired = true), NotNull]
         public string CustomTitle { get; }
 
         /// <summary>
-        /// Initializes a new request with chatId and new title
+        /// Initializes a new request of type <see cref="SetChatAdministratorCustomTitleRequest"/>
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format @supergroup_username)</param>
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="customTitle">New custom title for the administrator; 0-16 characters, emoji are not allowed</param>
-        public SetChatAdministratorCustomTitleRequest([NotNull] ChatId chatId, int userId, [NotNull] string customTitle)
+        public SetChatAdministratorCustomTitleRequest(
+            [DisallowNull] ChatId chatId,
+            int userId,
+            [DisallowNull] string customTitle)
             : base("setChatAdministratorCustomTitle")
         {
             ChatId = chatId;
