@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -16,7 +16,6 @@ namespace Telegram.Bot.Requests
     {
         public HttpMethod Method { get; }
         public string MethodName { get; }
-        public ITelegramBotJsonConverter JsonConverter { get; set; }
 
         /// <summary>
         /// Initializes an instance of request
@@ -40,14 +39,15 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Generate content of HTTP message
         /// </summary>
+        /// <param name="jsonConverter">JSON converter that is used for (de)serialization of the JSON</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Content of HTTP request</returns>
-        public virtual async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
+        public virtual async ValueTask<HttpContent> ToHttpContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken)
         {
-            CheckJsonConverter();
-
             var stream = new MemoryStream();
-            await JsonConverter.SerializeAsync(stream, this, GetType(), cancellationToken);
+            await jsonConverter.SerializeAsync(stream, this, GetType(), cancellationToken);
             stream.Position = 0L;
             return new StreamContent(stream)
             {
@@ -56,12 +56,6 @@ namespace Telegram.Bot.Requests
                     ContentType = MediaTypeHeaderValue.Parse("application/json")
                 }
             };
-        }
-
-        private protected void CheckJsonConverter()
-        {
-            if (JsonConverter == null)
-                throw new NullReferenceException("Json converter is null");
         }
 
         /// <summary>

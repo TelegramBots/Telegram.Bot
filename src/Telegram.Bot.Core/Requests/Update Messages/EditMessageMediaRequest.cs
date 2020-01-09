@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -48,11 +49,14 @@ namespace Telegram.Bot.Requests
         }
 
         // ToDo: If there is no file stream in the request, request content should be string
+        /// <param name="jsonConverter"></param>
         /// <param name="cancellationToken"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken)
         {
-            var httpContent = await GenerateMultipartFormDataContent(cancellationToken);
+            var httpContent = await GenerateMultipartFormDataContent(jsonConverter, cancellationToken);
             httpContent.AddContentIfInputFileStream(Media);
             return httpContent;
         }

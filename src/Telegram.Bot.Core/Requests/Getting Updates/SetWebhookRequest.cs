@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -45,11 +46,14 @@ namespace Telegram.Bot.Requests
             Certificate = certificate;
         }
 
+        /// <param name="jsonConverter"></param>
         /// <param name="cancellationToken"></param>
         /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContentAsync"/>
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) =>
+        public override async ValueTask<HttpContent> ToHttpContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken) =>
             Certificate == null
-                ? await base.ToHttpContentAsync(cancellationToken)
-                : await ToMultipartFormDataContentAsync("certificate", Certificate, cancellationToken);
+                ? await base.ToHttpContentAsync(jsonConverter, cancellationToken)
+                : await ToMultipartFormDataContentAsync(jsonConverter, "certificate", Certificate, cancellationToken);
     }
 }

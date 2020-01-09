@@ -79,7 +79,7 @@ namespace Telegram.Bot
 
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
-                Content = await request.ToHttpContentAsync(cancellationToken)
+                Content = await request.ToHttpContentAsync(JsonConverter, cancellationToken)
             };
 
             HttpResponseMessage httpResponse;
@@ -165,8 +165,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new GetUpdatesRequest
             {
-                JsonConverter = JsonConverter,
-				Offset = offset,
+                Offset = offset,
                 Limit = limit,
                 Timeout = timeout,
                 AllowedUpdates = allowedUpdates
@@ -182,8 +181,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SetWebhookRequest(url, certificate)
             {
-                JsonConverter = JsonConverter,
-				MaxConnections = maxConnections,
+                MaxConnections = maxConnections,
                 AllowedUpdates = allowedUpdates
             }, cancellationToken);
 
@@ -216,8 +214,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendMessageRequest(chatId, text)
             {
-                JsonConverter = JsonConverter,
-				ParseMode = parseMode,
+                ParseMode = parseMode,
                 DisableWebPagePreview = disableWebPagePreview,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -234,8 +231,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new ForwardMessageRequest(chatId, fromChatId, messageId)
             {
-                JsonConverter = JsonConverter,
-				DisableNotification = disableNotification
+                DisableNotification = disableNotification
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -251,8 +247,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendPhotoRequest(chatId, photo)
             {
-                JsonConverter = JsonConverter,
-				Caption = caption,
+                Caption = caption,
                 ParseMode = parseMode,
                 ReplyToMessageId = replyToMessageId,
                 DisableNotification = disableNotification,
@@ -276,8 +271,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendAudioRequest(chatId, audio)
             {
-                JsonConverter = JsonConverter,
-				Caption = caption,
+                Caption = caption,
                 ParseMode = parseMode,
                 Duration = duration,
                 Performer = performer,
@@ -302,8 +296,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
-                JsonConverter = JsonConverter,
-				Caption = caption,
+                Caption = caption,
                 Thumb = thumb,
                 ParseMode = parseMode,
                 DisableNotification = disableNotification,
@@ -322,8 +315,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendStickerRequest(chatId, sticker)
             {
-                JsonConverter = JsonConverter,
-				DisableNotification = disableNotification,
+                DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -346,8 +338,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVideoRequest(chatId, video)
             {
-                JsonConverter = JsonConverter,
-				Duration = duration,
+                Duration = duration,
                 Width = width,
                 Height = height,
                 Thumb = thumb,
@@ -376,8 +367,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendAnimationRequest(chatId, animation)
             {
-                JsonConverter = JsonConverter,
-				Duration = duration,
+                Duration = duration,
                 Width = width,
                 Height = height,
                 Thumb = thumb,
@@ -402,8 +392,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVoiceRequest(chatId, voice)
             {
-                JsonConverter = JsonConverter,
-				Caption = caption,
+                Caption = caption,
                 ParseMode = parseMode,
                 Duration = duration,
                 DisableNotification = disableNotification,
@@ -425,8 +414,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVideoNoteRequest(chatId, videoNote)
             {
-                JsonConverter = JsonConverter,
-				Duration = duration,
+                Duration = duration,
                 Length = length,
                 Thumb = thumb,
                 DisableNotification = disableNotification,
@@ -450,8 +438,7 @@ namespace Telegram.Bot
                 .ToArray();
             return MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
             {
-                JsonConverter = JsonConverter,
-				DisableNotification = disableNotification,
+                DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
             }, cancellationToken);
         }
@@ -466,8 +453,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
             {
-                JsonConverter = JsonConverter,
-				DisableNotification = disableNotification,
+                DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
             }, cancellationToken);
 
@@ -484,8 +470,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendLocationRequest(chatId, latitude, longitude)
             {
-                JsonConverter = JsonConverter,
-				LivePeriod = livePeriod,
+                LivePeriod = livePeriod,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
@@ -507,8 +492,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
-                JsonConverter = JsonConverter,
-				FoursquareId = foursquareId,
+                FoursquareId = foursquareId,
                 FoursquareType = foursquareType,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -529,8 +513,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName)
             {
-                JsonConverter = JsonConverter,
-				LastName = lastName,
+                LastName = lastName,
                 Vcard = vCard,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -549,8 +532,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendPollRequest(chatId, question, options)
             {
-                JsonConverter = JsonConverter,
-				DisableNotification = disableNotification,
+                DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -572,8 +554,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new GetUserProfilePhotosRequest(userId)
             {
-                JsonConverter = JsonConverter,
-				Offset = offset,
+                Offset = offset,
                 Limit = limit
             }, cancellationToken);
 
@@ -653,8 +634,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new KickChatMemberRequest(chatId, userId)
             {
-                JsonConverter = JsonConverter,
-				UntilDate = untilDate
+                UntilDate = untilDate
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -712,8 +692,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new AnswerCallbackQueryRequest(callbackQueryId)
             {
-                JsonConverter = JsonConverter,
-				Text = text,
+                Text = text,
                 ShowAlert = showAlert,
                 Url = url,
                 CacheTime = cacheTime
@@ -728,10 +707,9 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(
-                new RestrictChatMemberRequest(chatId, userId, TODO)
+                new RestrictChatMemberRequest(chatId, userId, permissions)
                 {
-                    UntilDate = untilDate,
-                    Permissions = permissions
+                    UntilDate = untilDate
                 },
                 cancellationToken);
 
@@ -751,8 +729,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new PromoteChatMemberRequest(chatId, userId)
             {
-                JsonConverter = JsonConverter,
-				CanChangeInfo = canChangeInfo,
+                CanChangeInfo = canChangeInfo,
                 CanPostMessages = canPostMessages,
                 CanEditMessages = canEditMessages,
                 CanDeleteMessages = canDeleteMessages,
@@ -778,7 +755,7 @@ namespace Telegram.Bot
             ChatPermissions permissions,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SetChatPermissionsRequest(chatId) { Permissions = permissions }, cancellationToken);
+            MakeRequestAsync(new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> StopMessageLiveLocationAsync(
@@ -789,8 +766,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new StopMessageLiveLocationRequest(chatId, messageId)
             {
-                JsonConverter = JsonConverter,
-				ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -801,8 +777,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new StopInlineMessageLiveLocationRequest(inlineMessageId)
             {
-                JsonConverter = JsonConverter,
-				ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         #endregion Available methods
@@ -821,8 +796,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageTextRequest(chatId, messageId, text)
             {
-                JsonConverter = JsonConverter,
-				ParseMode = parseMode,
+                ParseMode = parseMode,
                 DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -838,8 +812,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageTextRequest(inlineMessageId, text)
             {
-                JsonConverter = JsonConverter,
-				DisableWebPagePreview = disableWebPagePreview,
+                DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup,
                 ParseMode = parseMode
             }, cancellationToken);
@@ -855,8 +828,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId, caption)
             {
-                JsonConverter = JsonConverter,
-				ParseMode = parseMode,
+                ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
 
@@ -870,8 +842,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId, caption)
             {
-                JsonConverter = JsonConverter,
-				ParseMode = parseMode,
+                ParseMode = parseMode,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
 
@@ -885,8 +856,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageMediaRequest(chatId, messageId, media)
             {
-                JsonConverter = JsonConverter,
-				ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -898,8 +868,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageMediaRequest(inlineMessageId, media)
             {
-                JsonConverter = JsonConverter,
-				ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -934,8 +903,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
             {
-                JsonConverter = JsonConverter,
-				ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -948,8 +916,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
             {
-                JsonConverter = JsonConverter,
-				ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -961,8 +928,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new StopPollRequest(chatId, messageId)
             {
-                JsonConverter = JsonConverter,
-				ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -990,8 +956,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new AnswerInlineQueryRequest(inlineQueryId, results)
             {
-                JsonConverter = JsonConverter,
-				CacheTime = cacheTime,
+                CacheTime = cacheTime,
                 IsPersonal = isPersonal,
                 NextOffset = nextOffset,
                 SwitchPmText = switchPmText,
@@ -1100,8 +1065,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SendGameRequest(chatId, gameShortName)
             {
-                JsonConverter = JsonConverter,
-				DisableNotification = disableNotification,
+                DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -1118,8 +1082,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SetGameScoreRequest(userId, score, chatId, messageId)
             {
-                JsonConverter = JsonConverter,
-				Force = force,
+                Force = force,
                 DisableEditMessage = disableEditMessage
             }, cancellationToken);
 
@@ -1134,8 +1097,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new SetInlineGameScoreRequest(userId, score, inlineMessageId)
             {
-                JsonConverter = JsonConverter,
-				Force = force,
+                Force = force,
                 DisableEditMessage = disableEditMessage
             }, cancellationToken);
 
@@ -1211,8 +1173,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new PinChatMessageRequest(chatId, messageId)
             {
-                JsonConverter = JsonConverter,
-				DisableNotification = disableNotification
+                DisableNotification = disableNotification
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1269,8 +1230,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new CreateNewStickerSetRequest(userId, name, title, pngSticker, emojis)
             {
-                JsonConverter = JsonConverter,
-				ContainsMasks = isMasks,
+                ContainsMasks = isMasks,
                 MaskPosition = maskPosition
             }, cancellationToken);
 
@@ -1285,8 +1245,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new AddStickerToSetRequest(userId, name, pngSticker, emojis)
             {
-                JsonConverter = JsonConverter,
-				MaskPosition = maskPosition
+                MaskPosition = maskPosition
             }, cancellationToken);
 
         /// <inheritdoc />

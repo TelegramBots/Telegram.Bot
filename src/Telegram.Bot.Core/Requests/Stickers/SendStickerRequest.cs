@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests.Abstractions;
@@ -47,11 +48,14 @@ namespace Telegram.Bot.Requests
             Sticker = sticker;
         }
 
+        /// <param name="jsonConverter"></param>
         /// <param name="cancellationToken"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) =>
+        public override async ValueTask<HttpContent> ToHttpContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken) =>
             Sticker.FileType == FileType.Stream
-                ? await ToMultipartFormDataContentAsync("sticker", Sticker, cancellationToken)
-                : await base.ToHttpContentAsync(cancellationToken);
+                ? await ToMultipartFormDataContentAsync(jsonConverter, "sticker", Sticker, cancellationToken)
+                : await base.ToHttpContentAsync(jsonConverter, cancellationToken);
     }
 }

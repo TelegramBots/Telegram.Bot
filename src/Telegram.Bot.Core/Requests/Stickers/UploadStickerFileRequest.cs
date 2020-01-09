@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
@@ -33,11 +34,14 @@ namespace Telegram.Bot.Requests
             PngSticker = pngSticker;
         }
 
+        /// <param name="jsonConverter"></param>
         /// <param name="cancellationToken"></param>
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) =>
+        public override async ValueTask<HttpContent> ToHttpContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken) =>
             PngSticker.FileType == FileType.Stream
-                ? await ToMultipartFormDataContentAsync("png_sticker", PngSticker, cancellationToken)
-                : await base.ToHttpContentAsync(cancellationToken);
+                ? await ToMultipartFormDataContentAsync(jsonConverter, "png_sticker", PngSticker, cancellationToken)
+                : await base.ToHttpContentAsync(jsonConverter, cancellationToken);
     }
 }

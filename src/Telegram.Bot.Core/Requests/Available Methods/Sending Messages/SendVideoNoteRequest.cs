@@ -74,12 +74,14 @@ namespace Telegram.Bot.Requests
         }
 
         /// <inheritdoc />
-        public override async ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken)
+        public override async ValueTask<HttpContent> ToHttpContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken)
         {
             if (VideoNote.FileType != FileType.Stream && Thumb?.FileType != FileType.Stream)
-                return await base.ToHttpContentAsync(cancellationToken);
+                return await base.ToHttpContentAsync(jsonConverter, cancellationToken);
 
-            var multipartContent = await GenerateMultipartFormDataContent(cancellationToken, "video_note", "thumb");
+            var multipartContent = await GenerateMultipartFormDataContent(jsonConverter, cancellationToken, "video_note", "thumb");
 
             if (VideoNote.FileType == FileType.Stream)
                 multipartContent.AddStreamContent(VideoNote.Content, "video_note", VideoNote.FileName);

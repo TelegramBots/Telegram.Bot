@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,10 +32,13 @@ namespace Telegram.Bot.Requests
         {
         }
 
+        /// <param name="jsonConverter"></param>
         /// <param name="cancellationToken"></param>
         /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContentAsync"/>
-        public override ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken) => IsWebhookResponse
-            ? base.ToHttpContentAsync(cancellationToken)
+        public override ValueTask<HttpContent> ToHttpContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken) => IsWebhookResponse
+            ? base.ToHttpContentAsync(jsonConverter, cancellationToken)
             : default;
     }
 }

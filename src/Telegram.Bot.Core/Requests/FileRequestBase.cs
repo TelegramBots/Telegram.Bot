@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,14 +34,19 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// ToDo
         /// </summary>
+        /// <param name="jsonConverter">JSON converter that is used for (de)serialization of the JSON</param>
         /// <param name="fileParameterName"></param>
         /// <param name="inputFile"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        protected async ValueTask<MultipartFormDataContent> ToMultipartFormDataContentAsync(string fileParameterName,
-            InputFileStream inputFile, CancellationToken cancellationToken)
+        protected async ValueTask<MultipartFormDataContent> ToMultipartFormDataContentAsync(
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            [DisallowNull] string fileParameterName,
+            [DisallowNull] InputFileStream inputFile,
+            CancellationToken cancellationToken)
         {
-            var multipartContent = await GenerateMultipartFormDataContent(cancellationToken, fileParameterName);
+            var multipartContent =
+                await GenerateMultipartFormDataContent(jsonConverter, cancellationToken, fileParameterName);
 
             multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
 
@@ -50,17 +56,18 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// ToDo
         /// </summary>
+        /// <param name="jsonConverter">JSON converter that is used for (de)serialization of the JSON</param>
         /// <param name="cancellationToken">Cancellation token used for cancellation of the multipart form-data generation.</param>
         /// <param name="exceptPropertyNames">Property names to remove from multipart form-data content.</param>
         /// <returns></returns>
         protected async ValueTask<MultipartFormDataContent> GenerateMultipartFormDataContent(
-            CancellationToken cancellationToken, params string[] exceptPropertyNames)
+            [DisallowNull] ITelegramBotJsonConverter jsonConverter,
+            CancellationToken cancellationToken,
+            [DisallowNull] params string[] exceptPropertyNames)
         {
-            CheckJsonConverter();
-
             var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
 
-            var nodes = await JsonConverter.ToNodesAsync(this, GetType(), exceptPropertyNames, cancellationToken);
+            var nodes = await jsonConverter.ToNodesAsync(this, GetType(), exceptPropertyNames, cancellationToken);
 
             foreach (var (name, content) in nodes)
                 multipartContent.Add(content, name);

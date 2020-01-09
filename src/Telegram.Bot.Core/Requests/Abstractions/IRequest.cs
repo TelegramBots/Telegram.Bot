@@ -22,15 +22,11 @@ namespace Telegram.Bot.Requests.Abstractions
         string MethodName { get; }
 
         /// <summary>
-        /// JSON converter that is used for (de)serialization of the JSON
-        /// </summary>
-        ITelegramBotJsonConverter JsonConverter { get; set; }
-
-        /// <summary>
         /// Generate content of HTTP message
         /// </summary>
+        /// <param name="jsonConverter">JSON converter that is used for (de)serialization of the JSON</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Content of HTTP request</returns>
-        ValueTask<HttpContent> ToHttpContentAsync(CancellationToken cancellationToken);
+        ValueTask<HttpContent> ToHttpContentAsync(ITelegramBotJsonConverter jsonConverter, CancellationToken cancellationToken);
     }
 }
