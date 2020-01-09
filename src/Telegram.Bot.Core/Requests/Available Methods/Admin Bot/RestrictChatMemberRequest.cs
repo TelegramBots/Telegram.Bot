@@ -1,38 +1,54 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all boolean parameters to lift restrictions from a user.
+    /// Restrict a user in a supergroup.
+    /// The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights.
+    /// Pass True for all permissions to lift restrictions from a user.
     /// </summary>
-    public sealed class RestrictChatMemberRequest : ChatIdRequestBase<bool>
+    public sealed class RestrictChatMemberRequest : RequestBase<bool>
     {
+        /// <summary>
+        /// Unique identifier for the target chat or username of the target supergroup (in the format @supergroup_username)
+        /// </summary>
+        [DataMember(IsRequired = true), NotNull]
+        public ChatId ChatId { get; }
+
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
-        public int UserId { get; set; }
+        [DataMember(IsRequired = true)]
+        public int UserId { get; }
 
         /// <summary>
-        /// Describes the permissions to set for specified user
+        /// New user permissions
         /// </summary>
-        [NotNull]
-        public ChatPermissions Permissions { get; set; }
+        [DataMember(IsRequired = true), NotNull]
+        public ChatPermissions Permissions { get; }
 
         /// <summary>
-        /// Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever.
+        /// Date when restrictions will be lifted for the user.
+        /// If user is restricted for more than 366 days or less than 30 seconds from the current time,
+        /// they are considered to be restricted forever.
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         public DateTime UntilDate { get; set; }
 
         /// <summary>
-        /// Initializes a new request with specified <see cref="ChatId"/> and <see cref="UserId"/>
+        /// Initializes a new request of type <see cref="RestrictChatMemberRequest"/>
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup (in the format @supergroup_username)</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <param name="permissions"></param>
-        public RestrictChatMemberRequest([NotNull] ChatId chatId, int userId, [NotNull] ChatPermissions permissions)
+        /// <param name="permissions">New user permissions</param>
+        public RestrictChatMemberRequest(
+            [DisallowNull] ChatId chatId,
+            int userId,
+            [DisallowNull] ChatPermissions permissions)
             : base("restrictChatMember")
         {
             ChatId = chatId;
