@@ -31,9 +31,7 @@ namespace Telegram.Bot
 
         private static readonly Update[] EmptyUpdates = { };
 
-        private const string BaseUrl = "https://api.telegram.org/bot";
-
-        private const string BaseFileUrl = "https://api.telegram.org/file/bot";
+        private const string BaseUrl = "https://api.telegram.org";
 
         private readonly string _baseRequestUrl;
 
@@ -158,7 +156,7 @@ namespace Telegram.Bot
         /// <param name="token">API token</param>
         /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, HttpClient httpClient = null)
+        public TelegramBotClient(string token, HttpClient httpClient = null, string baseUrl = null)
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
@@ -174,7 +172,7 @@ namespace Telegram.Bot
                 );
             }
 
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
+            _baseRequestUrl = $"{baseUrl ?? BaseUrl}/bot{_token}/";
             _httpClient = httpClient ?? new HttpClient();
         }
 
@@ -200,7 +198,7 @@ namespace Telegram.Bot
                 );
             }
 
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
+            _baseRequestUrl = $"{BaseUrl}/bot{_token}/";
             var httpClientHander = new HttpClientHandler
             {
                 Proxy = webProxy,
@@ -830,7 +828,7 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
+            var fileUri = new Uri($"{BaseUrl}/file/bot{_token}/{filePath}");
 
             var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
