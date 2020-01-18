@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -38,7 +37,8 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         {
             _maxRetries = maxRetries;
             _delaySeconds = delaySeconds;
-            _exceptionTypeFullName = exceptionTypeFullName;
+            _exceptionTypeFullName = exceptionTypeFullName ??
+                                     throw new ArgumentNullException(nameof(exceptionTypeFullName));
         }
 
         /// <inheritdoc cref="XunitTestCase"/>
@@ -69,25 +69,65 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                     testName += $"\n\nRETRY:{runCount}";
                 }
 
-                await Policy
-                    .Handle<TaskCanceledException>()
-                    .Or<HttpRequestException>()
-                    .Or<ApiRequestException>()
-                    .WaitAndRetry(1, i => TimeSpan.FromSeconds(30))
-                    .Execute(() =>
-                        TestsFixture.Instance.SendTestCaseNotificationAsync(testName)
-                    );
+                // Do not throw any exceptions here if can't send test case notification because
+                // xunit do not expects any exceptions here and so it crashes the process.
+                // Notification sending fails probably because of rate limiting by Telegram.
+                for (int i = 0; i < 2; i++)
+                {
+                    try
+                    {
+                        await TestsFixture.Instance.SendTestCaseNotificationAsync(testName);
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        // Log any exceptions here so we could at least know if notification
+                        // sending failed
+                        var waitTimeout = 30;
+                        var message = new DiagnosticMessage(
+                            "Couldn't send test name notification for test '{0}', " +
+                            "will try one more in {1} seconds.",
+                            DisplayName,
+                            waitTimeout
+                        );
+                        diagnosticMessageSink.OnMessage(message);
+                        await Task.Delay(TimeSpan.FromSeconds(waitTimeout));
+                    }
+                }
 
-                var summary = await base.RunAsync
-                (diagnosticMessageSink, delayedMessageBus, constructorArguments, aggregator,
-                    cancellationTokenSource);
-                if (aggregator.HasExceptions ||
-                    summary.Failed == 0 ||
-                    ++runCount > _maxRetries ||
-                    (summary.Failed == 1 &&
-                     !string.IsNullOrEmpty(_exceptionTypeFullName) &&
-                     !delayedMessageBus.FailedMessages.ExceptionTypes.Contains(_exceptionTypeFullName))
-                )
+                // await Policy
+                //     .Handle<TaskCanceledException>()
+                //     .Or<HttpRequestException>()
+                //     .Or<ApiRequestException>()
+                //     .WaitAndRetry(1, i => TimeSpan.FromSeconds(30))
+                //     .Execute(() =>
+                //         TestsFixture.Instance.SendTestCaseNotificationAsync(testName)
+                //     );
+
+                var summary = await base.RunAsync(
+                    diagnosticMessageSink,
+                    delayedMessageBus,
+                    constructorArguments,
+                    aggregator,
+                    cancellationTokenSource
+                );
+
+                runCount += 1;
+
+                var testRunHasUnexpectedErrors = aggregator.HasExceptions ||
+                                                 summary.Failed == 0;
+
+                var retryExceeded = runCount > _maxRetries;
+
+                var testRunHasExpectedException = summary.Failed == 1 &&
+                                                  !delayedMessageBus
+                                                      .ContainsException(_exceptionTypeFullName);
+
+                var testCaseRunShouldReturn = testRunHasUnexpectedErrors ||
+                                              retryExceeded ||
+                                              testRunHasExpectedException;
+
+                if (testCaseRunShouldReturn)
                 {
                     delayedMessageBus.Dispose(); // Sends all the delayed messages
                     return summary;
