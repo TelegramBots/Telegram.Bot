@@ -13,11 +13,12 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
     {
         readonly Dictionary<Type, object> _assemblyFixtureMappings = new Dictionary<Type, object>();
 
-        public XunitTestAssemblyRunnerWithAssemblyFixture(ITestAssembly testAssembly,
-                                                          IEnumerable<IXunitTestCase> testCases,
-                                                          IMessageSink diagnosticMessageSink,
-                                                          IMessageSink executionMessageSink,
-                                                          ITestFrameworkExecutionOptions executionOptions)
+        public XunitTestAssemblyRunnerWithAssemblyFixture(
+            ITestAssembly testAssembly,
+            IEnumerable<IXunitTestCase> testCases,
+            IMessageSink diagnosticMessageSink,
+            IMessageSink executionMessageSink,
+            ITestFrameworkExecutionOptions executionOptions)
             : base(testAssembly, testCases, diagnosticMessageSink, executionMessageSink, executionOptions)
         { }
 
@@ -29,14 +30,18 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             // Go find all the AssemblyFixtureAttributes adorned on the test assembly
             Aggregator.Run(() =>
             {
-                var fixturesAttrs = ((IReflectionAssemblyInfo)TestAssembly.Assembly).Assembly
-                                                                                    .GetCustomAttributes(typeof(AssemblyFixtureAttribute))
-                                                                                    .Cast<AssemblyFixtureAttribute>()
-                                                                                    .ToList();
+                var fixturesAttrs = ((IReflectionAssemblyInfo)TestAssembly.Assembly)
+                    .Assembly
+                    .GetCustomAttributes(typeof(AssemblyFixtureAttribute))
+                    .Cast<AssemblyFixtureAttribute>()
+                    .ToList();
 
                 // Instantiate all the fixtures
                 foreach (var fixtureAttr in fixturesAttrs)
-                    _assemblyFixtureMappings[fixtureAttr.FixtureType] = Activator.CreateInstance(fixtureAttr.FixtureType);
+                {
+                    var fixtureInstance = Activator.CreateInstance(fixtureAttr.FixtureType);
+                    _assemblyFixtureMappings[fixtureAttr.FixtureType] = fixtureInstance;
+                }
             });
         }
 
@@ -44,24 +49,37 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         {
             // Make sure we clean up everybody who is disposable, and use Aggregator.Run to isolate Dispose failures
             foreach (var disposable in _assemblyFixtureMappings.Values.OfType<IDisposable>())
+            {
                 Aggregator.Run(disposable.Dispose);
+            }
 
             return base.BeforeTestAssemblyFinishedAsync();
         }
 
-        protected override Task<RunSummary> RunTestCollectionAsync(IMessageBus messageBus,
-                                                                   ITestCollection testCollection,
-                                                                   IEnumerable<IXunitTestCase> testCases,
-                                                                   CancellationTokenSource cancellationTokenSource)
-        => new XunitTestCollectionRunnerWithAssemblyFixture
-                (_assemblyFixtureMappings, testCollection, testCases, DiagnosticMessageSink, messageBus, TestCaseOrderer, new ExceptionAggregator(Aggregator), cancellationTokenSource)
-                .RunAsync()
-                .ContinueWith(t =>
-                    {
-                        var fixture = (TestsFixture)_assemblyFixtureMappings.Single().Value;
-                        fixture.RunSummary.Aggregate(t.Result);
-                        return t.Result;
-                    })
-                ;
+        protected override async Task<RunSummary> RunTestCollectionAsync(
+            IMessageBus messageBus,
+            ITestCollection testCollection,
+            IEnumerable<IXunitTestCase> testCases,
+            CancellationTokenSource cancellationTokenSource)
+        {
+            var exceptionAggregator = new ExceptionAggregator(Aggregator);
+            var runner =  new XunitTestCollectionRunnerWithAssemblyFixture(
+                _assemblyFixtureMappings,
+                testCollection,
+                testCases,
+                DiagnosticMessageSink,
+                messageBus,
+                TestCaseOrderer,
+                exceptionAggregator,
+                cancellationTokenSource
+            );
+
+            var runSummary = await runner.RunAsync();
+
+            var testsFixture = (TestsFixture) _assemblyFixtureMappings.Single().Value;
+            testsFixture.RunSummary.Aggregate(runSummary);
+
+            return runSummary;
+        }
     }
 }
