@@ -20,6 +20,8 @@ variables:
 # Notes:
 # Limit parallel jobs to only 1 due to integration tests
 
+# Add "NugetApiKey" variable to the release pipeline and ensure that it's value is kept secret otherwise it will be seen in the logs
+
 # Add variables group named "Integration Tests Variables" and add following
 # variables to it:
 # - TelegramBot.ApiToken                      test-bot-api-token
