@@ -1,0 +1,37 @@
+parameters:
+  sdkVersion: ''
+  buildConfiguration: ''
+  projects: ''
+  strategies: []
+
+jobs:
+  - job: UnitTest
+    displayName: Run unit tests
+    strategy:
+      matrix:
+        ${{ each strategy in parameters.strategies }}:
+          ${{ each pair in strategy }}:
+            ${{ pair.key }}:
+              VM_IMAGE: ${{ pair.value }}
+    pool:
+      vmImage: $(VM_IMAGE)
+    steps:
+
+      - task: UseDotNet@2
+        displayName: Install .NET Core SDK
+        inputs:
+          version: ${{ parameters.sdkVersion }}
+          packageType: sdk
+
+      - script: dotnet help
+        displayName: Initialize .NET Core environment
+
+      - task: DotNetCoreCLI@2
+        displayName: Execute unit tests
+        inputs:
+          command: test
+          projects: ${{ parameters.projects }}
+          configuration: ${{ parameters.buildConfiguration }}
+          arguments: >
+            --verbosity normal
+          publishTestResults: true

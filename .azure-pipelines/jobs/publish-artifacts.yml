@@ -1,0 +1,38 @@
+parameters:
+  sdkVersion: ''
+  internalfeedName: ''
+  artifact: ''
+  packages: ''
+  vmImage: ''
+
+jobs:
+  - job: PublishArtifacts
+    displayName: Publish artifacts
+    pool:
+      vmImage: ${{ parameters.vmImage }}
+    steps:
+
+      - checkout: none
+
+      - download: current
+        artifact: ${{ parameters.artifact }}
+        # quotes are needed since * can't be used as the first character without quotes
+        patterns: "*/**/*.*upkg"
+
+      - task: UseDotNet@2
+        displayName: Install .NET Core SDK
+        inputs:
+          version: ${{ parameters.sdkVersion }}
+          packageType: sdk
+
+      - script: dotnet help
+        displayName: Initialize .NET Core environment
+
+      - task: DotNetCoreCLI@2
+        displayName: Publish CI package to Azure artifacts
+        inputs:
+          command: push
+          nuGetFeedType: internal
+          feedPublish: ${{ parameters.internalfeedName }}
+          publishPackageMetadata: true
+          packagesToPush: ${{ parameters.packages }}
