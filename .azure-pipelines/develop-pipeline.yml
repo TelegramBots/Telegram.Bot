@@ -76,7 +76,6 @@ stages:
 
       - template: jobs/run-unit-tests.yml
         parameters:
-          vmImage: ubuntu-18.04
           sdkVersion: $(sdkVersion)
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
