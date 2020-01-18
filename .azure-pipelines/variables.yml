@@ -16,3 +16,17 @@ variables:
     value: test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
   - name: integrationTestsProject
     value: test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj
+
+# Notes:
+# Limit parallel jobs to only 1 due to integration tests
+
+# Add variables group named "Integration Tests Variables" and add following
+# variables to it:
+# - TelegramBot.ApiToken                      test-bot-api-token
+# - TelegramBot.AllowedUserNames              main_tester,some_other_user
+# - TelegramBot.SuperGroupChatId              -1234
+# - TelegramBot.ChannelChatId                 -9876
+# - TelegramBot.PaymentProviderToken          token-from-stripe-test-bot
+# - TelegramBot.TesterPrivateChatId           1234
+# - TelegramBot.StickerOwnerUserId            1234
+# - TelegramBot.RegularGroupMemberId          9876
