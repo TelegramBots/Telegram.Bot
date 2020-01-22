@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Types.InputFiles;
 
@@ -12,6 +14,7 @@ namespace Telegram.Bot.Requests
     /// Represents an API request with a file
     /// </summary>
     /// <typeparam name="TResponse">Type of result expected in result</typeparam>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     {
         /// <summary>
