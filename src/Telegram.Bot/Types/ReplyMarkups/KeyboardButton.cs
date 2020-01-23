@@ -69,7 +69,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <param name="text">Button's text</param>
         /// <param name="type">Poll's type</param>
         /// <returns>Keyboard button</returns>
-        public static KeyboardButton WithRequestPoll(string text, string type) =>
+        public static KeyboardButton WithRequestPoll(string text, string type = default) =>
             new KeyboardButton(text) { RequestPoll = new KeyboardButtonPollType { Type = type }};
 
         /// <summary>
