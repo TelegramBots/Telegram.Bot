@@ -36,7 +36,9 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(supergroupChat.Title, chat.Title);
             Assert.Equal(supergroupChat.Username, chat.Username);
             Assert.Equal(supergroupChat.Description, chat.Description);
-            Assert.Equal(supergroupChat.InviteLink, chat.InviteLink);
+            // Don't compare invite links, it's easy to invalidate them accidentally so the test
+            // fails for no good reason
+            // Assert.Equal(supergroupChat.InviteLink, chat.InviteLink);
             Assert.Equal(supergroupChat.PinnedMessage, chat.PinnedMessage);
             Assert.Equal(supergroupChat.StickerSetName, chat.StickerSetName);
             Assert.Equal(supergroupChat.CanSetStickerSet, chat.CanSetStickerSet);
