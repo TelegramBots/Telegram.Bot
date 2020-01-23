@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 
 namespace Telegram.Bot.Requests
@@ -9,12 +10,15 @@ namespace Telegram.Bot.Requests
     /// Represents a API request
     /// </summary>
     /// <typeparam name="TResponse">Type of result expected in result</typeparam>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class RequestBase<TResponse> : IRequest<TResponse>
     {
         /// <inheritdoc />
+        [JsonIgnore]
         public HttpMethod Method { get; }
 
         /// <inheritdoc />
+        [JsonIgnore]
         public string MethodName { get; protected set; }
 
         /// <summary>
@@ -49,6 +53,7 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Allows this object to be used as a response in webhooks
         /// </summary>
+        [JsonIgnore]
         public bool IsWebhookResponse { get; set; }
 
         /// <summary>
