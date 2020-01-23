@@ -763,13 +763,23 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool? isAnonymous = default,
+            string type = default,
+            bool? allowsMultipleAnswers = default,
+            int? correctOptionId = default,
+            bool? isClosed = default
         ) =>
             MakeRequestAsync(new SendPollRequest(chatId, question, options)
             {
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
-                ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup,
+                IsAnonymous = isAnonymous,
+                Type = type,
+                AllowsMultipleAnswers = allowsMultipleAnswers,
+                CorrectOptionId = correctOptionId,
+                IsClosed = isClosed,
             }, cancellationToken);
 
         /// <inheritdoc />

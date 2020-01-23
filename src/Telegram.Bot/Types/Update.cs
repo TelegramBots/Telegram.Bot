@@ -83,6 +83,11 @@ namespace Telegram.Bot.Types
         public Poll Poll { get; set; }
 
         /// <summary>
+        /// Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public PollAnswer PollAnswer { get; set; }
+        /// <summary>
         /// Gets the update type.
         /// </summary>
         /// <value>
@@ -102,6 +107,7 @@ namespace Telegram.Bot.Types
                 if (ShippingQuery != null) return UpdateType.ShippingQuery;
                 if (PreCheckoutQuery != null) return UpdateType.PreCheckoutQuery;
                 if (Poll != null) return UpdateType.Poll;
+                if (PollAnswer != null) return UpdateType.PollAnswer;
 
                 return UpdateType.Unknown;
             }

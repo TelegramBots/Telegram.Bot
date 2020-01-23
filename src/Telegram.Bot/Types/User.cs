@@ -46,6 +46,24 @@ namespace Telegram.Bot.Types
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LanguageCode { get; set; }
 
+        /// <summary>
+        /// Optional. True, if the bot can be invited to groups. Returned only in getMe
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanJoinGroups { get; set; }
+
+        /// <summary>
+        /// Optional. True, if privacy mode is disabled for the bot. Returned only in getMe
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanReadAllGroupMessages { get; set; }
+
+        /// <summary>
+        /// Optional. True, if the bot supports inline queries. Returned only in getMe
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? SupportsInlineQueries { get; set; }
+
         /// <inheritdoc />
         public override bool Equals(object obj) => Equals(obj as User);
 
@@ -60,7 +78,10 @@ namespace Telegram.Bot.Types
                    FirstName == other.FirstName &&
                    LastName == other.LastName &&
                    Username == other.Username &&
-                   LanguageCode == other.LanguageCode;
+                   LanguageCode == other.LanguageCode &&
+                   CanJoinGroups == other.CanJoinGroups &&
+                   CanReadAllGroupMessages == other.CanReadAllGroupMessages &&
+                   SupportsInlineQueries == other.SupportsInlineQueries;
         }
 
         /// <summary>
@@ -92,6 +113,9 @@ namespace Telegram.Bot.Types
                 hashCode = (hashCode * 397) ^ (LastName?.GetHashCode() ?? 0);
                 hashCode = (hashCode * 397) ^ (Username?.GetHashCode() ?? 0);
                 hashCode = (hashCode * 397) ^ (LanguageCode?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ (CanJoinGroups?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ (CanReadAllGroupMessages?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ (SupportsInlineQueries?.GetHashCode() ?? 0);
                 // ReSharper restore NonReadonlyMemberInGetHashCode
                 return hashCode;
             }
