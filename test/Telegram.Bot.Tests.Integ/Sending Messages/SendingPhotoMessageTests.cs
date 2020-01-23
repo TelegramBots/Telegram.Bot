@@ -58,18 +58,17 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Send_Photo_FileId()
         {
-            PhotoSize[] uploadedPhoto = _classFixture.Entity.Photo;
-            string fileId = uploadedPhoto.First().FileId;
+            string fileId = _classFixture.Entity.Photo.First().FileId;
 
             Message message = await BotClient.SendPhotoAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 photo: fileId
             );
 
-            Assert.Single(message.Photo, photoSize => photoSize.FileId == fileId);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(uploadedPhoto), JToken.FromObject(message.Photo)
-            ));
+            // Apparently file ids of photos no longer remain the same when sending them
+            // using file ids
+            // Assert.Single(message.Photo, photoSize => photoSize.FileId == fileId);
+            Assert.NotEmpty(message.Photo);
         }
 
         [OrderedFact("Should send photo message and parse its caption entity values")]

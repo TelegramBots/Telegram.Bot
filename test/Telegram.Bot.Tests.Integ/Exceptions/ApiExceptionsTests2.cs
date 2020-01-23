@@ -42,24 +42,25 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.IsType<UserNotFoundException>(e);
         }
 
-        [OrderedFact("Should throw ContactRequestException while asking for user's phone number " +
+        [OrderedFact("Should throw ApiRequestException while asking for user's phone number " +
                      "in non-private chat via reply keyboard markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        public async Task Should_Throw_Exception_ContactRequestException()
+        public async Task Should_Throw_Exception_ApiRequestException()
         {
             ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup(new[]
             {
                 KeyboardButton.WithRequestContact("Share Contact"),
             });
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendTextMessageAsync(
                     _fixture.SupergroupChat.Id,
                     "You should never see this message",
-                    replyMarkup: replyMarkup)
+                    replyMarkup: replyMarkup
+                )
             );
 
-            Assert.IsType<ContactRequestException>(e);
+            Assert.Equal(400, exception.ErrorCode);
         }
 
         [OrderedFact("Should throw MessageIsNotModifiedException while editing previously " +

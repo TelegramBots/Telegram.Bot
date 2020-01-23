@@ -1,4 +1,6 @@
 ﻿using System.Net.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Requests
 {
@@ -6,6 +8,7 @@ namespace Telegram.Bot.Requests
     /// Represents a request that doesn't require any parameters
     /// </summary>
     /// <typeparam name="TResult"></typeparam>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ParameterlessRequest<TResult> : RequestBase<TResult>
     {
         /// <summary>

@@ -21,6 +21,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- All base request classes use explicit opt-in serialization strategy
+- All non Bot API properties in base request classes are annotated by `JsonIgnoreAttribute`
+- Type `ContactRequestException` is made obsolete due to Telegram changed it's error message
+
+### Fixed
+- A bug that prevented requests to be serialized when default `JsonSerializerSettings` were set 
+
+## [15.2.0] - 2020-01-03
+
 ### Added
 
 - Type `SetChatAdministratorCustomTitleRequest`
