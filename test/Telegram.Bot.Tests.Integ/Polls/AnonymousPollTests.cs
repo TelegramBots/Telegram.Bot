@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -12,14 +11,14 @@ namespace Telegram.Bot.Tests.Integ.Polls
     [Collection(Constants.TestCollections.NativePolls)]
     [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class PollMessageTests : IClassFixture<PollTestsFixture>
+    public class AnonymousPollTests : IClassFixture<AnonymousPollTestsFixture>
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly PollTestsFixture _classFixture;
+        private readonly AnonymousPollTestsFixture _classFixture;
         private readonly TestsFixture _fixture;
 
-        public PollMessageTests(TestsFixture fixture, PollTestsFixture classFixture)
+        public AnonymousPollTests(TestsFixture fixture, AnonymousPollTestsFixture classFixture)
         {
             _fixture = fixture;
             _classFixture = classFixture;
@@ -38,6 +37,10 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.Equal(MessageType.Poll, message.Type);
             Assert.NotEmpty(message.Poll.Id);
             Assert.False(message.Poll.IsClosed);
+            Assert.True(message.Poll.IsAnonymous);
+            Assert.Equal("regular", message.Poll.Type);
+            Assert.False(message.Poll.AllowsMultipleAnswers);
+            Assert.Null(message.Poll.CorrectOptionId);
 
             Assert.Equal("Who shot first?", message.Poll.Question);
             Assert.Equal(3, message.Poll.Options.Length);
@@ -76,11 +79,11 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.True(poll.IsClosed);
         }
 
-        [OrderedFact("Should throw exception due to not having enough poll options")]
+        [OrderedFact("Should throw ApiRequestException due to not having enough poll options")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Throw_Exception_Not_Enough_Options()
         {
-            Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendPollAsync(
                     /* chatId: */ _fixture.SupergroupChat,
                     /* question: */ "You should never see this poll",

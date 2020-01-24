@@ -177,6 +177,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 case UpdateType.PreCheckoutQuery:
                 case UpdateType.ShippingQuery:
                 case UpdateType.ChosenInlineResult:
+                case UpdateType.PollAnswer:
                     isAllowed = AllowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
                     break;
                 case UpdateType.Poll:
