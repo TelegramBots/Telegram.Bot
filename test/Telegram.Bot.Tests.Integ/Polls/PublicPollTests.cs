@@ -23,14 +23,14 @@ namespace Telegram.Bot.Tests.Integ.Polls
             _classFixture = classFixture;
         }
 
-        [OrderedFact("Should send non_Anonymous_Poll_With_Multiple_Answers")]
+        [OrderedFact("Should send public poll with multiple answers")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Send_Non_Anonymous_Poll_With_Multiple_Answers()
         {
             Message message = await _fixture.BotClient.SendPollAsync(
                 chatId: _fixture.SupergroupChat,
-                question: "Public poll with multiple answers",
-                options: new [] { "Option 1", "Option 2", "Option 3" },
+                question: "Pick your team",
+                options: new [] { "Aragorn", "Galadriel", "Frodo" },
                 isAnonymous: false,
                 type: "regular",
                 allowsMultipleAnswers: true
@@ -44,11 +44,11 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.True(message.Poll.AllowsMultipleAnswers);
             Assert.Null(message.Poll.CorrectOptionId);
 
-            Assert.Equal("Public poll with multiple answers", message.Poll.Question);
+            Assert.Equal("Pick your team", message.Poll.Question);
             Assert.Equal(3, message.Poll.Options.Length);
-            Assert.Equal("Option 1", message.Poll.Options[0].Text);
-            Assert.Equal("Option 2", message.Poll.Options[1].Text);
-            Assert.Equal("Option 3", message.Poll.Options[2].Text);
+            Assert.Equal("Aragorn", message.Poll.Options[0].Text);
+            Assert.Equal("Galadriel", message.Poll.Options[1].Text);
+            Assert.Equal("Frodo", message.Poll.Options[2].Text);
             Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
 
             _classFixture.PollMessage = message;

@@ -40,9 +40,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(MessageType.Text, message.Type);
             Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
             Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser), JToken.FromObject(message.From)
-            ));
+            Assert.Equal(_fixture.BotUser.Id, message.From.Id);
+            Assert.Equal(_fixture.BotUser.Username, message.From.Username);
+
+            // getMe request returns more information than is present in received updates
+            Asserts.UsersEqual(_fixture.BotUser, message.From);
         }
 
         [OrderedFact("Should send text message to channel")]
@@ -77,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 messageId: message1.MessageId
             );
 
-            Assert.Equal(_fixture.BotUser, message2.ForwardFrom);
+            Asserts.UsersEqual(_fixture.BotUser, message2.ForwardFrom);
             Assert.Null(message2.ForwardFromChat);
             Assert.Equal(default, message2.ForwardFromMessageId);
             Assert.Null(message2.ForwardSignature);
@@ -117,10 +119,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
             Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser),
-                JToken.FromObject(message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User)
-            ));
+            Asserts.UsersEqual(
+                _fixture.BotUser,
+                message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User
+            );
         }
 
         [OrderedFact("Should send HTML formatted text message and parse its entities. Link preview should not appear.")]
@@ -157,10 +159,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 message.Entities.Select(e => e.Type)
             );
             Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser),
-                JToken.FromObject(message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User)
-            ));
+            Asserts.UsersEqual(
+                _fixture.BotUser,
+                message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User
+            );
         }
 
         [OrderedFact("Should send text message and parse its entity values")]
@@ -221,10 +223,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
             Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser),
-                JToken.FromObject(message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User)
-            ));
+            Asserts.UsersEqual(
+                _fixture.BotUser,
+                message.Entities.Single(e => e.Type == MessageEntityType.TextMention).User
+            );
         }
 
         public class Fixture : ChannelChatFixture

@@ -29,11 +29,11 @@ namespace Telegram.Bot.Tests.Integ.Polls
         {
             Message message = await _fixture.BotClient.SendPollAsync(
                 chatId: _fixture.SupergroupChat,
-                question: "Public quiz",
-                options: new [] { "Option 1", "Option 2", "Option 3" },
+                question: "How many silmarils were made in J. R. R. Tolkiens's Silmarillion?",
+                options: new [] { "One", "Ten", "Three" },
                 isAnonymous: false,
                 type: "quiz",
-                correctOptionId: 2 // "Option 3"
+                correctOptionId: 2 // "Three"
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
@@ -44,11 +44,11 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.False(message.Poll.AllowsMultipleAnswers);
             Assert.Equal(2, message.Poll.CorrectOptionId);
 
-            Assert.Equal("Public quiz", message.Poll.Question);
+            Assert.Equal("How many silmarils were made in J. R. R. Tolkiens's Silmarillion?", message.Poll.Question);
             Assert.Equal(3, message.Poll.Options.Length);
-            Assert.Equal("Option 1", message.Poll.Options[0].Text);
-            Assert.Equal("Option 2", message.Poll.Options[1].Text);
-            Assert.Equal("Option 3", message.Poll.Options[2].Text);
+            Assert.Equal("One", message.Poll.Options[0].Text);
+            Assert.Equal("Ten", message.Poll.Options[1].Text);
+            Assert.Equal("Three", message.Poll.Options[2].Text);
             Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
 
             _classFixture.PollMessage = message;

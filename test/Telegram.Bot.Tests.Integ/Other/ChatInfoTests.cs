@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
@@ -71,10 +72,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(memberBot.CanSendMediaMessages);
             Assert.Null(memberBot.CanSendOtherMessages);
             Assert.Null(memberBot.CanAddWebPagePreviews);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser),
-                JToken.FromObject(memberBot.User)
-            ));
+            Asserts.UsersEqual(_fixture.BotUser, memberBot.User);
         }
 
         [OrderedFact("Should get supergroup chat administrators")]
@@ -86,7 +84,10 @@ namespace Telegram.Bot.Tests.Integ.Other
             );
 
             ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
+            Debug.Assert(memberCreator != null);
+
             ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
+            Debug.Assert(memberBot != null);
 
             Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator
             Assert.Null(memberCreator.UntilDate);
@@ -103,10 +104,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(memberCreator.CanSendMediaMessages);
             Assert.Null(memberCreator.CanSendOtherMessages);
             Assert.Null(memberCreator.CanAddWebPagePreviews);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser),
-                JToken.FromObject(memberBot.User)
-            ));
+            Asserts.UsersEqual(_fixture.BotUser, memberBot.User);
         }
 
         [OrderedFact("Should get private chat info")]
