@@ -8,7 +8,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
     public class RequestSerializationTests
     {
         [Fact(DisplayName = "Should serialize request")]
-        public void ShouldSerializeRequest()
+        public void Should_Serialize_Request()
         {
             GetUpdatesRequest request = new GetUpdatesRequest
             {
@@ -22,7 +22,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
         }
 
         [Fact(DisplayName = "Should properly serialize request with custom json settings")]
-        public void ShouldProperlySerializeRequestWithCustomJsonSettings()
+        public void Should_Properly_Serialize_Request_With_Custom_Json_Settings()
         {
             GetUpdatesRequest request = new GetUpdatesRequest
             {
