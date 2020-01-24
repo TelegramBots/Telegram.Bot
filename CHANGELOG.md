@@ -39,8 +39,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - `bool? AllowsMultipleAnswers`
     - `int? CorrectOptionId`
     - `bool? IsClosed`
- - Property `Update.PollAnswer`
- - Enum member `UpdateType.PollAnswer`
+- Property `Update.PollAnswer`
+- Enum member `UpdateType.PollAnswer`
 - Following properties to type `User`:
     - `bool? CanJoinGroups`
     - `bool? CanReadAllGroupMessages`
