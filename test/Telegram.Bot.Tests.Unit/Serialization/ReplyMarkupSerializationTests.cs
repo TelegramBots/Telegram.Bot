@@ -18,11 +18,13 @@ namespace Telegram.Bot.Tests.Unit.Serialization
 
             string serializedReplyMarkup = JsonConvert.SerializeObject(replyMarkup);
 
-            string expectedType = string.IsNullOrEmpty(type)
+            string formattedType = string.IsNullOrEmpty(type)
                 ? "{}"
                 : string.Format(@"{{""type"":""{0}""}}", type);
 
-            Assert.Contains(@$"""request_poll"":{expectedType}", serializedReplyMarkup);
+            string expectedString = string.Format(@"""request_poll"":{0}", formattedType);
+
+            Assert.Contains(expectedString, serializedReplyMarkup);
         }
     }
 }
