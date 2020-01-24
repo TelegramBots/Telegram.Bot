@@ -20,7 +20,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
 
             string expectedType = string.IsNullOrEmpty(type)
                 ? "{}"
-                : @$"{{""type"":""{type}""}}";
+                : string.Format(@"{{""type"":""{0}""}}", type);
 
             Assert.Contains(@$"""request_poll"":{expectedType}", serializedReplyMarkup);
         }
