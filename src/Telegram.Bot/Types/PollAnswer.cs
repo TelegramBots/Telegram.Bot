@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types
         /// Unique poll identifier
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Id { get; set; }
+        public string PollId { get; set; }
 
         /// <summary>
         /// The user, who changed the answer to the poll
