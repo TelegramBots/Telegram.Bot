@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
                 question: "Pick your team",
                 options: new [] { "Aragorn", "Galadriel", "Frodo" },
                 isAnonymous: false,
-                type: "regular",
+                type: PollType.Regular,
                 allowsMultipleAnswers: true
             );
 

@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
                 question: "How many silmarils were made in J. R. R. Tolkiens's Silmarillion?",
                 options: new [] { "One", "Ten", "Three" },
                 isAnonymous: false,
-                type: "quiz",
+                type: PollType.Quiz,
                 correctOptionId: 2 // "Three"
             );
 

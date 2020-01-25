@@ -673,7 +673,7 @@ namespace Telegram.Bot
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
             bool? isAnonymous = default,
-            string type = default,
+            PollType? type = default,
             bool? allowsMultipleAnswers = default,
             int? correctOptionId = default,
             bool? isClosed = default

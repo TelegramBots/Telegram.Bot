@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 // ReSharper disable CheckNamespace
 
@@ -42,10 +43,10 @@ namespace Telegram.Bot.Requests
         public bool? IsAnonymous { get; set; }
 
         /// <summary>
-        /// Optional. Poll type, “quiz” or “regular”, defaults to “regular”
+        /// Optional. Poll type, <see cref="PollType.Quiz"/> or <see cref="PollType.Regular"/>, defaults to <see cref="PollType.Regular"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Type { get; set; }
+        public PollType? Type { get; set; }
 
         /// <summary>
         /// Optional. True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
