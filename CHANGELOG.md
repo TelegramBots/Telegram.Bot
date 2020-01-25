@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Static method `KeyboardButton.WithRequestPoll`
 - Type `PollAnswer`
 - Property `KeyboardButton.RequestPoll`
+- Enum `PollType`
 - Property `MessageEntity.Language`
 - Following properties to type `Poll`:
     - `bool? IsAnonymous`
