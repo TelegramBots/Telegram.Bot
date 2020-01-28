@@ -23,6 +23,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
                     return update.ShippingQuery.From;
                 case UpdateType.ChosenInlineResult:
                     return update.ChosenInlineResult.From;
+                case UpdateType.PollAnswer:
+                    return update.PollAnswer.User;
                 default:
                     throw new ArgumentException("Unsupported update type {0}.", update.Type.ToString());
             }

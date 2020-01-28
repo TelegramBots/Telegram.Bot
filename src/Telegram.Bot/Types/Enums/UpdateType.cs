@@ -72,6 +72,12 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Update"/> contains an <see cref="Poll"/>
         /// </summary>
         [EnumMember(Value = "poll")]
-        Poll
+        Poll,
+
+        /// <summary>
+        /// The <see cref="Update"/> contains an <see cref="PollAnswer"/>
+        /// </summary>
+        [EnumMember(Value = "poll_answer")]
+        PollAnswer,
     }
 }

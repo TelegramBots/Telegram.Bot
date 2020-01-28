@@ -2,6 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Telegram.Bot.Types;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Framework
@@ -36,6 +37,18 @@ namespace Telegram.Bot.Tests.Integ.Framework
                     Assert.Equal(expectedJson, actualJson);
                 }
             }
+        }
+
+        // getMe request returns more information than is present in received updates
+        public static void UsersEqual(User expected, User actual)
+        {
+            JsonEquals(
+                expected,
+                actual,
+                "can_join_groups",
+                "can_read_all_group_messages",
+                "supports_inline_queries"
+            );
         }
 
         private static JToken RemoveFields(this JToken token, params string[] fields)
