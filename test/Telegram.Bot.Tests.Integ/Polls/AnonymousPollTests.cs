@@ -58,9 +58,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
             string pollId = _classFixture.PollMessage.Poll.Id;
 
             await _fixture.SendTestInstructionsAsync("🗳 Vote for any of the options on the poll above 👆");
-            Update update = (
-                await _fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll)
-            ).First();
+            Update update = (await _fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
+                .Last();
 
             Assert.Equal(UpdateType.Poll, update.Type);
             Assert.Equal(pollId, update.Poll.Id);

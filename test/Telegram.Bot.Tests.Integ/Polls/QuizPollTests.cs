@@ -64,7 +64,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Update pollAnswerUpdates = (await _fixture.UpdateReceiver.GetUpdatesAsync(
                 update => update.PollAnswer.OptionIds.Length == 1,
                 updateTypes: UpdateType.PollAnswer
-            )).First();
+            )).Last();
 
             Poll poll = _classFixture.PollMessage.Poll;
             PollAnswer pollAnswer = pollAnswerUpdates.PollAnswer;
