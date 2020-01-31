@@ -6,7 +6,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
     public class QuizPollTestsFixture
     {
         public TestsFixture TestsFixture { get; }
-        public Message PollMessage { get; set; }
+        public Message OriginalPollMessage { get; set; }
         public PollAnswer PollAnswer { get; set; }
 
         public QuizPollTestsFixture(TestsFixture testsFixture)

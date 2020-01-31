@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -51,7 +52,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.Equal("Frodo", message.Poll.Options[2].Text);
             Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
 
-            _classFixture.PollMessage = message;
+            _classFixture.OriginalPollMessage = message;
         }
 
         [OrderedFact("Should receive a poll answer update")]
@@ -61,13 +62,13 @@ namespace Telegram.Bot.Tests.Integ.Polls
                 "🗳 Vote for more than one option on the poll above 👆"
             );
 
-            Update pollAnswerUpdates = (await _fixture.UpdateReceiver.GetUpdatesAsync(
+            Update pollAnswerUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(
                 update => update.PollAnswer.OptionIds.Length > 1,
                 updateTypes: UpdateType.PollAnswer
             )).First();
 
-            Poll poll = _classFixture.PollMessage.Poll;
-            PollAnswer pollAnswer = pollAnswerUpdates.PollAnswer;
+            Poll poll = _classFixture.OriginalPollMessage.Poll;
+            PollAnswer pollAnswer = pollAnswerUpdate.PollAnswer;
 
             Assert.Equal(poll.Id, pollAnswer.PollId);
             Assert.NotNull(pollAnswer.User);
@@ -83,19 +84,23 @@ namespace Telegram.Bot.Tests.Integ.Polls
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
         public async Task Should_Stop_Non_Anonymous_Poll()
         {
-            Poll poll = await BotClient.StopPollAsync(
-                chatId: _classFixture.PollMessage.Chat,
-                messageId: _classFixture.PollMessage.MessageId
+            // without a delay the resulting poll object doesn't match up with the previously
+            // received poll answer
+            await Task.Delay(TimeSpan.FromSeconds(5));
+
+            Poll closedPoll = await BotClient.StopPollAsync(
+                chatId: _classFixture.OriginalPollMessage.Chat,
+                messageId: _classFixture.OriginalPollMessage.MessageId
             );
 
-            Assert.Equal(_classFixture.PollMessage.Poll.Id, poll.Id);
-            Assert.True(poll.IsClosed);
+            Assert.Equal(_classFixture.OriginalPollMessage.Poll.Id, closedPoll.Id);
+            Assert.True(closedPoll.IsClosed);
 
-            PollAnswer answer = _classFixture.PollAnswer;
+            PollAnswer pollAnswer = _classFixture.PollAnswer;
 
             Assert.All(
-                answer.OptionIds,
-                optionId => Assert.True(poll.Options[optionId].VoterCount > 0)
+                pollAnswer.OptionIds,
+                optionId => Assert.True(closedPoll.Options[optionId].VoterCount > 0)
             );
         }
     }

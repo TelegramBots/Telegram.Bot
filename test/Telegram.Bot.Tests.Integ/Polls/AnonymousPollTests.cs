@@ -29,9 +29,9 @@ namespace Telegram.Bot.Tests.Integ.Polls
         public async Task Should_Send_Poll()
         {
             Message message = await BotClient.SendPollAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* question: */ "Who shot first?",
-                /* options: */ new[] {"Han Solo", "Greedo", "I don't care"}
+                chatId: _fixture.SupergroupChat,
+                question: "Who shot first?",
+                options: new[] {"Han Solo", "Greedo", "I don't care"}
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
@@ -70,8 +70,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
         public async Task Should_Stop_Poll()
         {
             Poll poll = await BotClient.StopPollAsync(
-                /* chatId: */ _classFixture.PollMessage.Chat,
-                /* messageId: */ _classFixture.PollMessage.MessageId
+                chatId: _classFixture.PollMessage.Chat,
+                messageId: _classFixture.PollMessage.MessageId
             );
 
             Assert.Equal(_classFixture.PollMessage.Poll.Id, poll.Id);
@@ -84,9 +84,9 @@ namespace Telegram.Bot.Tests.Integ.Polls
         {
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendPollAsync(
-                    /* chatId: */ _fixture.SupergroupChat,
-                    /* question: */ "You should never see this poll",
-                    /* options: */ new[] {"The only poll option"}
+                    chatId: _fixture.SupergroupChat,
+                    question: "You should never see this poll",
+                    options: new[] {"The only poll option"}
                 )
             );
 
