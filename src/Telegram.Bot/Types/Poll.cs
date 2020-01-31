@@ -28,9 +28,39 @@ namespace Telegram.Bot.Types
         public PollOption[] Options { get; set; }
 
         /// <summary>
+        /// Total number of users that voted in the poll
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public int TotalVoterCount { get; set; }
+
+        /// <summary>
         /// True, if the poll is closed
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public bool IsClosed { get; set; }
+
+        /// <summary>
+        /// True, if the poll is anonymous
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public bool IsAnonymous { get; set; }
+
+        /// <summary>
+        /// Poll type, currently can be “regular” or “quiz”
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string Type { get; set; }
+
+        /// <summary>
+        /// True, if the poll allows multiple answers
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public bool AllowsMultipleAnswers { get; set; }
+
+        /// <summary>
+        /// Optional. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which are closed, or was sent (not forwarded) by the bot or to the private chat with the bot.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? CorrectOptionId { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 // ReSharper disable CheckNamespace
 
@@ -34,6 +35,36 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public IEnumerable<string> Options { get; }
+
+        /// <summary>
+        /// Optional. True, if the poll needs to be anonymous, defaults to True
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? IsAnonymous { get; set; }
+
+        /// <summary>
+        /// Optional. Poll type, <see cref="PollType.Quiz"/> or <see cref="PollType.Regular"/>, defaults to <see cref="PollType.Regular"/>
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public PollType? Type { get; set; }
+
+        /// <summary>
+        /// Optional. True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? AllowsMultipleAnswers { get; set; }
+
+        /// <summary>
+        /// Optional. 0-based identifier of the correct answer option, required for polls in quiz mode
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? CorrectOptionId { get; set; }
+
+        /// <summary>
+        /// Optional. Pass True, if the poll needs to be immediately closed
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? IsClosed { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

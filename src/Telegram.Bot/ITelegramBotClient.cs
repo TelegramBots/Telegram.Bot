@@ -656,8 +656,14 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="isAnonymous">True, if the poll needs to be anonymous, defaults to True</param>
+        /// <param name="type">Poll type, “quiz” or “regular”, defaults to “regular”</param>
+        /// <param name="allowsMultipleAnswers">True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False</param>
+        /// <param name="correctOptionId">0-based identifier of the correct answer option, required for polls in quiz mode</param>
+        /// <param name="isClosed">Pass True, if the poll needs to be immediately closed</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendpoll"/>
+        // TODO fix parameters order in vnext
         Task<Message> SendPollAsync(
             ChatId chatId,
             string question,
@@ -665,7 +671,12 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool? isAnonymous = default,
+            PollType? type = default,
+            bool? allowsMultipleAnswers = default,
+            int? correctOptionId = default,
+            bool? isClosed = default
         );
 
         /// <summary>
