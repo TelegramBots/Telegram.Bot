@@ -17,6 +17,8 @@ variables:
 stages:
   - stage: Build
     displayName: 🚧 Build
+    # don't build and pack on PRs
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: Build
         displayName: Build with .NET Core SDK
@@ -49,53 +51,8 @@ stages:
               $(projectPath)
             displayName: Create release nuget package
 
-          - task: DotNetCoreCLI@2
-            displayName: Build project with CI version
-            inputs:
-              command: build
-              projects: $(projectPath)
-              arguments: >
-                --configuration $(buildConfiguration)
-                --version-suffix "$(ciVersionSuffix)"
-
-          - bash: >
-              dotnet pack
-              --no-build
-              --output "$(Build.ArtifactStagingDirectory)/packages/ci"
-              --configuration $(buildConfiguration)
-              --version-suffix "$(ciVersionSuffix)"
-              $(projectPath)
-            displayName: Create CI nuget package
-
           - publish: $(Build.ArtifactStagingDirectory)/packages
             artifact: packages
-
-  - stage: PublishArtifacts
-    dependsOn: Build
-    displayName: 📤 Publish artifacts
-    # publish artifacts only for pull requests that is coming from the same repo
-    condition: and(succeeded(), eq(variables['System.PullRequest.IsFork'], False))
-    jobs:
-      - template: jobs/publish-artifacts.yml
-        parameters:
-          sdkVersion: $(sdkVersion)
-          internalfeedName: $(internalfeedName)
-          artifact: packages
-          packages: $(Pipeline.Workspace)/packages/ci/*.*upkg
-          vmImage: $(vmImage)
-
-  - stage: UnitTest
-    dependsOn: PublishArtifacts
-    displayName: 🧪 Unit test
-    condition: succeeded()
-    jobs:
-      - template: jobs/run-unit-tests.yml
-        parameters:
-          sdkVersion: $(sdkVersion)
-          buildConfiguration: $(buildConfiguration)
-          projects: $(unitTestsProject)
-          strategies:
-            - Ubuntu: ubuntu-18.04
 
   - stage: Release
     displayName: 🚀 Release

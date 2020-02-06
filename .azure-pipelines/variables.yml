@@ -18,17 +18,18 @@ variables:
     value: test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj
 
 # Notes:
-# Limit parallel jobs to only 1 due to integration tests
-
-# Add "NugetApiKey" variable to the release pipeline and ensure that it's value is kept secret otherwise it will be seen in the logs
+# - Limit parallel jobs to only 1 due to integration tests
+# - Disable PR builds for forks without a comment from a team member to prevent possible data leaks
+# - Add "NugetApiKey" variable to the release pipeline and ensure that it's value is kept secret
+#   otherwise it will be seen in the logs
 
 # Add variables group named "Integration Tests Variables" and add following
 # variables to it:
-# - TelegramBot.ApiToken                      test-bot-api-token
-# - TelegramBot.AllowedUserNames              main_tester,some_other_user
-# - TelegramBot.SuperGroupChatId              -1234
-# - TelegramBot.ChannelChatId                 -9876
-# - TelegramBot.PaymentProviderToken          token-from-stripe-test-bot
-# - TelegramBot.TesterPrivateChatId           1234
-# - TelegramBot.StickerOwnerUserId            1234
-# - TelegramBot.RegularGroupMemberId          9876
+# - TelegramBot.ApiToken             (required)          test-bot-api-token
+# - TelegramBot.AllowedUserNames     (optional)          main_tester,some_other_user
+# - TelegramBot.SuperGroupChatId     (required)          -1234
+# - TelegramBot.ChannelChatId        (required)          -9876
+# - TelegramBot.PaymentProviderToken (required)          token-from-stripe-test-bot
+# - TelegramBot.TesterPrivateChatId  (optional)          1234
+# - TelegramBot.StickerOwnerUserId   (optional)          1234
+# - TelegramBot.RegularGroupMemberId (optional)          9876

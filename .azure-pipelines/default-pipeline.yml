@@ -23,6 +23,8 @@ variables:
 stages:
   - stage: Build
     displayName: 🚧 Build
+    # don't build and pack artifacts for PRs
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: Build
         displayName: Build with .NET Core SDK
@@ -69,8 +71,8 @@ stages:
   - stage: PublishArtifacts
     dependsOn: Build
     displayName: 📤 Publish artifacts
-    # publish artifacts only for pull requests that is coming from the same repo
-    condition: and(succeeded(), eq(variables['System.PullRequest.IsFork'], False))
+    # don't build and pack artifacts for PRs
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - template: jobs/publish-artifacts.yml
         parameters:
@@ -83,7 +85,8 @@ stages:
   - stage: UnitTest
     dependsOn: PublishArtifacts
     displayName: 🧪 Unit test
-    condition: succeeded()
+    # run the stage regardless of previous stage status
+    condition: and(always(), eq(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - template: jobs/run-unit-tests.yml
         parameters:
@@ -96,8 +99,8 @@ stages:
   - stage: IntegrationTests
     dependsOn: PublishArtifacts
     displayName: 🧪 Integreation tests
-    # run integration tests only for pull requests that is coming from the same repo
-    condition: and(succeeded(), eq(variables['System.PullRequest.IsFork'], False))
+    # run the stage regardless of previous stage status
+    condition: and(always(), eq(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - template: jobs/run-integration-tests.yml
         parameters:
