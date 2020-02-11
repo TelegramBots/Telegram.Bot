@@ -26,6 +26,12 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public bool RequestContact { get; set; }
 
         /// <summary>
+        /// Optional. If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public KeyboardButtonPollType RequestPoll { get; set; }
+
+        /// <summary>
         /// Initializes a new <see cref="KeyboardButton"/>
         /// </summary>
         public KeyboardButton()
@@ -56,6 +62,15 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <returns>Keyboard button</returns>
         public static KeyboardButton WithRequestLocation(string text) =>
             new KeyboardButton(text) { RequestLocation = true };
+
+        /// <summary>
+        /// Generate a keyboard button to request a poll
+        /// </summary>
+        /// <param name="text">Button's text</param>
+        /// <param name="type">Poll's type</param>
+        /// <returns>Keyboard button</returns>
+        public static KeyboardButton WithRequestPoll(string text, string type = default) =>
+            new KeyboardButton(text) { RequestPoll = new KeyboardButtonPollType { Type = type }};
 
         /// <summary>
         /// Generate a keyboard button from text

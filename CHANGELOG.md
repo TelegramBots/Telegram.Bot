@@ -23,6 +23,55 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- Type `KeyboardButtonPollType`
+- Static method `KeyboardButton.WithRequestPoll`
+- Type `PollAnswer`
+- Property `KeyboardButton.RequestPoll`
+- Enum `PollType`
+- Property `MessageEntity.Language`
+- Following properties to type `Poll`:
+    - `bool? IsAnonymous`
+    - `string Type`
+    - `bool? AllowsMultipleAnswers`
+    - `int? CorrectOptionId`
+- Following properties to type `SendPollRequest`:
+    - `bool? IsAnonymous`
+    - `string Type`
+    - `bool? AllowsMultipleAnswers`
+    - `int? CorrectOptionId`
+    - `bool? IsClosed`
+- Property `Update.PollAnswer`
+- Enum member `UpdateType.PollAnswer`
+- Following properties to type `User`:
+    - `bool? CanJoinGroups`
+    - `bool? CanReadAllGroupMessages`
+    - `bool? SupportsInlineQueries`
+
+### Changed
+
+- Method `ITelegramBotClient.SendPollAsync`, added following optional parameters:
+    - `bool? isAnonymous`
+    - `string type`
+    - `bool? allowsMultipleAnswers`
+    - `int? correctOptionId`
+    - `bool? isClosed`
+- Method `User.Equals` takes into account new properties
+
+## [15.2.1] - 2020-01-23
+
+### Changed
+
+- All base request classes use explicit opt-in serialization strategy
+- All non Bot API properties in base request classes are annotated by `JsonIgnoreAttribute`
+- Type `ContactRequestException` is made obsolete due to Telegram changed it's error message
+
+### Fixed
+- A bug that prevented requests to be serialized when default `JsonSerializerSettings` were set 
+
+## [15.2.0] - 2020-01-03
+
+### Added
+
 - Type `SetChatAdministratorCustomTitleRequest`
 - Method `ITelegramBotClient.SetChatAdministratorCustomTitleAsync`
 - Property `FileBase.FileUniqueId`

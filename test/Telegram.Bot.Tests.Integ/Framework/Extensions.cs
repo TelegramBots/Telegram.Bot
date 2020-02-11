@@ -16,6 +16,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 UpdateType.PreCheckoutQuery => update.PreCheckoutQuery.From,
                 UpdateType.ShippingQuery => update.ShippingQuery.From,
                 UpdateType.ChosenInlineResult => update.ChosenInlineResult.From,
+                UpdateType.PollAnswer => update.PollAnswer.User,
                 _ => throw new ArgumentException("Unsupported update type {0}.", update.Type.ToString())
             };
 
