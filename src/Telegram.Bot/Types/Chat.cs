@@ -101,5 +101,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanSetStickerSet { get; set; }
+
+        /// <inheritdoc/>
+        public override string ToString() => (Type == ChatType.Private
+                                                 ? FirstName + LastName?.Insert(0, " ")
+                                                 : Title) +
+                                             $"({Id})";
     }
 }
