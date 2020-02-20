@@ -1231,13 +1231,13 @@ namespace Telegram.Bot
             bool needPhoneNumber = default,
             bool needEmail = default,
             bool needShippingAddress = default,
-            bool sendPhoneNumberToProvider = default,
-            bool sendEmailToProvider = default,
             bool isFlexible = default,
             bool disableNotification = default,
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool sendPhoneNumberToProvider = default,
+            bool sendEmailToProvider = default
         ) =>
             MakeRequestAsync(new SendInvoiceRequest(
                 chatId,
