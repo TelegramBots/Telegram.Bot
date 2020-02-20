@@ -58,7 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             Message message = await BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: _classFixture.Payload,
@@ -200,7 +200,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -247,7 +247,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -288,7 +288,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendInvoiceAsync(
-                    chatId: (int) _classFixture.PrivateChat.Id,
+                    chatId: _classFixture.PrivateChat.Id,
                     title: invoice.Title,
                     description: invoice.Description,
                     payload: payload,
@@ -325,7 +325,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             };
 
             await _fixture.BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: _classFixture.PrivateChat.Id,
                 title: invoice.Title,
                 description: invoice.Description,
                 payload: payload,
@@ -373,7 +373,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         public async Task Should_Send_Invoice_With_Reply_Markup()
         {
             await BotClient.SendInvoiceAsync(
-                chatId: (int) _classFixture.PrivateChat.Id,
+                chatId: _classFixture.PrivateChat.Id,
                 title: "Product",
                 description: "product description",
                 payload: "test payload",
