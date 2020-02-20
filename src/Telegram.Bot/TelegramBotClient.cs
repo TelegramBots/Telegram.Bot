@@ -1214,7 +1214,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<Message> SendInvoiceAsync(
-            long chatId,
+            int chatId,
             string title,
             string description,
             string payload,

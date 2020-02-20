@@ -1232,7 +1232,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
         Task<Message> SendInvoiceAsync(
-            long chatId,
+            int chatId,
             string title,
             string description,
             string payload,
