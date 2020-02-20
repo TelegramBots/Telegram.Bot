@@ -73,7 +73,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 isFlexible: true,
                 needName: true,
                 needEmail: true,
-                needPhoneNumber: true
+                needPhoneNumber: true,
+                sendEmailToProvider: true,
+                sendPhoneNumberToProvider: true
             );
 
             Assert.Equal(MessageType.Invoice, message.Type);

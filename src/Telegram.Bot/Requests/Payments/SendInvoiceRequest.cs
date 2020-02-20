@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
@@ -119,6 +119,18 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool NeedShippingAddress { get; set; }
+
+        /// <summary>
+        /// Pass True, if user's phone number should be sent to provider
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool SendPhoneNumberToProvider { get; set; }
+
+        /// <summary>
+        /// Pass True, if user's email address should be sent to provider
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool SendEmailToProvider { get; set; }
 
         /// <summary>
         /// Pass True, if you require the user's email to complete the order
