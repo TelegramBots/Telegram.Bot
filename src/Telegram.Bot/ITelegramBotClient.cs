@@ -1222,6 +1222,8 @@ namespace Telegram.Bot
         /// <param name="needPhoneNumber">Pass True, if you require the user's phone number to complete the order</param>
         /// <param name="needEmail">Pass True, if you require the user's email to complete the order</param>
         /// <param name="needShippingAddress">Pass True, if you require the user's shipping address to complete the order</param>
+        /// <param name="sendPhoneNumberToProvider">Pass True, if user's phone number should be sent to provider</param>
+        /// <param name="sendEmailToProvider">Pass True, if user's email address should be sent to provider</param>
         /// <param name="isFlexible">Pass True, if the final price depends on the shipping method</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -1251,7 +1253,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool sendPhoneNumberToProvider = default,
+            bool sendEmailToProvider = default);
 
         /// <summary>
         /// Use this method to reply to shipping queries with success and shipping options. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot.

@@ -22,6 +22,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+- Property `SendInvoiceRequest.SendPhoneNumberToProvider`
+- Property `SendInvoiceRequest.SendEmailToProvider `
+- Optional parameter `sendPhoneNumberToProvider` to method `ITelegramBotClient.SendInvoiceAsync`
+- Optional parameter `sendEmailToProvider` to method `ITelegramBotClient.SendInvoiceAsync`
+
+## [15.3.0] - 2020-01-31
+
+### Added
 
 - Type `KeyboardButtonPollType`
 - Static method `KeyboardButton.WithRequestPoll`
