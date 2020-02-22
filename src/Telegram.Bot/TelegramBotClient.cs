@@ -1235,7 +1235,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool sendPhoneNumberToProvider = default,
+            bool sendEmailToProvider = default
         ) =>
             MakeRequestAsync(new SendInvoiceRequest(
                 chatId,
@@ -1258,6 +1260,8 @@ namespace Telegram.Bot
                 NeedPhoneNumber = needPhoneNumber,
                 NeedEmail = needEmail,
                 NeedShippingAddress = needShippingAddress,
+                SendPhoneNumberToProvider = sendPhoneNumberToProvider,
+                SendEmailToProvider = sendEmailToProvider,
                 IsFlexible = isFlexible,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
