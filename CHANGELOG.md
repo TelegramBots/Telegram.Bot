@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -->
 
-## [Unreleased]
+## [15.4.0] - 2020-02-22
 
 ### Added
 - Property `SendInvoiceRequest.SendPhoneNumberToProvider`
@@ -74,7 +74,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `ContactRequestException` is made obsolete due to Telegram changed it's error message
 
 ### Fixed
-- A bug that prevented requests to be serialized when default `JsonSerializerSettings` were set 
+- A bug that prevented requests to be serialized when default `JsonSerializerSettings` were set
 
 ## [15.2.0] - 2020-01-03
 
