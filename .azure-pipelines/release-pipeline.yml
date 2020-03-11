@@ -8,8 +8,7 @@ trigger:
       - docs/*
       - "**/*.md"
 
-pr:
-  - master
+pr: none
 
 variables:
   - template: variables.yml
@@ -17,8 +16,6 @@ variables:
 stages:
   - stage: Build
     displayName: 🚧 Build
-    # don't build and pack on PRs
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: Build
         displayName: Build with .NET Core SDK
@@ -57,8 +54,6 @@ stages:
   - stage: Release
     displayName: 🚀 Release
     dependsOn: UnitTest
-    # don't push release package on pull requests
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - job: Release
         displayName: Publish package to NuGet
