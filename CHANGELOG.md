@@ -19,6 +19,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -->
 
+## [Unreleased]
+
+### Added
+- Requests
+    - `GetMyCommandsRequest`
+    - `SetMyCommandsRequest`
+    - `CreateNewAnimatedStickerSetRequest`
+    - `AddNewAnimatedStickerToSetRequest`
+    - `SendDiceRequest`
+    - `SetStickerSetThumbRequest`
+- Methods:
+    - `ITelegramBotClient.SendDiceAsync`
+    - `ITelegramBotClient.CreateNewAnimatedSticketSetAsync`
+    - `ITelegramBotClient.AddNewAnimatedSticketToSetAsync`
+    - `ITelegramBotClient.SetStickerSetThumbAsync`
+    - `ITelegramBotClient.GetMyCommandsAsync`
+    - `ITelegramBotClient.SetMyCommandsAsync`
+- Type `Dice`
+- Type `BotCommand`
+- Enum member `MessageType.Dice`
+- Property `Message.Dice`
+- Property `SticketSet.Thumb`
+
 ## [15.4.0] - 2020-02-22
 
 ### Added
