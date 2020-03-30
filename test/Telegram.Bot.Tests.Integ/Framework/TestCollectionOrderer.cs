@@ -28,6 +28,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             // Tests without the need for user interaction:
             Constants.TestCollections.GettingUpdates,
+            Constants.TestCollections.BotCommands,
+            Constants.TestCollections.Dice,
             Constants.TestCollections.Webhook,
             Constants.TestCollections.SendTextMessage,
             Constants.TestCollections.SendAudioMessage,
