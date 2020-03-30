@@ -1579,7 +1579,7 @@ namespace Telegram.Bot
         public Task SetStickerSetThumbAsync(
             string name,
             int userId,
-            InputOnlineFile thumb,
+            InputOnlineFile thumb = default,
             CancellationToken cancellationToken = default) =>
             MakeRequestAsync(
                 new SetStickerSetThumbRequest(name, userId, thumb),

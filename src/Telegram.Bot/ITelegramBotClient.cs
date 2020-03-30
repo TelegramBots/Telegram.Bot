@@ -1592,7 +1592,7 @@ namespace Telegram.Bot
         Task SetStickerSetThumbAsync(
             string name,
             int userId,
-            InputOnlineFile thumb,
+            InputOnlineFile thumb = default,
             CancellationToken cancellationToken = default);
 
         #endregion
