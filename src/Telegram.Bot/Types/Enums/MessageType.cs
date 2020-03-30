@@ -171,5 +171,10 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "poll")]
         Poll,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.Dice"/>
+        /// </summary>
+        Dice,
     }
 }

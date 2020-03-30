@@ -783,6 +783,23 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task<Message> SendDiceAsync(
+            ChatId chatId,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(
+                new SendDiceRequest(chatId)
+                {
+                    DisableNotification = disableNotification,
+                    ReplyToMessageId = replyToMessageId,
+                    ReplyMarkup = replyMarkup
+                },
+                cancellationToken
+            );
+
+        /// <inheritdoc />
         public Task SendChatActionAsync(
             ChatId chatId,
             ChatAction chatAction,
@@ -1001,6 +1018,16 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
+
+        /// <inheritdoc />
+        public Task<BotCommand[]> GetMyCommandsAsync(CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(new GetMyCommandsRequest(), cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetMyCommandsAsync(
+            IEnumerable<BotCommand> commands,
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(new SetMyCommandsRequest(commands), cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> StopMessageLiveLocationAsync(
@@ -1498,12 +1525,48 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task CreateNewAnimatedStickerSetAsync(
+            int userId,
+            string name,
+            string title,
+            InputFileStream tgsSticker,
+            string emojis,
+            bool isMasks = default,
+            MaskPosition maskPosition = default,
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(
+                new AddAnimatedStickerToSetRequest(userId, name, tgsSticker, emojis)
+                {
+                    MaskPosition = maskPosition
+                },
+                cancellationToken
+            );
+
+        /// <inheritdoc />
+        public Task AddAnimatedStickerToSetAsync(
+            int userId,
+            string name,
+            InputFileStream tgsSticker,
+            string emojis,
+            MaskPosition maskPosition = default,
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(
+                new AddAnimatedStickerToSetRequest(userId, name, tgsSticker, emojis)
+                {
+                    MaskPosition = maskPosition
+                },
+                cancellationToken
+            );
+
+        /// <inheritdoc />
         public Task SetStickerPositionInSetAsync(
             string sticker,
             int position,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new SetStickerPositionInSetRequest(sticker, position), cancellationToken);
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(
+                new SetStickerPositionInSetRequest(sticker, position),
+                cancellationToken
+            );
 
         /// <inheritdoc />
         public Task DeleteStickerFromSetAsync(
@@ -1511,6 +1574,17 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new DeleteStickerFromSetRequest(sticker), cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetStickerSetThumbAsync(
+            string name,
+            int userId,
+            InputOnlineFile thumb,
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(
+                new SetStickerSetThumbRequest(name, userId, thumb),
+                cancellationToken
+            );
 
         #endregion
     }
