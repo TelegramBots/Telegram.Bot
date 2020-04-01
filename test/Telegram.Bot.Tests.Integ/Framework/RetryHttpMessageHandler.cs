@@ -44,8 +44,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 // be empty at this stage
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse<int>>(body);
 
-                if (apiResponse.Parameters is { RetryAfter: var seconds })
+                if (apiResponse.Parameters != null)
                 {
+                    var seconds = apiResponse.Parameters.RetryAfter;
+
                     _diagnosticMessageSink.OnMessage(
                         new DiagnosticMessage($"Retry attempt {i + 1}. Waiting for {seconds} seconds before retrying.")
                     );

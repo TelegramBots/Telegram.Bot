@@ -70,7 +70,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         )
         {
             string text = string.Format(Constants.InstructionsMessageFormat, instructions);
-            chatId ??= SupergroupChat.Id;
+            chatId = chatId ?? SupergroupChat.Id;
 
             IReplyMarkup replyMarkup = startInlineQuery
                 ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
@@ -186,7 +186,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             string text = string.Format(textFormat, name);
 
-            chatId ??= SupergroupChat.Id;
+            chatId = chatId ?? SupergroupChat.Id;
             if (instructions != default)
             {
                 text += "\n\n" + string.Format(Constants.InstructionsMessageFormat, instructions);
