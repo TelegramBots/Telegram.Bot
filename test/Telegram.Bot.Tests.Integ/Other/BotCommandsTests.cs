@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMyCommands)]
         public async Task Should_Get_Set_Bot_Commands()
         {
-            var currentCommands = await _fixture.TestsFixture.BotClient.GetMyCommandsAsync();
+            BotCommand[] currentCommands = await _fixture.TestsFixture.BotClient.GetMyCommandsAsync();
 
             Assert.Equal(2, currentCommands.Length);
             Asserts.JsonEquals(_fixture.NewBotCommands, currentCommands);

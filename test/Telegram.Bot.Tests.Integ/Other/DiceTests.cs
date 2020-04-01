@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -20,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDice)]
         public async Task Should_Send_A_Die()
         {
-            var message = await _testsFixture.BotClient.SendDiceAsync(_testsFixture.SupergroupChat);
+            Message message = await _testsFixture.BotClient.SendDiceAsync(_testsFixture.SupergroupChat);
 
             Assert.Equal(MessageType.Dice, message.Type);
             Assert.NotNull(message.Dice);
