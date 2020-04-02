@@ -1535,8 +1535,9 @@ namespace Telegram.Bot
             MaskPosition maskPosition = default,
             CancellationToken cancellationToken = default) =>
             MakeRequestAsync(
-                new AddAnimatedStickerToSetRequest(userId, name, tgsSticker, emojis)
+                new CreateNewAnimatedStickerSetRequest(userId, name, title, tgsSticker, emojis)
                 {
+                    ContainsMasks = isMasks,
                     MaskPosition = maskPosition
                 },
                 cancellationToken
