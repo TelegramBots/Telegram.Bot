@@ -39,5 +39,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public Sticker[] Stickers { get; set; }
+
+        /// <summary>
+        /// Optional. Sticker set thumbnail in the .WEBP or .TGS format
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public PhotoSize Thumb { get; set; }
     }
 }
