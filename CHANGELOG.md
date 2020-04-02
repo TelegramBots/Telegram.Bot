@@ -19,7 +19,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -->
 
-## [Unreleased]
+## [15.5.1] - 2020-04-02
+
+### Fixed
+- Implementation of `ITelegramBotClient.CreateNewAnimatedSticketSetAsync`
+
+## [15.5.0] - 2020-04-02
 
 ### Added
 - Requests
