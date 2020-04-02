@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <VersionPrefix>15.4.0</VersionPrefix>
+    <VersionPrefix>15.5.0</VersionPrefix>
     <!--<VersionSuffix></VersionSuffix>-->
-    <LangVersion>latest</LangVersion>
+    <LangVersion>7.1</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Title>Telegram Bot API Client</Title>

@@ -22,6 +22,29 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+- Requests
+    - `GetMyCommandsRequest`
+    - `SetMyCommandsRequest`
+    - `CreateNewAnimatedStickerSetRequest`
+    - `AddNewAnimatedStickerToSetRequest`
+    - `SendDiceRequest`
+    - `SetStickerSetThumbRequest`
+- Methods:
+    - `ITelegramBotClient.SendDiceAsync`
+    - `ITelegramBotClient.CreateNewAnimatedSticketSetAsync`
+    - `ITelegramBotClient.AddNewAnimatedSticketToSetAsync`
+    - `ITelegramBotClient.SetStickerSetThumbAsync`
+    - `ITelegramBotClient.GetMyCommandsAsync`
+    - `ITelegramBotClient.SetMyCommandsAsync`
+- Type `Dice`
+- Type `BotCommand`
+- Enum member `MessageType.Dice`
+- Property `Message.Dice`
+- Property `SticketSet.Thumb`
+
+## [15.4.0] - 2020-02-22
+
+### Added
 - Property `SendInvoiceRequest.SendPhoneNumberToProvider`
 - Property `SendInvoiceRequest.SendEmailToProvider `
 - Optional parameter `sendPhoneNumberToProvider` to method `ITelegramBotClient.SendInvoiceAsync`
@@ -74,7 +97,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `ContactRequestException` is made obsolete due to Telegram changed it's error message
 
 ### Fixed
-- A bug that prevented requests to be serialized when default `JsonSerializerSettings` were set 
+- A bug that prevented requests to be serialized when default `JsonSerializerSettings` were set
 
 ## [15.2.0] - 2020-01-03
 

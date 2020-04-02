@@ -8,12 +8,15 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     public class TestsFixture : IDisposable
     {
+        private readonly IMessageSink _diagnosticMessageSink;
+
         public ITelegramBotClient BotClient { get; private set; }
 
         public User BotUser { get; private set; }
@@ -33,8 +36,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
         private CancellationToken CancellationToken =>
             new CancellationTokenSource(TimeSpan.FromSeconds(45)).Token;
 
-        public TestsFixture()
+        public TestsFixture(IMessageSink diagnosticMessageSink)
         {
+            _diagnosticMessageSink = diagnosticMessageSink;
             InitAsync().GetAwaiter().GetResult();
             Instance = this;
         }
@@ -61,19 +65,19 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public Task<Message> SendTestInstructionsAsync(
             string instructions,
-            ChatId chatid = default,
+            ChatId chatId = default,
             bool startInlineQuery = default
         )
         {
             string text = string.Format(Constants.InstructionsMessageFormat, instructions);
-            chatid = chatid ?? SupergroupChat.Id;
+            chatId = chatId ?? SupergroupChat.Id;
 
             IReplyMarkup replyMarkup = startInlineQuery
                 ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 : default;
 
             return BotClient.SendTextMessageAsync(
-                chatid,
+                chatId,
                 text,
                 ParseMode.Markdown,
                 replyMarkup: replyMarkup,
@@ -81,16 +85,18 @@ namespace Telegram.Bot.Tests.Integ.Framework
             );
         }
 
-        public async Task<Message> SendTestCaseNotificationAsync(string testcase)
+        public async Task<Message> SendTestCaseNotificationAsync(string testCase)
         {
-            Message msg = await SendNotificationToChatAsync(false, testcase);
+            Message msg = await SendNotificationToChatAsync(false, testCase);
             return msg;
         }
 
-        public async Task<Message> SendTestCollectionNotificationAsync(string collectionName,
-                                                                       string instructions = null, ChatId chatid = null)
+        public async Task<Message> SendTestCollectionNotificationAsync(
+            string collectionName,
+            string instructions = default,
+            ChatId chatId = default)
         {
-            Message msg = await SendNotificationToChatAsync(true, collectionName, instructions, chatid);
+            Message msg = await SendNotificationToChatAsync(true, collectionName, instructions, chatId);
             return msg;
         }
 
@@ -139,7 +145,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
         private async Task InitAsync()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
-            BotClient = new TelegramBotClient(apiToken);
+
+            var httpClientHandler = new RetryHttpMessageHandler(3, _diagnosticMessageSink);
+            var httpClient = new HttpClient(httpClientHandler);
+            BotClient = new TelegramBotClient(apiToken, httpClient);
             BotUser = await BotClient.GetMeAsync(CancellationToken);
             await BotClient.DeleteWebhookAsync(CancellationToken);
 
@@ -167,7 +176,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             bool isForCollection,
             string name,
             string instructions = default,
-            ChatId chatid = default,
+            ChatId chatId = default,
             bool switchInlineQuery = default
         )
         {
@@ -177,7 +186,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             string text = string.Format(textFormat, name);
 
-            chatid = chatid ?? SupergroupChat.Id;
+            chatId = chatId ?? SupergroupChat.Id;
             if (instructions != default)
             {
                 text += "\n\n" + string.Format(Constants.InstructionsMessageFormat, instructions);
@@ -187,7 +196,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 : default;
 
-            var task = BotClient.SendTextMessageAsync(chatid, text, ParseMode.Markdown,
+            var task = BotClient.SendTextMessageAsync(chatId, text, ParseMode.Markdown,
                 replyMarkup: replyMarkup,
                 cancellationToken: CancellationToken);
             return task;
