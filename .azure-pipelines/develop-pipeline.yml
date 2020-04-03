@@ -72,7 +72,7 @@ stages:
     dependsOn: PublishArtifacts
     displayName: 🧪 Unit test
     # run the stage regardless of previous stage status
-    condition: and(always(), eq(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     jobs:
 
       - template: jobs/run-unit-tests.yml
@@ -89,7 +89,7 @@ stages:
     dependsOn: PublishArtifacts
     displayName: 🧪 Integration tests
     # run the stage regardless of previous stage status
-    condition: and(always(), eq(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - template: jobs/run-integration-tests.yml
         parameters:

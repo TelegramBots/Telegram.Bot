@@ -21,7 +21,7 @@ stages:
   - stage: FullIntegrationTests
     displayName: 🧪 Full set of integration tests
     dependsOn: UnitTest
-    condition: eq(variables['Build.SourceBranch'], 'develop')
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'develop'))
     jobs:
       - template: jobs/run-integration-tests.yml
         parameters:
@@ -33,7 +33,7 @@ stages:
   - stage: NonInteractiveIntegrationTests
     displayName: 🧪 Non-interactive integration tests
     dependsOn: UnitTest
-    condition: ne(variables['Build.SourceBranch'], 'develop')
+    condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'develop'))
     jobs:
       - template: jobs/run-integration-tests.yml
         parameters:
