@@ -24,10 +24,10 @@ variables:
 # Add variables group named "Integration Tests Variables" and add following
 # variables to it:
 # - TelegramBot.ApiToken             (required)          test-bot-api-token
-# - TelegramBot.AllowedUserNames     (optional)          main_tester,some_other_user
 # - TelegramBot.SuperGroupChatId     (required)          -1234
 # - TelegramBot.ChannelChatId        (required)          -9876
 # - TelegramBot.PaymentProviderToken (required)          token-from-stripe-test-bot
+# - TelegramBot.AllowedUserNames     (optional)          main_tester,some_other_user
 # - TelegramBot.TesterPrivateChatId  (optional)          1234
 # - TelegramBot.StickerOwnerUserId   (optional)          1234
 # - TelegramBot.RegularGroupMemberId (optional)          9876
