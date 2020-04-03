@@ -4,8 +4,6 @@ variables:
     value: Release
   - name: vmImage
     value: ubuntu-18.04
-  - name: sdkVersion
-    value: 3.1.100
   - name: projectPath
     value: src/Telegram.Bot/Telegram.Bot.csproj
   - name: internalFeedName

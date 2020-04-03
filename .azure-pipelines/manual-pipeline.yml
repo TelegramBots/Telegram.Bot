@@ -10,12 +10,11 @@ stages:
     jobs:
       - template: jobs/run-unit-tests.yml
         parameters:
-          sdkVersion: $(sdkVersion)
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
           strategies:
             - Ubuntu: ubuntu-18.04
-            - macOS: macos-10.14
+            - macOS: macos-10.15
             - Windows: windows-2019
 
   - stage: FullIntegrationTests
@@ -26,7 +25,6 @@ stages:
       - template: jobs/run-integration-tests.yml
         parameters:
           vmImage: $(vmImage)
-          sdkVersion: $(sdkVersion)
           buildConfiguration: $(buildConfiguration)
           projects: $(integrationTestsProject)
 
@@ -38,7 +36,6 @@ stages:
       - template: jobs/run-integration-tests.yml
         parameters:
           vmImage: $(vmImage)
-          sdkVersion: $(sdkVersion)
           buildConfiguration: $(buildConfiguration)
           projects: $(integrationTestsProject)
           arguments: --filter "Category!=Interactive"

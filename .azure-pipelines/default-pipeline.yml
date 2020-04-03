@@ -31,16 +31,6 @@ stages:
         pool:
           vmImage: $(vmImage)
         steps:
-
-          - task: UseDotNet@2
-            displayName: Install .NET Core SDK
-            inputs:
-              version: $(sdkVersion)
-              packageType: sdk
-
-          - script: dotnet help
-            displayName: Initialize .NET Core environment
-
           - task: DotNetCoreCLI@2
             displayName: Build project with CI version
             inputs:
@@ -76,8 +66,7 @@ stages:
     jobs:
       - template: jobs/publish-artifacts.yml
         parameters:
-          sdkVersion: $(sdkVersion)
-          internalfeedName: $(internalfeedName)
+          internalFeedName: $(internalFeedName)
           artifact: packages
           packages: $(Pipeline.Workspace)/packages/ci/*.*upkg
           vmImage: $(vmImage)
@@ -90,7 +79,6 @@ stages:
     jobs:
       - template: jobs/run-unit-tests.yml
         parameters:
-          sdkVersion: $(sdkVersion)
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
           strategies:
@@ -105,7 +93,6 @@ stages:
       - template: jobs/run-integration-tests.yml
         parameters:
           vmImage: $(vmImage)
-          sdkVersion: $(sdkVersion)
           buildConfiguration: $(buildConfiguration)
           projects: $(integrationTestsProject)
           arguments: --filter "Category!=Interactive"

@@ -1,5 +1,4 @@
 parameters:
-  sdkVersion: ''
   buildConfiguration: ''
   projects: ''
   strategies: []
@@ -16,16 +15,6 @@ jobs:
     pool:
       vmImage: $(VM_IMAGE)
     steps:
-
-      - task: UseDotNet@2
-        displayName: Install .NET Core SDK
-        inputs:
-          version: ${{ parameters.sdkVersion }}
-          packageType: sdk
-
-      - script: dotnet help
-        displayName: Initialize .NET Core environment
-
       - task: DotNetCoreCLI@2
         displayName: Execute unit tests
         inputs:

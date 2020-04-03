@@ -22,16 +22,6 @@ stages:
         pool:
           vmImage: $(vmImage)
         steps:
-
-          - task: UseDotNet@2
-            displayName: Install .NET Core SDK
-            inputs:
-              version: $(sdkVersion)
-              packageType: sdk
-
-          - script: dotnet help
-            displayName: Initialize .NET Core environment
-
           - task: DotNetCoreCLI@2
             displayName: Build project with release version
             inputs:
@@ -60,21 +50,11 @@ stages:
         pool:
           vmImage: $(vmImage)
         steps:
-
           - checkout: none
 
           - download: current
             artifact: packages
             patterns: "*/**/*.*upkg"
-
-          - task: UseDotNet@2
-            displayName: Install .NET Core SDK
-            inputs:
-              version: $(sdkVersion)
-              packageType: sdk
-
-          - script: dotnet help
-            displayName: Initialize .NET Core environment
 
           - bash: >
               dotnet nuget push

@@ -1,6 +1,5 @@
 parameters:
   vmImage: ''
-  sdkVersion: ''
   buildConfiguration: ''
   projects: ''
   arguments: ''
@@ -11,16 +10,6 @@ jobs:
     pool:
       vmImage: ${{ parameters.vmImage }}
     steps:
-
-      - task: UseDotNet@2
-        displayName: Install .NET Core SDK
-        inputs:
-          version: ${{ parameters.sdkVersion }}
-          packageType: sdk
-
-      - script: dotnet help
-        displayName: Initialize .NET Core environment
-
       - task: DotNetCoreCLI@2
         displayName: Execute integration tests
         inputs:
