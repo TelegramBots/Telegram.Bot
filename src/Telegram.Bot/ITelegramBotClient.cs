@@ -680,6 +680,23 @@ namespace Telegram.Bot
         );
 
         /// <summary>
+        /// Use this request to send a dice, which will have a random value from 1 to 6. On success, the sent <see cref="Message"/> is returned
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+        /// <see href="https://core.telegram.org/bots/api#senddice"/>
+        Task<Message> SendDiceAsync(
+            ChatId chatId,
+            bool disableNotification = default,
+            int replyToMessageId = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
@@ -936,6 +953,25 @@ namespace Telegram.Bot
         Task SetChatPermissionsAsync(
             ChatId chatId,
             ChatPermissions permissions,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to get the current list of the bot's commands
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Array of <see cref="BotCommand"/> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#getmycommands"/>
+        Task<BotCommand[]> GetMyCommandsAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to change the list of the bot's commands. Returns True on success.
+        /// </summary>
+        /// <param name="commands">A list of bot commands to be set</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setmycommands"/>
+        Task SetMyCommandsAsync(
+            IEnumerable<BotCommand> commands,
             CancellationToken cancellationToken = default);
 
         #endregion Available methods
@@ -1222,6 +1258,8 @@ namespace Telegram.Bot
         /// <param name="needPhoneNumber">Pass True, if you require the user's phone number to complete the order</param>
         /// <param name="needEmail">Pass True, if you require the user's email to complete the order</param>
         /// <param name="needShippingAddress">Pass True, if you require the user's shipping address to complete the order</param>
+        /// <param name="sendPhoneNumberToProvider">Pass True, if user's phone number should be sent to provider</param>
+        /// <param name="sendEmailToProvider">Pass True, if user's email address should be sent to provider</param>
         /// <param name="isFlexible">Pass True, if the final price depends on the shipping method</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -1251,7 +1289,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool sendPhoneNumberToProvider = default,
+            bool sendEmailToProvider = default);
 
         /// <summary>
         /// Use this method to reply to shipping queries with success and shipping options. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot.
@@ -1475,6 +1515,48 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.
+        /// </summary>
+        /// <param name="userId">User identifier of created sticker set owner</param>
+        /// <param name="name">Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only English letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_&lt;bot_username&gt;”. &lt;bot_username&gt; is case insensitive. 1-64 characters.</param>
+        /// <param name="title">Sticker set title, 1-64 characters</param>
+        /// <param name="tgsSticker">Tgs animation with the sticker</param>
+        /// <param name="emojis">One or more emoji corresponding to the sticker</param>
+        /// <param name="isMasks">Pass True, if a set of mask stickers should be created</param>
+        /// <param name="maskPosition">Position where the mask should be placed on faces</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
+        Task CreateNewAnimatedStickerSetAsync(
+            int userId,
+            string name,
+            string title,
+            InputFileStream tgsSticker,
+            string emojis,
+            bool isMasks = default,
+            MaskPosition maskPosition = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to add a new sticker to a set created by the bot.
+        /// </summary>
+        /// <param name="userId">User identifier of sticker set owner</param>
+        /// <param name="name">Sticker set name</param>
+        /// <param name="tgsSticker">Tgs animation with the sticker</param>
+        /// <param name="emojis">One or more emoji corresponding to the sticker</param>
+        /// <param name="maskPosition">Position where the mask should be placed on faces</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>True on success</returns>
+        /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
+        Task AddAnimatedStickerToSetAsync(
+            int userId,
+            string name,
+            InputFileStream tgsSticker,
+            string emojis,
+            MaskPosition maskPosition = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Use this method to move a sticker in a set created by the bot to a specific position.
         /// </summary>
         /// <param name="sticker">File identifier of the sticker</param>
@@ -1496,6 +1578,21 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#deletestickerfromset"/>
         Task DeleteStickerFromSetAsync(
             string sticker,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only. Returns True on success.
+        /// </summary>
+        /// <param name="name">Sticker set name</param>
+        /// <param name="userId">User identifier of the sticker set owner</param>
+        /// <param name="thumb">A PNG image or a TGS animation with the thumbnail</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setstickersetthumb"/>
+        Task SetStickerSetThumbAsync(
+            string name,
+            int userId,
+            InputOnlineFile thumb = default,
             CancellationToken cancellationToken = default);
 
         #endregion

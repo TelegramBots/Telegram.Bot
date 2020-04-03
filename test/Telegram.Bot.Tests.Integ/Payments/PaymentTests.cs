@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 "Click on *Pay <amount>* and send your shipping address. " +
                 "You should see shipment options afterwards. " +
                 "Transaction should be completed.",
-                chatid: _classFixture.PrivateChat.Id
+                chatId: _classFixture.PrivateChat.Id
             );
 
             _classFixture.Payload = "my-payload";
@@ -73,7 +73,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 isFlexible: true,
                 needName: true,
                 needEmail: true,
-                needPhoneNumber: true
+                needPhoneNumber: true,
+                sendEmailToProvider: true,
+                sendPhoneNumberToProvider: true
             );
 
             Assert.Equal(MessageType.Invoice, message.Type);
@@ -178,7 +180,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         {
             await _fixture.SendTestInstructionsAsync(
                 "Click on *Pay <amount>* and send your shipping address. You should receive an error afterwards.",
-                chatid: _classFixture.PrivateChat.Id
+                chatId: _classFixture.PrivateChat.Id
             );
 
             const string payload = "shipping_query-error-payload";
@@ -225,7 +227,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         {
             await _fixture.SendTestInstructionsAsync(
                 "Click on *Pay <amount>* and confirm payment.",
-                chatid: _classFixture.PrivateChat.Id
+                chatId: _classFixture.PrivateChat.Id
             );
 
             const string payload = "pre_checkout-error-payload";

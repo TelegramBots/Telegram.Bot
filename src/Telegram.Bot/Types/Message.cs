@@ -232,6 +232,12 @@ namespace Telegram.Bot.Types
         public Poll Poll { get; set; }
 
         /// <summary>
+        /// Optional. Message is a dice with random value from 1 to 6
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Dice Dice { get; set; }
+
+        /// <summary>
         /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -417,6 +423,9 @@ namespace Telegram.Bot.Types
 
                 if (Poll != null)
                     return MessageType.Poll;
+
+                if (Dice != null)
+                    return MessageType.Dice;
 
                 return MessageType.Unknown;
             }
