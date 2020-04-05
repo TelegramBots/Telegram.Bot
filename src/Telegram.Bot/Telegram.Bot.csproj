@@ -27,5 +27,9 @@
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net45'">
     <Reference Include="System.Net.Http" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies.net45" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 </Project>
