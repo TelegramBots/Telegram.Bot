@@ -7,7 +7,7 @@ variables:
   - name: projectPath
     value: src/Telegram.Bot/Telegram.Bot.csproj
   - name: internalFeedName
-    value: Telegram.Bot
+    value: Telegram.Bot/Telegram.Bot
   - name: ciVersionSuffix
     value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
   - name: unitTestsProject
