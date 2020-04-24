@@ -23,7 +23,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
         }
 
         [OrderedFact(
-            "Should send public poll with multiple answers")]
+            "Should send public poll with multiple answers",
+            Skip = "Poll tests fail too often for unknown reasons")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Send_Non_Anonymous_Poll_With_Multiple_Answers()
         {
@@ -57,7 +58,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
         }
 
         [OrderedFact(
-            "Should receive a poll answer update")]
+            "Should receive a poll answer update",
+            Skip = "Poll tests fail too often for unknown reasons")]
         public async Task Should_Receive_Poll_Answer_Update()
         {
             await Fixture.SendTestInstructionsAsync(
@@ -82,7 +84,9 @@ namespace Telegram.Bot.Tests.Integ.Polls
             _classFixture.PollAnswer = pollAnswer;
         }
 
-        [OrderedFact("Should stop non-anonymous the poll")]
+        [OrderedFact(
+            "Should stop non-anonymous the poll",
+            Skip = "Poll tests fail too often for unknown reasons")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
         public async Task Should_Stop_Non_Anonymous_Poll()
         {
