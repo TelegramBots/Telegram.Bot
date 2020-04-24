@@ -13,25 +13,22 @@ namespace Telegram.Bot.Tests.Integ.Polls
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PublicPollTests : IClassFixture<PublicPollTestsFixture>
     {
-        private readonly TestsFixture _fixture;
         private readonly PublicPollTestsFixture _classFixture;
+        private TestsFixture Fixture => _classFixture.TestsFixture;
+        private ITelegramBotClient BotClient => Fixture.BotClient;
 
-        private ITelegramBotClient BotClient => _fixture.BotClient;
-
-        public PublicPollTests(TestsFixture fixture, PublicPollTestsFixture classFixture)
+        public PublicPollTests(PublicPollTestsFixture classFixture)
         {
-            _fixture = fixture;
             _classFixture = classFixture;
         }
 
         [OrderedFact(
-            "Should send public poll with multiple answers",
-            Skip = "Poll tests fail too often for unknown reasons")]
+            "Should send public poll with multiple answers")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Send_Non_Anonymous_Poll_With_Multiple_Answers()
         {
-            Message message = await _fixture.BotClient.SendPollAsync(
-                chatId: _fixture.SupergroupChat,
+            Message message = await Fixture.BotClient.SendPollAsync(
+                chatId: Fixture.SupergroupChat,
                 question: "Pick your team",
                 options: new [] { "Aragorn", "Galadriel", "Frodo" },
                 isAnonymous: false,
@@ -46,6 +43,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.Equal("regular", message.Poll.Type);
             Assert.True(message.Poll.AllowsMultipleAnswers);
             Assert.Null(message.Poll.CorrectOptionId);
+            Assert.Null(message.Poll.OpenPeriod);
+            Assert.Null(message.Poll.CloseDate);
 
             Assert.Equal("Pick your team", message.Poll.Question);
             Assert.Equal(3, message.Poll.Options.Length);
@@ -58,15 +57,14 @@ namespace Telegram.Bot.Tests.Integ.Polls
         }
 
         [OrderedFact(
-            "Should receive a poll answer update",
-            Skip = "Poll tests fail too often for unknown reasons")]
+            "Should receive a poll answer update")]
         public async Task Should_Receive_Poll_Answer_Update()
         {
-            await _fixture.SendTestInstructionsAsync(
+            await Fixture.SendTestInstructionsAsync(
                 "🗳 Vote for more than one option on the poll above 👆"
             );
 
-            Update pollAnswerUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(
+            Update pollAnswerUpdate = (await Fixture.UpdateReceiver.GetUpdatesAsync(
                 update => update.PollAnswer.OptionIds.Length > 1,
                 updateTypes: UpdateType.PollAnswer
             )).First();
@@ -84,9 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             _classFixture.PollAnswer = pollAnswer;
         }
 
-        [OrderedFact(
-            "Should stop non-anonymous the poll",
-            Skip = "Poll tests fail too often for unknown reasons")]
+        [OrderedFact("Should stop non-anonymous the poll")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopPoll)]
         public async Task Should_Stop_Non_Anonymous_Poll()
         {
