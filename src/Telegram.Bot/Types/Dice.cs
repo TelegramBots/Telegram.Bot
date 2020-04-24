@@ -10,6 +10,11 @@ namespace Telegram.Bot.Types
     public class Dice
     {
         /// <summary>
+        /// Emoji on which the dice throw animation is based
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string Emoji { get; set; }
+        /// <summary>
         /// Value of the dice, 1-6
         /// </summary>
         [JsonProperty(Required = Required.Always)]
