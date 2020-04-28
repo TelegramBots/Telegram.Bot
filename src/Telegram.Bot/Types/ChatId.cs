@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+using System;
+using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
@@ -43,7 +44,12 @@ namespace Telegram.Bot.Types
         /// <param name="username">The user name</param>
         public ChatId(string username)
         {
-            if (username.Length > 1 && username.Substring(0, 1) == "@")
+            if (username == null)
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            if (username.StartsWith("@"))
             {
                 Username = username;
             }
