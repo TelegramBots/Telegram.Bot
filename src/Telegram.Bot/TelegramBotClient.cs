@@ -200,6 +200,7 @@ namespace Telegram.Bot
         /// <param name="baseUrl">Used to change base url to your private bot api server URL. It looks like http://localhost:8081/bot</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
+        [Obsolete("Provide httpClient with configured proxy instead.")]
         public TelegramBotClient(string token, IWebProxy webProxy, string baseUrl = TelegramBaseUrl)
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
@@ -750,29 +751,6 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
-        [Obsolete("Use the other overload of this method instead. Only photo and video input types are allowed.")]
-        public Task<Message[]> SendMediaGroupAsync(
-            ChatId chatId,
-            IEnumerable<InputMediaBase> media,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            CancellationToken cancellationToken = default
-        )
-        {
-            var inputMedia = media
-                .Select(m => m as IAlbumInputMedia)
-                .Where(m => m != null)
-                .ToArray();
-            return MakeRequestAsync(new SendMediaGroupRequest(chatId, inputMedia)
-            {
-                DisableNotification = disableNotification,
-                ReplyToMessageId = replyToMessageId,
-                AllowSendingWithoutReply = allowSendingWithoutReply,
-            }, cancellationToken);
-        }
-
-        /// <inheritdoc />
         public Task<Message[]> SendMediaGroupAsync(
             ChatId chatId,
             IEnumerable<IAlbumInputMedia> media,
@@ -955,19 +933,6 @@ namespace Telegram.Bot
             MakeRequestAsync(new GetFileRequest(fileId), cancellationToken);
 
         /// <inheritdoc />
-        [Obsolete("This method will be removed in next major release. Use its overload instead.")]
-        public async Task<Stream> DownloadFileAsync(
-            string filePath,
-            CancellationToken cancellationToken = default
-        )
-        {
-            var stream = new MemoryStream();
-            await DownloadFileAsync(filePath, stream, cancellationToken)
-                .ConfigureAwait(false);
-            return stream;
-        }
-
-        /// <inheritdoc />
         public async Task DownloadFileAsync(
             string filePath,
             Stream destination,
@@ -1052,7 +1017,7 @@ namespace Telegram.Bot
             bool onlyIfBanned = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new UnbanChatMemberRequest(chatId, userId) { OnlyIfBanned = onlyIfBanned } , cancellationToken);
+            MakeRequestAsync(new UnbanChatMemberRequest(chatId, userId) { OnlyIfBanned = onlyIfBanned }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Chat> GetChatAsync(

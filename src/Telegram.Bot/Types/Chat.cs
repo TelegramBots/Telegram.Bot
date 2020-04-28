@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
@@ -46,13 +46,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string LastName { get; set; }
-
-        /// <summary>
-        /// Optional. True if a group has 'All Members Are Admins' enabled.
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [Obsolete("Use Permissions field instead")]
-        public bool AllMembersAreAdministrators { get; set; }
 
         /// <summary>
         /// Optional. Chat photo. Returned only in getChat.

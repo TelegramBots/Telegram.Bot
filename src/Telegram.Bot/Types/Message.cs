@@ -49,12 +49,6 @@ namespace Telegram.Bot.Types
         public Chat Chat { get; set; }
 
         /// <summary>
-        /// Indicates whether this message is a forwarded message
-        /// </summary>
-        [Obsolete("Check ForwardFrom and ForwardFromChat properties instead")]
-        public bool IsForwarded => ForwardFrom != null;
-
-        /// <summary>
         /// Optional. For forwarded messages, sender of the original message
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
