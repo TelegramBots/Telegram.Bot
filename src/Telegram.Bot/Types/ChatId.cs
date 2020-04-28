@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
@@ -10,6 +11,8 @@ namespace Telegram.Bot.Types
     [JsonConverter(typeof(ChatIdConverter))]
     public class ChatId
     {
+        private static readonly Regex NameValidation = new Regex("^@[a-zA-Z0-9_]{5,32}$");
+
         /// <summary>
         /// Unique identifier for the chat
         /// </summary>
@@ -45,12 +48,12 @@ namespace Telegram.Bot.Types
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public ChatId(string username)
         {
-            if (string.IsNullOrWhiteSpace(username))
+            if (username == null)
             {
                 throw new ArgumentNullException(nameof(username));
             }
 
-            if (username.Length > 1 && username.Substring(0, 1) == "@")
+            if (NameValidation.IsMatch(username))
             {
                 Username = username;
             }
@@ -63,7 +66,7 @@ namespace Telegram.Bot.Types
                 throw new ArgumentOutOfRangeException(
                     nameof(username),
                     username,
-                    $"{nameof(username)} value has to start with '@' symbol or be a valid long value"
+                    $"{nameof(username)} value has to start with '@' symbol and be 5 to 32 characters long or be a valid long value."
                 );
             }
         }
