@@ -49,17 +49,13 @@ namespace Telegram.Bot.Types
                 throw new ArgumentNullException(nameof(username));
             }
 
-            if (username.StartsWith("@"))
+            if (username.Length > 5 && username.StartsWith("@"))
             {
                 Username = username;
             }
-            else if (int.TryParse(username, out int chatId))
+            else
             {
-                Identifier = chatId;
-            }
-            else if (long.TryParse(username, out long identifier))
-            {
-                Identifier = identifier;
+                throw new ArgumentException("Username must start with '@' and be least 5 characters long.", nameof(username));
             }
         }
 
