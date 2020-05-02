@@ -661,6 +661,10 @@ namespace Telegram.Bot
         /// <param name="allowsMultipleAnswers">True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False</param>
         /// <param name="correctOptionId">0-based identifier of the correct answer option, required for polls in quiz mode</param>
         /// <param name="isClosed">Pass True, if the poll needs to be immediately closed</param>
+        /// <param name="explanation">Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll</param>
+        /// <param name="explanationParseMode">Mode for parsing entities in the explanation</param>
+        /// <param name="openPeriod">Amount of time in seconds the poll will be active after creation</param>
+        /// <param name="closeDate">Point in time when the poll will be automatically closed</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendpoll"/>
         // TODO fix parameters order in vnext
@@ -676,7 +680,11 @@ namespace Telegram.Bot
             PollType? type = default,
             bool? allowsMultipleAnswers = default,
             int? correctOptionId = default,
-            bool? isClosed = default
+            bool? isClosed = default,
+            string explanation = default,
+            ParseMode explanationParseMode = default,
+            int? openPeriod = default,
+            DateTime? closeDate = default
         );
 
         /// <summary>
@@ -687,14 +695,17 @@ namespace Telegram.Bot
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="emoji">Emoji on which the dice throw animation is based</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddice"/>
+        // TODO Fix parameter order in vnext
         Task<Message> SendDiceAsync(
             ChatId chatId,
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            Emoji? emoji = default);
 
         /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).

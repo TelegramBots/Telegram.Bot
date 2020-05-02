@@ -768,7 +768,11 @@ namespace Telegram.Bot
             PollType? type = default,
             bool? allowsMultipleAnswers = default,
             int? correctOptionId = default,
-            bool? isClosed = default
+            bool? isClosed = default,
+            string explanation = default,
+            ParseMode explanationParseMode = default,
+            int? openPeriod = default,
+            DateTime? closeDate = default
         ) =>
             MakeRequestAsync(new SendPollRequest(chatId, question, options)
             {
@@ -780,6 +784,10 @@ namespace Telegram.Bot
                 AllowsMultipleAnswers = allowsMultipleAnswers,
                 CorrectOptionId = correctOptionId,
                 IsClosed = isClosed,
+                OpenPeriod = openPeriod,
+                CloseDate = closeDate,
+                Explanation = explanation,
+                ExplanationParseMode = explanationParseMode
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -788,13 +796,15 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default) =>
+            CancellationToken cancellationToken = default,
+            Emoji? emoji = default) =>
             MakeRequestAsync(
                 new SendDiceRequest(chatId)
                 {
                     DisableNotification = disableNotification,
                     ReplyToMessageId = replyToMessageId,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    Emoji = emoji
                 },
                 cancellationToken
             );

@@ -13,14 +13,13 @@ namespace Telegram.Bot.Tests.Integ.Polls
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class AnonymousPollTests : IClassFixture<AnonymousPollTestsFixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
 
         private readonly AnonymousPollTestsFixture _classFixture;
-        private readonly TestsFixture _fixture;
+        private TestsFixture Fixture => _classFixture.TestsFixture;
+        private ITelegramBotClient BotClient => Fixture.BotClient;
 
-        public AnonymousPollTests(TestsFixture fixture, AnonymousPollTestsFixture classFixture)
+        public AnonymousPollTests( AnonymousPollTestsFixture classFixture)
         {
-            _fixture = fixture;
             _classFixture = classFixture;
         }
 
@@ -31,7 +30,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
         public async Task Should_Send_Poll()
         {
             Message message = await BotClient.SendPollAsync(
-                chatId: _fixture.SupergroupChat,
+                chatId: Fixture.SupergroupChat,
                 question: "Who shot first?",
                 options: new[] {"Han Solo", "Greedo", "I don't care"}
             );
@@ -43,6 +42,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.Equal("regular", message.Poll.Type);
             Assert.False(message.Poll.AllowsMultipleAnswers);
             Assert.Null(message.Poll.CorrectOptionId);
+            Assert.Null(message.Poll.OpenPeriod);
+            Assert.Null(message.Poll.CloseDate);
 
             Assert.Equal("Who shot first?", message.Poll.Question);
             Assert.Equal(3, message.Poll.Options.Length);
@@ -61,8 +62,8 @@ namespace Telegram.Bot.Tests.Integ.Polls
         {
             string pollId = _classFixture.PollMessage.Poll.Id;
 
-            await _fixture.SendTestInstructionsAsync("🗳 Vote for any of the options on the poll above 👆");
-            Update update = (await _fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
+            await Fixture.SendTestInstructionsAsync("🗳 Vote for any of the options on the poll above 👆");
+            Update update = (await Fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
                 .Last();
 
             Assert.Equal(UpdateType.Poll, update.Type);
@@ -84,15 +85,13 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.True(poll.IsClosed);
         }
 
-        [OrderedFact(
-            "Should throw ApiRequestException due to not having enough poll options",
-            Skip = "Fails on CI server for some reason, the resulting poll is public")]
+        [OrderedFact("Should throw ApiRequestException due to not having enough poll options")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Throw_Exception_Not_Enough_Options()
         {
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendPollAsync(
-                    chatId: _fixture.SupergroupChat,
+                    chatId: Fixture.SupergroupChat,
                     question: "You should never see this poll",
                     options: new[] {"The only poll option"}
                 )

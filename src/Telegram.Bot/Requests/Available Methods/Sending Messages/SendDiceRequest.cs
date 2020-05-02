@@ -2,7 +2,8 @@
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
+ using Telegram.Bot.Types.Enums;
+ using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -21,6 +22,12 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
+
+        /// <summary>
+        /// Optional. Emoji on which the dice throw animation is based. Currently, must be one of <see cref="Telegram.Bot.Types.Enums.Emoji.Dice"/> or <see cref="Telegram.Bot.Types.Enums.Emoji.Darts"/>. Defauts to <see cref="Telegram.Bot.Types.Enums.Emoji.Dice"/>
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Emoji? Emoji { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
