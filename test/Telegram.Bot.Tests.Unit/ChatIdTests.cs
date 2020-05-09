@@ -11,6 +11,10 @@ namespace Telegram.Bot.Tests.Unit
         [InlineData("@UserName")]
         [InlineData("@User1")]
         [InlineData("@12345")]
+        [InlineData("12345")]
+        [InlineData("0")]
+        [InlineData("999999999999999")]
+        [InlineData("@99999999999999999999999999999999")]
         public void Valid_User_Name(string userName)
         {
             var chatId = new ChatId(userName);
@@ -26,11 +30,12 @@ namespace Telegram.Bot.Tests.Unit
 
 
         [Theory]
-        [InlineData("12345")]
         [InlineData("username")]
         [InlineData("@u")]
         [InlineData("@User")]
         [InlineData("@1234")]
+        [InlineData("999999999999999999999999")]
+        [InlineData("@999999999999999999999999999999999")]
         public void Invalid_User_Name(string userName)
         {
             Assert.Throws<ArgumentException>(() => new ChatId(userName));
