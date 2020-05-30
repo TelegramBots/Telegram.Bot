@@ -1,4 +1,6 @@
+using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
@@ -62,5 +64,30 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? CorrectOptionId { get; set; }
+
+        /// <summary>
+        /// Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Explanation { get; set; }
+
+        /// <summary>
+        /// Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the <see cref="Explanation"/>
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[] ExplanationEntities { get; set; }
+
+        /// <summary>
+        /// Optional. Amount of time in seconds the poll will be active after creation
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int? OpenPeriod { get; set; }
+
+        /// <summary>
+        /// Optional. Point in time when the poll will be automatically closed
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
+        public DateTime? CloseDate { get; set; }
     }
 }
