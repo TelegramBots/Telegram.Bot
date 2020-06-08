@@ -19,6 +19,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -->
 
+## [Unreleased]
+
+### Added
+- Enum member `Emoji.Basketball`
+- Property `InlineQueryResultGif.ThumbMimeType`
+- Property `InlineQueryResultMpeg4Gif.ThumbMimeType`
+- Property `Message.ViaBot`
+
 ## [15.6.0] - 2020-05-30
 
 ### Added
