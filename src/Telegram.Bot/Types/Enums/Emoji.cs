@@ -15,15 +15,21 @@ namespace Telegram.Bot.Types.Enums
     public enum Emoji
     {
         /// <summary>
-        /// Dice
+        /// Dice. Resulting value is 1-6
         /// </summary>
         [EnumMember(Value = "🎲")]
         Dice,
 
         /// <summary>
-        /// Darts
+        /// Darts. Resulting value is 1-6
         /// </summary>
         [EnumMember(Value = "🎯")]
-        Darts
+        Darts,
+
+        /// <summary>
+        /// Basketball. Resulting value is 1-5
+        /// </summary>
+        [EnumMember(Value = "🏀")]
+        Basketball,
     }
 }
