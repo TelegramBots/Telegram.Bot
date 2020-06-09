@@ -92,6 +92,12 @@ namespace Telegram.Bot.Types
         public Message ReplyToMessage { get; set; }
 
         /// <summary>
+        /// Optional. Bot through which the message was sent
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public User ViaBot { get; set; }
+
+        /// <summary>
         /// Optional. Date the message was last edited in Unix time
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

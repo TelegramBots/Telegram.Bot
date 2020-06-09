@@ -28,6 +28,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string ThumbUrl { get; set; }
 
         /// <summary>
+        /// Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string ThumbMimeType { get; set; }
+
+        /// <summary>
         /// Optional. Video width
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
