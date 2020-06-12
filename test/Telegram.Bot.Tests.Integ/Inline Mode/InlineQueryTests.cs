@@ -368,20 +368,20 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            const string resultId = "fireworks_video";
+            const string resultId = "youtube_video";
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultVideo(
                     id: resultId,
-                    videoUrl: "https://www.youtube.com/watch?v=56MDJ9tD6MY",
+                    videoUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
                     mimeType: "text/html",
-                    thumbUrl: "https://www.youtube.com/watch?v=56MDJ9tD6MY",
-                    title: "30 Rare Goals We See in Football"
+                    thumbUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
+                    title: "Rocket Launch"
                 )
                 {
                     InputMessageContent =
                         new InputTextMessageContent(
-                            "[30 Rare Goals We See in Football](https://www.youtube.com/watch?v=56MDJ9tD6MY)")
+                            "[Rocket Launch](https://www.youtube.com/watch?v=1S0CTtY8Qa0)")
                         {
                             ParseMode = ParseMode.Markdown
                         }
