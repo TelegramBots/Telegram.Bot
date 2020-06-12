@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -->
 
-## [Unreleased]
+## [15.7.0] - 2020-06-13
 
 ### Added
 - Enum member `Emoji.Basketball`
