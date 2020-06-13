@@ -22,7 +22,6 @@ stages:
             - Ubuntu: ubuntu-18.04
 
   - stage: IntegrationTests
-    dependsOn: PublishArtifacts
     displayName: 🧪 Integreation tests
     jobs:
       - template: jobs/run-integration-tests.yml

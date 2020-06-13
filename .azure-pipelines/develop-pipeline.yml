@@ -20,7 +20,6 @@ stages:
             - macOS: macOS-10.15
 
   - stage: IntegrationTests
-    dependsOn: PublishArtifacts
     displayName: 🧪 Integration tests
     jobs:
       - template: jobs/run-integration-tests.yml
