@@ -25,6 +25,9 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public int UserId { get; }
 
+        /// <summary>
+        /// New user permissions
+        /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatPermissions Permissions { get; }
 
