@@ -1,14 +1,4 @@
-trigger:
-  batch: true
-  branches:
-    exclude:
-      - master
-      - develop
-      - gh-pages
-  paths:
-    exclude:
-      - docs/*
-      - "**/*.md"
+trigger: none
 
 pr:
   branches:

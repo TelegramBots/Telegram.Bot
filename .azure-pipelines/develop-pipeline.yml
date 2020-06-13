@@ -1,12 +1,4 @@
-trigger:
-  batch: true
-  branches:
-    include:
-      - develop
-  paths:
-    exclude:
-      - docs/*
-      - "**/*.md"
+trigger: none
 
 pr:
   - develop
