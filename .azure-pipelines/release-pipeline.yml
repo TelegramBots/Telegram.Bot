@@ -43,7 +43,6 @@ stages:
 
   - stage: Release
     displayName: 🚀 Release
-    dependsOn: UnitTest
     jobs:
       - job: Release
         displayName: Publish package to NuGet
