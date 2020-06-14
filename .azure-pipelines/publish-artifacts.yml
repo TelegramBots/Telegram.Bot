@@ -43,27 +43,27 @@ stages:
           - publish: $(Build.ArtifactStagingDirectory)/packages
             artifact: packages
 
-- stage: PublishArtifacts
-  dependsOn: Build
-  displayName: 📤 Publish artifacts
-  jobs:
-    - job: PublishArtifacts
-      displayName: Publish artifacts
-      pool:
-        vmImage: $(vmImage)
-      steps:
-        - checkout: none
+  - stage: PublishArtifacts
+    dependsOn: Build
+    displayName: 📤 Publish artifacts
+    jobs:
+      - job: PublishArtifacts
+        displayName: Publish artifacts
+        pool:
+          vmImage: $(vmImage)
+        steps:
+          - checkout: none
 
-        - download: current
-          artifact: packages
-          # quotes are needed since * can't be used as the first character without quotes
-          patterns: "*/**/*.*upkg"
+          - download: current
+            artifact: packages
+            # quotes are needed since * can't be used as the first character without quotes
+            patterns: "*/**/*.*upkg"
 
-        - task: DotNetCoreCLI@2
-          displayName: Publish CI package to Azure artifacts
-          inputs:
-            command: push
-            nuGetFeedType: internal
-            feedPublish: $(internalFeedName)
-            publishPackageMetadata: true
-            packagesToPush: $(Pipeline.Workspace)/packages/ci/*.*upkg
+          - task: DotNetCoreCLI@2
+            displayName: Publish CI package to Azure artifacts
+            inputs:
+              command: push
+              nuGetFeedType: internal
+              feedPublish: $(internalFeedName)
+              publishPackageMetadata: true
+              packagesToPush: $(Pipeline.Workspace)/packages/ci/*.*upkg
