@@ -10,7 +10,9 @@
 
 |Master|Develop|
 |------|-------|
-|[![build](https://img.shields.io/azure-devops/build/tgbots/14f9ab3f-313a-4339-8534-e8b96c7763cc/6?style=flat-square)](https://dev.azure.com/tgbots/Telegram.Bot/_build?definitionId=6)|[![build](https://img.shields.io/azure-devops/build/tgbots/14f9ab3f-313a-4339-8534-e8b96c7763cc/8/develop?style=flat-square)](https://dev.azure.com/tgbots/Telegram.Bot/_build?definitionId=8&branchName=develop)|
+|[![build](https://img.shields.io/azure-devops/build/tgbots/14f9ab3f-313a-4339-8534-e8b96c7763cc/6?style=flat-square)](https://dev.azure.com/tgbots/Telegram.Bot/_build/latest?definitionId=6&branchName=master)|[![build](https://img.shields.io/azure-devops/build/tgbots/14f9ab3f-313a-4339-8534-e8b96c7763cc/10/develop?style=flat-square)](https://dev.azure.com/tgbots/Telegram.Bot/_build/latest?definitionId=10&branchName=develop)|
+
+
 **Telegram.Bot** is the most popular .NET Client for 🤖 [Telegram Bot API].
 
 The Bot API is an HTTP-based interface created for developers keen on building bots for [Telegram].
