@@ -5,8 +5,8 @@ trigger:
       - gh-pages
   paths:
     exclude:
-      - docs/*
-      - "**/*.md"
+      - docs/
+      - "*/**/*.md"
 
 pr: none
 
@@ -42,6 +42,17 @@ stages:
 
           - publish: $(Build.ArtifactStagingDirectory)/packages
             artifact: packages
+
+  - stage: UnitTest
+    dependsOn: Build
+    displayName: 🧪 Unit test
+    jobs:
+      - template: jobs/run-unit-tests.yml
+        parameters:
+          buildConfiguration: $(buildConfiguration)
+          projects: $(unitTestsProject)
+          strategies:
+            - Ubuntu: ubuntu-18.04
 
   - stage: PublishArtifacts
     dependsOn: Build
