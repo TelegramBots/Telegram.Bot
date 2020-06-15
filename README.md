@@ -1,7 +1,7 @@
 # .NET Client for Telegram Bot API
 
 [![package](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&style=flat-square)](https://www.nuget.org/packages/Telegram.Bot)
-[![documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book)
+[![documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book/)
 [![telegram chat](https://img.shields.io/badge/Support_Chat-Telegram-blue.svg?style=flat-square)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)
 
 [![build](https://img.shields.io/azure-devops/build/tgbots/14f9ab3f-313a-4339-8534-e8b96c7763cc/6?style=flat-square)](https://dev.azure.com/tgbots/Telegram.Bot/_build?definitionId=6)
@@ -19,7 +19,7 @@ We, the [Telegram Bots team], mainly focus on developing multiple [NuGet package
 
 |Package|Documentation|News Channel|Team|Group Chat|
 |:-----:|:-----------:|:----------:|:--:|:--------:|
-| [![package](docs/logo-nuget.png)](https://www.nuget.org/packages/Telegram.Bot) | [![documentations](docs/logo-docs.png)](https://telegrambots.github.io/book) | [![News Channel](docs/logo-channel.jpg)](https://t.me/tgbots_dotnet) | [![Team](docs/logo-gh.png)](https://github.com/orgs/TelegramBots/people) | [![Group Chat](docs/logo-chat.jpg)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA) |
+| [![package](docs/logo-nuget.png)](https://www.nuget.org/packages/Telegram.Bot) | [![documentations](docs/logo-docs.png)](https://telegrambots.github.io/book/) | [![News Channel](docs/logo-channel.jpg)](https://t.me/tgbots_dotnet) | [![Team](docs/logo-gh.png)](https://github.com/orgs/TelegramBots/people) | [![Group Chat](docs/logo-chat.jpg)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA) |
 | This package on NuGet | Telegram bots book | Subscribe to 📣 [`@tgbots_dotnet`] channel to get our latest news | The team contributing to this work | [Join our chat] 💬 to talk about bots and ask questions |
 
 ## 🔨 Getting Started
@@ -48,7 +48,7 @@ use it in your own bot projects.
 ## 🗂 References
 
 - [Changelog](CHANGELOG.md)
-- [Documentation](https://telegrambots.github.io/book)
+- [Documentation](https://telegrambots.github.io/book/)
 - [Examples](https://github.com/TelegramBots/telegram.bot.examples)
 
 <!-- ---- -->
