@@ -6,6 +6,10 @@ pr:
       - master
       - develop
       - gh-pages
+  paths:
+    exclude:
+      - docs/
+      - "*/**/*.md"
 
 variables:
   - template: variables.yml

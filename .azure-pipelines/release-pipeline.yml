@@ -5,8 +5,8 @@ trigger:
       - master
   paths:
     exclude:
-      - docs/*
-      - "**/*.md"
+      - docs/
+      - "*/**/*.md"
 
 pr: none
 
