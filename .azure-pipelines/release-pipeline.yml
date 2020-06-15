@@ -5,8 +5,11 @@ trigger:
       - master
   paths:
     exclude:
+      - ".github/"
       - docs/
-      - "*/**/*.md"
+      - README.md
+      - CHANGELOG.md
+      - CONTRIBUTING.md
 
 pr: none
 

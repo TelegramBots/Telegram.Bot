@@ -5,8 +5,11 @@ trigger:
       - gh-pages
   paths:
     exclude:
+      - ".github/"
       - docs/
-      - "*/**/*.md"
+      - README.md
+      - CHANGELOG.md
+      - CONTRIBUTING.md
 
 pr: none
 
