@@ -65,11 +65,3 @@ stages:
               --skip-duplicate
               --source https://api.nuget.org/v3/index.json
             displayName: Publish package to NuGet
-
-          - bash: >
-              dotnet nuget push
-              $(Pipeline.Workspace)/packages/release/*.snupkg
-              --api-key $(NugetApiKey)
-              --skip-duplicate
-              --source https://nuget.org
-            displayName: Publish symbols to NuGet
