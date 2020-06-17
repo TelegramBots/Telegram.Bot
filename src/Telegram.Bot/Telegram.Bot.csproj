@@ -28,6 +28,13 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
+  <!-- Embed PBD files into test package built in CI because Azure Pipelines don't have symbols server yet -->
+  <PropertyGroup Condition="'$(CI_EMBED_SYMBOLS)' == 'true'">
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>
+      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+    </AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="System.Net.Requests" Version="4.3.0" />

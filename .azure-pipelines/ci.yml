@@ -33,7 +33,7 @@ stages:
               arguments: >
                 --configuration $(buildConfiguration)
                 --version-suffix "$(ciVersionSuffix)"
-
+                /p:CI_EMBED_SYMBOLS=true
           - bash: >
               dotnet pack
               --no-build
