@@ -6,6 +6,13 @@ pr:
       - master
       - develop
       - gh-pages
+  paths:
+    exclude:
+      - ".github/"
+      - docs/
+      - README.md
+      - CHANGELOG.md
+      - CONTRIBUTING.md
 
 variables:
   - template: variables.yml

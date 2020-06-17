@@ -5,8 +5,11 @@ trigger:
       - gh-pages
   paths:
     exclude:
-      - docs/*
-      - "**/*.md"
+      - ".github/"
+      - docs/
+      - README.md
+      - CHANGELOG.md
+      - CONTRIBUTING.md
 
 pr: none
 
@@ -30,7 +33,7 @@ stages:
               arguments: >
                 --configuration $(buildConfiguration)
                 --version-suffix "$(ciVersionSuffix)"
-
+                /p:CI_EMBED_SYMBOLS=true
           - bash: >
               dotnet pack
               --no-build
@@ -38,10 +41,22 @@ stages:
               --configuration $(buildConfiguration)
               --version-suffix "$(ciVersionSuffix)"
               $(projectPath)
+              /p:CI_EMBED_SYMBOLS=true
             displayName: Create CI nuget package
 
           - publish: $(Build.ArtifactStagingDirectory)/packages
             artifact: packages
+
+  - stage: UnitTest
+    dependsOn: Build
+    displayName: 🧪 Unit test
+    jobs:
+      - template: jobs/run-unit-tests.yml
+        parameters:
+          buildConfiguration: $(buildConfiguration)
+          projects: $(unitTestsProject)
+          strategies:
+            - Ubuntu: ubuntu-18.04
 
   - stage: PublishArtifacts
     dependsOn: Build

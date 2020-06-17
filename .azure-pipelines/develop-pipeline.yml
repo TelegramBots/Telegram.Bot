@@ -1,7 +1,16 @@
 trigger: none
 
 pr:
-  - develop
+  branches:
+    include:
+      - develop
+  paths:
+    exclude:
+      - ".github/"
+      - docs/
+      - README.md
+      - CHANGELOG.md
+      - CONTRIBUTING.md
 
 variables:
   - template: variables.yml
