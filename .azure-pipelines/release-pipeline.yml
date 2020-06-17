@@ -63,7 +63,7 @@ stages:
               $(Pipeline.Workspace)/packages/release/*.nupkg
               --api-key $(NugetApiKey)
               --skip-duplicate
-              --source https://nuget.org
+              --source https://api.nuget.org/v3/index.json
             displayName: Publish package to NuGet
 
           - bash: >
