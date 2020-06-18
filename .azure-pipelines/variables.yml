@@ -1,0 +1,33 @@
+variables:
+  - group: Integration Tests Variables
+  - name: buildConfiguration
+    value: Release
+  - name: vmImage
+    value: ubuntu-18.04
+  - name: projectPath
+    value: src/Telegram.Bot/Telegram.Bot.csproj
+  - name: internalFeedName
+    value: Telegram.Bot/Telegram.Bot
+  - name: ciVersionSuffix
+    value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
+  - name: unitTestsProject
+    value: test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
+  - name: integrationTestsProject
+    value: test/Telegram.Bot.Tests.Integ/Telegram.Bot.Tests.Integ.csproj
+
+# Notes:
+# - Limit parallel jobs to only 1 due to integration tests
+# - Disable PR builds for forks without a comment from a team member to prevent possible data leaks
+# - Add "NugetApiKey" variable to the release pipeline and ensure that it's value is kept secret
+#   otherwise it will be seen in the logs
+
+# Add variables group named "Integration Tests Variables" and add following
+# variables to it:
+# - TelegramBot.ApiToken             (required)          test-bot-api-token
+# - TelegramBot.SuperGroupChatId     (required)          -1234
+# - TelegramBot.ChannelChatId        (required)          -9876
+# - TelegramBot.PaymentProviderToken (required)          token-from-stripe-test-bot
+# - TelegramBot.AllowedUserNames     (optional)          main_tester,some_other_user
+# - TelegramBot.TesterPrivateChatId  (optional)          1234
+# - TelegramBot.StickerOwnerUserId   (optional)          1234
+# - TelegramBot.RegularGroupMemberId (optional)          9876
