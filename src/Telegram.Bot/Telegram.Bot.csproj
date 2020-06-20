@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard1.1;net45</TargetFrameworks>
-    <VersionPrefix>15.7.1</VersionPrefix>
-    <!--<VersionSuffix></VersionSuffix>-->
     <LangVersion>7.1</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
