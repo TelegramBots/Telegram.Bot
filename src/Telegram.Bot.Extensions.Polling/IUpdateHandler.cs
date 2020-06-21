@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Extensions.Polling
 {
@@ -19,7 +18,7 @@ namespace Telegram.Bot.Extensions.Polling
         /// <param name="update">The <see cref="Update"/> to handle</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> which will notify that method execution should be cancelled</param>
         /// <returns></returns>
-        Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
+        Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
 
         /// <summary>
         /// Handles an <see cref="Exception"/>
@@ -28,11 +27,6 @@ namespace Telegram.Bot.Extensions.Polling
         /// <param name="exception">The <see cref="Exception"/> to handle</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> which will notify that method execution should be cancelled</param>
         /// <returns></returns>
-        Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates
-        /// </summary>
-        UpdateType[]? AllowedUpdates { get; }
+        Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
     }
 }

@@ -2,9 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Extensions.Polling;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot
@@ -15,30 +13,35 @@ namespace Telegram.Bot
     public static class TelegramBotClientPollingExtensions
     {
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> for each.
-        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking
+        /// <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
+        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdateAsync"/> returns</para>
         /// </summary>
         /// <typeparam name="TUpdateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public static void StartReceiving<TUpdateHandler>(
             this ITelegramBotClient botClient,
+            ReceiveOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
             where TUpdateHandler : IUpdateHandler, new()
         {
-            StartReceiving(botClient, new TUpdateHandler(), cancellationToken);
+            StartReceiving(botClient, new TUpdateHandler(), receiveOptions, cancellationToken);
         }
 
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> for each.
-        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
+        /// <para>This method does not block. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdateAsync"/> returns</para>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
+        /// /// <param name="receiveOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public static void StartReceiving(
             this ITelegramBotClient botClient,
             IUpdateHandler updateHandler,
+            ReceiveOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
         {
             if (botClient == null)
@@ -51,85 +54,54 @@ namespace Telegram.Bot
             {
                 try
                 {
-                    await ReceiveAsync(botClient, updateHandler, cancellationToken);
+                    await ReceiveAsync(botClient, updateHandler, receiveOptions, cancellationToken);
                 }
                 catch (Exception ex)
                 {
-                    await updateHandler.HandleError(botClient, ex, cancellationToken);
+                    await updateHandler.HandleErrorAsync(botClient, ex, cancellationToken);
                 }
             }, cancellationToken);
         }
 
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> for each.
-        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
+        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdateAsync"/> returns</para>
         /// </summary>
         /// <typeparam name="TUpdateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</typeparam>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         /// <returns></returns>
-        public static Task ReceiveAsync<TUpdateHandler>(
+        public static async Task ReceiveAsync<TUpdateHandler>(
             this ITelegramBotClient botClient,
+            ReceiveOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
-            where TUpdateHandler : IUpdateHandler, new()
-        {
-            return ReceiveAsync(botClient, new TUpdateHandler(), cancellationToken);
-        }
+            where TUpdateHandler : IUpdateHandler, new() =>
+            await ReceiveAsync(botClient, new TUpdateHandler(), receiveOptions, cancellationToken);
 
         /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> for each.
-        /// <para>This method will block if awaited. GetUpdates will be called AFTER the <see cref="IUpdateHandler.HandleUpdate(ITelegramBotClient, Update, CancellationToken)"/> returns</para>
+        /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking
+        /// <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
+        /// <para>
+        /// This method will block if awaited. GetUpdates will be called AFTER the
+        /// <see cref="IUpdateHandler.HandleUpdateAsync"/> returns
+        /// </para>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="updateHandler">The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s</param>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
+        /// <param name="updateHandler">
+        /// The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s
+        /// </param>
+        /// <param name="receiveOptions">Options used to configure getUpdates requests</param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> with which you can stop receiving
+        /// </param>
         /// <returns></returns>
         public static async Task ReceiveAsync(
             this ITelegramBotClient botClient,
             IUpdateHandler updateHandler,
-            CancellationToken cancellationToken = default)
-        {
-            if (botClient == null)
-                throw new ArgumentNullException(nameof(botClient));
-
-            if (updateHandler == null)
-                throw new ArgumentNullException(nameof(updateHandler));
-
-            UpdateType[]? allowedUpdates = updateHandler.AllowedUpdates;
-            int messageOffset = 0;
-            var emptyUpdates = new Update[] { };
-
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                int timeout = (int)botClient.Timeout.TotalSeconds;
-                var updates = emptyUpdates;
-                try
-                {
-                    updates = await botClient.MakeRequestAsync(new GetUpdatesRequest()
-                    {
-                        Offset = messageOffset,
-                        Timeout = timeout,
-                        AllowedUpdates = allowedUpdates,
-                    }, cancellationToken).ConfigureAwait(false);
-                }
-                catch (OperationCanceledException)
-                {
-                    // Ignore
-                }
-                catch (Exception ex)
-                {
-                    await updateHandler.HandleError(botClient, ex, cancellationToken)
-                        .ConfigureAwait(false);
-                }
-
-                foreach (var update in updates)
-                {
-                    await updateHandler.HandleUpdate(botClient, update, cancellationToken)
-                        .ConfigureAwait(false);
-
-                    messageOffset = update.Id + 1;
-                }
-            }
-        }
+            ReceiveOptions? receiveOptions = default,
+            CancellationToken cancellationToken = default) =>
+            await new DefaultUpdateReceiver(botClient, receiveOptions)
+                .ReceiveAsync(updateHandler, cancellationToken);
     }
 }

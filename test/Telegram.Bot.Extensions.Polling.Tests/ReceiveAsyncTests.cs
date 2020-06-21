@@ -31,7 +31,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             );
 
             var cancellationToken = cancellationTokenSource.Token;
-            await bot.ReceiveAsync(updateHandler, cancellationToken);
+            await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
 
             Assert.True(cancellationToken.IsCancellationRequested);
             Assert.Equal(2, updateCount);

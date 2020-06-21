@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Extensions.Polling
 {
@@ -16,27 +15,10 @@ namespace Telegram.Bot.Extensions.Polling
     /// </summary>
     public class QueuedUpdateReceiver : IYieldingUpdateReceiver
     {
-        private static readonly Update[] EmptyUpdates = { };
+        private static readonly Update[] EmptyUpdates = Array.Empty<Update>();
 
-        /// <summary>
-        /// The <see cref="ITelegramBotClient"/> used for making GetUpdates calls
-        /// </summary>
-        public readonly ITelegramBotClient BotClient;
-
-        /// <summary>
-        /// Constructs a new <see cref="QueuedUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
-        /// </summary>
-        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        public QueuedUpdateReceiver(ITelegramBotClient botClient)
-        {
-            BotClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-        }
-
-        /// <summary>
-        /// Indicates whether <see cref="Update"/>s are being received.
-        /// <para>Controlled by StartReceiving and StopReceiving</para>
-        /// </summary>
-        public bool IsReceiving { get; private set; }
+        private readonly ITelegramBotClient _botClient;
+        private readonly ReceiveOptions? _receiveOptions;
 
         private readonly object _lock = new object();
         private CancellationTokenSource? _cancellationTokenSource;
@@ -48,18 +30,34 @@ namespace Telegram.Bot.Extensions.Polling
         private int _pendingUpdates;
 
         /// <summary>
+        /// Indicates whether <see cref="Update"/>s are being received.
+        /// <para>Controlled by StartReceiving and StopReceiving</para>
+        /// </summary>
+        public bool IsReceiving { get; private set; }
+
+        /// <summary>
         /// Indicates how many <see cref="Update"/>s are ready to be returned by <see cref="YieldUpdatesAsync"/>
         /// </summary>
         public int PendingUpdates => _pendingUpdates;
 
         /// <summary>
+        /// Constructs a new <see cref="QueuedUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
+        /// </summary>
+        /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
+        /// <param name="receiveOptions"></param>
+        public QueuedUpdateReceiver(ITelegramBotClient botClient, ReceiveOptions? receiveOptions = default)
+        {
+            _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+            _receiveOptions = receiveOptions;
+            _messageOffset = _receiveOptions?.Offset ?? 0;
+        }
+
+        /// <summary>
         /// Starts receiving <see cref="Update"/>s on the ThreadPool
         /// </summary>
-        /// <param name="allowedUpdates">Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates</param>
         /// <param name="errorHandler">The function used to handle <see cref="Exception"/>s</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public void StartReceiving(
-            UpdateType[]? allowedUpdates = default,
             Func<Exception, CancellationToken, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
@@ -78,11 +76,10 @@ namespace Telegram.Bot.Extensions.Polling
                 cancellationToken = _cancellationTokenSource.Token;
             }
 
-            StartReceivingInternal(allowedUpdates, errorHandler, cancellationToken);
+            StartReceivingInternal(errorHandler, cancellationToken);
         }
 
         private void StartReceivingInternal(
-            UpdateType[]? allowedUpdates = default,
             Func<Exception, CancellationToken, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
@@ -91,15 +88,19 @@ namespace Telegram.Bot.Extensions.Polling
             {
                 try
                 {
+                    var allowedUpdates = _receiveOptions?.AllowedUpdates;
+                    var limit = _receiveOptions?.Limit ?? default;
+
                     while (!cancellationToken.IsCancellationRequested)
                     {
-                        int timeout = (int)BotClient.Timeout.TotalSeconds;
+                        int timeout = (int)_botClient.Timeout.TotalSeconds;
                         var updates = EmptyUpdates;
                         try
                         {
-                            updates = await BotClient.MakeRequestAsync(new GetUpdatesRequest()
+                            updates = await _botClient.MakeRequestAsync(new GetUpdatesRequest
                             {
                                 Offset = _messageOffset,
+                                Limit = limit,
                                 Timeout = timeout,
                                 AllowedUpdates = allowedUpdates,
                             }, cancellationToken).ConfigureAwait(false);
@@ -112,7 +113,14 @@ namespace Telegram.Bot.Extensions.Polling
                         {
                             if (errorHandler != null)
                             {
-                                await errorHandler(ex, cancellationToken).ConfigureAwait(false);
+                                try
+                                {
+                                    await errorHandler(ex, cancellationToken).ConfigureAwait(false);
+                                }
+                                catch (OperationCanceledException)
+                                {
+                                    // ignored
+                                }
                             }
                         }
 
@@ -136,6 +144,7 @@ namespace Telegram.Bot.Extensions.Polling
                     {
                         Debug.Assert(_cancellationTokenSource != null);
                         Debug.Assert(IsReceiving);
+                        _cancellationTokenSource?.Dispose();
                         _cancellationTokenSource = null;
                         IsReceiving = false;
 
@@ -154,7 +163,7 @@ namespace Telegram.Bot.Extensions.Polling
         {
             lock (_lock)
             {
-                if (!IsReceiving || _cancellationTokenSource == null)
+                if (!IsReceiving || _cancellationTokenSource is null)
                     return;
 
                 _cancellationTokenSource.Cancel();

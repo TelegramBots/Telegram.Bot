@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Extensions.Polling
 {
@@ -14,38 +13,36 @@ namespace Telegram.Bot.Extensions.Polling
     /// </summary>
     public class BlockingUpdateReceiver : IYieldingUpdateReceiver
     {
-        private static readonly Update[] EmptyUpdates = { };
+        private static readonly Update[] EmptyUpdates = Array.Empty<Update>();
 
-        /// <summary>
-        /// The <see cref="ITelegramBotClient"/> used for making GetUpdates calls
-        /// </summary>
-        public readonly ITelegramBotClient BotClient;
+        private readonly ITelegramBotClient _botClient;
+        private readonly ReceiveOptions? _receiveOptions;
+        private readonly Func<Exception, CancellationToken, Task>? _errorHandler;
+        private readonly CancellationToken _cancellationToken;
+
+        private int _updateIndex = 0;
+        private Update[] _updateArray = EmptyUpdates;
+        private int _messageOffset;
 
         /// <summary>
         /// Constructs a new <see cref="BlockingUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="allowedUpdates">Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates</param>
+        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
         /// <param name="errorHandler">The function used to handle <see cref="Exception"/>s</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
         public BlockingUpdateReceiver(
             ITelegramBotClient botClient,
-            UpdateType[]? allowedUpdates = default,
+            ReceiveOptions? receiveOptions = default,
             Func<Exception, CancellationToken, Task>? errorHandler = default,
             CancellationToken cancellationToken = default)
         {
-            BotClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-            _allowedUpdates = allowedUpdates;
-            this.errorHandler = errorHandler;
+            _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+            _receiveOptions = receiveOptions;
+            _errorHandler = errorHandler;
+            _messageOffset = _receiveOptions?.Offset ?? 0;
             _cancellationToken = cancellationToken;
         }
-
-        private readonly UpdateType[]? _allowedUpdates;
-        private readonly Func<Exception, CancellationToken, Task>? errorHandler;
-        private readonly CancellationToken _cancellationToken;
-        private int _updateIndex = 0;
-        private Update[] _updateArray = EmptyUpdates;
-        private int _messageOffset;
 
         /// <summary>
         /// Indicates how many <see cref="Update"/>s are ready to be returned by <see cref="YieldUpdatesAsync"/>
@@ -61,6 +58,9 @@ namespace Telegram.Bot.Extensions.Polling
         {
             // Access to YieldUpdatesAsync is not thread-safe!
 
+            var allowedUpdates = _receiveOptions?.AllowedUpdates;
+            var limit = _receiveOptions?.Limit ?? default;
+
             while (!_cancellationToken.IsCancellationRequested)
             {
                 while (_updateIndex < _updateArray.Length)
@@ -75,14 +75,15 @@ namespace Telegram.Bot.Extensions.Polling
 
                 while (!_cancellationToken.IsCancellationRequested && _updateArray.Length == 0)
                 {
-                    int timeout = (int)BotClient.Timeout.TotalSeconds;
+                    int timeout = (int)_botClient.Timeout.TotalSeconds;
                     try
                     {
-                        _updateArray = await BotClient.MakeRequestAsync(new GetUpdatesRequest()
+                        _updateArray = await _botClient.MakeRequestAsync(new GetUpdatesRequest
                         {
                             Offset = _messageOffset,
+                            Limit = limit,
                             Timeout = timeout,
-                            AllowedUpdates = _allowedUpdates,
+                            AllowedUpdates = allowedUpdates,
                         }, _cancellationToken).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException)
@@ -91,9 +92,16 @@ namespace Telegram.Bot.Extensions.Polling
                     }
                     catch (Exception ex)
                     {
-                        if (errorHandler != null)
+                        if (_errorHandler != null)
                         {
-                            await errorHandler(ex, _cancellationToken).ConfigureAwait(false);
+                            try
+                            {
+                                await _errorHandler(ex, _cancellationToken).ConfigureAwait(false);
+                            }
+                            catch (OperationCanceledException)
+                            {
+                                // ignore
+                            }
                         }
                     }
                 }
