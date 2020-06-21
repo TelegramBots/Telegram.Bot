@@ -104,8 +104,9 @@ await foreach (Update update in updateReceiver.YieldUpdatesAsync())
     }
 }
 
-// When you're done with receiving update you need
-// to call StopReceiving to stop background task that
+// If you stopped receiving from QueuedUpdateReceiver loop by
+// breaking out of it and you're done with receiving updates you
+// need to call StopReceiving to stop background task that
 // constantly receives new updates and puts them into a queue
 updateReceiver.StopReceiving();
 ```
