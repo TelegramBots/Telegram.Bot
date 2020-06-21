@@ -32,26 +32,44 @@ ITelegramBotClient bot = new TelegramBotClient("<token>");
 
 You have two ways of starting to receive updates
 1. `StartReceiving` does not block the caller thread. Receiving is done on the ThreadPool.
-```c#
-using System.Threading;
-using Telegram.Bot.Extensions.Polling;
 
-var cts = new CancellationTokenSource();
-var cancellationToken = cts.Token;
+    ```c#
+    using System.Threading;
+    using Telegram.Bot.Extensions.Polling;
 
-bot.StartReceiving(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync), cancellationToken);
-```
+    var cts = new CancellationTokenSource();
+    var cancellationToken = cts.Token;
+    var receiveOptions = new ReceiveOptions
+    {
+        AllowedUpdates = {} // receive all update types
+    };
+    bot.StartReceiving(
+        new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
+        receiveOptions,
+        cancellationToken
+    );
+    ```
 
 2. Awaiting `ReceiveAsync` will block until cancellation in triggered (both methods accept a CancellationToken)
-```c#
-using System.Threading;
-using Telegram.Bot.Extensions.Polling;
 
-var cts = new CancellationTokenSource();
-var cancellationToken = cts.Token;
+    ```c#
+    using System.Threading;
+    using Telegram.Bot.Extensions.Polling;
 
-await bot.ReceiveAsync(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync), cancellationToken);
-```
+    var cts = new CancellationTokenSource();
+    var cancellationToken = cts.Token;
+
+    var receiveOptions = new ReceiveOptions
+    {
+        AllowedUpdates = {} // receive all update types
+    };
+
+    await bot.ReceiveAsync(
+        new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
+        receiveOptions,
+        cancellationToken
+    );
+    ```
 
 Trigger cancellation by calling `cts.Cancel()` somewhere to stop receiving update in both methods.
 
@@ -66,8 +84,12 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Extensions.Polling;
 
-ITelegramBotClient bot = new TelegramBotClient("<token>");
-QueuedUpdateReceiver updateReceiver = new QueuedUpdateReceiver(bot);
+var bot = new TelegramBotClient("<token>");
+var receiveOptions = new ReceiveOptions
+{
+    AllowedUpdates = {} // receive all update types
+};
+var updateReceiver = new QueuedUpdateReceiver(bot, receiveOptions);
 
 updateReceiver.StartReceiving();
 
@@ -81,4 +103,9 @@ await foreach (Update update in updateReceiver.YieldUpdatesAsync())
         );
     }
 }
+
+// When you're done with receiving update you need
+// to call StopReceiving to stop background task that
+// constantly receives new updates and puts them into a queue
+updateReceiver.StopReceiving();
 ```
