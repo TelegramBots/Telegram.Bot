@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Extensions.Polling.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 
@@ -28,6 +29,7 @@ namespace Telegram.Bot.Extensions.Polling
         private List<Update?> _producerQueue = new List<Update?>(16);
         private int _messageOffset;
         private int _pendingUpdates;
+        private bool _updatesThrownOut;
 
         /// <summary>
         /// Indicates whether <see cref="Update"/>s are being received.
@@ -90,6 +92,24 @@ namespace Telegram.Bot.Extensions.Polling
                 {
                     var allowedUpdates = _receiveOptions?.AllowedUpdates;
                     var limit = _receiveOptions?.Limit ?? default;
+
+                    if (_receiveOptions?.ThrowPendingUpdates == true && !_updatesThrownOut)
+                    {
+                        try
+                        {
+                            var newMessageOffset = await _botClient
+                                .ThrowOutPendingUpdatesAsync(cancellationToken);
+
+                            if (newMessageOffset != null)
+                                _messageOffset = newMessageOffset.Value;
+
+                            _updatesThrownOut = true;
+                        }
+                        catch (OperationCanceledException)
+                        {
+                            // ignored
+                        }
+                    }
 
                     while (!cancellationToken.IsCancellationRequested)
                     {

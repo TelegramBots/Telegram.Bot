@@ -8,7 +8,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
         [Fact]
         public async Task ReceivesUpdatesInTheBackground()
         {
-            var mockClient = new MockTelegramBotClient("1", "2", "3");
+            var mockClient = new MockTelegramBotClient(new MockClientOptions("1", "2", "3"));
             var receiver = new QueuedUpdateReceiver(mockClient);
 
             Assert.Equal(3, mockClient.MessageGroupsLeft);
@@ -31,7 +31,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
         [Fact]
         public async Task StopsIfStoppedAndOutOfUpdates()
         {
-            var mockClient = new MockTelegramBotClient("1", "2", "3");
+            var mockClient = new MockTelegramBotClient(new MockClientOptions("1", "2", "3"));
             var receiver = new QueuedUpdateReceiver(mockClient);
 
             receiver.StartReceiving();
@@ -59,7 +59,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
         [Fact]
         public async Task ReturnsReceivedPendingUpdates()
         {
-            var mockClient = new MockTelegramBotClient("foo-bar", "123");
+            var mockClient = new MockTelegramBotClient(new MockClientOptions("foo-bar", "123"));
             var receiver = new QueuedUpdateReceiver(mockClient);
 
             Assert.Equal(2, mockClient.MessageGroupsLeft);
@@ -102,6 +102,32 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
                 // No pending updates and we've called StopReceiving
                 Assert.False(true);
             }
+        }
+
+        [Fact]
+        public async Task ShouldThrowOutPendingUpdates()
+        {
+            var mockClient = new MockTelegramBotClient(new MockClientOptions("foo-bar", "123"));
+            var receiver = new QueuedUpdateReceiver(
+                mockClient,
+                new ReceiveOptions { ThrowPendingUpdates = true }
+            );
+
+            Assert.Equal(2, mockClient.MessageGroupsLeft);
+            Assert.Equal(0, receiver.PendingUpdates);
+
+            receiver.StartReceiving();
+            await Task.Delay(1000);
+
+            var enumerator = receiver.YieldUpdatesAsync().GetAsyncEnumerator();
+            await enumerator.MoveNextAsync();
+
+            Assert.Equal(0, mockClient.MessageGroupsLeft);
+            Assert.Equal(0, receiver.PendingUpdates);
+
+            receiver.StopReceiving();
+
+            await enumerator.DisposeAsync();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         [Fact]
         public async Task ReceivesUpdatesAndRespectsTheCancellationToken()
         {
-            var bot = new MockTelegramBotClient("start-end", "foo");
+            var bot = new MockTelegramBotClient(new MockClientOptions("start-end", "foo"));
 
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -41,7 +41,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         [Fact]
         public async Task UserExceptionsPropagateToSurface()
         {
-            var bot = new MockTelegramBotClient("foo-bar", "throw");
+            var bot = new MockTelegramBotClient(new MockClientOptions("foo-bar", "throw"));
 
             int updateCount = 0;
             async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -69,6 +69,43 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             }
 
             Assert.Equal(3, updateCount);
+            Assert.Equal(0, bot.MessageGroupsLeft);
+        }
+
+        [Fact]
+        public async Task ThrowOutPendingUpdates()
+        {
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(4));
+
+            var bot = new MockTelegramBotClient(
+                new MockClientOptions("foo-bar", "baz", "quux")
+                {
+                    HandleNegativeOffset = true
+                });
+
+            int handleCount = 0;
+
+            Task HandleUpdate(
+                ITelegramBotClient botClient,
+                Update update,
+                CancellationToken cancellationToken)
+            {
+                handleCount += 1;
+                return Task.CompletedTask;
+            };
+
+            var updateHandler = new DefaultUpdateHandler(
+                HandleUpdate,
+                errorHandler: (client, e, token) => Task.CompletedTask
+            );
+
+            await bot.ReceiveAsync(
+                updateHandler,
+                new ReceiveOptions { ThrowPendingUpdates = true },
+                cancellationTokenSource.Token
+            );
+
+            Assert.Equal(0, handleCount);
             Assert.Equal(0, bot.MessageGroupsLeft);
         }
     }

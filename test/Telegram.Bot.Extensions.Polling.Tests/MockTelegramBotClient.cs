@@ -16,35 +16,74 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot.Extensions.Polling.Tests
 {
+    public class MockClientOptions
+    {
+        public bool HandleNegativeOffset { get; set; }
+        public string[] Messages { get; }
+
+        public MockClientOptions(params string[] messages)
+        {
+            Messages = messages;
+        }
+    }
+
     public class MockTelegramBotClient : ITelegramBotClient
     {
+        private readonly MockClientOptions _options;
         private readonly Queue<string[]> _messages;
+
         public int MessageGroupsLeft => _messages.Count;
 
-        public MockTelegramBotClient(params string[] messages)
+        public MockTelegramBotClient(MockClientOptions options)
         {
-            _messages = new Queue<string[]>(messages.Select(message => message.Split('-').ToArray()));
+            _options = options;
+            _messages = new Queue<string[]>(
+                options.Messages.Select(message => message.Split('-').ToArray())
+            );
         }
 
-        public async Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        public async Task<TResponse> MakeRequestAsync<TResponse>(
+            IRequest<TResponse> request,
+            CancellationToken cancellationToken = default)
         {
             if (request is GetUpdatesRequest getUpdatesRequest)
             {
                 await Task.Delay(10, cancellationToken);
 
+                if (_options.HandleNegativeOffset && getUpdatesRequest.Offset == -1)
+                {
+                    var messageCount = _messages.Select(group => group.Length).Sum() + 1;
+                    var lastMessage = _messages.Last().Last();
+
+                    _messages.Clear();
+
+                    return (TResponse)(object) new[]
+                    {
+                        new Update
+                        {
+                            Message = new Message
+                            {
+                                Text = lastMessage
+                            },
+                            Id = messageCount
+                        }
+                    };
+                }
+
                 if (!_messages.TryDequeue(out string[] messages))
                     return (TResponse)(object)new Update[0];
 
-                return (TResponse)(object)messages.Select((message, i) => new Update()
+                return (TResponse)(object)messages.Select((message, i) => new Update
                 {
-                    Message = new Message()
+                    Message = new Message
                     {
                         Text = messages[i]
                     },
                     Id = getUpdatesRequest.Offset + i + 1
                 }).ToArray();
             }
-            else throw new NotImplementedException();
+
+            throw new NotImplementedException();
         }
 
         public TimeSpan Timeout { get; set; } = TimeSpan.FromMilliseconds(50);

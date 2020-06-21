@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Extensions.Polling.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 
@@ -22,7 +23,9 @@ namespace Telegram.Bot.Extensions.Polling
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="receiveOptions">Options used to configure getUpdates requests</param>
-        public DefaultUpdateReceiver(ITelegramBotClient botClient, ReceiveOptions? receiveOptions = default)
+        public DefaultUpdateReceiver(
+            ITelegramBotClient botClient,
+            ReceiveOptions? receiveOptions = default)
         {
             _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
             _receiveOptions = receiveOptions;
@@ -43,7 +46,9 @@ namespace Telegram.Bot.Extensions.Polling
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
         /// <returns></returns>
-        public async Task ReceiveAsync(IUpdateHandler updateHandler, CancellationToken cancellationToken = default)
+        public async Task ReceiveAsync(
+            IUpdateHandler updateHandler,
+            CancellationToken cancellationToken = default)
         {
             if (updateHandler is null) throw new ArgumentNullException(nameof(updateHandler));
 
@@ -51,6 +56,22 @@ namespace Telegram.Bot.Extensions.Polling
             var limit = _receiveOptions?.Limit ?? default;
             var messageOffset = _receiveOptions?.Offset ?? 0;
             var emptyUpdates = EmptyUpdates;
+
+            if (_receiveOptions?.ThrowPendingUpdates == true)
+            {
+                try
+                {
+                    var newMessageOffset = await _botClient.ThrowOutPendingUpdatesAsync(
+                        cancellationToken: cancellationToken
+                    );
+
+                    if (newMessageOffset != null) messageOffset = newMessageOffset.Value;
+                }
+                catch (OperationCanceledException)
+                {
+                    // ignored
+                }
+            }
 
             while (!cancellationToken.IsCancellationRequested)
             {

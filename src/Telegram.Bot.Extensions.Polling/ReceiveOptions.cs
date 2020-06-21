@@ -1,4 +1,5 @@
 using System;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Extensions.Polling
@@ -11,7 +12,8 @@ namespace Telegram.Bot.Extensions.Polling
         private int? _limit;
 
         /// <summary>
-        /// Identifier of the first update to be returned.
+        /// Identifier of the first update to be returned. Will be ignored if
+        /// <see cref="ThrowPendingUpdates"/> is set to <c>true</c>.
         /// </summary>
         public int? Offset { get; set; }
 
@@ -42,5 +44,13 @@ namespace Telegram.Bot.Extensions.Polling
                 _limit = value;
             }
         }
+
+        /// <summary>
+        /// Indicates if all pending <see cref="Update"/>s should be thrown out before start
+        /// polling. If set to <c>true</c> <see cref="AllowedUpdates"/> should be set to not
+        /// <c>null</c>, otherwise <see cref="AllowedUpdates"/> will effectively be set to
+        /// receive all <see cref="Update"/>s.
+        /// </summary>
+        public bool ThrowPendingUpdates { get; set; }
     }
 }

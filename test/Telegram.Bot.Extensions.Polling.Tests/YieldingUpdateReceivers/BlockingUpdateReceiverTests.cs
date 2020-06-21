@@ -8,7 +8,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
         [Fact]
         public async Task BlocksWhileProcessingAsync()
         {
-            var mockClient = new MockTelegramBotClient("test", "break", "test");
+            var mockClient = new MockTelegramBotClient(new MockClientOptions("test", "break", "test"));
             var receiver = new BlockingUpdateReceiver(mockClient);
 
             Assert.Equal(3, mockClient.MessageGroupsLeft);
@@ -25,7 +25,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
         [Fact]
         public async Task ReturnsReceivedPendingUpdates()
         {
-            var mockClient = new MockTelegramBotClient("foo-bar", "123");
+            var mockClient = new MockTelegramBotClient(new MockClientOptions("foo-bar", "123"));
             var receiver = new BlockingUpdateReceiver(mockClient);
 
             Assert.Equal(2, mockClient.MessageGroupsLeft);
@@ -57,6 +57,27 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
 
             Assert.Equal(0, mockClient.MessageGroupsLeft);
             Assert.Equal(0, receiver.PendingUpdates);
+        }
+
+        [Fact]
+        public async Task ShouldThrowOutPendingUpdates()
+        {
+            var mockClient = new MockTelegramBotClient(new MockClientOptions("foo-bar", "123"));
+            var receiver = new BlockingUpdateReceiver(
+                mockClient,
+                new ReceiveOptions { ThrowPendingUpdates = true }
+            );
+
+            Assert.Equal(2, mockClient.MessageGroupsLeft);
+            Assert.Equal(0, receiver.PendingUpdates);
+
+            var enumerator = receiver.YieldUpdatesAsync().GetAsyncEnumerator();
+            await enumerator.MoveNextAsync();
+
+            Assert.Equal(0, mockClient.MessageGroupsLeft);
+            Assert.Equal(0, receiver.PendingUpdates);
+
+            await enumerator.DisposeAsync();
         }
     }
 }

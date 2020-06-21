@@ -9,7 +9,9 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         [Fact]
         public async Task WorksAsync()
         {
-            ITelegramBotClient bot = new MockTelegramBotClient("hello-world", "foo-bar-123");
+            ITelegramBotClient bot = new MockTelegramBotClient(
+                new MockClientOptions("hello-world", "foo-bar-123")
+            );
 
             var updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
             Assert.Equal(2, updates.Length);
