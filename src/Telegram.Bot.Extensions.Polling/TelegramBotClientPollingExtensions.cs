@@ -56,11 +56,22 @@ namespace Telegram.Bot
                 {
                     await ReceiveAsync(botClient, updateHandler, receiveOptions, cancellationToken);
                 }
+                catch (OperationCanceledException)
+                {
+                    // ignored
+                }
                 catch (Exception ex)
                 {
-                    await updateHandler.HandleErrorAsync(botClient, ex, cancellationToken);
+                    try
+                    {
+                        await updateHandler.HandleErrorAsync(botClient, ex, cancellationToken);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // ignored
+                    }
                 }
-            }, cancellationToken);
+            });
         }
 
         /// <summary>
