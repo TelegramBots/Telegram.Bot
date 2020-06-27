@@ -27,7 +27,6 @@ stages:
           projects: $(unitTestsProject)
           strategies:
             - Ubuntu: ubuntu-18.04
-
   - stage: IntegrationTests
     displayName: 🧪 Integreation tests
     jobs:
