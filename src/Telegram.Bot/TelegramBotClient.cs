@@ -19,7 +19,7 @@ namespace Telegram.Bot
     /// </summary>
     public class TelegramBotClient : ITelegramBotClient
     {
-        private const string BaseUrl = "https://api.telegram.org";
+        private const string BaseUrl = "https://api.telegram.org/bot";
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
         private readonly string _token;

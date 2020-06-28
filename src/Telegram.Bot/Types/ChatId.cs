@@ -58,12 +58,14 @@ namespace Telegram.Bot.Types
             {
                 Identifier = identifier;
             }
-
-            throw new ArgumentOutOfRangeException(
-                nameof(username),
-                username,
-                $"{nameof(username)} value has to start with '@' symbol or be a valid long value"
-            );
+            else
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(username),
+                    username,
+                    $"{nameof(username)} value has to start with '@' symbol or be a valid long value"
+                );
+            }
         }
 
         /// <summary>

@@ -137,8 +137,9 @@ namespace Telegram.Bot.Tests.Integ.Other
                 }
             );
 
+            Assert.Equal(0, destinationStream.Length);
+            Assert.Equal(0, destinationStream.Position);
             Assert.Contains("404", exception.Message);
-            Assert.Null(destinationStream);
         }
 
         public class Fixture

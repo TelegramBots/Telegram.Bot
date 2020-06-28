@@ -62,7 +62,7 @@ namespace Telegram.Bot.Requests
         {
             if (Media.Media.FileType == FileType.Stream)
             {
-                var multipartContent = GenerateMultipartFormDataContent("media");
+                var multipartContent = GenerateMultipartFormDataContent();
                 multipartContent.AddContentIfInputFileStream(Media);
                 return multipartContent;
             }

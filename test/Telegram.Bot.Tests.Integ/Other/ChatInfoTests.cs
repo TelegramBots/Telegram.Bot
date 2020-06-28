@@ -111,16 +111,13 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Private_Chat()
         {
-            long privateChatId;
-            {
-                /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
+            /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
                  * for a regular user, "User ID" is the same number as "Private Chat ID".
                  */
-                ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(_fixture.SupergroupChat);
-                privateChatId = chatAdmins
-                    .Single(member => member.Status == ChatMemberStatus.Creator)
-                    .User.Id;
-            }
+            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(_fixture.SupergroupChat);
+            long privateChatId = chatAdmins
+                .Single(member => member.Status == ChatMemberStatus.Creator)
+                .User.Id;
 
             Chat chat = await BotClient.GetChatAsync(
                 chatId: privateChatId
@@ -135,7 +132,7 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             // Following fields of a chat do not apply to a private chat:
             Assert.Null(chat.Title);
-            Assert.NotNull(chat.Permissions);
+            Assert.Null(chat.Permissions);
             Assert.Null(chat.Description);
             Assert.Null(chat.InviteLink);
             Assert.Null(chat.PinnedMessage);
