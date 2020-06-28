@@ -38,7 +38,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
-            Assert.NotEmpty(message.Poll.Id);
+            Assert.NotEmpty(message.Poll!.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.False(message.Poll.IsAnonymous);
             Assert.Equal("regular", message.Poll.Type);
@@ -67,14 +67,14 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Update pollAnswerUpdate = (await Fixture.UpdateReceiver.GetUpdatesAsync(
-                update => update.PollAnswer.OptionIds.Length > 1,
+                update => update.PollAnswer!.OptionIds.Length > 1,
                 updateTypes: UpdateType.PollAnswer
             )).First();
 
             Poll poll = _classFixture.OriginalPollMessage.Poll;
             PollAnswer pollAnswer = pollAnswerUpdate.PollAnswer;
 
-            Assert.Equal(poll.Id, pollAnswer.PollId);
+            Assert.Equal(poll!.Id, pollAnswer!.PollId);
             Assert.NotNull(pollAnswer.User);
             Assert.All(
                 pollAnswer.OptionIds,
@@ -95,11 +95,11 @@ namespace Telegram.Bot.Tests.Integ.Polls
             await Task.Delay(TimeSpan.FromSeconds(5));
 
             Poll closedPoll = await BotClient.StopPollAsync(
-                chatId: _classFixture.OriginalPollMessage.Chat,
+                chatId: _classFixture.OriginalPollMessage.Chat!,
                 messageId: _classFixture.OriginalPollMessage.MessageId
             );
 
-            Assert.Equal(_classFixture.OriginalPollMessage.Poll.Id, closedPoll.Id);
+            Assert.Equal(_classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);
             Assert.True(closedPoll.IsClosed);
 
             PollAnswer pollAnswer = _classFixture.PollAnswer;

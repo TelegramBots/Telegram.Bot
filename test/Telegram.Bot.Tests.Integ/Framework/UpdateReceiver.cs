@@ -109,8 +109,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
         )
         {
             Func<Update, bool> predicate = u =>
-                (messageId == default || u.CallbackQuery.Message.MessageId == messageId) &&
-                (data == default || u.CallbackQuery.Data == data);
+                (messageId == default || u.CallbackQuery!.Message!.MessageId == messageId) &&
+                (data == default || u.CallbackQuery!.Data == data);
 
             var updates = await GetUpdatesAsync(predicate,
                 cancellationToken: cancellationToken,

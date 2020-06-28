@@ -130,8 +130,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(privateChatId, chat.Id);
 
             // Mandatory fields:
-            Assert.NotEmpty(chat.Username);
-            Assert.NotEmpty(chat.FirstName);
+            Assert.NotEmpty(chat.Username!);
+            Assert.NotEmpty(chat.FirstName!);
 
             // Following fields of a chat do not apply to a private chat:
             Assert.Null(chat.Title);

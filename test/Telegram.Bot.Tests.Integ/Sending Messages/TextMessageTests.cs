@@ -38,9 +38,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal("Hello world!", message.Text);
             Assert.Equal(MessageType.Text, message.Type);
-            Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
+            Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat!.Id.ToString());
             Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
-            Assert.Equal(_fixture.BotUser.Id, message.From.Id);
+            Assert.Equal(_fixture.BotUser.Id, message.From!.Id);
             Assert.Equal(_fixture.BotUser.Username, message.From.Username);
 
             // getMe request returns more information than is present in received updates
@@ -60,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(text, message.Text);
             Assert.Equal(MessageType.Text, message.Type);
-            Assert.Equal(_classFixture.ChannelChat.Id, message.Chat.Id);
+            Assert.Equal(_classFixture.ChannelChat.Id, message.Chat!.Id);
             Assert.Equal(_classFixture.ChannelChat.Username, message.Chat.Username);
         }
 
@@ -104,7 +104,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 {MessageEntityType.TextLink, $"[inline url to Telegram.org]({url})"},
                 {
                     MessageEntityType.TextMention,
-                    $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
+                    $"[{_fixture.BotUser.Username!.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
                 },
                 {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
                 {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
@@ -117,6 +117,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 disableWebPagePreview: true
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
             Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
             Asserts.UsersEqual(
@@ -154,6 +155,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 disableWebPagePreview: true
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(
                 entityValueMappings.Select(tuple => tuple.Type),
                 message.Entities.Select(e => e.Type)
@@ -186,6 +188,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(
                 entityValueMappings.Select(t => t.Type),
                 message.Entities.Select(e => e.Type)
@@ -206,7 +209,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 {MessageEntityType.TextLink, $"[inline url to Telegram\\.org]({url})"},
                 {
                     MessageEntityType.TextMention,
-                    $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
+                    $"[{_fixture.BotUser.Username!.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
                 },
                 {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
                 {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
@@ -221,6 +224,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 disableWebPagePreview: true
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
             Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
             Asserts.UsersEqual(

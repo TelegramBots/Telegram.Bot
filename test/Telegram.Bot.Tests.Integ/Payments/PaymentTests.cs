@@ -79,7 +79,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             );
 
             Assert.Equal(MessageType.Invoice, message.Type);
-            Assert.Equal(invoice.Title, message.Invoice.Title);
+            Assert.Equal(invoice.Title, message.Invoice!.Title);
             Assert.Equal(invoice.Currency, message.Invoice.Currency);
             Assert.Equal(invoice.TotalAmount, message.Invoice.TotalAmount);
             Assert.Equal(invoice.Description, message.Invoice.Description);
@@ -115,7 +115,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update shippingUpdate = await GetShippingQueryUpdate();
 
             await _fixture.BotClient.AnswerShippingQueryAsync(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id,
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id,
                 shippingOptions: shippingOptions
             );
 
@@ -162,12 +162,12 @@ namespace Telegram.Bot.Tests.Integ.Payments
         public async Task Should_Receive_Successful_Payment_With_Shipment_Option()
         {
             Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
-            SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message.SuccessfulPayment;
+            SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
 
             int totalAmount = _classFixture.Invoice.TotalAmount +
                               _classFixture.ShippingOption.Prices.Sum(p => p.Amount);
 
-            Assert.Equal(totalAmount, successfulPayment.TotalAmount);
+            Assert.Equal(totalAmount, successfulPayment!.TotalAmount);
             Assert.Equal(_classFixture.Payload, successfulPayment.InvoicePayload);
             Assert.Equal(_classFixture.Invoice.Currency, successfulPayment.Currency);
             Assert.Equal(_classFixture.ShippingOption.Id, successfulPayment.ShippingOptionId);
@@ -215,7 +215,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update shippingUpdate = await GetShippingQueryUpdate();
 
             await _fixture.BotClient.AnswerShippingQueryAsync(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id,
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id,
                 errorMessage: "HUMAN_FRIENDLY_DELIVERY_ERROR_MESSAGE"
             );
         }
@@ -261,7 +261,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
             await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
-                preCheckoutQueryId: query.Id,
+                preCheckoutQueryId: query!.Id,
                 errorMessage: "HUMAN_FRIENDLY_ERROR_MESSAGE"
             );
         }
@@ -353,7 +353,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 _fixture.BotClient.AnswerShippingQueryAsync(
-                    shippingQueryId: shippingUpdate.ShippingQuery.Id,
+                    shippingQueryId: shippingUpdate.ShippingQuery!.Id,
                     shippingOptions: new[] {shippingOption, shippingOption}
                 )
             );
@@ -363,7 +363,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.Equal("Bad Request: SHIPPING_ID_DUPLICATE", exception.Message);
 
             await _fixture.BotClient.AnswerShippingQueryAsync(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id,
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id,
                 errorMessage: "✅ Test Passed"
             );
         }
@@ -427,7 +427,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             CancellationToken cancellationToken = default)
         {
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                predicate: u => u.Message.Type == MessageType.SuccessfulPayment,
+                predicate: u => u.Message!.Type == MessageType.SuccessfulPayment,
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.Message);
 

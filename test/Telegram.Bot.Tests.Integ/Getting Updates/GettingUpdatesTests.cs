@@ -67,7 +67,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
 
             Assert.NotNull(botUser);
             Assert.True(botUser.IsBot);
-            Assert.EndsWith("bot", botUser.Username, StringComparison.OrdinalIgnoreCase);
+            Assert.EndsWith("bot", botUser.Username!, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

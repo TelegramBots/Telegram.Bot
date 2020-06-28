@@ -35,7 +35,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
-            Assert.NotEmpty(message.Poll.Id);
+            Assert.NotEmpty(message.Poll!.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.True(message.Poll.IsAnonymous);
             Assert.Equal("regular", message.Poll.Type);
@@ -55,20 +55,20 @@ namespace Telegram.Bot.Tests.Integ.Polls
             _classFixture.OpenPeriod = 6;
         }
 
-        // For some reason Telegram doesn't send poll update when a poll closes itself
+        // // For some reason Telegram doesn't send poll update when a poll closes itself
         // [OrderedFact(
         //     "Should receive closed poll state update by period",
         //     Skip = "Fails on CI server for some reason, the resulting poll is public")]
         // public async Task Should_Receive_Closed_Poll_State_Update_By_Period()
         // {
-        //     string pollId = _classFixture.PollMessage.Poll.Id;
+        //     string pollId = _classFixture.PollMessage.Poll!.Id;
         //
         //     await Fixture.SendTestInstructionsAsync("Wait a few seconds until the poll automatically closes");
         //     Update update = (await Fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
         //         .Last();
         //
         //     Assert.Equal(UpdateType.Poll, update.Type);
-        //     Assert.Equal(pollId, update.Poll.Id);
+        //     Assert.Equal(pollId, update.Poll!.Id);
         //     Assert.Equal(_classFixture.OpenPeriod, update.Poll.OpenPeriod);
         //     Assert.Null(update.Poll.CloseDate);
         //     Assert.True(update.Poll.IsClosed);
@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
-            Assert.NotEmpty(message.Poll.Id);
+            Assert.NotEmpty(message.Poll!.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.True(message.Poll.IsAnonymous);
             Assert.Equal("regular", message.Poll.Type);
@@ -118,20 +118,20 @@ namespace Telegram.Bot.Tests.Integ.Polls
             _classFixture.CloseDate = closeDate;
         }
 
-        // For some reason Telegram doesn't send poll update when a poll closes itself
+        // // For some reason Telegram doesn't send poll update when a poll closes itself
         // [OrderedFact(
         //     "Should receive closed poll state update by date",
         //     Skip = "Fails on CI server for some reason, the resulting poll is public")]
         // public async Task Should_Receive_Closed_Poll_State_Update_By_Date()
         // {
-        //     string pollId = _classFixture.PollMessage.Poll.Id;
+        //     string pollId = _classFixture.PollMessage.Poll!.Id;
         //
         //     await Fixture.SendTestInstructionsAsync("Wait a few seconds until the poll automatically closes");
         //     Update update = (await Fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
         //         .Last();
         //
         //     Assert.Equal(UpdateType.Poll, update.Type);
-        //     Assert.Equal(pollId, update.Poll.Id);
+        //     Assert.Equal(pollId, update.Poll!.Id);
         //     Assert.Null(update.Poll.OpenPeriod);
         //     Assert.NotNull(update.Poll.CloseDate);
         //     Assert.InRange(

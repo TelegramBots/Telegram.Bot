@@ -33,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Document, message.Type);
-            Assert.Equal("HAMLET.pdf", message.Document.FileName);
+            Assert.Equal("HAMLET.pdf", message.Document!.FileName);
             Assert.Equal("application/pdf", message.Document.MimeType);
             Assert.NotNull(message.Document.FileSize);
             Assert.InRange(message.Document.FileSize.Value, 253_000, 257_000);

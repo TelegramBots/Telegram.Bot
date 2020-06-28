@@ -33,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: queryUpdate.InlineQuery.Id,
+                inlineQueryId: queryUpdate.InlineQuery!.Id,
                 results: new[]
                 {
                     new InlineQueryResultArticle(
@@ -51,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             await Task.Delay(1_000);
 
             await BotClient.DeleteMessageAsync(
-                chatId: messageUpdate.Message.Chat.Id,
+                chatId: messageUpdate.Message!.Chat!.Id,
                 messageId: messageUpdate.Message.MessageId
             );
         }

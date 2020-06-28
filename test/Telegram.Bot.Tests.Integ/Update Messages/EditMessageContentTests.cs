@@ -64,7 +64,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 }
             };
 
-            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery!.Id, inlineQueryResults, 0);
 
             #endregion
 
@@ -76,7 +76,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                           string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
 
             await BotClient.EditMessageTextAsync(
-                inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: callbackQUpdate.CallbackQuery!.InlineMessageId!,
                 text: messageText,
                 parseMode: ParseMode.Html
             );
@@ -117,7 +117,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 },
             };
 
-            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery!.Id, inlineQueryResults, 0);
 
             #endregion
 
@@ -125,7 +125,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 .GetCallbackQueryUpdateAsync(data: data);
 
             await BotClient.EditMessageReplyMarkupAsync(
-                inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: callbackQUpdate.CallbackQuery!.InlineMessageId,
                 replyMarkup: "✌ Edited 👌"
             );
         }
@@ -164,7 +164,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 }
             };
 
-            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery.Id, inlineQueryResults, 0);
+            await BotClient.AnswerInlineQueryAsync(inlineQUpdate.InlineQuery!.Id, inlineQueryResults, 0);
 
             #endregion
 
@@ -172,7 +172,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 .GetCallbackQueryUpdateAsync(data: data);
 
             await BotClient.EditMessageCaptionAsync(
-                inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: callbackQUpdate.CallbackQuery!.InlineMessageId!,
                 caption: "_Caption is edited_ 👌",
                 parseMode: ParseMode.Markdown
             );

@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             const string caption = "Audio File in .mp3 format";
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 message = await BotClient.SendAudioAsync(
                     /* chatId: */ _fixture.SupergroupChat,
@@ -42,7 +42,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(MessageType.Audio, message.Type);
             Assert.Equal(caption, message.Caption);
-            Assert.Equal(performer, message.Audio.Performer);
+            Assert.Equal(performer, message.Audio!.Performer);
             Assert.Equal(title, message.Audio.Title);
             Assert.Equal(duration, message.Audio.Duration);
             Assert.Equal("audio/mpeg", message.Audio.MimeType);
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 thumb: new InputMedia(stream2, "thumb.jpg")
             );
 
-            Assert.NotNull(message.Audio.Thumb);
+            Assert.NotNull(message.Audio!.Thumb);
             Assert.NotEmpty(message.Audio.Thumb.FileId);
             Assert.NotEmpty(message.Audio.Thumb.FileUniqueId);
             Assert.Equal(90, message.Audio.Thumb.Height);
@@ -91,7 +91,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(MessageType.Voice, message.Type);
             Assert.Equal(caption, message.Caption);
-            Assert.Equal(duration, message.Voice.Duration);
+            Assert.Equal(duration, message.Voice!.Duration);
             Assert.Equal("audio/ogg", message.Voice.MimeType);
             Assert.NotEmpty(message.Voice.FileId);
             Assert.NotEmpty(message.Voice.FileUniqueId);

@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             // If chat had a photo before, reset the photo back.
             if (_oldChatPhoto != null)
             {
-                using MemoryStream photoStream = new MemoryStream(_oldChatPhoto);
+                await using MemoryStream photoStream = new MemoryStream(_oldChatPhoto);
                 await TestsFixture.BotClient.SetChatPhotoAsync(
                     chatId: Chat.Id,
                     photo: photoStream

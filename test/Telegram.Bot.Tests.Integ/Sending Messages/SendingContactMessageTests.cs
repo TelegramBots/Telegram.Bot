@@ -35,7 +35,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Contact, message.Type);
-            Assert.Equal(phoneNumber, message.Contact.PhoneNumber);
+            Assert.Equal(phoneNumber, message.Contact!.PhoneNumber);
             Assert.Equal(firstName, message.Contact.FirstName);
             Assert.Equal(lastName, message.Contact.LastName);
         }
@@ -70,7 +70,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Contact, message.Type);
-            Assert.Equal(vcard, message.Contact.Vcard);
+            Assert.Equal(vcard, message.Contact!.Vcard);
         }
     }
 }

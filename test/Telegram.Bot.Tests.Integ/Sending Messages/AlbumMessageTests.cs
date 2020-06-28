@@ -69,7 +69,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             // Take file_id of photos uploaded in previous test case
             string[] fileIds = _classFixture.Entities
-                .Select(msg => msg.Photo.First().FileId)
+                .Select(msg => msg.Photo!.First().FileId)
                 .ToArray();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
@@ -105,7 +105,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(2, messages.Length);
             Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
-            Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
+            Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage!.MessageId));
         }
 
         [OrderedFact("Should upload 2 videos and a photo with captions and send them in an album")]
@@ -144,7 +144,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(MessageType.Video, messages[0].Type);
             Assert.Equal("Golden Ratio", messages[0].Caption);
-            Assert.Equal(240, messages[0].Video.Width);
+            Assert.Equal(240, messages[0].Video!.Width);
             Assert.Equal(240, messages[0].Video.Height);
             Assert.InRange(messages[0].Video.Duration, 28 - 2, 28 + 2);
 
@@ -181,11 +181,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 media: media
             );
 
-            Assert.Equal("Logo", messages[0].CaptionEntityValues.Single());
-            Assert.Equal(MessageEntityType.Bold, messages[0].CaptionEntities.Single().Type);
+            Assert.Equal("Logo", messages[0].CaptionEntityValues!.Single());
+            Assert.Equal(MessageEntityType.Bold, messages[0].CaptionEntities!.Single().Type);
 
-            Assert.Equal("Bot", messages[1].CaptionEntityValues.Single());
-            Assert.Equal(MessageEntityType.Italic, messages[1].CaptionEntities.Single().Type);
+            Assert.Equal("Bot", messages[1].CaptionEntityValues!.Single());
+            Assert.Equal(MessageEntityType.Italic, messages[1].CaptionEntities!.Single().Type);
         }
 
         [OrderedFact("Should send a video with thumbnail in an album")]
@@ -213,7 +213,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Video, messages[0].Type);
-            Assert.NotNull(messages[0].Video.Thumb);
+            Assert.NotNull(messages[0].Video!.Thumb);
         }
     }
 }

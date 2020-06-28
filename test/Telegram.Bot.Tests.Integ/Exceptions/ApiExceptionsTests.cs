@@ -33,14 +33,14 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             );
 
             Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message.ForwardFrom != null, updateTypes: UpdateType.Message
+                    u.Message?.ForwardFrom != null, updateTypes: UpdateType.Message
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
             ForbiddenException e = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
                 BotClient.SendTextMessageAsync(
-                    forwardedMessageUpdate.Message.ForwardFrom.Id,
-                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"
+                    forwardedMessageUpdate!.Message!.ForwardFrom!.Id,
+                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From!.Username}"
                 )
             );
 

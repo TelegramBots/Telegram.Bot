@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
             {
                 editedMessage = await BotClient.EditMessageMediaAsync(
-                    chatId: originalMessage.Chat,
+                    chatId: originalMessage.Chat!,
                     messageId: originalMessage.MessageId,
                     media: new InputMediaDocument(new InputMedia(stream, "public-key.pem.txt"))
                     {
@@ -85,9 +85,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
 
             Message editedMessage = await BotClient.EditMessageMediaAsync(
-                chatId: originalMessage.Chat,
+                chatId: originalMessage.Chat!,
                 messageId: originalMessage.MessageId,
-                media: new InputMediaAnimation(gifMessage.Document.FileId)
+                media: new InputMediaAnimation(gifMessage.Document!.FileId)
                 {
                     Thumb = new InputMedia(thumbStream, "thumb.jpg"),
                     Duration = 4,
@@ -109,7 +109,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.NotEqual(0, editedMessage.Animation.Height);
             Assert.NotEqual(0, editedMessage.Animation.FileSize);
             Assert.NotEmpty(editedMessage.Animation.FileId);
+            Assert.NotNull(editedMessage.Animation.FileName);
             Assert.NotEmpty(editedMessage.Animation.FileName);
+            Assert.NotNull(editedMessage.Animation.MimeType);
             Assert.NotEmpty(editedMessage.Animation.MimeType);
 
             Assert.NotNull(editedMessage.Animation.Thumb);

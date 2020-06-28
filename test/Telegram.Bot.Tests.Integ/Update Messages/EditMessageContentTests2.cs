@@ -49,17 +49,19 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             messageText = modifiedMessagePrefix +
                     string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
             Message editedMessage = await BotClient.EditMessageTextAsync(
-                chatId: originalMessage.Chat.Id,
+                chatId: originalMessage.Chat!.Id,
                 messageId: originalMessage.MessageId,
                 text: messageText,
                 parseMode: ParseMode.Html
             );
 
+            Assert.NotNull(editedMessage.Text);
             Assert.StartsWith(modifiedMessagePrefix, editedMessage.Text);
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
             Assert.Equal(originalMessage.Date, editedMessage.Date);
             Assert.True(originalMessage.Date < editedMessage.EditDate);
 
+            Assert.NotNull(editedMessage.Entities);
             Assert.Equal(
                 entityValueMappings.Select(tuple => tuple.Type),
                 editedMessage.Entities.Select(e => e.Type)
@@ -80,7 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             await Task.Delay(1_000);
 
             Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
-                chatId: message.Chat.Id,
+                chatId: message.Chat!.Id,
                 messageId: message.MessageId,
                 replyMarkup: "Edited 👍"
             );
@@ -111,7 +113,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             string caption = $"{captionPrefix} {captionEntity.Value}";
 
             Message editedMessage = await BotClient.EditMessageCaptionAsync(
-                chatId: originalMessage.Chat.Id,
+                chatId: originalMessage.Chat!.Id,
                 messageId: originalMessage.MessageId,
                 caption: caption,
                 parseMode: ParseMode.Markdown
@@ -120,8 +122,10 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
             Assert.True(originalMessage.Date < editedMessage.EditDate);
             Assert.Equal(originalMessage.Date, editedMessage.Date);
+            Assert.NotNull(editedMessage.Caption);
             Assert.StartsWith(captionPrefix, editedMessage.Caption);
 
+            Assert.NotNull(editedMessage.CaptionEntities);
             Assert.Equal(editedMessage.CaptionEntities.Single().Type, captionEntity.Type);
         }
     }

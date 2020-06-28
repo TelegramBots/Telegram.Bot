@@ -47,7 +47,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 if (apiResponse.Parameters != null)
                 {
                     var seconds = apiResponse.Parameters.RetryAfter;
-                    int effectiveSeconds = seconds ?? 20;
+                    // 30 seconds are chosen because it's a an average amount of that has
+                    // been seen in integration tests
+                    int effectiveSeconds = seconds ?? 30;
 
                     _diagnosticMessageSink.OnMessage(
                         new DiagnosticMessage(

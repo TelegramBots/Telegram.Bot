@@ -51,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 }
             };
 
-            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
+            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery!.Id, inlineQueryResults, 0);
 
             #endregion
 
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             // Change the photo for an audio. Note that, in the case of an inline message, the new media should be
             // either an URL or the file_id of a previously uploaded media.
             await BotClient.EditMessageMediaAsync(
-                inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId,
                 media: new InputMediaAudio(
                     "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/" +
                     "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3"
@@ -90,7 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start Inline Query")
             );
-            string animationFileId = gifMessage.Document.FileId;
+            string animationFileId = gifMessage.Document!.FileId;
 
             #region Answer Inline Query with a media message
 
@@ -109,7 +109,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 }
             };
 
-            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
+            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery!.Id, inlineQueryResults, 0);
 
             #endregion
 
@@ -120,7 +120,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             // should be either an URL or the file_id of a previously uploaded media.
             // Also, animation thumbnail cannot be uploaded for an inline message.
             await BotClient.EditMessageMediaAsync(
-                inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,
                 media: new InputMediaAnimation(animationFileId)
             );
         }

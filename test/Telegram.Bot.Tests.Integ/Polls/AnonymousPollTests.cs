@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
-            Assert.NotEmpty(message.Poll.Id);
+            Assert.NotEmpty(message.Poll!.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.True(message.Poll.IsAnonymous);
             Assert.Equal("regular", message.Poll.Type);
@@ -60,14 +60,14 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Skip = "Fails on CI server for some reason, the resulting poll is public")]
         public async Task Should_Receive_Poll_State_Update()
         {
-            string pollId = _classFixture.PollMessage.Poll.Id;
+            string pollId = _classFixture.PollMessage.Poll!.Id;
 
             await Fixture.SendTestInstructionsAsync("🗳 Vote for any of the options on the poll above 👆");
             Update update = (await Fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
                 .Last();
 
             Assert.Equal(UpdateType.Poll, update.Type);
-            Assert.Equal(pollId, update.Poll.Id);
+            Assert.Equal(pollId, update.Poll!.Id);
         }
 
         [OrderedFact(
@@ -77,11 +77,11 @@ namespace Telegram.Bot.Tests.Integ.Polls
         public async Task Should_Stop_Poll()
         {
             Poll poll = await BotClient.StopPollAsync(
-                chatId: _classFixture.PollMessage.Chat,
+                chatId: _classFixture.PollMessage.Chat!,
                 messageId: _classFixture.PollMessage.MessageId
             );
 
-            Assert.Equal(_classFixture.PollMessage.Poll.Id, poll.Id);
+            Assert.Equal(_classFixture.PollMessage.Poll!.Id, poll.Id);
             Assert.True(poll.IsClosed);
         }
 

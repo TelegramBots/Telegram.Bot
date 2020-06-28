@@ -75,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             Update update = (await _fixture.UpdateReceiver
                     .GetUpdatesAsync(u =>
-                            u.Message.Chat.Type == ChatType.Supergroup &&
+                            u.Message?.Chat?.Type == ChatType.Supergroup &&
                             u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
                             u.Message.Type == MessageType.ChatMembersAdded,
                         updateTypes: UpdateType.Message)
@@ -85,8 +85,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             Message serviceMsg = update.Message;
 
-            Assert.Equal(_classFixture.RegularMemberUserId.ToString(),
-                serviceMsg.NewChatMembers.Single().Id.ToString());
+            Assert.Equal(
+                _classFixture.RegularMemberUserId.ToString(),
+                serviceMsg!.NewChatMembers!.Single().Id.ToString()
+            );
         }
 
         #endregion

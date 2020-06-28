@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Photo, message.Type);
-            Assert.NotEmpty(message.Photo);
+            Assert.NotEmpty(message.Photo!);
             Assert.All(message.Photo.Select(ps => ps.FileId), Assert.NotEmpty);
             Assert.All(message.Photo.Select(ps => ps.FileUniqueId), Assert.NotEmpty);
             Assert.All(message.Photo.Select(ps => ps.Width), w => Assert.NotEqual(default, w));
@@ -55,7 +55,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
         public async Task Should_Send_Photo_FileId()
         {
-            string fileId = _classFixture.Entity.Photo.First().FileId;
+            string fileId = _classFixture.Entity.Photo!.First().FileId;
 
             Message message = await BotClient.SendPhotoAsync(
                 chatId: _fixture.SupergroupChat.Id,
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             // Apparently file ids of photos no longer remain the same when sending them
             // using file ids
             // Assert.Single(message.Photo, photoSize => photoSize.FileId == fileId);
-            Assert.NotEmpty(message.Photo);
+            Assert.NotEmpty(message.Photo!);
         }
 
         [OrderedFact("Should send photo message and parse its caption entity values")]
@@ -92,6 +92,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
             );
 
+            Assert.NotNull(message.CaptionEntities);
             Assert.Equal(
                 entityValueMappings.Select(t => t.Type),
                 message.CaptionEntities.Select(e => e.Type)
@@ -121,6 +122,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 parseMode: ParseMode.Markdown
             );
 
+            Assert.NotNull(message.CaptionEntities);
             Assert.Equal(
                 entityValueMappings.Select(t => t.Type),
                 message.CaptionEntities.Select(e => e.Type)

@@ -64,7 +64,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             await _testsFixture.SendTestCollectionNotificationAsync(
                 collectionName,
-                $"Chosen regular member is @{RegularMemberChat.Username.Replace("_", @"\_")}"
+                $"Chosen regular member is @{RegularMemberChat.Username!.Replace("_", @"\_")}"
             );
 
             RegularMemberUserId = (int) RegularMemberChat.Id;
