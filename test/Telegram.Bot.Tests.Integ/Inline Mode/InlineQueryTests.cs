@@ -72,6 +72,48 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             Assert.Equal(iqUpdate.InlineQuery.Query, chosenResultUpdate.ChosenInlineResult.Query);
         }
 
+        [OrderedFact("Should get message from an inline query with ViaBot property set")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+        public async Task Should_Get_Message_From_Inline_Query_With_ViaBot()
+        {
+            await _fixture.SendTestInstructionsAsync(
+                "1. Start an inline query\n" +
+                "2. Wait for bot to answer it\n" +
+                "3. Choose the answer",
+                startInlineQuery: true
+            );
+
+            Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+
+            InlineQueryResultBase[] results =
+            {
+                new InlineQueryResultArticle(
+                    id: "article:bot-api",
+                    title: "Telegram Bot API",
+                    inputMessageContent: new InputTextMessageContent(
+                        "https://core.telegram.org/bots/api")
+                    )
+                {
+                    Description = "The Bot API is an HTTP-based interface created for developers",
+                },
+            };
+
+            await BotClient.AnswerInlineQueryAsync(
+                inlineQueryId: iqUpdate.InlineQuery.Id,
+                results: results,
+                cacheTime: 0
+            );
+
+            Update messageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(
+                update => update.Message?.ViaBot != null,
+                updateTypes: UpdateType.Message
+            )).First();
+
+            Assert.Equal(MessageType.Text, messageUpdate.Message.Type);
+            Assert.NotNull(messageUpdate.Message.ViaBot);
+            Assert.Equal(_fixture.BotUser.Id, messageUpdate.Message.ViaBot.Id);
+        }
+
         [OrderedFact("Should answer inline query with a contact",
             Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
@@ -231,7 +273,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Photo()
         {
             Message photoMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
             {
                 photoMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat,
@@ -326,20 +368,20 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            const string resultId = "fireworks_video";
+            const string resultId = "youtube_video";
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultVideo(
                     id: resultId,
-                    videoUrl: "https://www.youtube.com/watch?v=56MDJ9tD6MY",
+                    videoUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
                     mimeType: "text/html",
-                    thumbUrl: "https://www.youtube.com/watch?v=56MDJ9tD6MY",
-                    title: "30 Rare Goals We See in Football"
+                    thumbUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
+                    title: "Rocket Launch"
                 )
                 {
                     InputMessageContent =
                         new InputTextMessageContent(
-                            "[30 Rare Goals We See in Football](https://www.youtube.com/watch?v=56MDJ9tD6MY)")
+                            "[Rocket Launch](https://www.youtube.com/watch?v=1S0CTtY8Qa0)")
                         {
                             ParseMode = ParseMode.Markdown
                         }
@@ -450,13 +492,13 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Audio()
         {
             Message audioMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 audioMessage = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
                     audio: stream,
-                    duration: 201,
                     performer: "Jackson F. Smith",
+                    duration: 201,
                     replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
                         .WithSwitchInlineQueryCurrentChat("Start inline query")
                 );
@@ -536,7 +578,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Voice()
         {
             Message voiceMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
             {
                 voiceMessage = await BotClient.SendVoiceAsync(
                     chatId: _fixture.SupergroupChat,
@@ -620,7 +662,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Document()
         {
             Message documentMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,
@@ -686,6 +728,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     GifHeight = 400,
                     GifWidth = 400,
                     Title = "Rotating Earth",
+                    ThumbMimeType = "image/gif",
                 }
             };
 

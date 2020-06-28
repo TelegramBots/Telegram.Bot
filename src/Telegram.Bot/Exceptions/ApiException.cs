@@ -16,7 +16,7 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Contains information about why a request was unsuccessful.
         /// </summary>
-        public ResponseParameters Parameters { get; }
+        public ResponseParameters? Parameters { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestException"/> class.
@@ -66,7 +66,7 @@ namespace Telegram.Bot.Exceptions
         /// <param name="message">The message</param>
         /// <param name="errorCode">The error code</param>
         /// <param name="parameters">Response parameters</param>
-        public ApiRequestException(string message, int errorCode, ResponseParameters parameters)
+        public ApiRequestException(string message, int errorCode, ResponseParameters? parameters)
             : base(message)
         {
             ErrorCode = errorCode;

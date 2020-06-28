@@ -8,7 +8,7 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Types.InputFiles
 {
     /// <summary>
-    /// ToDo
+    /// Used for sending files to Telegram
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     [JsonConverter(typeof(InputFileConverter))]
@@ -18,7 +18,7 @@ namespace Telegram.Bot.Types.InputFiles
         /// Id of a file that exists on Telegram servers
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string FileId { get; protected set; }
+        public string? FileId { get; protected set; }
 
         /// <inheritdoc cref="IInputFile.FileType"/>
         public override FileType FileType
@@ -38,28 +38,21 @@ namespace Telegram.Bot.Types.InputFiles
         { }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputTelegramFile"/> from a <see cref="Stream"/> and
+        /// a file name
         /// </summary>
-        /// <param name="content"></param>
-        public InputTelegramFile(Stream content)
-            : this(content, default)
-        { }
-
-        /// <summary>
-        /// ToDo
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="fileName"></param>
-        public InputTelegramFile(Stream content, string fileName)
+        /// <param name="content"><see cref="Stream"/> containing the file</param>
+        /// <param name="fileName">Name of the file</param>
+        public InputTelegramFile(Stream content, string? fileName = default)
         {
             Content = content;
             FileName = fileName;
         }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputTelegramFile"/> from a file id
         /// </summary>
-        /// <param name="fileId"></param>
+        /// <param name="fileId">File id on Telegram's servers</param>
         public InputTelegramFile(string fileId)
         {
             FileId = fileId;
@@ -69,8 +62,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// ToDo
         /// </summary>
         /// <param name="stream"></param>
-        public static implicit operator InputTelegramFile(Stream stream) =>
-            stream == null
+        public static implicit operator InputTelegramFile?(Stream stream) =>
+            stream is null
                 ? default
                 : new InputTelegramFile(stream);
 
@@ -78,8 +71,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// ToDo
         /// </summary>
         /// <param name="fileId"></param>
-        public static implicit operator InputTelegramFile(string fileId) =>
-            fileId == null
+        public static implicit operator InputTelegramFile?(string fileId) =>
+            fileId is null
                 ? default
                 : new InputTelegramFile(fileId);
     }

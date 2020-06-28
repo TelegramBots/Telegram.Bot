@@ -1,5 +1,7 @@
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
@@ -61,12 +63,18 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Inline_Keyboard()
         {
-            await BotClient.SendTextMessageAsync(
+            Message sentMessage = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat,
                 text: "Message with inline keyboard markup",
                 replyMarkup: new InlineKeyboardMarkup(new[]
                 {
-                    new [] { InlineKeyboardButton.WithUrl("Link to Repository", "https://github.com/TelegramBots/Telegram.Bot"), },
+                    new []
+                    {
+                        InlineKeyboardButton.WithUrl(
+                            "Link to Repository",
+                            "https://github.com/TelegramBots/Telegram.Bot"
+                        ),
+                    },
                     new []
                     {
                         InlineKeyboardButton.WithCallbackData("callback_data1"),
@@ -75,6 +83,39 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
                     new [] { InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"), },
                     new [] { InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"), },
                 })
+            );
+
+            Assert.True(
+                JToken.DeepEquals(
+                    JToken.FromObject(sentMessage.ReplyMarkup),
+                    JToken.FromObject(
+                        new InlineKeyboardMarkup(
+                            new[]
+                            {
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithUrl(
+                                        "Link to Repository",
+                                        "https://github.com/TelegramBots/Telegram.Bot"
+                                    ),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithCallbackData("callback_data1"),
+                                    InlineKeyboardButton.WithCallbackData("callback_data2", "data"),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"),
+                                },
+                                new[]
+                                {
+                                    InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"),
+                                },
+                            }
+                        )
+                    )
+                )
             );
         }
     }

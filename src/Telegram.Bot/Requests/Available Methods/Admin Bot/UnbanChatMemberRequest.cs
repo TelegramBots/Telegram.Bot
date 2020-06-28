@@ -26,7 +26,9 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target group or username of the target supergroup or channel
+        /// </param>
         /// <param name="userId">Unique identifier of the target user</param>
         public UnbanChatMemberRequest(ChatId chatId, int userId)
             : base("unbanChatMember")

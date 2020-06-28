@@ -22,24 +22,34 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
         {
-            if (cancellationToken == default)
+            CancellationTokenSource cts = default;
+
+            try
             {
-                var source = new CancellationTokenSource(TimeSpan.FromSeconds(30));
-                cancellationToken = source.Token;
+                if (cancellationToken == default)
+                {
+                    cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                    cancellationToken = cts.Token;
+                }
+
+                int offset = -1;
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    var updates = await _botClient.GetUpdatesAsync(
+                        offset,
+                        allowedUpdates: Array.Empty<UpdateType>(),
+                        cancellationToken: cancellationToken
+                    );
+
+                    if (updates.Length == 0) break;
+
+                    offset = updates.Last().Id + 1;
+                }
             }
-
-            int offset = 0;
-
-            while (!cancellationToken.IsCancellationRequested)
+            finally
             {
-                var updates = await _botClient.GetUpdatesAsync(offset,
-                    allowedUpdates: Array.Empty<UpdateType>(),
-                    cancellationToken: cancellationToken);
-
-                if (updates.Length == 0)
-                    break;
-
-                offset = updates.Last().Id + 1;
+                cts?.Dispose();
             }
         }
 
@@ -50,31 +60,45 @@ namespace Telegram.Bot.Tests.Integ.Framework
             params UpdateType[] updateTypes
         )
         {
-            if (cancellationToken == default)
-                cancellationToken = new CancellationTokenSource(TimeSpan.FromMinutes(2)).Token;
+            CancellationTokenSource cts = default;
+            predicate ??= PassthroughPredicate;
 
-            Update[] matchingUpdates = Array.Empty<Update>();
-
-            // ToDo use Polly instead
-            while (!cancellationToken.IsCancellationRequested)
+            try
             {
-                IEnumerable<Update> updates = await GetOnlyAllowedUpdatesAsync(offset, cancellationToken, updateTypes);
-                updates = updates
-                    .Where(u =>
-                        updateTypes.Contains(u.Type) &&
-                        (predicate == null || predicate(u))
+                if (cancellationToken == default)
+                {
+                    cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+                    cancellationToken = cts.Token;
+                }
+
+                Update[] matchingUpdates = Array.Empty<Update>();
+
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    Update[] updates = await GetOnlyAllowedUpdatesAsync(
+                        offset,
+                        cancellationToken,
+                        updateTypes
                     );
 
-                matchingUpdates = updates.ToArray();
+                    matchingUpdates = updates
+                        .Where(u => updateTypes.Contains(u.Type) && predicate(u))
+                        .ToArray();
 
-                if (updates.Any())
-                    break;
+                    if (matchingUpdates.Any()) break;
 
-                offset = updates.LastOrDefault()?.Id + 1 ?? 0;
-                await Task.Delay(1_500, cancellationToken);
+                    offset = updates.LastOrDefault()?.Id + 1 ?? 0;
+                    await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationToken);
+                }
+
+                return matchingUpdates;
+            }
+            finally
+            {
+                cts?.Dispose();
             }
 
-            return matchingUpdates;
+            bool PassthroughPredicate(Update _) => true;
         }
 
         public async Task<Update> GetCallbackQueryUpdateAsync(
@@ -116,11 +140,16 @@ namespace Telegram.Bot.Tests.Integ.Framework
         }
 
         /// <summary>
-        /// Receive the chosen inline query result and the message that was sent to chat. Use this method only after bot answers to an inline query.
+        /// Receive the chosen inline query result and the message that was sent to chat. Use this
+        /// method only after bot answers to an inline query.
         /// </summary>
-        /// <param name="messageType">Type of message for chosen inline query e.g. Text message for article results</param>
+        /// <param name="messageType">
+        /// Type of message for chosen inline query e.g. Text message for article results
+        /// </param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Message update generated for chosen result, and the update for chosen inline query result</returns>
+        /// <returns>
+        /// Message update generated for chosen result, and the update for chosen inline query result
+        /// </returns>
         public async Task<(Update MessageUpdate, Update ChosenResultUpdate)> GetInlineQueryResultUpdates(
             MessageType messageType,
             CancellationToken cancellationToken = default
@@ -131,10 +160,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             while (
                 !cancellationToken.IsCancellationRequested &&
-                (messageUpdate == null || chosenResultUpdate == null)
+                (messageUpdate is null || chosenResultUpdate is null)
             )
             {
-                await Task.Delay(1_000, cancellationToken);
+                await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
                 var updates = await GetUpdatesAsync(
                     u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
                     cancellationToken: cancellationToken,
@@ -177,7 +206,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 case UpdateType.PreCheckoutQuery:
                 case UpdateType.ShippingQuery:
                 case UpdateType.ChosenInlineResult:
-                    isAllowed = AllowedUsernames.Contains(update.GetUser().Username, StringComparer.OrdinalIgnoreCase);
+                case UpdateType.PollAnswer:
+                    isAllowed = AllowedUsernames.Contains(
+                        update.GetUser().Username,
+                        StringComparer.OrdinalIgnoreCase
+                    );
                     break;
                 case UpdateType.Poll:
                     isAllowed = true;

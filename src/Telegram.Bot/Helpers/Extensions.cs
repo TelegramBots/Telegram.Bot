@@ -13,24 +13,25 @@ namespace Telegram.Bot.Helpers
     /// </summary>
     internal static class Extensions
     {
-        internal static string EncodeUtf8(this string value) =>
+        private static string EncodeUtf8(this string value) =>
             string.Join(string.Empty, Encoding.UTF8.GetBytes(value).Select(Convert.ToChar));
 
         internal static void AddStreamContent(
             this MultipartFormDataContent multipartContent,
             Stream content,
             string name,
-            string fileName = default)
+            string? fileName = default)
         {
-            fileName = fileName ?? name;
-            string contentDisposision = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
+            fileName ??= name;
+            var contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}"""
+                .EncodeUtf8();
 
             HttpContent mediaPartContent = new StreamContent(content)
             {
                 Headers =
                 {
                     {"Content-Type", "application/octet-stream"},
-                    {"Content-Disposition", contentDisposision}
+                    {"Content-Disposition", contentDisposition}
                 }
             };
 
@@ -39,20 +40,19 @@ namespace Telegram.Bot.Helpers
 
         internal static void AddContentIfInputFileStream(
             this MultipartFormDataContent multipartContent,
-            params IInputMedia[] inputMedia
-        )
+            params IInputMedia[] inputMedia)
         {
             foreach (var input in inputMedia)
             {
                 if (input.Media.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(input.Media.Content, input.Media.FileName);
+                    multipartContent.AddStreamContent(input.Media.Content!, input.Media.FileName!);
                 }
 
                 var mediaThumb = (input as IInputMediaThumb)?.Thumb;
                 if (mediaThumb?.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(mediaThumb.Content, mediaThumb.FileName);
+                    multipartContent.AddStreamContent(mediaThumb.Content!, mediaThumb.FileName!);
                 }
             }
         }

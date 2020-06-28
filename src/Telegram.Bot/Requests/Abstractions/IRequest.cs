@@ -23,6 +23,6 @@ namespace Telegram.Bot.Requests.Abstractions
         /// Generate content of HTTP message
         /// </summary>
         /// <returns>Content of HTTP request</returns>
-        HttpContent ToHttpContent();
+        HttpContent? ToHttpContent();
     }
 }

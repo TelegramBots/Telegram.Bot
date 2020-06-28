@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 "Click on *Pay <amount>* and send your shipping address. " +
                 "You should see shipment options afterwards. " +
                 "Transaction should be completed.",
-                chatid: _classFixture.PrivateChat.Id
+                chatId: _classFixture.PrivateChat.Id
             );
 
             _classFixture.Payload = "my-payload";
@@ -73,7 +73,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 isFlexible: true,
                 needName: true,
                 needEmail: true,
-                needPhoneNumber: true
+                needPhoneNumber: true,
+                sendEmailToProvider: true,
+                sendPhoneNumberToProvider: true
             );
 
             Assert.Equal(MessageType.Invoice, message.Type);
@@ -131,8 +133,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
         public async Task Should_Answer_PreCheckout_Query_With_Ok_And_Shipment_Option()
         {
-            Update precheckoutUpdate = await GetPreCheckoutQueryUpdate();
-            PreCheckoutQuery query = precheckoutUpdate.PreCheckoutQuery;
+            Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
+            PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
             await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
                 preCheckoutQueryId: query.Id
@@ -141,7 +143,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             int totalAmount = _classFixture.Invoice.TotalAmount +
                               _classFixture.ShippingOption.Prices.Sum(p => p.Amount);
 
-            Assert.Equal(UpdateType.PreCheckoutQuery, precheckoutUpdate.Type);
+            Assert.Equal(UpdateType.PreCheckoutQuery, preCheckoutUpdate.Type);
             Assert.NotNull(query.Id);
             Assert.Equal(_classFixture.Payload, query.InvoicePayload);
             Assert.Equal(totalAmount, query.TotalAmount);
@@ -178,7 +180,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         {
             await _fixture.SendTestInstructionsAsync(
                 "Click on *Pay <amount>* and send your shipping address. You should receive an error afterwards.",
-                chatid: _classFixture.PrivateChat.Id
+                chatId: _classFixture.PrivateChat.Id
             );
 
             const string payload = "shipping_query-error-payload";
@@ -225,7 +227,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         {
             await _fixture.SendTestInstructionsAsync(
                 "Click on *Pay <amount>* and confirm payment.",
-                chatid: _classFixture.PrivateChat.Id
+                chatId: _classFixture.PrivateChat.Id
             );
 
             const string payload = "pre_checkout-error-payload";
@@ -255,8 +257,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 prices: productPrices
             );
 
-            Update precheckoutUpdate = await GetPreCheckoutQueryUpdate();
-            PreCheckoutQuery query = precheckoutUpdate.PreCheckoutQuery;
+            Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
+            PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
             await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
                 preCheckoutQueryId: query.Id,

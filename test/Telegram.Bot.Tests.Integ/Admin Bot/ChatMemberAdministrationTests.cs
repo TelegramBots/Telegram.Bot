@@ -106,6 +106,36 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
+        [OrderedFact("Should set a custom title for the previously promoted admin")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatAdministratorCustomTitle)]
+        public async Task Should_Set_Custom_Title_For_Admin()
+        {
+            ChatMember promotedRegularUser = await BotClient.GetChatMemberAsync(
+                _fixture.SupergroupChat,
+                _classFixture.RegularMemberUserId
+            );
+
+            await BotClient.SetChatAdministratorCustomTitleAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: promotedRegularUser.User.Id,
+                customTitle: "CHANGED TITLE"
+            );
+
+            ChatMember newChatMember = await BotClient.GetChatMemberAsync(
+                _fixture.SupergroupChat,
+                promotedRegularUser.User.Id
+            );
+
+            Assert.Equal("CHANGED TITLE", newChatMember.CustomTitle);
+
+            // Restore default title by sending empty string
+            await BotClient.SetChatAdministratorCustomTitleAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: promotedRegularUser.User.Id,
+                customTitle: string.Empty
+            );
+        }
+
         [OrderedFact("Should demote chat member by taking his/her only admin right: change_info")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Demote_User()
@@ -129,9 +159,12 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
                 untilDate: DateTime.UtcNow.AddSeconds(banSeconds),
-                canSendMessages: true,
-                canSendMediaMessages: true,
-                canSendOtherMessages: false
+                permissions: new ChatPermissions
+                {
+                    CanSendMessages = true,
+                    CanSendMediaMessages = true,
+                    CanSendOtherMessages = false
+                }
             );
         }
 

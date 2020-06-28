@@ -63,9 +63,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 "END:VCARD";
 
             Message message = await BotClient.SendContactAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* phoneNumber: */ "+11115551212",
-                /* firstName: */ "Forrest",
+                chatId: _fixture.SupergroupChat,
+                phoneNumber: "+11115551212",
+                firstName: "Forrest",
                 vCard: vcard
             );
 

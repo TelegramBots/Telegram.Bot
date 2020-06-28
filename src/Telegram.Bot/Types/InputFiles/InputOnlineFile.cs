@@ -8,7 +8,7 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Types.InputFiles
 {
     /// <summary>
-    /// ToDo
+    /// Used for sending files to Telegram
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     [JsonConverter(typeof(InputFileConverter))]
@@ -18,7 +18,7 @@ namespace Telegram.Bot.Types.InputFiles
         /// HTTP URL for Telegram to get a file from the Internet
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Url { get; protected set; }
+        public string? Url { get; protected set; }
 
         /// <inheritdoc cref="IInputFile.FileType"/>
         public override FileType FileType
@@ -33,32 +33,23 @@ namespace Telegram.Bot.Types.InputFiles
         }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Stream"/> and a file name
         /// </summary>
-        /// <param name="content"></param>
-        public InputOnlineFile(Stream content)
-            : this(content, default)
-        {
-        }
-
-        /// <summary>
-        /// ToDo
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="fileName"></param>
-        public InputOnlineFile(Stream content, string fileName)
+        /// <param name="content"><see cref="Stream"/> containing the file</param>
+        /// <param name="fileName">Name of the file</param>
+        public InputOnlineFile(Stream content, string? fileName = default)
         {
             Content = content;
             FileName = fileName;
         }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputOnlineFile"/> from a string containing a uri or file id
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="value"><see cref="string"/> containing a url or file id</param>
         public InputOnlineFile(string value)
         {
-            if (Uri.TryCreate(value, UriKind.Absolute, out Uri _))
+            if (Uri.TryCreate(value, UriKind.Absolute, out _))
             {
                 Url = value;
             }
@@ -69,11 +60,20 @@ namespace Telegram.Bot.Types.InputFiles
         }
 
         /// <summary>
+        /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Uri"/>
+        /// </summary>
+        /// <param name="url"><see cref="Uri"/> pointing to a file</param>
+        public InputOnlineFile(Uri url)
+        {
+            Url = url.AbsoluteUri;
+        }
+
+        /// <summary>
         /// ToDo
         /// </summary>
         /// <param name="stream"></param>
-        public static implicit operator InputOnlineFile(Stream stream) =>
-            stream == null
+        public static implicit operator InputOnlineFile?(Stream stream) =>
+            stream is null
                 ? default
                 : new InputOnlineFile(stream);
 
@@ -81,8 +81,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// ToDo
         /// </summary>
         /// <param name="value"></param>
-        public static implicit operator InputOnlineFile(string value) =>
-            value == null
+        public static implicit operator InputOnlineFile?(string value) =>
+            value is null
                 ? default
                 : new InputOnlineFile(value);
     }

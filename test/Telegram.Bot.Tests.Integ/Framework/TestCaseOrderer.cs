@@ -10,17 +10,25 @@ namespace Telegram.Bot.Tests.Integ.Framework
     public class TestCaseOrderer : ITestCaseOrderer
     {
         public IEnumerable<TTestCase> OrderTestCases<TTestCase>(IEnumerable<TTestCase> testCases)
-            where TTestCase : ITestCase =>
-            testCases
-                .Select(tc => new
+            where TTestCase : ITestCase
+        {
+            return testCases
+                .Select(tc =>
                 {
-                    TestCase = tc,
-                    Attrib = tc.TestMethod.Method
-                                 .ToRuntimeMethod()
-                                 .GetCustomAttribute<OrderedFactAttribute>() ?? throw new
-                                 Exception($@"Test case ""{tc.DisplayName}"" doesn't have {nameof(OrderedFactAttribute)}.")
+                    var attribute = tc.TestMethod.Method
+                        .ToRuntimeMethod()
+                        .GetCustomAttribute<OrderedFactAttribute>();
+
+                    return new
+                    {
+                        TestCase = tc,
+                        Attribute = attribute ?? throw new Exception(
+                            $@"Test case ""{tc.DisplayName}"" doesn't have {nameof(OrderedFactAttribute)}."
+                        )
+                    };
                 })
-                .OrderBy(x => x.Attrib.LineNumber)
+                .OrderBy(x => x.Attribute.LineNumber)
                 .Select(x => x.TestCase);
+        }
     }
 }

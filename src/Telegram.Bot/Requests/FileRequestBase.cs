@@ -1,8 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Types.InputFiles;
 
@@ -12,6 +13,7 @@ namespace Telegram.Bot.Requests
     /// Represents an API request with a file
     /// </summary>
     /// <typeparam name="TResponse">Type of result expected in result</typeparam>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     {
         /// <summary>
@@ -37,23 +39,34 @@ namespace Telegram.Bot.Requests
         /// <param name="fileParameterName"></param>
         /// <param name="inputFile"></param>
         /// <returns></returns>
-        protected MultipartFormDataContent ToMultipartFormDataContent(string fileParameterName, InputFileStream inputFile)
+        protected MultipartFormDataContent ToMultipartFormDataContent(
+            string fileParameterName,
+            InputFileStream inputFile)
         {
             var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
 
-            multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
+            multipartContent.AddStreamContent(
+                inputFile.Content!,
+                fileParameterName,
+                inputFile.FileName!
+            );
 
             return multipartContent;
         }
 
         /// <summary>
-        /// ToDo
+        /// Automatically generates <see cref="MultipartFormDataContent"/> instance with string
+        /// data skipping properties passed in 'exceptPropertyNames' parameter.
+        /// All names of media properties should be passed in 'exceptPropertyNames'.
         /// </summary>
-        /// <param name="exceptPropertyNames"></param>
+        /// <param name="exceptPropertyNames">Properties</param>
         /// <returns></returns>
-        protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
+        protected MultipartFormDataContent GenerateMultipartFormDataContent(
+            params string[] exceptPropertyNames)
         {
-            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
+            var multipartContent = new MultipartFormDataContent(
+                Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks
+            );
 
             var stringContents = JObject.FromObject(this)
                 .Properties()
@@ -63,8 +76,11 @@ namespace Telegram.Bot.Requests
                     prop.Name,
                     Content = new StringContent(prop.Value.ToString())
                 });
+
             foreach (var strContent in stringContents)
+            {
                 multipartContent.Add(strContent.Content, strContent.Name);
+            }
 
             return multipartContent;
         }

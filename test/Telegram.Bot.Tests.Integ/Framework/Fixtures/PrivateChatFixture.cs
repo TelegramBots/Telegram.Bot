@@ -14,7 +14,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
         {
             _testsFixture = testsFixture;
 
-            if (_testsFixture.PrivateChat == null)
+            if (_testsFixture.PrivateChat is null)
             {
                 _testsFixture.PrivateChat = GetChat(collectionName).GetAwaiter().GetResult();
             }

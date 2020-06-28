@@ -6,13 +6,15 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Export an invite link to a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+    /// Export an invite link to a supergroup or a channel. The bot must be an administrator in
+    /// the chat for this to work and must have the appropriate admin rights.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ExportChatInviteLinkRequest : RequestBase<string>
     {
         /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+        /// Unique identifier for the target chat or username of the target channel
+        /// (in the format @channelusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
@@ -20,7 +22,9 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with chatId
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel.</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel.
+        /// </param>
         public ExportChatInviteLinkRequest(ChatId chatId)
             : base("exportChatInviteLink")
         {

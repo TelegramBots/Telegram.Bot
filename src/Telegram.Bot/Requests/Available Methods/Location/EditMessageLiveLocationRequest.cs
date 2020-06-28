@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -11,8 +10,7 @@ namespace Telegram.Bot.Requests
     /// Edit live location messages sent by the bot
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditMessageLiveLocationRequest : RequestBase<Message>,
-                                                  IInlineReplyMarkupMessage
+    public class EditMessageLiveLocationRequest : RequestBase<Message>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
@@ -38,18 +36,26 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public float Longitude { get; }
 
-        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
+        /// <summary>
+        /// A JSON-serialized object for an inline keyboard
+        /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InlineKeyboardMarkup ReplyMarkup { get; set; }
+        public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and new location
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel
+        /// </param>
         /// <param name="messageId">Identifier of the sent message</param>
         /// <param name="latitude">Latitude of new location</param>
         /// <param name="longitude">Longitude of new location</param>
-        public EditMessageLiveLocationRequest(ChatId chatId, int messageId, float latitude, float longitude)
+        public EditMessageLiveLocationRequest(
+            ChatId chatId,
+            int messageId,
+            float latitude,
+            float longitude)
             : base("editMessageLiveLocation")
         {
             ChatId = chatId;

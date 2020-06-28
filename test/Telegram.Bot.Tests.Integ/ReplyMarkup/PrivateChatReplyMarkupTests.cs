@@ -45,7 +45,11 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 
             Assert.NotEmpty(contactMessage.Contact.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
-            Assert.Equal(_classFixture.PrivateChat.Id, contactMessage.Contact.UserId);
+
+            if (contactMessage.Contact.UserId != null)
+            {
+                Assert.Equal(_classFixture.PrivateChat.Id, contactMessage.Contact.UserId.Value);
+            }
 
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.PrivateChat,

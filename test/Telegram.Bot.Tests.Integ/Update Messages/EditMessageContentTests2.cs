@@ -29,7 +29,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         public async Task Should_Edit_Message_Text()
         {
             const string originalMessagePrefix = "original\n";
-            (MessageEntityType Type, string Value)[] entityValueMappings = {
+            (MessageEntityType Type, string Value)[] entityValueMappings =
+            {
                 (MessageEntityType.Bold, "<b>bold</b>"),
                 (MessageEntityType.Italic, "<i>italic</i>"),
             };
@@ -42,7 +43,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 parseMode: ParseMode.Html
             );
 
-            DateTime timeBeforeEdition = DateTime.UtcNow;
             await Task.Delay(1_000);
 
             const string modifiedMessagePrefix = "modified\n";
@@ -57,7 +57,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Assert.StartsWith(modifiedMessagePrefix, editedMessage.Text);
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
-            Assert.True(timeBeforeEdition < editedMessage.EditDate);
+            Assert.Equal(originalMessage.Date, editedMessage.Date);
+            Assert.True(originalMessage.Date < editedMessage.EditDate);
 
             Assert.Equal(
                 entityValueMappings.Select(tuple => tuple.Type),
@@ -76,7 +77,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 replyMarkup: (InlineKeyboardMarkup)"Original markup"
             );
 
-            DateTime timeBeforeEdition = DateTime.UtcNow;
             await Task.Delay(1_000);
 
             Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
@@ -87,7 +87,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Assert.Equal(message.MessageId, editedMessage.MessageId);
             Assert.Equal(message.Text, editedMessage.Text);
-            Assert.True(timeBeforeEdition < editedMessage.EditDate);
+            Assert.True(message.Date < editedMessage.EditDate);
+            Assert.Equal(message.Date, editedMessage.Date);
         }
 
         [OrderedFact("Should edit a message's caption")]
@@ -95,17 +96,14 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageCaption)]
         public async Task Should_Edit_Message_Caption()
         {
-            Message originalMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
-            {
-                originalMessage = await BotClient.SendPhotoAsync(
-                    chatId: _fixture.SupergroupChat.Id,
-                    photo: stream,
-                    caption: "Message caption will be updated shortly"
-                );
-            }
+            await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
 
-            DateTime timeBeforeEdition = DateTime.UtcNow;
+            Message originalMessage = await BotClient.SendPhotoAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                photo: stream,
+                caption: "Message caption will be updated shortly"
+            );
+
             await Task.Delay(1_000);
 
             const string captionPrefix = "Modified caption";
@@ -120,7 +118,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
 
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
-            Assert.True(timeBeforeEdition < editedMessage.EditDate);
+            Assert.True(originalMessage.Date < editedMessage.EditDate);
+            Assert.Equal(originalMessage.Date, editedMessage.Date);
             Assert.StartsWith(captionPrefix, editedMessage.Caption);
 
             Assert.Equal(editedMessage.CaptionEntities.Single().Type, captionEntity.Type);
