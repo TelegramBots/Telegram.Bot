@@ -3166,6 +3166,32 @@ namespace Telegram.Bot
                     cancellationToken
                 );
 
+        /// <summary>
+        /// Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set
+        /// for animated sticker sets only. Returns True on success.
+        /// </summary>
+        /// <param name="botClient"><see cref="ITelegramBotClient"/> instance</param>
+        /// <param name="name">Sticker set name</param>
+        /// <param name="userId">User identifier of the sticker set owner</param>
+        /// <param name="thumb">A PNG image or a TGS animation with the thumbnail</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice
+        /// of cancellation.
+        /// </param>
+        /// <returns>Returns <c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#setstickersetthumb"/>
+        public static async Task SetStickerSetThumbAsync(
+            this ITelegramBotClient botClient,
+            string name,
+            int userId,
+            InputOnlineFile thumb = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            await (botClient ?? throw new ArgumentNullException(nameof(botClient))).MakeRequestAsync(
+                new SetStickerSetThumbRequest(name, userId, thumb),
+                cancellationToken
+            );
+
         #endregion
     }
 }
