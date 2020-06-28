@@ -19,6 +19,74 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 -->
 
+## [Unreleased]
+
+### Added
+
+- Constructor to `ApiRequestEventArgs`
+- Constructor to `ApiRequestEventArgs `
+- Constructor to `KeyboardButtonPollType` that accepts an optional string
+- Property `bool IRequest.IsWebhookResponse`
+
+### Changed
+- All optional Bot API properties are made nullable 
+- Optional properties with reference types are made nullable (C# 8.0 is needed to make use of this 
+feature)
+- Type `Animation` extends `FileBase`
+- `MessageEntityType.Unknown` moved to the top and made default enum value
+- `fileName` parameter in constructor `InputFileStream` is made optional
+- `fileName` parameter in constructor `InputOnlineFile` is made optional
+- `fileName` parameter in constructor `InputTelegramFile` is made optional
+- Default constructor in `LabeledPrice` is made private
+- Default constructor in `KeyboardButton` is made private
+- Default constructor in `KeyboardButtonPollType` is made private
+- Default constructor in `ReplyKeyboardMarkup` is made private
+- All methods from `ITelegramBotClient` that map to Bot API requests moved into
+`TelegramClientExtensions` as extension methods
+- Parameter order in `SendDiceAsync`
+- Parameter order in `SendPollAsync`
+- Parameter order in `SendAudioAsync`
+- Parameter order in `SendDocumentAsync`
+- Parameter order in `SendVideoNoteAsync`
+- Parameter order in `SendVenueAsync`
+- Parameter order in `SendContactAsync`
+
+### Removed
+- Enum member `ParseMode.Default`
+- Following interfaces:
+    - `IChatMessage`
+    - `IFormattableMessage`
+    - `IChatMessage`
+    - `IInlineMessage`
+    - `IInlineReplyMarkupMessage`
+    - `INotifiableMessage`
+    - `IReplyMarkupMessage`
+    - `IReplyMessage`
+    - `IThumbMediaMessage`
+    - `ICaptionInlineQueryResult`
+    - `IInputMessageContentResult`
+    - `ILocationInlineQueryResult`
+    - `IThumbnailInlineQueryResult`
+    - `IThumbnailUrlInlineQueryResult`
+    - `ITitleInlineQueryResult`
+- Constructor `InputFileStream` that accepted only `Stream` parameter
+- Constructor `InputOnlineFile` that accepted only `Stream` parameter
+- Constructor `InputTelegramFile` that accepted only `Stream` parameter
+- Obsolete `SendMediaGroupAsync` that accepted an array of `InputMediaBase`
+- All methods, properties and events related to polling, including:
+    - Property `ITelegramBotClient.IsReceiving`
+    - Property `ITelegramBotClient.MessageOffset `
+    - Event `OnUpdate`
+    - Event `OnMessage`
+    - Event `OnMessageEdited`
+    - Event `OnInlineQuery`
+    - Event `OnInlineResultChose`
+    - Event `OnCallbackQuery`
+    - Event `OnReceiveError`
+    - Event `OnReceiveGeneralError`
+    - Method `StartReceiving`
+    - Method `StopReceiving` 
+
 ## [15.7.1] - 2020-06-18
 
 ### Added
