@@ -36,9 +36,9 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
 
             receiver.StartReceiving();
 
-            Task stopTask = Task.Run(() =>
+            Task stopTask = Task.Run(async () =>
             {
-                Task.Delay(150).Wait();
+                await Task.Delay(300);
                 receiver.StopReceiving();
             });
 
