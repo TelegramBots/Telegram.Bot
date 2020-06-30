@@ -53,6 +53,8 @@ namespace Telegram.Bot.Extensions.Polling.Tests.YieldingUpdateReceivers
             Assert.Equal(0, receiver.PendingUpdates);
             Assert.False(receiver.IsReceiving);
 
+            await stopTask;
+
             Assert.True(stopTask.IsCompleted);
         }
 
