@@ -1,4 +1,4 @@
-﻿#if NETSTANDARD2_1
+#if NETSTANDARD2_1
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -29,7 +29,6 @@ namespace Telegram.Bot.Extensions.Polling
         private List<Update?> _producerQueue = new List<Update?>(16);
         private int _messageOffset;
         private int _pendingUpdates;
-        private bool _updatesThrownOut;
 
         /// <summary>
         /// Indicates whether <see cref="Update"/>s are being received.
@@ -93,7 +92,7 @@ namespace Telegram.Bot.Extensions.Polling
                     var allowedUpdates = _receiveOptions?.AllowedUpdates;
                     var limit = _receiveOptions?.Limit ?? default;
 
-                    if (_receiveOptions?.ThrowPendingUpdates == true && !_updatesThrownOut)
+                    if (_receiveOptions?.ThrowPendingUpdates == true)
                     {
                         try
                         {
@@ -102,8 +101,6 @@ namespace Telegram.Bot.Extensions.Polling
 
                             if (newMessageOffset != null)
                                 _messageOffset = newMessageOffset.Value;
-
-                            _updatesThrownOut = true;
                         }
                         catch (OperationCanceledException)
                         {
