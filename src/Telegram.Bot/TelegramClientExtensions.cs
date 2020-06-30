@@ -3184,7 +3184,7 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             string name,
             int userId,
-            InputOnlineFile thumb = default,
+            InputOnlineFile? thumb = default,
             CancellationToken cancellationToken = default
         ) =>
             await (botClient ?? throw new ArgumentNullException(nameof(botClient))).MakeRequestAsync(
