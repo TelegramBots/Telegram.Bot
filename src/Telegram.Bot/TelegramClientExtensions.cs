@@ -15,7 +15,7 @@ namespace Telegram.Bot
     /// <summary>
     /// Extension methods that map to requests from Bot API documentation
     /// </summary>
-    public static class TelegramClientExtensions
+    public static class TelegramBotClientExtensions
     {
         #region Getting updates
 
