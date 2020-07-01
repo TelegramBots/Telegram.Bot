@@ -26,16 +26,20 @@ namespace Telegram.Bot.Requests
         public int UserId { get; }
 
         /// <summary>
-        /// Date when the user will be unbanned, unix time. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever.
+        /// Date when the user will be unbanned, unix time. If user is banned for more than
+        /// 366 days or less than 30 seconds from the current time they are considered to be
+        /// banned forever.
         /// </summary>
         [JsonConverter(typeof(UnixDateTimeConverter))]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public DateTime UntilDate { get; set; }
+        public DateTime? UntilDate { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target group or username of the target supergroup or channel
+        /// </param>
         /// <param name="userId">Unique identifier of the target user</param>
         public KickChatMemberRequest(ChatId chatId, int userId)
             : base("kickChatMember")

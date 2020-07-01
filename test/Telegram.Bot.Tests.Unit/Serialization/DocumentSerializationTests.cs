@@ -30,6 +30,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                 Document = new Document
                 {
                     FileId = "KLAHCVUydfS_jHIBildtwpmvxZg",
+                    FileUniqueId = "AgADcOsAAhUdZAc",
                     FileName = "test_file.txt",
                     FileSize = 123_456,
                     MimeType = "plain/text"
@@ -89,6 +90,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     ""file_name"": ""test_file.txt"",
                     ""mime_type"": ""plain/text"",
                     ""file_id"": ""KLAHCVUydfS_jHIBildtwpmvxZg"",
+                    ""file_unique_id"": ""AgADcOsAAhUdZAc"",
                     ""file_size"": 123456,
                     ""file_path"": null
                 },
@@ -122,7 +124,9 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             var message = JsonConvert.DeserializeObject<Message>(json);
 
             Assert.Equal(MessageType.Document, message.Type);
+            Assert.NotNull(message.Document);
             Assert.Equal("test_file.txt", message.Document.FileName);
+            Assert.NotNull(message.Chat);
             Assert.Null(message.Chat.CanSetStickerSet);
         }
     }

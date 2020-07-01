@@ -51,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 }
             };
 
-            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
+            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery!.Id, inlineQueryResults, 0);
 
             #endregion
 
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             // Change the photo for an audio. Note that, in the case of an inline message, the new media should be
             // either an URL or the file_id of a previously uploaded media.
             await BotClient.EditMessageMediaAsync(
-                inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId,
                 media: new InputMediaAudio(
                     "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/" +
                     "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3"
@@ -77,22 +77,20 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
-        public async Task ShouldEditInlineMessageDocumentWithFileId()
+        public async Task Should_Edit_Inline_Message_Document_With_File_Id()
         {
             // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
-            string animationFileId;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
-            {
-                Message gifMessage = await BotClient.SendDocumentAsync(
-                    chatId: _fixture.SupergroupChat,
-                    document: new InputOnlineFile(stream, "Earth.gif"),
-                    caption: "`file_id` of this GIF will be used",
-                    parseMode: ParseMode.Markdown,
-                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
-                        .WithSwitchInlineQueryCurrentChat("Start Inline Query")
-                );
-                animationFileId = gifMessage.Document.FileId;
-            }
+            await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth);
+
+            Message gifMessage = await BotClient.SendDocumentAsync(
+                chatId: _fixture.SupergroupChat,
+                document: new InputOnlineFile(stream, "Earth.gif"),
+                caption: "`file_id` of this GIF will be used",
+                parseMode: ParseMode.Markdown,
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start Inline Query")
+            );
+            string animationFileId = gifMessage.Document!.FileId;
 
             #region Answer Inline Query with a media message
 
@@ -111,7 +109,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 }
             };
 
-            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery.Id, inlineQueryResults, 0);
+            await BotClient.AnswerInlineQueryAsync(iqUpdate.InlineQuery!.Id, inlineQueryResults, 0);
 
             #endregion
 
@@ -122,7 +120,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             // should be either an URL or the file_id of a previously uploaded media.
             // Also, animation thumbnail cannot be uploaded for an inline message.
             await BotClient.EditMessageMediaAsync(
-                inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,
                 media: new InputMediaAnimation(animationFileId)
             );
         }

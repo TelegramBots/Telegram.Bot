@@ -75,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             Update update = (await _fixture.UpdateReceiver
                     .GetUpdatesAsync(u =>
-                            u.Message.Chat.Type == ChatType.Supergroup &&
+                            u.Message?.Chat?.Type == ChatType.Supergroup &&
                             u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
                             u.Message.Type == MessageType.ChatMembersAdded,
                         updateTypes: UpdateType.Message)
@@ -85,8 +85,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             Message serviceMsg = update.Message;
 
-            Assert.Equal(_classFixture.RegularMemberUserId.ToString(),
-                serviceMsg.NewChatMembers.Single().Id.ToString());
+            Assert.Equal(
+                _classFixture.RegularMemberUserId.ToString(),
+                serviceMsg!.NewChatMembers!.Single().Id.ToString()
+            );
         }
 
         #endregion
@@ -103,6 +105,36 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
                 canChangeInfo: true
+            );
+        }
+
+        [OrderedFact("Should set a custom title for the previously promoted admin")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatAdministratorCustomTitle)]
+        public async Task Should_Set_Custom_Title_For_Admin()
+        {
+            ChatMember promotedRegularUser = await BotClient.GetChatMemberAsync(
+                _fixture.SupergroupChat,
+                _classFixture.RegularMemberUserId
+            );
+
+            await BotClient.SetChatAdministratorCustomTitleAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: promotedRegularUser.User.Id,
+                customTitle: "CHANGED TITLE"
+            );
+
+            ChatMember newChatMember = await BotClient.GetChatMemberAsync(
+                _fixture.SupergroupChat,
+                promotedRegularUser.User.Id
+            );
+
+            Assert.Equal("CHANGED TITLE", newChatMember.CustomTitle);
+
+            // Restore default title by sending empty string
+            await BotClient.SetChatAdministratorCustomTitleAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: promotedRegularUser.User.Id,
+                customTitle: string.Empty
             );
         }
 
@@ -129,9 +161,12 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
                 untilDate: DateTime.UtcNow.AddSeconds(banSeconds),
-                canSendMessages: true,
-                canSendMediaMessages: true,
-                canSendOtherMessages: false
+                permissions: new ChatPermissions
+                {
+                    CanSendMessages = true,
+                    CanSendMediaMessages = true,
+                    CanSendOtherMessages = false
+                }
             );
         }
 

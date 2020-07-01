@@ -69,7 +69,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetWebhookInfo)]
         public async Task Should_Set_Webhook_With_SelfSigned_Cert()
         {
-            using (Stream stream = File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
+            await using (Stream stream = File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
             {
                 await BotClient.SetWebhookAsync(
                     url: "https://www.telegram.org/",
@@ -102,7 +102,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
 
             Assert.Empty(info.Url);
             Assert.False(info.HasCustomCertificate);
-            Assert.Equal(0, info.MaxConnections);
+            Assert.Null(info.MaxConnections);
             Assert.Null(info.AllowedUpdates);
         }
     }

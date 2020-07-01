@@ -27,7 +27,9 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request chatId and action
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel
+        /// </param>
         /// <param name="action">Type of action to broadcast</param>
         public SendChatActionRequest(ChatId chatId, ChatAction action)
             : base("sendChatAction")

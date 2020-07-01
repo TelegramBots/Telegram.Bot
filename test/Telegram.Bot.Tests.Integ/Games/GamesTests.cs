@@ -39,7 +39,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             const string resultId = "game";
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: queryUpdate.InlineQuery.Id,
+                inlineQueryId: queryUpdate.InlineQuery!.Id,
                 results: new InlineQueryResultBase[]
                 {
                     new InlineQueryResultGame(
@@ -53,8 +53,8 @@ namespace Telegram.Bot.Tests.Integ.Games
             (Update messageUpdate, Update chosenResultUpdate) =
                 await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
 
-            Assert.Equal(MessageType.Game, messageUpdate.Message.Type);
-            Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
+            Assert.Equal(MessageType.Game, messageUpdate.Message!.Type);
+            Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult!.ResultId);
             Assert.Empty(chosenResultUpdate.ChosenInlineResult.Query);
 
             _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
@@ -85,7 +85,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             int newScore = oldScore + 1 + new Random().Next(3);
 
             await _fixture.SendTestInstructionsAsync(
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}."
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username!.Replace("_", @"\_")}."
             );
 
             await BotClient.SetGameScoreAsync(
@@ -105,7 +105,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
 
-            Assert.True(cqUpdate.CallbackQuery.IsGameQuery);
+            Assert.True(cqUpdate.CallbackQuery!.IsGameQuery);
 
             await BotClient.AnswerCallbackQueryAsync(
                 callbackQueryId: cqUpdate.CallbackQuery.Id,

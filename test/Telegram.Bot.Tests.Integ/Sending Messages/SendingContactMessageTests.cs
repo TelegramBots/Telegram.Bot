@@ -35,7 +35,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Contact, message.Type);
-            Assert.Equal(phoneNumber, message.Contact.PhoneNumber);
+            Assert.Equal(phoneNumber, message.Contact!.PhoneNumber);
             Assert.Equal(firstName, message.Contact.FirstName);
             Assert.Equal(lastName, message.Contact.LastName);
         }
@@ -63,14 +63,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 "END:VCARD";
 
             Message message = await BotClient.SendContactAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* phoneNumber: */ "+11115551212",
-                /* firstName: */ "Forrest",
+                chatId: _fixture.SupergroupChat,
+                phoneNumber: "+11115551212",
+                firstName: "Forrest",
                 vCard: vcard
             );
 
             Assert.Equal(MessageType.Contact, message.Type);
-            Assert.Equal(vcard, message.Contact.Vcard);
+            Assert.Equal(vcard, message.Contact!.Vcard);
         }
     }
 }

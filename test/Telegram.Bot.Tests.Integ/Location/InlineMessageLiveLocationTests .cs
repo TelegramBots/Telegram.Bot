@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Location newYork = new Location {Latitude = 40.7128f, Longitude = -74.0060f};
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: iqUpdate.InlineQuery.Id,
+                inlineQueryId: iqUpdate.InlineQuery!.Id,
                 cacheTime: 0,
                 results: new[]
                 {
@@ -74,7 +74,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Location beijing = new Location {Latitude = 39.9042f, Longitude = 116.4074f};
 
             await BotClient.EditMessageLiveLocationAsync(
-                inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,
                 latitude: beijing.Latitude,
                 longitude: beijing.Longitude,
                 replyMarkup: InlineKeyboardMarkup.Empty()

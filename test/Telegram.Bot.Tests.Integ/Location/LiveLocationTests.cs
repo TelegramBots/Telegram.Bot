@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             );
 
             Assert.Equal(MessageType.Location, message.Type);
-            Assert.Equal(latBerlin, message.Location.Latitude, 3);
+            Assert.Equal(latBerlin, message.Location!.Latitude, 3);
             Assert.Equal(lonBerlin, message.Location.Longitude, 3);
 
             LocationMessage = message;
@@ -68,7 +68,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 await Task.Delay(1_500);
 
                 editedMessage = await BotClient.EditMessageLiveLocationAsync(
-                    chatId: LocationMessage.Chat.Id,
+                    chatId: LocationMessage.Chat!.Id,
                     messageId: LocationMessage.MessageId,
                     latitude: newLocation.Latitude,
                     longitude: newLocation.Longitude
@@ -76,7 +76,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
                 Assert.Equal(MessageType.Location, editedMessage.Type);
                 Assert.Equal(LocationMessage.MessageId, editedMessage.MessageId);
-                Assert.Equal(newLocation.Latitude, editedMessage.Location.Latitude, 3);
+                Assert.Equal(newLocation.Latitude, editedMessage.Location!.Latitude, 3);
                 Assert.Equal(newLocation.Longitude, editedMessage.Location.Longitude, 3);
             }
 
@@ -88,7 +88,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
         public async Task Should_Stop_Live_Location()
         {
             Message message = await BotClient.StopMessageLiveLocationAsync(
-                chatId: LocationMessage.Chat,
+                chatId: LocationMessage.Chat!,
                 messageId: LocationMessage.MessageId
             );
 

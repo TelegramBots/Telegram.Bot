@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Venue, message.Type);
-            Assert.Equal(title, message.Venue.Title);
+            Assert.Equal(title, message.Venue!.Title);
             Assert.Equal(address, message.Venue.Address);
             Assert.Equal(foursquareId, message.Venue.FoursquareId);
             Assert.InRange(message.Venue.Location.Latitude, lat - 0.001f, lat + 0.001f);
@@ -67,7 +67,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Message message = await BotClient.MakeRequestAsync(request);
 
             Assert.Equal(MessageType.Venue, message.Type);
-            Assert.Equal("Burggarten", message.Venue.Title);
+            Assert.Equal("Burggarten", message.Venue!.Title);
             Assert.Equal("Opernring", message.Venue.Address);
             Assert.Equal("4b7ff7c3f964a5208d4730e3", message.Venue.FoursquareId);
             Assert.Equal("parks_outdoors/park", message.Venue.FoursquareType);

@@ -1,6 +1,6 @@
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -36,13 +36,15 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(supergroupChat.Title, chat.Title);
             Assert.Equal(supergroupChat.Username, chat.Username);
             Assert.Equal(supergroupChat.Description, chat.Description);
-            Assert.Equal(supergroupChat.InviteLink, chat.InviteLink);
+            // Don't compare invite links, it's easy to invalidate them accidentally so the test
+            // fails for no good reason
+            // Assert.Equal(supergroupChat.InviteLink, chat.InviteLink);
             Assert.Equal(supergroupChat.PinnedMessage, chat.PinnedMessage);
             Assert.Equal(supergroupChat.StickerSetName, chat.StickerSetName);
             Assert.Equal(supergroupChat.CanSetStickerSet, chat.CanSetStickerSet);
             Assert.Null(chat.FirstName);
             Assert.Null(chat.LastName);
-            Assert.False(chat.AllMembersAreAdministrators);
+            Assert.NotNull(chat.Permissions);
         }
 
         [OrderedFact("Should get chat member: bot(admin)")]
@@ -69,10 +71,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(memberBot.CanSendMediaMessages);
             Assert.Null(memberBot.CanSendOtherMessages);
             Assert.Null(memberBot.CanAddWebPagePreviews);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser),
-                JToken.FromObject(memberBot.User)
-            ));
+            Asserts.UsersEqual(_fixture.BotUser, memberBot.User);
         }
 
         [OrderedFact("Should get supergroup chat administrators")]
@@ -84,7 +83,10 @@ namespace Telegram.Bot.Tests.Integ.Other
             );
 
             ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
+            Debug.Assert(memberCreator != null);
+
             ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
+            Debug.Assert(memberBot != null);
 
             Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator
             Assert.Null(memberCreator.UntilDate);
@@ -101,10 +103,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Null(memberCreator.CanSendMediaMessages);
             Assert.Null(memberCreator.CanSendOtherMessages);
             Assert.Null(memberCreator.CanAddWebPagePreviews);
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_fixture.BotUser),
-                JToken.FromObject(memberBot.User)
-            ));
+            Asserts.UsersEqual(_fixture.BotUser, memberBot.User);
         }
 
         [OrderedFact("Should get private chat info")]
@@ -112,16 +111,13 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Private_Chat()
         {
-            long privateChatId;
-            {
-                /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
+            /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
                  * for a regular user, "User ID" is the same number as "Private Chat ID".
                  */
-                ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(_fixture.SupergroupChat);
-                privateChatId = chatAdmins
-                    .Single(member => member.Status == ChatMemberStatus.Creator)
-                    .User.Id;
-            }
+            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(_fixture.SupergroupChat);
+            long privateChatId = chatAdmins
+                .Single(member => member.Status == ChatMemberStatus.Creator)
+                .User.Id;
 
             Chat chat = await BotClient.GetChatAsync(
                 chatId: privateChatId
@@ -131,12 +127,12 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(privateChatId, chat.Id);
 
             // Mandatory fields:
-            Assert.NotEmpty(chat.Username);
-            Assert.NotEmpty(chat.FirstName);
+            Assert.NotEmpty(chat.Username!);
+            Assert.NotEmpty(chat.FirstName!);
 
             // Following fields of a chat do not apply to a private chat:
             Assert.Null(chat.Title);
-            Assert.False(chat.AllMembersAreAdministrators);
+            Assert.Null(chat.Permissions);
             Assert.Null(chat.Description);
             Assert.Null(chat.InviteLink);
             Assert.Null(chat.PinnedMessage);

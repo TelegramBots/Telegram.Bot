@@ -4,7 +4,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
-using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
 using Xunit;
 
@@ -12,15 +11,15 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
     [Collection(Constants.TestCollections.ChannelAdminBots)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class ChannelAdminBotTests : IClassFixture<ChannelAdminBotTests.Fixture>
+    public class ChannelAdminBotTests : IClassFixture<ChannelAdminBotTestFixture>
     {
-        private readonly AdminBotTestFixture _classFixture;
+        private readonly ChannelAdminBotTestFixture _classFixture;
 
         private readonly TestsFixture _fixture;
 
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
-        public ChannelAdminBotTests(TestsFixture testsFixture, Fixture classFixture)
+        public ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTestFixture classFixture)
         {
             _fixture = testsFixture;
             _classFixture = classFixture;
@@ -34,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await BotClient.SetChatTitleAsync(
                 chatId: _classFixture.Chat.Id,
-                title: _classFixture.ChatTitle
+                title: "Test Chat Title"
             );
         }
 
@@ -115,13 +114,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
         public async Task Should_Set_Chat_Photo()
         {
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
-            {
-                await BotClient.SetChatPhotoAsync(
-                    chatId: _classFixture.Chat.Id,
-                    photo: stream
-                );
-            }
+            await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+            await BotClient.SetChatPhotoAsync(
+                chatId: _classFixture.Chat.Id,
+                photo: stream
+            );
         }
 
         [OrderedFact("Should get chat photo")]
@@ -130,8 +127,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
 
+            Assert.NotNull(chat.Photo);
             Assert.NotEmpty(chat.Photo.BigFileId);
+            Assert.NotEmpty(chat.Photo.BigFileUniqueId);
             Assert.NotEmpty(chat.Photo.SmallFileId);
+            Assert.NotEmpty(chat.Photo.SmallFileUniqueId);
         }
 
         [OrderedFact("Should delete chat photo")]
@@ -150,36 +150,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             Assert.IsType<ApiRequestException>(e);
             Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
-        }
-
-        /// <summary>
-        /// If chat had a photo before, reset the photo back.
-        /// </summary>
-        [OrderedFact("Should reset the same old chat photo if existed")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
-        public async Task Should_Reset_Old_Chat_Photo_If_Existed()
-        {
-            // "Chat.Photo" might be null if there is no photo currently set
-            string previousChatPhotoId = _classFixture.Chat.Photo?.BigFileId;
-            if (previousChatPhotoId == default)
-            {
-                // chat didn't have a photo
-                return;
-            }
-
-            using (Stream photoStream = new MemoryStream())
-            {
-                // pass photo's file_id, prepare file for download, and download the file into memroy
-                await BotClient.GetInfoAndDownloadFileAsync(previousChatPhotoId, photoStream);
-
-                // need to set position of memory stream back to its start so next method reads photo stream from the beginning
-                photoStream.Position = 0;
-
-                await BotClient.SetChatPhotoAsync(
-                    chatId: _classFixture.Chat.Id,
-                    photo: photoStream
-                );
-            }
         }
 
         #endregion
@@ -202,13 +172,5 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         }
 
         #endregion
-
-        public class Fixture : AdminBotTestFixture
-        {
-            public Fixture(TestsFixture fixture)
-            {
-                Chat = new ChannelChatFixture(fixture, Constants.TestCollections.ChannelAdminBots).ChannelChat;
-            }
-        }
     }
 }

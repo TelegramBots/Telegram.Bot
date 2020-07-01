@@ -56,6 +56,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string FileDownload = "File Download";
 
+            public const string BotCommands = "Bot Commands";
+
+            public const string Dice = "Dice";
+
             public const string CallbackQuery = "Callback Query";
 
             public const string AlbumMessage = "Sending Album Messages";
@@ -193,6 +197,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SetChatDescription = "setChatDescription";
 
+            public const string SetChatPermissions = "setChatPermissions";
+
+            public const string SetChatAdministratorCustomTitle = "setChatAdministratorCustomTitle";
+
             public const string ExportChatInviteLink = "exportChatInviteLink";
 
             public const string PinChatMessage = "pinChatMessage";
@@ -294,6 +302,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string SendPoll = "sendPoll";
 
             public const string StopPoll = "stopPoll";
+
+            public const string SetMyCommands = "setMyCommands";
+
+            public const string GetMyCommands = "getMyCommands";
+
+            public const string SendDice = "sendDice";
         }
     }
 }

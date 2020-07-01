@@ -43,9 +43,13 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 
             Message contactMessage = await GetMessageFromChat(MessageType.Contact);
 
-            Assert.NotEmpty(contactMessage.Contact.FirstName);
+            Assert.NotEmpty(contactMessage.Contact!.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
-            Assert.Equal(_classFixture.PrivateChat.Id, contactMessage.Contact.UserId);
+
+            if (contactMessage.Contact.UserId != null)
+            {
+                Assert.Equal(_classFixture.PrivateChat.Id, contactMessage.Contact.UserId.Value);
+            }
 
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.PrivateChat,
@@ -77,8 +81,8 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 
         private Task<Message> GetMessageFromChat(MessageType messageType) =>
             _fixture.UpdateReceiver.GetUpdatesAsync(
-                    predicate: u => u.Message.Type == messageType &&
-                                    u.Message.Chat.Id == _classFixture.PrivateChat.Id,
+                    predicate: u => u.Message!.Type == messageType &&
+                                    u.Message.Chat!.Id == _classFixture.PrivateChat.Id,
                     updateTypes: UpdateType.Message
                 )
                 .ContinueWith(t => t.Result.Single().Message);

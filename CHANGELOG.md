@@ -2,8 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!--
 
@@ -18,6 +18,251 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Removed
 
 -->
+
+## [Unreleased]
+
+### Added
+
+- Constructor to `ApiRequestEventArgs`
+- Constructor to `ApiRequestEventArgs `
+- Constructor to `KeyboardButtonPollType` that accepts an optional string
+- Property `bool IRequest.IsWebhookResponse`
+
+### Changed
+- All optional Bot API properties are made nullable 
+- Optional properties with reference types are made nullable (C# 8.0 is needed to make use of this 
+feature)
+- Type `Animation` extends `FileBase`
+- `MessageEntityType.Unknown` moved to the top and made default enum value
+- `fileName` parameter in constructor `InputFileStream` is made optional
+- `fileName` parameter in constructor `InputOnlineFile` is made optional
+- `fileName` parameter in constructor `InputTelegramFile` is made optional
+- Default constructor in `LabeledPrice` is made private
+- Default constructor in `KeyboardButton` is made private
+- Default constructor in `KeyboardButtonPollType` is made private
+- Default constructor in `ReplyKeyboardMarkup` is made private
+- All methods from `ITelegramBotClient` that map to Bot API requests moved into
+`TelegramClientExtensions` as extension methods
+- Parameter order in `SendDiceAsync`
+- Parameter order in `SendPollAsync`
+- Parameter order in `SendAudioAsync`
+- Parameter order in `SendDocumentAsync`
+- Parameter order in `SendVideoNoteAsync`
+- Parameter order in `SendVenueAsync`
+- Parameter order in `SendContactAsync`
+
+### Removed
+- Enum member `ParseMode.Default`
+- Following interfaces:
+    - `IChatMessage`
+    - `IFormattableMessage`
+    - `IChatMessage`
+    - `IInlineMessage`
+    - `IInlineReplyMarkupMessage`
+    - `INotifiableMessage`
+    - `IReplyMarkupMessage`
+    - `IReplyMessage`
+    - `IThumbMediaMessage`
+    - `ICaptionInlineQueryResult`
+    - `IInputMessageContentResult`
+    - `ILocationInlineQueryResult`
+    - `IThumbnailInlineQueryResult`
+    - `IThumbnailUrlInlineQueryResult`
+    - `ITitleInlineQueryResult`
+- Constructor `InputFileStream` that accepted only `Stream` parameter
+- Constructor `InputOnlineFile` that accepted only `Stream` parameter
+- Constructor `InputTelegramFile` that accepted only `Stream` parameter
+- Obsolete `SendMediaGroupAsync` that accepted an array of `InputMediaBase`
+- All methods, properties and events related to polling, including:
+    - Property `ITelegramBotClient.IsReceiving`
+    - Property `ITelegramBotClient.MessageOffset `
+    - Event `OnUpdate`
+    - Event `OnMessage`
+    - Event `OnMessageEdited`
+    - Event `OnInlineQuery`
+    - Event `OnInlineResultChose`
+    - Event `OnCallbackQuery`
+    - Event `OnReceiveError`
+    - Event `OnReceiveGeneralError`
+    - Method `StartReceiving`
+    - Method `StopReceiving` 
+
+## [15.7.1] - 2020-06-18
+
+### Added
+- Source Link support
+- Fully deterministic build
+
+## [15.7.0] - 2020-06-13
+
+### Added
+- Enum member `Emoji.Basketball`
+- Property `InlineQueryResultGif.ThumbMimeType`
+- Property `InlineQueryResultMpeg4Gif.ThumbMimeType`
+- Property `Message.ViaBot`
+
+## [15.6.0] - 2020-05-30
+
+### Added
+- Enum `Emoji`
+- Property `Poll.Explanation`
+- Property `Poll.ExplanationEntities`
+- Property `Poll.OpenPeriod`
+- Property `Poll.CloseDate`
+- Property `Dice.Emoji`
+- Following optional properties to `SendPollRequest`:
+    - `Explanation`
+    - `ExplanationParseMode`
+    - `OpenPeriod`
+    - `CloseDate`
+- Optional property `Emoji` to `SendDiceRequest`
+
+### Changed
+- Following optional parameters to `ITelegramBotClient.SendPollAsync`:
+     - `explanation`
+     - `explanationParseMode`
+     - `openPeriod`
+     - `closeDate`
+- Optional parameter `emoji` to `ITelegramBotClient.SendDiceAsync`
+
+## [15.5.1] - 2020-04-02
+
+### Fixed
+- Implementation of `ITelegramBotClient.CreateNewAnimatedStickerSetAsync`
+
+## [15.5.0] - 2020-04-02
+
+### Added
+- Requests
+    - `GetMyCommandsRequest`
+    - `SetMyCommandsRequest`
+    - `CreateNewAnimatedStickerSetRequest`
+    - `AddNewAnimatedStickerToSetRequest`
+    - `SendDiceRequest`
+    - `SetStickerSetThumbRequest`
+- Methods:
+    - `ITelegramBotClient.SendDiceAsync`
+    - `ITelegramBotClient.CreateNewAnimatedStickerSetAsync`
+    - `ITelegramBotClient.AddNewAnimatedStickerToSetAsync`
+    - `ITelegramBotClient.SetStickerSetThumbAsync`
+    - `ITelegramBotClient.GetMyCommandsAsync`
+    - `ITelegramBotClient.SetMyCommandsAsync`
+- Type `Dice`
+- Type `BotCommand`
+- Enum member `MessageType.Dice`
+- Property `Message.Dice`
+- Property `StickerSet.Thumb`
+
+## [15.4.0] - 2020-02-22
+
+### Added
+- Property `SendInvoiceRequest.SendPhoneNumberToProvider`
+- Property `SendInvoiceRequest.SendEmailToProvider `
+- Optional parameter `sendPhoneNumberToProvider` to method `ITelegramBotClient.SendInvoiceAsync`
+- Optional parameter `sendEmailToProvider` to method `ITelegramBotClient.SendInvoiceAsync`
+
+## [15.3.0] - 2020-01-31
+
+### Added
+
+- Type `KeyboardButtonPollType`
+- Static method `KeyboardButton.WithRequestPoll`
+- Type `PollAnswer`
+- Property `KeyboardButton.RequestPoll`
+- Enum `PollType`
+- Property `MessageEntity.Language`
+- Following properties to type `Poll`:
+    - `bool? IsAnonymous`
+    - `string Type`
+    - `bool? AllowsMultipleAnswers`
+    - `int? CorrectOptionId`
+- Following properties to type `SendPollRequest`:
+    - `bool? IsAnonymous`
+    - `string Type`
+    - `bool? AllowsMultipleAnswers`
+    - `int? CorrectOptionId`
+    - `bool? IsClosed`
+- Property `Update.PollAnswer`
+- Enum member `UpdateType.PollAnswer`
+- Following properties to type `User`:
+    - `bool? CanJoinGroups`
+    - `bool? CanReadAllGroupMessages`
+    - `bool? SupportsInlineQueries`
+
+### Changed
+
+- Method `ITelegramBotClient.SendPollAsync`, added following optional parameters:
+    - `bool? isAnonymous`
+    - `string type`
+    - `bool? allowsMultipleAnswers`
+    - `int? correctOptionId`
+    - `bool? isClosed`
+- Method `User.Equals` takes into account new properties
+
+## [15.2.1] - 2020-01-23
+
+### Changed
+
+- All base request classes use explicit opt-in serialization strategy
+- All non Bot API properties in base request classes are annotated by `JsonIgnoreAttribute`
+- Type `ContactRequestException` is made obsolete due to Telegram changed it's error message
+
+### Fixed
+- A bug that prevented requests to be serialized when default `JsonSerializerSettings` were set
+
+## [15.2.0] - 2020-01-03
+
+### Added
+
+- Type `SetChatAdministratorCustomTitleRequest`
+- Method `ITelegramBotClient.SetChatAdministratorCustomTitleAsync`
+- Property `FileBase.FileUniqueId`
+- Property `Animation.FileUniqueId`
+- Property `ChatPhoto.BigFileUniqueId`
+- Property `ChatPhoto.SmallFileUniqueId`
+- Property `Chat.SlowModeDelay`
+- Property `ChatMember.CustomTitle`
+- Enum value `ParseMode.MarkdownV2`
+- Enum value `MessageEntityType.Underline`
+- Enum value `MessageEntityType.Strikethrough`
+
+## [15.1.0] - 2019-11-29
+
+### Added
+
+- Property `RequestBase.IsWebhookResponse`
+- The client outputs `method` property in the resulting HTTP body with the value from `IRequest<T>.MethodName` when `RequestBase.IsWebhookResponse` is set to true
+- Constructor with `Uri` param for `InputOnlineFile` (overloaded)
+
+## [15.0.0] - 2019-08-07
+
+### Added
+
+- Type `ChatPermissions`
+- Type `SetChatPermissionsRequest`
+- Property `Sticker.IsAnimated`
+- Property `StickerSet.IsAnimated`
+- Property `Chat.Permissions`
+- Property `ChatMember.CanSendPolls`
+
+### Changed
+
+- Individual permission properties in `RestrictChatMemberRequest` changed to `Permissions` property of type `ChatPermissions`
+- Individual permission parameters in `ITelegramBotClient.RestrictChatMemberAsync` changed to a single parameter of type `ChatPermissions`
+- Marked `Chat.AllMembersAreAdministrators` as obsolete
+
+### Fixed
+
+- XML doc comments about caption maximum length
+
+## [14.12.0] - 2019-06-10
+
+### Added
+
+- Type `LoginUrl`
+- Property `Message.ReplyMarkup`
+- Property `InlineKeyboardButton.LoginUrl`
+- Method `InlineKeyboardButton.WithLoginUrl`
 
 ## [14.11.0] - 2019-04-23
 

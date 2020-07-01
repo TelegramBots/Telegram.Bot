@@ -4,10 +4,12 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents the content of a location message to be sent as the result of an <see cref="InlineQuery"/>.
+    /// Represents the content of a location message to be sent as the result of an
+    /// <see cref="InlineQuery"/>.
     /// </summary>
     /// <remarks>
-    /// This will only work in Telegram versions released after 9 April, 2016. Older clients will ignore them.
+    /// This will only work in Telegram versions released after 9 April, 2016. Older clients will
+    /// ignore them.
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputLocationMessageContent : InputMessageContentBase
@@ -28,7 +30,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// How long the live location will be updated
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int LivePeriod { get; set; }
+        public int? LivePeriod { get; set; }
 
         private InputLocationMessageContent()
         { }

@@ -14,17 +14,30 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         }
 
         /// <inheritdoc />
-        public IEnumerable<IXunitTestCase> Discover
-            (ITestFrameworkDiscoveryOptions discoveryOptions, ITestMethod testMethod, IAttributeInfo factAttribute)
+        public IEnumerable<IXunitTestCase> Discover(
+            ITestFrameworkDiscoveryOptions discoveryOptions,
+            ITestMethod testMethod,
+            IAttributeInfo factAttribute)
         {
-            int maxRetries = factAttribute.GetNamedArgument<int>(nameof(OrderedFactAttribute.MaxRetries));
-            int delaySeconds = factAttribute.GetNamedArgument<int>(nameof(OrderedFactAttribute.DelaySeconds));
-            string exceptionTypeFullName =
-                factAttribute.GetNamedArgument<string>(nameof(OrderedFactAttribute.ExceptionTypeFullName));
+            int maxRetries = factAttribute
+                .GetNamedArgument<int>(nameof(OrderedFactAttribute.MaxRetries));
 
-            yield return new RetryTestCase
-            (_diagnosticMessageSink, discoveryOptions.MethodDisplayOrDefault(), testMethod, maxRetries,
-                delaySeconds, exceptionTypeFullName);
+            int delaySeconds = factAttribute
+                .GetNamedArgument<int>(nameof(OrderedFactAttribute.DelaySeconds));
+
+            string exceptionTypeFullName = factAttribute
+                .GetNamedArgument<string>(nameof(OrderedFactAttribute.ExceptionTypeFullName));
+
+            var retryTestCase = new RetryTestCase(
+                _diagnosticMessageSink,
+                discoveryOptions.MethodDisplayOrDefault(),
+                testMethod,
+                maxRetries,
+                delaySeconds,
+                exceptionTypeFullName
+            );
+
+            yield return retryTestCase;
         }
     }
 }

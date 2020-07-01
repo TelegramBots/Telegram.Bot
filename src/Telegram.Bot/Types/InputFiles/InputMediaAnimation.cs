@@ -14,23 +14,23 @@ namespace Telegram.Bot.Types
         /// Optional. Animation width
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         /// <summary>
         /// Optional. Animation height
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Height { get; set; }
+        public int? Height { get; set; }
 
         /// <summary>
         /// Optional. Animation duration
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int Duration { get; set; }
+        public int? Duration { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputMedia Thumb { get; set; }
+        public InputMedia? Thumb { get; set; }
 
         /// <summary>
         /// Initializes a new animation media to send with an <see cref="InputMedia"/>

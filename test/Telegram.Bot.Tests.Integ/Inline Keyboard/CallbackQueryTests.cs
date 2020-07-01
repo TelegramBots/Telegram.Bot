@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             CallbackQuery callbackQuery = responseUpdate.CallbackQuery;
 
             await BotClient.AnswerCallbackQueryAsync(
-                callbackQueryId: callbackQuery.Id,
+                callbackQueryId: callbackQuery!.Id,
                 text: "You clicked on OK"
             );
 
@@ -56,6 +56,7 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             Assert.Null(callbackQuery.GameShortName);
             Assert.False(callbackQuery.IsGameQuery);
             Assert.False(callbackQuery.From.IsBot);
+            Assert.NotNull(callbackQuery.From.Username);
             Assert.NotEmpty(callbackQuery.From.Username);
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(message), JToken.FromObject(callbackQuery.Message)
@@ -82,18 +83,20 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             CallbackQuery callbackQuery = responseUpdate.CallbackQuery;
 
             await BotClient.AnswerCallbackQueryAsync(
-                callbackQueryId: responseUpdate.CallbackQuery.Id,
+                callbackQueryId: responseUpdate.CallbackQuery!.Id,
                 text: "Got it!",
                 showAlert: true
             );
 
             Assert.Equal(UpdateType.CallbackQuery, responseUpdate.Type);
+            Assert.NotNull(callbackQuery);
             Assert.Equal(callbackQueryData, callbackQuery.Data);
             Assert.NotEmpty(callbackQuery.ChatInstance);
             Assert.Null(callbackQuery.InlineMessageId);
             Assert.Null(callbackQuery.GameShortName);
             Assert.False(callbackQuery.IsGameQuery);
             Assert.False(callbackQuery.From.IsBot);
+            Assert.NotNull(callbackQuery.From.Username);
             Assert.NotEmpty(callbackQuery.From.Username);
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(message), JToken.FromObject(callbackQuery.Message)

@@ -30,7 +30,8 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<InvalidGameShortNameException>("wrong game short name specified"),
 
             #endregion
-            
+
+            // Telegram removed indefinite article before "private"
             new BadRequestExceptionInfo<ContactRequestException>("phone number can be requested in a private chats only"),
 
             new ForbiddenExceptionInfo<ChatNotInitiatedException>("bot can't initiate conversation with a user"),
@@ -50,7 +51,11 @@ namespace Telegram.Bot.Exceptions
 
             if (typeInfo is null)
             {
-                exception = new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
+                exception = new ApiRequestException(
+                    apiResponse.Description,
+                    apiResponse.ErrorCode ?? 0,
+                    apiResponse.Parameters
+                );
             }
             else
             {

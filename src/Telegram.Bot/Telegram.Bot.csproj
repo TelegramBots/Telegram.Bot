@@ -1,26 +1,48 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <VersionPrefix>15.0.0</VersionPrefix>
-    <!--<VersionSuffix></VersionSuffix>-->
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Title>Telegram Bot API Client</Title>
     <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
-    <Authors>RoundRobin,Poulad,TelegramBots</Authors>
+    <PackageId>Telegram.Bot</PackageId>
+    <Authors>RoundRobin,Poulad,Aleksey Usatov,TelegramBots</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIconUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot/master/package-icon.gif</PackageIconUrl>
+    <PackageIcon>package-icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-  <!-- when building on AppVeyor -->
-  <PropertyGroup Condition="'$(AppVeyor)' == 'True'">
-    <VersionSuffix Condition="'$(VersionSuffix)' != ''">$(VersionSuffix)-$(APPVEYOR_BUILD_NUMBER)</VersionSuffix>
+
+  <ItemGroup>
+    <None Include="../../package-icon.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
+
+  <!-- Embed PBD files into test package built in CI because Azure Pipelines don't have symbols server yet -->
+  <PropertyGroup Condition="'$(CI_EMBED_SYMBOLS)' == 'true'">
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>
+      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+    </AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="Nullable" Version="1.2.1" PrivateAssets="All" />
   </ItemGroup>
+
 </Project>

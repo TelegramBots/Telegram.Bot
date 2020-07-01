@@ -6,7 +6,8 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Get data for high score tables. Will return the score of the specified user and several of his neighbors in a game. On success, returns an array of <see cref="GameHighScore"/>.
+    /// Get data for high score tables. Will return the score of the specified user and several of
+    /// his neighbors in a game. On success, returns an array of <see cref="GameHighScore"/>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetGameHighScoresRequest : RequestBase<GameHighScore[]>
