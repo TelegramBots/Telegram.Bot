@@ -24,8 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Constructor to `ApiRequestEventArgs`
-- Constructor to `ApiRequestEventArgs `
-- Constructor to `KeyboardButtonPollType` that accepts an optional string
+- Constructor to `ApiRequestEventArgs`
 - Property `bool IRequest.IsWebhookResponse`
 
 ### Changed

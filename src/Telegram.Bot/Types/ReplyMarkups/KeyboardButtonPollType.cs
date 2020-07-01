@@ -17,17 +17,5 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Type { get; set; }
-
-        private KeyboardButtonPollType()
-        { }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="KeyboardButtonPollType"/>
-        /// </summary>
-        /// <param name="type">Type of poll the user will be allowed to create</param>
-        public KeyboardButtonPollType(string? type)
-        {
-            Type = type;
-        }
     }
 }
