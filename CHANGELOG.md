@@ -2,8 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/)
-and this project adheres to [Semantic Versioning](http://semver.org/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!--
 
@@ -19,10 +19,48 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 -->
 
+## [15.7.1] - 2020-06-18
+
+### Added
+- Source Link support
+- Fully deterministic build
+
+## [15.7.0] - 2020-06-13
+
+### Added
+- Enum member `Emoji.Basketball`
+- Property `InlineQueryResultGif.ThumbMimeType`
+- Property `InlineQueryResultMpeg4Gif.ThumbMimeType`
+- Property `Message.ViaBot`
+
+## [15.6.0] - 2020-05-30
+
+### Added
+- Enum `Emoji`
+- Property `Poll.Explanation`
+- Property `Poll.ExplanationEntities`
+- Property `Poll.OpenPeriod`
+- Property `Poll.CloseDate`
+- Property `Dice.Emoji`
+- Following optional properties to `SendPollRequest`:
+    - `Explanation`
+    - `ExplanationParseMode`
+    - `OpenPeriod`
+    - `CloseDate`
+- Optional property `Emoji` to `SendDiceRequest`
+
+### Changed
+- Following optional parameters to `ITelegramBotClient.SendPollAsync`:
+     - `explanation`
+     - `explanationParseMode`
+     - `openPeriod`
+     - `closeDate`
+- Optional parameter `emoji` to `ITelegramBotClient.SendDiceAsync`
+
 ## [15.5.1] - 2020-04-02
 
 ### Fixed
-- Implementation of `ITelegramBotClient.CreateNewAnimatedSticketSetAsync`
+- Implementation of `ITelegramBotClient.CreateNewAnimatedStickerSetAsync`
 
 ## [15.5.0] - 2020-04-02
 
@@ -36,8 +74,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
     - `SetStickerSetThumbRequest`
 - Methods:
     - `ITelegramBotClient.SendDiceAsync`
-    - `ITelegramBotClient.CreateNewAnimatedSticketSetAsync`
-    - `ITelegramBotClient.AddNewAnimatedSticketToSetAsync`
+    - `ITelegramBotClient.CreateNewAnimatedStickerSetAsync`
+    - `ITelegramBotClient.AddNewAnimatedStickerToSetAsync`
     - `ITelegramBotClient.SetStickerSetThumbAsync`
     - `ITelegramBotClient.GetMyCommandsAsync`
     - `ITelegramBotClient.SetMyCommandsAsync`
@@ -45,7 +83,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Type `BotCommand`
 - Enum member `MessageType.Dice`
 - Property `Message.Dice`
-- Property `SticketSet.Thumb`
+- Property `StickerSet.Thumb`
 
 ## [15.4.0] - 2020-02-22
 

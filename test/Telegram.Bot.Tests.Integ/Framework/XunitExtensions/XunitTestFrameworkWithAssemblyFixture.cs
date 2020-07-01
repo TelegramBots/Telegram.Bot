@@ -11,6 +11,10 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
         { }
 
         protected override ITestFrameworkExecutor CreateExecutor(AssemblyName assemblyName)
-            => new XunitTestFrameworkExecutorWithAssemblyFixture(assemblyName, SourceInformationProvider, DiagnosticMessageSink);
+            => new XunitTestFrameworkExecutorWithAssemblyFixture(
+                assemblyName,
+                SourceInformationProvider,
+                DiagnosticMessageSink
+            );
     }
 }
