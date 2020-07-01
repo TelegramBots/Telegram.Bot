@@ -27,12 +27,6 @@ namespace Telegram.Bot.Types
         public string FileUniqueId { get; set; } = default!;
 
         /// <summary>
-        /// Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string FileUniqueId { get; set; }
-
-        /// <summary>
         /// Optional. File size, if known
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

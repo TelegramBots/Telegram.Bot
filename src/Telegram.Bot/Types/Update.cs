@@ -91,11 +91,6 @@ namespace Telegram.Bot.Types
         public PollAnswer? PollAnswer { get; set; }
 
         /// <summary>
-        /// Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were sent by the bot itself.
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PollAnswer PollAnswer { get; set; }
-        /// <summary>
         /// Gets the update type.
         /// </summary>
         /// <value>

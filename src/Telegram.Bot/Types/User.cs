@@ -64,24 +64,6 @@ namespace Telegram.Bot.Types
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? SupportsInlineQueries { get; set; }
 
-        /// <summary>
-        /// Optional. True, if the bot can be invited to groups. Returned only in getMe
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? CanJoinGroups { get; set; }
-
-        /// <summary>
-        /// Optional. True, if privacy mode is disabled for the bot. Returned only in getMe
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? CanReadAllGroupMessages { get; set; }
-
-        /// <summary>
-        /// Optional. True, if the bot supports inline queries. Returned only in getMe
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? SupportsInlineQueries { get; set; }
-
         /// <inheritdoc />
         public override bool Equals(object? obj) => Equals(obj as User);
 
