@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -119,64 +119,51 @@ namespace Telegram.Bot
             {
                 // required since user might be able to set new status code using following event arg
                 var actualResponseStatusCode = httpResponse.StatusCode;
-                var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
                 ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
 
                 if (actualResponseStatusCode != HttpStatusCode.OK)
                 {
-                    FailedApiResponse? failedApiResponse;
-                    try
-                    {
-                        failedApiResponse = JsonConvert.DeserializeObject<FailedApiResponse>(stringifiedResponse);
-                    }
-                    catch (Exception exception)
-                    {
-                        throw new RequestException(
-                            "Required properties not found in response.",
-                            actualResponseStatusCode,
-                            stringifiedResponse,
-                            exception
+                    var failedApiResponse = await httpResponse
+                        .DeserializeContentAsync<FailedApiResponse>(
+                            actualResponseStatusCode
                         );
-                    }
 
                     if (failedApiResponse is null)
+                    {
+                        var stringifiedResponse = await httpResponse.Content
+                            .ReadAsStringAsync()
+                            .ConfigureAwait(false);
+
                         throw new RequestException(
                             "Required properties not found in response.",
                             actualResponseStatusCode,
                             stringifiedResponse
                         );
+                    }
 
+                    // TODO use IExceptionParser.Parse(failedApiResponse.ErrorCode, failedApiResponse.Description) here
                     throw new ApiRequestException(
                         failedApiResponse.Description,
                         failedApiResponse.ErrorCode
                     );
                 }
 
-                SuccessfulApiResponse<TResult>? successfulApiResponse;
-                try
-                {
-                    successfulApiResponse = JsonConvert.DeserializeObject<SuccessfulApiResponse<TResult>>(
-                        stringifiedResponse
+                var successfulApiResponse = await httpResponse
+                    .DeserializeContentAsync<SuccessfulApiResponse<TResult>>(
+                        actualResponseStatusCode
                     );
-                }
-                catch (Exception exception)
-                {
-                    throw new RequestException(
-                        "Required properties not found in response.",
-                        actualResponseStatusCode,
-                        stringifiedResponse,
-                        exception
-                    );
-                }
 
                 if (successfulApiResponse is null)
+                {
+                    var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
+                        .ConfigureAwait(false);
+
                     throw new RequestException(
                         "Required properties not found in response.",
                         actualResponseStatusCode,
                         stringifiedResponse
                     );
+                }
 
                 return successfulApiResponse.Result;
             }
@@ -216,34 +203,23 @@ namespace Telegram.Bot
             {
                 // required since user might be able to set new status code using following event arg
                 var actualResponseStatusCode = httpResponse.StatusCode;
-                var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
-                    .ConfigureAwait(false);
-
                 ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
 
-                ApiResponse<TResult>? apiResponse;
-                try
-                {
-                    apiResponse = JsonConvert.DeserializeObject<ApiResponse<TResult>>(
-                        stringifiedResponse
+                var apiResponse = await httpResponse
+                    .DeserializeContentAsync<ApiResponse<TResult>>(
+                        actualResponseStatusCode
                     );
-                }
-                catch (Exception exception)
-                {
-                    throw new RequestException(
-                        "Required properties not found in JSON.",
-                        actualResponseStatusCode,
-                        stringifiedResponse,
-                        exception
-                    );
-                }
 
                 if (apiResponse is null)
+                {
+                    var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
+                        .ConfigureAwait(false);
+
                     throw new RequestException(
-                        "Required properties not found in JSON.",
+                        "Required properties not found in response.",
                         actualResponseStatusCode,
                         stringifiedResponse
-                    );
+                    );}
 
                 return apiResponse;
             }
