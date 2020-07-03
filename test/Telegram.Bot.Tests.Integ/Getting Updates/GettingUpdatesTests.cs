@@ -1,6 +1,6 @@
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             Assert.True(result);
         }
 
-        [OrderedFact("Should throw HttpRequestException with \"404 (Not Found)\" error when" +
+        [OrderedFact("Should throw RequestException with \"404 (Not Found)\" error when" +
                      " malformed API Token is provided")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
         public async Task Should_Fail_Test_Api_Token()
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
                 "Response status code does not indicate success: 404 (Not Found).",
                 exception.Message
             );
-            Assert.IsType<HttpRequestException>(exception);
+            Assert.IsType<RequestException>(exception);
         }
 
         [OrderedFact("Should fail API Token test with invalid token")]

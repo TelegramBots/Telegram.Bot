@@ -39,7 +39,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("Hello world!", message.Text);
             Assert.Equal(MessageType.Text, message.Type);
             Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat!.Id.ToString());
-            Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
+            Assert.InRange(
+                message.Date,
+                DateTime.UtcNow.AddSeconds(-10),
+                DateTime.UtcNow.AddSeconds(10)
+            );
             Assert.Equal(_fixture.BotUser.Id, message.From!.Id);
             Assert.Equal(_fixture.BotUser.Username, message.From.Username);
 
@@ -84,10 +88,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(default, message2.ForwardFromMessageId);
             Assert.Null(message2.ForwardSignature);
             Assert.NotNull(message2.ForwardDate);
+
+            DateTime now = DateTime.UtcNow;
+
             Assert.InRange(
                 message2.ForwardDate.Value,
-                DateTime.UtcNow.AddSeconds(-20),
-                DateTime.UtcNow
+                now.AddSeconds(-20),
+                now.AddSeconds(10)
             );
         }
 

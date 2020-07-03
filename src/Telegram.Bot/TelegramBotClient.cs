@@ -22,7 +22,6 @@ namespace Telegram.Bot
         private const string BaseUrl = "https://api.telegram.org/bot";
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
-        private readonly string _token;
         private readonly string _baseRequestUrl;
         private readonly string _baseFileUrl;
 
@@ -68,8 +67,9 @@ namespace Telegram.Bot
         /// </exception>
         public TelegramBotClient(string token, HttpClient? httpClient = null)
         {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
+            if (token is null) throw new ArgumentNullException(nameof(token));
+
+            string[] parts = token.Split(':');
             if (parts.Length > 1 && int.TryParse(parts[0], out var id))
             {
                 BotId = id;
@@ -82,16 +82,16 @@ namespace Telegram.Bot
                 );
             }
 
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
-            _baseFileUrl = $"{BaseFileUrl}{_token}/";
+            _baseRequestUrl = $"{BaseUrl}{token}/";
+            _baseFileUrl = $"{BaseFileUrl}{token}/";
             _httpClient = httpClient ?? new HttpClient();
         }
 
         #region Helpers
 
         /// <inheritdoc />
-        public async Task<TResponse> MakeRequestAsync<TResponse>(
-            IRequest<TResponse> request,
+        public async Task<TResult> MakeRequestAsync<TResult>(
+            IRequest<TResult> request,
             CancellationToken cancellationToken = default)
         {
             var url = _baseRequestUrl + request.MethodName;
@@ -104,54 +104,153 @@ namespace Telegram.Bot
             var reqDataArgs = new ApiRequestEventArgs(request.MethodName, httpRequest.Content);
             MakingApiRequest?.Invoke(this, reqDataArgs);
 
-            HttpResponseMessage httpResponse;
+            HttpResponseMessage? httpResponse;
             try
             {
                 httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (TaskCanceledException e)
+            catch (Exception exception)
             {
-                if (cancellationToken.IsCancellationRequested)
-                    throw;
-
-                throw new ApiRequestException("Request timed out", 408, e);
+                throw new RequestException("Exception during making request", exception);
             }
 
-            // required since user might be able to set new status code using following event arg
-            var actualResponseStatusCode = httpResponse.StatusCode;
-            string responseJson = await httpResponse.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
-            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
-
-            switch (actualResponseStatusCode)
+            try
             {
-                case HttpStatusCode.OK:
-                    break;
-                case HttpStatusCode.Unauthorized:
-                case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
-                    // Do NOT throw here, an ApiRequestException will be thrown next
-                    break;
-                default:
-                    httpResponse.EnsureSuccessStatusCode();
-                    break;
-            }
+                // required since user might be able to set new status code using following event arg
+                var actualResponseStatusCode = httpResponse.StatusCode;
+                var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
 
-            var apiResponse =
-                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
-                ?? new ApiResponse<TResponse> // ToDo is required? unit test
+                ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
+
+                if (actualResponseStatusCode != HttpStatusCode.OK)
                 {
-                    Ok = false,
-                    Description = "No response received"
-                };
+                    FailedApiResponse? failedApiResponse;
+                    try
+                    {
+                        failedApiResponse = JsonConvert.DeserializeObject<FailedApiResponse>(stringifiedResponse);
+                    }
+                    catch (Exception exception)
+                    {
+                        throw new RequestException(
+                            "Required properties not found in response.",
+                            actualResponseStatusCode,
+                            stringifiedResponse,
+                            exception
+                        );
+                    }
 
-            if (!apiResponse.Ok)
-                throw ApiExceptionParser.Parse(apiResponse);
+                    if (failedApiResponse is null)
+                        throw new RequestException(
+                            "Required properties not found in response.",
+                            actualResponseStatusCode,
+                            stringifiedResponse
+                        );
 
-            return apiResponse.Result;
+                    throw new ApiRequestException(
+                        failedApiResponse.Description,
+                        failedApiResponse.ErrorCode
+                    );
+                }
+
+                SuccessfulApiResponse<TResult>? successfulApiResponse;
+                try
+                {
+                    successfulApiResponse = JsonConvert.DeserializeObject<SuccessfulApiResponse<TResult>>(
+                        stringifiedResponse
+                    );
+                }
+                catch (Exception exception)
+                {
+                    throw new RequestException(
+                        "Required properties not found in response.",
+                        actualResponseStatusCode,
+                        stringifiedResponse,
+                        exception
+                    );
+                }
+
+                if (successfulApiResponse is null)
+                    throw new RequestException(
+                        "Required properties not found in response.",
+                        actualResponseStatusCode,
+                        stringifiedResponse
+                    );
+
+                return successfulApiResponse.Result;
+            }
+            finally
+            {
+                httpResponse?.Dispose();
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task<ApiResponse<TResult>?> SendRequestAsync<TResult>(
+            IRequest<TResult> request,
+            CancellationToken cancellationToken = default)
+        {
+            var url = _baseRequestUrl + request.MethodName;
+
+            var httpRequest = new HttpRequestMessage(request.Method, url)
+            {
+                Content = request.ToHttpContent()
+            };
+
+            var reqDataArgs = new ApiRequestEventArgs(request.MethodName, httpRequest.Content);
+            MakingApiRequest?.Invoke(this, reqDataArgs);
+
+            HttpResponseMessage? httpResponse;
+            try
+            {
+                httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                throw new RequestException("Exception during making request", exception);
+            }
+
+            try
+            {
+                // required since user might be able to set new status code using following event arg
+                var actualResponseStatusCode = httpResponse.StatusCode;
+                var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
+
+                ApiResponse<TResult>? apiResponse;
+                try
+                {
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse<TResult>>(
+                        stringifiedResponse
+                    );
+                }
+                catch (Exception exception)
+                {
+                    throw new RequestException(
+                        "Required properties not found in JSON.",
+                        actualResponseStatusCode,
+                        stringifiedResponse,
+                        exception
+                    );
+                }
+
+                if (apiResponse is null)
+                    throw new RequestException(
+                        "Required properties not found in JSON.",
+                        actualResponseStatusCode,
+                        stringifiedResponse
+                    );
+
+                return apiResponse;
+            }
+            finally
+            {
+                httpResponse?.Dispose();
+            }
         }
 
         /// <summary>
