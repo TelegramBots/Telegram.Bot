@@ -53,7 +53,12 @@ namespace Telegram.Bot
         /// <param name="request">API request object</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Result of the API request</returns>
-        /// <exception cref="ApiRequestException"></exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when the response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response doesn't contain valid JSON string or on any other exception
+        /// </exception>
         Task<TResult> MakeRequestAsync<TResult>(
             IRequest<TResult> request,
             CancellationToken cancellationToken = default);
@@ -65,8 +70,13 @@ namespace Telegram.Bot
         /// <param name="request">API request object</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Result of the API request</returns>
-        /// <returns></returns>
-        Task<ApiResponse<TResult>?> SendRequestAsync<TResult>(
+        /// <returns>
+        /// <see cref="ApiResponse{TResult}"/> instance or <c>null</c> if there isn't any response
+        /// </returns>
+        /// <exception cref="RequestException">
+        /// Thrown when the response doesn't contain valid JSON string or on any other exception
+        /// </exception>
+        Task<ApiResponse<TResult>> SendRequestAsync<TResult>(
             IRequest<TResult> request,
             CancellationToken cancellationToken = default);
 

@@ -174,7 +174,7 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
-        public async Task<ApiResponse<TResult>?> SendRequestAsync<TResult>(
+        public async Task<ApiResponse<TResult>> SendRequestAsync<TResult>(
             IRequest<TResult> request,
             CancellationToken cancellationToken = default)
         {
@@ -219,7 +219,8 @@ namespace Telegram.Bot
                         "Required properties not found in response.",
                         actualResponseStatusCode,
                         stringifiedResponse
-                    );}
+                    );
+                }
 
                 return apiResponse;
             }
