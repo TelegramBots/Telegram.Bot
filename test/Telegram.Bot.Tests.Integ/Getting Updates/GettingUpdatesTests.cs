@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             Assert.True(result);
         }
 
-        [OrderedFact("Should throw RequestException with \"404 (Not Found)\" error when" +
+        [OrderedFact("Should throw ApiRequestException with \"Not Found\" error when" +
                      " malformed API Token is provided")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
         public async Task Should_Fail_Test_Api_Token()
@@ -37,15 +37,14 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             string botToken = "0:1this_is_an-invalid-token_for_tests";
             ITelegramBotClient botClient = new TelegramBotClient(botToken);
 
-            Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
-                botClient.TestApiAsync()
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
+                async () => await botClient.TestApiAsync()
             );
 
             Assert.Equal(
-                "Response status code does not indicate success: 404 (Not Found).",
+                "Not Found",
                 exception.Message
             );
-            Assert.IsType<RequestException>(exception);
         }
 
         [OrderedFact("Should fail API Token test with invalid token")]
