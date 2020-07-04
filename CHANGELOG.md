@@ -28,7 +28,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `bool IRequest.IsWebhookResponse`
 - New base exception type `RequestException`
 - Method `ITelegramBotClient.SendRequestAsync` which returns `ApiResponse<T>` as is without throwing
-exception `ApiRequestException` 
+exception `ApiRequestException`
+- Interface `IExceptionParser` for implementing custom parsers for exception, default
+implementation of `IExceptionParser` throws all correct errors from Bot Api as `ApiRequestException`
+- Property `ITelegramBotClient.ExceptionParser` 
 
 ### Changed
 - All optional Bot API properties are made nullable 
@@ -92,7 +95,8 @@ errors from `MakingApiRequest` and `ApiResponseReceived` event handlers
     - Event `OnReceiveError`
     - Event `OnReceiveGeneralError`
     - Method `StartReceiving`
-    - Method `StopReceiving` 
+    - Method `StopReceiving`
+- All exception types except `ApiRequestException`
 
 ## [15.7.1] - 2020-06-18
 
