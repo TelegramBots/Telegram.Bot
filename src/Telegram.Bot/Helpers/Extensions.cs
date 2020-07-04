@@ -63,7 +63,7 @@ namespace Telegram.Bot.Helpers
         }
 
         /// <summary>
-        /// Streaming JSON deserialization
+        /// Deserialized JSON in Stream into <typeparamref name="T"/>
         /// </summary>
         /// <param name="stream"><see cref="Stream"/> with content</param>
         /// <typeparam name="T">Type of the resulting object</typeparam>
@@ -85,14 +85,14 @@ namespace Telegram.Bot.Helpers
         }
 
         /// <summary>
-        /// Deserialize body from HttpContent into <see cref="T"/>
+        /// Deserialize body from HttpContent into <typeparamref name="T"/>
         /// </summary>
         /// <param name="httpResponse"><see cref="HttpResponseMessage"/> instance</param>
         /// <param name="statusCode"><see cref="HttpStatusCode"/> of the response</param>
         /// <typeparam name="T">Type of the resulting object</typeparam>
         /// <returns></returns>
         /// <exception cref="RequestException">
-        /// Thrown when body in the <see cref="httpResponse"/> can not be deserialized into <see cref="T"/>
+        /// Thrown when body in the response can not be deserialized into <typeparamref name="T"/>
         /// </exception>
         internal static async Task<T?> DeserializeContentAsync<T>(
             this HttpResponseMessage httpResponse,

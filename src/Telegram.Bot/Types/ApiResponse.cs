@@ -28,9 +28,9 @@ namespace Telegram.Bot.Types
         /// </remarks>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [MaybeNull]
-// #pragma warning disable 8618
+#pragma warning disable 8618
         public TResult Result { get; set; }
-// #pragma warning restore 8618
+#pragma warning restore 8618
 
         /// <summary>
         /// Gets the error message.

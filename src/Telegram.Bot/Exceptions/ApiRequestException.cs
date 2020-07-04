@@ -6,6 +6,7 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// Represents an API error
     /// </summary>
+    // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
     public class ApiRequestException : RequestException
     {
         /// <summary>
@@ -16,6 +17,8 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Contains information about why a request was unsuccessful.
         /// </summary>
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        // ReSharper disable once MemberCanBePrivate.Global
         public ResponseParameters? Parameters { get; }
 
         /// <summary>
@@ -24,8 +27,7 @@ namespace Telegram.Bot.Exceptions
         /// <param name="message">The message that describes the error.</param>
         public ApiRequestException(string message)
             : base(message)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiRequestException"/> class.
