@@ -28,6 +28,13 @@ namespace Telegram.Bot
         /// </summary>
         TimeSpan Timeout { get; set; }
 
+        /// <summary>
+        /// Instance of <see cref="IExceptionParser"/> to parse errors from Bot API into
+        /// <see cref="ApiRequestException"/>
+        /// </summary>
+        /// <remarks>This property is not thread safe</remarks>
+        IExceptionParser ExceptionParser { get; set; }
+
         #endregion  Config Properties
 
         #region Events

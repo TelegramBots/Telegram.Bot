@@ -86,7 +86,7 @@ namespace Telegram.Bot.Exceptions
         public ApiRequestException(
             string message,
             int errorCode,
-            ResponseParameters parameters,
+            ResponseParameters? parameters,
             Exception innerException)
             : base(message, innerException)
         {

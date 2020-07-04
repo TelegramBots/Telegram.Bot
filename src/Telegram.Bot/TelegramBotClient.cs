@@ -27,6 +27,8 @@ namespace Telegram.Bot
 
         private readonly HttpClient _httpClient;
 
+        private IExceptionParser _exceptionParser = new ExceptionParser();
+
         /// <inheritdoc/>
         public int BotId { get; }
 
@@ -39,6 +41,13 @@ namespace Telegram.Bot
         {
             get => _httpClient.Timeout;
             set => _httpClient.Timeout = value;
+        }
+
+        /// <inheritdoc />
+        public IExceptionParser ExceptionParser
+        {
+            get => _exceptionParser;
+            set => _exceptionParser = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         #endregion Config Properties
@@ -141,10 +150,10 @@ namespace Telegram.Bot
                         );
                     }
 
-                    // TODO use IExceptionParser.Parse(failedApiResponse.ErrorCode, failedApiResponse.Description) here
-                    throw new ApiRequestException(
+                    throw ExceptionParser.Parse(
+                        failedApiResponse.ErrorCode,
                         failedApiResponse.Description,
-                        failedApiResponse.ErrorCode
+                        failedApiResponse.Parameters
                     );
                 }
 
