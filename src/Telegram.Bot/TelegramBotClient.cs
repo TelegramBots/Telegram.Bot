@@ -119,6 +119,15 @@ namespace Telegram.Bot
                 httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
+            catch (TaskCanceledException exception)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw;
+                }
+
+                throw new RequestException("Request timed out", exception);
+            }
             catch (Exception exception)
             {
                 throw new RequestException("Exception during making request", exception);
@@ -135,7 +144,7 @@ namespace Telegram.Bot
                     var failedApiResponse = await httpResponse
                         .DeserializeContentAsync<FailedApiResponse>(
                             actualResponseStatusCode
-                        );
+                        ).ConfigureAwait(false);;
 
                     if (failedApiResponse is null)
                     {
@@ -160,7 +169,7 @@ namespace Telegram.Bot
                 var successfulApiResponse = await httpResponse
                     .DeserializeContentAsync<SuccessfulApiResponse<TResult>>(
                         actualResponseStatusCode
-                    );
+                    ).ConfigureAwait(false);;
 
                 if (successfulApiResponse is null)
                 {
@@ -217,7 +226,7 @@ namespace Telegram.Bot
                 var apiResponse = await httpResponse
                     .DeserializeContentAsync<ApiResponse<TResult>>(
                         actualResponseStatusCode
-                    );
+                    ).ConfigureAwait(false);
 
                 if (apiResponse is null)
                 {

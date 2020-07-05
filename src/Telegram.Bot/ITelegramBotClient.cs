@@ -66,6 +66,9 @@ namespace Telegram.Bot
         /// <exception cref="RequestException">
         /// Thrown when the response doesn't contain valid JSON string or on any other exception
         /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is triggered
+        /// </exception>
         Task<TResult> MakeRequestAsync<TResult>(
             IRequest<TResult> request,
             CancellationToken cancellationToken = default);
@@ -82,6 +85,9 @@ namespace Telegram.Bot
         /// </returns>
         /// <exception cref="RequestException">
         /// Thrown when the response doesn't contain valid JSON string or on any other exception
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is triggered
         /// </exception>
         Task<ApiResponse<TResult>> SendRequestAsync<TResult>(
             IRequest<TResult> request,
