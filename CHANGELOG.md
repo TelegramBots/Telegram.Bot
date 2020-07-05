@@ -58,8 +58,9 @@ feature)
 - `ApiRequestException` extends `RequestException`
 - All error responses from Bot API which contain correct JSON string are now thrown as
 `ApiRequestException` from `ITelegramBotClient.MakeRequestException`
-- All other exceptions during request sending logic are wrapped inside `RequestException` except
-errors from `MakingApiRequest` and `ApiResponseReceived` event handlers
+- All other exceptions during request sending logic are wrapped inside `RequestException` 
+except `TaskCancelledException` that is triggered by token cancellation and errors from 
+`MakingApiRequest` and `ApiResponseReceived` event handlers
 
 ### Removed
 - Enum member `ParseMode.Default`
