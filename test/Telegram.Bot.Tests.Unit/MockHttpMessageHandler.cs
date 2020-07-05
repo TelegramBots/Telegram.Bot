@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -9,6 +10,7 @@ namespace Telegram.Bot.Tests.Unit
     {
         private readonly HttpStatusCode _httpStatusCode;
         private readonly HttpContent _responseContent;
+        private readonly Func<HttpRequestMessage, HttpResponseMessage> _action;
 
         public MockHttpMessageHandler(
             HttpStatusCode httpStatusCode,
@@ -18,10 +20,20 @@ namespace Telegram.Bot.Tests.Unit
             _responseContent = responseContent;
         }
 
+        public MockHttpMessageHandler(Func<HttpRequestMessage, HttpResponseMessage> action)
+        {
+            _action = action;
+        }
+
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
+            if (_action != null)
+            {
+                return Task.FromResult(_action.Invoke(request));
+            }
+
             var httpResponse = new HttpResponseMessage(_httpStatusCode)
             {
                 Content = _responseContent

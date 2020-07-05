@@ -50,11 +50,31 @@ namespace Telegram.Bot.Tests.Unit
         }
 
         [Fact]
+        public async Task Should_Throw_RequestException_On_Timed_Out_Request()
+        {
+            var httpClientHandler = new MockHttpMessageHandler(
+                _ => throw new TaskCanceledException()
+            );
+            var httpClient = new HttpClient(httpClientHandler);
+            var botClient = new TelegramBotClient(
+                "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy",
+                httpClient
+            );
+
+            var requestException = await Assert.ThrowsAsync<RequestException>(
+                async () => await botClient.GetUpdatesAsync()
+            );
+
+            Assert.NotNull(requestException.InnerException);
+            Assert.IsType<TaskCanceledException>(requestException.InnerException);
+        }
+
+        [Fact]
         public async Task Should_Throw_RequestException_With_Null_Response_Content()
         {
             var httpClientHandler = new MockHttpMessageHandler(HttpStatusCode.OK);
-
             var httpClient = new HttpClient(httpClientHandler);
+
             var botClient = new TelegramBotClient(
                 "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy",
                 httpClient
