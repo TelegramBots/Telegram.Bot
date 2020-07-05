@@ -49,6 +49,21 @@ namespace Telegram.Bot.Exceptions
         /// <param name="httpStatusCode">
         /// <see cref="HttpStatusCode"/> of the received response
         /// </param>
+        public RequestException(string message, HttpStatusCode httpStatusCode)
+            : base(message)
+        {
+            HttpStatusCode = httpStatusCode;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestException"/> class.
+        /// </summary>
+        /// <param name="message">
+        /// The error message that explains the reason for the exception.
+        /// </param>
+        /// <param name="httpStatusCode">
+        /// <see cref="HttpStatusCode"/> of the received response
+        /// </param>
         /// <param name="body">Body of the received response</param>
         public RequestException(string message, HttpStatusCode httpStatusCode, string body)
             : base(message)

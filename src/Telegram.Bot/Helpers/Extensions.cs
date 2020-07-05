@@ -94,13 +94,17 @@ namespace Telegram.Bot.Helpers
         /// <exception cref="RequestException">
         /// Thrown when body in the response can not be deserialized into <typeparamref name="T"/>
         /// </exception>
-        internal static async Task<T?> DeserializeContentAsync<T>(
+        internal static async Task<T> DeserializeContentAsync<T>(
             this HttpResponseMessage httpResponse,
             HttpStatusCode statusCode)
             where T : class
         {
             T? deserializedObject;
             Stream? contentStream = null;
+
+            if (httpResponse.Content is null)
+                throw new RequestException("Response doesn't contain any content", statusCode);
+
             try
             {
                 contentStream = await httpResponse.Content
@@ -126,6 +130,19 @@ namespace Telegram.Bot.Helpers
             finally
             {
                 contentStream?.Dispose();
+            }
+
+            if (deserializedObject is null)
+            {
+                var stringifiedResponse = await httpResponse.Content
+                    .ReadAsStringAsync()
+                    .ConfigureAwait(false);
+
+                throw new RequestException(
+                    "Required properties not found in response.",
+                    statusCode,
+                    stringifiedResponse
+                );
             }
 
             return deserializedObject;

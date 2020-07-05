@@ -146,19 +146,6 @@ namespace Telegram.Bot
                             actualResponseStatusCode
                         ).ConfigureAwait(false);;
 
-                    if (failedApiResponse is null)
-                    {
-                        var stringifiedResponse = await httpResponse.Content
-                            .ReadAsStringAsync()
-                            .ConfigureAwait(false);
-
-                        throw new RequestException(
-                            "Required properties not found in response.",
-                            actualResponseStatusCode,
-                            stringifiedResponse
-                        );
-                    }
-
                     throw ExceptionParser.Parse(
                         failedApiResponse.ErrorCode,
                         failedApiResponse.Description,
@@ -169,19 +156,7 @@ namespace Telegram.Bot
                 var successfulApiResponse = await httpResponse
                     .DeserializeContentAsync<SuccessfulApiResponse<TResult>>(
                         actualResponseStatusCode
-                    ).ConfigureAwait(false);;
-
-                if (successfulApiResponse is null)
-                {
-                    var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-
-                    throw new RequestException(
-                        "Required properties not found in response.",
-                        actualResponseStatusCode,
-                        stringifiedResponse
-                    );
-                }
+                    ).ConfigureAwait(false);
 
                 return successfulApiResponse.Result;
             }
@@ -227,18 +202,6 @@ namespace Telegram.Bot
                     .DeserializeContentAsync<ApiResponse<TResult>>(
                         actualResponseStatusCode
                     ).ConfigureAwait(false);
-
-                if (apiResponse is null)
-                {
-                    var stringifiedResponse = await httpResponse.Content.ReadAsStringAsync()
-                        .ConfigureAwait(false);
-
-                    throw new RequestException(
-                        "Required properties not found in response.",
-                        actualResponseStatusCode,
-                        stringifiedResponse
-                    );
-                }
 
                 return apiResponse;
             }
