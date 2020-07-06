@@ -110,8 +110,16 @@ namespace Telegram.Bot
                 Content = request.ToHttpContent()
             };
 
-            var reqDataArgs = new ApiRequestEventArgs(request.MethodName, httpRequest.Content);
-            MakingApiRequest?.Invoke(this, reqDataArgs);
+            ApiRequestEventArgs? requestEventArgs = default;
+
+            if (MakingApiRequest != null)
+            {
+                requestEventArgs = new ApiRequestEventArgs(
+                    request.MethodName,
+                    httpRequest.Content
+                );
+                MakingApiRequest.Invoke(this, requestEventArgs);
+            }
 
             HttpResponseMessage? httpResponse;
             try
@@ -135,16 +143,29 @@ namespace Telegram.Bot
 
             try
             {
-                // required since user might be able to set new status code using following event arg
+                // required since user might be able to set new status code using following
+                // event arg
                 var actualResponseStatusCode = httpResponse.StatusCode;
-                ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
+
+                if (ApiResponseReceived != null)
+                {
+                    requestEventArgs ??= new ApiRequestEventArgs(
+                        request.MethodName,
+                        httpRequest.Content
+                    );
+                    var responseEventArgs = new ApiResponseEventArgs(
+                        httpResponse,
+                        requestEventArgs
+                    );
+                    ApiResponseReceived.Invoke(this, responseEventArgs);
+                }
 
                 if (actualResponseStatusCode != HttpStatusCode.OK)
                 {
                     var failedApiResponse = await httpResponse
                         .DeserializeContentAsync<FailedApiResponse>(
                             actualResponseStatusCode
-                        ).ConfigureAwait(false);;
+                        ).ConfigureAwait(false);
 
                     throw ExceptionParser.Parse(
                         failedApiResponse.ErrorCode,
@@ -178,8 +199,16 @@ namespace Telegram.Bot
                 Content = request.ToHttpContent()
             };
 
-            var reqDataArgs = new ApiRequestEventArgs(request.MethodName, httpRequest.Content);
-            MakingApiRequest?.Invoke(this, reqDataArgs);
+            ApiRequestEventArgs? requestEventArgs = default;
+
+            if (MakingApiRequest != null)
+            {
+                requestEventArgs = new ApiRequestEventArgs(
+                    request.MethodName,
+                    httpRequest.Content
+                );
+                MakingApiRequest.Invoke(this, requestEventArgs);
+            }
 
             HttpResponseMessage? httpResponse;
             try
@@ -196,7 +225,19 @@ namespace Telegram.Bot
             {
                 // required since user might be able to set new status code using following event arg
                 var actualResponseStatusCode = httpResponse.StatusCode;
-                ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
+
+                if (ApiResponseReceived != null)
+                {
+                    requestEventArgs ??= new ApiRequestEventArgs(
+                        request.MethodName,
+                        httpRequest.Content
+                    );
+                    var responseEventArgs = new ApiResponseEventArgs(
+                        httpResponse,
+                        requestEventArgs
+                    );
+                    ApiResponseReceived.Invoke(this, responseEventArgs);
+                }
 
                 var apiResponse = await httpResponse
                     .DeserializeContentAsync<ApiResponse<TResult>>(
