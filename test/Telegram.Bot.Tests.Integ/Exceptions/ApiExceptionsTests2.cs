@@ -20,32 +20,33 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             _fixture = fixture;
         }
 
-        [OrderedFact("Should throw ChatNotFoundException while trying to send message to an invalid chat")]
+        [OrderedFact("Should throw ApiRequestException while trying to send message to an invalid chat")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        public async Task Should_Throw_Exception_ChatNotFoundException()
+        public async Task Should_Throw_ApiRequestException_For_Non_Existent_Chat()
         {
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendTextMessageAsync(0, "test")
             );
 
-            Assert.IsType<ChatNotFoundException>(e);
+            Assert.Equal(400, e.ErrorCode);
         }
 
-        [OrderedFact("Should throw UserNotFoundException while trying to promote an invalid user id")]
+        [OrderedFact("Should throw ApiRequestException while trying to promote an invalid user id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        public async Task Should_Throw_Exception_UserNotFoundException()
+        public async Task Should_Throw_ApiRequestException_For_Invalid_User_Id()
         {
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456)
             );
 
-            Assert.IsType<UserNotFoundException>(e);
+
+            Assert.Equal(400, e.ErrorCode);
         }
 
         [OrderedFact("Should throw ApiRequestException while asking for user's phone number " +
                      "in non-private chat via reply keyboard markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        public async Task Should_Throw_Exception_ApiRequestException()
+        public async Task Should_Throw_ApiRequestException_When_Asked_To_Share_Contact_In_Non_Private_Chat()
         {
             ReplyKeyboardMarkup replyMarkup = new ReplyKeyboardMarkup(new[]
             {
@@ -63,17 +64,17 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             Assert.Equal(400, exception.ErrorCode);
         }
 
-        [OrderedFact("Should throw MessageIsNotModifiedException while editing previously " +
+        [OrderedFact("Should throw ApiRequestException while editing previously " +
                      "sent message with the same text")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
-        public async Task Should_Throw_Exception_MessageIsNotModifiedException()
+        public async Task Should_Throw_ApiRequestException_When_Message_Is_Not_Modified()
         {
             const string messageTextToModify = "Message text to modify";
             Message message = await BotClient.SendTextMessageAsync(
                 _fixture.SupergroupChat.Id,
                 messageTextToModify);
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.EditMessageTextAsync(
                     _fixture.SupergroupChat.Id,
                     message.MessageId,
@@ -81,7 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 )
             );
 
-            Assert.IsType<MessageIsNotModifiedException>(e);
+            Assert.Equal(400, e.ErrorCode);
         }
     }
 }

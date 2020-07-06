@@ -559,7 +559,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             };
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: iqUpdate.InlineQuery.Id,
+                inlineQueryId: iqUpdate.InlineQuery!.Id,
                 results: results,
                 cacheTime: 0
             );
@@ -930,7 +930,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             };
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: iqUpdate.InlineQuery.Id,
+                inlineQueryId: iqUpdate.InlineQuery!.Id,
                 results: results,
                 cacheTime: 0
             );
@@ -961,9 +961,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultArticle(
-                    /* id: */ "article:bot-api",
-                    /* title: */ "Telegram Bot API",
-                    /* inputMessageContent: */ new InputTextMessageContent("https://core.telegram.org/bots/api"))
+                    id: "article:bot-api",
+                    title: "Telegram Bot API",
+                    inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
                 {
                     Description = "The Bot API is an HTTP-based interface created for developers",
                 },
@@ -973,13 +973,13 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.AnswerInlineQueryAsync(
-                    /* inlineQueryId: */ queryUpdate.InlineQuery!.Id,
-                    /* results: */ results,
-                    /* cacheTime: */ 0
+                    inlineQueryId: queryUpdate.InlineQuery!.Id,
+                    results: results,
+                    cacheTime: 0
                 )
             );
 
-            Assert.Equal("query is too old and response timeout expired or query ID is invalid", e.Message);
+            Assert.Contains("query is too old and response timeout expired or query ID is invalid", e.Message);
             Assert.Equal(400, e.ErrorCode);
         }
     }

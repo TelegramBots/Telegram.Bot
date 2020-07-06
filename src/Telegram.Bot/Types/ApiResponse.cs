@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
@@ -26,6 +27,7 @@ namespace Telegram.Bot.Types
         /// reference and value types with '?' syntax.
         /// </remarks>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [MaybeNull]
 #pragma warning disable 8618
         public TResult Result { get; set; }
 #pragma warning restore 8618

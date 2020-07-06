@@ -111,15 +111,16 @@ namespace Telegram.Bot.Tests.Integ.Other
             ));
         }
 
-        [OrderedFact("Should throw InvalidParameterException while trying to get file using wrong file_id")]
+        [OrderedFact("Should throw ApiRequestException while trying to get file using wrong file_id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
-        public async Task Should_Throw_FileId_InvalidParameterException()
+        public async Task Should_Throw_ApiRequestException_When_Invalid_FileId()
         {
-            InvalidParameterException exception = await Assert.ThrowsAnyAsync<InvalidParameterException>(
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
                 () => BotClient.GetFileAsync("Invalid_File_id")
             );
 
-            Assert.Equal("file_id", exception.Parameter);
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Contains("file_id", exception.Message);
         }
 
         [OrderedFact("Should throw HttpRequestException while trying to download file using wrong file_path")]

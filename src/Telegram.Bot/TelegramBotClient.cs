@@ -4,9 +4,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -22,11 +22,12 @@ namespace Telegram.Bot
         private const string BaseUrl = "https://api.telegram.org/bot";
         private const string BaseFileUrl = "https://api.telegram.org/file/bot";
 
-        private readonly string _token;
         private readonly string _baseRequestUrl;
         private readonly string _baseFileUrl;
 
         private readonly HttpClient _httpClient;
+
+        private IExceptionParser _exceptionParser = new ExceptionParser();
 
         /// <inheritdoc/>
         public int BotId { get; }
@@ -40,6 +41,13 @@ namespace Telegram.Bot
         {
             get => _httpClient.Timeout;
             set => _httpClient.Timeout = value;
+        }
+
+        /// <inheritdoc />
+        public IExceptionParser ExceptionParser
+        {
+            get => _exceptionParser;
+            set => _exceptionParser = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         #endregion Config Properties
@@ -68,8 +76,9 @@ namespace Telegram.Bot
         /// </exception>
         public TelegramBotClient(string token, HttpClient? httpClient = null)
         {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
+            if (token is null) throw new ArgumentNullException(nameof(token));
+
+            string[] parts = token.Split(':');
             if (parts.Length > 1 && int.TryParse(parts[0], out var id))
             {
                 BotId = id;
@@ -82,16 +91,16 @@ namespace Telegram.Bot
                 );
             }
 
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
-            _baseFileUrl = $"{BaseFileUrl}{_token}/";
+            _baseRequestUrl = $"{BaseUrl}{token}/";
+            _baseFileUrl = $"{BaseFileUrl}{token}/";
             _httpClient = httpClient ?? new HttpClient();
         }
 
         #region Helpers
 
         /// <inheritdoc />
-        public async Task<TResponse> MakeRequestAsync<TResponse>(
-            IRequest<TResponse> request,
+        public async Task<TResult> MakeRequestAsync<TResult>(
+            IRequest<TResult> request,
             CancellationToken cancellationToken = default)
         {
             var url = _baseRequestUrl + request.MethodName;
@@ -101,57 +110,146 @@ namespace Telegram.Bot
                 Content = request.ToHttpContent()
             };
 
-            var reqDataArgs = new ApiRequestEventArgs(request.MethodName, httpRequest.Content);
-            MakingApiRequest?.Invoke(this, reqDataArgs);
+            ApiRequestEventArgs? requestEventArgs = default;
 
-            HttpResponseMessage httpResponse;
+            if (MakingApiRequest != null)
+            {
+                requestEventArgs = new ApiRequestEventArgs(
+                    request.MethodName,
+                    httpRequest.Content
+                );
+                MakingApiRequest.Invoke(this, requestEventArgs);
+            }
+
+            HttpResponseMessage? httpResponse;
             try
             {
                 httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (TaskCanceledException e)
+            catch (TaskCanceledException exception)
             {
                 if (cancellationToken.IsCancellationRequested)
-                    throw;
-
-                throw new ApiRequestException("Request timed out", 408, e);
-            }
-
-            // required since user might be able to set new status code using following event arg
-            var actualResponseStatusCode = httpResponse.StatusCode;
-            string responseJson = await httpResponse.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
-
-            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs(httpResponse, reqDataArgs));
-
-            switch (actualResponseStatusCode)
-            {
-                case HttpStatusCode.OK:
-                    break;
-                case HttpStatusCode.Unauthorized:
-                case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
-                case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
-                    // Do NOT throw here, an ApiRequestException will be thrown next
-                    break;
-                default:
-                    httpResponse.EnsureSuccessStatusCode();
-                    break;
-            }
-
-            var apiResponse =
-                JsonConvert.DeserializeObject<ApiResponse<TResponse>>(responseJson)
-                ?? new ApiResponse<TResponse> // ToDo is required? unit test
                 {
-                    Ok = false,
-                    Description = "No response received"
-                };
+                    throw;
+                }
 
-            if (!apiResponse.Ok)
-                throw ApiExceptionParser.Parse(apiResponse);
+                throw new RequestException("Request timed out", exception);
+            }
+            catch (Exception exception)
+            {
+                throw new RequestException("Exception during making request", exception);
+            }
 
-            return apiResponse.Result;
+            try
+            {
+                // required since user might be able to set new status code using following
+                // event arg
+                var actualResponseStatusCode = httpResponse.StatusCode;
+
+                if (ApiResponseReceived != null)
+                {
+                    requestEventArgs ??= new ApiRequestEventArgs(
+                        request.MethodName,
+                        httpRequest.Content
+                    );
+                    var responseEventArgs = new ApiResponseEventArgs(
+                        httpResponse,
+                        requestEventArgs
+                    );
+                    ApiResponseReceived.Invoke(this, responseEventArgs);
+                }
+
+                if (actualResponseStatusCode != HttpStatusCode.OK)
+                {
+                    var failedApiResponse = await httpResponse
+                        .DeserializeContentAsync<FailedApiResponse>(
+                            actualResponseStatusCode
+                        ).ConfigureAwait(false);
+
+                    throw ExceptionParser.Parse(
+                        failedApiResponse.ErrorCode,
+                        failedApiResponse.Description,
+                        failedApiResponse.Parameters
+                    );
+                }
+
+                var successfulApiResponse = await httpResponse
+                    .DeserializeContentAsync<SuccessfulApiResponse<TResult>>(
+                        actualResponseStatusCode
+                    ).ConfigureAwait(false);
+
+                return successfulApiResponse.Result;
+            }
+            finally
+            {
+                httpResponse?.Dispose();
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task<ApiResponse<TResult>> SendRequestAsync<TResult>(
+            IRequest<TResult> request,
+            CancellationToken cancellationToken = default)
+        {
+            var url = _baseRequestUrl + request.MethodName;
+
+            var httpRequest = new HttpRequestMessage(request.Method, url)
+            {
+                Content = request.ToHttpContent()
+            };
+
+            ApiRequestEventArgs? requestEventArgs = default;
+
+            if (MakingApiRequest != null)
+            {
+                requestEventArgs = new ApiRequestEventArgs(
+                    request.MethodName,
+                    httpRequest.Content
+                );
+                MakingApiRequest.Invoke(this, requestEventArgs);
+            }
+
+            HttpResponseMessage? httpResponse;
+            try
+            {
+                httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception exception)
+            {
+                throw new RequestException("Exception during making request", exception);
+            }
+
+            try
+            {
+                // required since user might be able to set new status code using following event arg
+                var actualResponseStatusCode = httpResponse.StatusCode;
+
+                if (ApiResponseReceived != null)
+                {
+                    requestEventArgs ??= new ApiRequestEventArgs(
+                        request.MethodName,
+                        httpRequest.Content
+                    );
+                    var responseEventArgs = new ApiResponseEventArgs(
+                        httpResponse,
+                        requestEventArgs
+                    );
+                    ApiResponseReceived.Invoke(this, responseEventArgs);
+                }
+
+                var apiResponse = await httpResponse
+                    .DeserializeContentAsync<ApiResponse<TResult>>(
+                        actualResponseStatusCode
+                    ).ConfigureAwait(false);
+
+                return apiResponse;
+            }
+            finally
+            {
+                httpResponse?.Dispose();
+            }
         }
 
         /// <summary>

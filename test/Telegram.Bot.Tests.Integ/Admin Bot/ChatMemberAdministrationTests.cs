@@ -155,7 +155,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RestrictChatMember)]
         public async Task Should_Restrict_Sending_Stickers_Temporarily()
         {
-            const int banSeconds = 35;
+            const int banSeconds = 50;
 
             await BotClient.RestrictChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
@@ -178,7 +178,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_Temporarily()
         {
-            const int banSeconds = 35;
+            const int banSeconds = 50;
             await _fixture.SendTestInstructionsAsync(
                 $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should be able to join again in" +
                 $" *{banSeconds} seconds* via the link shared in private chat with him/her"

@@ -3,7 +3,9 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Types;
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
@@ -26,6 +28,13 @@ namespace Telegram.Bot
         /// </summary>
         TimeSpan Timeout { get; set; }
 
+        /// <summary>
+        /// Instance of <see cref="IExceptionParser"/> to parse errors from Bot API into
+        /// <see cref="ApiRequestException"/>
+        /// </summary>
+        /// <remarks>This property is not thread safe</remarks>
+        IExceptionParser ExceptionParser { get; set; }
+
         #endregion  Config Properties
 
         #region Events
@@ -47,12 +56,41 @@ namespace Telegram.Bot
         /// <summary>
         /// Send a request to Bot API
         /// </summary>
-        /// <typeparam name="TResponse">Type of expected result in the response object</typeparam>
+        /// <typeparam name="TResult">Type of expected result in the response object</typeparam>
         /// <param name="request">API request object</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Result of the API request</returns>
-        Task<TResponse> MakeRequestAsync<TResponse>(
-            IRequest<TResponse> request,
+        /// <exception cref="ApiRequestException">
+        /// Thrown when the response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response doesn't contain valid JSON string or on any other exception
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is triggered
+        /// </exception>
+        Task<TResult> MakeRequestAsync<TResult>(
+            IRequest<TResult> request,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Send a request to Bot API
+        /// </summary>
+        /// <typeparam name="TResult">Type of expected result in the response object</typeparam>
+        /// <param name="request">API request object</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Result of the API request</returns>
+        /// <returns>
+        /// <see cref="ApiResponse{TResult}"/> instance or <c>null</c> if there isn't any response
+        /// </returns>
+        /// <exception cref="RequestException">
+        /// Thrown when the response doesn't contain valid JSON string or on any other exception
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is triggered
+        /// </exception>
+        Task<ApiResponse<TResult>> SendRequestAsync<TResult>(
+            IRequest<TResult> request,
             CancellationToken cancellationToken = default);
 
         /// <summary>
