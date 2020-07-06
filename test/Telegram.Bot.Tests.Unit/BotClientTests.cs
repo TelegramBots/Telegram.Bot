@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Xunit;
 
@@ -186,6 +187,33 @@ namespace Telegram.Bot.Tests.Unit
 
             Assert.Equal(400, apiRequestException.ErrorCode);
             Assert.Equal("Bad Request: chat_id is incorrect", apiRequestException.Message);
+        }
+
+        [Fact]
+        public async Task Should_Pass_Same_Instance_Of_Request_Event_Args()
+        {
+            var httpClientHandler = new MockHttpMessageHandler(
+                HttpStatusCode.OK,
+                new StringContent(@"{""ok"":true,""result"":[]}}")
+            );
+
+            var httpClient = new HttpClient(httpClientHandler);
+            var botClient = new TelegramBotClient(
+                "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy",
+                httpClient
+            );
+
+            ApiRequestEventArgs requestEventArgs1 = default;
+            ApiRequestEventArgs requestEventArgs2 = default;
+
+            botClient.MakingApiRequest += (sender, args) => requestEventArgs1 = args;
+            botClient.ApiResponseReceived += (sender, args) => requestEventArgs2 = args.ApiRequestEventArgs;
+
+            await botClient.GetUpdatesAsync();
+
+            Assert.NotNull(requestEventArgs1);
+            Assert.NotNull(requestEventArgs2);
+            Assert.Equal(requestEventArgs1, requestEventArgs2);
         }
     }
 }
