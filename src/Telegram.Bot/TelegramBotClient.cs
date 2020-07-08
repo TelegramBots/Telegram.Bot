@@ -208,6 +208,15 @@ namespace Telegram.Bot
                 httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
+            catch (TaskCanceledException exception)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw;
+                }
+
+                throw new RequestException("Request timed out", exception);
+            }
             catch (Exception exception)
             {
                 throw new RequestException("Exception during making request", exception);
@@ -215,9 +224,6 @@ namespace Telegram.Bot
 
             try
             {
-                // required since user might be able to set new status code using following event arg
-                var actualResponseStatusCode = httpResponse.StatusCode;
-
                 if (ApiResponseReceived != null)
                 {
                     requestEventArgs ??= new ApiRequestEventArgs(
