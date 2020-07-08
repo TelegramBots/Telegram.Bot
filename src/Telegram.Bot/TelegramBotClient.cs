@@ -286,18 +286,16 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var fileUri = new Uri($"{_baseFileUrl}{filePath}");
+            var fileUri = new Uri($"{_baseFileUrl}{filePath}", UriKind.Absolute);
 
-            var response = await _httpClient
+            using var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
+
             response.EnsureSuccessStatusCode();
 
-            using (response)
-            {
-                await response.Content.CopyToAsync(destination)
-                    .ConfigureAwait(false);
-            }
+            await response.Content.CopyToAsync(destination)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc />
