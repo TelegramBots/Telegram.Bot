@@ -143,10 +143,6 @@ namespace Telegram.Bot
 
             try
             {
-                // required since user might be able to set new status code using following
-                // event arg
-                var actualResponseStatusCode = httpResponse.StatusCode;
-
                 if (ApiResponseReceived != null)
                 {
                     requestEventArgs ??= new ApiRequestEventArgs(
@@ -160,12 +156,11 @@ namespace Telegram.Bot
                     ApiResponseReceived.Invoke(this, responseEventArgs);
                 }
 
-                if (actualResponseStatusCode != HttpStatusCode.OK)
+                if (httpResponse.StatusCode != HttpStatusCode.OK)
                 {
                     var failedApiResponse = await httpResponse
-                        .DeserializeContentAsync<FailedApiResponse>(
-                            actualResponseStatusCode
-                        ).ConfigureAwait(false);
+                        .DeserializeContentAsync<FailedApiResponse>()
+                        .ConfigureAwait(false);
 
                     throw ExceptionParser.Parse(
                         failedApiResponse.ErrorCode,
@@ -175,9 +170,8 @@ namespace Telegram.Bot
                 }
 
                 var successfulApiResponse = await httpResponse
-                    .DeserializeContentAsync<SuccessfulApiResponse<TResult>>(
-                        actualResponseStatusCode
-                    ).ConfigureAwait(false);
+                    .DeserializeContentAsync<SuccessfulApiResponse<TResult>>()
+                    .ConfigureAwait(false);
 
                 return successfulApiResponse.Result;
             }
@@ -240,9 +234,8 @@ namespace Telegram.Bot
                 }
 
                 var apiResponse = await httpResponse
-                    .DeserializeContentAsync<ApiResponse<TResult>>(
-                        actualResponseStatusCode
-                    ).ConfigureAwait(false);
+                    .DeserializeContentAsync<ApiResponse<TResult>>()
+                    .ConfigureAwait(false);
 
                 return apiResponse;
             }
