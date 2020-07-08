@@ -103,8 +103,7 @@ namespace Telegram.Bot
             IRequest<TResult> request,
             CancellationToken cancellationToken = default)
         {
-            var url = _baseRequestUrl + request.MethodName;
-
+            var url = new Uri($"{_baseRequestUrl}{request.MethodName}", UriKind.Absolute);
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
                 Content = request.ToHttpContent()
@@ -186,8 +185,7 @@ namespace Telegram.Bot
             IRequest<TResult> request,
             CancellationToken cancellationToken = default)
         {
-            var url = _baseRequestUrl + request.MethodName;
-
+            var url = new Uri($"{_baseRequestUrl}{request.MethodName}", UriKind.Absolute);
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
                 Content = request.ToHttpContent()
