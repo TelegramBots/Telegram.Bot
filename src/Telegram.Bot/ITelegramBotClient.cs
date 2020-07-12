@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -47,6 +48,10 @@ namespace Telegram.Bot
         /// <summary>
         /// Occurs after receiving the response to an API request
         /// </summary>
+        /// <remarks>
+        /// Don't mutate <see cref="HttpResponseMessage"/> received from <see cref="ApiResponseEventArgs"/>. If you
+        /// render it unserializable <see cref="RequestException"/> will be thrown.
+        /// </remarks>
         event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
 
         #endregion Events

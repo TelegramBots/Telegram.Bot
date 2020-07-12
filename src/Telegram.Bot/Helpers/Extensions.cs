@@ -1,8 +1,6 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,8 +65,7 @@ namespace Telegram.Bot.Helpers
         /// </summary>
         /// <param name="stream"><see cref="Stream"/> with content</param>
         /// <typeparam name="T">Type of the resulting object</typeparam>
-        /// <returns></returns>
-        [return: MaybeNull]
+        /// <returns>Deserialized instance of <typeparam name="T" /> or <c>null</c></returns>
         private static T? DeserializeJsonFromStream<T>(this Stream stream)
             where T : class
         {
@@ -88,22 +85,23 @@ namespace Telegram.Bot.Helpers
         /// Deserialize body from HttpContent into <typeparamref name="T"/>
         /// </summary>
         /// <param name="httpResponse"><see cref="HttpResponseMessage"/> instance</param>
-        /// <param name="statusCode"><see cref="HttpStatusCode"/> of the response</param>
         /// <typeparam name="T">Type of the resulting object</typeparam>
         /// <returns></returns>
         /// <exception cref="RequestException">
         /// Thrown when body in the response can not be deserialized into <typeparamref name="T"/>
         /// </exception>
         internal static async Task<T> DeserializeContentAsync<T>(
-            this HttpResponseMessage httpResponse,
-            HttpStatusCode statusCode)
+            this HttpResponseMessage httpResponse)
             where T : class
         {
             T? deserializedObject;
             Stream? contentStream = null;
 
             if (httpResponse.Content is null)
-                throw new RequestException("Response doesn't contain any content", statusCode);
+                throw new RequestException(
+                    "Response doesn't contain any content",
+                    httpResponse.StatusCode
+                );
 
             try
             {
@@ -122,7 +120,7 @@ namespace Telegram.Bot.Helpers
 
                 throw new RequestException(
                     "Required properties not found in response.",
-                    statusCode,
+                    httpResponse.StatusCode,
                     stringifiedResponse,
                     exception
                 );
@@ -140,7 +138,7 @@ namespace Telegram.Bot.Helpers
 
                 throw new RequestException(
                     "Required properties not found in response.",
-                    statusCode,
+                    httpResponse.StatusCode,
                     stringifiedResponse
                 );
             }

@@ -103,8 +103,7 @@ namespace Telegram.Bot
             IRequest<TResult> request,
             CancellationToken cancellationToken = default)
         {
-            var url = _baseRequestUrl + request.MethodName;
-
+            var url = new Uri($"{_baseRequestUrl}{request.MethodName}", UriKind.Absolute);
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
                 Content = request.ToHttpContent()
@@ -143,10 +142,6 @@ namespace Telegram.Bot
 
             try
             {
-                // required since user might be able to set new status code using following
-                // event arg
-                var actualResponseStatusCode = httpResponse.StatusCode;
-
                 if (ApiResponseReceived != null)
                 {
                     requestEventArgs ??= new ApiRequestEventArgs(
@@ -160,12 +155,11 @@ namespace Telegram.Bot
                     ApiResponseReceived.Invoke(this, responseEventArgs);
                 }
 
-                if (actualResponseStatusCode != HttpStatusCode.OK)
+                if (httpResponse.StatusCode != HttpStatusCode.OK)
                 {
                     var failedApiResponse = await httpResponse
-                        .DeserializeContentAsync<FailedApiResponse>(
-                            actualResponseStatusCode
-                        ).ConfigureAwait(false);
+                        .DeserializeContentAsync<FailedApiResponse>()
+                        .ConfigureAwait(false);
 
                     throw ExceptionParser.Parse(
                         failedApiResponse.ErrorCode,
@@ -175,9 +169,8 @@ namespace Telegram.Bot
                 }
 
                 var successfulApiResponse = await httpResponse
-                    .DeserializeContentAsync<SuccessfulApiResponse<TResult>>(
-                        actualResponseStatusCode
-                    ).ConfigureAwait(false);
+                    .DeserializeContentAsync<SuccessfulApiResponse<TResult>>()
+                    .ConfigureAwait(false);
 
                 return successfulApiResponse.Result;
             }
@@ -192,8 +185,7 @@ namespace Telegram.Bot
             IRequest<TResult> request,
             CancellationToken cancellationToken = default)
         {
-            var url = _baseRequestUrl + request.MethodName;
-
+            var url = new Uri($"{_baseRequestUrl}{request.MethodName}", UriKind.Absolute);
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
                 Content = request.ToHttpContent()
@@ -216,6 +208,15 @@ namespace Telegram.Bot
                 httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
+            catch (TaskCanceledException exception)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw;
+                }
+
+                throw new RequestException("Request timed out", exception);
+            }
             catch (Exception exception)
             {
                 throw new RequestException("Exception during making request", exception);
@@ -223,9 +224,6 @@ namespace Telegram.Bot
 
             try
             {
-                // required since user might be able to set new status code using following event arg
-                var actualResponseStatusCode = httpResponse.StatusCode;
-
                 if (ApiResponseReceived != null)
                 {
                     requestEventArgs ??= new ApiRequestEventArgs(
@@ -240,9 +238,8 @@ namespace Telegram.Bot
                 }
 
                 var apiResponse = await httpResponse
-                    .DeserializeContentAsync<ApiResponse<TResult>>(
-                        actualResponseStatusCode
-                    ).ConfigureAwait(false);
+                    .DeserializeContentAsync<ApiResponse<TResult>>()
+                    .ConfigureAwait(false);
 
                 return apiResponse;
             }
@@ -289,18 +286,16 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var fileUri = new Uri($"{_baseFileUrl}{filePath}");
+            var fileUri = new Uri($"{_baseFileUrl}{filePath}", UriKind.Absolute);
 
-            var response = await _httpClient
+            using var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                 .ConfigureAwait(false);
+
             response.EnsureSuccessStatusCode();
 
-            using (response)
-            {
-                await response.Content.CopyToAsync(destination)
-                    .ConfigureAwait(false);
-            }
+            await response.Content.CopyToAsync(destination)
+                .ConfigureAwait(false);
         }
 
         /// <inheritdoc />
