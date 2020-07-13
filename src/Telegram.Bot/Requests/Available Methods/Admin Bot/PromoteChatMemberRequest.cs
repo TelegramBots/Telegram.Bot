@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -11,7 +12,7 @@ namespace Telegram.Bot.Requests
     /// for all boolean parameters to demote a user.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class PromoteChatMemberRequest : RequestBase<bool>
+    public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

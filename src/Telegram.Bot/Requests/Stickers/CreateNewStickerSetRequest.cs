@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
@@ -13,7 +14,7 @@ namespace Telegram.Bot.Requests
     /// set. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class CreateNewStickerSetRequest : FileRequestBase<bool>
+    public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     {
         /// <summary>
         /// User identifier of sticker set owner

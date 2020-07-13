@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -9,7 +10,7 @@ namespace Telegram.Bot.Requests
     /// Delete a group sticker set from a supergroup
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class DeleteChatStickerSetRequest : RequestBase<bool>
+    public class DeleteChatStickerSetRequest : RequestBase<bool>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

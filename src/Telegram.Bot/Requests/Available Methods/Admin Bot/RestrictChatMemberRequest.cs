@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -13,7 +14,7 @@ namespace Telegram.Bot.Requests
     /// parameters to lift restrictions from a user.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class RestrictChatMemberRequest : RequestBase<bool>
+    public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target supergroup

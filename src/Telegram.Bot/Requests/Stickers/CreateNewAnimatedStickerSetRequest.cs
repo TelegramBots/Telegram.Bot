@@ -1,7 +1,8 @@
 ﻿﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types;
+ using Telegram.Bot.Requests.Abstractions;
+ using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
 // ReSharper disable once CheckNamespace
@@ -12,7 +13,7 @@ namespace Telegram.Bot.Requests
     /// created sticker set. Returns True on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class CreateNewAnimatedStickerSetRequest : FileRequestBase<bool>
+    public class CreateNewAnimatedStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     {
         /// <summary>
         /// User identifier of sticker set owner

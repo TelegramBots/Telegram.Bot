@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -10,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// his neighbors in a game. On success, returns an array of <see cref="GameHighScore"/>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>
+    public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>, IUserTargetable
     {
         /// <summary>
         /// User identifier

@@ -4,6 +4,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Requests
     /// <see cref="Message"/>s is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendMediaGroupRequest : FileRequestBase<Message[]>
+    public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -9,7 +10,7 @@ namespace Telegram.Bot.Requests
     /// Unban a previously kicked user in a supergroup or channel
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class UnbanChatMemberRequest : RequestBase<bool>
+    public class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
     {
         /// <summary>
         /// Unique identifier for the target group or username of the target supergroup or channel
