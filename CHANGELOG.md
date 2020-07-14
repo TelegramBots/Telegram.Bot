@@ -64,7 +64,7 @@ feature)
 except `TaskCancelledException` that is triggered by token cancellation and errors from 
 `MakingApiRequest` and `ApiResponseReceived` event handlers
 - Interface `IChatMessage` renamed into `IChatTargetable`
-- Requests with have a property `long ChatId { get; }` explicitly implement `IChatTargetable`
+- Requests with a property `long ChatId { get; }` explicitly implement `IChatTargetable`
 
 ### Removed
 - Enum member `ParseMode.Default`
