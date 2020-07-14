@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 using File = Telegram.Bot.Types.File;
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Requests
     /// Returns the uploaded <see cref="File"/> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class UploadStickerFileRequest : FileRequestBase<File>
+    public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     {
         /// <summary>
         /// User identifier of sticker file owner

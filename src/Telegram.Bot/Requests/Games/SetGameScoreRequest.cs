@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -11,7 +12,7 @@ namespace Telegram.Bot.Requests
     /// current score in the chat and force is False.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SetGameScoreRequest : RequestBase<Message>
+    public class SetGameScoreRequest : RequestBase<Message>, IChatTargetable, IUserTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat
@@ -50,6 +51,9 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableEditMessage { get; set; }
+
+        [JsonIgnore]
+        ChatId IChatTargetable.ChatId => ChatId;
 
         /// <summary>
         /// Initializes a new request

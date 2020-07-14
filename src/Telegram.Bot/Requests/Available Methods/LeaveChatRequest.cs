@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -9,7 +10,7 @@ namespace Telegram.Bot.Requests
     /// Leave a group, supergroup or channel
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class LeaveChatRequest : RequestBase<bool>
+    public class LeaveChatRequest : RequestBase<bool>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

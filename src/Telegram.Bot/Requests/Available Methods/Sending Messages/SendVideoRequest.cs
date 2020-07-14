@@ -2,6 +2,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Requests
     /// Send video files, Telegram clients support mp4 videos
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendVideoRequest : FileRequestBase<Message>
+    public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -10,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// administrator in the chat for this to work and must have the appropriate admin rights.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SetChatTitleRequest : RequestBase<bool>
+    public class SetChatTitleRequest : RequestBase<bool>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

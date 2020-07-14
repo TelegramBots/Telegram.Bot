@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
@@ -12,7 +13,7 @@ namespace Telegram.Bot.Requests
     /// Add a new sticker to a set created by the bot. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class AddStickerToSetRequest : FileRequestBase<bool>
+    public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     {
         /// <summary>
         /// User identifier of sticker set owner

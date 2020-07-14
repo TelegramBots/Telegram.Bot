@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -12,7 +13,7 @@ namespace Telegram.Bot.Requests
     /// Send invoices. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendInvoiceRequest : RequestBase<Message>
+    public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target private chat
@@ -157,6 +158,9 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+
+        [JsonIgnore]
+        ChatId IChatTargetable.ChatId => ChatId;
 
         /// <summary>
         /// Initializes a new request with chatId, title, description, payload, providerToken,

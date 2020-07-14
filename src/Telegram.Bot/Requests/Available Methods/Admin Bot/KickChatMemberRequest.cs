@@ -2,6 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -11,7 +12,7 @@ namespace Telegram.Bot.Requests
     /// Kick a user from a group, a supergroup or a channel
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class KickChatMemberRequest : RequestBase<bool>
+    public class KickChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
     {
         /// <summary>
         /// Unique identifier for the target group or username of the target supergroup or channel

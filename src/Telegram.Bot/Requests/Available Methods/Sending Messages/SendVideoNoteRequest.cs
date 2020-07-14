@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Requests
     /// Send rounded video messages
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendVideoNoteRequest : FileRequestBase<Message>
+    public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

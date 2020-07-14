@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -10,7 +11,7 @@ namespace Telegram.Bot.Requests
     /// Edit live location messages sent by the bot
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditMessageLiveLocationRequest : RequestBase<Message>
+    public class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

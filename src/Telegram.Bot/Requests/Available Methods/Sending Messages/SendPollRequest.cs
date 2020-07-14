@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,7 +15,7 @@ namespace Telegram.Bot.Requests
     /// Send a native poll. A native poll can't be sent to a private chat.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendPollRequest : RequestBase<Message>
+    public class SendPollRequest : RequestBase<Message>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel

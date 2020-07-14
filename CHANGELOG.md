@@ -31,7 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 exception `ApiRequestException`
 - Interface `IExceptionParser` for implementing custom parsers for exception, default
 implementation of `IExceptionParser` throws all correct errors from Bot Api as `ApiRequestException`
-- Property `ITelegramBotClient.ExceptionParser` 
+- Property `ITelegramBotClient.ExceptionParser`
+- Interface `IUserTargetable`
+- Request classes with a property `int UserId { get; }` implement `IUserTargetable` 
 
 ### Changed
 - All optional Bot API properties are made nullable 
@@ -61,6 +63,8 @@ feature)
 - All other exceptions during request sending logic are wrapped inside `RequestException` 
 except `TaskCancelledException` that is triggered by token cancellation and errors from 
 `MakingApiRequest` and `ApiResponseReceived` event handlers
+- Interface `IChatMessage` renamed into `IChatTargetable`
+- Requests with a property `long ChatId { get; }` explicitly implement `IChatTargetable`
 
 ### Removed
 - Enum member `ParseMode.Default`

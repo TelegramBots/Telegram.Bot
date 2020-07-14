@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
@@ -11,7 +12,7 @@ namespace Telegram.Bot.Requests
     /// the supergroup or <see cref="ChatMember.CanEditMessages"/> admin right in the channel.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class UnpinChatMessageRequest : RequestBase<bool>
+    public class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
