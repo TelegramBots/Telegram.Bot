@@ -288,14 +288,36 @@ namespace Telegram.Bot
 
             var fileUri = new Uri($"{_baseFileUrl}{filePath}", UriKind.Absolute);
 
-            using var response = await _httpClient
-                .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                .ConfigureAwait(false);
+            try
+            {
+                using var httpResponse = await _httpClient
+                    .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+                    .ConfigureAwait(false);
 
-            response.EnsureSuccessStatusCode();
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    var body = await httpResponse.Content.ReadAsStringAsync()
+                        .ConfigureAwait(false);
 
-            await response.Content.CopyToAsync(destination)
-                .ConfigureAwait(false);
+                    throw new RequestException("Resulting response is unsuccessful", httpResponse.StatusCode, body);
+                }
+
+                await httpResponse.Content.CopyToAsync(destination)
+                    .ConfigureAwait(false);
+            }
+            catch (TaskCanceledException exception)
+            {
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw;
+                }
+
+                throw new RequestException("Request timed out", exception);
+            }
+            catch (Exception exception)
+            {
+                throw new RequestException("Exception during file download", exception);
+            }
         }
 
         /// <inheritdoc />

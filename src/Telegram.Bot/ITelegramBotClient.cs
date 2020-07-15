@@ -114,6 +114,18 @@ namespace Telegram.Bot
         /// <param name="filePath">Path to file on server</param>
         /// <param name="destination">Destination stream to write file to</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="filePath"/> is null or invalid
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="destination"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         Task DownloadFileAsync(
             string filePath,
             Stream destination,
@@ -129,6 +141,21 @@ namespace Telegram.Bot
         /// of cancellation.
         /// </param>
         /// <returns>File info</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown when file path received from Bot API is <c>null</c> or invalid
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="destination"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when the response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         Task<File> GetInfoAndDownloadFileAsync(
             string fileId,
             Stream destination,
