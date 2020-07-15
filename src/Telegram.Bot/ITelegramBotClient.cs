@@ -120,6 +120,9 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="destination"/> is <c>null</c>
         /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
         /// <exception cref="RequestException">
         /// Thrown when response is not successful
         /// </exception>
@@ -148,7 +151,7 @@ namespace Telegram.Bot
         /// Thrown when <paramref name="destination"/> is <c>null</c>
         /// </exception>
         /// <exception cref="ApiRequestException">
-        /// Thrown when the response contains a valid JSON string with an error and description
+        /// Thrown when error response contains a valid JSON string with an error and description
         /// </exception>
         /// <exception cref="RequestException">
         /// Thrown when the response is not successful

@@ -296,10 +296,15 @@ namespace Telegram.Bot
 
                 if (!httpResponse.IsSuccessStatusCode)
                 {
-                    var body = await httpResponse.Content.ReadAsStringAsync()
+                    var failedApiResponse = await httpResponse
+                        .DeserializeContentAsync<FailedApiResponse>(includeBody: false)
                         .ConfigureAwait(false);
 
-                    throw new RequestException("Resulting response is unsuccessful", httpResponse.StatusCode, body);
+                    throw ExceptionParser.Parse(
+                        failedApiResponse.ErrorCode,
+                        failedApiResponse.Description,
+                        failedApiResponse.Parameters
+                    );
                 }
 
                 await httpResponse.Content.CopyToAsync(destination)
