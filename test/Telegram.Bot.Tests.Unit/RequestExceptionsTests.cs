@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -10,7 +9,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit
 {
-    public class BotClientTests
+    public class RequestExceptionsTests
     {
         [Fact]
         public async Task Should_Throw_RequestException_On_Incorrect_Proxy()
