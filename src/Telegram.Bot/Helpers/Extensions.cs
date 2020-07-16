@@ -85,13 +85,17 @@ namespace Telegram.Bot.Helpers
         /// Deserialize body from HttpContent into <typeparamref name="T"/>
         /// </summary>
         /// <param name="httpResponse"><see cref="HttpResponseMessage"/> instance</param>
+        /// <param name="includeBody">
+        /// Specifies if stringified body should be included in <see cref="RequestException"/>
+        /// </param>
         /// <typeparam name="T">Type of the resulting object</typeparam>
         /// <returns></returns>
         /// <exception cref="RequestException">
         /// Thrown when body in the response can not be deserialized into <typeparamref name="T"/>
         /// </exception>
         internal static async Task<T> DeserializeContentAsync<T>(
-            this HttpResponseMessage httpResponse)
+            this HttpResponseMessage httpResponse,
+            bool includeBody = true)
             where T : class
         {
             T? deserializedObject;
@@ -114,16 +118,27 @@ namespace Telegram.Bot.Helpers
             }
             catch (Exception exception)
             {
-                var stringifiedResponse = await httpResponse.Content
-                    .ReadAsStringAsync()
-                    .ConfigureAwait(false);
+                if (includeBody)
+                {
+                    var stringifiedResponse = await httpResponse.Content
+                        .ReadAsStringAsync()
+                        .ConfigureAwait(false);
 
-                throw new RequestException(
-                    "Required properties not found in response.",
-                    httpResponse.StatusCode,
-                    stringifiedResponse,
-                    exception
-                );
+                    throw new RequestException(
+                        "Required properties not found in response.",
+                        httpResponse.StatusCode,
+                        stringifiedResponse,
+                        exception
+                    );
+                }
+                else
+                {
+                    throw new RequestException(
+                        "Required properties not found in response.",
+                        httpResponse.StatusCode,
+                        exception
+                    );
+                }
             }
             finally
             {

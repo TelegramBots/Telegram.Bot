@@ -81,6 +81,25 @@ namespace Telegram.Bot.Exceptions
         /// <param name="httpStatusCode">
         /// <see cref="HttpStatusCode"/> of the received response
         /// </param>
+        /// <param name="innerException">
+        /// The exception that is the cause of the current exception, or a null reference
+        /// (Nothing in Visual Basic) if no inner exception is specified.
+        /// </param>
+        public RequestException(string message, HttpStatusCode httpStatusCode, Exception innerException)
+            : base(message, innerException)
+        {
+            HttpStatusCode = httpStatusCode;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RequestException"/> class.
+        /// </summary>
+        /// <param name="message">
+        /// The error message that explains the reason for the exception.
+        /// </param>
+        /// <param name="httpStatusCode">
+        /// <see cref="HttpStatusCode"/> of the received response
+        /// </param>
         /// <param name="body">Body of the received response</param>
         /// <param name="innerException">
         /// The exception that is the cause of the current exception, or a null reference

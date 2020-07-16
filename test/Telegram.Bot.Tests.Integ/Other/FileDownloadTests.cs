@@ -1,5 +1,4 @@
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Exceptions;
@@ -123,24 +122,23 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Contains("file_id", exception.Message);
         }
 
-        [OrderedFact("Should throw HttpRequestException while trying to download file using wrong file_path")]
+        [OrderedFact("Should throw ApiRequestException while trying to download file using wrong file_path")]
         public async Task Should_Throw_FilePath_HttpRequestException()
         {
             await using MemoryStream destinationStream = new MemoryStream();
 
-            HttpRequestException exception = await Assert.ThrowsAnyAsync<HttpRequestException>(
-                async () =>
-                {
-                    await BotClient.DownloadFileAsync(
-                        filePath: "Invalid_File_Path",
-                        destination: destinationStream
-                    );
-                }
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
+                () => BotClient.DownloadFileAsync(
+                    filePath: "Invalid_File_Path",
+                    destination: destinationStream
+                )
             );
 
             Assert.Equal(0, destinationStream.Length);
             Assert.Equal(0, destinationStream.Position);
-            Assert.Contains("404", exception.Message);
+
+            Assert.Equal(404, exception.ErrorCode);
+            Assert.Contains("Not Found", exception.Message);
         }
 
         public class Fixture
