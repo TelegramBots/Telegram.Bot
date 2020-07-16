@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -55,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Delete_Chat_Description()
         {
-            await BotClient.SetChatDescriptionAsync(_classFixture.Chat.Id);
+            await BotClient.SetChatDescriptionAsync(chatId: _classFixture.Chat.Id);
         }
 
         #endregion
@@ -66,7 +65,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PinChatMessage)]
         public async Task Should_Pin_Message()
         {
-            Message msg = await BotClient.SendTextMessageAsync(_classFixture.Chat.Id, "Description to pin");
+            Message msg = await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.Chat.Id,
+                text: "Description to pin"
+            );
 
             await BotClient.PinChatMessageAsync(
                 chatId: _classFixture.Chat.Id,
@@ -83,7 +85,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             Message pinnedMsg = _classFixture.PinnedMessage;
 
-            Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
+            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.Chat.Id);
 
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(pinnedMsg), JToken.FromObject(chat.PinnedMessage)
@@ -94,14 +96,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnpinChatMessage)]
         public async Task Should_Unpin_Message()
         {
-            await BotClient.UnpinChatMessageAsync(_classFixture.Chat.Id);
+            await BotClient.UnpinChatMessageAsync(chatId: _classFixture.Chat.Id);
         }
 
         [OrderedFact("Should get the chat info without a pinned message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_With_No_Pinned_Message()
         {
-            Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
+            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.Chat.Id);
 
             Assert.Null(chat.PinnedMessage);
         }
@@ -125,7 +127,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_Photo()
         {
-            Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
+            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.Chat.Id);
 
             Assert.NotNull(chat.Photo);
             Assert.NotEmpty(chat.Photo.BigFileId);
@@ -138,18 +140,21 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Delete_Chat_Photo()
         {
-            await BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id);
+            await BotClient.DeleteChatPhotoAsync(chatId: _classFixture.Chat.Id);
         }
 
         [OrderedFact("Should throw exception in deleting chat photo with no photo currently set")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
-                BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id));
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
+                async () => await BotClient.DeleteChatPhotoAsync(
+                    chatId: _classFixture.Chat.Id
+                )
+            );
 
-            Assert.IsType<ApiRequestException>(e);
-            Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", exception.Message);
         }
 
         #endregion
@@ -160,13 +165,15 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatStickerSet)]
         public async Task Should_Throw_On_Setting_Chat_Sticker_Set()
         {
-            const string setName = "EvilMinds";
+            string setName = "EvilMinds";
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
-                _fixture.BotClient.SetChatStickerSetAsync(_classFixture.Chat.Id, setName)
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
+                async () => await _fixture.BotClient.SetChatStickerSetAsync(
+                    chatId: _classFixture.Chat.Id,
+                    stickerSetName: setName
+                )
             );
 
-            // ToDo: Create exception type
             Assert.Equal(400, exception.ErrorCode);
             Assert.Equal("Bad Request: method is available only for supergroups", exception.Message);
         }

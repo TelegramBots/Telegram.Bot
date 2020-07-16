@@ -29,15 +29,18 @@ namespace Telegram.Bot.Tests.Integ.Interactive
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Notification()
         {
-            string callbackQueryData = 'a' + new Random().Next(5_000).ToString();
+            string callbackQueryData = $"a{new Random().Next(5_000).ToString()}";
 
             Message message = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 text: "Please click on *OK* button.",
                 parseMode: ParseMode.Markdown,
-                replyMarkup: new InlineKeyboardMarkup(new[]
+                replyMarkup: new InlineKeyboardMarkup(new []
                 {
-                    InlineKeyboardButton.WithCallbackData("OK", callbackQueryData)
+                    InlineKeyboardButton.WithCallbackData(
+                        text: "OK",
+                        callbackData: callbackQueryData
+                    )
                 })
             );
 
@@ -59,7 +62,8 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             Assert.NotNull(callbackQuery.From.Username);
             Assert.NotEmpty(callbackQuery.From.Username);
             Assert.True(JToken.DeepEquals(
-                JToken.FromObject(message), JToken.FromObject(callbackQuery.Message)
+                JToken.FromObject(message),
+                JToken.FromObject(callbackQuery.Message)
             ));
         }
 
@@ -68,14 +72,17 @@ namespace Telegram.Bot.Tests.Integ.Interactive
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_With_Alert()
         {
-            string callbackQueryData = 'b' + new Random().Next(5_000).ToString();
+            string callbackQueryData = $"b{new Random().Next(5_000)}";
 
             Message message = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 text: "Please click on *Notify* button.",
                 parseMode: ParseMode.Markdown,
                 replyMarkup: new InlineKeyboardMarkup(
-                    InlineKeyboardButton.WithCallbackData("Notify", callbackQueryData)
+                    InlineKeyboardButton.WithCallbackData(
+                        text: "Notify",
+                        callbackData: callbackQueryData
+                    )
                 )
             );
 
@@ -99,7 +106,8 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             Assert.NotNull(callbackQuery.From.Username);
             Assert.NotEmpty(callbackQuery.From.Username);
             Assert.True(JToken.DeepEquals(
-                JToken.FromObject(message), JToken.FromObject(callbackQuery.Message)
+                JToken.FromObject(message),
+                JToken.FromObject(callbackQuery.Message)
             ));
         }
     }

@@ -23,9 +23,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact()
         {
-            const string phoneNumber = "+1234567890";
-            const string firstName = "Han";
-            const string lastName = "Solo";
+            string phoneNumber = "+1234567890";
+            string firstName = "Han";
+            string lastName = "Solo";
 
             Message message = await BotClient.SendContactAsync(
                 chatId: _fixture.SupergroupChat,

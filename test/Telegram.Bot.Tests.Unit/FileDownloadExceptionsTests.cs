@@ -27,7 +27,10 @@ namespace Telegram.Bot.Tests.Unit
             await using var memoryStream = new MemoryStream();
 
             var requestException =  await Assert.ThrowsAsync<RequestException>(
-                async () => await botClient.DownloadFileAsync("file/path", memoryStream)
+                async () => await botClient.DownloadFileAsync(
+                    filePath: "file/path",
+                    destination: memoryStream
+                )
             );
 
             Assert.Null(requestException.HttpStatusCode);
@@ -52,7 +55,11 @@ namespace Telegram.Bot.Tests.Unit
             await using var memoryStream = new MemoryStream();
 
             await Assert.ThrowsAsync<TaskCanceledException>(
-                async () => await botClient.DownloadFileAsync("file/path", memoryStream, cancellationToken: token)
+                async () => await botClient.DownloadFileAsync(
+                    filePath: "file/path",
+                    destination: memoryStream,
+                    cancellationToken: token
+                )
             );
 
             Assert.Equal(0, memoryStream.Length);
@@ -74,7 +81,10 @@ namespace Telegram.Bot.Tests.Unit
             await using var memoryStream = new MemoryStream();
 
             var requestException = await Assert.ThrowsAsync<RequestException>(
-                async () => await botClient.DownloadFileAsync("file/path", memoryStream)
+                async () => await botClient.DownloadFileAsync(
+                    filePath: "file/path",
+                    destination: memoryStream
+                )
             );
 
             Assert.NotNull(requestException.InnerException);
@@ -98,7 +108,10 @@ namespace Telegram.Bot.Tests.Unit
             await using var memoryStream = new MemoryStream();
 
             var requestException = await Assert.ThrowsAsync<RequestException>(
-                async () => await botClient.DownloadFileAsync("file/path", memoryStream)
+                async () => await botClient.DownloadFileAsync(
+                    filePath: "file/path",
+                    destination: memoryStream
+                )
             );
 
             Assert.Equal(HttpStatusCode.OK, requestException.HttpStatusCode);
@@ -125,7 +138,10 @@ namespace Telegram.Bot.Tests.Unit
             await using var memoryStream = new MemoryStream();
 
             var requestException = await Assert.ThrowsAsync<RequestException>(
-                async () => await botClient.DownloadFileAsync("file/path", memoryStream)
+                async () => await botClient.DownloadFileAsync(
+                    filePath: "file/path",
+                    destination: memoryStream
+                )
             );
 
             Assert.Equal(HttpStatusCode.NotFound, requestException.HttpStatusCode);

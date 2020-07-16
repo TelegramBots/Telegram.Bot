@@ -51,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
         public async Task Should_Export_Chat_Invite_Link()
         {
-            string result = await BotClient.ExportChatInviteLinkAsync(_fixture.SupergroupChat.Id);
+            string result = await BotClient.ExportChatInviteLinkAsync(chatId: _fixture.SupergroupChat.Id);
 
             Assert.StartsWith("https://t.me/joinchat/", result);
 
@@ -62,8 +62,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task Should_Receive_New_Chat_Member_Notification()
         {
             await _fixture.SendTestInstructionsAsync(
-                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should join the group using invite link sent to " +
-                "him/her in private chat"
+                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should join the " +
+                "group using invite link sent to him/her in private chat"
             );
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
@@ -73,13 +73,13 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 text: _classFixture.GroupInviteLink
             );
 
-            Update update = (await _fixture.UpdateReceiver
-                    .GetUpdatesAsync(u =>
+            Update update = await _fixture.UpdateReceiver
+                    .GetUpdateAsync(u =>
                             u.Message?.Chat?.Type == ChatType.Supergroup &&
-                            u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
+                            u.Message.Chat.Id == _fixture.SupergroupChat.Id &&
                             u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: UpdateType.Message)
-                ).Single();
+                        updateTypes: UpdateType.Message
+                    );
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -113,8 +113,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task Should_Set_Custom_Title_For_Admin()
         {
             ChatMember promotedRegularUser = await BotClient.GetChatMemberAsync(
-                _fixture.SupergroupChat,
-                _classFixture.RegularMemberUserId
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
             );
 
             await BotClient.SetChatAdministratorCustomTitleAsync(
@@ -124,8 +124,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
 
             ChatMember newChatMember = await BotClient.GetChatMemberAsync(
-                _fixture.SupergroupChat,
-                promotedRegularUser.User.Id
+                chatId: _fixture.SupergroupChat,
+                userId: promotedRegularUser.User.Id
             );
 
             Assert.Equal("CHANGED TITLE", newChatMember.CustomTitle);

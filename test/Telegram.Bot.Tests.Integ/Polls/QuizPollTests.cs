@@ -49,7 +49,10 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.Null(message.Poll.OpenPeriod);
             Assert.Null(message.Poll.CloseDate);
 
-            Assert.Equal("How many silmarils were made in J. R. R. Tolkiens's Silmarillion?", message.Poll.Question);
+            Assert.Equal(
+                "How many silmarils were made in J. R. R. Tolkiens's Silmarillion?",
+                message.Poll.Question
+            );
             Assert.Equal(3, message.Poll.Options.Length);
             Assert.Equal("One", message.Poll.Options[0].Text);
             Assert.Equal("Ten", message.Poll.Options[1].Text);
@@ -78,11 +81,11 @@ namespace Telegram.Bot.Tests.Integ.Polls
 
             Poll poll = _classFixture.OriginalPollMessage.Poll;
 
-            Update pollAnswerUpdates = (await Fixture.UpdateReceiver.GetUpdatesAsync(
+            Update pollAnswerUpdates = await Fixture.UpdateReceiver.GetUpdateAsync(
                 update => update.PollAnswer!.OptionIds.Length == 1 &&
                           update.PollAnswer.PollId == poll!.Id,
                 updateTypes: UpdateType.PollAnswer
-            )).Last();
+            );
 
             PollAnswer pollAnswer = pollAnswerUpdates.PollAnswer;
 

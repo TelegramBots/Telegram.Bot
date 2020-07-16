@@ -66,10 +66,10 @@ namespace Telegram.Bot.Tests.Integ.Polls
                 "🗳 Vote for more than one option on the poll above 👆"
             );
 
-            Update pollAnswerUpdate = (await Fixture.UpdateReceiver.GetUpdatesAsync(
+            Update pollAnswerUpdate = await Fixture.UpdateReceiver.GetUpdateAsync(
                 update => update.PollAnswer!.OptionIds.Length > 1,
                 updateTypes: UpdateType.PollAnswer
-            )).First();
+            );
 
             Poll poll = _classFixture.OriginalPollMessage.Poll;
             PollAnswer pollAnswer = pollAnswerUpdate.PollAnswer;

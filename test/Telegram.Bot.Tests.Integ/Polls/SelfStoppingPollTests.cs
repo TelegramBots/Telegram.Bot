@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -30,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Message message = await BotClient.SendPollAsync(
                 chatId: Fixture.SupergroupChat,
                 question: "Who shot first?",
-                options: new[] {"Han Solo", "Greedo", "I don't care"},
+                options: new [] { "Han Solo", "Greedo", "I don't care" },
                 openPeriod: 6
             );
 
@@ -64,8 +63,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
         //     string pollId = _classFixture.PollMessage.Poll!.Id;
         //
         //     await Fixture.SendTestInstructionsAsync("Wait a few seconds until the poll automatically closes");
-        //     Update update = (await Fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
-        //         .Last();
+        //     Update update = await Fixture.UpdateReceiver.GetUpdateAsync(updateTypes: UpdateType.Poll);
         //
         //     Assert.Equal(UpdateType.Poll, update.Type);
         //     Assert.Equal(pollId, update.Poll!.Id);
@@ -85,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Message message = await BotClient.SendPollAsync(
                 chatId: Fixture.SupergroupChat,
                 question: "Who shot first?",
-                options: new[] {"Han Solo", "Greedo", "I don't care"},
+                options: new [] { "Han Solo", "Greedo", "I don't care" },
                 closeDate: closeDate
             );
 
@@ -127,8 +125,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
         //     string pollId = _classFixture.PollMessage.Poll!.Id;
         //
         //     await Fixture.SendTestInstructionsAsync("Wait a few seconds until the poll automatically closes");
-        //     Update update = (await Fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll))
-        //         .Last();
+        //     Update update = await Fixture.UpdateReceiver.GetUpdatesAsync(updateTypes: UpdateType.Poll);
         //
         //     Assert.Equal(UpdateType.Poll, update.Type);
         //     Assert.Equal(pollId, update.Poll!.Id);

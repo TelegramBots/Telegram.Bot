@@ -32,19 +32,21 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 "Forward a message to this chat from a user that never started a chat with this bot"
             );
 
-            Update forwardedMessageUpdate = (await _fixture.UpdateReceiver.GetUpdatesAsync(u =>
-                    u.Message?.ForwardFrom != null, updateTypes: UpdateType.Message
-            )).Single();
+            Update forwardedMessageUpdate = await _fixture.UpdateReceiver.GetUpdateAsync(u =>
+                    u.Message?.ForwardFrom != null,
+                updateTypes: UpdateType.Message
+            );
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
-                BotClient.SendTextMessageAsync(
-                    forwardedMessageUpdate!.Message!.ForwardFrom!.Id,
-                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From!.Username}"
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
+                await BotClient.SendTextMessageAsync(
+                    chatId: forwardedMessageUpdate!.Message!.ForwardFrom!.Id,
+                    text: "Error! If you see this message, talk to" +
+                          $" @{forwardedMessageUpdate.Message.From!.Username}"
                 )
             );
 
-            Assert.Equal(403, e.ErrorCode);
+            Assert.Equal(403, exception.ErrorCode);
         }
     }
 }

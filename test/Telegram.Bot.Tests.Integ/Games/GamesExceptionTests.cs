@@ -22,45 +22,45 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_ApiRequestException_When_GameShortName_Invalid()
         {
-            ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-                BotClient.SendGameAsync(
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
+                await BotClient.SendGameAsync(
                     chatId: _fixture.SupergroupChat.Id,
                     gameShortName: "my game"
                 )
             );
 
-            Assert.Equal(400, e.ErrorCode);
-            Assert.Contains("GAME_SHORTNAME_INVALID", e.Message);
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Contains("GAME_SHORTNAME_INVALID", exception.Message);
         }
 
         [OrderedFact("Should throw ApiRequestException for empty name")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_ApiRequestException_When_GameShortName_Invalid_2()
         {
-            ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-                BotClient.SendGameAsync(
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
+                await BotClient.SendGameAsync(
                     chatId: _fixture.SupergroupChat.Id,
                     gameShortName: string.Empty
                 )
             );
 
-            Assert.Equal(400, e.ErrorCode);
-            Assert.Contains("game_short_name", e.Message);
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Contains("game_short_name", exception.Message);
         }
 
         [OrderedFact("Should throw ApiRequestException for non-existent game")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_ApiRequestException_When_GameShortName_Invalid_3()
         {
-            ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
-                BotClient.SendGameAsync(
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
+                await BotClient.SendGameAsync(
                     chatId: _fixture.SupergroupChat.Id,
                     gameShortName: "non_existing_game"
                 )
             );
 
-            Assert.Equal(400, e.ErrorCode);
-            Assert.Contains("wrong game short name specified", e.Message);
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Contains("wrong game short name specified", exception.Message);
         }
 
         // ToDo: Send game with markup & game button NOT as 1st: BUTTON_POS_INVALID

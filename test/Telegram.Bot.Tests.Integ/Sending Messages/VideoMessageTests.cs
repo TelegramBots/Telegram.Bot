@@ -92,7 +92,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Message message = await BotClient.SendVideoAsync(
                 chatId: _fixture.SupergroupChat,
                 video: stream1,
-                thumb: new InputMedia(stream2, "thumb.jpg")
+                thumb: new InputMedia(content: stream2, fileName: "thumb.jpg")
             );
 
             Assert.NotNull(message.Video);
@@ -115,7 +115,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Message message = await BotClient.SendVideoNoteAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 videoNote: stream1,
-                thumb: new InputMedia(stream2, "thumbnail.jpg")
+                thumb: new InputMedia(content: stream2, fileName: "thumbnail.jpg")
             );
 
             Assert.NotNull(message.VideoNote);

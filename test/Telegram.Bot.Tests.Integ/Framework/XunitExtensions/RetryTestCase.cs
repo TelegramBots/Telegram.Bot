@@ -1,10 +1,7 @@
 using System;
 using System.ComponentModel;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Polly;
-using Telegram.Bot.Exceptions;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -140,7 +137,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                     _delaySeconds
                 ));
 
-                await Task.Delay(_delaySeconds * 1_000);
+                await Task.Delay(TimeSpan.FromSeconds(_delaySeconds));
             }
         }
 

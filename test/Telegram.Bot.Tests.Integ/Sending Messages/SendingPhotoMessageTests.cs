@@ -1,9 +1,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -65,7 +62,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             // Apparently file ids of photos no longer remain the same when sending them
             // using file ids
             // Assert.Single(message.Photo, photoSize => photoSize.FileId == fileId);
-            Assert.NotEmpty(message.Photo!);
+            Assert.NotNull(message.Photo);
+            Assert.NotEmpty(message.Photo);
         }
 
         [OrderedFact("Should send photo message and parse its caption entity values")]
@@ -128,23 +126,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 message.CaptionEntities.Select(e => e.Type)
             );
             Assert.Equal(entityValueMappings.Select(t => t.EntityBody), message.CaptionEntityValues);
-        }
-
-        [OrderedFact("Should deserialize a sendPhoto request from JSON and send it")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPhoto)]
-        public async Task Should_Send_Deserialized_Photo_Request()
-        {
-            string json = $@"{{
-                chat_id: ""{_fixture.SupergroupChat.Id}"",
-                photo: ""https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"",
-                caption: ""Photo request deserialized from JSON"",
-            }}";
-
-            SendPhotoRequest request = JsonConvert.DeserializeObject<SendPhotoRequest>(json);
-
-            Message message = await BotClient.MakeRequestAsync(request);
-
-            Assert.Equal(MessageType.Photo, message.Type);
         }
     }
 }

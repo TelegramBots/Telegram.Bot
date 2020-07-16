@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -34,21 +35,23 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             await BotClient.AnswerInlineQueryAsync(
                 inlineQueryId: queryUpdate.InlineQuery!.Id,
-                results: new[]
+                results: new []
                 {
                     new InlineQueryResultArticle(
                         id: "article-to-delete",
                         title: "Telegram Bot API",
-                        inputMessageContent: new InputTextMessageContent("https://www.telegram.org/")
+                        inputMessageContent: new InputTextMessageContent(
+                            messageText: "https://www.telegram.org/"
+                        )
                     )
                 },
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) =
-                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
+            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver
+                .GetInlineQueryResultUpdates(MessageType.Text);
 
-            await Task.Delay(1_000);
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
             await BotClient.DeleteMessageAsync(
                 chatId: messageUpdate.Message!.Chat!.Id,

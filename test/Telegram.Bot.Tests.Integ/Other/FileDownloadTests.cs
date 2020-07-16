@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
         public async Task Should_Get_File_Info()
         {
-            const int fileSize = 253736;
+            int fileSize = 253736;
 
             #region Send Document
 
@@ -106,7 +106,8 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             Assert.InRange(fileStream.Length, fileSize - 100, fileSize + 100);
             Assert.True(JToken.DeepEquals(
-                JToken.FromObject(_classFixture.File), JToken.FromObject(file)
+                JToken.FromObject(_classFixture.File),
+                JToken.FromObject(file)
             ));
         }
 
@@ -114,8 +115,8 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
         public async Task Should_Throw_ApiRequestException_When_Invalid_FileId()
         {
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
-                () => BotClient.GetFileAsync("Invalid_File_id")
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
+                async () => await BotClient.GetFileAsync(fileId: "Invalid_File_id")
             );
 
             Assert.Equal(400, exception.ErrorCode);
@@ -127,8 +128,8 @@ namespace Telegram.Bot.Tests.Integ.Other
         {
             await using MemoryStream destinationStream = new MemoryStream();
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
-                () => BotClient.DownloadFileAsync(
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
+                async () => await BotClient.DownloadFileAsync(
                     filePath: "Invalid_File_Path",
                     destination: destinationStream
                 )
@@ -143,7 +144,7 @@ namespace Telegram.Bot.Tests.Integ.Other
 
         public class Fixture
         {
-            public const string FileType = "pdf";
+            public static string FileType = "pdf";
 
             public File File { get; set; }
         }

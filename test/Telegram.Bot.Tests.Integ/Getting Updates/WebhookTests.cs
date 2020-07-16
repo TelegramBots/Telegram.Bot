@@ -33,7 +33,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         {
             Policy
                 .Handle<TaskCanceledException>()
-                .WaitAndRetryAsync(new[] {TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15)})
+                .WaitAndRetryAsync(new [] { TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15) })
                 .ExecuteAsync(() => BotClient.DeleteWebhookAsync())
                 .GetAwaiter()
                 .GetResult();
@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
         public async Task Should_Set_Webhook()
         {
-            await BotClient.SetWebhookAsync( /* url: */ "https://www.telegram.org/");
+            await BotClient.SetWebhookAsync(url: "https://www.telegram.org/");
         }
 
         [OrderedFact("Should set webhook with options", Skip = "setWebhook requests are rate limited")]
@@ -53,7 +53,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.SetWebhookAsync(
                 url: "https://www.t.me/",
                 maxConnections: 5,
-                allowedUpdates: new[] {UpdateType.CallbackQuery, UpdateType.InlineQuery}
+                allowedUpdates: new [] { UpdateType.CallbackQuery, UpdateType.InlineQuery }
             );
         }
 
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
         public async Task Should_Delete_Webhook_Using_setWebhook()
         {
-            await BotClient.SetWebhookAsync( /* url: */ "");
+            await BotClient.SetWebhookAsync(url: "");
         }
 
         [OrderedFact("Should set webhook with self-signed certificate")]
@@ -75,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
                     url: "https://www.telegram.org/",
                     certificate: stream,
                     maxConnections: 3,
-                    allowedUpdates: new UpdateType[0] // send all types of updates
+                    allowedUpdates: Array.Empty<UpdateType>() // send all types of updates
                 );
             }
 

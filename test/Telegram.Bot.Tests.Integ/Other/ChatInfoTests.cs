@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -39,6 +40,9 @@ namespace Telegram.Bot.Tests.Integ.Other
             // Don't compare invite links, it's easy to invalidate them accidentally so the test
             // fails for no good reason
             // Assert.Equal(supergroupChat.InviteLink, chat.InviteLink);
+            Assert.NotNull(chat.InviteLink);
+            Assert.NotEmpty(chat.InviteLink);
+            Assert.StartsWith("https://t.me", chat.InviteLink);
             Assert.Equal(supergroupChat.PinnedMessage, chat.PinnedMessage);
             Assert.Equal(supergroupChat.StickerSetName, chat.StickerSetName);
             Assert.Equal(supergroupChat.CanSetStickerSet, chat.CanSetStickerSet);
@@ -112,9 +116,10 @@ namespace Telegram.Bot.Tests.Integ.Other
         public async Task Should_Get_Private_Chat()
         {
             /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
-                 * for a regular user, "User ID" is the same number as "Private Chat ID".
-                 */
-            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(_fixture.SupergroupChat);
+             * for a regular user, "User ID" is the same number as "Private Chat ID".
+             */
+            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(chatId: _fixture.SupergroupChat);
+
             long privateChatId = chatAdmins
                 .Single(member => member.Status == ChatMemberStatus.Creator)
                 .User.Id;
@@ -164,7 +169,7 @@ namespace Telegram.Bot.Tests.Integ.Other
                 chatAction: ChatAction.RecordAudio
             );
 
-            await Task.Delay(5_000);
+            await Task.Delay(TimeSpan.FromSeconds(5));
         }
     }
 }

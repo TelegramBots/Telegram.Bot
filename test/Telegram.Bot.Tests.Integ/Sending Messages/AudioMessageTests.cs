@@ -32,9 +32,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 message = await BotClient.SendAudioAsync(
-                    /* chatId: */ _fixture.SupergroupChat,
-                    /* audio: */ stream,
-                    /* caption: */ caption,
+                    chatId: _fixture.SupergroupChat,
+                    audio: stream,
+                    caption: caption,
                     duration: duration,
                     performer: performer,
                     title: title);
@@ -61,8 +61,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Message message = await BotClient.SendAudioAsync(
                 chatId: _fixture.SupergroupChat,
-                audio: new InputMedia(stream1, "Ask Again - A State of Despair.mp3"),
-                thumb: new InputMedia(stream2, "thumb.jpg")
+                audio: new InputMedia(content: stream1, fileName: "Ask Again - A State of Despair.mp3"),
+                thumb: new InputMedia(content: stream2, fileName: "thumb.jpg")
             );
 
             Assert.NotNull(message.Audio!.Thumb);
@@ -77,15 +77,15 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVoice)]
         public async Task Should_Send_Voice()
         {
-            const int duration = 24;
-            const string caption = "Test Voice in .ogg format";
+            int duration = 24;
+            string caption = "Test Voice in .ogg format";
 
             await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg);
 
             Message message = await BotClient.SendVoiceAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* voice: */ stream,
-                /* caption: */ caption,
+                chatId: _fixture.SupergroupChat,
+                voice: stream,
+                caption: caption,
                 duration: duration
             );
 

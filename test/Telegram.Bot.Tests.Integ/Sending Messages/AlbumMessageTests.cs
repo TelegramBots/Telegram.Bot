@@ -34,11 +34,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             IAlbumInputMedia[] inputMedia =
             {
-                new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
+                new InputMediaPhoto(new InputMedia(content: stream1, fileName: "logo.png"))
                 {
                     Caption = "Logo"
                 },
-                new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
+                new InputMediaPhoto(new InputMedia(content: stream2, fileName: "bot.gif"))
                 {
                     Caption = "Bot"
                 },
@@ -74,11 +74,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
                  chatId: _fixture.SupergroupChat.Id,
-                 media: new[]
+                 media: new []
                 {
-                    new InputMediaPhoto(fileIds[0]),
-                    new InputMediaPhoto(fileIds[1]),
-                    new InputMediaPhoto(fileIds[0]),
+                    new InputMediaPhoto(media: fileIds[0]),
+                    new InputMediaPhoto(media: fileIds[1]),
+                    new InputMediaPhoto(media: fileIds[0]),
                 }
             );
 
@@ -94,11 +94,15 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                chatId:  _fixture.SupergroupChat.Id,
-                media:  new[]
+                chatId: _fixture.SupergroupChat.Id,
+                media: new []
                 {
-                    new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg"),
-                    new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
+                    new InputMediaPhoto(
+                        media: "https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg"
+                    ),
+                    new InputMediaPhoto(
+                        media: "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"
+                    ),
                 },
                 replyToMessageId: replyToMessageId
             );
@@ -118,18 +122,18 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             IAlbumInputMedia[] media =
             {
-                new InputMediaVideo(new InputMedia(stream0, "GoldenRatio.mp4"))
+                new InputMediaVideo(new InputMedia(content: stream0, fileName: "GoldenRatio.mp4"))
                 {
                     Caption = "Golden Ratio",
                     Height = 240,
                     Width = 240,
                     Duration = 28,
                 },
-                new InputMediaVideo(new InputMedia(stream1, "MoonLanding.mp4"))
+                new InputMediaVideo(new InputMedia(content: stream1, fileName: "MoonLanding.mp4"))
                 {
                     Caption = "Moon Landing"
                 },
-                new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
+                new InputMediaPhoto(new InputMedia(content: stream2, fileName: "bot.gif"))
                 {
                     Caption = "Bot"
                 },
@@ -164,12 +168,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             IAlbumInputMedia[] media =
             {
-                new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
+                new InputMediaPhoto(new InputMedia(content: stream1, fileName: "logo.png"))
                 {
                     Caption = "*Logo*",
                     ParseMode = ParseMode.Markdown
                 },
-                new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
+                new InputMediaPhoto(new InputMedia(content: stream2, fileName: "bot.gif"))
                 {
                     Caption = "_Bot_",
                     ParseMode = ParseMode.Markdown
@@ -197,13 +201,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             IAlbumInputMedia[] media =
             {
-                new InputMediaVideo(new InputMedia(stream1, "GoldenRatio.mp4"))
+                new InputMediaVideo(new InputMedia(content: stream1, fileName: "GoldenRatio.mp4"))
                 {
-                    Thumb = new InputMedia(stream2, "thumbnail.jpg"),
+                    Thumb = new InputMedia(content: stream2, fileName: "thumbnail.jpg"),
                     SupportsStreaming = true,
                 },
                 new InputMediaPhoto(
-                    "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"
+                    media: "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"
                 ),
             };
 

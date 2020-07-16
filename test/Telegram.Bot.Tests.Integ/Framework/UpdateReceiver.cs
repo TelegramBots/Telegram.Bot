@@ -53,12 +53,19 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
         }
 
+        public async Task<Update> GetUpdateAsync(
+            Func<Update, bool> predicate = default,
+            int offset = default,
+            CancellationToken cancellationToken = default,
+            params UpdateType[] updateTypes) =>
+            (await GetUpdatesAsync(predicate, offset, cancellationToken, updateTypes))
+            .First();
+
         public async Task<Update[]> GetUpdatesAsync(
             Func<Update, bool> predicate = default,
             int offset = default,
             CancellationToken cancellationToken = default,
-            params UpdateType[] updateTypes
-        )
+            params UpdateType[] updateTypes)
         {
             CancellationTokenSource cts = default;
             predicate ??= PassthroughPredicate;
@@ -167,7 +174,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 var updates = await GetUpdatesAsync(
                     u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
                     cancellationToken: cancellationToken,
-                    updateTypes: new[] {UpdateType.Message, UpdateType.ChosenInlineResult}
+                    updateTypes: new [] { UpdateType.Message, UpdateType.ChosenInlineResult }
                 );
 
                 messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);
