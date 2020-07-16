@@ -288,26 +288,11 @@ namespace Telegram.Bot
 
             var fileUri = new Uri($"{_baseFileUrl}{filePath}", UriKind.Absolute);
 
+            HttpResponseMessage? httpResponse;
             try
             {
-                using var httpResponse = await _httpClient
+                httpResponse = await _httpClient
                     .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                    .ConfigureAwait(false);
-
-                if (!httpResponse.IsSuccessStatusCode)
-                {
-                    var failedApiResponse = await httpResponse
-                        .DeserializeContentAsync<FailedApiResponse>(includeBody: false)
-                        .ConfigureAwait(false);
-
-                    throw ExceptionParser.Parse(
-                        failedApiResponse.ErrorCode,
-                        failedApiResponse.Description,
-                        failedApiResponse.Parameters
-                    );
-                }
-
-                await httpResponse.Content.CopyToAsync(destination)
                     .ConfigureAwait(false);
             }
             catch (TaskCanceledException exception)
@@ -322,6 +307,46 @@ namespace Telegram.Bot
             catch (Exception exception)
             {
                 throw new RequestException("Exception during file download", exception);
+            }
+
+            try
+            {
+                if (!httpResponse.IsSuccessStatusCode)
+                {
+                    var failedApiResponse = await httpResponse
+                        .DeserializeContentAsync<FailedApiResponse>(includeBody: false)
+                        .ConfigureAwait(false);
+
+                    throw ExceptionParser.Parse(
+                        failedApiResponse.ErrorCode,
+                        failedApiResponse.Description,
+                        failedApiResponse.Parameters
+                    );
+                }
+
+                if (httpResponse.Content is null)
+                    throw new RequestException(
+                        "Response doesn't contain any content",
+                        httpResponse.StatusCode
+                    );
+
+                try
+                {
+                    await httpResponse.Content.CopyToAsync(destination)
+                        .ConfigureAwait(false);
+                }
+                catch (Exception exception)
+                {
+                    throw new RequestException(
+                        "Exception during file download",
+                        httpResponse.StatusCode,
+                        exception
+                    );
+                }
+            }
+            finally
+            {
+                httpResponse?.Dispose();
             }
         }
 

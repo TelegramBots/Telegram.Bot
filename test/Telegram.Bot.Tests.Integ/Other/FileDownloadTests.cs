@@ -122,29 +122,23 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Contains("file_id", exception.Message);
         }
 
-        [OrderedFact("Should throw RequestException with ApiRequestException inner exception " +
-            "while trying to download file using wrong file_path")]
+        [OrderedFact("Should throw ApiRequestException while trying to download file using wrong file_path")]
         public async Task Should_Throw_FilePath_HttpRequestException()
         {
             await using MemoryStream destinationStream = new MemoryStream();
 
-            RequestException exception = await Assert.ThrowsAnyAsync<RequestException>(
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
                 () => BotClient.DownloadFileAsync(
                     filePath: "Invalid_File_Path",
                     destination: destinationStream
                 )
             );
-            ApiRequestException innerException = (ApiRequestException)exception.InnerException;
 
             Assert.Equal(0, destinationStream.Length);
             Assert.Equal(0, destinationStream.Position);
 
-            Assert.IsType<RequestException>(exception);
-            Assert.Contains("Exception during file download", exception.Message);
-
-            Assert.IsType<ApiRequestException>(innerException);
-            Assert.Equal(404, innerException.ErrorCode);
-            Assert.Contains("Not Found", innerException.Message);
+            Assert.Equal(404, exception.ErrorCode);
+            Assert.Contains("Not Found", exception.Message);
         }
 
         public class Fixture
