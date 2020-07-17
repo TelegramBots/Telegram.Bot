@@ -275,15 +275,16 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
 
             /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP request values. */
+            _ = new object();
         }
 
         // ReSharper disable UnusedVariable
-        private async void OnApiResponseReceived(object sender, ApiResponseEventArgs e)
+        private void OnApiResponseReceived(object sender, ApiResponseEventArgs e)
         {
-            string content = await e.ResponseMessage.Content.ReadAsStringAsync()
-                .ConfigureAwait(false);
+            string content = e.ResponseMessage.Content.ReadAsStringAsync().Result;
 
             /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP response received. */
+            _ = new object();
         }
 #pragma warning restore 219
 #endif
