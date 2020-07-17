@@ -112,8 +112,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             int messageId = default,
             string data = default,
             bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default
-        )
+            CancellationToken cancellationToken = default)
         {
             Func<Update, bool> predicate = u =>
                 (messageId == default || u.CallbackQuery!.Message!.MessageId == messageId) &&
@@ -132,8 +131,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public async Task<Update> GetInlineQueryUpdateAsync(
             bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default
-        )
+            CancellationToken cancellationToken = default)
         {
             var updates = await GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -159,8 +157,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         /// </returns>
         public async Task<(Update MessageUpdate, Update ChosenResultUpdate)> GetInlineQueryResultUpdates(
             MessageType messageType,
-            CancellationToken cancellationToken = default
-        )
+            CancellationToken cancellationToken = default)
         {
             Update messageUpdate = default;
             Update chosenResultUpdate = default;
@@ -187,8 +184,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         private async Task<Update[]> GetOnlyAllowedUpdatesAsync(
             int offset,
             CancellationToken cancellationToken,
-            params UpdateType[] types
-        )
+            params UpdateType[] types)
         {
             var updates = await _botClient.GetUpdatesAsync(
                 offset,
