@@ -33,32 +33,31 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
                 _collectionName,
                 $"Tests will be executed in channel {ChannelChatId.Replace("_", @"\_")}"
             );
+
+            await InitializeCoreAsync();
         }
 
-        public Task DisposeAsync() => Task.CompletedTask;
+        public async Task DisposeAsync() => await DisposeCoreAsync();
 
         private async Task<Chat> GetChat(string collectionName)
         {
-            Chat chat;
-            string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
-            if (chatId is null)
-            {
-                await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
+            var chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
+            if (chatId != null) return await _testsFixture.BotClient.GetChatAsync(chatId);
 
-                string botUserName = _testsFixture.BotUser.Username;
-                await _testsFixture.SendTestCollectionNotificationAsync(collectionName,
-                    "No channel is set in test settings. Tester should forward a message from a channel " +
-                    $"so bot can run tests there. @{botUserName} must be an admin in that channel."
-                );
+            await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-                chat = await _testsFixture.GetChatFromTesterAsync(ChatType.Channel);
-            }
-            else
-            {
-                chat = await _testsFixture.BotClient.GetChatAsync(chatId);
-            }
+            var botUserName = _testsFixture.BotUser.Username;
+            await _testsFixture.SendTestCollectionNotificationAsync(
+                collectionName,
+                "No channel is set in test settings. Tester should forward a " +
+                $"message from a channel so bot can run tests there. @{botUserName} " +
+                "must be an admin in that channel."
+            );
 
-            return chat;
+            return await _testsFixture.GetChatFromTesterAsync(ChatType.Channel);
         }
+
+        protected virtual Task InitializeCoreAsync() => Task.CompletedTask;
+        protected virtual Task DisposeCoreAsync() => Task.CompletedTask;
     }
 }

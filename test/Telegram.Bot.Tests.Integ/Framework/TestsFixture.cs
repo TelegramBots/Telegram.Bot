@@ -85,11 +85,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             );
         }
 
-        public async Task<Message> SendTestCaseNotificationAsync(string testCase)
-        {
-            Message msg = await SendNotificationToChatAsync(false, testCase);
-            return msg;
-        }
+        public async Task<Message> SendTestCaseNotificationAsync(string testCase) =>
+            await SendNotificationToChatAsync(false, testCase);
 
         public async Task<Message> SendTestCollectionNotificationAsync(
             string collectionName,
@@ -115,11 +112,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 ChatType.Channel == u.Message?.ForwardFromChat?.Type
             );
 
-            var updates = await UpdateReceiver
-                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message, cancellationToken: cancellationToken);
-            var update = updates.Single();
-
             await UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
+
+            var update = await UpdateReceiver.GetUpdateAsync(
+                IsMatch,
+                updateTypes: UpdateType.Message,
+                cancellationToken: cancellationToken
+            );
 
             return chatType == ChatType.Channel
                 ? update.Message?.ForwardFromChat
@@ -131,8 +130,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             bool IsMatch(Update u) => u.Message?.Type == MessageType.Contact ||
                                       u.Message?.ForwardFrom?.Id != null;
 
-            var update = (await UpdateReceiver.GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message))
-                .Single();
+            var update = await UpdateReceiver.GetUpdateAsync(
+                predicate: IsMatch,
+                updateTypes: UpdateType.Message
+            );
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -148,13 +149,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
         private async Task InitAsync()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
+            var telegramBotClient = new TelegramBotClient(apiToken);
+            BotClient = new RetryTelegramBotClient(telegramBotClient, 3, _diagnosticMessageSink);
 
-            var httpClientHandler = new RetryHttpMessageHandler(3, _diagnosticMessageSink);
-            var httpClient = new HttpClient(httpClientHandler);
-            BotClient = new TelegramBotClient(apiToken, httpClient);
             BotUser = await BotClient.GetMeAsync(CancellationToken);
             await BotClient.DeleteWebhookAsync(CancellationToken);
-
             SupergroupChat = await FindSupergroupTestChatAsync();
             var allowedUserNames = await FindAllowedTesterUserNames();
             UpdateReceiver = new UpdateReceiver(BotClient, allowedUserNames);

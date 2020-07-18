@@ -31,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task Should_Set_Chat_Title()
         {
             await BotClient.SetChatTitleAsync(
-                chatId: _classFixture.Chat.Id,
+                chatId: _classFixture.ChannelChat.Id,
                 title: "Test Chat Title"
             );
         }
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task Should_Set_Chat_Description()
         {
             await BotClient.SetChatDescriptionAsync(
-                chatId: _classFixture.Chat.Id,
+                chatId: _classFixture.ChannelChat.Id,
                 description: "Test Chat Description"
             );
         }
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Delete_Chat_Description()
         {
-            await BotClient.SetChatDescriptionAsync(chatId: _classFixture.Chat.Id);
+            await BotClient.SetChatDescriptionAsync(chatId: _classFixture.ChannelChat.Id);
         }
 
         #endregion
@@ -66,12 +66,12 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task Should_Pin_Message()
         {
             Message msg = await BotClient.SendTextMessageAsync(
-                chatId: _classFixture.Chat.Id,
+                chatId: _classFixture.ChannelChat.Id,
                 text: "Description to pin"
             );
 
             await BotClient.PinChatMessageAsync(
-                chatId: _classFixture.Chat.Id,
+                chatId: _classFixture.ChannelChat.Id,
                 messageId: msg.MessageId,
                 disableNotification: true
             );
@@ -85,7 +85,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             Message pinnedMsg = _classFixture.PinnedMessage;
 
-            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.Chat.Id);
+            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.ChannelChat.Id);
 
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(pinnedMsg), JToken.FromObject(chat.PinnedMessage)
@@ -96,14 +96,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnpinChatMessage)]
         public async Task Should_Unpin_Message()
         {
-            await BotClient.UnpinChatMessageAsync(chatId: _classFixture.Chat.Id);
+            await BotClient.UnpinChatMessageAsync(chatId: _classFixture.ChannelChat.Id);
         }
 
         [OrderedFact("Should get the chat info without a pinned message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_With_No_Pinned_Message()
         {
-            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.Chat.Id);
+            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.ChannelChat.Id);
 
             Assert.Null(chat.PinnedMessage);
         }
@@ -118,7 +118,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
             await BotClient.SetChatPhotoAsync(
-                chatId: _classFixture.Chat.Id,
+                chatId: _classFixture.ChannelChat.Id,
                 photo: stream
             );
         }
@@ -127,7 +127,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
         public async Task Should_Get_Chat_Photo()
         {
-            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.Chat.Id);
+            Chat chat = await BotClient.GetChatAsync(chatId: _classFixture.ChannelChat.Id);
 
             Assert.NotNull(chat.Photo);
             Assert.NotEmpty(chat.Photo.BigFileId);
@@ -140,7 +140,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Delete_Chat_Photo()
         {
-            await BotClient.DeleteChatPhotoAsync(chatId: _classFixture.Chat.Id);
+            await BotClient.DeleteChatPhotoAsync(chatId: _classFixture.ChannelChat.Id);
         }
 
         [OrderedFact("Should throw exception in deleting chat photo with no photo currently set")]
@@ -149,7 +149,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
                 async () => await BotClient.DeleteChatPhotoAsync(
-                    chatId: _classFixture.Chat.Id
+                    chatId: _classFixture.ChannelChat.Id
                 )
             );
 
@@ -169,7 +169,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
                 async () => await _fixture.BotClient.SetChatStickerSetAsync(
-                    chatId: _classFixture.Chat.Id,
+                    chatId: _classFixture.ChannelChat.Id,
                     stickerSetName: setName
                 )
             );

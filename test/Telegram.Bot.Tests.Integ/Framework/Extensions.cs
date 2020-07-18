@@ -26,5 +26,18 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 updateReceiver.AllowedUsernames.Select(username => username.Replace("_", "\\_"))
             );
         }
+
+        public static string GetUserLink(this Chat chat)
+        {
+            if (chat is null) throw new ArgumentNullException(nameof(chat));
+            if (chat.Type != ChatType.Private) throw new ArgumentException(
+                "Link can be generated only for private chats",
+                nameof(chat)
+            );
+
+            return chat.Username is null
+                ? $"[{chat.FirstName}](tg://user?id={chat.Id})"
+                : $"@{chat.Username.Replace("_", @"\_")}";
+        }
     }
 }
