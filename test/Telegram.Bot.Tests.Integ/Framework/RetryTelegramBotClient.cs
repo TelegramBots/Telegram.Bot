@@ -74,23 +74,17 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 {
                     lastException = exception;
 
-                    _messageSink.OnMessage(new DiagnosticMessage("Request was rate limited"));
+                    int effectiveSeconds = exception.Parameters?.RetryAfter ?? _defaultWaitTime;
 
-                    if (exception.Parameters != null)
-                    {
-                        var seconds = exception.Parameters.RetryAfter;
-                        int effectiveSeconds = seconds ?? _defaultWaitTime;
+                    _messageSink.OnMessage(
+                        new DiagnosticMessage(
+                            $"Request was rate limited. Retry attempt {i + 1}. Waiting for {effectiveSeconds} " +
+                            "seconds before retrying."
+                        )
+                    );
 
-                        _messageSink.OnMessage(
-                            new DiagnosticMessage(
-                                $"Retry attempt {i + 1}. Waiting for {effectiveSeconds} " +
-                                "seconds before retrying."
-                            )
-                        );
-
-                        var timeToWait = TimeSpan.FromSeconds(effectiveSeconds);
-                        await Task.Delay(timeToWait, cancellationToken);
-                    }
+                    var timeToWait = TimeSpan.FromSeconds(effectiveSeconds);
+                    await Task.Delay(timeToWait, cancellationToken);
                 }
             }
 
