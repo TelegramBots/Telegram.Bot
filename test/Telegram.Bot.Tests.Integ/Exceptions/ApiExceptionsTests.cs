@@ -26,7 +26,6 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_ApiRequestException_When_Chat_Not_Initiated()
         {
-            //ToDo add exception. forward message from another bot. Forbidden: bot can't send messages to bots
             await _fixture.SendTestInstructionsAsync(
                 "Forward a message to this chat from a user that never started a chat with this bot"
             );
@@ -46,6 +45,32 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             );
 
             Assert.Equal(403, exception.ErrorCode);
+        }
+
+        [OrderedFact("Should throw ApiRequestException while trying to send message to another bot")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        public async Task Should_Throw_ApiRequestException_When_Send_To_Another_Bot()
+        {
+            await _fixture.SendTestInstructionsAsync(
+                "Forward a message to this chat from another bot"
+            );
+
+            Update forwardedMessageUpdate = await _fixture.UpdateReceiver.GetUpdateAsync(u =>
+                    u.Message?.ForwardFrom?.IsBot == true,
+                updateTypes: UpdateType.Message
+            );
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
+                await BotClient.SendTextMessageAsync(
+                    chatId: forwardedMessageUpdate!.Message!.ForwardFrom!.Id,
+                    text: "Error! If you see this message, talk to" +
+                          $" @{forwardedMessageUpdate.Message.From!.Username}"
+                )
+            );
+
+            Assert.Equal(403, exception.ErrorCode);
+            Assert.Equal("Forbidden: bot can't send messages to bots", exception.Message);
         }
     }
 }

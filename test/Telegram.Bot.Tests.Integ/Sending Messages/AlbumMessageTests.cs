@@ -90,7 +90,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Send_Photo_Album_Using_Url()
         {
-            // ToDo add exception: Bad Request: failed to get HTTP URL content
             int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Message[] messages = await BotClient.SendMediaGroupAsync(

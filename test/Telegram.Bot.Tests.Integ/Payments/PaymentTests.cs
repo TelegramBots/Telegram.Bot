@@ -299,7 +299,6 @@ namespace Telegram.Bot.Tests.Integ.Payments
                     providerData: "INVALID-JSON"
                 ));
 
-            // ToDo: Add exception
             Assert.Equal(400, exception.ErrorCode);
             Assert.Equal("Bad Request: DATA_JSON_INVALID", exception.Message);
         }
@@ -358,7 +357,6 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 )
             );
 
-            // ToDo: Add exception
             Assert.Equal(400, exception.ErrorCode);
             Assert.Equal("Bad Request: SHIPPING_ID_DUPLICATE", exception.Message);
 

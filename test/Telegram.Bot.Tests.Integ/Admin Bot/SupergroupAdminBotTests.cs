@@ -77,12 +77,25 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
+        [OrderedFact("Should throw ApiRequestException on not modified chat description")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
+        public async Task Should_Throw_ApiRequestException_On_Not_Modified_Chat_Description()
+        {
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(async () =>
+                await BotClient.SetChatDescriptionAsync(
+                    chatId: _classFixture.Chat.Id,
+                    description: "Test Chat Description"
+                )
+            );
+
+            Assert.Equal(400, exception.ErrorCode);
+            Assert.Equal("Bad Request: chat description is not modified", exception.Message);
+        }
+
         [OrderedFact("Should delete chat description")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatDescription)]
         public async Task Should_Delete_Chat_Description()
         {
-            // ToDo: exception Bad Request: chat description is not modified
-
             await BotClient.SetChatDescriptionAsync(
                 chatId: _classFixture.Chat.Id
             );
