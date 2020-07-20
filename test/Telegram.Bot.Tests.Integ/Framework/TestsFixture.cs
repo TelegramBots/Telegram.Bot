@@ -149,9 +149,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
         private async Task InitAsync()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
-            var telegramBotClient = new TelegramBotClient(apiToken);
-            BotClient = new RetryTelegramBotClient(telegramBotClient, 3, _diagnosticMessageSink);
-
+            var retryHttpClientHandler = new RetryHttpClientHandler(3, _diagnosticMessageSink);
+            var httpClient = new HttpClient(retryHttpClientHandler);
+            BotClient = new TelegramBotClient(apiToken, httpClient);
             BotUser = await BotClient.GetMeAsync(CancellationToken);
             await BotClient.DeleteWebhookAsync(CancellationToken);
             SupergroupChat = await FindSupergroupTestChatAsync();
