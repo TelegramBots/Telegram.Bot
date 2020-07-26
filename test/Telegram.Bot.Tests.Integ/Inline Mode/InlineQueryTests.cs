@@ -347,8 +347,6 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_Inline_Query_With_HTML_Video()
         {
-            // ToDo exception when input_message_content not specified. Bad Request: SEND_MESSAGE_MEDIA_INVALID
-
             await _fixture.SendTestInstructionsAsync(
                 "Staring the inline query with this message...",
                 startInlineQuery: true

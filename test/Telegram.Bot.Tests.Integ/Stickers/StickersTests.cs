@@ -158,7 +158,6 @@
 //        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
 //        public async Task Should_Throw_InvalidStickerDimensionsException()
 //        {
-//            // ToDo exception when sending jpeg file. Bad Request: STICKER_PNG_NOPNG
 //            BadRequestException exception;
 //            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
 //            {

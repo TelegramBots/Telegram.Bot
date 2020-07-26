@@ -99,8 +99,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Promote_User_To_Change_Chat_Info()
         {
-            //ToDo exception when user isn't in group. Bad Request: bots can't add new chat members
-
             await BotClient.PromoteChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
@@ -142,8 +140,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.PromoteChatMember)]
         public async Task Should_Demote_User()
         {
-            //ToDo exception when user isn't in group. Bad Request: USER_NOT_MUTUAL_CONTACT
-
             await BotClient.PromoteChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
