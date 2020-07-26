@@ -10,15 +10,8 @@ namespace Telegram.Bot.Exceptions
         /// <summary>
         /// Parses HTTP response and constructs a specific exception out of it
         /// </summary>
-        /// <param name="errorCode">Error core of the response</param>
-        /// <param name="description">Description of the error</param>
-        /// <param name="responseParameters">
-        /// Contains additional information about why a request was unsuccessful
-        /// </param>
+        /// <param name="apiResponse">ApiResponse with an error</param>
         /// <returns></returns>
-        ApiRequestException Parse(
-            int errorCode,
-            string description,
-            ResponseParameters? responseParameters);
+        ApiRequestException Parse(ApiResponse apiResponse);
     }
 }

@@ -1,13 +1,8 @@
-using Telegram.Bot.Types;
-
 namespace Telegram.Bot.Exceptions
 {
     internal class ExceptionParser : IExceptionParser
     {
-        public ApiRequestException Parse(
-            int errorCode,
-            string description,
-            ResponseParameters? responseParameters) =>
-            new ApiRequestException(description, errorCode, responseParameters);
+        public ApiRequestException Parse(ApiResponse apiResponse) =>
+            new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode, apiResponse.Parameters);
     }
 }
