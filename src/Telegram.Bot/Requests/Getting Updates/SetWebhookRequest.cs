@@ -43,7 +43,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with uri
         /// </summary>
         /// <param name="url">HTTPS url to send updates to</param>
-        /// <param name="certificate">ToDo</param>
+        /// <param name="certificate">Certificate created for <paramref name="url"/></param>
         public SetWebhookRequest(string url, InputFileStream? certificate)
             : base("setWebhook")
         {

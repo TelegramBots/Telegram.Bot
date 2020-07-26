@@ -27,7 +27,7 @@ namespace Telegram.Bot.Types.InputFiles
         public virtual FileType FileType => FileType.Stream;
 
         /// <summary>
-        /// ToDo
+        /// Constructs a new instance of <see cref="InputFileStream"/>
         /// </summary>
         protected InputFileStream()
         { }
@@ -44,9 +44,15 @@ namespace Telegram.Bot.Types.InputFiles
         }
 
         /// <summary>
-        /// ToDo
+        /// Performs an implicit conversion from <see cref="Stream"/> to
+        /// <see cref="InputFileStream"/>
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="stream">
+        /// <see cref="Stream"/> instance to be converted to <see cref="InputFileStream"/>
+        /// </param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
         public static implicit operator InputFileStream?(Stream stream) =>
             stream is null
                 ? default

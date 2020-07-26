@@ -37,10 +37,14 @@ namespace Telegram.Bot.Types
         public ParseMode? ParseMode { get; set; }
 
         /// <summary>
-        /// TODO
+        /// Constructs an <see cref="InputMediaBase"/> from a <see cref="InputMedia"/> and a
+        /// type of the media
         /// </summary>
-        /// <param name="media"></param>
-        /// <param name="type"></param>
+        /// <param name="media"><see cref="InputMedia"/> to be sent</param>
+        /// <param name="type">Type of of the media to be sent</param>
+        /// <remarks>
+        /// See <see href="https://core.telegram.org/bots/api#inputmedia"/> for valid types of media
+        /// </remarks>
         protected InputMediaBase(InputMedia media, string type)
         {
             Type = type;
