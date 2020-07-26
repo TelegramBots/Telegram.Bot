@@ -35,6 +35,12 @@ namespace Telegram.Bot.Exceptions
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ResponseParameters? Parameters { get; private set; }
 
+        [JsonConstructor]
+#pragma warning disable 8618
+        private ApiResponse()
+#pragma warning restore 8618
+        { }
+
         /// <summary>
         /// Initializes an instance of <see cref="ApiResponse"/>
         /// </summary>
