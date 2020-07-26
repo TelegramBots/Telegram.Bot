@@ -158,14 +158,10 @@ namespace Telegram.Bot
                 if (httpResponse.StatusCode != HttpStatusCode.OK)
                 {
                     var failedApiResponse = await httpResponse
-                        .DeserializeContentAsync<FailedApiResponse>()
+                        .DeserializeContentAsync<ApiResponse>()
                         .ConfigureAwait(false);
 
-                    throw ExceptionParser.Parse(
-                        failedApiResponse.ErrorCode,
-                        failedApiResponse.Description,
-                        failedApiResponse.Parameters
-                    );
+                    throw ExceptionParser.Parse(failedApiResponse);
                 }
 
                 var successfulApiResponse = await httpResponse
@@ -314,14 +310,10 @@ namespace Telegram.Bot
                 if (!httpResponse.IsSuccessStatusCode)
                 {
                     var failedApiResponse = await httpResponse
-                        .DeserializeContentAsync<FailedApiResponse>(includeBody: false)
+                        .DeserializeContentAsync<ApiResponse>(includeBody: false)
                         .ConfigureAwait(false);
 
-                    throw ExceptionParser.Parse(
-                        failedApiResponse.ErrorCode,
-                        failedApiResponse.Description,
-                        failedApiResponse.Parameters
-                    );
+                    throw ExceptionParser.Parse(failedApiResponse);
                 }
 
                 if (httpResponse.Content is null)

@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 exception `ApiRequestException`
 - Interface `IExceptionParser` for implementing custom parsers for exception, default
 implementation of `IExceptionParser` throws all correct errors from Bot Api as `ApiRequestException`
+- Type `Telegram.Bot.Exceptions.ApiResponse`
 - Property `ITelegramBotClient.ExceptionParser`
 - Interface `IUserTargetable`
 - Request classes with a property `int UserId { get; }` implement `IUserTargetable` 
