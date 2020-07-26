@@ -28,9 +28,12 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             ITestMethod testMethod,
             int maxRetries,
             int delaySeconds,
-            string exceptionTypeFullName
-        )
-            : base(diagnosticMessageSink, testMethodDisplay, TestMethodDisplayOptions.All, testMethod)
+            string exceptionTypeFullName)
+            : base(
+                diagnosticMessageSink,
+                testMethodDisplay,
+                TestMethodDisplayOptions.All,
+                testMethod)
         {
             _maxRetries = maxRetries;
             _delaySeconds = delaySeconds;
@@ -40,10 +43,11 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 
         /// <inheritdoc cref="XunitTestCase"/>
         /// <remarks>
-        /// This method is called by the xUnit test framework classes to run the test case. We will do the
-        /// loop here, forwarding on to the implementation in XunitTestCase to do the heavy lifting.We will
-        /// continue to re-run the test until the aggregator has an error(meaning that some internal error
-        /// condition happened), or the test runs without failure, or we've hit the maximum number of tries.
+        /// This method is called by the xUnit test framework classes to run the test case.
+        /// We will do the loop here, forwarding on to the implementation in XunitTestCase to do
+        /// the heavy lifting.We will continue to re-run the test until the aggregator has an
+        /// error (meaning that some internal error condition happened), or the test runs without
+        /// failure, or we've hit the maximum number of tries.
         /// </remarks>
         public override async Task<RunSummary> RunAsync(
             IMessageSink diagnosticMessageSink,
@@ -56,8 +60,9 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             int runCount = 0;
             while (true)
             {
-                // This is really the only tricky bit: we need to capture and delay messages (since those will
-                // contain run status) until we know we've decided to accept the final result;
+                // This is really the only tricky bit: we need to capture and delay messages
+                // (since those will contain run status) until we know we've decided to accept
+                // the final result;
                 var delayedMessageBus = new DelayedMessageBus(messageBus);
 
                 string testName = DisplayName;
@@ -91,15 +96,6 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                         await Task.Delay(TimeSpan.FromSeconds(waitTimeout));
                     }
                 }
-
-                // await Policy
-                //     .Handle<TaskCanceledException>()
-                //     .Or<HttpRequestException>()
-                //     .Or<ApiRequestException>()
-                //     .WaitAndRetry(1, i => TimeSpan.FromSeconds(30))
-                //     .Execute(() =>
-                //         TestsFixture.Instance.SendTestCaseNotificationAsync(testName)
-                //     );
 
                 var summary = await base.RunAsync(
                     diagnosticMessageSink,

@@ -25,14 +25,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             string title = "Rubirosa Ristorante";
             string address = "235 Mulberry St";
-            float lat = 40.722728f;
-            float lon = -73.996006f;
+            double latitude = 40.722728f;
+            double longitude = -73.996006f;
             string foursquareId = "4cc6222106c25481d7a4a047";
 
             Message message = await BotClient.SendVenueAsync(
                 chatId: _fixture.SupergroupChat,
-                latitude: lat,
-                longitude: lon,
+                latitude: latitude,
+                longitude: longitude,
                 title: title,
                 address: address,
                 foursquareId: foursquareId
@@ -42,8 +42,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(title, message.Venue!.Title);
             Assert.Equal(address, message.Venue.Address);
             Assert.Equal(foursquareId, message.Venue.FoursquareId);
-            Assert.InRange(message.Venue.Location.Latitude, lat - 0.001f, lat + 0.001f);
-            Assert.InRange(message.Venue.Location.Longitude, lon - 0.001f, lon + 0.001f);
+            Assert.InRange(message.Venue.Location.Latitude, latitude - 0.001f, latitude + 0.001f);
+            Assert.InRange(message.Venue.Location.Longitude, longitude - 0.001f, longitude + 0.001f);
         }
     }
 }
