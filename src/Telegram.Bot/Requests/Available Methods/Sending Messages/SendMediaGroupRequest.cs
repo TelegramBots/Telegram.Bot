@@ -6,6 +6,7 @@ using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -55,10 +56,14 @@ namespace Telegram.Bot.Requests
             Media = media;
         }
 
-        // ToDo: If there is no file stream in the request, request content should be string
         /// <inheritdoc />
         public override HttpContent? ToHttpContent()
         {
+            if (Media.All(x => x.Media.FileType != FileType.Stream))
+            {
+                return base.ToHttpContent();
+            }
+
             var httpContent = GenerateMultipartFormDataContent();
             httpContent.AddContentIfInputFileStream(Media.Cast<IInputMedia>().ToArray());
             return httpContent;
