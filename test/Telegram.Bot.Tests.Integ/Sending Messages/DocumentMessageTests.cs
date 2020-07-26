@@ -26,6 +26,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Send_Pdf_Document()
         {
             await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
+
             Message message = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 document: new InputOnlineFile(content: stream, fileName: "HAMLET.pdf"),
@@ -48,6 +49,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Send_Document_With_Farsi_Name()
         {
             await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
+
             Message message = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 document: new InputOnlineFile(content: stream, fileName: "هملت.pdf"),

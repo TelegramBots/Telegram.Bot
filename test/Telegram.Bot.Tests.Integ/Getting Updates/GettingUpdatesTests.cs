@@ -37,14 +37,12 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             string botToken = "0:1this_is_an-invalid-token_for_tests";
             ITelegramBotClient botClient = new TelegramBotClient(botToken);
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
                 async () => await botClient.TestApiAsync()
             );
 
-            Assert.Equal(
-                "Not Found",
-                exception.Message
-            );
+            Assert.Equal(404, exception.ErrorCode);
+            Assert.Equal("Not Found", exception.Message);
         }
 
         [OrderedFact("Should fail API Token test with invalid token")]

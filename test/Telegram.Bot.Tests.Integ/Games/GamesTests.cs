@@ -37,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            const string resultId = "game";
+            string resultId = "game";
             await BotClient.AnswerInlineQueryAsync(
                 inlineQueryId: queryUpdate.InlineQuery!.Id,
                 results: new InlineQueryResultBase[]
@@ -85,7 +85,8 @@ namespace Telegram.Bot.Tests.Integ.Games
             int newScore = oldScore + 1 + new Random().Next(3);
 
             await _fixture.SendTestInstructionsAsync(
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username!.Replace("_", @"\_")}."
+                $"Changing score from {oldScore} to {newScore} for " +
+                $"{_classFixture.Player.Username!.Replace("_", @"\_")}."
             );
 
             await BotClient.SetGameScoreAsync(

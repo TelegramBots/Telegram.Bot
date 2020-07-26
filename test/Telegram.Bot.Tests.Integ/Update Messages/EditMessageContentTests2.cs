@@ -28,14 +28,16 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageText)]
         public async Task Should_Edit_Message_Text()
         {
-            const string originalMessagePrefix = "original\n";
             (MessageEntityType Type, string Value)[] entityValueMappings =
             {
                 (MessageEntityType.Bold, "<b>bold</b>"),
                 (MessageEntityType.Italic, "<i>italic</i>"),
             };
-            string messageText = originalMessagePrefix +
-                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+
+            string suffix = string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+
+            string originalMessagePrefix = "original\n";
+            string messageText = $"{originalMessagePrefix}{suffix}";
 
             Message originalMessage = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
@@ -43,11 +45,11 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 parseMode: ParseMode.Html
             );
 
-            await Task.Delay(1_000);
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
-            const string modifiedMessagePrefix = "modified\n";
-            messageText = modifiedMessagePrefix +
-                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+            string modifiedMessagePrefix = "modified\n";
+            messageText = $"{modifiedMessagePrefix}{suffix}";
+
             Message editedMessage = await BotClient.EditMessageTextAsync(
                 chatId: originalMessage.Chat!.Id,
                 messageId: originalMessage.MessageId,
@@ -79,7 +81,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 replyMarkup: (InlineKeyboardMarkup)"Original markup"
             );
 
-            await Task.Delay(1_000);
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
             Message editedMessage = await BotClient.EditMessageReplyMarkupAsync(
                 chatId: message.Chat!.Id,
@@ -106,10 +108,11 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 caption: "Message caption will be updated shortly"
             );
 
-            await Task.Delay(1_000);
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
-            const string captionPrefix = "Modified caption";
             (MessageEntityType Type, string Value) captionEntity = (MessageEntityType.Italic, "_with Markdown_");
+
+            string captionPrefix = "Modified caption";
             string caption = $"{captionPrefix} {captionEntity.Value}";
 
             Message editedMessage = await BotClient.EditMessageCaptionAsync(

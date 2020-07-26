@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -36,20 +37,23 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 );
             }
 
-            await Task.Delay(500);
+            await Task.Delay(TimeSpan.FromSeconds(0.5));
 
             // Replace video with a document by uploading the new file
             Message editedMessage;
             await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
             {
+                InputMedia inputMedia = new InputMedia(content: stream, fileName: "public-key.pem.txt");
+                InputMediaDocument media = new InputMediaDocument(media: inputMedia)
+                {
+                    Caption = "**Public** key in `.pem` format",
+                    ParseMode = ParseMode.Markdown,
+                };
+
                 editedMessage = await BotClient.EditMessageMediaAsync(
                     chatId: originalMessage.Chat!,
                     messageId: originalMessage.MessageId,
-                    media: new InputMediaDocument(new InputMedia(stream, "public-key.pem.txt"))
-                    {
-                        Caption = "**Public** key in `.pem` format",
-                        ParseMode = ParseMode.Markdown,
-                    }
+                    media: media
                 );
             }
 
@@ -79,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                  caption: "This message will be edited shortly"
             );
 
-            await Task.Delay(500);
+            await Task.Delay(TimeSpan.FromSeconds(0.5));
 
             // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
             await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
@@ -87,9 +91,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Message editedMessage = await BotClient.EditMessageMediaAsync(
                 chatId: originalMessage.Chat!,
                 messageId: originalMessage.MessageId,
-                media: new InputMediaAnimation(gifMessage.Document!.FileId)
+                media: new InputMediaAnimation(media: gifMessage.Document!.FileId)
                 {
-                    Thumb = new InputMedia(thumbStream, "thumb.jpg"),
+                    Thumb = new InputMedia(content: thumbStream, fileName: "thumb.jpg"),
                     Duration = 4,
                     Height = 320,
                     Width = 320,

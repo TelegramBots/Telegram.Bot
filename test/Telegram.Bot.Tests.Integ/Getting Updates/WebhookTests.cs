@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Polly;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -15,7 +14,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
     /// </remarks>
     [Collection(Constants.TestCollections.Webhook)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class WebhookTests : IDisposable
+    public class WebhookTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -26,24 +25,11 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             _fixture = fixture;
         }
 
-        /// <summary>
-        /// Ensures that the webhooks are immediately disabled after each test case.
-        /// </summary>
-        public void Dispose()
-        {
-            Policy
-                .Handle<TaskCanceledException>()
-                .WaitAndRetryAsync(new[] {TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15)})
-                .ExecuteAsync(() => BotClient.DeleteWebhookAsync())
-                .GetAwaiter()
-                .GetResult();
-        }
-
         [OrderedFact("Should set webhook", Skip = "setWebhook requests are rate limited")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
         public async Task Should_Set_Webhook()
         {
-            await BotClient.SetWebhookAsync( /* url: */ "https://www.telegram.org/");
+            await BotClient.SetWebhookAsync(url: "https://www.telegram.org/");
         }
 
         [OrderedFact("Should set webhook with options", Skip = "setWebhook requests are rate limited")]
@@ -53,7 +39,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
             await BotClient.SetWebhookAsync(
                 url: "https://www.t.me/",
                 maxConnections: 5,
-                allowedUpdates: new[] {UpdateType.CallbackQuery, UpdateType.InlineQuery}
+                allowedUpdates: new [] { UpdateType.CallbackQuery, UpdateType.InlineQuery }
             );
         }
 
@@ -61,7 +47,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
         public async Task Should_Delete_Webhook_Using_setWebhook()
         {
-            await BotClient.SetWebhookAsync( /* url: */ "");
+            await BotClient.SetWebhookAsync(url: "");
         }
 
         [OrderedFact("Should set webhook with self-signed certificate")]
@@ -75,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
                     url: "https://www.telegram.org/",
                     certificate: stream,
                     maxConnections: 3,
-                    allowedUpdates: new UpdateType[0] // send all types of updates
+                    allowedUpdates: Array.Empty<UpdateType>() // send all types of updates
                 );
             }
 

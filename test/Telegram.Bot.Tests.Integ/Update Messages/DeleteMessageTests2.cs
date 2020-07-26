@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -28,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 text: "This message will be deleted shortly"
             );
 
-            await Task.Delay(1_000);
+            await Task.Delay(TimeSpan.FromSeconds(1));
 
             await BotClient.DeleteMessageAsync(
                 chatId: message.Chat!.Id,

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -35,8 +36,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendLocation)]
         public async Task Should_Send_Live_Location()
         {
-            const float latBerlin = 52.5200f;
-            const float lonBerlin = 13.4050f;
+            float latBerlin = 52.5200f;
+            float lonBerlin = 13.4050f;
 
             Message message = await BotClient.SendLocationAsync(
                 chatId: _fixture.SupergroupChat.Id,
@@ -65,7 +66,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Message editedMessage = default;
             foreach (Location newLocation in locations)
             {
-                await Task.Delay(1_500);
+                await Task.Delay(TimeSpan.FromSeconds(1.5));
 
                 editedMessage = await BotClient.EditMessageLiveLocationAsync(
                     chatId: LocationMessage.Chat!.Id,
@@ -95,7 +96,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
             LocationMessage.Date = message.Date;
             LocationMessage.EditDate = message.EditDate;
             Assert.True(JToken.DeepEquals(
-                JToken.FromObject(LocationMessage), JToken.FromObject(message)
+                JToken.FromObject(LocationMessage),
+                JToken.FromObject(message)
             ));
         }
     }
