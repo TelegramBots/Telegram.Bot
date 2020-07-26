@@ -65,7 +65,7 @@ namespace Telegram.Bot.Helpers
         /// </summary>
         /// <param name="stream"><see cref="Stream"/> with content</param>
         /// <typeparam name="T">Type of the resulting object</typeparam>
-        /// <returns>Deserialized instance of <typeparam name="T" /> or <c>null</c></returns>
+        /// <returns>Deserialized instance of <typeparamref name="T" /> or <c>null</c></returns>
         private static T? DeserializeJsonFromStream<T>(this Stream stream)
             where T : class
         {
