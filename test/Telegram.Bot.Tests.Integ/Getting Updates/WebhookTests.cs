@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Polly;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -15,7 +14,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
     /// </remarks>
     [Collection(Constants.TestCollections.Webhook)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class WebhookTests : IDisposable
+    public class WebhookTests
     {
         private ITelegramBotClient BotClient => _fixture.BotClient;
 
@@ -24,19 +23,6 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         public WebhookTests(TestsFixture fixture)
         {
             _fixture = fixture;
-        }
-
-        /// <summary>
-        /// Ensures that the webhooks are immediately disabled after each test case.
-        /// </summary>
-        public void Dispose()
-        {
-            Policy
-                .Handle<TaskCanceledException>()
-                .WaitAndRetryAsync(new [] { TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15) })
-                .ExecuteAsync(() => BotClient.DeleteWebhookAsync())
-                .GetAwaiter()
-                .GetResult();
         }
 
         [OrderedFact("Should set webhook", Skip = "setWebhook requests are rate limited")]
