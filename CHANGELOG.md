@@ -67,7 +67,8 @@ except `TaskCancelledException` that is triggered by token cancellation and erro
 - Requests with a property `long ChatId { get; }` explicitly implement `IChatTargetable`
 - Changed error handling in `DownloadFileAsync`: `ApiRequestException` will be thrown when 
 correct error response is received from Bot API, otherwise `RequestException` is thrown,
-`TaskCancelledException` is thrown when cancellation is requested 
+`TaskCancelledException` is thrown when cancellation is requested
+- All properties that accept `float` values changed to accept `double`
 
 ### Removed
 - Enum member `ParseMode.Default`
