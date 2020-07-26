@@ -105,6 +105,8 @@ correct error response is received from Bot API, otherwise `RequestException` is
     - Method `StartReceiving`
     - Method `StopReceiving`
 - All exception types except `ApiRequestException`
+- Property `Chat.AllMembersAreAdministrators`
+- Property `Message.IsForwarded`
 
 ## [15.7.1] - 2020-06-18
 

@@ -23,13 +23,13 @@ namespace Telegram.Bot.Requests
         /// Latitude of the location
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; }
+        public double Latitude { get; }
 
         /// <summary>
         /// Longitude of the location
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; }
+        public double Longitude { get; }
 
         /// <summary>
         /// Period in seconds for which the location will be updated, should be
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Requests
         /// </param>
         /// <param name="latitude">Latitude of the location</param>
         /// <param name="longitude">Longitude of the location</param>
-        public SendLocationRequest(ChatId chatId, float latitude, float longitude)
+        public SendLocationRequest(ChatId chatId, double latitude, double longitude)
             : base("sendLocation")
         {
             ChatId = chatId;

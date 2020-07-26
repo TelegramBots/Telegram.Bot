@@ -21,13 +21,13 @@ namespace Telegram.Bot.Requests
         /// Latitude of new location
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; }
+        public double Latitude { get; }
 
         /// <summary>
         /// Longitude of new location
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; }
+        public double Longitude { get; }
 
         /// <summary>
         /// A JSON-serialized object for an inline keyboard
@@ -43,8 +43,8 @@ namespace Telegram.Bot.Requests
         /// <param name="longitude">Longitude of new location</param>
         public EditInlineMessageLiveLocationRequest(
             string inlineMessageId,
-            float latitude,
-            float longitude)
+            double latitude,
+            double longitude)
             : base("editMessageLiveLocation")
         {
             InlineMessageId = inlineMessageId;

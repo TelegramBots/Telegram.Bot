@@ -14,13 +14,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Latitude of the location in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; private set; }
+        public double Latitude { get; private set; }
 
         /// <summary>
         /// Longitude of the location in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; private set; }
+        public double Longitude { get; private set; }
 
         /// <summary>
         /// Name of the venue
@@ -62,8 +62,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public InputVenueMessageContent(
             string title,
             string address,
-            float latitude,
-            float longitude)
+            double latitude,
+            double longitude)
         {
             Title = title;
             Address = address;

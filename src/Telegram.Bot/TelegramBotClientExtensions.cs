@@ -884,8 +884,8 @@ namespace Telegram.Bot
             public static async Task<Message> SendLocationAsync(
                 this ITelegramBotClient botClient,
                 ChatId chatId,
-                float latitude,
-                float longitude,
+                double latitude,
+                double longitude,
                 int? livePeriod = default,
                 bool? disableNotification = default,
                 int? replyToMessageId = default,
@@ -937,8 +937,8 @@ namespace Telegram.Bot
         public static async Task<Message> SendVenueAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
-            float latitude,
-            float longitude,
+            double latitude,
+            double longitude,
             string title,
             string address,
             string? foursquareId = default,
@@ -2035,8 +2035,8 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             ChatId chatId,
             int messageId,
-            float latitude,
-            float longitude,
+            double latitude,
+            double longitude,
             InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
@@ -2066,8 +2066,8 @@ namespace Telegram.Bot
         public static async Task EditMessageLiveLocationAsync(
             this ITelegramBotClient botClient,
             string inlineMessageId,
-            float latitude,
-            float longitude,
+            double latitude,
+            double longitude,
             InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
