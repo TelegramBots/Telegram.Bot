@@ -34,11 +34,14 @@ namespace Telegram.Bot.Requests
         { }
 
         /// <summary>
-        /// ToDo
+        /// Automatically generates <see cref="MultipartFormDataContent"/> instance and adds
+        /// property passed in <paramref name="fileParameterName"/> parameter as a stream.
         /// </summary>
-        /// <param name="fileParameterName"></param>
+        /// <param name="fileParameterName">
+        /// Name of the property that should be added as a stream
+        /// </param>
         /// <param name="inputFile"></param>
-        /// <returns></returns>
+        /// <returns>Generated instance of <see cref="MultipartFormDataContent"/></returns>
         protected MultipartFormDataContent ToMultipartFormDataContent(
             string fileParameterName,
             InputFileStream inputFile)
@@ -56,11 +59,15 @@ namespace Telegram.Bot.Requests
 
         /// <summary>
         /// Automatically generates <see cref="MultipartFormDataContent"/> instance with string
-        /// data skipping properties passed in 'exceptPropertyNames' parameter.
-        /// All names of media properties should be passed in 'exceptPropertyNames'.
+        /// data skipping properties passed in <paramref name="exceptPropertyNames"/> parameter.
+        /// All names of media properties should be passed in
+        /// <paramref name="exceptPropertyNames"/>.
         /// </summary>
-        /// <param name="exceptPropertyNames">Properties</param>
-        /// <returns></returns>
+        /// <param name="exceptPropertyNames">Properties to skip</param>
+        /// <returns>
+        /// Generated instance of <see cref="MultipartFormDataContent"/> without properties passed
+        /// in <paramref name="exceptPropertyNames"/>
+        /// </returns>
         protected MultipartFormDataContent GenerateMultipartFormDataContent(
             params string[] exceptPropertyNames)
         {

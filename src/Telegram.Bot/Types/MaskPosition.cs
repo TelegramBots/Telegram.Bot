@@ -24,19 +24,19 @@ namespace Telegram.Bot.Types
         /// position.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float XShift { get; set; }
+        public double XShift { get; set; }
 
         /// <summary>
         /// Shift by Y-axis measured in heights of the mask scaled to the face size, from top to
         /// bottom. For example, 1.0 will place the mask just below the default mask position.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float YShift { get; set; }
+        public double YShift { get; set; }
 
         /// <summary>
         /// Mask scaling coefficient. For example, 2.0 means double size.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Scale { get; set; }
+        public double Scale { get; set; }
     }
 }

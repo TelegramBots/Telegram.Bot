@@ -47,14 +47,6 @@ namespace Telegram.Bot.Types
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? LastName { get; set; }
 
-        // TODO remove before the release of v16
-        /// <summary>
-        /// Optional. True if a group has 'All Members Are Admins' enabled.
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        [Obsolete("Use Permissions field instead")]
-        public bool AllMembersAreAdministrators { get; set; }
-
         /// <summary>
         /// Optional. Chat photo. Returned only in getChat.
         /// </summary>

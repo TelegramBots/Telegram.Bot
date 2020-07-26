@@ -206,18 +206,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         private async Task<Chat> FindSupergroupTestChatAsync()
         {
-            Chat supergroupChat;
             string supergroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
             if (string.IsNullOrWhiteSpace(supergroupChatId))
             {
-                supergroupChat = null; // ToDo Find supergroup from a message command /test
-                // await UpdateReceiver.DiscardNewUpdatesAsync(CancellationToken);
-                // supergroupChat = await GetChatFromTesterAsync(ChatType.Supergroup, CancellationToken);
+                throw new InvalidOperationException("Supergroup ID is not provided or is empty.");
             }
-            else
-            {
-                supergroupChat = await BotClient.GetChatAsync(supergroupChatId, CancellationToken);
-            }
+
+            var supergroupChat = await BotClient.GetChatAsync(supergroupChatId, CancellationToken);
 
             return supergroupChat;
         }
@@ -233,7 +228,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             if (!allowedUserNames.Any())
             {
                 // Assume all chat admins are allowed testers
-                ChatMember[] admins = await BotClient.GetChatAdministratorsAsync(SupergroupChat, CancellationToken);
+                ChatMember[] admins = await BotClient.GetChatAdministratorsAsync(
+                    SupergroupChat,
+                    CancellationToken
+                );
                 allowedUserNames = admins
                     .Where(member => !member.User.IsBot)
                     .Select(member => member.User.Username)

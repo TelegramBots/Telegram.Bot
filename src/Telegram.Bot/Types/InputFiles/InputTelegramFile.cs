@@ -32,7 +32,7 @@ namespace Telegram.Bot.Types.InputFiles
         }
 
         /// <summary>
-        /// ToDo
+        /// Constructs a new instance of <see cref="InputTelegramFile"/>
         /// </summary>
         protected InputTelegramFile()
         { }
@@ -59,18 +59,30 @@ namespace Telegram.Bot.Types.InputFiles
         }
 
         /// <summary>
-        /// ToDo
+        /// Performs an implicit conversion from <see cref="Stream"/> to
+        /// <see cref="InputOnlineFile"/>
         /// </summary>
-        /// <param name="stream"></param>
+        /// <param name="stream">
+        /// <see cref="Stream"/> instance to be converted to <see cref="InputOnlineFile"/>
+        /// </param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
         public static implicit operator InputTelegramFile?(Stream stream) =>
             stream is null
                 ? default
                 : new InputTelegramFile(stream);
 
         /// <summary>
-        /// ToDo
+        /// Performs an implicit conversion from a FileId or a URL to
+        /// <see cref="InputOnlineFile"/>
         /// </summary>
-        /// <param name="fileId"></param>
+        /// <param name="fileId">
+        /// FileId to be converted to <see cref="InputOnlineFile"/>
+        /// </param>
+        /// <returns>
+        /// The result of the conversion.
+        /// </returns>
         public static implicit operator InputTelegramFile?(string fileId) =>
             fileId is null
                 ? default

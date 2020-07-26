@@ -19,13 +19,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Latitude of the location in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; set; }
+        public double Latitude { get; set; }
 
         /// <summary>
         /// Longitude of the location in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; set; }
+        public double Longitude { get; set; }
 
         /// <summary>
         /// Title of the result
@@ -78,7 +78,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="latitude">Latitude of the location in degrees</param>
         /// <param name="longitude">Longitude of the location in degrees</param>
         /// <param name="title">Title of the result</param>
-        public InlineQueryResultLocation(string id, float latitude, float longitude, string title)
+        public InlineQueryResultLocation(string id, double latitude, double longitude, string title)
             : base(InlineQueryResultType.Location, id)
         {
             Latitude = latitude;

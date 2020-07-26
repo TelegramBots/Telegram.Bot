@@ -23,13 +23,13 @@ namespace Telegram.Bot.Requests
         /// Latitude of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; }
+        public double Latitude { get; }
 
         /// <summary>
         /// Longitude of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; }
+        public double Longitude { get; }
 
         /// <summary>
         /// Name of the venue
@@ -87,8 +87,8 @@ namespace Telegram.Bot.Requests
         /// <param name="address">Address of the venue</param>
         public SendVenueRequest(
             ChatId chatId,
-            float latitude,
-            float longitude,
+            double latitude,
+            double longitude,
             string title,
             string address
         )

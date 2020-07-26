@@ -36,19 +36,19 @@ namespace Telegram.Bot.Tests.Integ.Locations
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendLocation)]
         public async Task Should_Send_Live_Location()
         {
-            float latBerlin = 52.5200f;
-            float lonBerlin = 13.4050f;
+            double latitudeBerlin = 52.5200f;
+            double longitudeBerlin = 13.4050f;
 
             Message message = await BotClient.SendLocationAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                latitude: latBerlin,
-                longitude: lonBerlin,
+                latitude: latitudeBerlin,
+                longitude: longitudeBerlin,
                 livePeriod: 60
             );
 
             Assert.Equal(MessageType.Location, message.Type);
-            Assert.Equal(latBerlin, message.Location!.Latitude, 3);
-            Assert.Equal(lonBerlin, message.Location.Longitude, 3);
+            Assert.Equal(latitudeBerlin, message.Location!.Latitude, 3);
+            Assert.Equal(longitudeBerlin, message.Location.Longitude, 3);
 
             LocationMessage = message;
         }

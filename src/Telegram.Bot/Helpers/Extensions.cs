@@ -69,8 +69,7 @@ namespace Telegram.Bot.Helpers
         private static T? DeserializeJsonFromStream<T>(this Stream stream)
             where T : class
         {
-            if (stream == null || stream.CanRead == false)
-                return default;
+            if (stream is null || !stream.CanRead) return default;
 
             using var streamReader = new StreamReader(stream);
             using var jsonTextReader = new JsonTextReader(streamReader);
