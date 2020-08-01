@@ -44,7 +44,8 @@ You have two ways of starting to receive updates
         AllowedUpdates = {} // receive all update types
     };
     bot.StartReceiving(
-        new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
+        HandleUpdateAsync,
+        HandleErrorAsync,
         receiveOptions,
         cancellationToken
     );
@@ -65,7 +66,8 @@ You have two ways of starting to receive updates
     };
 
     await bot.ReceiveAsync(
-        new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
+        HandleUpdateAsync,
+        HandleErrorAsync,
         receiveOptions,
         cancellationToken
     );
@@ -75,12 +77,12 @@ Trigger cancellation by calling `cts.Cancel()` somewhere to stop receiving updat
 
 ---
 
-In case you want to throw out all pending updates on start there is an option 
+In case you want to throw out all pending updates on start there is an option
 `ReceiveOptions.ThrowPendingUpdates`.
-If set to `true` `ReceiveOptions.Offset` property will be ignored even if it's set to non-null value 
+If set to `true` `ReceiveOptions.Offset` property will be ignored even if it's set to non-null value
 and all implemented update receivers will attempt to throw out all pending updates before starting
-to call your handlers. In that case `ReceiveOptions.AllowedUpdates` property should be set to 
-desired values otherwise it will be effectively set to allow all updates. 
+to call your handlers. In that case `ReceiveOptions.AllowedUpdates` property should be set to
+desired values otherwise it will be effectively set to allow all updates.
 
 Example
 
@@ -99,7 +101,8 @@ var receiveOptions = new ReceiveOptions
 };
 
 await bot.ReceiveAsync(
-    new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
+    HandleUpdateAsync,
+    HandleErrorAsync,
     receiveOptions,
     cancellationToken
 );
