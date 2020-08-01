@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <!--<VersionSuffix>Alpha</VersionSuffix>-->
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Title>Telegram Passport Extension for Telegram Bot API Client</Title>
+    <Description>
+      Telegram Passport is a unified authorization method for services that require personal identification.
+      This package provides extension methods for Telegram Passport API and decryption utilities for
+      Telegram Passport encrypted data.
+    </Description>
+    <Authors>TelegramBots</Authors>
+    <Copyright>Copyright © Telegram Bots 2018</Copyright>
+    <RepositoryUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Passport</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Passport</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot.Extensions.Passport/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot.Extensions.Passport/master/package-icon.gif</PackageIconUrl>
+    <PackageTags>Telegram;Bot;Api;Passport;Telegram Passport</PackageTags>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <ProjectReference Include="..\..\deps\Telegram.Bot\src\Telegram.Bot\Telegram.Bot.csproj"/>
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+    <PackageReference Include="Telegram.Bot" Version="14.10.0"/>
+  </ItemGroup>
+</Project>

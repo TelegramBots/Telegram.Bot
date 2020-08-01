@@ -34,7 +34,41 @@ implementation of `IExceptionParser` throws all correct errors from Bot Api as `
 - Type `Telegram.Bot.Exceptions.ApiResponse`
 - Property `ITelegramBotClient.ExceptionParser`
 - Interface `IUserTargetable`
-- Request classes with a property `int UserId { get; }` implement `IUserTargetable` 
+- Request classes with a property `int UserId { get; }` implement `IUserTargetable`
+- Package `Telegram.Bot.Extensions.Passport` merged into this package, following entities are added:
+    - Extension Method `ITelegramBotClient.SetPassportDataErrorsAsync`
+    - Extension Method `ITelegramBotClient.DownloadAndDecryptPassportFileAsync`
+    - Type `IDecrypter`
+    - Type `Decrypter`
+    - Type `PassportDataDecryptionException`
+    - Type `PassportEnums.Scope`
+    - Type `PassportEnums.Gender`
+    - Type `PassportElementType`
+    - Type `SetPassportDataErrorsRequest`
+    - Type `PassportElementError`
+    - Type `PassportElementErrorDataField`
+    - Type `PassportElementErrorFile`
+    - Type `PassportElementErrorFiles`
+    - Type `PassportElementErrorFrontSide`
+    - Type `PassportElementErrorReverseSide`
+    - Type `PassportElementErrorSelfie`
+    - Type `PassportElementErrorTranslationFile`
+    - Type `PassportElementErrorTranslationFiles`
+    - Type `PassportElementErrorUnspecified`
+    - Type `AuthorizationRequestParameters`
+    - Type `IPassportScopeElement`
+    - Type `PassportScope`
+    - Type `PassportScopeElementOne`
+    - Type `PassportScopeElementOneOfSeveral`
+    - Type `Credentials`
+    - Type `DataCredentials`
+    - Type `FileCredentials`
+    - Type `IdDocumentData`
+    - Type `IDecryptedValue`
+    - Type `PersonalDetails`
+    - Type `ResidentialAddress`
+    - Type `SecureData`
+    - Type `SecureValue`  
 
 ### Changed
 - All optional Bot API properties are made nullable 
