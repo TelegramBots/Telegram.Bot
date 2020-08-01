@@ -66,11 +66,8 @@ namespace Telegram.Bot.Extensions.Polling
             {
                 try
                 {
-                    var newMessageOffset = await _botClient
+                    _messageOffset = await _botClient
                         .ThrowOutPendingUpdatesAsync(_cancellationToken);
-
-                    if (newMessageOffset != null)
-                        _messageOffset = newMessageOffset.Value;
                 }
                 catch (OperationCanceledException)
                 {

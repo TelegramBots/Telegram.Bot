@@ -17,7 +17,7 @@ namespace Telegram.Bot.Extensions.Polling.Extensions
         /// <returns>
         /// Update ID of the last <see cref="Update"/> increased by 1 if there were any
         /// </returns>
-        internal static async Task<int?> ThrowOutPendingUpdatesAsync(
+        internal static async Task<int> ThrowOutPendingUpdatesAsync(
             this ITelegramBotClient botClient,
             CancellationToken cancellationToken = default)
         {
@@ -34,7 +34,7 @@ namespace Telegram.Bot.Extensions.Polling.Extensions
 
             if (updates.Length > 0) return updates[0].Id + 1;
 
-            return null;
+            return 0;
         }
     }
 }
