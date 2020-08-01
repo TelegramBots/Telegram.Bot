@@ -22,6 +22,7 @@ namespace Telegram.Bot.Extensions.Polling
         /// In case of <c>null</c> the previous setting will be used
         /// </summary>
         public UpdateType[]? AllowedUpdates { get; set; }
+
         /// <summary>
         /// Limits the number of updates to be retrieved. Values between 1-100 are accepted.
         /// Defaults to 100 when is set to <c>null</c>.
@@ -39,7 +40,8 @@ namespace Telegram.Bot.Extensions.Polling
                     throw new ArgumentOutOfRangeException(
                         nameof(value),
                         value,
-                        $"'{nameof(Limit)}' can not be less than 1 or greater than 100");
+                        $"'{nameof(Limit)}' can not be less than 1 or greater than 100"
+                    );
                 }
                 _limit = value;
             }

@@ -20,7 +20,10 @@ namespace Telegram.Bot.Extensions.Polling
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
-        /// <returns></returns>
+        /// <returns>
+        /// A <see cref="Task"/> that will be completed when cancellation will be requested through
+        /// <paramref name="cancellationToken"/>
+        /// </returns>
         Task ReceiveAsync(
             IUpdateHandler updateHandler,
             CancellationToken cancellationToken = default);

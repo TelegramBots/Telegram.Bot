@@ -31,21 +31,7 @@ namespace Telegram.Bot.Extensions.Polling
             _receiveOptions = receiveOptions;
         }
 
-        /// <summary>
-        /// Starts receiving <see cref="Update"/>s on the ThreadPool,
-        /// invoking <see cref="IUpdateHandler.HandleUpdateAsync"/> for each.
-        /// <para>
-        /// This method will block if awaited. GetUpdates will be called AFTER the
-        /// <see cref="IUpdateHandler.HandleUpdateAsync"/> returns
-        /// </para>
-        /// </summary>
-        /// <param name="updateHandler">
-        /// The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s
-        /// </param>
-        /// <param name="cancellationToken">
-        /// The <see cref="CancellationToken"/> with which you can stop receiving
-        /// </param>
-        /// <returns></returns>
+        /// <inheritdoc />
         public async Task ReceiveAsync(
             IUpdateHandler updateHandler,
             CancellationToken cancellationToken = default)
