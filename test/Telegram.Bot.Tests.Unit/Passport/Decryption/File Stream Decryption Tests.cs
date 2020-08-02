@@ -1,4 +1,3 @@
-// ReSharper disable CheckNamespace
 // ReSharper disable StringLiteralTypo
 
 using System;
@@ -8,11 +7,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Passport;
-using Telegram.Bot.Tests.Unit.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests
+namespace Telegram.Bot.Tests.Unit.Passport.Decryption
 {
     /// <summary>
     /// Tests for decrypting file streams using <see cref="IDecrypter.DecryptFileAsync"/> method
@@ -46,7 +44,7 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
 
             Stream encContentStream = new MemoryStream();
-            await using (Stream encFileStream = new NonSeekableFileReadStream("Files/s_dec1.driver_license-selfie.jpg.enc"))
+            await using (Stream encFileStream = new NonSeekableFileReadStream("Files/Passport/s_dec1.driver_license-selfie.jpg.enc"))
             {
                 await encFileStream.CopyToAsync(encContentStream);
             }
@@ -75,7 +73,7 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            await using Stream encFileStream = new NonSeekableFileReadStream("Files/s_dec2.driver_license-selfie.jpg.enc");
+            await using Stream encFileStream = new NonSeekableFileReadStream("Files/Passport/s_dec2.driver_license-selfie.jpg.enc");
             await using Stream fileStream = new MemoryStream();
 
             await decrypter.DecryptFileAsync(
@@ -96,7 +94,7 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            await using Stream encFileStream = new NonSeekableFileReadStream("Files/s_dec3.driver_license-selfie.jpg");
+            await using Stream encFileStream = new NonSeekableFileReadStream("Files/Passport/s_dec3.driver_license-selfie.jpg");
             await using Stream fileStream = new MemoryStream();
 
             Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
@@ -123,7 +121,7 @@ namespace UnitTests
             IDecrypter decrypter = new Decrypter();
 
             Stream encContentStream = new MemoryStream();
-            await using (Stream encFileStream = new NonSeekableFileReadStream("Files/s_dec4.driver_license-selfie.jpg.enc"))
+            await using (Stream encFileStream = new NonSeekableFileReadStream("Files/Passport/s_dec4.driver_license-selfie.jpg.enc"))
             {
                 await encFileStream.CopyToAsync(encContentStream);
             }
@@ -156,7 +154,7 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            await using Stream encFileStream = new NonSeekableFileReadStream("Files/s_dec5.driver_license-selfie.jpg.enc");
+            await using Stream encFileStream = new NonSeekableFileReadStream("Files/Passport/s_dec5.driver_license-selfie.jpg.enc");
             await using Stream fileStream = new MemoryStream();
 
             Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
@@ -180,7 +178,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(null!, null!, null!)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: encryptedContent$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'encryptedContent'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -193,7 +191,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), null!, null!)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: fileCredentials$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'fileCredentials'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -205,7 +203,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), new FileCredentials(), new MemoryStream())
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: Secret$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'Secret'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -219,7 +217,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: FileHash$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'FileHash'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -230,7 +228,7 @@ namespace UnitTests
             FileCredentials fileCredentials = new FileCredentials {Secret = "", FileHash = ""};
 
             Exception exception;
-            await using (Stream encStream = File.OpenWrite("Files/s_dec6.driver_license-selfie.jpg"))
+            await using (Stream encStream = File.OpenWrite("Files/Passport/s_dec6.driver_license-selfie.jpg"))
             {
                 exception = await Assert.ThrowsAnyAsync<Exception>(() =>
                     decrypter.DecryptFileAsync(encStream, fileCredentials, new MemoryStream())
@@ -238,7 +236,7 @@ namespace UnitTests
             }
 
             Assert.Matches(
-                @"^Stream does not support reading\.\s+Parameter name: encryptedContent$",
+                @"^Stream does not support reading\.\s+\(Parameter 'encryptedContent'\)$",
                 exception.Message
             );
             Assert.IsType<ArgumentException>(exception);
@@ -254,7 +252,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, new MemoryStream())
             );
 
-            Assert.Matches(@"^Stream is empty\.\s+Parameter name: encryptedContent$", exception.Message);
+            Assert.Matches(@"^Stream is empty\.\s+\(Parameter 'encryptedContent'\)$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
 
@@ -286,7 +284,7 @@ namespace UnitTests
                 decrypter.DecryptFileAsync(new MemoryStream(), fileCredentials, null!)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: destination$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'destination'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -297,14 +295,14 @@ namespace UnitTests
             FileCredentials fileCredentials = new FileCredentials {Secret = "", FileHash = ""};
 
             Exception exception;
-            await using (Stream destStream = File.OpenRead("Files/s_dec7.driver_license-selfie.jpg"))
+            await using (Stream destStream = File.OpenRead("Files/Passport/s_dec7.driver_license-selfie.jpg"))
             {
                 exception = await Assert.ThrowsAnyAsync<Exception>(() =>
                     decrypter.DecryptFileAsync(new MemoryStream(new byte[16]), fileCredentials, destStream)
                 );
             }
 
-            Assert.Matches(@"^Stream does not support writing\.\s+Parameter name: destination$", exception.Message);
+            Assert.Matches(@"^Stream does not support writing\.\s+\(Parameter 'destination'\)$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
 

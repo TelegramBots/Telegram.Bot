@@ -1,5 +1,3 @@
-// ReSharper disable PossibleNullReferenceException
-// ReSharper disable CheckNamespace
 // ReSharper disable StringLiteralTypo
 
 using System;
@@ -8,11 +6,10 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Passport;
-using Telegram.Bot.Tests.Unit.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests
+namespace Telegram.Bot.Tests.Unit.Passport.Multiple_Scope_Requests
 {
     /// <summary>
     /// Tests for decryption of passport_data received for authorization request with the scopes
@@ -62,15 +59,18 @@ namespace UnitTests
             Assert.Null(credentials.SecureData.IdentityCard.Files);
 
             // decryption of file scan in 'utility_bill' element requires accompanying FileCredentials
-            Assert.NotNull(credentials.SecureData.UtilityBill.Files);
+            Assert.NotNull(credentials.SecureData.UtilityBill?.Files);
             FileCredentials billFileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Files);
+            Assert.NotNull(billFileCredentials);
             Assert.NotEmpty(billFileCredentials.Secret);
             Assert.NotEmpty(billFileCredentials.FileHash);
 
             // decryption of translation file scan in 'utility_bill' element requires accompanying FileCredentials
             Assert.NotNull(credentials.SecureData.UtilityBill.Files);
+            Assert.NotNull(credentials.SecureData.UtilityBill.Translation);
             FileCredentials billTranslationFileCredentials =
                 Assert.Single(credentials.SecureData.UtilityBill.Translation);
+            Assert.NotNull(billTranslationFileCredentials?.Secret);
             Assert.NotEmpty(billTranslationFileCredentials.Secret);
             Assert.NotEmpty(billTranslationFileCredentials.FileHash);
         }
@@ -81,11 +81,14 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
-            Assert.NotNull(idCardEl.Data);
+            Assert.NotNull(idCardEl!.Data);
+            Assert.NotNull(credentials.SecureData.IdentityCard?.Data);
 
             IdDocumentData documentData = decrypter.DecryptData<IdDocumentData>(
                 idCardEl.Data,
@@ -93,6 +96,7 @@ namespace UnitTests
             );
 
             Assert.Equal("9999R", documentData.DocumentNo);
+            Assert.NotNull(documentData.ExpiryDate);
             Assert.Empty(documentData.ExpiryDate);
             Assert.Null(documentData.Expiry);
         }
@@ -103,16 +107,20 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
-            Assert.NotNull(idCardEl.FrontSide);
+            Assert.NotNull(idCardEl?.FrontSide);
             Assert.Equal("DgADAQADGwADQnBBRBexahgtkoPgAg", idCardEl.FrontSide.FileId);
             Assert.InRange(idCardEl.FrontSide.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
-            Assert.Equal(0, idCardEl.FrontSide.FileSize);
+            Assert.Null(idCardEl.FrontSide.FileSize);
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
-            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/identity_card-front_side.jpg.enc");
+            Assert.NotNull(credentials.SecureData.IdentityCard?.FrontSide);
+
+            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/Passport/identity_card-front_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.IdentityCard.FrontSide
@@ -120,7 +128,7 @@ namespace UnitTests
 
             Assert.NotEmpty(content);
 
-            await File.WriteAllBytesAsync("Files/identity_card-front_side.jpg", content);
+            await File.WriteAllBytesAsync("Files/Passport/identity_card-front_side.jpg", content);
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -140,17 +148,21 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
-            Assert.NotNull(idCardEl.ReverseSide);
+            Assert.NotNull(idCardEl!.ReverseSide);
             Assert.Equal("DgADAQADKAADNfRARK9jbzh5AAFqvAI", idCardEl.ReverseSide.FileId);
             Assert.InRange(idCardEl.ReverseSide.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
-            Assert.Equal(0, idCardEl.ReverseSide.FileSize);
+            Assert.Null(idCardEl.ReverseSide.FileSize);
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
+            Assert.NotNull(credentials.SecureData.IdentityCard);
+            Assert.NotNull(credentials.SecureData.IdentityCard.ReverseSide);
 
             byte[] encryptedContent =
-                await File.ReadAllBytesAsync("Files/identity_card-reverse_side.jpg.enc");
+                await File.ReadAllBytesAsync("Files/Passport/identity_card-reverse_side.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.IdentityCard.ReverseSide
@@ -158,7 +170,7 @@ namespace UnitTests
 
             Assert.NotEmpty(content);
 
-            await File.WriteAllBytesAsync("Files/identity_card-reverse_side.jpg", encryptedContent);
+            await File.WriteAllBytesAsync("Files/Passport/identity_card-reverse_side.jpg", encryptedContent);
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -178,16 +190,21 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
             EncryptedPassportElement idCardEl = Assert.Single(passportData.Data, el => el.Type == "identity_card");
 
-            Assert.NotNull(idCardEl.Selfie);
+            Assert.NotNull(idCardEl!.Selfie);
             Assert.Equal("DgADAQADNAADA1BJRCUHz9fqxiqJAg", idCardEl.Selfie.FileId);
             Assert.InRange(idCardEl.Selfie.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
-            Assert.Equal(0, idCardEl.Selfie.FileSize);
+            Assert.Null(idCardEl.Selfie.FileSize);
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
-            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/identity_card-selfie.jpg.enc");
+            Assert.NotNull(credentials.SecureData.IdentityCard);
+            Assert.NotNull(credentials.SecureData.IdentityCard.Selfie);
+
+            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/Passport/identity_card-selfie.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.IdentityCard.Selfie
@@ -195,7 +212,7 @@ namespace UnitTests
 
             Assert.NotEmpty(content);
 
-            await File.WriteAllBytesAsync("Files/identity_card-selfie.jpg", content);
+            await File.WriteAllBytesAsync("Files/Passport/identity_card-selfie.jpg", content);
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -215,20 +232,24 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
             EncryptedPassportElement billElement = Assert.Single(passportData.Data, el => el.Type == "utility_bill");
 
-            Assert.NotNull(billElement.Files);
+            Assert.NotNull(billElement!.Files);
             PassportFile scanFile = Assert.Single(billElement.Files);
 
             Assert.Equal("DgADAQADQAADPupBRDIrCqSwkb4iAg", scanFile.FileId);
             Assert.InRange(scanFile.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
-            Assert.Equal(0, scanFile.FileSize);
+            Assert.Null(scanFile.FileSize);
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
+            Assert.NotNull(credentials.SecureData.UtilityBill);
+            Assert.NotNull(credentials.SecureData.UtilityBill.Files);
             FileCredentials billFileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Files);
 
-            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/utility_bill.jpg.enc");
+            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/Passport/utility_bill.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 billFileCredentials!
@@ -236,7 +257,7 @@ namespace UnitTests
 
             Assert.NotEmpty(content);
 
-            await File.WriteAllBytesAsync("Files/utility_bill.jpg", content);
+            await File.WriteAllBytesAsync("Files/Passport/utility_bill.jpg", content);
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -256,20 +277,24 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
             EncryptedPassportElement billElement = Assert.Single(passportData.Data, el => el.Type == "utility_bill");
 
-            Assert.NotNull(billElement.Translation);
+            Assert.NotNull(billElement!.Translation);
             PassportFile translationFile = Assert.Single(billElement.Translation);
 
-            Assert.Equal("DgADAQADOwADGV9BRP4b7RLGAtUKAg", translationFile.FileId);
+            Assert.Equal("DgADAQADOwADGV9BRP4b7RLGAtUKAg", translationFile!.FileId);
             Assert.InRange(translationFile.FileDate, new DateTime(2018, 8, 30), new DateTime(2018, 8, 31));
-            Assert.Equal(0, translationFile.FileSize);
+            Assert.Null(translationFile.FileSize);
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
+            Assert.NotNull(credentials.SecureData.UtilityBill);
+            Assert.NotNull(credentials.SecureData.UtilityBill.Translation);
             FileCredentials translationFileCredentials = Assert.Single(credentials.SecureData.UtilityBill.Translation);
 
-            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/utility_bill-translation.jpg.enc");
+            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/Passport/utility_bill-translation.jpg.enc");
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 translationFileCredentials!
@@ -277,7 +302,7 @@ namespace UnitTests
 
             Assert.NotEmpty(content);
 
-            await File.WriteAllBytesAsync("Files/utility_bill-translation.jpg", content);
+            await File.WriteAllBytesAsync("Files/Passport/utility_bill-translation.jpg", content);
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -300,14 +325,17 @@ namespace UnitTests
       ""data"": ""Xi+gxIkl9rgOvnK6NNT1kg8mf8DaXusx0gkENI/QrUTdQ7qfdT/FhOI8nq/xUiGVuX3QlBWT2kVk0CJ0NFhckQ+tbicHuErxq9+80hjBsaoRp2j6CDxU6gl1B3ZfJ9nVnk/HNMiXGfnz8GVk7XAp2A=="",
       ""front_side"": {
         ""file_id"": ""DgADAQADGwADQnBBRBexahgtkoPgAg"",
+        ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
         ""file_date"": 1535639975
       },
       ""reverse_side"": {
         ""file_id"": ""DgADAQADKAADNfRARK9jbzh5AAFqvAI"",
+        ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
         ""file_date"": 1535639975
       },
       ""selfie"": {
         ""file_id"": ""DgADAQADNAADA1BJRCUHz9fqxiqJAg"",
+        ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
         ""file_date"": 1535639975
       },
       ""hash"": ""XAIrZ+liSIWhyaYerm4yj14ZJhw93S/IVeeoSUSavI8=""
@@ -317,12 +345,14 @@ namespace UnitTests
       ""files"": [
         {
           ""file_id"": ""DgADAQADQAADPupBRDIrCqSwkb4iAg"",
+          ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
           ""file_date"": 1535639861
         }
       ],
       ""translation"": [
         {
           ""file_id"": ""DgADAQADOwADGV9BRP4b7RLGAtUKAg"",
+          ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
           ""file_date"": 1535639861
         }
       ],

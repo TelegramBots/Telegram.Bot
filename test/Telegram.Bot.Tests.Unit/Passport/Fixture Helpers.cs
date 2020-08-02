@@ -12,7 +12,7 @@ namespace Telegram.Bot.Tests.Unit.Passport
         {
             foreach (var m in map)
             {
-                File.Copy($"Files/{m.Src}", $"Files/{m.Dest}", true);
+                File.Copy($"Files/Passport/{m.Src}", $"Files/Passport/{m.Dest}", true);
             }
         }
     }

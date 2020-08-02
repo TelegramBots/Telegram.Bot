@@ -17,4 +17,8 @@
     <ProjectReference Include="..\..\src\Telegram.Bot\Telegram.Bot.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include="Files\**" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
 </Project>

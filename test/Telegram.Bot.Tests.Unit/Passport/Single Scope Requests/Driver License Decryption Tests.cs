@@ -1,6 +1,3 @@
-// ReSharper disable InconsistentNaming
-// ReSharper disable PossibleNullReferenceException
-// ReSharper disable CheckNamespace
 // ReSharper disable StringLiteralTypo
 
 using System;
@@ -9,11 +6,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Telegram.Bot.Passport;
-using Telegram.Bot.Tests.Unit.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests
+namespace Telegram.Bot.Tests.Unit.Passport.Single_Scope_Requests
 {
     /// <summary>
     /// Tests for decryption of "message.passport_data" received for authorization request with the scope
@@ -28,11 +24,14 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
+            Assert.NotNull(credentials.Nonce);
             Assert.NotEmpty(credentials.Nonce);
             Assert.Equal("TEST", credentials.Nonce);
 
@@ -53,6 +52,7 @@ namespace UnitTests
             Assert.NotEmpty(credentials.SecureData.DriverLicense.Selfie.FileHash);
 
             // decryption of translation file in 'driver_license' element requires accompanying FileCredentials
+            Assert.NotNull(credentials.SecureData.DriverLicense.Translation);
             Assert.NotEmpty(credentials.SecureData.DriverLicense.Translation);
             FileCredentials translationFileCredentials = Assert.Single(
                 credentials.SecureData.DriverLicense.Translation
@@ -68,11 +68,14 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
+            Assert.NotNull(credentials.SecureData.DriverLicense?.Data);
 
             EncryptedPassportElement licenseEl = Assert.Single(passportData.Data, el => el.Type == "driver_license");
-            Assert.NotNull(licenseEl.Data);
+            Assert.NotNull(licenseEl!.Data);
 
             IdDocumentData licenseDoc = decrypter.DecryptData<IdDocumentData>(
                 encryptedData: licenseEl.Data,
@@ -91,16 +94,23 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
-            byte[] encryptedContent = await File.ReadAllBytesAsync("Files/driver_license-front_side.jpg.enc");
+            Assert.NotNull(credentials.SecureData.DriverLicense);
+            Assert.NotNull(credentials.SecureData.DriverLicense.FrontSide);
+
+            byte[] encryptedContent = await File.ReadAllBytesAsync(
+                "Files/Passport/driver_license-front_side.jpg.enc"
+            );
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.DriverLicense.FrontSide
             );
             Assert.NotEmpty(content);
-            await File.WriteAllBytesAsync("Files/driver_license-front_side.jpg", content);
+            await File.WriteAllBytesAsync("Files/Passport/driver_license-front_side.jpg", content);
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -120,17 +130,26 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
-            byte[] encryptedContent =
-                await File.ReadAllBytesAsync("Files/driver_license-reverse_side.jpg.enc");
+            Assert.NotNull(credentials.SecureData.DriverLicense);
+            Assert.NotNull(credentials.SecureData.DriverLicense.ReverseSide);
+
+            byte[] encryptedContent = await File.ReadAllBytesAsync(
+                "Files/Passport/driver_license-reverse_side.jpg.enc"
+            );
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.DriverLicense.ReverseSide
             );
             Assert.NotEmpty(content);
-            await File.WriteAllBytesAsync("Files/driver_license-reverse_side.jpg", content);
+            await File.WriteAllBytesAsync(
+                "Files/Passport/driver_license-reverse_side.jpg",
+                content
+            );
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -150,11 +169,16 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
-            await using Stream encryptedFileStream = File.OpenRead("Files/driver_license-selfie.jpg.enc");
-            await using Stream decryptedFileStream = File.OpenWrite("Files/driver_license-selfie.jpg");
+            Assert.NotNull(credentials.SecureData.DriverLicense);
+            Assert.NotNull(credentials.SecureData.DriverLicense.Selfie);
+
+            await using Stream encryptedFileStream = File.OpenRead("Files/Passport/driver_license-selfie.jpg.enc");
+            await using Stream decryptedFileStream = File.OpenWrite("Files/Passport/driver_license-selfie.jpg");
 
             await decrypter.DecryptFileAsync(
                 encryptedFileStream,
@@ -169,17 +193,23 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
-            byte[] encryptedContent =
-                await File.ReadAllBytesAsync("Files/driver_license-translation0.jpg.enc");
+            Assert.NotNull(credentials.SecureData.DriverLicense);
+            Assert.NotNull(credentials.SecureData.DriverLicense.Translation);
+
+            byte[] encryptedContent = await File.ReadAllBytesAsync(
+                "Files/Passport/driver_license-translation0.jpg.enc"
+            );
             byte[] content = decrypter.DecryptFile(
                 encryptedContent,
                 credentials.SecureData.DriverLicense.Translation.Single()
             );
             Assert.NotEmpty(content);
-            await File.WriteAllBytesAsync("Files/driver_license-translation0.jpg", content);
+            await File.WriteAllBytesAsync("Files/Passport/driver_license-translation0.jpg", content);
 
             await using MemoryStream encryptedFileStream = new MemoryStream(encryptedContent);
             await using MemoryStream decryptedFileStream = new MemoryStream();
@@ -193,7 +223,7 @@ namespace UnitTests
             Assert.Equal(content, decryptedFileStream.ToArray());
         }
 
-        static PassportData GetPassportData() =>
+        private static PassportData GetPassportData() =>
             JsonConvert.DeserializeObject<PassportData>(@"
 {
   ""data"": [
@@ -202,19 +232,23 @@ namespace UnitTests
       ""data"": ""+ThtmwC1Cq5JPUg8h3E3aSia0qFhuDCGBQap3FzC7MpPp32DtElU1WucEwEHi2zLmCQbSABZ4JbHREYGJhjfJJthRhrdmyvFQDWeU6kQjD2FG2QzPCWB1hNorAXX/X9pLRZiHUrmbqMcU2Mch/X/jVEQcTAXYwkTUdit3ZU+aGzz79tXos4ZCHfnBf5bKww/1n54TPLsVwOa4TAywcaahsJdCDZn2gxCNig2/dY7nfU="",
       ""front_side"": {
         ""file_id"": ""DgADAQADQwAD8dA5RLvzieFGLU4nAg"",
+        ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
         ""file_date"": 1535597542
       },
       ""reverse_side"": {
         ""file_id"": ""DgADAQADHAADkeFARJRE1buibKe-Ag"",
+        ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
         ""file_date"": 1535597542
       },
       ""selfie"": {
         ""file_id"": ""DgADAQADLgADdYs5RME9OcP0l7GQAg"",
+        ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
         ""file_date"": 1535597542
       },
       ""translation"": [
         {
           ""file_id"": ""DgADAQADMQADnHM4RKOZghHOVNRHAg"",
+          ""file_unique_id"": ""AQADAv8sGwAEPjQGAAE"",
           ""file_date"": 1535597788
         }
       ],

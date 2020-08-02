@@ -1,4 +1,3 @@
-// ReSharper disable CheckNamespace
 // ReSharper disable StringLiteralTypo
 
 using System;
@@ -6,11 +5,10 @@ using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Passport;
-using Telegram.Bot.Tests.Unit.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests
+namespace Telegram.Bot.Tests.Unit.Passport.Decryption
 {
     /// <summary>
     /// Tests for decrypting file byte arrays using <see cref="IDecrypter.DecryptFile"/> method
@@ -38,7 +36,7 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            byte[] encContent = await File.ReadAllBytesAsync("Files/bytes_dec1.driver_license-selfie.jpg.enc");
+            byte[] encContent = await File.ReadAllBytesAsync("Files/Passport/bytes_dec1.driver_license-selfie.jpg.enc");
 
             byte[] content = decrypter.DecryptFile(
                 encContent,
@@ -59,7 +57,7 @@ namespace UnitTests
             };
 
             IDecrypter decrypter = new Decrypter();
-            byte[] encContent = await File.ReadAllBytesAsync("Files/bytes_dec2.driver_license-selfie.jpg");
+            byte[] encContent = await File.ReadAllBytesAsync("Files/Passport/bytes_dec2.driver_license-selfie.jpg");
 
             Exception exception = Assert.ThrowsAny<Exception>(() =>
                 decrypter.DecryptFile(
@@ -105,7 +103,7 @@ namespace UnitTests
             };
 
             IDecrypter decrypter = new Decrypter();
-            byte[] encContent = await File.ReadAllBytesAsync("Files/bytes_dec3.driver_license-selfie.jpg.enc");
+            byte[] encContent = await File.ReadAllBytesAsync("Files/Passport/bytes_dec3.driver_license-selfie.jpg.enc");
 
             Exception exception = Assert.ThrowsAny<Exception>(() =>
                 decrypter.DecryptFile(
@@ -127,7 +125,7 @@ namespace UnitTests
                 decrypter.DecryptFile(null!, null!)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: encryptedContent$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'encryptedContent'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -140,7 +138,7 @@ namespace UnitTests
                 decrypter.DecryptFile(new byte[0], null!)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: fileCredentials$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'fileCredentials'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -152,7 +150,7 @@ namespace UnitTests
                 decrypter.DecryptFile(new byte[0], new FileCredentials())
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: Secret$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'Secret'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -166,7 +164,7 @@ namespace UnitTests
                 decrypter.DecryptFile(new byte[0], fileCredentials)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: FileHash$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'FileHash'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -180,7 +178,7 @@ namespace UnitTests
                 decrypter.DecryptFile(new byte[0], fileCredentials)
             );
 
-            Assert.Matches(@"^Data array is empty\.\s+Parameter name: encryptedContent$", exception.Message);
+            Assert.Matches(@"^Data array is empty\.\s+\(Parameter 'encryptedContent'\)$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
 

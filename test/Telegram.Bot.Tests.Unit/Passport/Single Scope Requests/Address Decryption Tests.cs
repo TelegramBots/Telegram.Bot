@@ -1,15 +1,11 @@
-// ReSharper disable InconsistentNaming
-// ReSharper disable PossibleNullReferenceException
-// ReSharper disable CheckNamespace
 // ReSharper disable StringLiteralTypo
 
 using Newtonsoft.Json;
 using Telegram.Bot.Passport;
-using Telegram.Bot.Tests.Unit.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests
+namespace Telegram.Bot.Tests.Unit.Passport.Single_Scope_Requests
 {
     /// <summary>
     /// Tests for decryption of "message.passport_data" received for authorization request with the scope
@@ -24,11 +20,14 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
+            Assert.NotNull(credentials.Nonce);
             Assert.NotEmpty(credentials.Nonce);
             Assert.Equal("TEST", credentials.Nonce);
 
@@ -45,11 +44,15 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
             EncryptedPassportElement addressEl = Assert.Single(passportData.Data, el => el.Type == "address");
-            Assert.NotNull(addressEl.Data);
+            Assert.NotNull(addressEl!.Data);
+            Assert.NotNull(credentials.SecureData.Address);
+            Assert.NotNull(credentials.SecureData.Address.Data);
 
             ResidentialAddress residentialAddress = decrypter.DecryptData<ResidentialAddress>(
                 encryptedData: addressEl.Data,

@@ -1,17 +1,12 @@
-// ReSharper disable InconsistentNaming
-// ReSharper disable PossibleNullReferenceException
-// ReSharper disable CheckNamespace
 // ReSharper disable StringLiteralTypo
 
 using System;
 using Newtonsoft.Json;
-using Telegram.Bot;
 using Telegram.Bot.Passport;
-using Telegram.Bot.Tests.Unit.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests
+namespace Telegram.Bot.Tests.Unit.Passport.Single_Scope_Requests
 {
     /// <summary>
     /// Tests for decryption of "message.passport_data" received for authorization request with the scope
@@ -26,11 +21,14 @@ namespace UnitTests
 
             IDecrypter decrypter = new Decrypter();
 
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
             Assert.NotNull(credentials);
             Assert.NotNull(credentials.SecureData);
+            Assert.NotNull(credentials.Nonce);
             Assert.NotEmpty(credentials.Nonce);
             Assert.Equal("TEST", credentials.Nonce);
 
@@ -47,12 +45,16 @@ namespace UnitTests
             PassportData passportData = GetPassportData();
 
             IDecrypter decrypter = new Decrypter();
-            Credentials credentials =
-                decrypter.DecryptCredentials(passportData.Credentials, EncryptionKey.RsaPrivateKey);
+            Credentials credentials = decrypter.DecryptCredentials(
+                passportData.Credentials,
+                EncryptionKey.RsaPrivateKey
+            );
 
             EncryptedPassportElement element = Assert.Single(passportData.Data, el => el.Type == "personal_details");
 
-            Assert.NotNull(element.Data);
+            Assert.NotNull(element!.Data);
+            Assert.NotNull(credentials.SecureData.PersonalDetails);
+            Assert.NotNull(credentials.SecureData.PersonalDetails.Data);
 
             PersonalDetails personalDetails = decrypter.DecryptData<PersonalDetails>(
                 encryptedData: element.Data,
@@ -63,7 +65,9 @@ namespace UnitTests
             Assert.Equal("Ashrafpour", personalDetails.LastName);
             Assert.Equal("پولاد", personalDetails.FirstNameNative);
             Assert.Equal("اشرف پور", personalDetails.LastNameNative);
+            Assert.NotNull(personalDetails.MiddleName);
             Assert.Empty(personalDetails.MiddleName);
+            Assert.NotNull(personalDetails.MiddleNameNative);
             Assert.Empty(personalDetails.MiddleNameNative);
             Assert.Equal("male", personalDetails.Gender);
             Assert.Equal(PassportEnums.Gender.Male, personalDetails.Gender);

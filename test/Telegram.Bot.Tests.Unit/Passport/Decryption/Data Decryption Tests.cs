@@ -1,4 +1,3 @@
-// ReSharper disable CheckNamespace
 // ReSharper disable StringLiteralTypo
 
 using System;
@@ -8,7 +7,7 @@ using Telegram.Bot.Passport;
 using Telegram.Bot.Types.Passport;
 using Xunit;
 
-namespace UnitTests
+namespace Telegram.Bot.Tests.Unit.Passport.Decryption
 {
     /// <summary>
     /// Tests for decrypting data using <see cref="IDecrypter.DecryptData{TValue}"/> method
@@ -51,7 +50,7 @@ namespace UnitTests
                 decrypter.DecryptData<IDecryptedValue>(null!, null!)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: encryptedData$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'encryptedData'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -64,7 +63,7 @@ namespace UnitTests
                 decrypter.DecryptData<IDecryptedValue>("", null!)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: dataCredentials$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'dataCredentials'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -76,7 +75,7 @@ namespace UnitTests
                 decrypter.DecryptData<IDecryptedValue>("", new DataCredentials())
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: Secret$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'Secret'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -90,7 +89,7 @@ namespace UnitTests
                 decrypter.DecryptData<IDecryptedValue>("", dataCredentials)
             );
 
-            Assert.Matches(@"^Value cannot be null\.\s+Parameter name: DataHash$", exception.Message);
+            Assert.Matches(@"^Value cannot be null\.\s+\(Parameter 'DataHash'\)$", exception.Message);
             Assert.IsType<ArgumentNullException>(exception);
         }
 
@@ -104,7 +103,7 @@ namespace UnitTests
                 decrypter.DecryptData<IDecryptedValue>("", dataCredentials)
             );
 
-            Assert.Matches(@"^Data is empty\.\s+Parameter name: encryptedData$", exception.Message);
+            Assert.Matches(@"^Data is empty\.\s+\(Parameter 'encryptedData'\)$", exception.Message);
             Assert.IsType<ArgumentException>(exception);
         }
 
