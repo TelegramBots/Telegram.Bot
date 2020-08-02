@@ -21,6 +21,10 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         private readonly Queue<string[]> _messages;
         public int MessageGroupsLeft => _messages.Count;
 
+        public int RequestDelay = 10;
+
+        public Exception ExceptionToThrow;
+
         public MockTelegramBotClient(params string[] messages)
         {
             _messages = new Queue<string[]>(messages.Select(message => message.Split('-').ToArray()));
@@ -30,7 +34,10 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         {
             if (request is GetUpdatesRequest getUpdatesRequest)
             {
-                await Task.Delay(10, cancellationToken);
+                await Task.Delay(RequestDelay, cancellationToken);
+
+                if (ExceptionToThrow != null)
+                    throw ExceptionToThrow;
 
                 if (!_messages.TryDequeue(out string[] messages))
                     return (TResponse)(object)new Update[0];
