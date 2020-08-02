@@ -29,6 +29,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public const string CategoryTraitName = "Category";
         public const string InteractiveCategoryValue = "Interactive";
         public const string MethodTraitName = "Method";
+        public const string PassportTraitName = "Passport";
+        public const string PassportTraitValue = "True";
 
         public static class TestCollections
         {
@@ -111,6 +113,27 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string Exceptions = "Bot API exceptions";
 
             public const string Exceptions2 = "Bot API exceptions (non-interactive)";
+
+            public static class Passport
+            {
+                private const string PassportPrefix = "Passport";
+
+                public const string IdentityCartAndUtilityBills = PassportPrefix + " / Identity card and utility bill";
+
+                public const string PhoneAndEmail = PassportPrefix + " / Phone and email";
+
+                public const string DocumentErrors = PassportPrefix + " / Document errors";
+
+                public const string RegistrationErrors = PassportPrefix + " / Registration errors";
+
+                public const string UnspecifiedErrors = PassportPrefix + " / Unspecified error";
+
+                public const string DriverLicense = PassportPrefix + " / Driver license";
+
+                public const string PersonalDetails = PassportPrefix + " / Personal details";
+
+                public const string ResidentialAddress = PassportPrefix + " / Residential address";
+            }
         }
 
         public static class PathToFile
@@ -168,6 +191,15 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 private const string CertificateDir = FilesDir + "Certificate/";
 
                 public const string PublicKey = CertificateDir + "public-key.pem";
+            }
+
+            public static class Key
+            {
+                private const string KeysDir = FilesDir + "Keys/";
+
+                public const string PublicKey = KeysDir + "public.pem";
+
+                public const string PrivateKey = KeysDir + "private.pem";
             }
 
             public static class Animation

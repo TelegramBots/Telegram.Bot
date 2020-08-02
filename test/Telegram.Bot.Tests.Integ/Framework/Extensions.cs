@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -38,6 +39,16 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return chat.Username is null
                 ? $"[{chat.FirstName}](tg://user?id={chat.Id})"
                 : $"@{chat.Username.Replace("_", @"\_")}";
+        }
+
+        public static async Task<Update> GetPassportUpdate(this UpdateReceiver receiver)
+        {
+            var updates = await receiver.GetUpdatesAsync(
+                u => u.Message?.PassportData != null,
+                updateTypes: UpdateType.Message
+            );
+            await receiver.DiscardNewUpdatesAsync();
+            return updates[0];
         }
     }
 }

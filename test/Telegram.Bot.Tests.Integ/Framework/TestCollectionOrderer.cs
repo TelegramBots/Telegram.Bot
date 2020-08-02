@@ -25,6 +25,14 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.ChatMemberAdministration,
             Constants.TestCollections.Exceptions,
             Constants.TestCollections.NativePolls,
+            Constants.TestCollections.Passport.IdentityCartAndUtilityBills,
+            Constants.TestCollections.Passport.PhoneAndEmail,
+            Constants.TestCollections.Passport.DocumentErrors,
+            Constants.TestCollections.Passport.RegistrationErrors,
+            Constants.TestCollections.Passport.UnspecifiedErrors,
+            Constants.TestCollections.Passport.DriverLicense,
+            Constants.TestCollections.Passport.PersonalDetails,
+            Constants.TestCollections.Passport.ResidentialAddress,
 
             // Tests without the need for user interaction:
             Constants.TestCollections.GettingUpdates,
@@ -56,15 +64,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.Exceptions2,
         };
 
-        public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)
-        {
-            testCollections = testCollections.OrderBy(FindExecutionOrder);
-
-            foreach (var collection in testCollections)
-            {
-                yield return collection;
-            }
-        }
+        public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections) =>
+            testCollections.OrderBy(FindExecutionOrder);
 
         private int FindExecutionOrder(ITestCollection collection)
         {

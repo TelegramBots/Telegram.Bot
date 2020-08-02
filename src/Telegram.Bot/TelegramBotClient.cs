@@ -10,7 +10,6 @@ using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
 {
@@ -126,7 +125,7 @@ namespace Telegram.Bot
                 httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (TaskCanceledException exception)
+            catch (OperationCanceledException exception)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -204,7 +203,7 @@ namespace Telegram.Bot
                 httpResponse = await _httpClient.SendAsync(httpRequest, cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (TaskCanceledException exception)
+            catch (OperationCanceledException exception)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -291,7 +290,7 @@ namespace Telegram.Bot
                     .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                     .ConfigureAwait(false);
             }
-            catch (TaskCanceledException exception)
+            catch (OperationCanceledException exception)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
@@ -340,21 +339,6 @@ namespace Telegram.Bot
             {
                 httpResponse?.Dispose();
             }
-        }
-
-        /// <inheritdoc />
-        public async Task<File> GetInfoAndDownloadFileAsync(
-            string fileId,
-            Stream destination,
-            CancellationToken cancellationToken = default)
-        {
-            var file = await MakeRequestAsync(new GetFileRequest(fileId), cancellationToken)
-                .ConfigureAwait(false);
-
-            await DownloadFileAsync(file.FilePath!, destination, cancellationToken)
-                .ConfigureAwait(false);
-
-            return file;
         }
     }
 }
