@@ -7,7 +7,6 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
 {
@@ -131,36 +130,6 @@ namespace Telegram.Bot
         /// </exception>
         Task DownloadFileAsync(
             string filePath,
-            Stream destination,
-            CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Use this method to get basic info about a file and download it.
-        /// </summary>
-        /// <param name="fileId">File identifier to get info about</param>
-        /// <param name="destination">Destination stream to write file to</param>
-        /// <param name="cancellationToken">
-        /// A cancellation token that can be used by other objects or threads to receive notice
-        /// of cancellation.
-        /// </param>
-        /// <returns>File info</returns>
-        /// <exception cref="ArgumentException">
-        /// Thrown when file path received from Bot API is <c>null</c> or invalid
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown when <paramref name="destination"/> is <c>null</c>
-        /// </exception>
-        /// <exception cref="ApiRequestException">
-        /// Thrown when error response contains a valid JSON string with an error and description
-        /// </exception>
-        /// <exception cref="RequestException">
-        /// Thrown when the response is not successful
-        /// </exception>
-        /// <exception cref="TaskCanceledException">
-        /// Thrown when cancellation is requested
-        /// </exception>
-        Task<File> GetInfoAndDownloadFileAsync(
-            string fileId,
             Stream destination,
             CancellationToken cancellationToken = default);
     }

@@ -13,6 +13,7 @@ using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
+using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
 {
@@ -21,6 +22,49 @@ namespace Telegram.Bot
     /// </summary>
     public static class TelegramBotClientExtensions
     {
+        /// <summary>
+        /// Use this method to get basic info about a file and download it.
+        /// </summary>
+        /// <param name="botClient"><see cref="ITelegramBotClient"/> instance</param>
+        /// <param name="fileId">File identifier to get info about</param>
+        /// <param name="destination">Destination stream to write file to</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice
+        /// of cancellation.
+        /// </param>
+        /// <returns>File info</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown when file path received from Bot API is <c>null</c> or invalid
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="destination"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
+        public static async Task<File> GetInfoAndDownloadFileAsync(
+            this ITelegramBotClient botClient,
+            string fileId,
+            Stream destination,
+            CancellationToken cancellationToken = default)
+        {
+            var file = await botClient.MakeRequestAsync(
+                    new GetFileRequest(fileId),
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            await botClient.DownloadFileAsync(file.FilePath!, destination, cancellationToken)
+                .ConfigureAwait(false);
+
+            return file;
+        }
+
         #region Getting updates
 
         /// <summary>
