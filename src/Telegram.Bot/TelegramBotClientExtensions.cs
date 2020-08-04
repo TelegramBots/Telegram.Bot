@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -37,7 +38,7 @@ namespace Telegram.Bot
         /// Thrown when file path received from Bot API is <c>null</c> or invalid
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        /// Thrown when <paramref name="destination"/> is <c>null</c>
+        /// Thrown when <paramref name="destination"/> or <paramref name="botClient"/> is <c>null</c>
         /// </exception>
         /// <exception cref="ApiRequestException">
         /// Thrown when error response contains a valid JSON string with an error and description
@@ -54,6 +55,8 @@ namespace Telegram.Bot
             Stream destination,
             CancellationToken cancellationToken = default)
         {
+            if (botClient is null) throw new ArgumentNullException(nameof(botClient));
+
             var file = await botClient.MakeRequestAsync(
                     new GetFileRequest(fileId),
                     cancellationToken)
@@ -119,6 +122,18 @@ namespace Telegram.Bot
         /// </remarks>
         /// <returns>An Array of <see cref="Update"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getupdates"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Update[]> GetUpdatesAsync(
             this ITelegramBotClient botClient,
             int? offset = default,
@@ -201,6 +216,18 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</see>.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#setwebhook"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetWebhookAsync(
             this ITelegramBotClient botClient,
             string url,
@@ -229,6 +256,18 @@ namespace Telegram.Bot
         /// cancellation.</param>
         /// <returns>Returns <c>true</c> on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletewebhook"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task DeleteWebhookAsync(
             this ITelegramBotClient botClient,
             CancellationToken cancellationToken = default)
@@ -245,6 +284,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, returns <see cref="WebhookInfo"/>.</returns>
         /// <see href="https://core.telegram.org/bots/api#getwebhookinfo"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<WebhookInfo> GetWebhookInfoAsync(
             this ITelegramBotClient botClient,
             CancellationToken cancellationToken = default)
@@ -267,6 +318,18 @@ namespace Telegram.Bot
         /// Returns basic information about the bot in form of <see cref="User"/> object
         /// </returns>
         /// <see href="https://core.telegram.org/bots/api#getme"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<User> GetMeAsync(
             this ITelegramBotClient botClient,
             CancellationToken cancellationToken = default)
@@ -304,6 +367,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendmessage"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendTextMessageAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -348,6 +423,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#forwardmessage"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> ForwardMessageAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -394,6 +481,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendphoto"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendPhotoAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -457,6 +556,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendaudio"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendAudioAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -523,6 +634,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendDocumentAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -573,6 +696,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendsticker"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendStickerAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -634,6 +769,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideo"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendVideoAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -706,6 +853,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendanimation"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendAnimationAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -772,6 +931,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvoice"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendVoiceAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -829,6 +1000,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvideonote"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendVideoNoteAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -882,6 +1065,18 @@ namespace Telegram.Bot
             /// On success, an array of the sent <see cref="Message"/>s is returned.
             /// </returns>
             /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
+            /// <exception cref="ArgumentNullException">
+            /// Thrown when <paramref name="botClient"/> is <c>null</c>
+            /// </exception>
+            /// <exception cref="ApiRequestException">
+            /// Thrown when error response contains a valid JSON string with an error and description
+            /// </exception>
+            /// <exception cref="RequestException">
+            /// Thrown when the response is not successful
+            /// </exception>
+            /// <exception cref="TaskCanceledException">
+            /// Thrown when cancellation is requested
+            /// </exception>
             public static async Task<Message[]> SendMediaGroupAsync(
                 this ITelegramBotClient botClient,
                 ChatId chatId,
@@ -929,6 +1124,18 @@ namespace Telegram.Bot
             /// </param>
             /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
             /// <see href="https://core.telegram.org/bots/api#sendlocation"/>
+            /// <exception cref="ArgumentNullException">
+            /// Thrown when <paramref name="botClient"/> is <c>null</c>
+            /// </exception>
+            /// <exception cref="ApiRequestException">
+            /// Thrown when error response contains a valid JSON string with an error and description
+            /// </exception>
+            /// <exception cref="RequestException">
+            /// Thrown when the response is not successful
+            /// </exception>
+            /// <exception cref="TaskCanceledException">
+            /// Thrown when cancellation is requested
+            /// </exception>
             public static async Task<Message> SendLocationAsync(
                 this ITelegramBotClient botClient,
                 ChatId chatId,
@@ -982,6 +1189,18 @@ namespace Telegram.Bot
         /// cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvenue"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendVenueAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1037,6 +1256,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendcontact"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendContactAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1119,6 +1350,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendpoll"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendPollAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1184,6 +1427,18 @@ namespace Telegram.Bot
         /// <param name="emoji">Emoji on which the dice throw animation is based</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddice"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendDiceAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1224,6 +1479,18 @@ namespace Telegram.Bot
         /// noticeable amount of time to arrive.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#sendchataction"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SendChatActionAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1255,6 +1522,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns a <see cref="UserProfilePhotos"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getuserprofilephotos"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<UserProfilePhotos> GetUserProfilePhotosAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -1284,6 +1563,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>The <see cref="File"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getfile"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<File> GetFileAsync(
             this ITelegramBotClient botClient,
             string fileId,
@@ -1312,6 +1603,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task KickChatMemberAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1339,6 +1642,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#leavechat"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task LeaveChatAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1361,6 +1676,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#unbanchatmember"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task UnbanChatMemberAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1385,6 +1712,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns a Chat object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchat"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Chat> GetChatAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1408,6 +1747,18 @@ namespace Telegram.Bot
         /// will be returned.
         /// </returns>
         /// <see href="https://core.telegram.org/bots/api#getchatadministrators"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<ChatMember[]> GetChatAdministratorsAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1430,6 +1781,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>The number of members in a chat.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmemberscount"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<int> GetChatMembersCountAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1453,6 +1816,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>A <see cref="ChatMember"/> object on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmember"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<ChatMember> GetChatMemberAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1504,6 +1879,18 @@ namespace Telegram.Bot
         /// with a parameter.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#answercallbackquery"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AnswerCallbackQueryAsync(
             this ITelegramBotClient botClient,
             string callbackQueryId,
@@ -1549,6 +1936,18 @@ namespace Telegram.Bot
         /// Pass <c>true</c> for all boolean parameters to lift restrictions from a user.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#restrictchatmember"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task RestrictChatMemberAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1609,6 +2008,18 @@ namespace Telegram.Bot
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <remarks>Pass <c>false</c> for all boolean parameters to demote a user.</remarks>
         /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task PromoteChatMemberAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1656,6 +2067,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatadministratorcustomtitle"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetChatAdministratorCustomTitleAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1686,6 +2109,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatpermissions"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetChatPermissionsAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1708,6 +2143,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Array of <see cref="BotCommand"/> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getmycommands"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<BotCommand[]> GetMyCommandsAsync(
             this ITelegramBotClient botClient,
             CancellationToken cancellationToken = default) =>
@@ -1725,6 +2172,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setmycommands"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetMyCommandsAsync(
             this ITelegramBotClient botClient,
             IEnumerable<BotCommand> commands,
@@ -1749,6 +2208,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#stopmessagelivelocation"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> StopMessageLiveLocationAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1778,6 +2249,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#stopmessagelivelocation"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task StopMessageLiveLocationAsync(
             this ITelegramBotClient botClient,
             string inlineMessageId,
@@ -1818,6 +2301,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> EditMessageTextAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1859,6 +2354,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task EditMessageTextAsync(
             this ITelegramBotClient botClient,
             string inlineMessageId,
@@ -1898,6 +2405,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> EditMessageCaptionAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1935,6 +2454,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task EditMessageCaptionAsync(
             this ITelegramBotClient botClient,
             string inlineMessageId,
@@ -1967,6 +2498,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagemedia"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> EditMessageMediaAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -1997,6 +2540,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagemedia"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task EditMessageMediaAsync(
             this ITelegramBotClient botClient,
             string inlineMessageId,
@@ -2027,6 +2582,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> EditMessageReplyMarkupAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2053,6 +2620,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagereplymarkup"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task EditMessageReplyMarkupAsync(
             this ITelegramBotClient botClient,
             string inlineMessageId,
@@ -2080,6 +2659,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> EditMessageLiveLocationAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2112,6 +2703,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task EditMessageLiveLocationAsync(
             this ITelegramBotClient botClient,
             string inlineMessageId,
@@ -2147,6 +2750,18 @@ namespace Telegram.Bot
         /// On success, the stopped <see cref="Poll"/> with the final results is returned.
         /// </returns>
         /// <see href="https://core.telegram.org/bots/api#stoppoll"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Poll> StopPollAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2184,6 +2799,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletemessage"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task DeleteMessageAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2234,6 +2861,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, <c>true</c> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answerinlinequery"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AnswerInlineQueryAsync(
             this ITelegramBotClient botClient,
             string inlineQueryId,
@@ -2334,6 +2973,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendInvoiceAsync(
             this ITelegramBotClient botClient,
             int chatId,
@@ -2407,6 +3058,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, <c>true</c> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AnswerShippingQueryAsync(
             this ITelegramBotClient botClient,
             string shippingQueryId,
@@ -2437,6 +3100,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, <c>true</c> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#answershippingquery"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AnswerShippingQueryAsync(
             this ITelegramBotClient botClient,
             string shippingQueryId,
@@ -2464,6 +3139,18 @@ namespace Telegram.Bot
         /// query was sent.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#answerprecheckoutquery"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AnswerPreCheckoutQueryAsync(
             this ITelegramBotClient botClient,
             string preCheckoutQueryId,
@@ -2493,6 +3180,18 @@ namespace Telegram.Bot
         /// Note: The Bot API must receive an answer within 10 seconds after the pre-checkout
         /// query was sent.
         /// </remarks>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AnswerPreCheckoutQueryAsync(
             this ITelegramBotClient botClient,
             string preCheckoutQueryId,
@@ -2534,6 +3233,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendgame"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SendGameAsync(
             this ITelegramBotClient botClient,
             long chatId,
@@ -2576,6 +3287,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, returns the edited <see cref="Message"/></returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<Message> SetGameScoreAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -2617,6 +3340,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success returns <c>true</c></returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetGameScoreAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -2654,6 +3389,18 @@ namespace Telegram.Bot
         /// neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<GameHighScore[]> GetGameHighScoresAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -2684,6 +3431,18 @@ namespace Telegram.Bot
         /// neighbors are not among them. Please note that this behavior is subject to change.
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<GameHighScore[]> GetGameHighScoresAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -2715,6 +3474,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns exported invite link as String on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#exportchatinvitelink"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<string> ExportChatInviteLinkAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2742,6 +3513,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatphoto"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetChatPhotoAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2769,6 +3552,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatphoto"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task DeleteChatPhotoAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2796,6 +3591,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchattitle"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetChatTitleAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2827,6 +3634,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatdescription"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetChatDescriptionAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2858,6 +3677,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#pinchatmessage"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task PinChatMessageAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2888,6 +3719,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task UnpinChatMessageAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2916,6 +3759,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatstickerset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetChatStickerSetAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2942,6 +3797,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task DeleteChatStickerSetAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
@@ -2970,6 +3837,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>On success, a <see cref="StickerSet"/> object is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#getstickerset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<StickerSet> GetStickerSetAsync(
             this ITelegramBotClient botClient,
             string name,
@@ -2995,6 +3874,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns the uploaded <see cref="File"/> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task<File> UploadStickerFileAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -3035,6 +3926,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task CreateNewStickerSetAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -3074,6 +3977,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success</returns>
         /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AddStickerToSetAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -3117,6 +4032,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task CreateNewAnimatedStickerSetAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -3152,6 +4079,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success</returns>
         /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task AddAnimatedStickerToSetAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -3181,6 +4120,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns><c>true</c> on success</returns>
         /// <see href="https://core.telegram.org/bots/api#setstickerpositioninset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetStickerPositionInSetAsync(
             this ITelegramBotClient botClient,
             string sticker,
@@ -3204,6 +4155,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#deletestickerfromset"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task DeleteStickerFromSetAsync(
             this ITelegramBotClient botClient,
             string sticker,
@@ -3229,6 +4192,18 @@ namespace Telegram.Bot
         /// </param>
         /// <returns>Returns <c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setstickersetthumb"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetStickerSetThumbAsync(
             this ITelegramBotClient botClient,
             string name,
@@ -3261,6 +4236,18 @@ namespace Telegram.Bot
         /// <param name="errors">Descriptions of the errors</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation.</param>
         /// <see href="https://core.telegram.org/bots/api#setpassportdataerrors"/>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="botClient"/> or <paramref name="errors"/> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
         public static async Task SetPassportDataErrorsAsync(
             this ITelegramBotClient botClient,
             int userId,
@@ -3285,6 +4272,27 @@ namespace Telegram.Bot
         /// <returns>File information of the encrypted Passport file on Telegram servers.</returns>
         /// <exception cref="ArgumentNullException">
         /// Thrown when one of the parameters is <c>null</c>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// TODO description
+        /// </exception>
+        /// <exception cref="ApiRequestException">
+        /// Thrown when error response contains a valid JSON string with an error and description
+        /// </exception>
+        /// <exception cref="RequestException">
+        /// Thrown when the response is not successful
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// Thrown when cancellation is requested
+        /// </exception>
+        /// <exception cref="FormatException">
+        /// TODO description
+        /// </exception>
+        /// <exception cref="CryptographicException">
+        /// TODO description
+        /// </exception>
+        /// <exception cref="PassportDataDecryptionException">
+        /// TODO description
         /// </exception>
         public static async Task<File> DownloadAndDecryptPassportFileAsync(
             this ITelegramBotClient botClient,
