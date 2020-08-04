@@ -82,9 +82,7 @@ namespace Telegram.Bot.Passport
         }
 
         /// <inheritdoc />
-        public byte[] DecryptFile(
-            byte[] encryptedContent,
-            FileCredentials fileCredentials)
+        public byte[] DecryptFile(byte[] encryptedContent, FileCredentials fileCredentials)
         {
             if (encryptedContent is null)
                 throw new ArgumentNullException(nameof(encryptedContent));
@@ -209,7 +207,6 @@ namespace Telegram.Bot.Passport
 
             {
                 using var aes = Aes.Create();
-                // ReSharper disable once PossibleNullReferenceException
                 aes.KeySize = 256;
                 aes.Mode = CipherMode.CBC;
                 aes.Key = dataKey;
@@ -262,7 +259,11 @@ namespace Telegram.Bot.Passport
             return decryptedData;
         }
 
-        private static void FindDataKeyAndIv(byte[] secret, byte[] hash, out byte[] dataKey, out byte[] dataIv)
+        private static void FindDataKeyAndIv(
+            byte[] secret,
+            byte[] hash,
+            out byte[] dataKey,
+            out byte[] dataIv)
         {
             byte[] dataSecretHash;
             using (var sha512 = SHA512.Create())
