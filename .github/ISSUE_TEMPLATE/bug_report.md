@@ -21,10 +21,10 @@ Please use the following template to ensure maintainers can reproduce the bug an
 
 ### Environment data
 
-*NuGet Package Version:* (e.g. 13.0.1)
+*NuGet Package Version:* (e.g. 15.7.1)
 
-*.NET Version:* (e.g. 4.7, Core 1.1, Mono, etc.)
+*.NET Version:* (e.g. 4.7, Core 2.1, Mono, etc.)
 
-*IDE:* (e.g. VS2017, VS Code, etc.)
+*IDE:* (e.g. VS2019, VS Code, etc.)
 
 *App:* (e.g. Desktop, iOS, Android, etc.)
