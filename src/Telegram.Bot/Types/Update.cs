@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
@@ -56,7 +56,7 @@ namespace Telegram.Bot.Types
         /// Optional. New incoming channel post of any kind — text, photo, sticker, etc.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Message ChannelPost { get; set; }
+        public ChannelPost ChannelPost { get; set; }
 
         /// <summary>
         /// Optional. New version of a channel post that is known to the bot and was edited
@@ -87,6 +87,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PollAnswer PollAnswer { get; set; }
+
         /// <summary>
         /// Gets the update type.
         /// </summary>

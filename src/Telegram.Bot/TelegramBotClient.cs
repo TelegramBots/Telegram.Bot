@@ -107,6 +107,9 @@ namespace Telegram.Bot
                 case UpdateType.EditedMessage:
                     OnMessageEdited?.Invoke(this, e);
                     break;
+                case UpdateType.ChannelPost:
+                    OnChannelPost?.Invoke(this, e);
+                    break;
             }
         }
 
@@ -150,7 +153,13 @@ namespace Telegram.Bot
         /// </summary>
         public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
 
+        /// <summary>
+        /// Occurs when <see cref="Message"/> is sent from a channel.
+        /// </summary>
+        public event EventHandler<ChannelPostEventArgs> OnChannelPost;
+
         #endregion
+
 
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance.
