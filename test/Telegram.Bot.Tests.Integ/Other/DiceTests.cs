@@ -58,5 +58,34 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal("🏀", message.Dice.Emoji);
             Assert.InRange(message.Dice.Value, 1, 5);
         }
+
+        [OrderedFact("Should send a football")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDice)]
+        public async Task Should_Send_A_Football()
+        {
+            Message message = await _testsFixture.BotClient.SendDiceAsync(
+                _testsFixture.SupergroupChat,
+                emoji: Emoji.Football
+            );
+
+            Assert.Equal(MessageType.Dice, message.Type);
+            Assert.NotNull(message.Dice);
+            Assert.Equal("⚽", message.Dice.Emoji);
+            Assert.InRange(message.Dice.Value, 1, 5);
+        }
+        [OrderedFact("Should send a SlotMachine")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDice)]
+        public async Task Should_Send_A_SlotMachine()
+        {
+            Message message = await _testsFixture.BotClient.SendDiceAsync(
+                _testsFixture.SupergroupChat,
+                emoji: Emoji.SlotMachine
+            );
+
+            Assert.Equal(MessageType.Dice, message.Type);
+            Assert.NotNull(message.Dice);
+            Assert.Equal("🎰", message.Dice.Emoji);
+            Assert.InRange(message.Dice.Value, 1, 64);
+        }
     }
 }
