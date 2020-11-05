@@ -283,6 +283,34 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Use this method to copy messages of any kind. The method is analogous to the method forwardMessages, but the copied message doesn't have a link to the original message. Returns the MessageId of the sent message on success.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="fromChatId"><see cref="ChatId"/> for the chat where the original message was sent</param>
+        /// <param name="messageId">Unique message identifier</param>
+        /// <param name="caption">New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption is kept</param>
+        /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline</param>
+        /// <param name="captionEntities">List of special entities that appear in the new caption, which can be specified instead of parse_mode</param>
+        /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
+        /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns the MessageId of the sent message on success.</returns>
+        /// <see cref="https://core.telegram.org/bots/api#copymessage"/>
+        Task<MessageId> CopyMessageAsync(
+            ChatId chatId,
+            ChatId fromChatId,
+            int messageId,
+            string caption = default,
+            ParseMode parseMode = default,
+            MessageEntity[] captionEntities = default,
+            int replyToMessageId = default,
+            bool disableNotification = default,
+            IReplyMarkup replyMarkup = default,
+            CancellationToken cancellationToken = default
+        );
+
+        /// <summary>
         /// Use this method to send photos. On success, the sent Description is returned.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>

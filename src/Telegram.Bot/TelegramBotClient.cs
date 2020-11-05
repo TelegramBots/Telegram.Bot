@@ -470,6 +470,25 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task<MessageId> CopyMessageAsync(ChatId chatId, ChatId fromChatId, int messageId,
+                                                 string caption = default,
+                                                 ParseMode parseMode = default,
+                                                 MessageEntity[] captionEntities = default,
+                                                 int replyToMessageId = default,
+                                                 bool disableNotification = default,
+                                                 IReplyMarkup replyMarkup = default,
+                                                 CancellationToken cancellationToken = default)
+            => MakeRequestAsync(new CopyMessageRequest(chatId, fromChatId, messageId)
+            {
+                Caption = caption,
+                ParseMode = parseMode,
+                CaptionEntities = captionEntities,
+                ReplyToMessageId = replyToMessageId,
+                DisableNotification = disableNotification,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
         public Task<Message> SendPhotoAsync(
             ChatId chatId,
             InputOnlineFile photo,
