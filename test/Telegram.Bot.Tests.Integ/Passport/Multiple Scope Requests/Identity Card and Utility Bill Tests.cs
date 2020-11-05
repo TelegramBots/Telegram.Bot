@@ -385,7 +385,7 @@ namespace Telegram.Bot.Tests.Integ.Passport
             Assert.NotNull(encryptedFileInfo.FilePath);
             Assert.NotEmpty(encryptedFileInfo.FilePath);
             Assert.NotEmpty(encryptedFileInfo.FileId);
-            Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
+            Assert.InRange(encryptedFileInfo.FileSize.Value, 1_000, 50_000_000);
         }
 
         [OrderedFact("Should decrypt the single translation file in 'utility_bill' element")]
@@ -424,7 +424,7 @@ namespace Telegram.Bot.Tests.Integ.Passport
             Assert.NotNull(encryptedFileInfo.FilePath);
             Assert.NotEmpty(encryptedFileInfo.FilePath);
             Assert.NotEmpty(encryptedFileInfo.FileId);
-            Assert.InRange(encryptedFileInfo.FileSize, 1_000, 50_000_000);
+            Assert.InRange(encryptedFileInfo.FileSize.Value, 1_000, 50_000_000);
         }
     }
 }
