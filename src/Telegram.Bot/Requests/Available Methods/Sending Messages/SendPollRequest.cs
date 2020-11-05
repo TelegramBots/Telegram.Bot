@@ -27,7 +27,7 @@ namespace Telegram.Bot.Requests
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Poll question, 1-255 characters
+        /// Poll question, 1-300 characters
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Question { get; }

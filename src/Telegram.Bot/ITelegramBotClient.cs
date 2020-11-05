@@ -650,7 +650,7 @@ namespace Telegram.Bot
         /// Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent <see cref="Message"/> is returned.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
-        /// <param name="question">Poll question, 1-255 characters</param>
+        /// <param name="question">Poll question, 1-300 characters</param>
         /// <param name="options">List of answer options, 2-10 strings 1-100 characters each</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
