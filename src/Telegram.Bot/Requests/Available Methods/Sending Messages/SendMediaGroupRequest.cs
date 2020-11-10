@@ -39,6 +39,10 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool AllowSendingWithoutReply { get; set; }
+
         /// <summary>
         /// Initializes a request with chat_id and media
         /// </summary>

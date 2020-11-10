@@ -59,6 +59,10 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool AllowSendingWithoutReply { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>

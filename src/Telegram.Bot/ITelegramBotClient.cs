@@ -251,6 +251,7 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
@@ -263,7 +264,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to forward messages of any kind. On success, the sent Description is returned.
@@ -319,6 +322,7 @@ namespace Telegram.Bot
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
@@ -331,7 +335,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+            ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your
@@ -352,6 +358,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
         /// instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
@@ -370,7 +377,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            InputMedia thumb = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send general files. On success, the sent Description is returned. Bots can send files of
@@ -385,6 +394,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
         /// instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
@@ -402,7 +412,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            InputMedia thumb = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send .webp stickers. On success, the sent Description is returned.
@@ -411,6 +423,7 @@ namespace Telegram.Bot
         /// <param name="sticker">Sticker to send.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
@@ -421,7 +434,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as
@@ -442,6 +457,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
         /// instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
@@ -461,7 +477,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            InputMedia thumb = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent
@@ -482,6 +500,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
         /// instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
@@ -500,7 +519,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or Document). On success, the sent Description is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -512,6 +533,7 @@ namespace Telegram.Bot
         /// <param name="duration">Duration of sent audio in seconds</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
@@ -525,7 +547,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to
@@ -541,6 +565,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard,
         /// instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
@@ -556,7 +581,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            InputMedia thumb = default); // ToDo inconsistent order of parameters
+            InputMedia thumb = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
@@ -565,6 +592,7 @@ namespace Telegram.Bot
         /// <param name="media">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
         /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
@@ -574,7 +602,9 @@ namespace Telegram.Bot
             IEnumerable<InputMediaBase> media,
             bool disableNotification = default,
             int replyToMessageId = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
@@ -583,6 +613,7 @@ namespace Telegram.Bot
         /// <param name="inputMedia">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
         /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, an array of the sent <see cref="Message"/>s is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendmediagroup"/>
@@ -591,7 +622,9 @@ namespace Telegram.Bot
             ChatId chatId, // ToDo: Should be the 1st parameter
             bool disableNotification = default,
             int replyToMessageId = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+            ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Description is returned.
@@ -602,6 +635,7 @@ namespace Telegram.Bot
         /// <param name="livePeriod">Period in seconds for which the location will be updated. Should be between 60 and 86400.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
@@ -614,7 +648,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send information about a venue.
@@ -630,10 +666,15 @@ namespace Telegram.Bot
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply
         /// keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
         /// notice of cancellation.</param>
+        /// <param name="googlePlaceId">Google Places identifier of the venue</param>
+        /// <param name="googlePlaceType">Google Places type of the venue
+        /// <see cref="https://developers.google.com/places/web-service/supported_types"/>
+        /// </param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendvenue"/>
         Task<Message> SendVenueAsync(
@@ -647,7 +688,11 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            string foursquareType = default); // ToDo inconsistent order of parameters
+            string foursquareType = default,
+            string googlePlaceId = default,
+            string googlePlaceType = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send phone contacts.
@@ -659,6 +704,7 @@ namespace Telegram.Bot
         /// <param name="vCard">Additional data about the contact in the form of a vCard, 0-2048 bytes</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
@@ -672,7 +718,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            string vCard = default); // ToDo inconsistent order of parameters
+            string vCard = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent <see cref="Message"/> is returned.
@@ -682,6 +730,7 @@ namespace Telegram.Bot
         /// <param name="options">List of answer options, 2-10 strings 1-100 characters each</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="isAnonymous">True, if the poll needs to be anonymous, defaults to True</param>
@@ -712,8 +761,9 @@ namespace Telegram.Bot
             string explanation = default,
             ParseMode explanationParseMode = default,
             int? openPeriod = default,
-            DateTime? closeDate = default
-        );
+            DateTime? closeDate = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this request to send a dice, which will have a random value from 1 to 6. On success, the sent <see cref="Message"/> is returned
@@ -721,6 +771,7 @@ namespace Telegram.Bot
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for an inline keyboard, custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <param name="emoji">Emoji on which the dice throw animation is based</param>
@@ -733,7 +784,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            Emoji? emoji = default);
+            Emoji? emoji = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
@@ -1302,6 +1355,7 @@ namespace Telegram.Bot
         /// <param name="isFlexible">Pass True, if the final price depends on the shipping method</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
@@ -1330,7 +1384,9 @@ namespace Telegram.Bot
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
             bool sendPhoneNumberToProvider = default,
-            bool sendEmailToProvider = default);
+            bool sendEmailToProvider = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to reply to shipping queries with success and shipping options. If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot.
@@ -1395,6 +1451,7 @@ namespace Telegram.Bot
         /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game.</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+        /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>On success, the sent Description is returned.</returns>
@@ -1405,7 +1462,9 @@ namespace Telegram.Bot
             bool disableNotification = default,
             int replyToMessageId = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool allowSendingWithoutReply = default
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
