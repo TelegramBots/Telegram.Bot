@@ -1011,6 +1011,7 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="isAnonymous">Pass True, if the administrator's presence in the chat is hidden</param>
         /// <param name="canChangeInfo">Pass True, if the administrator can change chat title, photo and other settings</param>
         /// <param name="canPostMessages">Pass True, if the administrator can create channel posts, channels only</param>
         /// <param name="canEditMessages">Pass True, if the administrator can edit messages of other users, channels only</param>
@@ -1034,7 +1035,8 @@ namespace Telegram.Bot
             bool? canRestrictMembers = default,
             bool? canPinMessages = default,
             bool? canPromoteMembers = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool? isAnonymous = default );// ToDo: fix params order
 
         /// <summary>
         /// <inheritdoc cref="Telegram.Bot.Requests.SetChatAdministratorCustomTitleRequest"/>

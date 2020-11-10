@@ -31,6 +31,12 @@ namespace Telegram.Bot.Types
         public string CustomTitle { get; set; }
 
         /// <summary>
+        /// Optional. Owner and administrators only. True, if the user's presence in the chat is hidden
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool IsAnonymous { get; set; }
+
+        /// <summary>
         /// Optional. Restricted and kicked only. Date when restrictions will be lifted for this user, UTC time
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

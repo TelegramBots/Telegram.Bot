@@ -1068,10 +1068,12 @@ namespace Telegram.Bot
             bool? canRestrictMembers = default,
             bool? canPinMessages = default,
             bool? canPromoteMembers = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool? isAnonymous = default
         ) =>
             MakeRequestAsync(new PromoteChatMemberRequest(chatId, userId)
             {
+                IsAnonymous = isAnonymous,
                 CanChangeInfo = canChangeInfo,
                 CanPostMessages = canPostMessages,
                 CanEditMessages = canEditMessages,
