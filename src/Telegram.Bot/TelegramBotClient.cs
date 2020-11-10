@@ -997,9 +997,10 @@ namespace Telegram.Bot
         public Task UnbanChatMemberAsync(
             ChatId chatId,
             int userId,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool onlyIfBanned = default
         ) =>
-            MakeRequestAsync(new UnbanChatMemberRequest(chatId, userId), cancellationToken);
+            MakeRequestAsync(new UnbanChatMemberRequest(chatId, userId) { OnlyIfBanned = onlyIfBanned } , cancellationToken);
 
         /// <inheritdoc />
         public Task<Chat> GetChatAsync(

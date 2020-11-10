@@ -914,13 +914,15 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="onlyIfBanned">Do nothing if the user is not banned</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#unbanchatmember"/>
         Task UnbanChatMemberAsync(
             ChatId chatId,
             int userId,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool onlyIfBanned = default); // ToDo: fix params order
 
         /// <summary>
         /// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
