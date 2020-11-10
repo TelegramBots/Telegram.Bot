@@ -48,6 +48,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FoursquareType { get; set; }
 
+        /// <summary>
+        /// Google Places identifier of the venue
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string GooglePlaceId { get; set; }
+
+        /// <summary>
+        /// Google Places type of the venue.
+        /// <see cref="https://developers.google.com/places/web-service/supported_types"/>
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string GooglePlaceType { get; set; }
+
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ThumbUrl { get; set; }
