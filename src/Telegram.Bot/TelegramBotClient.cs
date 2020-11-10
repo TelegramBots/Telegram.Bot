@@ -412,17 +412,24 @@ namespace Telegram.Bot
             InputFileStream certificate = default,
             int maxConnections = default,
             IEnumerable<UpdateType> allowedUpdates = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            string ipAddress = default,
+            bool dropPendingUpdates = default
         ) =>
             MakeRequestAsync(new SetWebhookRequest(url, certificate)
             {
                 MaxConnections = maxConnections,
-                AllowedUpdates = allowedUpdates
+                AllowedUpdates = allowedUpdates,
+                IpAddress = ipAddress,
+                DropPendingUpdates = dropPendingUpdates
             }, cancellationToken);
 
         /// <inheritdoc />
-        public Task DeleteWebhookAsync(CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new DeleteWebhookRequest(), cancellationToken);
+        public Task DeleteWebhookAsync(
+            CancellationToken cancellationToken = default,
+            bool dropPendingUpdates = default
+        )
+            => MakeRequestAsync(new DeleteWebhookRequest() { DropPendingUpdates = dropPendingUpdates }, cancellationToken);
 
         /// <inheritdoc />
         public Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = default)
@@ -435,6 +442,14 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task<User> GetMeAsync(CancellationToken cancellationToken = default)
             => MakeRequestAsync(new GetMeRequest(), cancellationToken);
+
+        /// <inheritdoc />
+        public async Task LogOutAsync(CancellationToken cancellationToken = default)
+            => MakeRequestAsync(new LogOutRequest(), cancellationToken);
+
+        /// <inheritdoc />
+        public async Task CloseAsync(CancellationToken cancellationToken = default)
+            => MakeRequestAsync(new CloseRequest(), cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> SendTextMessageAsync(

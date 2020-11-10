@@ -190,6 +190,7 @@ namespace Telegram.Bot
         /// Upload your public key certificate so that the root certificate in use can be checked.
         /// See the <see href="https://core.telegram.org/bots/self-signed">self-signed guide</see> for details.
         /// </param>
+        /// <param name="ipAddress">The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS</param>
         /// <param name="maxConnections">Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100. Defaults to 40. Use lower values to limit the load on your bot's server, and higher values to increase your bot's throughput.</param>
         /// <param name="allowedUpdates">
         /// List the <see cref="UpdateType"/> of updates you want your bot to receive. See <see cref="UpdateType"/> for a complete list of available update types. Specify an empty list to receive all updates regardless of type (default).
@@ -198,11 +199,12 @@ namespace Telegram.Bot
         /// Please note that this parameter doesn't affect updates created before the call to the <see cref="GetUpdatesAsync"/>, so unwanted updates may be received for a short period of time.
         /// </param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="dropPendingUpdates">Pass True to drop all pending updates</param>
         /// <returns><c>true</c></returns>
         /// <remarks>
         /// 1. You will not be able to receive updates using getUpdates for as long as an outgoing webhook is set up.
-        /// 2. We currently do not support self-signed certificates.
-        /// 3. For the moment, the only supported port for Webhooks is 443. We may support additional ports later.
+        /// 2. To use a self-signed certificate, you need to upload your public key certificate using certificate parameter. Please upload as InputFile, sending a String will not work.
+        /// 3. Ports currently supported for Webhooks: 443, 80, 88, 8443.
         ///
         /// If you're having any trouble setting up webhooks, please check out this <see href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</see>.
         /// </remarks>
@@ -212,15 +214,22 @@ namespace Telegram.Bot
             InputFileStream certificate = default,
             int maxConnections = default,
             IEnumerable<UpdateType> allowedUpdates = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            string ipAddress = default,
+            bool dropPendingUpdates = default
+            ); // ToDo: fix params order
 
         /// <summary>
         /// Use this method to remove webhook integration if you decide to switch back to getUpdates.
         /// </summary>
+        /// <param name="dropPendingUpdates">Pass True to drop all pending updates</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletewebhook"/>
-        Task DeleteWebhookAsync(CancellationToken cancellationToken = default);
+        Task DeleteWebhookAsync(
+            CancellationToken cancellationToken = default,
+            bool dropPendingUpdates = default
+            ); // ToDo: fix params order
 
         /// <summary>
         /// Use this method to get current webhook status.
@@ -241,6 +250,24 @@ namespace Telegram.Bot
         /// <returns>Returns basic information about the bot in form of <see cref="User"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getme"/>
         Task<User> GetMeAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to log out from the cloud Bot API server before launching the bot locally.
+        /// You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates.
+        /// After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes.
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success.</returns>
+        Task LogOutAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to close the bot instance before moving it from one local server to another.
+        /// You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart.
+        /// The method will return error 429 in the first 10 minutes after the bot is launched
+        /// </summary>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success</returns>
+        Task CloseAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to send text messages. On success, the sent Description is returned.
