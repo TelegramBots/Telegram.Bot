@@ -652,6 +652,8 @@ namespace Telegram.Bot
         /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="heading">For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.</param>
+        /// <param name="proximityAlertRadius">For live locations, a maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendlocation"/>
         Task<Message> SendLocationAsync(
@@ -663,7 +665,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            int heading = default,
+            int proximityAlertRadius = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -1271,6 +1275,9 @@ namespace Telegram.Bot
         /// <param name="longitude">Longitude of location</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="horizontalAccuracy">The radius of uncertainty for the location, measured in meters; 0-1500</param>
+        /// <param name="heading">Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.</param>
+        /// <param name="proximityAlertRadius">Maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.</param>
         /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
         Task<Message> EditMessageLiveLocationAsync(
@@ -1279,7 +1286,11 @@ namespace Telegram.Bot
             float latitude,
             float longitude,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            float horizontalAccuracy = default,
+            int heading = default,
+            int proximityAlertRadius = default
+            ); // ToDo: fix params order
 
         /// <summary>
         /// Use this method to edit live location messages sent via the bot (for inline bots).
@@ -1289,6 +1300,9 @@ namespace Telegram.Bot
         /// <param name="longitude">Longitude of location</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="horizontalAccuracy">The radius of uncertainty for the location, measured in meters; 0-1500</param>
+        /// <param name="heading">Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.</param>
+        /// <param name="proximityAlertRadius">Maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagelivelocation"/>
         Task EditMessageLiveLocationAsync(
@@ -1296,7 +1310,11 @@ namespace Telegram.Bot
             float latitude,
             float longitude,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            float horizontalAccuracy = default,
+            int heading = default,
+            int proximityAlertRadius = default
+        ); // ToDo: fix params order
 
         /// <summary>
         /// Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent <see cref="Message"/> is returned.

@@ -35,6 +35,18 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int LivePeriod { get; set; }
 
+        /// <summary>
+        /// Optional. The direction in which user is moving, in degrees; 1-360. For active live locations only.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Heading { get; set; }
+
+        /// <summary>
+        /// Optional. Maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int ProximityAlertRadius { get; set; }
+
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string ThumbUrl { get; set; }

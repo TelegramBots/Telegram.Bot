@@ -340,6 +340,12 @@ namespace Telegram.Bot.Types
         public PassportData PassportData { get; set; }
 
         /// <summary>
+        /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ProximityAlertTriggered ProximityAlertTriggered { get; set; }
+
+        /// <summary>
         /// Optional. Inline keyboard attached to the message
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

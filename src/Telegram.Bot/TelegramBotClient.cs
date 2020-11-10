@@ -757,7 +757,9 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            int heading = default,
+            int proximityAlertRadius = default
         ) =>
             MakeRequestAsync(new SendLocationRequest(chatId, latitude, longitude)
             {
@@ -765,7 +767,9 @@ namespace Telegram.Bot
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 AllowSendingWithoutReply = allowSendingWithoutReply,
-                ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup,
+                Heading = heading,
+                ProximityAlertRadius = proximityAlertRadius
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1262,11 +1266,17 @@ namespace Telegram.Bot
             float latitude,
             float longitude,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            float horizontalAccuracy = default,
+            int heading = default,
+            int proximityAlertRadius = default
         ) =>
             MakeRequestAsync(new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
             {
-                ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup,
+                HorizontalAccuracy = horizontalAccuracy,
+                Heading = heading,
+                ProximityAlertRadius = proximityAlertRadius
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1275,11 +1285,17 @@ namespace Telegram.Bot
             float latitude,
             float longitude,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            float horizontalAccuracy = default,
+            int heading = default,
+            int proximityAlertRadius = default
         ) =>
             MakeRequestAsync(new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
             {
-                ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup,
+                HorizontalAccuracy = horizontalAccuracy,
+                Heading = heading,
+                ProximityAlertRadius = proximityAlertRadius
             }, cancellationToken);
 
         /// <inheritdoc />
