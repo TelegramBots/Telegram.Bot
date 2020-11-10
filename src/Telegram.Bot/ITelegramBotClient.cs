@@ -600,10 +600,10 @@ namespace Telegram.Bot
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
-        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+        /// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
-        /// <param name="media">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="media">A JSON-serialized array describing messages to be sent, must include 2-10 items</param>
         /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
@@ -621,10 +621,10 @@ namespace Telegram.Bot
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
-        /// Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+        /// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of Messages that were sent is returned.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
-        /// <param name="inputMedia">A JSON-serialized array describing photos and videos to be sent, must include 2–10 items</param>
+        /// <param name="inputMedia">A JSON-serialized array describing messages to be sent, must include 2-10 items</param>
         /// <param name="disableNotification">Sends the messages silently. Users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
@@ -638,7 +638,7 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             CancellationToken cancellationToken = default,
             bool allowSendingWithoutReply = default
-            ); // ToDo inconsistent order of parameters
+        ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to send point on the map. On success, the sent Description is returned.
