@@ -408,6 +408,7 @@ namespace Telegram.Bot
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
         /// URLs in your bot's message.</param>
         /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
+        /// <param name="disableContentTypeDetection">Disables automatic server-side content type detection for files uploaded using multipart/form-data</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
         Task<Message> SendDocumentAsync(
@@ -421,7 +422,8 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default,
             InputMedia thumb = default,
             bool allowSendingWithoutReply = default,
-            IEnumerable<MessageEntity> captionEntities = default
+            IEnumerable<MessageEntity> captionEntities = default,
+            bool disableContentTypeDetection = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>

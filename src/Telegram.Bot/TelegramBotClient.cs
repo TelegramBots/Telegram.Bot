@@ -560,7 +560,8 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default,
             InputMedia thumb = default,
             bool allowSendingWithoutReply = default,
-            IEnumerable<MessageEntity> captionEntities = default
+            IEnumerable<MessageEntity> captionEntities = default,
+            bool disableContentTypeDetection = default
         ) =>
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
@@ -571,7 +572,8 @@ namespace Telegram.Bot
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 AllowSendingWithoutReply = allowSendingWithoutReply,
-                ReplyMarkup = replyMarkup
+                ReplyMarkup = replyMarkup,
+                DisableContentTypeDetection = disableNotification
             }, cancellationToken);
 
         /// <inheritdoc />

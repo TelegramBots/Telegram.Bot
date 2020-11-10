@@ -70,6 +70,12 @@ namespace Telegram.Bot.Requests
         public IReplyMarkup ReplyMarkup { get; set; }
 
         /// <summary>
+        /// Disables automatic server-side content type detection for files uploaded using multipart/form-data
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool DisableContentTypeDetection { get; set; }
+
+        /// <summary>
         /// Initializes a new request with chatId and document
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
