@@ -1566,9 +1566,14 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task UnpinChatMessageAsync(
             ChatId chatId,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            int messageId = default
         ) =>
-            MakeRequestAsync(new UnpinChatMessageRequest(chatId), cancellationToken);
+            MakeRequestAsync(new UnpinChatMessageRequest(chatId) { MessageId = messageId }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task UnpinAllChatMessages(ChatId chatId, CancellationToken cancellationToken = default)
+            => MakeRequestAsync(new UnpinAllChatMessagesRequest(chatId), cancellationToken);
 
         /// <inheritdoc />
         public Task SetChatStickerSetAsync(

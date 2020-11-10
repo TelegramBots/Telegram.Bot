@@ -1820,13 +1820,24 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to unpin a message in a supergroup chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="messageId">Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
-        Task UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default);
+        Task UnpinChatMessageAsync(ChatId chatId, CancellationToken cancellationToken = default, int messageId = default);
+
+
+        /// <summary>
+        /// Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns True on success</returns>
+        /// <see cref="https://core.telegram.org/bots/api#unpinallchatmessages"/>
+        Task UnpinAllChatMessages(ChatId chatId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to set a new group sticker set for a supergroup.
