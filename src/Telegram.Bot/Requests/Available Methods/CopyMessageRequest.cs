@@ -60,6 +60,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
 
+
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IEnumerable<MessageEntity> CaptionEntities { get; set; }
@@ -79,5 +80,6 @@ namespace Telegram.Bot.Requests
             FromChatId = fromChatId;
             MessageId = messageId;
         }
+
     }
 }

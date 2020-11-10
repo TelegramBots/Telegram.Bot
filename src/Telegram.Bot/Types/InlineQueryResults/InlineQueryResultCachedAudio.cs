@@ -29,6 +29,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[] CaptionEntities { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContentBase InputMessageContent { get; set; }
 
         private InlineQueryResultCachedAudio()

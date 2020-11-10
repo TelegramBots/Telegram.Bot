@@ -254,6 +254,7 @@ namespace Telegram.Bot
         /// <param name="allowSendingWithoutReply">Pass True, if the message should be sent even if the specified replied-to message is not found</param>
         /// <param name="replyMarkup">Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendmessage"/>
         Task<Message> SendTextMessageAsync(
@@ -265,7 +266,8 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> captionEntities = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -306,7 +308,7 @@ namespace Telegram.Bot
             int messageId,
             string caption = default,
             ParseMode parseMode = default,
-            MessageEntity[] captionEntities = default,
+            IEnumerable<MessageEntity> captionEntities = default,
             int replyToMessageId = default,
             bool disableNotification = default,
             IReplyMarkup replyMarkup = default,
@@ -320,6 +322,7 @@ namespace Telegram.Bot
         /// <param name="photo">Photo to send.</param>
         /// <param name="caption">Photo caption (may also be used when resending photos by file_id).</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">	Pass True, if the message should be sent even if the specified replied-to message is not found</param>
@@ -336,7 +339,8 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> captionEntities = default
             ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -349,6 +353,7 @@ namespace Telegram.Bot
         /// <param name="caption">Audio caption, 0-1024 characters</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
         /// URLs in your bot's message.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <param name="duration">Duration of the audio in seconds</param>
         /// <param name="performer">Performer</param>
         /// <param name="title">Track name</param>
@@ -378,7 +383,8 @@ namespace Telegram.Bot
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
             InputMedia thumb = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> captionEntities = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -401,6 +407,7 @@ namespace Telegram.Bot
         /// notice of cancellation.</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
         /// URLs in your bot's message.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <returns>On success, the sent Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#senddocument"/>
         Task<Message> SendDocumentAsync(
@@ -413,7 +420,8 @@ namespace Telegram.Bot
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
             InputMedia thumb = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> captionEntities = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -453,6 +461,7 @@ namespace Telegram.Bot
         /// <param name="caption">Video caption</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
         /// URLs in your bot's message.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <param name="supportsStreaming">Pass True, if the uploaded video is suitable for streaming</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
@@ -478,7 +487,8 @@ namespace Telegram.Bot
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
             InputMedia thumb = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> captionEntities = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -497,6 +507,7 @@ namespace Telegram.Bot
         /// <param name="caption">Animation caption</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline
         /// URLs in your bot's message.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification,
         /// Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -520,7 +531,8 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> captionEntities = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -530,6 +542,7 @@ namespace Telegram.Bot
         /// <param name="voice">Audio file to send.</param>
         /// <param name="caption">Voice message caption, 0-1024 characters</param>
         /// <param name="parseMode">Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <param name="duration">Duration of sent audio in seconds</param>
         /// <param name="disableNotification">Sends the message silently. iOS users will not receive a notification, Android users will receive a notification with no sound.</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
@@ -548,7 +561,8 @@ namespace Telegram.Bot
             int replyToMessageId = default,
             IReplyMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> captionEntities = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -740,6 +754,7 @@ namespace Telegram.Bot
         /// <param name="isClosed">Pass True, if the poll needs to be immediately closed</param>
         /// <param name="explanation">Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll</param>
         /// <param name="explanationParseMode">Mode for parsing entities in the explanation</param>
+        /// <param name="explanationCaptionEntities">List of special entities that appear in the poll explanation, which can be specified instead of parse_mode</param>
         /// <param name="openPeriod">Amount of time in seconds the poll will be active after creation</param>
         /// <param name="closeDate">Point in time when the poll will be automatically closed</param>
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
@@ -762,7 +777,8 @@ namespace Telegram.Bot
             ParseMode explanationParseMode = default,
             int? openPeriod = default,
             DateTime? closeDate = default,
-            bool allowSendingWithoutReply = default
+            bool allowSendingWithoutReply = default,
+            IEnumerable<MessageEntity> explanationCaptionEntities = default
         ); // ToDo inconsistent order of parameters
 
         /// <summary>
@@ -1080,6 +1096,7 @@ namespace Telegram.Bot
         /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="captionEntities">List of special entities that appear in message text, which can be specified instead of parseMode</param>
         /// <returns>On success, the edited Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagetext"/>
         Task<Message> EditMessageTextAsync(
@@ -1089,7 +1106,9 @@ namespace Telegram.Bot
             ParseMode parseMode = default,
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            IEnumerable<MessageEntity> captionEntities = default
+            ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to edit text messages sent by the bot or via the bot (for inline bots).
@@ -1108,7 +1127,9 @@ namespace Telegram.Bot
             ParseMode parseMode = default,
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            IEnumerable<MessageEntity> captionEntities = default
+            ); // ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to stop updating a live location message sent by the bot before live_period expires.
@@ -1147,6 +1168,7 @@ namespace Telegram.Bot
         /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <returns>On success, the edited Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
         Task<Message> EditMessageCaptionAsync(
@@ -1155,7 +1177,9 @@ namespace Telegram.Bot
             string caption,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            ParseMode parseMode = default);
+            ParseMode parseMode = default,
+            IEnumerable<MessageEntity> captionEntities = default
+            );// ToDo inconsistent order of parameters
 
         /// <summary>
         /// Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
@@ -1165,6 +1189,7 @@ namespace Telegram.Bot
         /// <param name="parseMode">Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in the media caption.</param>
         /// <param name="replyMarkup">A JSON-serialized object for an inline keyboard.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="captionEntities">List of special entities that appear in the caption, which can be specified instead of parse_mode</param>
         /// <returns>On success, the edited Description is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#editmessagecaption"/>
         Task EditMessageCaptionAsync(
@@ -1172,7 +1197,8 @@ namespace Telegram.Bot
             string caption,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default,
-            ParseMode parseMode = default);
+            ParseMode parseMode = default,
+            IEnumerable<MessageEntity> captionEntities = default);
 
         /// <summary>
         /// Use this method to edit audio, document, photo, or video messages.
