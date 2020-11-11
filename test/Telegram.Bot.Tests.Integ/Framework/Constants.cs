@@ -314,6 +314,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string SendDice = "sendDice";
 
             public const string CopyMessage = "copyMessage";
+
+            public const string UnpinAllChatMessages = "unpinAllChatMessages";
         }
     }
 }
