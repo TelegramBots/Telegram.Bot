@@ -79,7 +79,7 @@ namespace Telegram.Bot.Types
         public string InviteLink { get; set; }
 
         /// <summary>
-        /// Optional. Pinned message, for supergroups. Returned only in getChat.
+        /// Optional. The most recent pinned message (by sending date). Returned only in getChat.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message PinnedMessage { get; set; }
