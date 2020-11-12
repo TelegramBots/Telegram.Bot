@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
@@ -41,19 +42,20 @@ namespace Telegram.Bot.Types
         /// Create a <see cref="ChatId"/> using an user name
         /// </summary>
         /// <param name="username">The user name</param>
+        /// <exception cref="ArgumentException">Thrown when string value isn`t number and doesn't start with @</exception>
         public ChatId(string username)
         {
-            if (username.Length > 1 && username.Substring(0, 1) == "@")
+            if (username.Length > 1 && username.StartsWith("@"))
             {
                 Username = username;
-            }
-            else if (int.TryParse(username, out int chatId))
-            {
-                Identifier = chatId;
             }
             else if (long.TryParse(username, out long identifier))
             {
                 Identifier = identifier;
+            }
+            else
+            {
+                throw new ArgumentException($"Username value should be Identifier or Username that starts with @");
             }
         }
 
