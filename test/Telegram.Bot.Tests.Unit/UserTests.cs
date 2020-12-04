@@ -11,6 +11,7 @@ namespace Telegram.Bot.Tests.Unit
         [Fact]
         public void Should_ToString()
         {
+            Assert.Equal("111", new ChatId(111));
             Assert.Equal("@alicebot (12345)", new User
             {
                 Id = 12345,
