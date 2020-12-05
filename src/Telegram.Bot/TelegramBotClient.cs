@@ -31,9 +31,9 @@ namespace Telegram.Bot
 
         private static readonly Update[] EmptyUpdates = { };
 
-        private const string BaseUrl = "https://api.telegram.org/bot";
+        private readonly string BaseUrl = "https://api.telegram.org/bot";
 
-        private const string BaseFileUrl = "https://api.telegram.org/file/bot";
+        private readonly string BaseFileUrl = "https://api.telegram.org/file/bot";
 
         private readonly string _baseRequestUrl;
 
@@ -157,8 +157,11 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="token">API token</param>
         /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+        /// <param name="baseUrl">Used to change base url to your private bot api server URL. It looks like http://localhost:8081/bot</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, HttpClient httpClient = null)
+        /// <exception cref="ArgumentException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
+        public TelegramBotClient(string token, HttpClient httpClient = null,
+                                 string baseUrl = "https://api.telegram.org/bot")
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
@@ -174,6 +177,15 @@ namespace Telegram.Bot
                 );
             }
 
+            if (baseUrl.EndsWith("/") || !baseUrl.EndsWith("/bot"))
+            {
+                throw new ArgumentException(
+                    "Invalid format. A valid base url looks \"http://localhost:8081/bot\" ",
+                    nameof(token));
+            }
+
+            BaseUrl = baseUrl;
+
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             _httpClient = httpClient ?? new HttpClient();
         }
@@ -183,8 +195,10 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="token">API token</param>
         /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API</param>
+        /// <param name="baseUrl">Used to change base url to your private bot api server URL. It looks like http://localhost:8081/bot</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        public TelegramBotClient(string token, IWebProxy webProxy)
+        /// <exception cref="ArgumentException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
+        public TelegramBotClient(string token, IWebProxy webProxy, string baseUrl = "https://api.telegram.org/bot")
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
@@ -199,6 +213,14 @@ namespace Telegram.Bot
                     nameof(token)
                 );
             }
+
+            if (baseUrl.EndsWith("/") || !baseUrl.EndsWith("/bot"))
+            {
+                throw new ArgumentException(
+                    "Invalid format. A valid base url looks \"http://localhost:8081/bot\" ",
+                    nameof(token));
+            }
+            BaseUrl = baseUrl;
 
             _baseRequestUrl = $"{BaseUrl}{_token}/";
             var httpClientHander = new HttpClientHandler
