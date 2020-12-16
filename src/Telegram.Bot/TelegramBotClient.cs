@@ -31,7 +31,9 @@ namespace Telegram.Bot
 
         private static readonly Update[] EmptyUpdates = { };
 
-        private readonly string BaseUrl = "https://api.telegram.org/bot";
+        private const string TelegramBaseUrl = "https://api.telegram.org/bot";
+
+        private readonly string BaseUrl = TelegramBaseUrl;
 
         private readonly string BaseFileUrl = "https://api.telegram.org/file/bot";
 
@@ -161,7 +163,7 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
         public TelegramBotClient(string token, HttpClient httpClient = null,
-                                 string baseUrl = "https://api.telegram.org/bot")
+                                 string baseUrl = TelegramBaseUrl)
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
@@ -198,7 +200,7 @@ namespace Telegram.Bot
         /// <param name="baseUrl">Used to change base url to your private bot api server URL. It looks like http://localhost:8081/bot</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
-        public TelegramBotClient(string token, IWebProxy webProxy, string baseUrl = "https://api.telegram.org/bot")
+        public TelegramBotClient(string token, IWebProxy webProxy, string baseUrl = TelegramBaseUrl)
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
@@ -981,6 +983,16 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
+            //case file is local
+            if (TelegramBaseUrl != BaseUrl && System.IO.File.Exists(filePath))
+            {
+                using (var fileStream = System.IO.File.OpenRead(filePath))
+                {
+                    await fileStream.CopyToAsync(destination).ConfigureAwait(false);
+                }
+
+                return;
+            }
             var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
 
             var response = await _httpClient
