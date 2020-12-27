@@ -55,4 +55,4 @@ class GetUpdatesRequest : RequestBase<Update[]> {
 ## Related Documents
 
 - [Change Logs](./CHANGELOG.md)
-- [Systems Integration Tests - How To](./docs/wikis/tests/sys-integ-tests.md)
+- [Systems Integration Tests - How To](https://telegrambots.github.io/book/3/tests.html)

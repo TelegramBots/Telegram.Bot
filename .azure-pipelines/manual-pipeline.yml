@@ -16,7 +16,6 @@ stages:
             - Ubuntu: ubuntu-18.04
             - macOS: macos-10.15
             - Windows: windows-2019
-
   - stage: FullIntegrationTests
     displayName: 🧪 Full set of integration tests
     dependsOn: UnitTest
@@ -27,7 +26,6 @@ stages:
           vmImage: $(vmImage)
           buildConfiguration: $(buildConfiguration)
           projects: $(integrationTestsProject)
-
   - stage: NonInteractiveIntegrationTests
     displayName: 🧪 Non-interactive integration tests
     dependsOn: UnitTest

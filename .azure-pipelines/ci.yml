@@ -25,6 +25,12 @@ stages:
         pool:
           vmImage: $(vmImage)
         steps:
+          - script: node .azure-pipelines/setVersionVariables.js
+            env:
+              VERSION_PREFIX: $(versionPrefix)
+              VERSION_SUFFIX: $(versionSuffix)
+              CI_VERSION_SUFFIX: $(ciVersionSuffix)
+            displayName: Set version variables
           - task: DotNetCoreCLI@2
             displayName: Build project with CI version
             inputs:
@@ -32,18 +38,17 @@ stages:
               projects: $(projectPath)
               arguments: >
                 --configuration $(buildConfiguration)
-                --version-suffix "$(ciVersionSuffix)"
-                /p:CI_EMBED_SYMBOLS=true
+                -p:Version=$(CI_VERSION)
+                -p:CI_EMBED_SYMBOLS=true
           - bash: >
               dotnet pack
               --no-build
-              --output "$(Build.ArtifactStagingDirectory)/packages/ci"
+              --output "$(Build.ArtifactStagingDirectory)/packages"
               --configuration $(buildConfiguration)
-              --version-suffix "$(ciVersionSuffix)"
+              -p:Version=$(CI_VERSION)
+              -p:CI_EMBED_SYMBOLS=true
               $(projectPath)
-              /p:CI_EMBED_SYMBOLS=true
             displayName: Create CI nuget package
-
           - publish: $(Build.ArtifactStagingDirectory)/packages
             artifact: packages
 
@@ -68,12 +73,8 @@ stages:
           vmImage: $(vmImage)
         steps:
           - checkout: none
-
           - download: current
             artifact: packages
-            # quotes are needed since * can't be used as the first character without quotes
-            patterns: "*/**/*.*upkg"
-
           - task: DotNetCoreCLI@2
             displayName: Publish CI package to Azure artifacts
             inputs:
@@ -81,4 +82,4 @@ stages:
               nuGetFeedType: internal
               feedPublish: $(internalFeedName)
               publishPackageMetadata: true
-              packagesToPush: $(Pipeline.Workspace)/packages/ci/*.*upkg
+              packagesToPush: $(Pipeline.Workspace)/packages/*.*upkg
