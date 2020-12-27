@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <PackageId>Telegram.Bot.InteractivityHelper</PackageId>
+    <Authors>Ali Bdeir</Authors>
+    <Company />
+    <Product>Telegram Interactivity Helper</Product>
+    <Description>An extension of the Telegram.Bot library that eases handling interaction between users and bots.</Description>
+    <Copyright>Copyright © 2020</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/AliBdeir/Telegram.Bot-Tools/tree/master/TelegramInteractivityHelper</RepositoryUrl>
+    <PackageTags>Telegram Bot Interactivity Interactions Wait for message</PackageTags>
+    <AssemblyVersion>1.4.1.20</AssemblyVersion>
+    <FileVersion>1.4.1.20</FileVersion>
+    <Version>1.4.1.2</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Telegram.Bot" Version="15.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

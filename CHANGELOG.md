@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
+- CommandHandler library that allows developers to create command modules that simplifies the process of listening and handling commands.
+- Interactivity library that allows bots to have a comandless "conversation" with users by waiting for user response.
 
 ### Changed
 
