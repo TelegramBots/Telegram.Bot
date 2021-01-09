@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Requests.Parameters;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -1717,6 +1718,725 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
         Task DeleteChatStickerSetAsync(
             ChatId chatId,
+            CancellationToken cancellationToken = default);
+
+        #endregion
+
+        #region Methods with parameters support
+
+  /// <summary>
+        ///     Send a request to Bot API
+        /// </summary>
+        /// <param name="makeRequestParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<TResponse> MakeRequestAsync<TResponse>(MakeRequestParameters<TResponse> makeRequestParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Start update receiving
+        /// </summary>
+        /// <param name="startReceivingParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        void StartReceiving(StartReceivingParameters startReceivingParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to receive incoming updates using long polling (wiki).
+        /// </summary>
+        /// <param name="getUpdatesParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Update[]> GetUpdatesAsync(GetUpdatesParameters getUpdatesParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to specify a url and receive incoming updates via an outgoing webhook.
+        ///     Whenever there is an <see cref="Update" /> for the bot, we will send an HTTPS POST request to the specified url,
+        ///     containing a JSON-serialized Update. In case of an unsuccessful request, we will give up after a reasonable
+        ///     amount of attempts.
+        ///     If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path
+        ///     in the URL, e.g. https://www.example.com/&lt;token&gt;. Since nobody else knows your bot's token, you can be
+        ///     pretty sure it's us.
+        /// </summary>
+        /// <param name="setWebhookParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetWebhookAsync(SetWebhookParameters setWebhookParameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send text messages. On success, the sent Description is returned.
+        /// </summary>
+        /// <param name="sendTextMessageParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendTextMessageAsync(SendTextMessageParameters sendTextMessageParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to forward messages of any kind. On success, the sent Description is returned.
+        /// </summary>
+        /// <param name="forwardMessageParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> ForwardMessageAsync(ForwardMessageParameters forwardMessageParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send photos. On success, the sent Description is returned.
+        /// </summary>
+        /// <param name="sendPhotoParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendPhotoAsync(SendPhotoParameters sendPhotoParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send audio files, if you want Telegram clients to display them in the music player. Your
+        ///     audio must be in the .mp3 format. On success, the sent Description is returned. Bots can currently send
+        ///     audio files of up to 50 MB in size, this limit may be changed in the future.
+        /// </summary>
+        /// <param name="sendAudioParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendAudioAsync(SendAudioParameters sendAudioParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send general files. On success, the sent Description is returned. Bots can send files of
+        ///     any type of up to 50 MB in size.
+        /// </summary>
+        /// <param name="sendDocumentParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendDocumentAsync(SendDocumentParameters sendDocumentParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send .webp stickers. On success, the sent Description is returned.
+        /// </summary>
+        /// <param name="sendStickerParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendStickerAsync(SendStickerParameters sendStickerParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as
+        ///     Document). On success, the sent Description is returned. Bots can send video files of up to 50 MB in size.
+        /// </summary>
+        /// <param name="sendVideoParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendVideoAsync(SendVideoParameters sendVideoParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). On success, the sent
+        ///     Message is returned. Bots can currently send animation files of up to 50 MB in size, this limit may be
+        ///     changed in the future.
+        /// </summary>
+        /// <param name="sendAnimationParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendAnimationAsync(SendAnimationParameters sendAnimationParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message.
+        ///     For this to work, your audio must be in an .ogg file encoded with OPUS (other formats may be sent as Audio or
+        ///     Document). On success, the sent Description is returned. Bots can currently send voice messages of up to 50 MB in
+        ///     size, this limit may be changed in the future.
+        /// </summary>
+        /// <param name="sendVoiceParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendVoiceAsync(SendVoiceParameters sendVoiceParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     As of v.4.0, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to
+        ///     send video messages.
+        /// </summary>
+        /// <param name="sendVideoNoteParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendVideoNoteAsync(SendVideoNoteParameters sendVideoNoteParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is
+        ///     returned.
+        /// </summary>
+        /// <param name="sendMediaGroupParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message[]> SendMediaGroupAsync(SendMediaGroupParameters sendMediaGroupParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send a group of photos or videos as an album. On success, an array of the sent Messages is
+        ///     returned.
+        /// </summary>
+        /// <param name="sendMediaGroupExtendedParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message[]> SendMediaGroupAsync(SendMediaGroupExtendedParameters sendMediaGroupExtendedParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send point on the map. On success, the sent Description is returned.
+        /// </summary>
+        /// <param name="sendLocationParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendLocationAsync(SendLocationParameters sendLocationParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send information about a venue.
+        /// </summary>
+        /// <param name="sendVenueParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendVenueAsync(SendVenueParameters sendVenueParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send phone contacts.
+        /// </summary>
+        /// <param name="sendContactParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendContactAsync(SendContactParameters sendContactParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent
+        ///     <see cref="Message" /> is returned.
+        /// </summary>
+        /// <param name="sendPollParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendPollAsync(SendPollParameters sendPollParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this request to send a dice, which will have a random value from 1 to 6. On success, the sent
+        ///     <see cref="Message" /> is returned
+        /// </summary>
+        /// <param name="sendDiceParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendDiceAsync(SendDiceParameters sendDiceParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method when you need to tell the user that something is happening on the bot's side. The status is set for
+        ///     5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
+        /// </summary>
+        /// <param name="sendChatActionParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SendChatActionAsync(SendChatActionParameters sendChatActionParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get a list of profile pictures for a user. Returns a UserProfilePhotos object.
+        /// </summary>
+        /// <param name="getUserProfilePhotosParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<UserProfilePhotos> GetUserProfilePhotosAsync(GetUserProfilePhotosParameters getUserProfilePhotosParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get information about a file. For the moment, bots can download files of up to 20MB in size.
+        /// </summary>
+        /// <param name="getFileParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<File> GetFileAsync(GetFileParameters getFileParameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to download a file.
+        /// </summary>
+        /// <param name="downloadFileParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Stream> DownloadFileAsync(DownloadFileParameters downloadFileParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to download a file.
+        /// </summary>
+        /// <param name="downloadFileExtendedParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task DownloadFileAsync(DownloadFileExtendedParameters downloadFileExtendedParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get basic info about a file and download it.
+        /// </summary>
+        /// <param name="getInfoAndDownloadFileParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<File> GetInfoAndDownloadFileAsync(GetInfoAndDownloadFileParameters getInfoAndDownloadFileParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to kick a user from a group or a supergroup. In the case of supergroups, the user will not be able
+        ///     to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an
+        ///     administrator in the group for this to work.
+        /// </summary>
+        /// <param name="kickChatMemberParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task KickChatMemberAsync(KickChatMemberParameters kickChatMemberParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method for your bot to leave a group, supergroup or channel.
+        /// </summary>
+        /// <param name="leaveChatParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task LeaveChatAsync(LeaveChatParameters leaveChatParameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to unban a previously kicked user in a supergroup. The user will not return to the group
+        ///     automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to
+        ///     work.
+        /// </summary>
+        /// <param name="unbanChatMemberParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task UnbanChatMemberAsync(UnbanChatMemberParameters unbanChatMemberParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get up to date information about the chat (current name of the user for one-on-one
+        ///     conversations, current username of a user, group or channel, etc.).
+        /// </summary>
+        /// <param name="getChatParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Chat> GetChatAsync(GetChatParameters getChatParameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get a list of administrators in a chat.
+        /// </summary>
+        /// <param name="getChatAdministratorsParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<ChatMember[]> GetChatAdministratorsAsync(GetChatAdministratorsParameters getChatAdministratorsParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get the number of members in a chat.
+        /// </summary>
+        /// <param name="getChatMembersCountParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<int> GetChatMembersCountAsync(GetChatMembersCountParameters getChatMembersCountParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get information about a member of a chat.
+        /// </summary>
+        /// <param name="getChatMemberParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<ChatMember> GetChatMemberAsync(GetChatMemberParameters getChatMemberParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the
+        ///     user as a notification at the top of the chat screen or as an alert.
+        /// </summary>
+        /// <param name="answerCallbackQueryParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AnswerCallbackQueryAsync(AnswerCallbackQueryParameters answerCallbackQueryParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to
+        ///     work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="restrictChatMemberParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task RestrictChatMemberAsync(RestrictChatMemberParameters restrictChatMemberParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the
+        ///     chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="promoteChatMemberParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task PromoteChatMemberAsync(PromoteChatMemberParameters promoteChatMemberParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     <inheritdoc cref="Telegram.Bot.Requests.SetChatAdministratorCustomTitleRequest" />
+        /// </summary>
+        /// <param name="setChatAdministratorCustomTitleParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetChatAdministratorCustomTitleAsync(
+            SetChatAdministratorCustomTitleParameters setChatAdministratorCustomTitleParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a
+        ///     supergroup for this to work and must have the can_restrict_members admin rights. Returns True on success.
+        /// </summary>
+        /// <param name="setChatPermissionsParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetChatPermissionsAsync(SetChatPermissionsParameters setChatPermissionsParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to change the list of the bot's commands. Returns True on success.
+        /// </summary>
+        /// <param name="setMyCommandsParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetMyCommandsAsync(SetMyCommandsParameters setMyCommandsParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageTextParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> EditMessageTextAsync(EditMessageTextParameters editMessageTextParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit text messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageTextInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task EditMessageTextAsync(EditMessageTextInlineParameters editMessageTextInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to stop updating a live location message sent via the bot (for inline bots) before live_period
+        ///     expires.
+        /// </summary>
+        /// <param name="stopMessageLiveLocationParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> StopMessageLiveLocationAsync(StopMessageLiveLocationParameters stopMessageLiveLocationParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to stop updating a live location message sent via the bot (for inline bots) before live_period
+        ///     expires.
+        /// </summary>
+        /// <param name="stopMessageLiveLocationInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task StopMessageLiveLocationAsync(
+            StopMessageLiveLocationInlineParameters stopMessageLiveLocationInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageCaptionParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> EditMessageCaptionAsync(EditMessageCaptionParameters editMessageCaptionParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit captions of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageCaptionInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task EditMessageCaptionAsync(EditMessageCaptionInlineParameters editMessageCaptionInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit audio, document, photo, or video inline messages.
+        /// </summary>
+        /// <param name="editMessageMediaParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> EditMessageMediaAsync(EditMessageMediaParameters editMessageMediaParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit audio, document, photo, or video inline messages.
+        /// </summary>
+        /// <param name="editMessageMediaInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task EditMessageMediaAsync(EditMessageMediaInlineParameters editMessageMediaInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageReplyMarkupParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> EditMessageReplyMarkupAsync(EditMessageReplyMarkupParameters editMessageReplyMarkupParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit only the reply markup of messages sent by the bot or via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageReplyMarkupInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task EditMessageReplyMarkupAsync(EditMessageReplyMarkupInlineParameters editMessageReplyMarkupInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit live location messages sent via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageLiveLocationParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> EditMessageLiveLocationAsync(EditMessageLiveLocationParameters editMessageLiveLocationParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to edit live location messages sent via the bot (for inline bots).
+        /// </summary>
+        /// <param name="editMessageLiveLocationInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task EditMessageLiveLocationAsync(
+            EditMessageLiveLocationInlineParameters editMessageLiveLocationInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send a native poll. A native poll can't be sent to a private chat. On success, the sent
+        ///     <see cref="Message" /> is returned.
+        /// </summary>
+        /// <param name="stopPollParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Poll> StopPollAsync(StopPollParameters stopPollParameters, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to delete a message. A message can only be deleted if it was sent less than 48 hours ago. Any such
+        ///     recently sent outgoing message may be deleted. Additionally, if the bot is an administrator in a group chat, it can
+        ///     delete any message. If the bot is an administrator in a supergroup, it can delete messages from any other user and
+        ///     service messages about people joining or leaving the group (other types of service messages may only be removed by
+        ///     the group creator). In channels, bots can only remove their own messages.
+        /// </summary>
+        /// <param name="deleteMessageParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task DeleteMessageAsync(DeleteMessageParameters deleteMessageParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send answers to an inline query.
+        /// </summary>
+        /// <param name="answerInlineQueryParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AnswerInlineQueryAsync(AnswerInlineQueryParameters answerInlineQueryParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send invoices.
+        /// </summary>
+        /// <param name="sendInvoiceParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendInvoiceAsync(SendInvoiceParameters sendInvoiceParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to reply to shipping queries with failure and error message. If you sent an invoice requesting a
+        ///     shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query
+        ///     field to the bot.
+        /// </summary>
+        /// <param name="answerShippingQueryParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AnswerShippingQueryAsync(AnswerShippingQueryParameters answerShippingQueryParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to reply to shipping queries with failure and error message. If you sent an invoice requesting a
+        ///     shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query
+        ///     field to the bot.
+        /// </summary>
+        /// <param name="answerShippingQueryExtendedParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AnswerShippingQueryAsync(AnswerShippingQueryExtendedParameters answerShippingQueryExtendedParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Respond to a pre-checkout query with failure and error message
+        /// </summary>
+        /// <param name="answerPreCheckoutQueryParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AnswerPreCheckoutQueryAsync(AnswerPreCheckoutQueryParameters answerPreCheckoutQueryParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Respond to a pre-checkout query with failure and error message
+        /// </summary>
+        /// <param name="answerPreCheckoutQueryExtendedParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AnswerPreCheckoutQueryAsync(
+            AnswerPreCheckoutQueryExtendedParameters answerPreCheckoutQueryExtendedParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to send a game.
+        /// </summary>
+        /// <param name="sendGameParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SendGameAsync(SendGameParameters sendGameParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="setGameScoreParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<Message> SetGameScoreAsync(SetGameScoreParameters setGameScoreParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to set the score of the specified user in a game.
+        /// </summary>
+        /// <param name="setGameScoreInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetGameScoreAsync(SetGameScoreInlineParameters setGameScoreInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get data for high score tables.
+        /// </summary>
+        /// <param name="getGameHighScoresParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<GameHighScore[]> GetGameHighScoresAsync(GetGameHighScoresParameters getGameHighScoresParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get data for high score tables.
+        /// </summary>
+        /// <param name="getGameHighScoresInlineParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<GameHighScore[]> GetGameHighScoresAsync(
+            GetGameHighScoresInlineParameters getGameHighScoresInlineParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to get a sticker set.
+        /// </summary>
+        /// <param name="getStickerSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<StickerSet> GetStickerSetAsync(GetStickerSetParameters getStickerSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to upload a .png file with a sticker for later use in createNewStickerSet and addStickerToSet
+        ///     methods (can be used multiple times).
+        /// </summary>
+        /// <param name="uploadStickerFileParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<File> UploadStickerFileAsync(UploadStickerFileParameters uploadStickerFileParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.
+        /// </summary>
+        /// <param name="createNewStickerSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task CreateNewStickerSetAsync(CreateNewStickerSetParameters createNewStickerSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to add a new sticker to a set created by the bot.
+        /// </summary>
+        /// <param name="addStickerToSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AddStickerToSetAsync(AddStickerToSetParameters addStickerToSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to create new sticker set owned by a user. The bot will be able to edit the created sticker set.
+        /// </summary>
+        /// <param name="createNewAnimatedStickerSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task CreateNewAnimatedStickerSetAsync(
+            CreateNewAnimatedStickerSetParameters createNewAnimatedStickerSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to add a new sticker to a set created by the bot.
+        /// </summary>
+        /// <param name="addAnimatedStickerToSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task AddAnimatedStickerToSetAsync(AddAnimatedStickerToSetParameters addAnimatedStickerToSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to move a sticker in a set created by the bot to a specific position.
+        /// </summary>
+        /// <param name="setStickerPositionInSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetStickerPositionInSetAsync(SetStickerPositionInSetParameters setStickerPositionInSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to delete a sticker from a set created by the bot.
+        /// </summary>
+        /// <param name="deleteStickerFromSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task DeleteStickerFromSetAsync(DeleteStickerFromSetParameters deleteStickerFromSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets
+        ///     only. Returns True on success.
+        /// </summary>
+        /// <param name="setStickerSetThumbParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetStickerSetThumbAsync(SetStickerSetThumbParameters setStickerSetThumbParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to export an invite link to a supergroup or a channel. The bot must be an administrator in the chat
+        ///     for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="exportChatInviteLinkParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task<string> ExportChatInviteLinkAsync(ExportChatInviteLinkParameters exportChatInviteLinkParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be
+        ///     an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="setChatPhotoParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetChatPhotoAsync(SetChatPhotoParameters setChatPhotoParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator
+        ///     in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="deleteChatPhotoParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task DeleteChatPhotoAsync(DeleteChatPhotoParameters deleteChatPhotoParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an
+        ///     administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="setChatTitleParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetChatTitleAsync(SetChatTitleParameters setChatTitleParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to change the description of a supergroup or a channel. The bot must be an administrator in the
+        ///     chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="setChatDescriptionParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetChatDescriptionAsync(SetChatDescriptionParameters setChatDescriptionParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to pin a message in a supergroup. The bot must be an administrator in the chat for this to work and
+        ///     must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="pinChatMessageParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task PinChatMessageAsync(PinChatMessageParameters pinChatMessageParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to unpin a message in a supergroup chat. The bot must be an administrator in the chat for this to
+        ///     work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="unpinChatMessageParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task UnpinChatMessageAsync(UnpinChatMessageParameters unpinChatMessageParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to set a new group sticker set for a supergroup.
+        /// </summary>
+        /// <param name="setChatStickerSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task SetChatStickerSetAsync(SetChatStickerSetParameters setChatStickerSetParameters,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        ///     Use this method to delete a group sticker set from a supergroup.
+        /// </summary>
+        /// <param name="deleteChatStickerSetParameters">Request parameters.</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        Task DeleteChatStickerSetAsync(DeleteChatStickerSetParameters deleteChatStickerSetParameters,
             CancellationToken cancellationToken = default);
 
         #endregion
