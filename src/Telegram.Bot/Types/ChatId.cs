@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types
@@ -105,6 +105,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="chat"></param>
         public static implicit operator ChatId(Chat chat) =>
-            chat.Id != default ? chat.Id : (ChatId)("@" + chat.Username);
+            chat == null ? null : chat.Id != default ? chat.Id : (ChatId) ("@" + chat.Username);
     }
 }
