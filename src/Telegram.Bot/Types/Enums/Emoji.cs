@@ -31,5 +31,18 @@ namespace Telegram.Bot.Types.Enums
         /// </summary>
         [EnumMember(Value = "🏀")]
         Basketball,
+
+        /// <summary>
+        /// Football. Resulting value is 1-5
+        /// </summary>
+        [EnumMember(Value = "⚽")]
+        Football,
+
+        /// <summary>
+        /// Slot machine. Resulting value is 1-64
+        /// </summary>
+        [EnumMember(Value = "🎰")]
+        SlotMachine
+
     }
 }

@@ -24,6 +24,12 @@ namespace Telegram.Bot.Requests
         public int UserId { get; }
 
         /// <summary>
+        /// Pass True, if the administrator's presence in the chat is hidden
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? IsAnonymous { get; set; }
+
+        /// <summary>
         /// Pass True, if the administrator can change chat title, photo and other settings
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

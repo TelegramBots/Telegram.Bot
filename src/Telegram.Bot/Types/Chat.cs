@@ -61,6 +61,12 @@ namespace Telegram.Bot.Types
         public ChatPhoto Photo { get; set; }
 
         /// <summary>
+        /// Optional. Bio of the other party in a private chat. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string Bio { get; set; }
+
+        /// <summary>
         /// Optional. Description, for supergroups and channel chats. Returned only in getChat.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -73,7 +79,7 @@ namespace Telegram.Bot.Types
         public string InviteLink { get; set; }
 
         /// <summary>
-        /// Optional. Pinned message, for supergroups. Returned only in getChat.
+        /// Optional. The most recent pinned message (by sending date). Returned only in getChat.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message PinnedMessage { get; set; }
@@ -101,5 +107,17 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanSetStickerSet { get; set; }
+
+        /// <summary>
+        /// Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public long LinkedChatId { get; set; }
+
+        /// <summary>
+        /// Optional. For supergroups, the location to which the supergroup is connected. Returned only in getChat.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ChatLocation Location { get; set; }
     }
 }

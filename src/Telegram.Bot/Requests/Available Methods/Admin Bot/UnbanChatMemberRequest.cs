@@ -24,6 +24,12 @@ namespace Telegram.Bot.Requests
         public int UserId { get; }
 
         /// <summary>
+        /// Do nothing if the user is not banned
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool OnlyIfBanned { get; set; }
+
+        /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>

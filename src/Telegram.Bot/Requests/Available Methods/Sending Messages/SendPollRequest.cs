@@ -27,7 +27,7 @@ namespace Telegram.Bot.Requests
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Poll question, 1-255 characters
+        /// Poll question, 1-300 characters
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Question { get; }
@@ -75,6 +75,12 @@ namespace Telegram.Bot.Requests
         public ParseMode ExplanationParseMode { get; set; }
 
         /// <summary>
+        /// List of special entities that appear in the poll explanation, which can be specified instead of parse_mode
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IEnumerable<MessageEntity> ExplanationCaptionEntities { get; set; }
+
+        /// <summary>
         /// Optional. Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with <see cref="CloseDate"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -100,6 +106,10 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool AllowSendingWithoutReply { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

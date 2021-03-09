@@ -30,6 +30,12 @@ namespace Telegram.Bot.Types
         public User From { get; set; }
 
         /// <summary>
+        /// Optional. Sender of the message, sent on behalf of a chat. The channel itself for channel messages. The supergroup itself for messages from anonymous group administrators. The linked channel for messages automatically forwarded to the discussion group
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Chat SenderChat { get; set; }
+
+        /// <summary>
         /// Date the message was sent
         /// </summary>
         [JsonProperty(Required = Required.Always)]
@@ -111,7 +117,7 @@ namespace Telegram.Bot.Types
         public string MediaGroupId { get; set; }
 
         /// <summary>
-        /// Optional. Signature of the post author for messages in channels
+        /// Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string AuthorSignature { get; set; }
@@ -332,6 +338,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PassportData PassportData { get; set; }
+
+        /// <summary>
+        /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ProximityAlertTriggered ProximityAlertTriggered { get; set; }
 
         /// <summary>
         /// Optional. Inline keyboard attached to the message

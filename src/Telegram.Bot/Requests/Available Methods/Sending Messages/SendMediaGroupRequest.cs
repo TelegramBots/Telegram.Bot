@@ -12,7 +12,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send a group of photos or videos as an album. On success, an array of the sent Messages is returned.
+    /// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type. On success, an array of the sent Messages is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendMediaGroupRequest : FileRequestBase<Message[]>,
@@ -26,7 +26,7 @@ namespace Telegram.Bot.Requests
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// A JSON-serialized array describing photos and videos to be sent, must include 2–10 items
+        /// A JSON-serialized array of InputMediaAudio, InputMediaDocument, InputMediaPhoto and InputMediaVideo. describing messages to be sent, must include 2-10 items
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public IEnumerable<IAlbumInputMedia> Media { get; }
@@ -38,6 +38,10 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool AllowSendingWithoutReply { get; set; }
 
         /// <summary>
         /// Initializes a request with chat_id and media

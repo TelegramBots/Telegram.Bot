@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 
@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests
     /// Unpin a message in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the ‘can_pin_messages’ admin right in the supergroup or ‘can_edit_messages’ admin right in the channel.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class UnpinChatMessageRequest : RequestBase<bool>
+    public class UnpinAllChatMessagesRequest : RequestBase<bool>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -18,17 +18,11 @@ namespace Telegram.Bot.Requests
         public ChatId ChatId { get; set; }
 
         /// <summary>
-        /// Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int MessageId { get; set; }
-
-        /// <summary>
         /// Initializes a new request with chatId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
-        public UnpinChatMessageRequest(ChatId chatId)
-            : base("unpinChatMessage")
+        public UnpinAllChatMessagesRequest(ChatId chatId)
+            : base("unpinAllChatMessages")
         {
             ChatId = chatId;
         }
