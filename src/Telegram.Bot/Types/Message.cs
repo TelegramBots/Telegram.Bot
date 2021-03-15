@@ -358,6 +358,24 @@ namespace Telegram.Bot.Types
         public MessageAutoDeleteTimerChanged MessageAutoDeleteTimerChanged { get; set; }
 
         /// <summary>
+        /// Optional. Service message: voice chat started
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public VoiceChatStarted VoiceChatStarted { get; set; }
+
+        /// <summary>
+        /// Optional. Service message: voice chat ended
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public VoiceChatEnded VoiceChatEnded { get; set; }
+
+        /// <summary>
+        /// Optional. Service message: new participants invited to a voice chat
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public VoiceChatParticipantsInvited VoiceChatParticipantsInvited { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
         /// </summary>
         /// <value>
@@ -450,6 +468,15 @@ namespace Telegram.Bot.Types
 
                 if (ProximityAlertTriggered != default)
                     return MessageType.ProximityAlertTriggered;
+
+                if (VoiceChatStarted != default)
+                    return MessageType.VoiceChatStarted;
+
+                if (VoiceChatEnded != default)
+                    return MessageType.VoiceChatEnded;
+
+                if (VoiceChatParticipantsInvited != default)
+                    return MessageType.VoiceChatParticipantsInvited;
 
                 if (Poll != null)
                     return MessageType.Poll;

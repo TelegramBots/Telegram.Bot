@@ -1128,7 +1128,8 @@ namespace Telegram.Bot
             bool? canPromoteMembers = default,
             CancellationToken cancellationToken = default,
             bool? isAnonymous = default,
-            bool? canManageChat = default
+            bool? canManageChat = default,
+            bool? canManageVoiceChats = default
         ) =>
             MakeRequestAsync(new PromoteChatMemberRequest(chatId, userId)
             {
@@ -1141,7 +1142,8 @@ namespace Telegram.Bot
                 CanRestrictMembers = canRestrictMembers,
                 CanPinMessages = canPinMessages,
                 CanPromoteMembers = canPromoteMembers,
-                CanManageChat = canManageChat
+                CanManageChat = canManageChat,
+                CanManageVoiceChat = canManageVoiceChats
             }, cancellationToken);
 
         /// <inheritdoc />

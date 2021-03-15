@@ -138,5 +138,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanManageChat { get; set; }
+
+        /// <summary>
+        /// Optional. Administrators only. True, if the administrator can manage voice chats
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanManageVoiceChats { get; set; }
     }
 }

@@ -84,6 +84,12 @@ namespace Telegram.Bot.Requests
         public bool? CanManageChat { get; set; }
 
         /// <summary>
+        /// Pass True, if the administrator can manage voice chats, supergroups only
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanManageVoiceChat { get; set; }
+
+        /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
