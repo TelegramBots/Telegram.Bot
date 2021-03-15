@@ -448,6 +448,9 @@ namespace Telegram.Bot.Types
                 if (MessageAutoDeleteTimerChanged != default)
                     return MessageType.MessageAutoDeleteTimerChanged;
 
+                if (ProximityAlertTriggered != default)
+                    return MessageType.ProximityAlertTriggered;
+
                 if (Poll != null)
                     return MessageType.Poll;
 

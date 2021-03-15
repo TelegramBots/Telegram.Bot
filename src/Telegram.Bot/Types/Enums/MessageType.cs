@@ -181,6 +181,12 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains <see cref="Message.MessageAutoDeleteTimerChanged"/>
         /// </summary>
         [EnumMember(Value = "message_auto_delete_timer_changed")]
-        MessageAutoDeleteTimerChanged
+        MessageAutoDeleteTimerChanged,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.ProximityAlertTriggered"/>
+        /// </summary>
+        [EnumMember(Value = "proximity_alert_triggered")]
+        ProximityAlertTriggered
     }
 }
