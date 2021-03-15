@@ -1647,6 +1647,41 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new DeleteChatStickerSetRequest(chatId), cancellationToken);
+        /// <inheritdoc />
+        public Task<ChatInviteLink> CreateChatInviteLink(
+            ChatId chatId,
+            DateTime? expireDate = default,
+            int? memberLimit = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new CreateChatInviteLinkRequest(chatId)
+            {
+                ExpireDate = expireDate,
+                MemberLimit = memberLimit
+            }, cancellationToken);
+
+
+        /// <inheritdoc />
+        public Task<ChatInviteLink> EditChatInviteLink(
+            ChatId chatId,
+            string inviteLink,
+            DateTime? expireDate = default,
+            int? memberLimit = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditChatInviteLinkRequest(chatId, inviteLink)
+            {
+                ExpireDate = expireDate,
+                MemberLimit = memberLimit
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<ChatInviteLink> RevokeChatInviteLink(
+            ChatId chatId,
+            string inviteLink,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new RevokeChatInviteLinkRequest(chatId, inviteLink), cancellationToken);
 
         #endregion
 

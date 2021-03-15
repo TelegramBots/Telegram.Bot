@@ -1903,6 +1903,48 @@ namespace Telegram.Bot
             ChatId chatId,
             CancellationToken cancellationToken = default);
 
+        /// <summary>
+        /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. The link can be revoked using the method <see cref="RevokeChatInviteLink"/>.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="expireDate">DateTime when the link will expire</param>
+        /// <param name="memberLimit">Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+        /// <returns>Returns the new invite link as <see cref="ChatInviteLink"/> object</returns>
+        Task<ChatInviteLink> CreateChatInviteLink(
+            ChatId chatId,
+            DateTime? expireDate = default,
+            int? memberLimit = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="inviteLink">The invite link to edit</param>
+        /// <param name="expireDate">DateTime when the link will expire</param>
+        /// <param name="memberLimit">Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+        /// <returns>Returns the edited invite link as <see cref="ChatInviteLink"/> object</returns>
+        Task<ChatInviteLink> EditChatInviteLink(
+            ChatId chatId,
+            string inviteLink,
+            DateTime? expireDate = default,
+            int? memberLimit = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights
+        /// </summary>
+        /// <param name="chatId">Unique identifier of the target chat or username of the target channel (in the format @channelusername)</param>
+        /// <param name="inviteLink">The invite link to revoke</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
+        /// <returns>Returns the revoked invite link as <see cref="ChatInviteLink"/> object</returns>
+        Task<ChatInviteLink> RevokeChatInviteLink(
+            ChatId chatId,
+            string inviteLink,
+            CancellationToken cancellationToken = default);
+
         #endregion
     }
 }
