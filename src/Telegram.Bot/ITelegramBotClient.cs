@@ -1056,6 +1056,7 @@ namespace Telegram.Bot
         /// <param name="canPinMessages">Pass True, if the administrator can pin messages, supergroups only</param>
         /// <param name="canPromoteMembers">Pass True, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="canManageChat">Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege</param>
         /// <returns>Returns True on success.</returns>
         /// <remarks>Pass False for all boolean parameters to demote a user.</remarks>
         /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
@@ -1071,7 +1072,8 @@ namespace Telegram.Bot
             bool? canPinMessages = default,
             bool? canPromoteMembers = default,
             CancellationToken cancellationToken = default,
-            bool? isAnonymous = default );// ToDo: fix params order
+            bool? isAnonymous = default,
+            bool? canManageChat = default);// ToDo: fix params order
 
         /// <summary>
         /// <inheritdoc cref="Telegram.Bot.Requests.SetChatAdministratorCustomTitleRequest"/>

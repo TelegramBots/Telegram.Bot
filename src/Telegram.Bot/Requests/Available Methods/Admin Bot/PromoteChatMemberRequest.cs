@@ -78,6 +78,12 @@ namespace Telegram.Bot.Requests
         public bool? CanPromoteMembers { get; set; }
 
         /// <summary>
+        /// Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanManageChat { get; set; }
+
+        /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
