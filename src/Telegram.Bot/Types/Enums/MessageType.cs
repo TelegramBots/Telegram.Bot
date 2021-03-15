@@ -176,5 +176,11 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains <see cref="Message.Dice"/>
         /// </summary>
         Dice,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.MessageAutoDeleteTimerChanged"/>
+        /// </summary>
+        [EnumMember(Value = "message_auto_delete_timer_changed")]
+        MessageAutoDeleteTimerChanged
     }
 }

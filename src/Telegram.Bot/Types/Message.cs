@@ -352,6 +352,12 @@ namespace Telegram.Bot.Types
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 
         /// <summary>
+        /// Optional. Service message: auto-delete timer settings changed in the chat
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageAutoDeleteTimerChanged MessageAutoDeleteTimerChanged { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
         /// </summary>
         /// <value>
@@ -438,6 +444,9 @@ namespace Telegram.Bot.Types
 
                 if (MigrateToChatId != default)
                     return MessageType.MigratedToSupergroup;
+
+                if (MessageAutoDeleteTimerChanged != default)
+                    return MessageType.MessageAutoDeleteTimerChanged;
 
                 if (Poll != null)
                     return MessageType.Poll;
