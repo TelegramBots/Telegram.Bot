@@ -25,7 +25,7 @@ stages:
           projects: $(unitTestsProject)
           strategies:
             - Windows: windows-2019
-            - Ubuntu: ubuntu-18.04
+            - Ubuntu: ubuntu-20.04
             - macOS: macOS-10.15
   - stage: IntegrationTests
     displayName: 🧪 Integration tests
