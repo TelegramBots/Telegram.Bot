@@ -135,7 +135,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            int userId = update.Message.Type == MessageType.Contact
+            long userId = update.Message.Type == MessageType.Contact
                 ? update.Message.Contact.UserId
                 : update.Message.ForwardFrom.Id;
 

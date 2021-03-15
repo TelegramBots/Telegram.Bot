@@ -27,7 +27,7 @@ namespace Telegram.Bot
     public class TelegramBotClient : ITelegramBotClient
     {
         /// <inheritdoc/>
-        public int BotId { get; }
+        public long BotId { get; }
 
         private static readonly Update[] EmptyUpdates = { };
 
@@ -167,7 +167,7 @@ namespace Telegram.Bot
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
-            if (parts.Length > 1 && int.TryParse(parts[0], out int id))
+            if (parts.Length > 1 && long.TryParse(parts[0], out long id))
             {
                 BotId = id;
             }
@@ -204,7 +204,7 @@ namespace Telegram.Bot
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
-            if (int.TryParse(parts[0], out int id))
+            if (long.TryParse(parts[0], out long id))
             {
                 BotId = id;
             }
@@ -468,11 +468,11 @@ namespace Telegram.Bot
             => MakeRequestAsync(new GetMeRequest(), cancellationToken);
 
         /// <inheritdoc />
-        public async Task LogOutAsync(CancellationToken cancellationToken = default)
+        public Task LogOutAsync(CancellationToken cancellationToken = default)
             => MakeRequestAsync(new LogOutRequest(), cancellationToken);
 
         /// <inheritdoc />
-        public async Task CloseAsync(CancellationToken cancellationToken = default)
+        public Task CloseAsync(CancellationToken cancellationToken = default)
             => MakeRequestAsync(new CloseRequest(), cancellationToken);
 
         /// <inheritdoc />
@@ -935,7 +935,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<UserProfilePhotos> GetUserProfilePhotosAsync(
-            int userId,
+            long userId,
             int offset = default,
             int limit = default,
             CancellationToken cancellationToken = default
@@ -1026,7 +1026,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task KickChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             DateTime untilDate = default,
             CancellationToken cancellationToken = default,
             bool? revokeMessages = default
@@ -1047,7 +1047,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task UnbanChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             CancellationToken cancellationToken = default,
             bool onlyIfBanned = default
         ) =>
@@ -1077,7 +1077,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task<ChatMember> GetChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new GetChatMemberRequest(chatId, userId), cancellationToken);
@@ -1102,7 +1102,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task RestrictChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             ChatPermissions permissions,
             DateTime untilDate = default,
             CancellationToken cancellationToken = default
@@ -1117,7 +1117,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task PromoteChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             bool? canChangeInfo = default,
             bool? canPostMessages = default,
             bool? canEditMessages = default,
@@ -1149,7 +1149,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task SetChatAdministratorCustomTitleAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             string customTitle,
             CancellationToken cancellationToken = default)
             => MakeRequestAsync(
@@ -1406,7 +1406,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<Message> SendInvoiceAsync(
-            int chatId,
+            long chatId,
             string title,
             string description,
             string payload,
@@ -1517,7 +1517,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<Message> SetGameScoreAsync(
-            int userId,
+            long userId,
             int score,
             long chatId,
             int messageId,
@@ -1533,7 +1533,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task SetGameScoreAsync(
-            int userId,
+            long userId,
             int score,
             string inlineMessageId,
             bool force = default,
@@ -1548,7 +1548,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<GameHighScore[]> GetGameHighScoresAsync(
-            int userId,
+            long userId,
             long chatId,
             int messageId,
             CancellationToken cancellationToken = default
@@ -1559,7 +1559,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<GameHighScore[]> GetGameHighScoresAsync(
-            int userId,
+            long userId,
             string inlineMessageId,
             CancellationToken cancellationToken = default
         ) =>
@@ -1696,7 +1696,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<File> UploadStickerFileAsync(
-            int userId,
+            long userId,
             InputFileStream pngSticker,
             CancellationToken cancellationToken = default
         ) =>
@@ -1704,7 +1704,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task CreateNewStickerSetAsync(
-            int userId,
+            long userId,
             string name,
             string title,
             InputOnlineFile pngSticker,
@@ -1721,7 +1721,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task AddStickerToSetAsync(
-            int userId,
+            long userId,
             string name,
             InputOnlineFile pngSticker,
             string emojis,
@@ -1735,7 +1735,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task CreateNewAnimatedStickerSetAsync(
-            int userId,
+            long userId,
             string name,
             string title,
             InputFileStream tgsSticker,
@@ -1754,7 +1754,7 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task AddAnimatedStickerToSetAsync(
-            int userId,
+            long userId,
             string name,
             InputFileStream tgsSticker,
             string emojis,
@@ -1788,7 +1788,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task SetStickerSetThumbAsync(
             string name,
-            int userId,
+            long userId,
             InputOnlineFile thumb = default,
             CancellationToken cancellationToken = default) =>
             MakeRequestAsync(

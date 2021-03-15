@@ -24,7 +24,7 @@ namespace Telegram.Bot
         /// Unique identifier for the bot from bot token. For example, for the bot token
         /// "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy", the bot id is "1234567".
         /// </summary>
-        int BotId { get; }
+        long BotId { get; }
 
         #region Config Properties
 
@@ -860,7 +860,7 @@ namespace Telegram.Bot
         /// <returns>Returns a <see cref="UserProfilePhotos"/> object</returns>
         /// <see href="https://core.telegram.org/bots/api#getuserprofilephotos"/>
         Task<UserProfilePhotos> GetUserProfilePhotosAsync(
-            int userId,
+            long userId,
             int offset = default,
             int limit = default,
             CancellationToken cancellationToken = default);
@@ -922,7 +922,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
         Task KickChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             DateTime untilDate = default,
             CancellationToken cancellationToken = default,
             bool? revokeMessages = default
@@ -951,7 +951,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#unbanchatmember"/>
         Task UnbanChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             CancellationToken cancellationToken = default,
             bool onlyIfBanned = default); // ToDo: fix params order
 
@@ -998,7 +998,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#getchatmember"/>
         Task<ChatMember> GetChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -1040,7 +1040,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#restrictchatmember"/>
         Task RestrictChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             ChatPermissions permissions,
             DateTime untilDate = default,
             CancellationToken cancellationToken = default);
@@ -1067,7 +1067,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#promotechatmember"/>
         Task PromoteChatMemberAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             bool? canChangeInfo = default,
             bool? canPostMessages = default,
             bool? canEditMessages = default,
@@ -1093,7 +1093,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#setchatadministratorcustomtitle"/>
         Task SetChatAdministratorCustomTitleAsync(
             ChatId chatId,
-            int userId,
+            long userId,
             string customTitle,
             CancellationToken cancellationToken = default);
 
@@ -1447,7 +1447,7 @@ namespace Telegram.Bot
         /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
         /// <see href="https://core.telegram.org/bots/api#sendinvoice"/>
         Task<Message> SendInvoiceAsync(
-            int chatId,
+            long chatId,
             string title,
             string description,
             string payload,
@@ -1565,7 +1565,7 @@ namespace Telegram.Bot
         /// <returns>On success, if the message was sent by the bot, returns the edited <see cref="Message"/></returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
         Task<Message> SetGameScoreAsync(
-            int userId,
+            long userId,
             int score,
             long chatId,
             int messageId,
@@ -1585,7 +1585,7 @@ namespace Telegram.Bot
         /// <returns>On success returns True</returns>
         /// <see href="https://core.telegram.org/bots/api#setgamescore"/>
         Task SetGameScoreAsync(
-            int userId,
+            long userId,
             int score,
             string inlineMessageId,
             bool force = default,
@@ -1606,7 +1606,7 @@ namespace Telegram.Bot
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
         Task<GameHighScore[]> GetGameHighScoresAsync(
-            int userId,
+            long userId,
             long chatId,
             int messageId,
             CancellationToken cancellationToken = default);
@@ -1624,7 +1624,7 @@ namespace Telegram.Bot
         /// </remarks>
         /// <see href="https://core.telegram.org/bots/api#getgamehighscores"/>
         Task<GameHighScore[]> GetGameHighScoresAsync(
-            int userId,
+            long userId,
             string inlineMessageId,
             CancellationToken cancellationToken = default);
 
@@ -1652,7 +1652,7 @@ namespace Telegram.Bot
         /// <returns>Returns the uploaded File on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#uploadstickerfile"/>
         Task<File> UploadStickerFileAsync(
-            int userId,
+            long userId,
             InputFileStream pngSticker,
             CancellationToken cancellationToken = default);
 
@@ -1670,7 +1670,7 @@ namespace Telegram.Bot
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
         Task CreateNewStickerSetAsync(
-            int userId,
+            long userId,
             string name,
             string title,
             InputOnlineFile pngSticker,
@@ -1691,7 +1691,7 @@ namespace Telegram.Bot
         /// <returns>True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
         Task AddStickerToSetAsync(
-            int userId,
+            long userId,
             string name,
             InputOnlineFile pngSticker,
             string emojis,
@@ -1712,7 +1712,7 @@ namespace Telegram.Bot
         /// <returns>Returns True on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#createnewstickerset"/>
         Task CreateNewAnimatedStickerSetAsync(
-            int userId,
+            long userId,
             string name,
             string title,
             InputFileStream tgsSticker,
@@ -1733,7 +1733,7 @@ namespace Telegram.Bot
         /// <returns>True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#addstickertoset"/>
         Task AddAnimatedStickerToSetAsync(
-            int userId,
+            long userId,
             string name,
             InputFileStream tgsSticker,
             string emojis,
@@ -1775,7 +1775,7 @@ namespace Telegram.Bot
         /// <see href="https://core.telegram.org/bots/api#setstickersetthumb"/>
         Task SetStickerSetThumbAsync(
             string name,
-            int userId,
+            long userId,
             InputOnlineFile thumb = default,
             CancellationToken cancellationToken = default);
 

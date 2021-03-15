@@ -16,7 +16,7 @@ namespace Telegram.Bot.Requests
         /// User identifier
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <summary>
         /// New score, must be non-negative
@@ -46,7 +46,7 @@ namespace Telegram.Bot.Requests
         /// <param name="userId">User identifier</param>
         /// <param name="inlineMessageId">Identifier of the inline message</param>
         /// <param name="score">New score, must be non-negative</param>
-        public SetInlineGameScoreRequest(int userId, int score, string inlineMessageId)
+        public SetInlineGameScoreRequest(long userId, int score, string inlineMessageId)
             : base("setGameScore")
         {
             UserId = userId;

@@ -14,7 +14,7 @@ namespace Telegram.Bot.Types
         /// Unique identifier for this user or bot
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// True, if this user is a bot
@@ -107,7 +107,7 @@ namespace Telegram.Bot.Types
             unchecked
             {
                 // ReSharper disable NonReadonlyMemberInGetHashCode
-                var hashCode = Id;
+                var hashCode = Id.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsBot.GetHashCode();
                 hashCode = (hashCode * 397) ^ (FirstName?.GetHashCode() ?? 0);
                 hashCode = (hashCode * 397) ^ (LastName?.GetHashCode() ?? 0);

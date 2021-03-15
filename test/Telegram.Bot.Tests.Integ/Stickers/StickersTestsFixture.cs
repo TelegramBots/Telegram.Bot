@@ -16,7 +16,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
 
         public StickerSet TestStickerSet { get; set; }
 
-        public int OwnerUserId { get; }
+        public long OwnerUserId { get; }
 
         public StickersTestsFixture(TestsFixture testsFixture)
         {
@@ -25,9 +25,9 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 .GetAwaiter().GetResult();
         }
 
-        private static async Task<int> GetStickerOwnerIdAsync(TestsFixture testsFixture, string collectionName)
+        private static async Task<long> GetStickerOwnerIdAsync(TestsFixture testsFixture, string collectionName)
         {
-            int ownerId;
+            long ownerId;
 
             if (ConfigurationProvider.TestConfigurations.StickerOwnerUserId == default)
             {

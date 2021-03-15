@@ -11,7 +11,7 @@ namespace Telegram.Bot.Tests.Unit
         [InlineData("0:foo", 0)]
         [InlineData("5:", 5)]
         [InlineData("-123::::", -123)]
-        public void Should_Parse_Bot_Id(string token, int expectedId)
+        public void Should_Parse_Bot_Id(string token, long expectedId)
         {
             ITelegramBotClient botClient = new TelegramBotClient(token);
             Assert.Equal(expectedId, botClient.BotId);

@@ -21,7 +21,7 @@ namespace Telegram.Bot.Requests
         /// Unique identifier of the target user
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         /// <summary>
         /// New custom title for the administrator; 0-16 characters, emoji are not allowed
@@ -35,7 +35,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="customTitle">New custom title for the administrator; 0-16 characters, emoji are not allowed</param>
-        public SetChatAdministratorCustomTitleRequest(ChatId chatId, int userId, string customTitle)
+        public SetChatAdministratorCustomTitleRequest(ChatId chatId, long userId, string customTitle)
             : base("setChatAdministratorCustomTitle")
         {
             ChatId = chatId;

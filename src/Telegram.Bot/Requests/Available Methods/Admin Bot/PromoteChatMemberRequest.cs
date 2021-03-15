@@ -21,7 +21,7 @@ namespace Telegram.Bot.Requests
         /// Unique identifier of the target user
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <summary>
         /// Pass True, if the administrator's presence in the chat is hidden
@@ -94,7 +94,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public PromoteChatMemberRequest(ChatId chatId, int userId)
+        public PromoteChatMemberRequest(ChatId chatId, long userId)
             : base("promoteChatMember")
         {
             ChatId = chatId;

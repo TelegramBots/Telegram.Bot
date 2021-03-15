@@ -168,7 +168,7 @@ namespace Telegram.Bot.Requests
         /// <param name="currency">Three-letter ISO 4217 currency code</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
         public SendInvoiceRequest(
-            int chatId,
+            long chatId,
             string title,
             string description,
             string payload,

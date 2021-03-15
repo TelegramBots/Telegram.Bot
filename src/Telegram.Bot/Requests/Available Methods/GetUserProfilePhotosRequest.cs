@@ -15,7 +15,7 @@ namespace Telegram.Bot.Requests
         /// Unique identifier of the target user
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <summary>
         /// Sequential number of the first photo to be returned. By default, all photos are returned.
@@ -33,7 +33,7 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with user id
         /// </summary>
         /// <param name="userId">Unique identifier of the target user</param>
-        public GetUserProfilePhotosRequest(int userId)
+        public GetUserProfilePhotosRequest(long userId)
             : base("getUserProfilePhotos")
         {
             UserId = userId;
