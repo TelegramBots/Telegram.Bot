@@ -1028,11 +1028,13 @@ namespace Telegram.Bot
             ChatId chatId,
             int userId,
             DateTime untilDate = default,
-            CancellationToken cancellationToken = default
+            CancellationToken cancellationToken = default,
+            bool? revokeMessages = default
         ) =>
             MakeRequestAsync(new KickChatMemberRequest(chatId, userId)
             {
-                UntilDate = untilDate
+                UntilDate = untilDate,
+                RevokeMessages = revokeMessages
             }, cancellationToken);
 
         /// <inheritdoc />

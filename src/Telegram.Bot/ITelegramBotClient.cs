@@ -917,13 +917,17 @@ namespace Telegram.Bot
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="untilDate"><see cref="DateTime"/> when the user will be unbanned. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="revokeMessages">Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
         Task KickChatMemberAsync(
             ChatId chatId,
             int userId,
             DateTime untilDate = default,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default,
+            bool? revokeMessages = default
+            ); // ToDo: fix params order
+
 
         /// <summary>
         /// Use this method for your bot to leave a group, supergroup or channel.

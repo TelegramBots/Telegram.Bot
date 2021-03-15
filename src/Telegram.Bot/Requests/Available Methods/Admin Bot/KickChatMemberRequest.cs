@@ -33,6 +33,12 @@ namespace Telegram.Bot.Requests
         public DateTime UntilDate { get; set; }
 
         /// <summary>
+        /// Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? RevokeMessages { get; set; }
+
+        /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>
