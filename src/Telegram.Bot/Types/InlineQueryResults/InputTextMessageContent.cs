@@ -28,6 +28,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool DisableWebPagePreview { get; set; }
 
+        /// <summary>
+        /// Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[] Entities { get; set; } // ToDo: add test
+
         private InputTextMessageContent()
         { }
 

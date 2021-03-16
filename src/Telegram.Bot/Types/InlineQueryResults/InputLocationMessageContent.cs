@@ -25,6 +25,12 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public float Longitude { get; private set; }
 
         /// <summary>
+        /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public float HorizontalAccuracy { get; set; }
+
+        /// <summary>
         /// How long the live location will be updated
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
