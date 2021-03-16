@@ -85,7 +85,7 @@ namespace Telegram.Bot.Types
         public Message PinnedMessage { get; set; }
 
         /// <summary>
-        /// Optional. Pinned message, for groups, supergroups and channels. Returned only in getChat.
+        /// Optional. Default chat member permissions, for groups and supergroups. Returned only in getChat.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ChatPermissions Permissions { get; set; }
