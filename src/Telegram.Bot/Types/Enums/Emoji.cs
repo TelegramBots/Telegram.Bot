@@ -42,7 +42,12 @@ namespace Telegram.Bot.Types.Enums
         /// Slot machine. Resulting value is 1-64
         /// </summary>
         [EnumMember(Value = "🎰")]
-        SlotMachine
+        SlotMachine,
 
+        /// <summary>
+        /// Bowling. Result value is 1-6
+        /// </summary>
+        [EnumMember(Value = "🎳")]
+        Bowling
     }
 }

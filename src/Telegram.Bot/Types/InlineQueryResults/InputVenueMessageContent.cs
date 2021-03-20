@@ -53,7 +53,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
 
         /// <summary>
         /// Google Places type of the venue.
-        /// <see cref="https://developers.google.com/places/web-service/supported_types"/>
+        /// <see href="https://developers.google.com/places/web-service/supported_types"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string GooglePlaceType { get; set; }

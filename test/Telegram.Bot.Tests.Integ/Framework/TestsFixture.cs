@@ -135,7 +135,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            int userId = update.Message.Type == MessageType.Contact
+            long userId = update.Message.Type == MessageType.Contact
                 ? update.Message.Contact.UserId
                 : update.Message.ForwardFrom.Id;
 
@@ -150,7 +150,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             var httpClient = new HttpClient(httpClientHandler);
             BotClient = new TelegramBotClient(apiToken, httpClient);
             BotUser = await BotClient.GetMeAsync(CancellationToken);
-            await BotClient.DeleteWebhookAsync(CancellationToken);
+            await BotClient.DeleteWebhookAsync(cancellationToken: CancellationToken);
 
             SupergroupChat = await FindSupergroupTestChatAsync();
             var allowedUserNames = await FindAllowedTesterUserNames();

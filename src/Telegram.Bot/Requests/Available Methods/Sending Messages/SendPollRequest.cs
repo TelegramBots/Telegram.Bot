@@ -78,7 +78,7 @@ namespace Telegram.Bot.Requests
         /// List of special entities that appear in the poll explanation, which can be specified instead of parse_mode
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IEnumerable<MessageEntity> ExplanationCaptionEntities { get; set; }
+        public IEnumerable<MessageEntity> ExplanationEntities { get; set; }
 
         /// <summary>
         /// Optional. Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with <see cref="CloseDate"/>.
