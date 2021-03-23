@@ -22,7 +22,7 @@ namespace Telegram.Bot.Args
         /// Initializes a new instance of the <see cref="MessageEventArgs"/> class.
         /// </summary>
         /// <param name="update">The update.</param>
-        internal MessageEventArgs(Update update)
+        public MessageEventArgs(Update update)
         {
             Message = (update.Type == UpdateType.EditedMessage) ? update.EditedMessage : update.Message;
         }
@@ -31,7 +31,7 @@ namespace Telegram.Bot.Args
         /// Initializes a new instance of the <see cref="MessageEventArgs"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal MessageEventArgs(Message message)
+        public MessageEventArgs(Message message)
         {
             Message = message;
         }
