@@ -1874,14 +1874,14 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. The link can be revoked using the method <see cref="RevokeChatInviteLink"/>.
+        /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. The link can be revoked using the method <see cref="RevokeChatInviteLinkAsync"/>.
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format @channelusername)</param>
         /// <param name="expireDate">DateTime when the link will expire</param>
         /// <param name="memberLimit">Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
         /// <returns>Returns the new invite link as <see cref="ChatInviteLink"/> object</returns>
-        Task<ChatInviteLink> CreateChatInviteLink(
+        Task<ChatInviteLink> CreateChatInviteLinkAsync(
             ChatId chatId,
             DateTime? expireDate = default,
             int? memberLimit = default,
@@ -1896,7 +1896,7 @@ namespace Telegram.Bot
         /// <param name="memberLimit">Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
         /// <returns>Returns the edited invite link as <see cref="ChatInviteLink"/> object</returns>
-        Task<ChatInviteLink> EditChatInviteLink(
+        Task<ChatInviteLink> EditChatInviteLinkAsync(
             ChatId chatId,
             string inviteLink,
             DateTime? expireDate = default,
@@ -1910,7 +1910,7 @@ namespace Telegram.Bot
         /// <param name="inviteLink">The invite link to revoke</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation</param>
         /// <returns>Returns the revoked invite link as <see cref="ChatInviteLink"/> object</returns>
-        Task<ChatInviteLink> RevokeChatInviteLink(
+        Task<ChatInviteLink> RevokeChatInviteLinkAsync(
             ChatId chatId,
             string inviteLink,
             CancellationToken cancellationToken = default);

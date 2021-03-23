@@ -1614,7 +1614,7 @@ namespace Telegram.Bot
         ) =>
             MakeRequestAsync(new DeleteChatStickerSetRequest(chatId), cancellationToken);
         /// <inheritdoc />
-        public Task<ChatInviteLink> CreateChatInviteLink(
+        public Task<ChatInviteLink> CreateChatInviteLinkAsync(
             ChatId chatId,
             DateTime? expireDate = default,
             int? memberLimit = default,
@@ -1628,7 +1628,7 @@ namespace Telegram.Bot
 
 
         /// <inheritdoc />
-        public Task<ChatInviteLink> EditChatInviteLink(
+        public Task<ChatInviteLink> EditChatInviteLinkAsync(
             ChatId chatId,
             string inviteLink,
             DateTime? expireDate = default,
@@ -1642,7 +1642,7 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
-        public Task<ChatInviteLink> RevokeChatInviteLink(
+        public Task<ChatInviteLink> RevokeChatInviteLinkAsync(
             ChatId chatId,
             string inviteLink,
             CancellationToken cancellationToken = default
