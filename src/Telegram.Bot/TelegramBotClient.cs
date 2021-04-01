@@ -31,9 +31,9 @@ namespace Telegram.Bot
 
         private static readonly Update[] EmptyUpdates = { };
 
-        private const string BaseUrl = "https://api.telegram.org/bot";
+        private string BaseUrl { get; } = "https://api.telegram.org/bot";
 
-        private const string BaseFileUrl = "https://api.telegram.org/file/bot";
+        private string BaseFileUrl { get; } = "https://api.telegram.org/file/bot";
 
         private readonly string _baseRequestUrl;
 
@@ -207,6 +207,23 @@ namespace Telegram.Bot
                 UseProxy = true
             };
             _httpClient = new HttpClient(httpClientHander);
+        }
+
+        /// <summary>
+        /// Create a new <see cref="TelegramBotClient"/> instance.
+        /// Compatible version with Local Bot API Server https://core.telegram.org/bots/api#using-a-local-bot-api-server
+        /// </summary>
+        /// <param name="token">API token</param>
+        /// <param name="baseUrl">Local Bot API Server url, like a http://127.0.0.1</param>
+        /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
+        /// <exception cref="UriFormatException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
+        public TelegramBotClient(string token, string baseUrl, HttpClient httpClient = null) : this(token, httpClient)
+        {
+            var uri = new Uri(baseUrl);
+            BaseUrl = new Uri(uri, "bot").AbsoluteUri;
+            BaseFileUrl = new Uri(uri, "file/bot").AbsoluteUri;
+            _baseRequestUrl = $"{BaseUrl}{_token}/";
         }
 
         #region Helpers
