@@ -39,9 +39,11 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// List of special entities that appear in the caption, which can be specified instead of parse_mode
+        /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IEnumerable<MessageEntity> CaptionEntities { get; set; }
+        public IEnumerable<MessageEntity> Entities { get; set; }
 
         /// <summary>
         /// Disables link previews for links in this message
