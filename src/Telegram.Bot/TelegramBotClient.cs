@@ -492,7 +492,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendMessageRequest(chatId, text)
             {
                 ParseMode = parseMode,
-                CaptionEntities = entities,
+                Entities = entities,
                 DisableWebPagePreview = disableWebPagePreview,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -1181,7 +1181,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new EditMessageTextRequest(chatId, messageId, text)
             {
                 ParseMode = parseMode,
-                CaptionEntities = entities,
+                Entities = entities,
                 DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -1201,7 +1201,7 @@ namespace Telegram.Bot
                 DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup,
                 ParseMode = parseMode,
-                CaptionEntities = entities
+                Entities = entities
             }, cancellationToken);
 
         /// <inheritdoc />
