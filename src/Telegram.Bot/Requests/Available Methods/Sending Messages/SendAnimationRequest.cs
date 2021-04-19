@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -23,7 +23,8 @@ namespace Telegram.Bot.Requests
                                         IReplyMessage,
                                         IReplyMarkupMessage<IReplyMarkup>,
                                         IFormattableMessage,
-                                        IThumbMediaMessage
+                                        IThumbMediaMessage,
+                                        ICaptionEntities
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]

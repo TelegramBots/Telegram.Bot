@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -17,11 +17,12 @@ namespace Telegram.Bot.Requests
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendAudioRequest : FileRequestBase<Message>,
-        INotifiableMessage,
-        IReplyMessage,
-        IReplyMarkupMessage<IReplyMarkup>,
-        IFormattableMessage,
-        IThumbMediaMessage
+                                    INotifiableMessage,
+                                    IReplyMessage,
+                                    IReplyMarkupMessage<IReplyMarkup>,
+                                    IFormattableMessage,
+                                    IThumbMediaMessage,
+                                    ICaptionEntities
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
