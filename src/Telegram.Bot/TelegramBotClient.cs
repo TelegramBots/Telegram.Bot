@@ -167,7 +167,7 @@ namespace Telegram.Bot
         {
             _token = token ?? throw new ArgumentNullException(nameof(token));
             string[] parts = _token.Split(':');
-            if (parts.Length > 1 && long.TryParse(parts[0], out long id))
+            if (parts.Length > 1 && long.TryParse(parts[0], out var id))
             {
                 BotId = id;
             }
@@ -226,12 +226,12 @@ namespace Telegram.Bot
             BaseUrl = baseUrl;
 
             _baseRequestUrl = $"{BaseUrl}{_token}/";
-            var httpClientHander = new HttpClientHandler
+            var httpClientHandler = new HttpClientHandler
             {
                 Proxy = webProxy,
                 UseProxy = true
             };
-            _httpClient = new HttpClient(httpClientHander);
+            _httpClient = new HttpClient(httpClientHandler);
         }
 
         #region Helpers
@@ -409,6 +409,10 @@ namespace Telegram.Bot
             }
             catch (TaskCanceledException)
             {
+            }
+            finally
+            {
+                _receivingCancellationTokenSource.Dispose();
             }
         }
 
