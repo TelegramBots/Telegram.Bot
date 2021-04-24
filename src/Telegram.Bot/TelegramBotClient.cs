@@ -45,6 +45,9 @@ namespace Telegram.Bot
 
         #region Config Properties
 
+        /// <inheritdoc/>
+        public long? BotId { get; }
+
         /// <summary>
         /// Timeout for requests
         /// </summary>
@@ -170,13 +173,6 @@ namespace Telegram.Bot
             if (parts.Length > 1 && long.TryParse(parts[0], out var id))
             {
                 BotId = id;
-            }
-            else
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
-                    nameof(token)
-                );
             }
 
             if (baseUrl.EndsWith("/") || !baseUrl.EndsWith("/bot"))

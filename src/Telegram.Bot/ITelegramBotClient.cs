@@ -23,8 +23,10 @@ namespace Telegram.Bot
         /// <summary>
         /// Unique identifier for the bot from bot token. For example, for the bot token
         /// "1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy", the bot id is "1234567".
+        /// Token format is not public API so this property is optional and may stop working
+        /// in the future if Telegram changes it's token format.
         /// </summary>
-        long BotId { get; }
+        long? BotId { get; }
 
         #region Config Properties
 
