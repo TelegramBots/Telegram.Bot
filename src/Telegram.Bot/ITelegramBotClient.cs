@@ -52,12 +52,12 @@ namespace Telegram.Bot
         /// <summary>
         /// Occurs before sending a request to API
         /// </summary>
-        event EventHandler<ApiRequestEventArgs> MakingApiRequest;
+        event AsyncEventHandler<ApiRequestEventArgs> OnMakingApiRequest;
 
         /// <summary>
         /// Occurs after receiving the response to an API request
         /// </summary>
-        event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
+        event AsyncEventHandler<ApiResponseEventArgs> OnApiResponseReceived;
 
         /// <summary>
         /// Occurs when an <see cref="Update"/> is received.

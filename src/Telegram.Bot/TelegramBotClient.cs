@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -54,8 +53,6 @@ namespace Telegram.Bot
         /// </summary>
         public bool IsReceiving { get; set; }
 
-        private CancellationTokenSource _receivingCancellationTokenSource;
-
         /// <summary>
         /// The current message offset
         /// </summary>
@@ -68,17 +65,21 @@ namespace Telegram.Bot
         /// <summary>
         /// Occurs before sending a request to API
         /// </summary>
-        public event EventHandler<ApiRequestEventArgs> MakingApiRequest;
+        public event AsyncEventHandler<ApiRequestEventArgs> OnMakingApiRequest;
 
         /// <summary>
         /// Occurs after receiving the response to an API request
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
+        public event AsyncEventHandler<ApiResponseEventArgs> OnApiResponseReceived;
 
         /// <summary>
-        /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>, <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and <see cref="OnCallbackQuery"/> events.
+        /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>,
+        /// <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and
+        /// <see cref="OnCallbackQuery"/> events.
         /// </summary>
-        /// <param name="e">The <see cref="UpdateEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">
+        /// The <see cref="UpdateEventArgs"/> instance containing the event data.
+        /// </param>
         protected virtual void OnUpdateReceived(UpdateEventArgs e)
         {
             OnUpdate?.Invoke(this, e);
@@ -230,7 +231,12 @@ namespace Telegram.Bot
                 MethodName = request.MethodName,
                 HttpContent = httpRequest.Content,
             };
-            MakingApiRequest?.Invoke(this, reqDataArgs);
+
+            if (OnMakingApiRequest != null)
+            {
+                await OnMakingApiRequest.Invoke(this, reqDataArgs, cancellationToken)
+                    .ConfigureAwait(false);
+            }
 
             HttpResponseMessage httpResponse;
             try
@@ -251,11 +257,18 @@ namespace Telegram.Bot
             string responseJson = await httpResponse.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
 
-            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
+            if (OnApiResponseReceived != null)
             {
-                ResponseMessage = httpResponse,
-                ApiRequestEventArgs = reqDataArgs
-            });
+                await OnApiResponseReceived.Invoke(
+                    this,
+                    new ApiResponseEventArgs
+                    {
+                        ResponseMessage = httpResponse,
+                        ApiRequestEventArgs = reqDataArgs
+                    },
+                    cancellationToken
+                ).ConfigureAwait(false);
+            }
 
             switch (actualResponseStatusCode)
             {
