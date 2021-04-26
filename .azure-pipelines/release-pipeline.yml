@@ -16,52 +16,50 @@ pr: none
 variables:
   - template: variables.yml
 
-stages:
-  - stage: Build
-    displayName: 🚧 Build
-    jobs:
-      - job: Build
-        displayName: Build with .NET Core SDK
-        pool:
-          vmImage: $(vmImage)
-        steps:
-          - task: DotNetCoreCLI@2
-            displayName: Build project with release version
-            inputs:
-              command: build
-              projects: $(projectPath)
-              arguments: >
-                --configuration $(buildConfiguration)
+pool:
+  vmImage: $(vmImage)
 
-          - bash: >
-              dotnet pack
-              --no-build
-              --output "$(Build.ArtifactStagingDirectory)/packages/release"
-              --configuration $(buildConfiguration)
-              $(projectPath)
-            displayName: Create release nuget package
-
-          - publish: $(Build.ArtifactStagingDirectory)/packages
-            artifact: packages
-
-  - stage: Release
-    displayName: 🚀 Release
-    jobs:
-      - job: Release
-        displayName: Publish package to NuGet
-        pool:
-          vmImage: $(vmImage)
-        steps:
-          - checkout: none
-
-          - download: current
-            artifact: packages
-            patterns: "*/**/*.*upkg"
-
-          - bash: >
-              dotnet nuget push
-              $(Pipeline.Workspace)/packages/release/*.nupkg
-              --api-key $(NugetApiKey)
-              --skip-duplicate
-              --source https://api.nuget.org/v3/index.json
-            displayName: Publish package to NuGet
+steps:
+  - script: node .azure-pipelines/setVersionVariables.js
+    env:
+      VERSION_PREFIX: $(versionPrefix)
+      VERSION_SUFFIX: $(versionSuffix)
+      CI_VERSION_SUFFIX: $(ciVersionSuffix)
+    displayName: Set version variables
+  - task: DotNetCoreCLI@2
+    displayName: Build project with release version
+    inputs:
+      command: build
+      projects: $(projectPath)
+      arguments: >
+        --configuration $(buildConfiguration)
+        -p:Version=$(RELEASE_VERSION)
+  - bash: >
+      dotnet pack
+      --no-build
+      --output "$(Build.ArtifactStagingDirectory)/packages"
+      --configuration $(buildConfiguration)
+      -p:Version=$(RELEASE_VERSION)
+      $(projectPath)
+    displayName: Create release nuget package
+  - bash: >
+      dotnet nuget push
+      $(Build.ArtifactStagingDirectory)/packages/*.nupkg
+      --api-key $(NugetApiKey)
+      --skip-duplicate
+      --source https://api.nuget.org/v3/index.json
+    displayName: Publish package to NuGet
+  - task: GitHubRelease@0
+    inputs:
+      action: create
+      target: $(Build.SourceVersion)
+      tagSource: manual
+      tag: v$(RELEASE_VERSION)
+      tagPattern: v$(RELEASE_VERSION)
+      title: v$(RELEASE_VERSION)
+      githubConnection: githubRelease
+      repositoryName: $(Build.Repository.Name)
+      isPreRelease: $(IS_PRE_RELEASE)
+      addChangeLog: false
+      assets: $(Build.ArtifactStagingDirectory)/packages/*
+    displayName: Create Github Release
