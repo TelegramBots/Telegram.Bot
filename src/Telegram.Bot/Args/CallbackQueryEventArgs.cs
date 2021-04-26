@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Args
@@ -7,6 +7,8 @@ namespace Telegram.Bot.Args
     /// <see cref="EventArgs"/> containing a <see cref="Types.CallbackQuery"/>
     /// </summary>
     /// <seealso cref="EventArgs" />
+    [Obsolete("This class will be removed in the next major version. " +
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
     public class CallbackQueryEventArgs : EventArgs
     {
         /// <summary>
