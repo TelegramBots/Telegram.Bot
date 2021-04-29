@@ -40,17 +40,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - New enum value `Bowling` for `Emoji`
 - New enum values `MessageAutoDeleteTimerChanged`, `ProximityAlertTriggered`, `VoiceChatStarted`, `VoiceChatEnded`, `VoiceChatParticipantsInvited` for `MessageType`
 - New enum values `MyChatMember`, `ChatMember` for `UpdateType`
+- Delegate `AsyncEventHandler<T>`
 
 ### Changed
 
 - Marked constructor for `TelegramBotClient` accepting `IWebProxy` as obsolete
-- Property `ITelegramBotClient.BotId` to `long`
+- Property `ITelegramBotClient.BotId` to `long?`
+- Event `MakingApiRequest` renamed to `OnMakingApiRequest` and it's type is changed to `AsyncEventHandler<ApiRequestEventArgs>`
+- Event `ApiResponseReceived` renamed to `OnApiResponseReceived` and it's type is changed to `AsyncEventHandler<ApiResponseEventArgs>`
 - Parameters order in following methods (to reflect [official docs](https://core.telegram.org/bots/api#available-methods)):
   - `SetWebhookAsync`, `DeleteWebhookAsync`, `SendTextMessageAsync`, `SendPhotoAsync`, `SendAudioAsync`, `SendDocumentAsync`, `SendStickerAsync`, `SendVideoAsync`, `SendAnimationAsync`, `SendVoiceAsync`, `SendVideoNoteAsync`, `SendMediaGroupAsync`, `SendLocationAsync`, `SendVenueAsync`, `SendContactAsync`, `SendPollAsync`, `SendDiceAsync`, `KickChatMemberAsync`, `UnbanChatMemberAsync`, `PromoteChatMemberAsync`, `EditMessageTextAsync`, `EditMessageCaptionAsync`, `EditMessageLiveLocationAsync`, `SendInvoiceAsync`, `SendGameAsync`
 - Polling inside the library is now considered obsolete. The code, related to polling will be removed. It is recommended to use [Telegram.Bot.Extensions.Polling](https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling) package instead.
   - These methods are now obsolete: `StartReceiving`, `StopReceiving`
   - These events are now obsolete: `OnUpdate`, `OnMessage`, `OnMessageEdited`, `OnInlineQuery`, `OnInlineResultChosen`, `OnCallbackQuery`, `OnReceiveError`, `OnReceiveGeneralError`
   - These fields are now obsolete: `IsReceiving`, `MessageOffset`
+- Parameter `baseUrl` in `TelegramBotClient` constructor accepts only URL's with protocol, host and port parts, everything else is ignored
+- Error `429 Too Many Request` is now handled by the client and is thrown as `ApiRequestException`
 
 >⚠️ WARNING! ⚠️
 >
@@ -115,6 +120,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Type `ChatLocation`
 - Type `ProximityAlertTriggered`
 - Support for sending and receiving audio and document albums in the method `SendMediaGroupAsync`
+
+### Changed
+- Constructor in `TelegramBotClient` accepts base url for custom Bot API server as optional third parameter
 
 ## [15.7.1] - 2020-06-18
 
