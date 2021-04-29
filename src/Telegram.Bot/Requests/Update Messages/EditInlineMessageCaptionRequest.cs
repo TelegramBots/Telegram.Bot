@@ -16,7 +16,8 @@ namespace Telegram.Bot.Requests
     public class EditInlineMessageCaptionRequest : RequestBase<bool>,
                                                    IFormattableMessage,
                                                    IInlineMessage,
-                                                   IInlineReplyMarkupMessage
+                                                   IInlineReplyMarkupMessage,
+                                                   ICaptionEntities
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]

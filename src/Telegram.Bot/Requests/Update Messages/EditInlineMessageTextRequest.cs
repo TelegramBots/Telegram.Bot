@@ -16,7 +16,8 @@ namespace Telegram.Bot.Requests
     public class EditInlineMessageTextRequest : RequestBase<bool>,
                                                 IFormattableMessage,
                                                 IInlineMessage,
-                                                IInlineReplyMarkupMessage
+                                                IInlineReplyMarkupMessage,
+                                                IEntities
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -34,7 +35,7 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IEnumerable<MessageEntity> CaptionEntities { get; set; }
+        public IEnumerable<MessageEntity> Entities { get; set; }
 
         /// <summary>
         /// Disables link previews for links in this message

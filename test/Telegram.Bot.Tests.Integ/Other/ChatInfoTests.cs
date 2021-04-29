@@ -136,7 +136,6 @@ namespace Telegram.Bot.Tests.Integ.Other
 
             // Following fields of a chat do not apply to a private chat:
             Assert.Null(chat.Title);
-            Assert.False(chat.AllMembersAreAdministrators);
             Assert.Null(chat.Description);
             Assert.Null(chat.InviteLink);
             Assert.Null(chat.PinnedMessage);

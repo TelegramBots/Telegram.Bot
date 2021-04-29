@@ -34,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 TestConfigurations.TesterPrivateChatId = privateChat;
             }
 
-            if (int.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out int stickerOwnerUserId))
+            if (long.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out long stickerOwnerUserId))
             {
                 TestConfigurations.StickerOwnerUserId = stickerOwnerUserId;
             }

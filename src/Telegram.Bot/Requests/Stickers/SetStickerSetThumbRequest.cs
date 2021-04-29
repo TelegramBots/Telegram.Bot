@@ -23,7 +23,7 @@ namespace Telegram.Bot.Requests
         /// User identifier of the sticker set owner
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <summary>
         /// A PNG image or a TGS animation with the thumbnail
@@ -37,7 +37,7 @@ namespace Telegram.Bot.Requests
         /// <param name="name">Sticker set name</param>
         /// <param name="userId">User identifier of the sticker set owner</param>
         /// <param name="thumb">A PNG image or a TGS animation with the thumbnail</param>
-        public SetStickerSetThumbRequest(string name, int userId, InputOnlineFile thumb = default)
+        public SetStickerSetThumbRequest(string name, long userId, InputOnlineFile thumb = default)
             : base("setStickerSetThumb")
         {
             Name = name;

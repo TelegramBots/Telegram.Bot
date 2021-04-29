@@ -29,15 +29,6 @@ namespace Telegram.Bot.Types
         }
 
         /// <summary>
-        /// Create a <see cref="ChatId"/> using an identifier
-        /// </summary>
-        /// <param name="chatId">The Identifier</param>
-        public ChatId(int chatId)
-        {
-            Identifier = chatId;
-        }
-
-        /// <summary>
         /// Create a <see cref="ChatId"/> using an user name
         /// </summary>
         /// <param name="username">The user name</param>
@@ -46,10 +37,6 @@ namespace Telegram.Bot.Types
             if (username.Length > 1 && username.Substring(0, 1) == "@")
             {
                 Username = username;
-            }
-            else if (int.TryParse(username, out int chatId))
-            {
-                Identifier = chatId;
             }
             else if (long.TryParse(username, out long identifier))
             {
@@ -65,7 +52,7 @@ namespace Telegram.Bot.Types
         public override bool Equals(object obj) => ((string)this).Equals(obj);
 
         /// <summary>
-        /// Gets the hash code of this object 
+        /// Gets the hash code of this object
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode() => ((string)this).GetHashCode();
@@ -81,12 +68,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="identifier">The identifier</param>
         public static implicit operator ChatId(long identifier) => new ChatId(identifier);
-
-        /// <summary>
-        /// Create a <see cref="ChatId"/> out of an identifier
-        /// </summary>
-        /// <param name="chatId">The identifier</param>
-        public static implicit operator ChatId(int chatId) => new ChatId(chatId);
 
         /// <summary>
         /// Create a <see cref="ChatId"/> out of an user name

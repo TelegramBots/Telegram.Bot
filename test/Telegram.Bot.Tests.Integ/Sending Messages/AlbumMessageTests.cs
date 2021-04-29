@@ -48,8 +48,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    /* inputMedia: */ inputMedia,
                     /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* inputMedia: */ inputMedia,
                     /* disableNotification: */ true
                 );
             }
@@ -78,7 +78,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                inputMedia: new[]
+                media: new IAlbumInputMedia[]
                 {
                     new InputMediaPhoto(fileIds[0]),
                     new InputMediaPhoto(fileIds[1]),
@@ -98,12 +98,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                /* inputMedia: */ new[]
+                /* chatId: */ _fixture.SupergroupChat.Id,
+                /* inputMedia: */ new IAlbumInputMedia[]
                 {
                     new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg"),
                     new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
                 },
-                /* chatId: */ _fixture.SupergroupChat.Id,
                 replyToMessageId: replyToMessageId
             );
 
@@ -144,7 +144,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
                 messages = await BotClient.SendMediaGroupAsync(
                     chatId: _fixture.SupergroupChat.Id,
-                    inputMedia: inputMedia
+                    media: inputMedia
                 );
             }
 
@@ -189,7 +189,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
                 messages = await BotClient.SendMediaGroupAsync(
                     chatId: _fixture.SupergroupChat.Id,
-                    inputMedia: inputMedia
+                    media: inputMedia
                 );
             }
 
@@ -221,8 +221,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    /* media: */ inputMedia,
-                    /* chatId: */ _fixture.SupergroupChat.Id
+                    /* chatId: */ _fixture.SupergroupChat.Id,
+                    /* media: */ inputMedia
                 );
             }
 

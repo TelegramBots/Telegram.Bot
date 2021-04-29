@@ -15,7 +15,7 @@ namespace Telegram.Bot.Types
         [JsonProperty(Required = Required.Always)]
         public string Emoji { get; set; }
         /// <summary>
-        /// Value of the dice, 1-6 for <see cref="Telegram.Bot.Types.Enums.Emoji.Dice" /> (“🎲”) and <see cref="Telegram.Bot.Types.Enums.Emoji.Darts" /> (“🎯”) base emoji, 1-5 for <see cref="Telegram.Bot.Types.Enums.Emoji.Basketball" /> (“🏀”) base emoji
+        /// Value of the dice, 1-6 for <see cref="Telegram.Bot.Types.Enums.Emoji.Dice" /> (“🎲”), <see cref="Telegram.Bot.Types.Enums.Emoji.Darts" /> (“🎯”) and <see cref="Telegram.Bot.Types.Enums.Emoji.Bowling"/> ("🎳"), 1-5 for <see cref="Telegram.Bot.Types.Enums.Emoji.Basketball" /> (“🏀”) and <see cref="Telegram.Bot.Types.Enums.Emoji.Football" />("⚽"), and values 1-64 for <see cref="Telegram.Bot.Types.Enums.Emoji.SlotMachine" /> ("🎰"). Defaults to <see cref="Telegram.Bot.Types.Enums.Emoji.Dice" /> (“🎲”)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public int Value { get; set; }

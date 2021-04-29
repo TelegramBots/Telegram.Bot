@@ -9,7 +9,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     {
         public Chat RegularMemberChat { get; }
 
-        public int RegularMemberUserId { get; }
+        public long RegularMemberUserId { get; }
 
         public string RegularMemberUserName { get; }
 
@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 $"Chosen regular member is @{RegularMemberChat.Username.Replace("_", @"\_")}"
             ).GetAwaiter().GetResult();
 
-            RegularMemberUserId = (int) RegularMemberChat.Id;
+            RegularMemberUserId = RegularMemberChat.Id;
             RegularMemberUserName = RegularMemberChat.Username;
             // Updates from regular user will be received
             _testsFixture.UpdateReceiver.AllowedUsernames.Add(RegularMemberUserName);
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             Chat chat;
 
-            if (int.TryParse(ConfigurationProvider.TestConfigurations.RegularGroupMemberId, out int userId))
+            if (long.TryParse(ConfigurationProvider.TestConfigurations.RegularGroupMemberId, out long userId))
             {
                 chat = await testsFixture.BotClient.GetChatAsync(userId);
             }

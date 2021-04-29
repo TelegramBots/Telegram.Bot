@@ -161,12 +161,6 @@ namespace Telegram.Bot.Types.Enums
         MigratedFromGroup,
 
         /// <summary>
-        /// The <see cref="Message"/> contains non-default <see cref="Message.Animation"/>
-        /// </summary>
-        [Obsolete("Check if Message.Animation has value instead")]
-        Animation,
-
-        /// <summary>
         /// The <see cref="Message"/> contains <see cref="Message.Poll"/>
         /// </summary>
         [EnumMember(Value = "poll")]
@@ -176,5 +170,35 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains <see cref="Message.Dice"/>
         /// </summary>
         Dice,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.MessageAutoDeleteTimerChanged"/>
+        /// </summary>
+        [EnumMember(Value = "message_auto_delete_timer_changed")]
+        MessageAutoDeleteTimerChanged,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.ProximityAlertTriggered"/>
+        /// </summary>
+        [EnumMember(Value = "proximity_alert_triggered")]
+        ProximityAlertTriggered,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.VoiceChatStarted"/>
+        /// </summary>
+        [EnumMember(Value = "voice_chat_started")]
+        VoiceChatStarted,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.VoiceChatEnded"/>
+        /// </summary>
+        [EnumMember(Value = "voice_chat_ended")]
+        VoiceChatEnded,
+
+        /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.VoiceChatParticipantsInvited"/>
+        /// </summary>
+        [EnumMember(Value = "voice_chat_participants_invited")]
+        VoiceChatParticipantsInvited
     }
 }
