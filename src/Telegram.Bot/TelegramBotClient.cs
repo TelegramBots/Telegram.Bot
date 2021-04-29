@@ -199,8 +199,7 @@ namespace Telegram.Bot
             }
 
             _localBotServer = TrySetBaseUrl(
-                baseUrl,
-                BaseTelegramUrl,
+                baseUrl ?? BaseTelegramUrl,
                 out var effectiveBaseUrl
             );
 
@@ -1791,10 +1790,13 @@ namespace Telegram.Bot
 
         private static bool TrySetBaseUrl(
             string baseUrl,
-            string fallbackBaseUrl,
             out string target)
         {
-            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var baseUri))
+            if (baseUrl is null) throw new ArgumentNullException(nameof(baseUrl));
+
+            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var baseUri) ||
+                string.IsNullOrEmpty(baseUri.Scheme) ||
+                string.IsNullOrEmpty(baseUri.Authority))
             {
                 throw new ArgumentException(
                     "Invalid format. A valid base url looks \"http://localhost:8081\" ",
@@ -1808,8 +1810,16 @@ namespace Telegram.Bot
                 return true;
             }
 
-            target = fallbackBaseUrl;
+            target = baseUrl;
             return false;
         }
+
+        #region For testing purposes
+
+        internal string BaseRequestUrl => _baseRequestUrl;
+        internal string BaseFileUrl => _baseFileUrl;
+        internal bool LocalBotServer => _localBotServer;
+
+        #endregion
     }
 }
