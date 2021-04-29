@@ -12,6 +12,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Voice chat duration; in seconds
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public int Duration { get; set; }
     }
 }
