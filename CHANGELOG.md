@@ -47,6 +47,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `ITelegramBotClient.BotId` to `long`
 - Parameters order in following methods (to reflect [official docs](https://core.telegram.org/bots/api#available-methods)):
   - `SetWebhookAsync`, `DeleteWebhookAsync`, `SendTextMessageAsync`, `SendPhotoAsync`, `SendAudioAsync`, `SendDocumentAsync`, `SendStickerAsync`, `SendVideoAsync`, `SendAnimationAsync`, `SendVoiceAsync`, `SendVideoNoteAsync`, `SendMediaGroupAsync`, `SendLocationAsync`, `SendVenueAsync`, `SendContactAsync`, `SendPollAsync`, `SendDiceAsync`, `KickChatMemberAsync`, `UnbanChatMemberAsync`, `PromoteChatMemberAsync`, `EditMessageTextAsync`, `EditMessageCaptionAsync`, `EditMessageLiveLocationAsync`, `SendInvoiceAsync`, `SendGameAsync`
+- Polling inside the library is now considered obsolete. The code, related to polling will be removed. It is recommended to use [Telegram.Bot.Extensions.Polling](https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling) package instead.
+  - These methods are now obsolete: `StartReceiving`, `StopReceiving`
+  - These events are now obsolete: `OnUpdate`, `OnMessage`, `OnMessageEdited`, `OnInlineQuery`, `OnInlineResultChosen`, `OnCallbackQuery`, `OnReceiveError`, `OnReceiveGeneralError`
+  - These fields are now obsolete: `IsReceiving`, `MessageOffset`
 
 >⚠️ WARNING! ⚠️
 >
@@ -65,7 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Obsolete constructor for `InputMediaVideo`
 - Obsolete property `AllMembersAreAdministrators` from `Chat`
 - Obsolete property `IsForwarded` from `Message`
-- Obsolete  value `Animation` from enum `MessageType`
+- Obsolete value `Animation` from enum `MessageType`
 
 ## [v15.8.0] - Unreleased
 

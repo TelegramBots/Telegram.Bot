@@ -7,6 +7,8 @@ namespace Telegram.Bot.Args
     /// <see cref="EventArgs"/> containing an <see cref="Types.Update"/>
     /// </summary>
     /// <seealso cref="EventArgs" />
+    [Obsolete("This class will be removed in the next major version. " +
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
     public class UpdateEventArgs : EventArgs
     {
         /// <summary>

@@ -51,11 +51,15 @@ namespace Telegram.Bot
         /// <summary>
         /// Indicates if receiving updates
         /// </summary>
+        [Obsolete("This property will be removed in the next major version. " +
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public bool IsReceiving { get; set; }
 
         /// <summary>
         /// The current message offset
         /// </summary>
+        [Obsolete("This property will be removed in the next major version. " +
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public int MessageOffset { get; set; }
 
         #endregion Config Properties
@@ -111,41 +115,57 @@ namespace Telegram.Bot
         /// <summary>
         /// Occurs when an <see cref="Update"/> is received.
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<UpdateEventArgs> OnUpdate;
 
         /// <summary>
         /// Occurs when a <see cref="Message"/> is received.
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<MessageEventArgs> OnMessage;
 
         /// <summary>
         /// Occurs when <see cref="Message"/> was edited.
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<MessageEventArgs> OnMessageEdited;
 
         /// <summary>
         /// Occurs when an <see cref="InlineQuery"/> is received.
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<InlineQueryEventArgs> OnInlineQuery;
 
         /// <summary>
         /// Occurs when a <see cref="ChosenInlineResult"/> is received.
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
 
         /// <summary>
         /// Occurs when an <see cref="CallbackQuery"/> is received
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
 
         /// <summary>
         /// Occurs when an error occurs during the background update pooling.
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
 
         /// <summary>
         /// Occurs when an error occurs during the background update pooling.
         /// </summary>
+        [Obsolete("This event will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
 
         #endregion
@@ -324,6 +344,8 @@ namespace Telegram.Bot
         /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
+        [Obsolete("This method will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public void StartReceiving(UpdateType[] allowedUpdates = null,
                                    CancellationToken cancellationToken = default)
         {
@@ -388,6 +410,8 @@ namespace Telegram.Bot
         /// <summary>
         /// Stop update receiving
         /// </summary>
+        [Obsolete("This method will be removed in the next major version. "+
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public void StopReceiving()
         {
             try
