@@ -1,6 +1,4 @@
-using System;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 
@@ -17,13 +15,13 @@ namespace Telegram.Bot.Requests
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; }
 
         /// <summary>
         /// The invite link to edit
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string InviteLink { get; set; }
+        public string InviteLink { get; }
 
         /// <summary>
         /// Initializes a new request with chat_id and photo
