@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -27,6 +28,9 @@ namespace Telegram.Bot
     {
         private const string BaseTelegramUrl = "https://api.telegram.org";
         private static readonly Update[] EmptyUpdates = { };
+
+        // Max long value that fits 52 bits is 9007199254740991 and is 16 chars long
+        private static readonly Regex TokenFormat = new Regex("^(?<token>[-]?[0-9]{1,16}):.*$", RegexOptions.Compiled);
 
         private readonly string _baseFileUrl;
         private readonly string _baseRequestUrl;
@@ -192,10 +196,14 @@ namespace Telegram.Bot
         {
             if (token is null) throw new ArgumentNullException(nameof(token));
 
-            string[] parts = token.Split(':');
-            if (parts.Length > 1 && long.TryParse(parts[0], out var id))
+            var match = TokenFormat.Match(token);
+            if (match.Success)
             {
-                BotId = id;
+                var botIdString = match.Groups["token"].Value;
+                if (long.TryParse(botIdString, out var botId))
+                {
+                    BotId = botId;
+                }
             }
 
             _localBotServer = TrySetBaseUrl(

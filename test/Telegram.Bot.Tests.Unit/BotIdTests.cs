@@ -33,10 +33,8 @@ namespace Telegram.Bot.Tests.Unit
         [InlineData("INVALID:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy")]
         public void Should_Throw_On_Invalid_Token(string invalidToken)
         {
-            ArgumentException exception = Assert.Throws<ArgumentException>(
-                () => new TelegramBotClient(invalidToken)
-            );
-            Assert.Equal("token", exception.ParamName);
+            ITelegramBotClient botClient = new TelegramBotClient(invalidToken);
+            Assert.Null(botClient.BotId);
         }
     }
 }
