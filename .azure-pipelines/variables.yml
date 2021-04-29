@@ -3,7 +3,7 @@ variables:
   - name: versionPrefix
     value: 16.0.0
   - name: versionSuffix
-    value: ""
+    value: "alpha.1"
   - name: ciVersionSuffix
     value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
   - name: buildConfiguration
