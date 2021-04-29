@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
@@ -17,7 +17,8 @@ namespace Telegram.Bot.Requests
                                       INotifiableMessage,
                                       IReplyMessage,
                                       IFormattableMessage,
-                                      IReplyMarkupMessage<IReplyMarkup>
+                                      IReplyMarkupMessage<IReplyMarkup>,
+                                      IEntities
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel
@@ -37,7 +38,7 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IEnumerable<MessageEntity> CaptionEntities { get; set; }
+        public IEnumerable<MessageEntity> Entities { get; set; }
 
         /// <summary>
         /// Disables link previews for links in this message

@@ -25,24 +25,19 @@ namespace Telegram.Bot
     /// </summary>
     public class TelegramBotClient : ITelegramBotClient
     {
-        /// <inheritdoc/>
-        public long BotId { get; }
-
+        private const string BaseTelegramUrl = "https://api.telegram.org";
         private static readonly Update[] EmptyUpdates = { };
 
-        private const string TelegramBaseUrl = "https://api.telegram.org/bot";
-
-        private readonly string BaseUrl = TelegramBaseUrl;
-
-        private const string BaseFileUrl = "https://api.telegram.org/file/bot";
-
+        private readonly string _baseFileUrl;
         private readonly string _baseRequestUrl;
-
-        private readonly string _token;
-
+        private readonly bool _localBotServer;
         private readonly HttpClient _httpClient;
+        private CancellationTokenSource _receivingCancellationTokenSource;
 
         #region Config Properties
+
+        /// <inheritdoc/>
+        public long? BotId { get; }
 
         /// <summary>
         /// Timeout for requests
@@ -60,8 +55,6 @@ namespace Telegram.Bot
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
         public bool IsReceiving { get; set; }
 
-        private CancellationTokenSource _receivingCancellationTokenSource;
-
         /// <summary>
         /// The current message offset
         /// </summary>
@@ -76,17 +69,21 @@ namespace Telegram.Bot
         /// <summary>
         /// Occurs before sending a request to API
         /// </summary>
-        public event EventHandler<ApiRequestEventArgs> MakingApiRequest;
+        public event AsyncEventHandler<ApiRequestEventArgs> OnMakingApiRequest;
 
         /// <summary>
         /// Occurs after receiving the response to an API request
         /// </summary>
-        public event EventHandler<ApiResponseEventArgs> ApiResponseReceived;
+        public event AsyncEventHandler<ApiResponseEventArgs> OnApiResponseReceived;
 
         /// <summary>
-        /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>, <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and <see cref="OnCallbackQuery"/> events.
+        /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>,
+        /// <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and
+        /// <see cref="OnCallbackQuery"/> events.
         /// </summary>
-        /// <param name="e">The <see cref="UpdateEventArgs"/> instance containing the event data.</param>
+        /// <param name="e">
+        /// The <see cref="UpdateEventArgs"/> instance containing the event data.
+        /// </param>
         protected virtual void OnUpdateReceived(UpdateEventArgs e)
         {
             OnUpdate?.Invoke(this, e);
@@ -178,36 +175,37 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="token">API token</param>
         /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
-        /// <param name="baseUrl">Used to change base url to your private bot api server URL. It looks like http://localhost:8081/bot</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
-        public TelegramBotClient(string token, HttpClient httpClient = null,
-                                 string baseUrl = TelegramBaseUrl)
+        /// <param name="baseUrl">
+        /// Used to change base url to your private bot api server URL. It looks like
+        /// http://localhost:8081. Path, query and fragment will be omitted if present.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="token"/> format is invalid
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="baseUrl"/> format is invalid
+        /// </exception>
+        public TelegramBotClient(
+            string token,
+            HttpClient httpClient = null,
+            string baseUrl = default)
         {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
-            if (parts.Length > 1 && long.TryParse(parts[0], out long id))
+            if (token is null) throw new ArgumentNullException(nameof(token));
+
+            string[] parts = token.Split(':');
+            if (parts.Length > 1 && long.TryParse(parts[0], out var id))
             {
                 BotId = id;
             }
-            else
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
-                    nameof(token)
-                );
-            }
 
-            if (baseUrl.EndsWith("/") || !baseUrl.EndsWith("/bot"))
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid base url looks \"http://localhost:8081/bot\" ",
-                    nameof(token));
-            }
+            _localBotServer = TrySetBaseUrl(
+                baseUrl,
+                BaseTelegramUrl,
+                out var effectiveBaseUrl
+            );
 
-            BaseUrl = baseUrl;
-
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
+            _baseRequestUrl = $"{effectiveBaseUrl}/bot{token}";
+            _baseFileUrl = $"{effectiveBaseUrl}/file/bot{token}";
             _httpClient = httpClient ?? new HttpClient();
         }
 
@@ -216,42 +214,23 @@ namespace Telegram.Bot
         /// </summary>
         /// <param name="token">API token</param>
         /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API</param>
-        /// <param name="baseUrl">Used to change base url to your private bot api server URL. It looks like http://localhost:8081/bot</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="token"/> format is invalid</exception>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="baseUrl"/> format is invalid</exception>
+        /// <param name="baseUrl">
+        /// Used to change base url to your private bot api server URL. It looks like
+        /// http://localhost:8081. Path, query and fragment will be omitted if present.
+        /// </param>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="token"/> format is invalid
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown if <paramref name="baseUrl"/> format is invalid
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown if <paramref name="webProxy"/> is null
+        /// </exception>
         [Obsolete("Provide httpClient with configured proxy instead.")]
-        public TelegramBotClient(string token, IWebProxy webProxy, string baseUrl = TelegramBaseUrl)
-        {
-            _token = token ?? throw new ArgumentNullException(nameof(token));
-            string[] parts = _token.Split(':');
-            if (long.TryParse(parts[0], out long id))
-            {
-                BotId = id;
-            }
-            else
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid token looks like \"1234567:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy\".",
-                    nameof(token)
-                );
-            }
-
-            if (baseUrl.EndsWith("/") || !baseUrl.EndsWith("/bot"))
-            {
-                throw new ArgumentException(
-                    "Invalid format. A valid base url looks \"http://localhost:8081/bot\" ",
-                    nameof(token));
-            }
-            BaseUrl = baseUrl;
-
-            _baseRequestUrl = $"{BaseUrl}{_token}/";
-            var httpClientHander = new HttpClientHandler
-            {
-                Proxy = webProxy,
-                UseProxy = true
-            };
-            _httpClient = new HttpClient(httpClientHander);
-        }
+        public TelegramBotClient(string token, IWebProxy webProxy, string baseUrl = default)
+            : this(token, CreateHttpClient(webProxy), baseUrl)
+        { }
 
         #region Helpers
 
@@ -260,7 +239,7 @@ namespace Telegram.Bot
             IRequest<TResponse> request,
             CancellationToken cancellationToken = default)
         {
-            string url = _baseRequestUrl + request.MethodName;
+            var url = $"{_baseRequestUrl}/{request.MethodName}";
 
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
@@ -272,7 +251,12 @@ namespace Telegram.Bot
                 MethodName = request.MethodName,
                 HttpContent = httpRequest.Content,
             };
-            MakingApiRequest?.Invoke(this, reqDataArgs);
+
+            if (OnMakingApiRequest != null)
+            {
+                await OnMakingApiRequest.Invoke(this, reqDataArgs, cancellationToken)
+                    .ConfigureAwait(false);
+            }
 
             HttpResponseMessage httpResponse;
             try
@@ -293,11 +277,18 @@ namespace Telegram.Bot
             string responseJson = await httpResponse.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);
 
-            ApiResponseReceived?.Invoke(this, new ApiResponseEventArgs
+            if (OnApiResponseReceived != null)
             {
-                ResponseMessage = httpResponse,
-                ApiRequestEventArgs = reqDataArgs
-            });
+                await OnApiResponseReceived.Invoke(
+                    this,
+                    new ApiResponseEventArgs
+                    {
+                        ResponseMessage = httpResponse,
+                        ApiRequestEventArgs = reqDataArgs
+                    },
+                    cancellationToken
+                ).ConfigureAwait(false);
+            }
 
             switch (actualResponseStatusCode)
             {
@@ -307,6 +298,7 @@ namespace Telegram.Bot
                 case HttpStatusCode.BadRequest when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Forbidden when !string.IsNullOrWhiteSpace(responseJson):
                 case HttpStatusCode.Conflict when !string.IsNullOrWhiteSpace(responseJson):
+                case (HttpStatusCode)429 when !string.IsNullOrWhiteSpace(responseJson):
                     // Do NOT throw here, an ApiRequestException will be thrown next
                     break;
                 default:
@@ -432,6 +424,10 @@ namespace Telegram.Bot
             catch (TaskCanceledException)
             {
             }
+            finally
+            {
+                _receivingCancellationTokenSource.Dispose();
+            }
         }
 
         #endregion Helpers
@@ -515,7 +511,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SendMessageRequest(chatId, text)
             {
                 ParseMode = parseMode,
-                CaptionEntities = entities,
+                Entities = entities,
                 DisableWebPagePreview = disableWebPagePreview,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
@@ -967,13 +963,13 @@ namespace Telegram.Bot
                 throw new ArgumentException("Invalid file path", nameof(filePath));
             }
 
-            if (destination == null)
+            if (destination is null)
             {
                 throw new ArgumentNullException(nameof(destination));
             }
 
             //case file is local
-            if (TelegramBaseUrl != BaseUrl && System.IO.File.Exists(filePath))
+            if (_localBotServer && System.IO.File.Exists(filePath))
             {
                 using (var fileStream = System.IO.File.OpenRead(filePath))
                 {
@@ -982,7 +978,7 @@ namespace Telegram.Bot
 
                 return;
             }
-            var fileUri = new Uri($"{BaseFileUrl}{_token}/{filePath}");
+            var fileUri = new Uri($"{_baseFileUrl}/{filePath}");
 
             var response = await _httpClient
                 .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
@@ -1204,7 +1200,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new EditMessageTextRequest(chatId, messageId, text)
             {
                 ParseMode = parseMode,
-                CaptionEntities = entities,
+                Entities = entities,
                 DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup
             }, cancellationToken);
@@ -1224,7 +1220,7 @@ namespace Telegram.Bot
                 DisableWebPagePreview = disableWebPagePreview,
                 ReplyMarkup = replyMarkup,
                 ParseMode = parseMode,
-                CaptionEntities = entities
+                Entities = entities
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -1786,5 +1782,34 @@ namespace Telegram.Bot
             );
 
         #endregion
+
+        private static HttpClient CreateHttpClient(IWebProxy webProxy)
+        {
+            if (webProxy is null) throw new ArgumentNullException(nameof(webProxy));
+            return new HttpClient(new HttpClientHandler {Proxy = webProxy, UseProxy = true});
+        }
+
+        private static bool TrySetBaseUrl(
+            string baseUrl,
+            string fallbackBaseUrl,
+            out string target)
+        {
+            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var baseUri))
+            {
+                throw new ArgumentException(
+                    "Invalid format. A valid base url looks \"http://localhost:8081\" ",
+                    nameof(baseUrl)
+                );
+            }
+
+            if (!baseUri.Host.Equals("api.telegram.org", StringComparison.Ordinal))
+            {
+                target = $"{baseUri.Scheme}://{baseUri.Authority}";
+                return true;
+            }
+
+            target = fallbackBaseUrl;
+            return false;
+        }
     }
 }
