@@ -886,6 +886,8 @@ namespace Telegram.Bot
         /// <param name="filePath">Path to file on server</param>
         /// <param name="destination">Destination stream to write file to</param>
         /// <param name="cancellationToken">The cancellation token to cancel operation</param>
+        /// <exception cref="ArgumentException">filePath is <c>null</c>, empty or too short</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="destination"/> is <c>null</c></exception>
         Task DownloadFileAsync(
             string filePath,
             Stream destination,

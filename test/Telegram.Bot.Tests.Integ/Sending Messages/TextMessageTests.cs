@@ -69,8 +69,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Forward_Message()
         {
             Message message1 = await BotClient.SendTextMessageAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* text: */ "➡️ Message to be forwared ⬅️"
+                chatId: _fixture.SupergroupChat,
+                text: "➡️ Message to be forwared ⬅️"
             );
 
             Message message2 = await BotClient.ForwardMessageAsync(
@@ -171,7 +171,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             (MessageEntityType Type, string Value)[] entityValueMappings =
             {
-                (MessageEntityType.PhoneNumber, "+386 12 345 678"),
+                (MessageEntityType.PhoneNumber, "+38612345678"),
                 (MessageEntityType.Cashtag, "$EUR"),
                 (MessageEntityType.Hashtag, "#TelegramBots"),
                 (MessageEntityType.Mention, "@BotFather"),

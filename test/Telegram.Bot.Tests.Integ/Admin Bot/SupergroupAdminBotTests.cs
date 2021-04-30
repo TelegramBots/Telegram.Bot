@@ -1,6 +1,5 @@
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -149,11 +148,20 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await BotClient.UnpinChatMessageAsync(_classFixture.Chat.Id);
 
+            // Wait for chat object to update on Telegram servers
+            await Task.Delay(TimeSpan.FromSeconds(5));
+
             Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
 
-            Assert.False(JToken.DeepEquals(
-                JToken.FromObject(_classFixture.PinnedMessages.Last()), JToken.FromObject(chat.PinnedMessage)
+            Message secondsFromEndPinnedMessage = _classFixture.PinnedMessages[^2];
+
+            Assert.True(JToken.DeepEquals(
+                JToken.FromObject(secondsFromEndPinnedMessage),
+                JToken.FromObject(chat.PinnedMessage)
             ));
+
+            // Assert.Equal(lastPinnedMessage.MessageId, chat.PinnedMessage.MessageId);
+            // Assert.Equal(lastPinnedMessage.MessageId, chat.PinnedMessage.MessageId);
         }
 
         [OrderedFact("Should unpin first chat message")]
@@ -169,8 +177,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await BotClient.UnpinAllChatMessages(_classFixture.Chat);
         }
-
-
 
         [OrderedFact("Should get the chat info without a pinned message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]

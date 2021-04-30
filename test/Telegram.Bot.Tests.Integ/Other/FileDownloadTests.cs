@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -111,12 +112,11 @@ namespace Telegram.Bot.Tests.Integ.Other
         {
             Stream content = default;
 
-            HttpRequestException exception = await Assert.ThrowsAnyAsync<HttpRequestException>(async () =>
+            ArgumentNullException exception = await Assert.ThrowsAnyAsync<ArgumentNullException>(async () =>
             {
                 await BotClient.DownloadFileAsync("Invalid_File_Path", content);
             });
 
-            Assert.Contains("404", exception.Message);
             Assert.Null(content);
         }
 
