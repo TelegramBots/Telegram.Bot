@@ -8,7 +8,7 @@ namespace Telegram.Bot.Types
     /// Represents a ChatId
     /// </summary>
     [JsonConverter(typeof(ChatIdConverter))]
-    public class ChatId
+    public class ChatId : IEquatable<ChatId>
     {
         /// <summary>
         /// Unique identifier for the chat
@@ -65,6 +65,9 @@ namespace Telegram.Bot.Types
             return ((string) this).Equals(obj?.ToString());
         }
 
+        /// <inheritdoc />
+        public bool Equals(ChatId other) => this == other;
+
         /// <summary>
         /// Gets the hash code of this object
         /// </summary>
@@ -75,7 +78,7 @@ namespace Telegram.Bot.Types
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
         /// </summary>
         /// <returns>The <see cref="ChatId"/> as <c>string</c></returns>
-        public override string ToString() => this;
+        public override string ToString() => Username ?? Identifier.ToString();
 
         /// <summary>
         /// Create a <see cref="ChatId"/> out of an identifier
@@ -92,18 +95,18 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
         /// </summary>
-        /// <param name="chatid">The <see cref="ChatId"/>The ChatId</param>
-        public static implicit operator string(ChatId chatid) => chatid.Username ?? chatid.Identifier.ToString();
+        /// <param name="chatId">The <see cref="ChatId"/>The ChatId</param>
+        public static implicit operator string(ChatId chatId) => chatId.ToString();
 
         /// <summary>
         /// Convert a Chat Object to a <see cref="ChatId"/>
         /// </summary>
         /// <param name="chat"></param>
         public static implicit operator ChatId(Chat chat) =>
-            chat.Id != default ? chat.Id : (ChatId)("@" + chat.Username);
+            chat.Id != default ? chat.Id : new ChatId($"@{chat.Username}");
 
         /// <summary>
-        /// Compares 2 ChatId objects
+        /// Compares two ChatId objects
         /// </summary>
         public static bool operator ==(ChatId obj1, ChatId obj2)
         {
@@ -111,7 +114,7 @@ namespace Telegram.Bot.Types
             {
                 return true;
             }
-            if (ReferenceEquals(obj1, null) || ReferenceEquals(obj2, null))
+            if (obj1 is null || obj2 is null)
             {
                 return false;
             }
@@ -125,14 +128,11 @@ namespace Telegram.Bot.Types
         }
 
         /// <summary>
-        /// Compares 2 ChatId objects
+        /// Compares two ChatId objects
         /// </summary>
         /// <param name="obj1"></param>
         /// <param name="obj2"></param>
         /// <returns></returns>
-        public static bool operator !=(ChatId obj1, ChatId obj2)
-        {
-            return !(obj1 == obj2);
-        }
+        public static bool operator !=(ChatId obj1, ChatId obj2) => !(obj1 == obj2);
     }
 }
