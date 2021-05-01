@@ -352,6 +352,12 @@ namespace Telegram.Bot.Types
         public MessageAutoDeleteTimerChanged MessageAutoDeleteTimerChanged { get; set; }
 
         /// <summary>
+        /// Optional. Service message: voice chat scheduled
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public VoiceChatScheduled VoiceChatScheduled { get; set; }
+
+        /// <summary>
         /// Optional. Service message: voice chat started
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -462,6 +468,9 @@ namespace Telegram.Bot.Types
 
                 if (ProximityAlertTriggered != default)
                     return MessageType.ProximityAlertTriggered;
+
+                if (VoiceChatScheduled != default)
+                    return MessageType.VoiceChatScheduled;
 
                 if (VoiceChatStarted != default)
                     return MessageType.VoiceChatStarted;
