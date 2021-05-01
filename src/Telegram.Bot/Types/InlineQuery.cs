@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types
 {
@@ -38,5 +39,11 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Offset { get; set; }
+
+        /// <summary>
+        /// Optional. Type of the chat, from which the inline query was sent. Can be either “sender” for a private chat with the inline query sender, “private”, “group”, “supergroup”, or “channel”. The chat type should be always known for requests sent from official clients and most third-party clients, unless the request was sent from a secret chat
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ChatType? ChatType { get; set; }
     }
 }

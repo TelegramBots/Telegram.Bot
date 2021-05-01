@@ -27,6 +27,11 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// A supergroup
         /// </summary>
-        Supergroup
+        Supergroup,
+
+        /// <summary>
+        /// “sender” for a private chat with the inline query sender,
+        /// </summary>
+        Sender
     }
 }
