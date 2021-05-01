@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -56,7 +56,7 @@ namespace Telegram.Bot.Requests
         /// <returns></returns>
         protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
         {
-            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks);
+            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks.ToString());
 
             var stringContents = JObject.FromObject(this)
                 .Properties()
@@ -70,17 +70,6 @@ namespace Telegram.Bot.Requests
                 multipartContent.Add(strContent.Content, strContent.Name);
 
             return multipartContent;
-        }
-
-        /// <summary>
-        /// Creates MultipartFormData request
-        /// </summary>
-        /// <param name="parameters">Request parameters</param>
-        /// <returns>Content of HTTP request</returns>
-        [Obsolete]
-        protected HttpContent GetMultipartContent(IDictionary<string, object> parameters)
-        {
-            throw new NotImplementedException();
         }
     }
 }

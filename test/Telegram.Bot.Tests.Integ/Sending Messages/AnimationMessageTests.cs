@@ -50,8 +50,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(2, message.CaptionEntityValues.Count());
 
             Assert.Equal(4, message.Animation.Duration);
-            Assert.Equal(400, message.Animation.Width);
-            Assert.Equal(400, message.Animation.Height);
+
+            // Apparently Telegram converts gif to an mp4 with a lower resolution
+            Assert.Equal(320, message.Animation.Width);
+            Assert.Equal(320, message.Animation.Height);
+
             Assert.Equal("video/mp4", message.Animation.MimeType);
             Assert.NotEmpty(message.Animation.FileId);
             Assert.NotEmpty(message.Animation.FileUniqueId);

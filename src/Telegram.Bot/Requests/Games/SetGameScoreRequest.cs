@@ -21,7 +21,7 @@ namespace Telegram.Bot.Requests
         /// User identifier
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <summary>
         /// Identifier of the sent message
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Requests
         /// <param name="score">New score, must be non-negative</param>
         /// <param name="chatId">Unique identifier for the target chat</param>
         /// <param name="messageId">Identifier of the sent message</param>
-        public SetGameScoreRequest(int userId, int score, long chatId, int messageId)
+        public SetGameScoreRequest(long userId, int score, long chatId, int messageId)
             : base("setGameScore")
         {
             UserId = userId;

@@ -28,12 +28,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
             {
                 message = await BotClient.SendVideoAsync(
-                    /* chatId: */ _fixture.SupergroupChat.Id,
-                    /* video: */ stream,
-                    /* duration: */ 104,
-                    /* width */ 320,
-                    /* height: */ 240,
-                    /* caption: */ "Moon Landing"
+                    chatId: _fixture.SupergroupChat.Id,
+                    video: stream,
+                    duration: 104,
+                    width: 320,
+                    height: 240,
+                    caption: "Moon Landing"
                 );
             }
 
@@ -61,10 +61,10 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
             {
                 message = await BotClient.SendVideoNoteAsync(
-                    /* chatId: */ _fixture.SupergroupChat.Id,
-                    /* videoNote: */ stream,
-                    /* duration: */ 28,
-                    /* length */ 240
+                    chatId:  _fixture.SupergroupChat.Id,
+                    videoNote:  stream,
+                    duration:  28,
+                    length:  240
                 );
             }
 
@@ -91,8 +91,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             )
             {
                 message = await BotClient.SendVideoAsync(
-                    /* chatId: */ _fixture.SupergroupChat,
-                    /* video: */ stream1,
+                    chatId:  _fixture.SupergroupChat,
+                    video:  stream1,
                     thumb: new InputMedia(stream2, "thumb.jpg")
                 );
             }
@@ -116,8 +116,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             )
             {
                 message = await BotClient.SendVideoNoteAsync(
-                    /* chatId: */ _fixture.SupergroupChat.Id,
-                    /* videoNote: */ stream1,
+                    chatId:  _fixture.SupergroupChat.Id,
+                    videoNote:  stream1,
                     thumb: new InputMedia(stream2, "thumbnail.jpg")
                 );
             }

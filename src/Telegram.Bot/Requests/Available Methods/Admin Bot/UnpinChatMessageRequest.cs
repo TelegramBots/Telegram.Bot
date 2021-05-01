@@ -18,6 +18,12 @@ namespace Telegram.Bot.Requests
         public ChatId ChatId { get; set; }
 
         /// <summary>
+        /// Identifier of a message to unpin. If not specified, the most recent pinned message (by sending date) will be unpinned.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int MessageId { get; set; }
+
+        /// <summary>
         /// Initializes a new request with chatId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>

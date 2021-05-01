@@ -135,7 +135,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            int userId = update.Message.Type == MessageType.Contact
+            long userId = update.Message.Type == MessageType.Contact
                 ? update.Message.Contact.UserId
                 : update.Message.ForwardFrom.Id;
 
@@ -150,7 +150,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             var httpClient = new HttpClient(httpClientHandler);
             BotClient = new TelegramBotClient(apiToken, httpClient);
             BotUser = await BotClient.GetMeAsync(CancellationToken);
-            await BotClient.DeleteWebhookAsync(CancellationToken);
+            await BotClient.DeleteWebhookAsync(cancellationToken: CancellationToken);
 
             SupergroupChat = await FindSupergroupTestChatAsync();
             var allowedUserNames = await FindAllowedTesterUserNames();
@@ -167,8 +167,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             );
 
 #if DEBUG
-            BotClient.MakingApiRequest += OnMakingApiRequest;
-            BotClient.ApiResponseReceived += OnApiResponseReceived;
+            BotClient.OnMakingApiRequest += OnMakingApiRequest;
+            BotClient.OnApiResponseReceived += OnApiResponseReceived;
 #endif
         }
 
@@ -246,36 +246,52 @@ namespace Telegram.Bot.Tests.Integ.Framework
 #pragma warning disable 219
         // ReSharper disable NotAccessedVariable
         // ReSharper disable RedundantAssignment
-        private void OnMakingApiRequest(object sender, ApiRequestEventArgs e)
+        private async ValueTask OnMakingApiRequest(
+            ITelegramBotClient botClient,
+            ApiRequestEventArgs e,
+            CancellationToken cancellationToken = default)
         {
             bool hasContent;
             string content;
             string[] multipartContent;
-            if (e.HttpContent == null)
+            if (e.HttpContent is null)
             {
                 hasContent = false;
             }
             else if (e.HttpContent is MultipartFormDataContent multipartFormDataContent)
             {
                 hasContent = true;
-                multipartContent = multipartFormDataContent
-                    .Select(c => c is StringContent
-                        ? $"{c.Headers}\n{c.ReadAsStringAsync().Result}"
-                        : c.Headers.ToString()
-                    )
-                    .ToArray();
+                var stringifiedFormContent = new List<string>(multipartFormDataContent.Count());
+
+                foreach (var formContent in multipartFormDataContent)
+                {
+                    if (formContent is StringContent stringContent)
+                    {
+                        var stringifiedContent = await stringContent.ReadAsStringAsync();
+                        stringifiedFormContent.Add(stringifiedContent);
+                    }
+                    else
+                    {
+                        stringifiedFormContent.Add(formContent.Headers.ToString());
+                    }
+                }
+
+                multipartContent = stringifiedFormContent.ToArray();
             }
             else
             {
                 hasContent = true;
-                content = e.HttpContent.ReadAsStringAsync().Result;
+                content = await e.HttpContent.ReadAsStringAsync();
             }
 
             /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP request values. */
         }
 
         // ReSharper disable UnusedVariable
-        private async void OnApiResponseReceived(object sender, ApiResponseEventArgs e)
+        private async ValueTask OnApiResponseReceived(
+            ITelegramBotClient botClient,
+            ApiResponseEventArgs e,
+            CancellationToken cancellationToken = default)
         {
             string content = await e.ResponseMessage.Content.ReadAsStringAsync()
                 .ConfigureAwait(false);

@@ -1,15 +1,19 @@
 variables:
   - group: Integration Tests Variables
+  - name: versionPrefix
+    value: 16.0.0
+  - name: versionSuffix
+    value: "alpha.1"
+  - name: ciVersionSuffix
+    value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
   - name: buildConfiguration
     value: Release
   - name: vmImage
-    value: ubuntu-18.04
+    value: ubuntu-20.04
   - name: projectPath
     value: src/Telegram.Bot/Telegram.Bot.csproj
   - name: internalFeedName
     value: Telegram.Bot/Telegram.Bot
-  - name: ciVersionSuffix
-    value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
   - name: unitTestsProject
     value: test/Telegram.Bot.Tests.Unit/Telegram.Bot.Tests.Unit.csproj
   - name: integrationTestsProject

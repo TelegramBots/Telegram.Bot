@@ -8,6 +8,8 @@ namespace Telegram.Bot.Args
     /// <see cref="EventArgs"/> containing a <see cref="Types.Message"/>
     /// </summary>
     /// <seealso cref="EventArgs" />
+    [Obsolete("This class will be removed in the next major version. " +
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
     public class MessageEventArgs : EventArgs
     {
         /// <summary>
@@ -22,7 +24,7 @@ namespace Telegram.Bot.Args
         /// Initializes a new instance of the <see cref="MessageEventArgs"/> class.
         /// </summary>
         /// <param name="update">The update.</param>
-        internal MessageEventArgs(Update update)
+        public MessageEventArgs(Update update)
         {
             Message = (update.Type == UpdateType.EditedMessage) ? update.EditedMessage : update.Message;
         }
@@ -31,7 +33,7 @@ namespace Telegram.Bot.Args
         /// Initializes a new instance of the <see cref="MessageEventArgs"/> class.
         /// </summary>
         /// <param name="message">The message.</param>
-        internal MessageEventArgs(Message message)
+        public MessageEventArgs(Message message)
         {
             Message = message;
         }

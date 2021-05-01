@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -14,7 +15,8 @@ namespace Telegram.Bot.Requests
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditMessageTextRequest : RequestBase<Message>,
                                           IFormattableMessage,
-                                          IInlineReplyMarkupMessage
+                                          IInlineReplyMarkupMessage,
+                                          IEntities
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -37,6 +39,10 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IEnumerable<MessageEntity> Entities { get; set; }
 
         /// <summary>
         /// Disables link previews for links in this message

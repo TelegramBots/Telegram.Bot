@@ -92,7 +92,7 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
         public async Task Should_Set_Game_Score()
         {
-            int playerId = _classFixture.Player.Id;
+            long playerId = _classFixture.Player.Id;
 
             bool playerAlreadyHasScore = _classFixture.HighScores
                 .Any(highScore => highScore.User.Id == playerId);
@@ -127,7 +127,7 @@ namespace Telegram.Bot.Tests.Integ.Games
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetGameScore)]
         public async Task Should_Deduct_Game_Score()
         {
-            int playerId = _classFixture.Player.Id;
+            long playerId = _classFixture.Player.Id;
             int oldScore = _classFixture.HighScores.Single(highScore => highScore.User.Id == playerId).Score;
             int newScore = oldScore - 1;
 

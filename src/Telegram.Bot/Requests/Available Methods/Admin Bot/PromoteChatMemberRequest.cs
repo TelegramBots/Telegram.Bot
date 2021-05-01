@@ -21,7 +21,13 @@ namespace Telegram.Bot.Requests
         /// Unique identifier of the target user
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
+
+        /// <summary>
+        /// Pass True, if the administrator's presence in the chat is hidden
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? IsAnonymous { get; set; }
 
         /// <summary>
         /// Pass True, if the administrator can change chat title, photo and other settings
@@ -72,11 +78,23 @@ namespace Telegram.Bot.Requests
         public bool? CanPromoteMembers { get; set; }
 
         /// <summary>
+        /// Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanManageChat { get; set; }
+
+        /// <summary>
+        /// Pass True, if the administrator can manage voice chats, supergroups only
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanManageVoiceChat { get; set; }
+
+        /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat or username of the target channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public PromoteChatMemberRequest(ChatId chatId, int userId)
+        public PromoteChatMemberRequest(ChatId chatId, long userId)
             : base("promoteChatMember")
         {
             ChatId = chatId;

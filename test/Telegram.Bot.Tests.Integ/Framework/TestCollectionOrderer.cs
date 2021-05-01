@@ -55,6 +55,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Constants.TestCollections.SupergroupAdminBots,
             Constants.TestCollections.ChannelAdminBots,
             Constants.TestCollections.Exceptions2,
+            Constants.TestCollections.SendCopyMessage
         };
 
         public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)

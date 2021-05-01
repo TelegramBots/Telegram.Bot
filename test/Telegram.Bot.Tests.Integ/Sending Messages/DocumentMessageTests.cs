@@ -29,9 +29,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 message = await BotClient.SendDocumentAsync(
-                    /* chatId: */ _fixture.SupergroupChat.Id,
-                    /* document: */ new InputOnlineFile( /* content: */ stream, /* fileName: */ "HAMLET.pdf"),
-                    /* caption: */ "The Tragedy of Hamlet,\nPrince of Denmark"
+                    chatId: _fixture.SupergroupChat.Id,
+                    document: new InputOnlineFile( content: stream, fileName: "HAMLET.pdf"),
+                    caption: "The Tragedy of Hamlet,\nPrince of Denmark"
                 );
             }
 
@@ -53,9 +53,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 message = await BotClient.SendDocumentAsync(
-                    /* chatId: */ _fixture.SupergroupChat.Id,
-                    /* document: */ new InputOnlineFile( /* content: */ stream, /* fileName: */ "هملت.pdf"),
-                    /* caption: */ "تراژدی هملت\nشاهزاده دانمارک"
+                    chatId: _fixture.SupergroupChat.Id,
+                    document: new InputOnlineFile( content: stream, fileName: "هملت.pdf"),
+                    caption: "تراژدی هملت\nشاهزاده دانمارک"
                 );
             }
 
@@ -79,9 +79,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             )
             {
                 message = await BotClient.SendDocumentAsync(
-                    /* chatId: */ _fixture.SupergroupChat,
-                    /* document: */ new InputMedia( /* content: */ stream1, /* fileName: */ "Hamlet.pdf"),
-                    thumb: new InputMedia( /* content: */ stream2, /* fileName: */ "thumb.jpg")
+                    chatId: _fixture.SupergroupChat,
+                    document: new InputMedia( content: stream1, fileName: "Hamlet.pdf"),
+                    thumb: new InputMedia( content: stream2, fileName: "thumb.jpg")
                 );
             }
 

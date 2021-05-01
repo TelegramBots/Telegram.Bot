@@ -87,6 +87,19 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PollAnswer PollAnswer { get; set; }
+
+        /// <summary>
+        /// Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only when the bot is blocked or unblocked by the user.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ChatMemberUpdated MyChatMember { get; set; }
+
+        /// <summary>
+        /// Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ChatMemberUpdated ChatMember { get; set; }
+
         /// <summary>
         /// Gets the update type.
         /// </summary>
@@ -108,6 +121,8 @@ namespace Telegram.Bot.Types
                 if (PreCheckoutQuery != null) return UpdateType.PreCheckoutQuery;
                 if (Poll != null) return UpdateType.Poll;
                 if (PollAnswer != null) return UpdateType.PollAnswer;
+                if (MyChatMember != null) return UpdateType.MyChatMember;
+                if (ChatMember != null) return UpdateType.ChatMember;
 
                 return UpdateType.Unknown;
             }

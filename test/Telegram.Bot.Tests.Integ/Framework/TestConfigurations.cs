@@ -14,7 +14,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public long? TesterPrivateChatId { get; set; }
 
-        public int? StickerOwnerUserId { get; set; }
+        public long? StickerOwnerUserId { get; set; }
 
         public string RegularGroupMemberId { get; set; }
     }

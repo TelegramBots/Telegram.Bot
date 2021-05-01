@@ -30,6 +30,24 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public float Longitude { get; }
 
+        /// <summary>
+        /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public float HorizontalAccuracy { get; set; }
+
+        /// <summary>
+        /// Direction in which the user is moving, in degrees. Must be between 1 and 360 if specified.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Heading { get; set; }
+
+        /// <summary>
+        /// Maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int ProximityAlertRadius { get; set; }
+
         /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }

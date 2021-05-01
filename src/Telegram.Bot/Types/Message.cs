@@ -30,6 +30,12 @@ namespace Telegram.Bot.Types
         public User From { get; set; }
 
         /// <summary>
+        /// Optional. Sender of the message, sent on behalf of a chat. The channel itself for channel messages. The supergroup itself for messages from anonymous group administrators. The linked channel for messages automatically forwarded to the discussion group
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public Chat SenderChat { get; set; }
+
+        /// <summary>
         /// Date the message was sent
         /// </summary>
         [JsonProperty(Required = Required.Always)]
@@ -41,12 +47,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public Chat Chat { get; set; }
-
-        /// <summary>
-        /// Indicates whether this message is a forwarded message
-        /// </summary>
-        [Obsolete("Check ForwardFrom and ForwardFromChat properties instead")]
-        public bool IsForwarded => ForwardFrom != null;
 
         /// <summary>
         /// Optional. For forwarded messages, sender of the original message
@@ -111,7 +111,7 @@ namespace Telegram.Bot.Types
         public string MediaGroupId { get; set; }
 
         /// <summary>
-        /// Optional. Signature of the post author for messages in channels
+        /// Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string AuthorSignature { get; set; }
@@ -334,10 +334,40 @@ namespace Telegram.Bot.Types
         public PassportData PassportData { get; set; }
 
         /// <summary>
+        /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ProximityAlertTriggered ProximityAlertTriggered { get; set; }
+
+        /// <summary>
         /// Optional. Inline keyboard attached to the message
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
+
+        /// <summary>
+        /// Optional. Service message: auto-delete timer settings changed in the chat
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageAutoDeleteTimerChanged MessageAutoDeleteTimerChanged { get; set; }
+
+        /// <summary>
+        /// Optional. Service message: voice chat started
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public VoiceChatStarted VoiceChatStarted { get; set; }
+
+        /// <summary>
+        /// Optional. Service message: voice chat ended
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public VoiceChatEnded VoiceChatEnded { get; set; }
+
+        /// <summary>
+        /// Optional. Service message: new participants invited to a voice chat
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public VoiceChatParticipantsInvited VoiceChatParticipantsInvited { get; set; }
 
         /// <summary>
         /// Gets the <see cref="MessageType"/> of the <see cref="Message"/>
@@ -426,6 +456,21 @@ namespace Telegram.Bot.Types
 
                 if (MigrateToChatId != default)
                     return MessageType.MigratedToSupergroup;
+
+                if (MessageAutoDeleteTimerChanged != default)
+                    return MessageType.MessageAutoDeleteTimerChanged;
+
+                if (ProximityAlertTriggered != default)
+                    return MessageType.ProximityAlertTriggered;
+
+                if (VoiceChatStarted != default)
+                    return MessageType.VoiceChatStarted;
+
+                if (VoiceChatEnded != default)
+                    return MessageType.VoiceChatEnded;
+
+                if (VoiceChatParticipantsInvited != default)
+                    return MessageType.VoiceChatParticipantsInvited;
 
                 if (Poll != null)
                     return MessageType.Poll;

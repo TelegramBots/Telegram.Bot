@@ -23,7 +23,7 @@ namespace Telegram.Bot.Requests
         /// Unique identifier of the target user
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <summary>
         /// New user permissions
@@ -44,7 +44,7 @@ namespace Telegram.Bot.Requests
         /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="permissions">New user permissions</param>
-        public RestrictChatMemberRequest(ChatId chatId, int userId, ChatPermissions permissions)
+        public RestrictChatMemberRequest(ChatId chatId, long userId, ChatPermissions permissions)
             : base("restrictChatMember")
         {
             ChatId = chatId;

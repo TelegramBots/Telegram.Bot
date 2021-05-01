@@ -27,5 +27,10 @@ namespace Telegram.Bot.Types
         /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in a caption
         /// </summary>
         ParseMode ParseMode { get; }
+
+        /// <summary>
+        /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+        /// </summary>
+        MessageEntity[] CaptionEntities { get; }
     }
 }

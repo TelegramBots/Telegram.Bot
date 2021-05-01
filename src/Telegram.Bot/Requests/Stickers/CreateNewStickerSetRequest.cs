@@ -18,7 +18,7 @@ namespace Telegram.Bot.Requests
         /// User identifier of sticker set owner
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <summary>
         /// Short name of sticker set, to be used in t.me/addstickers/ URLs (e.g., animals). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in “_by_[bot username]”. [bot_username] is case insensitive. 1-64 characters.
@@ -64,7 +64,7 @@ namespace Telegram.Bot.Requests
         /// <param name="title">Sticker set title, 1-64 characters</param>
         /// <param name="pngSticker">Png image with the sticker</param>
         /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-        public CreateNewStickerSetRequest(int userId, string name, string title, InputOnlineFile pngSticker, string emojis)
+        public CreateNewStickerSetRequest(long userId, string name, string title, InputOnlineFile pngSticker, string emojis)
             : base("createNewStickerSet")
         {
             UserId = userId;

@@ -21,14 +21,20 @@ namespace Telegram.Bot.Requests
         /// Unique identifier of the target user
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
+
+        /// <summary>
+        /// Do nothing if the user is not banned
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool OnlyIfBanned { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
         /// <param name="chatId">Unique identifier for the target group or username of the target supergroup or channel</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public UnbanChatMemberRequest(ChatId chatId, int userId)
+        public UnbanChatMemberRequest(ChatId chatId, long userId)
             : base("unbanChatMember")
         {
             ChatId = chatId;

@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -14,7 +16,8 @@ namespace Telegram.Bot.Requests
     public class EditInlineMessageCaptionRequest : RequestBase<bool>,
                                                    IFormattableMessage,
                                                    IInlineMessage,
-                                                   IInlineReplyMarkupMessage
+                                                   IInlineReplyMarkupMessage,
+                                                   ICaptionEntities
     {
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -29,6 +32,10 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IEnumerable<MessageEntity> CaptionEntities { get; set; }
 
         /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
