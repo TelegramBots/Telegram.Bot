@@ -103,7 +103,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="chat"></param>
         public static implicit operator ChatId(Chat chat) =>
-            chat.Id != default ? chat.Id : new ChatId($"@{chat.Username}");
+            new ChatId(chat?.Id ?? throw new ArgumentNullException(nameof(chat)));
 
         /// <summary>
         /// Compares two ChatId objects
