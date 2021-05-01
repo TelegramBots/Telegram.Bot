@@ -28,6 +28,7 @@ namespace Telegram.Bot.Exceptions
             new BadRequestExceptionInfo<InvalidGameShortNameException>("GAME_SHORTNAME_INVALID"),
             new BadRequestExceptionInfo<InvalidGameShortNameException>("game_short_name is empty"),
             new BadRequestExceptionInfo<InvalidGameShortNameException>("wrong game short name specified"),
+            new BadRequestExceptionInfo<InvalidGameShortNameException>("parameter \"game_short_name\" is required"),
 
             #endregion
 

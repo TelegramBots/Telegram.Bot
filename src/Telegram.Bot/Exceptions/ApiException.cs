@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Exceptions
@@ -97,68 +97,6 @@ namespace Telegram.Bot.Exceptions
         public static ApiRequestException FromApiResponse<T>(ApiResponse<T> apiResponse)
         {
             return ApiExceptionParser.Parse(apiResponse);
-            /*
-            string message;
-            switch (apiResponse.ErrorCode)
-            {
-                //TODO: Add test cases for all those
-                case 400:
-                    message = apiResponse.Description.Remove(0, "Bad Request: ".Length);
-                    switch (message.Trim())
-                    {
-                        case "have no rights to send a message":
-                            return new BotRestrictedException(apiResponse.Description)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
-                        case "not enough rights to restrict/unrestrict chat member":
-                            return new NotEnoughRightsException(apiResponse.Description)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
-                        case "method is available for supergroup and channel chats only":
-                            return new WrongChatTypeException(apiResponse.Description)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
-                        default:
-                            if (message.EndsWith(" is empty"))
-                            {
-                                return new MissingParameterException(apiResponse.Description, message.Remove(message.IndexOf(" is empty")))
-                                {
-                                    Parameters = apiResponse.Parameters
-                                };
-                            }
-                            LogMissingError(apiResponse);
-                            return new ApiRequestException(apiResponse.Description, 400)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
-                    }
-                case 403:
-                    message = apiResponse.Description.Remove(0, "Forbidden: ".Length);
-                    switch (message.Trim())
-                    {
-                        case "bot was blocked by the user":
-                            return new BotBlockedException(apiResponse.Description)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
-                        default:
-                            LogMissingError(apiResponse);
-                            return new ApiRequestException(apiResponse.Description, 403)
-                            {
-                                Parameters = apiResponse.Parameters
-                            };
-                    }
-                default:
-                    LogMissingError(apiResponse);
-                    return new ApiRequestException(apiResponse.Description, apiResponse.ErrorCode)
-                    {
-                        Parameters = apiResponse.Parameters
-                    };
-            }
-            */
         }
     }
 }

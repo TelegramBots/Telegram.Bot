@@ -25,10 +25,28 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public float Longitude { get; private set; }
 
         /// <summary>
+        /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public float HorizontalAccuracy { get; set; }
+
+        /// <summary>
         /// How long the live location will be updated
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int LivePeriod { get; set; }
+
+        /// <summary>
+        /// Optional. The direction in which user is moving, in degrees; 1-360. For active live locations only.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int Heading { get; set; }
+
+        /// <summary>
+        /// Optional. Maximum distance for proximity alerts about approaching another chat member, in meters. For sent live locations only.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public int ProximityAlertRadius { get; set; }
 
         private InputLocationMessageContent()
         { }

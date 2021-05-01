@@ -17,7 +17,7 @@ namespace Telegram.Bot.Requests
         /// User identifier
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public int UserId { get; }
+        public long UserId { get; }
 
         /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
@@ -28,7 +28,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="userId">User identifier</param>
         /// <param name="inlineMessageId">Unique identifier of the inline message</param>
-        public GetInlineGameHighScoresRequest(int userId, string inlineMessageId)
+        public GetInlineGameHighScoresRequest(long userId, string inlineMessageId)
             : base("getGameHighScores")
         {
             UserId = userId;

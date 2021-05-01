@@ -146,6 +146,10 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool AllowSendingWithoutReply { get; set; }
+
         /// <summary>
         /// A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.
         /// </summary>
@@ -164,7 +168,7 @@ namespace Telegram.Bot.Requests
         /// <param name="currency">Three-letter ISO 4217 currency code</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
         public SendInvoiceRequest(
-            int chatId,
+            long chatId,
             string title,
             string description,
             string payload,

@@ -27,6 +27,12 @@ namespace Telegram.Bot.Requests
         public InputFileStream Certificate { get; }
 
         /// <summary>
+        /// The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string IpAddress { get; set; }
+
+        /// <summary>
         /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -37,6 +43,12 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IEnumerable<UpdateType> AllowedUpdates { get; set; }
+
+        /// <summary>
+        /// Pass True to drop all pending updates
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool DropPendingUpdates { get; set; }
 
         /// <summary>
         /// Initializes a new request with uri

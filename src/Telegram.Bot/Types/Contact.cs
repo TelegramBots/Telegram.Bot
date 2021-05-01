@@ -31,7 +31,7 @@ namespace Telegram.Bot.Types
         /// Optional. Contact's user identifier in Telegram
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int UserId { get; set; }
+        public long UserId { get; set; }
 
         /// <summary>
         /// Optional. Additional data about the contact in the form of a vCard

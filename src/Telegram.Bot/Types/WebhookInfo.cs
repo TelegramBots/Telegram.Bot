@@ -31,6 +31,12 @@ namespace Telegram.Bot.Types
         public int PendingUpdateCount { get; set; }
 
         /// <summary>
+        /// Optional. Currently used webhook IP address
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string IpAddress { get; set; }
+
+        /// <summary>
         /// Unix time for the most recent error that happened when trying to deliver an update via webhook
         /// </summary>
         [JsonConverter(typeof(UnixDateTimeConverter))]

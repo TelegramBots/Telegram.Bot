@@ -34,6 +34,12 @@ namespace Telegram.Bot.Types
         public PhotoSize Thumb { get; set; }
 
         /// <summary>
+        /// Optional. Original filename as defined by sender
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string FileName { get; set; }
+
+        /// <summary>
         /// Optional. Mime type of a file as defined by sender
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

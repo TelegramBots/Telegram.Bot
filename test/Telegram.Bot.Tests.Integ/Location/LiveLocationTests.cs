@@ -92,11 +92,12 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 messageId: LocationMessage.MessageId
             );
 
-            LocationMessage.Date = message.Date;
-            LocationMessage.EditDate = message.EditDate;
-            Assert.True(JToken.DeepEquals(
-                JToken.FromObject(LocationMessage), JToken.FromObject(message)
-            ));
+            Assert.Equal(LocationMessage.MessageId, message.MessageId);
+            Assert.Equal(LocationMessage.Chat.Id, message.Chat.Id);
+            Assert.Equal(LocationMessage.From.Id, message.From.Id);
+            Assert.Equal(LocationMessage.Location.Longitude, message.Location.Longitude);
+            Assert.Equal(LocationMessage.Location.Latitude, message.Location.Latitude);
+            Assert.Equal(LocationMessage.Location.Longitude, message.Location.Longitude);
         }
 
         private static class FactTitles

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -13,7 +14,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         public TestsFixture TestsFixture { get; }
         public Chat Chat => TestsFixture.SupergroupChat;
-        public Message PinnedMessage { get; set; }
+        public List<Message> PinnedMessages { get; set; }
+
+
         public ChatPermissions ExistingDefaultPermissions { get; private set; }
 
         public SupergroupAdminBotTestsFixture(TestsFixture testsFixture)
@@ -26,6 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             Chat chat = await TestsFixture.BotClient
                 .GetChatAsync(TestsFixture.SupergroupChat);
 
+            PinnedMessages = new List<Message>(3);
             // Save existing chat photo as byte[] to restore it later because Bot API 4.4+ invalidates old
             // file_ids after changing chat photo
             if (!string.IsNullOrEmpty(chat.Photo?.BigFileId))

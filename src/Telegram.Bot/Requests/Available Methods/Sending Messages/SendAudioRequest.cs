@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
@@ -16,11 +17,12 @@ namespace Telegram.Bot.Requests
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendAudioRequest : FileRequestBase<Message>,
-        INotifiableMessage,
-        IReplyMessage,
-        IReplyMarkupMessage<IReplyMarkup>,
-        IFormattableMessage,
-        IThumbMediaMessage
+                                    INotifiableMessage,
+                                    IReplyMessage,
+                                    IReplyMarkupMessage<IReplyMarkup>,
+                                    IFormattableMessage,
+                                    IThumbMediaMessage,
+                                    ICaptionEntities
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -43,6 +45,10 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IEnumerable<MessageEntity> CaptionEntities { get; set; }
 
         /// <summary>
         /// Duration of the audio in seconds
@@ -73,6 +79,10 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int ReplyToMessageId { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool AllowSendingWithoutReply { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

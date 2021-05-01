@@ -42,6 +42,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
 
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[] CaptionEntities { get; set; }
+
         /// <summary>
         /// Optional. Short description of the result
         /// </summary>

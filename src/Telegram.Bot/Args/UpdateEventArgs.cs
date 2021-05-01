@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Args
@@ -7,6 +7,8 @@ namespace Telegram.Bot.Args
     /// <see cref="EventArgs"/> containing an <see cref="Types.Update"/>
     /// </summary>
     /// <seealso cref="EventArgs" />
+    [Obsolete("This class will be removed in the next major version. " +
+            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
     public class UpdateEventArgs : EventArgs
     {
         /// <summary>
@@ -21,7 +23,7 @@ namespace Telegram.Bot.Args
         /// Initializes a new instance of the <see cref="UpdateEventArgs"/> class.
         /// </summary>
         /// <param name="update">The update.</param>
-        internal UpdateEventArgs(Update update)
+        public UpdateEventArgs(Update update)
         {
             Update = update;
         }

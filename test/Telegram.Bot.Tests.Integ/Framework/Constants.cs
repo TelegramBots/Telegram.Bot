@@ -26,6 +26,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string SendTextMessage = "Sending Text Messages";
 
+            public const string SendCopyMessage = "Sending Copy of Messages";
+
             public const string SendPhotoMessage = "Sending Photo Messages";
 
             public const string SendVideoMessage = "Sending Video Messages";
@@ -310,6 +312,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string GetMyCommands = "getMyCommands";
 
             public const string SendDice = "sendDice";
+
+            public const string CopyMessage = "copyMessage";
+
+            public const string UnpinAllChatMessages = "unpinAllChatMessages";
         }
     }
 }

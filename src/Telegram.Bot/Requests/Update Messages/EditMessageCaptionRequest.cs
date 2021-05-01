@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
@@ -14,7 +15,8 @@ namespace Telegram.Bot.Requests
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditMessageCaptionRequest : RequestBase<Message>,
                                              IInlineReplyMarkupMessage,
-                                             IFormattableMessage
+                                             IFormattableMessage,
+                                             ICaptionEntities
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -37,6 +39,10 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode ParseMode { get; set; }
+
+        /// <inheritdoc />
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public IEnumerable<MessageEntity> CaptionEntities { get; set; }
 
         /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
