@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -37,13 +38,26 @@ namespace Telegram.Bot.Types.Enums
         /// Recording an <see cref="Audio"/>
         /// </summary>
         [EnumMember(Value = "record_audio")]
+        [Obsolete("use RecordVoice instead", true)]
         RecordAudio,
+        /// <summary>
+        /// Recording an <see cref="Voice"/>
+        /// </summary>
+        [EnumMember(Value = "record_voice")]
+        RecordVoice,
 
         /// <summary>
         /// Uploading an <see cref="Audio"/>
         /// </summary>
         [EnumMember(Value = "upload_audio")]
+        [Obsolete("use UploadVoice instead", true)]
         UploadAudio,
+
+        /// <summary>
+        /// Uploading an <see cref="Voice"/>
+        /// </summary>
+        [EnumMember(Value = "upload_voice")]
+        UploadVoice,
 
         /// <summary>
         /// Uploading <see cref="Document"/>
