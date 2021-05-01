@@ -49,10 +49,10 @@ namespace Telegram.Bot.Requests
         public string ProviderToken { get; }
 
         /// <summary>
-        /// Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter
+        /// Optional. Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string StartParameter { get; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string StartParameter { get; set; }
 
         /// <summary>
         /// Three-letter ISO 4217 currency code
@@ -157,14 +157,13 @@ namespace Telegram.Bot.Requests
         public InlineKeyboardMarkup ReplyMarkup { get; set; }
 
         /// <summary>
-        /// Initializes a new request with chatId, title, description, payload, providerToken, sStartParameter, currency and an array of <see cref="LabeledPrice"/>
+        /// Initializes a new request with chatId, title, description, payload, providerToken, currency and an array of <see cref="LabeledPrice"/>
         /// </summary>
         /// <param name="chatId">Unique identifier for the target private chat</param>
         /// <param name="title">Product name, 1-32 characters</param>
         /// <param name="description">Product description, 1-255 characters</param>
         /// <param name="payload">Bot-defined invoice payload, 1-128 bytes</param>
         /// <param name="providerToken">Payments provider token, obtained via Botfather</param>
-        /// <param name="startParameter">Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter</param>
         /// <param name="currency">Three-letter ISO 4217 currency code</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
         public SendInvoiceRequest(
@@ -173,7 +172,6 @@ namespace Telegram.Bot.Requests
             string description,
             string payload,
             string providerToken,
-            string startParameter,
             string currency,
             IEnumerable<LabeledPrice> prices
         )
@@ -184,7 +182,6 @@ namespace Telegram.Bot.Requests
             Description = description;
             Payload = payload;
             ProviderToken = providerToken;
-            StartParameter = startParameter;
             Currency = currency;
             Prices = prices;
         }

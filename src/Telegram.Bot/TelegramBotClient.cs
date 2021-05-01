@@ -1403,9 +1403,9 @@ namespace Telegram.Bot
             string description,
             string payload,
             string providerToken,
-            string startParameter,
             string currency,
             IEnumerable<LabeledPrice> prices,
+            string startParameter = default,
             string providerData = default,
             string photoUrl = default,
             int photoSize = default,
@@ -1430,12 +1430,13 @@ namespace Telegram.Bot
                 description,
                 payload,
                 providerToken,
-                startParameter,
                 currency,
                 // ReSharper disable once PossibleMultipleEnumeration
                 prices
             )
             {
+
+                StartParameter =  startParameter,
                 ProviderData = providerData,
                 PhotoUrl = photoUrl,
                 PhotoSize = photoSize,

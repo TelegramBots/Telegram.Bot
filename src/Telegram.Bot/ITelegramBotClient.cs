@@ -1421,8 +1421,8 @@ namespace Telegram.Bot
         /// <param name="title">Product name</param>
         /// <param name="description">Product description</param>
         /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
-        /// <param name="providerToken">Payments provider token, obtained via Botfather</param>
-        /// <param name="startParameter">Unique deep-linking parameter that can be used to generate this invoice when used as a start parameter</param>
+        /// <param name="providerToken">Payments provider token, obtained via BotFather</param>
+        /// <param name="startParameter"> Optional. Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter</param>
         /// <param name="currency">Three-letter ISO 4217 currency code, see more on currencies</param>
         /// <param name="providerData">JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.</param>
         /// <param name="prices">Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.)</param>
@@ -1450,9 +1450,9 @@ namespace Telegram.Bot
             string description,
             string payload,
             string providerToken,
-            string startParameter,
             string currency,
             IEnumerable<LabeledPrice> prices,
+            string startParameter = default,
             string providerData = default,
             string photoUrl = default,
             int photoSize = default,
