@@ -1405,6 +1405,8 @@ namespace Telegram.Bot
             string providerToken,
             string currency,
             IEnumerable<LabeledPrice> prices,
+            int maxTipAmount = default,
+            int[] suggestedTipAmounts = default,
             string startParameter = default,
             string providerData = default,
             string photoUrl = default,
@@ -1435,7 +1437,8 @@ namespace Telegram.Bot
                 prices
             )
             {
-
+                MaxTipAmount = maxTipAmount,
+                SuggestedTipAmounts = suggestedTipAmounts,
                 StartParameter =  startParameter,
                 ProviderData = providerData,
                 PhotoUrl = photoUrl,

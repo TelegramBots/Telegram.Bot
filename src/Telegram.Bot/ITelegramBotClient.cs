@@ -1422,6 +1422,8 @@ namespace Telegram.Bot
         /// <param name="description">Product description</param>
         /// <param name="payload">Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.</param>
         /// <param name="providerToken">Payments provider token, obtained via BotFather</param>
+        /// <param name="maxTipAmount">Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double). For example, for a maximum tip of US$ 1.45 pass max_tip_amount = 145. See the exp parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0</param>
+        /// <param name="suggestedTipAmounts">Array of suggested amounts of tips in the smallest units of the currency (integer, not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed maxTipAmount.</param>
         /// <param name="startParameter"> Optional. Unique deep-linking parameter. If left empty, forwarded copies of the sent message will have a Pay button, allowing multiple users to pay directly from the forwarded message, using the same invoice. If non-empty, forwarded copies of the sent message will have a URL button with a deep link to the bot (instead of a Pay button), with the value used as the start parameter</param>
         /// <param name="currency">Three-letter ISO 4217 currency code, see more on currencies</param>
         /// <param name="providerData">JSON-encoded data about the invoice, which will be shared with the payment provider. A detailed description of required fields should be provided by the payment provider.</param>
@@ -1452,6 +1454,8 @@ namespace Telegram.Bot
             string providerToken,
             string currency,
             IEnumerable<LabeledPrice> prices,
+            int maxTipAmount = default,
+            int[] suggestedTipAmounts = default,
             string startParameter = default,
             string providerData = default,
             string photoUrl = default,
