@@ -9,6 +9,5 @@ namespace Telegram.Bot.Types
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class VoiceChatStarted
     {
-
     }
 }
