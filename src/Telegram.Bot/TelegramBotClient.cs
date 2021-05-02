@@ -1620,9 +1620,9 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task UnpinChatMessageAsync(
             ChatId chatId,
-            CancellationToken cancellationToken = default,
             int messageId = default
-        ) =>
+,
+            CancellationToken cancellationToken = default) =>
             MakeRequestAsync(new UnpinChatMessageRequest(chatId) { MessageId = messageId }, cancellationToken);
 
         /// <inheritdoc />
