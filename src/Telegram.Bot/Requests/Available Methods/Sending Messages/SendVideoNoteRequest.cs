@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Helpers;
@@ -55,11 +55,11 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int ReplyToMessageId { get; set; }
+        public int? ReplyToMessageId { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool AllowSendingWithoutReply { get; set; }
+        public bool? AllowSendingWithoutReply { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
