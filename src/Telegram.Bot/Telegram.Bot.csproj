@@ -14,13 +14,22 @@
     <PackageId>Telegram.Bot</PackageId>
     <Authors>RoundRobin,Poulad,Aleksey Usatov</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
-    <PackageIconUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot/master/package-icon.gif</PackageIconUrl>
+    <PackageIcon>package-icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/TelegramBots/Telegram.Bot/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="../../package-icon.png">
+      <Pack>true</Pack>
+      <PackagePath>/</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <!-- Make build deterministic only in CI environment to make local development easier with non-trimmed paths -->
+  <!-- TF_BUILD is a predefined variable in Azure Pipelines -->
   <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <Deterministic>true</Deterministic>
