@@ -22,7 +22,7 @@ namespace Telegram.Bot.Types.Enums
         Text,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="PhotoSize"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.PhotoSize"/>
         /// </summary>
         Photo,
 
@@ -78,12 +78,12 @@ namespace Telegram.Bot.Types.Enums
         VideoNote,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Invoice"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Payments.Invoice"/>
         /// </summary>
         Invoice,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="SuccessfulPayment"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Payments.SuccessfulPayment"/>
         /// </summary>
         [EnumMember(Value = "successful_payment")]
         SuccessfulPayment,

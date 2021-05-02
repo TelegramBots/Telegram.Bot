@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -6,7 +6,7 @@ using Newtonsoft.Json.Converters;
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
-    /// Type of action the Bot is performing
+    /// Type of action to broadcast
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter), true)]
     public enum ChatAction
@@ -40,6 +40,7 @@ namespace Telegram.Bot.Types.Enums
         [EnumMember(Value = "record_audio")]
         [Obsolete("use RecordVoice instead", true)]
         RecordAudio,
+
         /// <summary>
         /// Recording an <see cref="Voice"/>
         /// </summary>
