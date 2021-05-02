@@ -10,10 +10,9 @@ namespace Telegram.Bot.Types
     public class VoiceChatScheduled
     {
         /// <summary>
-        /// Point in time (Unix timestamp) when the voice chat is supposed to be started by a chat administrator
+        /// Point in time when the voice chat is supposed to be started by a chat administrator
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
     }
 }
