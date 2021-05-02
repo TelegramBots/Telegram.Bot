@@ -12,7 +12,7 @@
     <Title>Telegram Bot API Client</Title>
     <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
     <PackageId>Telegram.Bot</PackageId>
-    <Authors>RoundRobin,Poulad,Aleksey Usatov</Authors>
+    <Authors>RoundRobin,Poulad,tuscen</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
