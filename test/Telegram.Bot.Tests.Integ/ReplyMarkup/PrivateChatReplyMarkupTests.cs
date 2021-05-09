@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _classFixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldReceiveContactInfo,
+        [OrderedFact("Should get contact info from keyboard reply markup",
             Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Contact_Info()
@@ -54,7 +54,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldReceiveLocation)]
+        [OrderedFact("Should get location from keyboard reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Location()
         {
@@ -75,20 +75,12 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        private Task<Message> GetMessageFromChat(MessageType messageType) =>
-            _fixture.UpdateReceiver.GetUpdatesAsync(
-                    predicate: u => u.Message.Type == messageType &&
-                                    u.Message.Chat.Id == _classFixture.PrivateChat.Id,
-                    updateTypes: UpdateType.Message
-                )
-                .ContinueWith(t => t.Result.Single().Message);
-
-        private static class FactTitles
-        {
-            public const string ShouldReceiveContactInfo = "Should get contact info from keyboard reply markup";
-
-            public const string ShouldReceiveLocation = "Should get location from keyboard reply markup";
-        }
+        private async Task<Message> GetMessageFromChat(MessageType messageType) =>
+            (await _fixture.UpdateReceiver.GetUpdatesAsync(
+                predicate: u => u.Message.Type == messageType &&
+                                u.Message.Chat.Id == _classFixture.PrivateChat.Id,
+                updateTypes: UpdateType.Message
+            )).Single().Message;
 
         public class Fixture : PrivateChatFixture
         {

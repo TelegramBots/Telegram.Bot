@@ -53,8 +53,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             IMessageBus messageBus,
             object[] constructorArguments,
             ExceptionAggregator aggregator,
-            CancellationTokenSource cancellationTokenSource
-        )
+            CancellationTokenSource cancellationTokenSource)
         {
             int runCount = 0;
             while (true)

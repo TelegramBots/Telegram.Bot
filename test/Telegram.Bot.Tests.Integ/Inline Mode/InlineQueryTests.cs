@@ -46,9 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 new InlineQueryResultArticle(
                     id: "article:bot-api",
                     title: "Telegram Bot API",
-                    inputMessageContent: new InputTextMessageContent(
-                        "https://core.telegram.org/bots/api")
-                )
+                    inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
                 {
                     Description = "The Bot API is an HTTP-based interface created for developers",
                 },
@@ -90,9 +88,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 new InlineQueryResultArticle(
                     id: "article:bot-api",
                     title: "Telegram Bot API",
-                    inputMessageContent: new InputTextMessageContent(
-                        "https://core.telegram.org/bots/api")
-                    )
+                    inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
                 {
                     Description = "The Bot API is an HTTP-based interface created for developers",
                 },
@@ -129,10 +125,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             const string resultId = "contact:john-doe";
             InlineQueryResultBase[] results =
             {
-                new InlineQueryResultContact(
-                    id: resultId,
-                    phoneNumber: "+1234567",
-                    firstName: "John")
+                new InlineQueryResultContact(id: resultId, phoneNumber: "+1234567", firstName: "John")
                 {
                     LastName = "Doe"
                 }
@@ -242,11 +235,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             const string caption = "Rainbow Girl";
             InlineQueryResultBase[] results =
             {
-                new InlineQueryResultPhoto(
-                    id: resultId,
-                    photoUrl: url,
-                    thumbUrl: url
-                )
+                new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbUrl: url)
                 {
                     Caption = caption
                 }
@@ -273,7 +262,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Photo()
         {
             Message photoMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
             {
                 photoMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat,
@@ -289,10 +278,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             const string caption = "Apes smoking shisha";
             InlineQueryResultBase[] results =
             {
-                new InlineQueryResultCachedPhoto(
-                    id: resultId,
-                    photoFileId: photoMessage.Photo.First().FileId
-                )
+                new InlineQueryResultCachedPhoto(id: resultId, photoFileId: photoMessage.Photo.First().FileId)
                 {
                     Caption = caption
                 }
@@ -333,8 +319,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     videoUrl: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
                     mimeType: "video/mp4",
                     thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg",
-                    title: "Sunset Landscape"
-                )
+                    title: "Sunset Landscape")
                 {
                     Description = "A beautiful scene"
                 }
@@ -376,12 +361,10 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     videoUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
                     mimeType: "text/html",
                     thumbUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
-                    title: "Rocket Launch"
-                )
+                    title: "Rocket Launch")
                 {
                     InputMessageContent =
-                        new InputTextMessageContent(
-                            "[Rocket Launch](https://www.youtube.com/watch?v=1S0CTtY8Qa0)")
+                        new InputTextMessageContent("[Rocket Launch](https://www.youtube.com/watch?v=1S0CTtY8Qa0)")
                         {
                             ParseMode = ParseMode.Markdown
                         }
@@ -423,8 +406,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 new InlineQueryResultCachedVideo(
                     id: resultId,
                     videoFileId: videoMessage.Video.FileId,
-                    title: "New Year's Eve Fireworks"
-                )
+                    title: "New Year's Eve Fireworks")
                 {
                     Description = "2017 Fireworks in Germany"
                 }
@@ -463,8 +445,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     id: resultId,
                     audioUrl:
                     "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3",
-                    title: "Test ogg mp3"
-                )
+                    title: "Test ogg mp3")
                 {
                     Performer = "Shishirdasika",
                     AudioDuration = 25
@@ -492,7 +473,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Audio()
         {
             Message audioMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 audioMessage = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
@@ -511,8 +492,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             {
                 new InlineQueryResultCachedAudio(
                     id: resultId,
-                    audioFileId: audioMessage.Audio.FileId
-                )
+                    audioFileId: audioMessage.Audio.FileId)
                 {
                     Caption = "Jackson F. Smith - Cantina Rag"
                 }
@@ -550,8 +530,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 new InlineQueryResultVoice(
                     id: resultId,
                     voiceUrl: "http://www.vorbis.com/music/Hydrate-Kenny_Beltrey.ogg",
-                    title: "Hydrate - Kenny Beltrey"
-                )
+                    title: "Hydrate - Kenny Beltrey")
                 {
                     Caption = "Hydrate - Kenny Beltrey",
                     VoiceDuration = 265
@@ -578,7 +557,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Voice()
         {
             Message voiceMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
             {
                 voiceMessage = await BotClient.SendVoiceAsync(
                     chatId: _fixture.SupergroupChat,
@@ -634,8 +613,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                     id: resultId,
                     documentUrl: "http://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf",
                     title: "Parameters for Opening PDF Files",
-                    mimeType: "application/pdf"
-                )
+                    mimeType: "application/pdf")
                 {
                     Caption = "Parameters for Opening PDF Files",
                     Description = "Sample PDF file",
@@ -662,7 +640,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
         public async Task Should_Answer_Inline_Query_With_Cached_Document()
         {
             Message documentMessage;
-            using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
+            await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,
@@ -680,8 +658,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 new InlineQueryResultCachedDocument(
                     id: resultId,
                     documentFileId: documentMessage.Document.FileId,
-                    title: "Test Document"
-                )
+                    title: "Test Document")
                 {
                     Caption = "The Tragedy of Hamlet, Prince of Denmark",
                     Description = "Sample PDF Document",
@@ -720,8 +697,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 new InlineQueryResultGif(
                     id: resultId,
                     gifUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
-                    thumbUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"
-                )
+                    thumbUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")
                 {
                     Caption = "Rotating Earth",
                     GifDuration = 4,
@@ -762,10 +738,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             const string resultId = "gif_result";
             InlineQueryResultBase[] results =
             {
-                new InlineQueryResultCachedGif(
-                    id: resultId,
-                    gifFileId: gifMessage.Document.FileId
-                )
+                new InlineQueryResultCachedGif(id: resultId, gifFileId: gifMessage.Document.FileId)
                 {
                     Caption = "Rotating Earth",
                 }
@@ -803,8 +776,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 new InlineQueryResultMpeg4Gif(
                     id: resultId,
                     mpeg4Url: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
-                    thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg"
-                )
+                    thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg")
                 {
                     Caption = "A beautiful scene",
                 },
@@ -840,10 +812,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             const string resultId = "mpeg4_gif_result";
             InlineQueryResultBase[] results =
             {
-                new InlineQueryResultCachedMpeg4Gif(
-                    id: resultId,
-                    mpeg4FileId: gifMessage.Document.FileId
-                )
+                new InlineQueryResultCachedMpeg4Gif(id: resultId, mpeg4FileId: gifMessage.Document.FileId)
                 {
                     Caption = "Rotating Earth",
                 }
@@ -881,10 +850,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             const string resultId = "sticker_result";
             InlineQueryResultBase[] results =
             {
-                new InlineQueryResultCachedSticker(
-                    id: resultId,
-                    stickerFileId: stickerSet.Stickers[0].FileId
-                )
+                new InlineQueryResultCachedSticker(id: resultId, stickerFileId: stickerSet.Stickers[0].FileId)
             };
 
             await BotClient.AnswerInlineQueryAsync(
@@ -918,11 +884,7 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             const string photoCaption = "Rainbow Girl";
             InlineQueryResultBase[] results =
             {
-                new InlineQueryResultPhoto(
-                    id: resultId,
-                    photoUrl: url,
-                    thumbUrl: url
-                )
+                new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbUrl: url)
                 {
                     Caption = $"*{photoCaption}*",
                     ParseMode = ParseMode.Markdown
@@ -961,9 +923,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             InlineQueryResultBase[] results =
             {
                 new InlineQueryResultArticle(
-                    /* id: */ "article:bot-api",
-                    /* title: */ "Telegram Bot API",
-                    /* inputMessageContent: */ new InputTextMessageContent("https://core.telegram.org/bots/api"))
+                    id: "article:bot-api",
+                    title: "Telegram Bot API",
+                    inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
                 {
                     Description = "The Bot API is an HTTP-based interface created for developers",
                 },
@@ -973,9 +935,9 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
 
             ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.AnswerInlineQueryAsync(
-                    /* inlineQueryId: */ queryUpdate.InlineQuery.Id,
-                    /* results: */ results,
-                    /* cacheTime: */ 0
+                    inlineQueryId: queryUpdate.InlineQuery.Id,
+                    results: results,
+                    cacheTime: 0
                 )
             );
 

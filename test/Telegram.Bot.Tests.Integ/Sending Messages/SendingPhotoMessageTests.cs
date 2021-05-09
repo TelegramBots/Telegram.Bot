@@ -33,13 +33,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Send_Photo_File()
         {
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
             {
                 message = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,
                     photo: stream,
-                    caption: "👆 This is a\n" +
-                             "Telegram Bot"
+                    caption: "👆 This is a\nTelegram Bot"
                 );
             }
 
@@ -81,14 +80,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 (MessageEntityType.Cashtag, "$EUR"),
                 (MessageEntityType.Hashtag, "#TelegramBots"),
                 (MessageEntityType.Mention, "@BotFather"),
-                (MessageEntityType.Url, "http://github.com/TelegramBots"),
+                (MessageEntityType.Url, "https://github.com/TelegramBots"),
                 (MessageEntityType.Email, "security@telegram.org"),
                 (MessageEntityType.BotCommand, "/test"),
                 (MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}"),
             };
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
             {
                 message = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,
@@ -116,7 +115,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             };
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
             {
                 message = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,

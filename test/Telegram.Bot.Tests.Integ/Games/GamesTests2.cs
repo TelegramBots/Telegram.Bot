@@ -30,8 +30,8 @@ namespace Telegram.Bot.Tests.Integ.Games
         public async Task Should_Send_Game()
         {
             Message gameMessage = await BotClient.SendGameAsync(
-                /* chatId: */ _fixture.SupergroupChat.Id,
-                /* gameShortName: */ _classFixture.GameShortName
+                chatId: _fixture.SupergroupChat.Id,
+                gameShortName: _classFixture.GameShortName
             );
 
             Assert.Equal(MessageType.Game, gameMessage.Type);
@@ -51,12 +51,12 @@ namespace Telegram.Bot.Tests.Integ.Games
         public async Task Should_Send_Game_With_ReplyMarkup()
         {
             Message gameMessage = await BotClient.SendGameAsync(
-                /* chatId: */ _fixture.SupergroupChat.Id,
-                /* gameShortName: */ _classFixture.GameShortName,
+                chatId: _fixture.SupergroupChat.Id,
+                gameShortName: _classFixture.GameShortName,
                 replyMarkup: new[]
                 {
-                    InlineKeyboardButton.WithCallBackGame( /* text: */"Play"),
-                    InlineKeyboardButton.WithCallbackData( /* textAndCallbackData: */ "Second button")
+                    InlineKeyboardButton.WithCallBackGame(text: "Play"),
+                    InlineKeyboardButton.WithCallbackData(textAndCallbackData: "Second button")
                 }
             );
 
@@ -75,9 +75,9 @@ namespace Telegram.Bot.Tests.Integ.Games
         public async Task Should_Get_High_Scores()
         {
             GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
-                /* userId: */ _classFixture.Player.Id,
-                /* chatId: */ _fixture.SupergroupChat.Id,
-                /* messageId: */ _classFixture.GameMessage.MessageId
+                userId: _classFixture.Player.Id,
+                chatId: _fixture.SupergroupChat.Id,
+                messageId: _classFixture.GameMessage.MessageId
             );
 
             Assert.All(highScores, hs => Assert.True(hs.Position > 0));
@@ -108,10 +108,10 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
 
             Message gameMessage = await BotClient.SetGameScoreAsync(
-                /* userId: */ playerId,
-                /* score: */ newScore,
-                /* chatId: */ _fixture.SupergroupChat.Id,
-                /* messageId: */ _classFixture.GameMessage.MessageId
+                userId: playerId,
+                score: newScore,
+                chatId: _fixture.SupergroupChat.Id,
+                messageId: _classFixture.GameMessage.MessageId
             );
 
             Assert.Equal(_classFixture.GameMessage.MessageId, gameMessage.MessageId);
@@ -136,11 +136,11 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
 
             Message gameMessage = await BotClient.SetGameScoreAsync(
-                /* userId: */ playerId,
-                /* score: */ newScore,
-                /* chatId: */ _fixture.SupergroupChat.Id,
-                /* messageId: */ _classFixture.GameMessage.MessageId,
-                /* force: */ true
+                userId: playerId,
+                score: newScore,
+                chatId: _fixture.SupergroupChat.Id,
+                messageId: _classFixture.GameMessage.MessageId,
+                force: true
             );
 
             Assert.Equal(MessageType.Game, gameMessage.Type);

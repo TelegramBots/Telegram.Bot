@@ -14,7 +14,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
         {
             _testsFixture = testsFixture;
 
-            if (_testsFixture.PrivateChat == null)
+            if (_testsFixture.PrivateChat is null)
             {
                 _testsFixture.PrivateChat = GetChat(collectionName).GetAwaiter().GetResult();
             }
@@ -22,7 +22,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
             _testsFixture.SendTestCollectionNotificationAsync(
                 collectionName,
-                $"Tests will be executed in chat with @{PrivateChat.Username.Replace("_", @"\_")}"
+                $"Tests will be executed in chat with @{PrivateChat.GetSafeUsername()}"
             ).GetAwaiter().GetResult();
         }
 
@@ -38,10 +38,10 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
             {
                 await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-                string botUserName = _testsFixture.BotUser.Username;
+                string botUsername = _testsFixture.BotUser.GetSafeUsername();
                 await _testsFixture.SendTestCollectionNotificationAsync(collectionName,
                     $"No value is set for `{nameof(ConfigurationProvider.TestConfigurations.TesterPrivateChatId)}` in test " +
-                    $"settings. Tester should send /test command in private chat with @{botUserName.Replace("_", @"\_")}."
+                    $"settings. Tester should send /test command in private chat with @{botUsername}."
                 );
 
                 chat = await _testsFixture.GetChatFromTesterAsync(ChatType.Private);

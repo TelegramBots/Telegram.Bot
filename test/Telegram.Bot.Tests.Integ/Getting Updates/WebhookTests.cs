@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
         public async Task Should_Set_Webhook()
         {
-            await BotClient.SetWebhookAsync( /* url: */ "https://www.telegram.org/");
+            await BotClient.SetWebhookAsync(url: "https://www.telegram.org/");
         }
 
         [OrderedFact("Should set webhook with options", Skip = "setWebhook requests are rate limited")]
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetWebhook)]
         public async Task Should_Delete_Webhook_Using_setWebhook()
         {
-            await BotClient.SetWebhookAsync( /* url: */ "");
+            await BotClient.SetWebhookAsync(url: "");
         }
 
         [OrderedFact("Should set webhook with self-signed certificate")]
@@ -69,13 +69,13 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetWebhookInfo)]
         public async Task Should_Set_Webhook_With_SelfSigned_Cert()
         {
-            using (Stream stream = File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
+            await using (Stream stream = File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
             {
                 await BotClient.SetWebhookAsync(
                     url: "https://www.telegram.org/",
                     certificate: stream,
                     maxConnections: 3,
-                    allowedUpdates: new UpdateType[0] // send all types of updates
+                    allowedUpdates: Array.Empty<UpdateType>() // send all types of updates
                 );
             }
 

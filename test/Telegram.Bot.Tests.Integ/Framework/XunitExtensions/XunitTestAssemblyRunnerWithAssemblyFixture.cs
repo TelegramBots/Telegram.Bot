@@ -11,8 +11,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 {
     public class XunitTestAssemblyRunnerWithAssemblyFixture : XunitTestAssemblyRunner
     {
-        private readonly Dictionary<Type, object> _assemblyFixtureMappings =
-            new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> _assemblyFixtureMappings = new();
 
         public XunitTestAssemblyRunnerWithAssemblyFixture(
             ITestAssembly testAssembly,
@@ -75,7 +74,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 
                     var fixture = ctor.Invoke(parameters.Length == 1
                         ? new object[] { DiagnosticMessageSink }
-                        : new object[0]
+                        : Array.Empty<object>()
                     );
 
                     _assemblyFixtureMappings[fixtureAttr.FixtureType] = fixture;

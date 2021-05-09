@@ -18,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException)]
+        [OrderedFact("Should throw InvalidGameShortNameException")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException()
         {
@@ -32,7 +32,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.Equal("game_short_name", e.Parameter);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException2)]
+        [OrderedFact("Should throw InvalidGameShortNameException for empty name")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException_2()
         {
@@ -46,7 +46,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.Equal("game_short_name", e.Parameter);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldThrowInvalidGameShortNameException3)]
+        [OrderedFact("Should throw InvalidGameShortNameException for non-existent game")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendGame)]
         public async Task Should_Throw_InvalidGameShortNameException_3()
         {
@@ -62,16 +62,5 @@ namespace Telegram.Bot.Tests.Integ.Games
 
         // ToDo: Send game with markup & game button NOT as 1st: BUTTON_POS_INVALID
         // ToDo: Send game with markup & w/o game button: REPLY_MARKUP_GAME_EMPTY
-
-        private static class FactTitles
-        {
-            public const string ShouldThrowInvalidGameShortNameException = "Should throw InvalidGameShortNameException";
-
-            public const string ShouldThrowInvalidGameShortNameException2 =
-                "Should throw InvalidGameShortNameException for empty name";
-
-            public const string ShouldThrowInvalidGameShortNameException3 =
-                "Should throw InvalidGameShortNameException for non-existent game";
-        }
     }
 }

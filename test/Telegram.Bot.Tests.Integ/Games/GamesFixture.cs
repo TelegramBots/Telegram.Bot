@@ -3,13 +3,14 @@ using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
+using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Games
 {
     /// <summary>
     /// This fixture is for Games tests and it ensures test bot has a game set up before running the test methods.
     /// </summary>
-    public class GamesFixture
+    public class GamesFixture : IAsyncLifetime
     {
         public string GameShortName { get; }
 
@@ -30,10 +31,16 @@ namespace Telegram.Bot.Tests.Integ.Games
         {
             _fixture = fixture;
             GameShortName = "game1";
-            InitAsync().GetAwaiter().GetResult();
         }
 
-        private async Task InitAsync()
+        private async Task<User> GetPlayerIdFromChatAdmins(long chatId)
+        {
+            ChatMember[] admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
+            ChatMember player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
+            return player.User;
+        }
+
+        public async Task InitializeAsync()
         {
             try
             {
@@ -50,11 +57,6 @@ namespace Telegram.Bot.Tests.Integ.Games
             Player = await GetPlayerIdFromChatAdmins(_fixture.SupergroupChat.Id);
         }
 
-        private async Task<User> GetPlayerIdFromChatAdmins(long chatId)
-        {
-            ChatMember[] admins = await _fixture.BotClient.GetChatAdministratorsAsync(chatId);
-            ChatMember player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];
-            return player.User;
-        }
+        public Task DisposeAsync() => Task.CompletedTask;
     }
 }

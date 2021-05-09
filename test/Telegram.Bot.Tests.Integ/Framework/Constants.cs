@@ -18,6 +18,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public const string TestCaseDiscoverer =
             AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(RetryFactDiscoverer);
 
+        public const string TestCollectionOrderer =
+            AssemblyName + "." + nameof(Framework) + "." + nameof(TestCollectionOrderer);
+
+        public const string TestFramework =
+            AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(XunitTestFrameworkWithAssemblyFixture);
+
         public static class TestCollections
         {
             public const string GettingUpdates = "Getting Updates";

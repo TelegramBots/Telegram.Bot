@@ -26,7 +26,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             _classFixture = classFixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerInlineQueryWithGame)]
+        [OrderedFact("Should answer inline query with a game")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Answer_InlineQuery_With_Game()
         {
@@ -60,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldGetHighScoresInline)]
+        [OrderedFact("Should get game high score for inline message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
         public async Task Should_Get_High_Scores_Inline_Message()
         {
@@ -76,7 +76,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             _classFixture.HighScores = highScores;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSetGameScoreInline)]
+        [OrderedFact("Should set game score for inline message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetGameScore)]
         public async Task Should_Set_Game_Score_Inline_Message()
         {
@@ -95,7 +95,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldAnswerGameCallbackQuery)]
+        [OrderedFact("Should answer game callback query")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
         public async Task Should_Answer_CallbackQuery_With_Game_Url()
         {
@@ -111,17 +111,6 @@ namespace Telegram.Bot.Tests.Integ.Games
                 callbackQueryId: cqUpdate.CallbackQuery.Id,
                 url: "https://tbot.xyz/lumber/"
             );
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldAnswerInlineQueryWithGame = "Should answer inline query with a game";
-
-            public const string ShouldGetHighScoresInline = "Should get game high score for inline message";
-
-            public const string ShouldSetGameScoreInline = "Should set game score for inline message";
-
-            public const string ShouldAnswerGameCallbackQuery = "Should answer game callback query";
         }
     }
 }

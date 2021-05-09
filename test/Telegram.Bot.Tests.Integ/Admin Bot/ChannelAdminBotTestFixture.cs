@@ -28,28 +28,22 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             // file_ids after changing chat photo
             if (!string.IsNullOrEmpty(Chat.Photo?.BigFileId))
             {
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    await _fixture.BotClient
-                        .GetInfoAndDownloadFileAsync(Chat.Photo.BigFileId, stream);
-
-                    _oldChatPhoto = stream.ToArray();
-                }
+                await using MemoryStream stream = new();
+                await _fixture.BotClient.GetInfoAndDownloadFileAsync(Chat.Photo.BigFileId, stream);
+                _oldChatPhoto = stream.ToArray();
             }
         }
 
         public async Task DisposeAsync()
         {
             // If chat had a photo before, reset the photo back.
-            if (_oldChatPhoto != null)
+            if (_oldChatPhoto is not null)
             {
-                using (MemoryStream photoStream = new MemoryStream(_oldChatPhoto))
-                {
-                    await _fixture.BotClient.SetChatPhotoAsync(
-                        chatId: Chat.Id,
-                        photo: photoStream
-                    );
-                }
+                await using MemoryStream photoStream = new(_oldChatPhoto);
+                await _fixture.BotClient.SetChatPhotoAsync(
+                    chatId: Chat.Id,
+                    photo: photoStream
+                );
             }
         }
     }

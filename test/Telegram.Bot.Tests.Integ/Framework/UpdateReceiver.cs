@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         )
         {
             CancellationTokenSource cts = default;
-            predicate = predicate ?? PassthroughPredicate;
+            predicate ??= PassthroughPredicate;
 
             try
             {
@@ -98,7 +98,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 cts?.Dispose();
             }
 
-            bool PassthroughPredicate(Update _) => true;
+            static bool PassthroughPredicate(Update _) => true;
         }
 
         public async Task<Update> GetCallbackQueryUpdateAsync(
@@ -155,7 +155,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             while (
                 !cancellationToken.IsCancellationRequested &&
-                (messageUpdate == null || chosenResultUpdate == null)
+                (messageUpdate is null || chosenResultUpdate is null)
             )
             {
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
@@ -202,6 +202,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 case UpdateType.ShippingQuery:
                 case UpdateType.ChosenInlineResult:
                 case UpdateType.PollAnswer:
+                case UpdateType.ChatMember:
                     isAllowed = AllowedUsernames.Contains(
                         update.GetUser().Username,
                         StringComparer.OrdinalIgnoreCase

@@ -14,33 +14,27 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         public TestsFixture TestsFixture { get; }
         public Chat Chat => TestsFixture.SupergroupChat;
-        public List<Message> PinnedMessages { get; set; }
-
-
+        public List<Message> PinnedMessages { get; private set; }
         public ChatPermissions ExistingDefaultPermissions { get; private set; }
 
         public SupergroupAdminBotTestsFixture(TestsFixture testsFixture)
         {
             TestsFixture = testsFixture;
+            PinnedMessages = new List<Message>(3);
         }
 
         public async Task InitializeAsync()
         {
-            Chat chat = await TestsFixture.BotClient
-                .GetChatAsync(TestsFixture.SupergroupChat);
+            Chat chat = await TestsFixture.BotClient.GetChatAsync(TestsFixture.SupergroupChat);
 
-            PinnedMessages = new List<Message>(3);
             // Save existing chat photo as byte[] to restore it later because Bot API 4.4+ invalidates old
             // file_ids after changing chat photo
             if (!string.IsNullOrEmpty(chat.Photo?.BigFileId))
             {
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    await TestsFixture.BotClient
-                        .GetInfoAndDownloadFileAsync(chat.Photo.BigFileId, stream);
+                await using MemoryStream stream = new();
+                await TestsFixture.BotClient.GetInfoAndDownloadFileAsync(chat.Photo.BigFileId, stream);
 
-                    _oldChatPhoto = stream.ToArray();
-                }
+                _oldChatPhoto = stream.ToArray();
             }
 
             // Save default permissions so they can be restored
@@ -50,15 +44,13 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task DisposeAsync()
         {
             // If chat had a photo before, reset the photo back.
-            if (_oldChatPhoto != null)
+            if (_oldChatPhoto is not null)
             {
-                using (MemoryStream photoStream = new MemoryStream(_oldChatPhoto))
-                {
-                    await TestsFixture.BotClient.SetChatPhotoAsync(
-                        chatId: Chat.Id,
-                        photo: photoStream
-                    );
-                }
+                await using MemoryStream photoStream = new(_oldChatPhoto);
+                await TestsFixture.BotClient.SetChatPhotoAsync(
+                    chatId: Chat.Id,
+                    photo: photoStream
+                );
             }
 
             // Reset original default permissions

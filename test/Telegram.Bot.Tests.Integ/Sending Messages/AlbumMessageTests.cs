@@ -30,7 +30,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Upload_2_Photos_Album()
         {
             Message[] messages;
-            using (Stream
+            await using (Stream
                 stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
@@ -48,9 +48,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    /* chatId: */ _fixture.SupergroupChat.Id,
-                    /* inputMedia: */ inputMedia,
-                    /* disableNotification: */ true
+                    chatId: _fixture.SupergroupChat.Id,
+                    media: inputMedia,
+                    disableNotification: true
                 );
             }
 
@@ -98,8 +98,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             int replyToMessageId = _classFixture.Entities.First().MessageId;
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
-                /* chatId: */ _fixture.SupergroupChat.Id,
-                /* inputMedia: */ new IAlbumInputMedia[]
+                chatId: _fixture.SupergroupChat.Id,
+                media: new IAlbumInputMedia[]
                 {
                     new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg"),
                     new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
@@ -117,7 +117,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Upload_2_Videos_Album()
         {
             Message[] messages;
-            using (Stream
+            await using (Stream
                 stream0 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
                 stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding),
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
@@ -168,7 +168,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
             Message[] messages;
-            using (Stream
+            await using (Stream
                 stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
             )
@@ -205,7 +205,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Video_With_Thumbnail_In_Album()
         {
             Message[] messages;
-            using (Stream
+            await using (Stream
                 stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
             )
@@ -221,8 +221,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 };
 
                 messages = await BotClient.SendMediaGroupAsync(
-                    /* chatId: */ _fixture.SupergroupChat.Id,
-                    /* media: */ inputMedia
+                    chatId: _fixture.SupergroupChat.Id,
+                    media: inputMedia
                 );
             }
 

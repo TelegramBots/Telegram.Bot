@@ -19,7 +19,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendContact, Skip = "Due to unexpected rate limiting errors")]
+        [OrderedFact("Should send a contact", Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact()
         {
@@ -40,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(lastName, message.Contact.LastName);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendContactWithVCardd,
+        [OrderedFact("Should send a contact including his vCard",
             Skip = "Due to unexpected rate limiting errors")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact_With_VCard()
@@ -63,21 +63,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 "END:VCARD";
 
             Message message = await BotClient.SendContactAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* phoneNumber: */ "+11115551212",
-                /* firstName: */ "Forrest",
+                chatId: _fixture.SupergroupChat,
+                phoneNumber: "+11115551212",
+                firstName: "Forrest",
                 vCard: vcard
             );
 
             Assert.Equal(MessageType.Contact, message.Type);
             Assert.Equal(vcard, message.Contact.Vcard);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendContact = "Should send a contact";
-
-            public const string ShouldSendContactWithVCardd = "Should send a contact including his vCard";
         }
     }
 }
