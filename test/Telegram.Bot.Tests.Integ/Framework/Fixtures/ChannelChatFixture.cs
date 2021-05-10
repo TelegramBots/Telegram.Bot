@@ -4,31 +4,33 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 {
-    public class ChannelChatFixture
+    public class ChannelChatFixture : AsyncLifetimeFixture
     {
         private readonly TestsFixture _testsFixture;
 
-        public Chat ChannelChat { get; }
-        public string ChannelChatId { get; }
+        public Chat ChannelChat { get; private set; }
+        public string ChannelChatId { get; private set; }
 
         public ChannelChatFixture(TestsFixture testsFixture, string collectionName)
         {
             _testsFixture = testsFixture;
 
-            if (_testsFixture.ChannelChat is null)
-            {
-                _testsFixture.ChannelChat = GetChat(collectionName).GetAwaiter().GetResult();
-            }
-            ChannelChat = _testsFixture.ChannelChat;
+            AddLifetime(
+                initialize: async () =>
+                {
+                    _testsFixture.ChannelChat ??= await GetChat(collectionName);
+                    ChannelChat = _testsFixture.ChannelChat;
 
-            ChannelChatId = ChannelChat.Username is null
-                ? ChannelChat.Id.ToString()
-                : $"@{ChannelChat.GetSafeUsername()}";
+                    ChannelChatId = ChannelChat.Username is null
+                        ? ChannelChat.Id.ToString()
+                        : $"@{ChannelChat.GetSafeUsername()}";
 
-            _testsFixture.SendTestCollectionNotificationAsync(
-                collectionName,
-                $"Tests will be executed in channel {ChannelChatId}"
-            ).GetAwaiter().GetResult();
+                    await _testsFixture.SendTestCollectionNotificationAsync(
+                        collectionName,
+                        $"Tests will be executed in channel {ChannelChatId}"
+                    );
+                }
+            );
         }
 
         private async Task<Chat> GetChat(string collectionName)

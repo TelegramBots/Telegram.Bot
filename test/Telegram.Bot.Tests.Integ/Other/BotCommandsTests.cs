@@ -34,14 +34,14 @@ namespace Telegram.Bot.Tests.Integ.Other
                 },
             };
 
-            await _fixture.TestsFixture.BotClient.SetMyCommandsAsync(_fixture.NewBotCommands);
+            await _fixture.BotClient.SetMyCommandsAsync(_fixture.NewBotCommands);
         }
 
         [OrderedFact("Should get previously set bot command list")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMyCommands)]
         public async Task Should_Get_Set_Bot_Commands()
         {
-            BotCommand[] currentCommands = await _fixture.TestsFixture.BotClient.GetMyCommandsAsync();
+            BotCommand[] currentCommands = await _fixture.BotClient.GetMyCommandsAsync();
 
             Assert.Equal(2, currentCommands.Length);
             Asserts.JsonEquals(_fixture.NewBotCommands, currentCommands);

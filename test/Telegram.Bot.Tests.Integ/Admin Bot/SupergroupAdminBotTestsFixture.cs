@@ -1,62 +1,61 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
+using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
-using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
-    public class SupergroupAdminBotTestsFixture : IAsyncLifetime
+    public class SupergroupAdminBotTestsFixture : AsyncLifetimeFixture
     {
         private byte[] _oldChatPhoto;
 
         public TestsFixture TestsFixture { get; }
         public Chat Chat => TestsFixture.SupergroupChat;
-        public List<Message> PinnedMessages { get; private set; }
+        public List<Message> PinnedMessages { get; }
         public ChatPermissions ExistingDefaultPermissions { get; private set; }
 
         public SupergroupAdminBotTestsFixture(TestsFixture testsFixture)
         {
             TestsFixture = testsFixture;
             PinnedMessages = new List<Message>(3);
-        }
 
-        public async Task InitializeAsync()
-        {
-            Chat chat = await TestsFixture.BotClient.GetChatAsync(TestsFixture.SupergroupChat);
+            AddLifetime(
+                initialize: async () =>
+                {
+                    Chat chat = await TestsFixture.BotClient.GetChatAsync(TestsFixture.SupergroupChat);
 
-            // Save existing chat photo as byte[] to restore it later because Bot API 4.4+ invalidates old
-            // file_ids after changing chat photo
-            if (!string.IsNullOrEmpty(chat.Photo?.BigFileId))
-            {
-                await using MemoryStream stream = new();
-                await TestsFixture.BotClient.GetInfoAndDownloadFileAsync(chat.Photo.BigFileId, stream);
+                    // Save existing chat photo as byte[] to restore it later because Bot API 4.4+ invalidates old
+                    // file_ids after changing chat photo
+                    if (!string.IsNullOrEmpty(chat.Photo?.BigFileId))
+                    {
+                        await using MemoryStream stream = new();
+                        await TestsFixture.BotClient.GetInfoAndDownloadFileAsync(chat.Photo.BigFileId, stream);
 
-                _oldChatPhoto = stream.ToArray();
-            }
+                        _oldChatPhoto = stream.ToArray();
+                    }
 
-            // Save default permissions so they can be restored
-            ExistingDefaultPermissions = chat.Permissions;
-        }
+                    // Save default permissions so they can be restored
+                    ExistingDefaultPermissions = chat.Permissions;
+                },
+                dispose: async () =>
+                {
+                    // If chat had a photo before, reset the photo back.
+                    if (_oldChatPhoto is not null)
+                    {
+                        await using MemoryStream photoStream = new(_oldChatPhoto);
+                        await TestsFixture.BotClient.SetChatPhotoAsync(
+                            chatId: Chat.Id,
+                            photo: photoStream
+                        );
+                    }
 
-        public async Task DisposeAsync()
-        {
-            // If chat had a photo before, reset the photo back.
-            if (_oldChatPhoto is not null)
-            {
-                await using MemoryStream photoStream = new(_oldChatPhoto);
-                await TestsFixture.BotClient.SetChatPhotoAsync(
-                    chatId: Chat.Id,
-                    photo: photoStream
-                );
-            }
-
-            // Reset original default permissions
-            await TestsFixture.BotClient.SetChatPermissionsAsync(
-                TestsFixture.SupergroupChat,
-                ExistingDefaultPermissions
+                    // Reset original default permissions
+                    await TestsFixture.BotClient.SetChatPermissionsAsync(
+                        TestsFixture.SupergroupChat,
+                        ExistingDefaultPermissions
+                    );
+                }
             );
         }
     }

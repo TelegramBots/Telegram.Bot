@@ -7,7 +7,6 @@ using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace Telegram.Bot.Tests.Integ.Sending_Messages
 {
