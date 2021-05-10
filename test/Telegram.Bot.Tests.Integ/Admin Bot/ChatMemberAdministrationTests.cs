@@ -204,7 +204,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             using CancellationTokenSource cts = new(TimeSpan.FromMinutes(2));
 
             await _fixture.SendTestInstructionsAsync(
-                $"Chat admin should kick @{_classFixture.RegularMemberUserName.Replace("_", @"\_")}. Bot will be waiting" +
+                $"Chat admin should invite @{_classFixture.RegularMemberUserName.Replace("_", @"\_")} back to the group. Bot will be waiting" +
                 $" for {waitTime.Minutes} minutes."
             );
 
