@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldSendVenue)]
+        [OrderedFact("Should send a venue")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
         public async Task Should_Send_Venue()
         {
@@ -48,7 +48,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.InRange(message.Venue.Location.Longitude, lon - 0.001f, lon + 0.001f);
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDeserializeSendVenue)]
+        [OrderedFact("Should deserialize a sendVenue request and send it")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
         public async Task Should_Deserialize_Send_Venue()
         {
@@ -73,13 +73,6 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("parks_outdoors/park", message.Venue.FoursquareType);
             Assert.InRange(message.Venue.Location.Latitude, 48.204296 - 0.001f, 48.204296 + 0.001f);
             Assert.InRange(message.Venue.Location.Longitude, 16.365514 - 0.001f, 16.365514 + 0.001f);
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldSendVenue = "Should send a venue";
-
-            public const string ShouldDeserializeSendVenue = "Should deserialize a sendVenue request and send it";
         }
     }
 }

@@ -14,7 +14,10 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             : base(assemblyName, sourceInformationProvider, diagnosticMessageSink)
         { }
 
-        protected override async void RunTestCases(IEnumerable<IXunitTestCase> testCases, IMessageSink executionMessageSink, ITestFrameworkExecutionOptions executionOptions)
+        protected override async void RunTestCases(
+            IEnumerable<IXunitTestCase> testCases,
+            IMessageSink executionMessageSink,
+            ITestFrameworkExecutionOptions executionOptions)
         {
             using var assemblyRunner = new XunitTestAssemblyRunnerWithAssemblyFixture(
                 TestAssembly,

@@ -44,7 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 // be empty at this stage
                 var apiResponse = JsonConvert.DeserializeObject<ApiResponse<int>>(body);
 
-                if (apiResponse.Parameters != null)
+                if (apiResponse.Parameters is not null)
                 {
                     var seconds = apiResponse.Parameters.RetryAfter;
 

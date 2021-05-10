@@ -30,11 +30,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             const string caption = "Audio File in .mp3 format";
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
             {
                 message = await BotClient.SendAudioAsync(
                     chatId: _fixture.SupergroupChat,
-                    audio: stream,
+                    audio: new InputMedia(stream, "Jackson F Smith - Cantina Rag.mp3"),
                     title: title,
                     performer: performer,
                     caption: caption,
@@ -48,6 +48,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(title, message.Audio.Title);
             Assert.Equal(duration, message.Audio.Duration);
             Assert.Equal("audio/mpeg", message.Audio.MimeType);
+            Assert.Equal("Jackson F Smith - Cantina Rag.mp3", message.Audio.FileName);
             Assert.NotEmpty(message.Audio.FileId);
             Assert.NotEmpty(message.Audio.FileUniqueId);
             Assert.True(message.Audio.FileSize > 200);
@@ -59,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             // Both audio file and its thumbnail should be uploaded
             Message message;
-            using (Stream
+            await using (Stream
                 stream1 = System.IO.File.OpenRead(Constants.PathToFile.Audio.AStateOfDespairMp3),
                 stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.TheAbilityToBreak)
             )
@@ -87,7 +88,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             const string caption = "Test Voice in .ogg format";
 
             Message message;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
             {
                 message = await BotClient.SendVoiceAsync(
                     chatId: _fixture.SupergroupChat,

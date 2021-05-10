@@ -52,13 +52,13 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int ReplyToMessageId { get; set; }
+        public int? ReplyToMessageId { get; set; }
 
         /// <summary>
         /// Pass True, if the message should be sent even if the specified replied-to message is not found
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool AllowSendingWithoutReply { get; set; }
+        public bool? AllowSendingWithoutReply { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

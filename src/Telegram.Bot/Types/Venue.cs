@@ -33,7 +33,6 @@ namespace Telegram.Bot.Types
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string FoursquareId { get; set; }
 
-
         /// <summary>
         /// Google Places identifier of the venue
         /// </summary>

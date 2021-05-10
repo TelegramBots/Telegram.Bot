@@ -18,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDeleteMessage)]
+        [OrderedFact("Should delete message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessage)]
         public async Task Should_Delete_Message()
@@ -34,11 +34,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 chatId: message.Chat.Id,
                 messageId: message.MessageId
             );
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldDeleteMessage = "Should delete message";
         }
     }
 }

@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
-    /// Type of a <see cref="Chat"/>
+    /// Type of the <see cref="Chat"/>, from which the inline query was sent
     /// </summary>
     [JsonConverter(typeof(StringEnumConverter), true)]
     public enum ChatType
@@ -27,6 +27,11 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// A supergroup
         /// </summary>
-        Supergroup
+        Supergroup,
+
+        /// <summary>
+        /// “sender” for a private chat with the inline query sender
+        /// </summary>
+        Sender
     }
 }

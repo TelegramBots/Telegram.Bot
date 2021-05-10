@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldDeleteMessageFromInlineQuery)]
+        [OrderedFact("Should delete message generated from an inline query result")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         public async Task Should_Delete_Message_From_InlineQuery()
         {
@@ -45,8 +45,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) =
-                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Text);
+            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver
+                .GetInlineQueryResultUpdates(MessageType.Text);
 
             await Task.Delay(1_000);
 
@@ -54,12 +54,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 chatId: messageUpdate.Message.Chat.Id,
                 messageId: messageUpdate.Message.MessageId
             );
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldDeleteMessageFromInlineQuery =
-                "Should delete message generated from an inline query result";
         }
     }
 }
