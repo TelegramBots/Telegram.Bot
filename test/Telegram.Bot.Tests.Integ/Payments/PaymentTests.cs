@@ -283,6 +283,60 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Assert.NotNull(successfulPayment.OrderInfo.ShippingAddress.StreetLine2);
         }
 
+        [OrderedFact("Should receive successful payment with a tip")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerPreCheckoutQuery)]
+        public async Task Should_Receive_Successful_Payment_With_A_Tip()
+        {
+            PaymentsBuilder paymentsBuilder = new PaymentsBuilder()
+                .WithProduct(_ => _
+                    .WithTitle(title: "Three tasty donuts")
+                    .WithDescription(description: "Donuts with special glaze")
+                    .WithProductPrice(label: "Donut with chocolate glaze", amount: 550)
+                    .WithProductPrice(label: "Donut with vanilla glaze", amount: 500)
+                    .WithProductPrice(label: "Donut with glaze", amount: 500)
+                    .WithPhoto(
+                        url: "https://cdn.pixabay.com/photo/2017/11/22/00/18/donuts-2969490_960_720.jpg",
+                        width: 960,
+                        height: 640
+                    ))
+                .WithCurrency("USD")
+                .WithPayload("<my-payload>")
+                .WithSuggestedTips(100, 150, 200)
+                .WithMaxTip(maxTipAmount: 300)
+                .WithPaymentProviderToken(_classFixture.PaymentProviderToken)
+                .ToChat(_classFixture.PrivateChat.Id);
+
+            double totalCostWithoutShippingCost = paymentsBuilder
+                .GetTotalAmountWithoutShippingCost()
+                .CurrencyFormat();
+
+            string instruction = FormatInstructionWithCurrency(
+                $"Click on *Pay {totalCostWithoutShippingCost:C}*, select a tip from given options and confirm payment. Transaction should be completed."
+            );
+            await _fixture.SendTestInstructionsAsync(instruction, chatId: _classFixture.PrivateChat.Id);
+
+            SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
+            Message invoiceMessage = await BotClient.MakeRequestAsync(requestRequest);
+            Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
+            PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
+
+            await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
+                preCheckoutQueryId: query.Id
+            );
+
+            Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
+            SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message.SuccessfulPayment;
+            int totalAmount = paymentsBuilder.GetTotalAmount();
+
+            int[] suggestedTips = {100, 150, 200};
+            int[] totalAmountWithTip = suggestedTips.Select(_ => _ + totalAmount).ToArray();
+
+            Assert.Contains(totalAmountWithTip, _ => _ == successfulPayment.TotalAmount);
+            Assert.Equal("<my-payload>", successfulPayment.InvoicePayload);
+            Assert.Equal(invoiceMessage.Invoice.Currency, successfulPayment.Currency);
+        }
+
         [OrderedFact("Should receive shipping address query and reply with an error")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendInvoice)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerShippingQuery)]
@@ -573,6 +627,6 @@ namespace Telegram.Bot.Tests.Integ.Payments
     public static class Extensions
     {
         // ReSharper disable once PossibleLossOfFraction
-        public static double CurrencyFormat(this int amount) => amount / 100 + amount % 100 / 0.01;
+        public static double CurrencyFormat(this int amount) => amount * 0.01;
     }
 }

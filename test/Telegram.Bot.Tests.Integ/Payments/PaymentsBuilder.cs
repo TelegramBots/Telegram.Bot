@@ -27,6 +27,8 @@ namespace Telegram.Bot.Tests.Integ.Payments
         private string? _providerData;
         private InlineKeyboardMarkup? _replyMarkup;
         private string? _paymentsProviderToken;
+        private int? _maxTipAmount;
+        private int[]? _suggestedTipAmounts;
 
         public PaymentsBuilder WithCurrency(string currency)
         {
@@ -117,6 +119,37 @@ namespace Telegram.Bot.Tests.Integ.Payments
             return this;
         }
 
+        public PaymentsBuilder WithMaxTip(int maxTipAmount)
+        {
+            if (maxTipAmount < 1)
+                throw new ArgumentOutOfRangeException(
+                    nameof(maxTipAmount),
+                    maxTipAmount,
+                    "Max tip amount must be greater than 0"
+                );
+
+            _maxTipAmount = maxTipAmount;
+
+            return this;
+        }
+
+        public PaymentsBuilder WithSuggestedTips(params int[] suggestedTipAmounts)
+        {
+            if (suggestedTipAmounts.Length == 0)
+            {
+                throw new ArgumentException("Suggested tips must not be empty");
+            }
+
+            if (suggestedTipAmounts.Any(_ => _ < 1))
+            {
+                throw new ArgumentException("Suggested tips must be greater than 0");
+            }
+
+            _suggestedTipAmounts = suggestedTipAmounts.OrderBy(_ => _).ToArray();
+
+            return this;
+        }
+
         public PreliminaryInvoice GetPreliminaryInvoice()
         {
             if (_product is null) throw new InvalidOperationException("Product wasn't added");
@@ -169,7 +202,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 SendPhoneNumberToProvider = _sendPhoneNumberToProvider,
                 StartParameter = _startParameter,
                 ProviderData = _providerData,
-                ReplyMarkup = _replyMarkup
+                ReplyMarkup = _replyMarkup,
+                MaxTipAmount = _maxTipAmount,
+                SuggestedTipAmounts = _suggestedTipAmounts
             };
         }
 
