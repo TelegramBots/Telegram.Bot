@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
                 {
                     _initialize = () =>
                     {
-                        initialize?.Invoke();
+                        initialize.Invoke();
                         return Task.CompletedTask;
                     };
                 }
@@ -70,7 +70,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
                 {
                     _dispose = () =>
                     {
-                        dispose?.Invoke();
+                        dispose.Invoke();
                         return Task.CompletedTask;
                     };
                 }

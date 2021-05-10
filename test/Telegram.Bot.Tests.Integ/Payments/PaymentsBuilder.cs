@@ -128,6 +128,15 @@ namespace Telegram.Bot.Tests.Integ.Payments
                     "Max tip amount must be greater than 0"
                 );
 
+            if (_suggestedTipAmounts is not null && _suggestedTipAmounts.Any(_ => _ > maxTipAmount))
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(maxTipAmount),
+                    maxTipAmount,
+                    "Max tip is larger than some of the suggested tips"
+                );
+            }
+
             _maxTipAmount = maxTipAmount;
 
             return this;
@@ -140,9 +149,19 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 throw new ArgumentException("Suggested tips must not be empty");
             }
 
+            if (suggestedTipAmounts.Length > 4)
+            {
+                throw new ArgumentException("No more than four suggested tips can be set");
+            }
+
             if (suggestedTipAmounts.Any(_ => _ < 1))
             {
                 throw new ArgumentException("Suggested tips must be greater than 0");
+            }
+
+            if (_maxTipAmount is not null && suggestedTipAmounts.Any(_ => _ < _maxTipAmount))
+            {
+                throw new ArgumentException("Suggested tips must not be greater than max tip amount");
             }
 
             _suggestedTipAmounts = suggestedTipAmounts.OrderBy(_ => _).ToArray();
