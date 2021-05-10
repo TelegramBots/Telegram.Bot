@@ -159,16 +159,16 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 JToken.FromObject(secondsFromEndPinnedMessage),
                 JToken.FromObject(chat.PinnedMessage)
             ));
-
-            // Assert.Equal(lastPinnedMessage.MessageId, chat.PinnedMessage.MessageId);
-            // Assert.Equal(lastPinnedMessage.MessageId, chat.PinnedMessage.MessageId);
         }
 
         [OrderedFact("Should unpin first chat message")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UnpinChatMessage)]
         public async Task Should_Unpin_First_Message()
         {
-            await BotClient.UnpinChatMessageAsync(_classFixture.Chat.Id, messageId: _classFixture.PinnedMessages.First().MessageId);
+            await BotClient.UnpinChatMessageAsync(
+                chatId: _classFixture.Chat.Id,
+                messageId: _classFixture.PinnedMessages.First().MessageId
+            );
         }
 
         [OrderedFact("Should Unpin all Messages")]
@@ -195,13 +195,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
         public async Task Should_Set_Chat_Photo()
         {
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
-            {
-                await BotClient.SetChatPhotoAsync(
-                    chatId: _classFixture.Chat.Id,
-                    photo: stream
-                );
-            }
+            await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+            await BotClient.SetChatPhotoAsync(
+                chatId: _classFixture.Chat.Id,
+                photo: stream
+            );
         }
 
         [OrderedFact("Should delete chat photo")]
@@ -215,10 +213,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
-                BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id));
+            Exception e = await Assert.ThrowsAnyAsync<Exception>(
+                () => BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id)
+            );
 
-            // ToDo: Create exception type
             Assert.IsType<ApiRequestException>(e);
             Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
         }
@@ -237,7 +235,6 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 BotClient.SetChatStickerSetAsync(_classFixture.Chat.Id, setName)
             );
 
-            // ToDo: Create exception type
             Assert.Equal(400, exception.ErrorCode);
             Assert.Equal("Bad Request: can't set supergroup sticker set", exception.Message);
         }

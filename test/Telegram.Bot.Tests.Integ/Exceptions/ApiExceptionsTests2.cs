@@ -54,8 +54,8 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendTextMessageAsync(
-                    _fixture.SupergroupChat.Id,
-                    "You should never see this message",
+                    chatId: _fixture.SupergroupChat.Id,
+                    text: "You should never see this message",
                     replyMarkup: replyMarkup
                 )
             );
@@ -70,14 +70,15 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         {
             const string messageTextToModify = "Message text to modify";
             Message message = await BotClient.SendTextMessageAsync(
-                _fixture.SupergroupChat.Id,
-                messageTextToModify);
+                chatId: _fixture.SupergroupChat.Id,
+                text: messageTextToModify
+            );
 
             BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
                 BotClient.EditMessageTextAsync(
-                    _fixture.SupergroupChat.Id,
-                    message.MessageId,
-                    messageTextToModify
+                    chatId: _fixture.SupergroupChat.Id,
+                    messageId: message.MessageId,
+                    text: messageTextToModify
                 )
             );
 

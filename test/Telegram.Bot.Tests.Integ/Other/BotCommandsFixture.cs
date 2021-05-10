@@ -1,34 +1,32 @@
-using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
+using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
-using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Other
 {
-    public class BotCommandsFixture : IAsyncLifetime
+    public class BotCommandsFixture : AsyncLifetimeFixture
     {
+        private readonly TestsFixture _testsFixture;
         private BotCommand[] _originalCommands;
 
-        public TestsFixture TestsFixture { get; }
+        public ITelegramBotClient BotClient => _testsFixture.BotClient;
         public BotCommand[] NewBotCommands { get; set; }
 
         public BotCommandsFixture(TestsFixture testsFixture)
         {
-            TestsFixture = testsFixture;
-        }
+            _testsFixture = testsFixture;
 
-        public async Task InitializeAsync()
-        {
-            _originalCommands = await TestsFixture.BotClient.GetMyCommandsAsync();
-        }
-
-        public async Task DisposeAsync()
-        {
-            // restore original bot commands
-            if (_originalCommands?.Length != 0)
-            {
-                await TestsFixture.BotClient.SetMyCommandsAsync(_originalCommands);
-            }
+            AddLifetime(
+                initialize: async () => _originalCommands = await _testsFixture.BotClient.GetMyCommandsAsync(),
+                dispose: async () =>
+                {
+                    // restore original bot commands
+                    if (_originalCommands?.Length != 0)
+                    {
+                        await _testsFixture.BotClient.SetMyCommandsAsync(_originalCommands);
+                    }
+                }
+            );
         }
     }
 }

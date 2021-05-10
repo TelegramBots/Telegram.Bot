@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -97,14 +96,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Parse_MarkDown_Entities()
         {
             const string url = "https://telegram.org/";
-            Dictionary<MessageEntityType, string> entityValueMappings = new Dictionary<MessageEntityType, string>
+            Dictionary<MessageEntityType, string> entityValueMappings = new()
             {
                 {MessageEntityType.Bold, "*bold*"},
                 {MessageEntityType.Italic, "_italic_"},
                 {MessageEntityType.TextLink, $"[inline url to Telegram.org]({url})"},
                 {
                     MessageEntityType.TextMention,
-                    $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
+                    $"[{_fixture.BotUser.GetSafeUsername()}](tg://user?id={_fixture.BotUser.Id})"
                 },
                 {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
                 {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
@@ -175,7 +174,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 (MessageEntityType.Cashtag, "$EUR"),
                 (MessageEntityType.Hashtag, "#TelegramBots"),
                 (MessageEntityType.Mention, "@BotFather"),
-                (MessageEntityType.Url, "http://github.com/TelegramBots"),
+                (MessageEntityType.Url, "https://github.com/TelegramBots"),
                 (MessageEntityType.Email, "security@telegram.org"),
                 (MessageEntityType.BotCommand, "/test"),
                 (MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}"),
@@ -199,14 +198,14 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         public async Task Should_Parse_MarkdownV2_Entities()
         {
             const string url = "https://telegram.org/";
-            Dictionary<MessageEntityType, string> entityValueMappings = new Dictionary<MessageEntityType, string>
+            Dictionary<MessageEntityType, string> entityValueMappings = new()
             {
                 {MessageEntityType.Bold, "*bold*"},
                 {MessageEntityType.Italic, "_italic_"},
                 {MessageEntityType.TextLink, $"[inline url to Telegram\\.org]({url})"},
                 {
                     MessageEntityType.TextMention,
-                    $"[{_fixture.BotUser.Username.Replace("_", @"\_")}](tg://user?id={_fixture.BotUser.Id})"
+                    $"[{_fixture.BotUser.GetSafeUsername()}](tg://user?id={_fixture.BotUser.Id})"
                 },
                 {MessageEntityType.Code, @"inline ""`fixed-width code`"""},
                 {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},

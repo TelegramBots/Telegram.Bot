@@ -27,11 +27,11 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         {
             // Send a video to chat. This media will be changed later in test.
             Message originalMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
             {
                 originalMessage = await BotClient.SendVideoAsync(
-                    /* chatId: */ _fixture.SupergroupChat,
-                    /* video: */ stream,
+                    chatId: _fixture.SupergroupChat,
+                    video: stream,
                     caption: "This message will be edited shortly"
                 );
             }
@@ -40,11 +40,11 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             // Replace video with a document by uploading the new file
             Message editedMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
             {
                 editedMessage = await BotClient.EditMessageMediaAsync(
-                    /* chatId: */ originalMessage.Chat,
-                    /* messageId: */ originalMessage.MessageId,
+                    chatId: originalMessage.Chat,
+                    messageId: originalMessage.MessageId,
                     media: new InputMediaDocument(new InputMedia(stream, "public-key.pem.txt"))
                     {
                         Caption = "**Public** key in `.pem` format",
@@ -57,6 +57,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.Equal(MessageType.Document, editedMessage.Type);
             Assert.NotNull(editedMessage.Document);
             Assert.Null(editedMessage.Video);
+            Assert.Equal("public-key.pem.txt", editedMessage.Document.FileName);
         }
 
         [OrderedFact("Should change a message's photo to an animation having thumbnail")]
@@ -67,27 +68,27 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         {
             // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
             Message gifMessage = await BotClient.SendDocumentAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* document: */ "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
-                /* caption: */ "`file_id` of this GIF will be used"
+                chatId: _fixture.SupergroupChat,
+                document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+                caption: "`file_id` of this GIF will be used"
             );
 
             // Send a photo to chat. This media will be changed later in test.
             Message originalMessage = await BotClient.SendPhotoAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* photo: */ "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
-                /* caption: */ "This message will be edited shortly"
+                chatId: _fixture.SupergroupChat,
+                photo: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
+                caption: "This message will be edited shortly"
             );
 
             await Task.Delay(500);
 
             // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
             Message editedMessage;
-            using (Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video))
+            await using (Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video))
             {
                 editedMessage = await BotClient.EditMessageMediaAsync(
-                    /* chatId: */ originalMessage.Chat,
-                    /* messageId: */ originalMessage.MessageId,
+                    chatId: originalMessage.Chat,
+                    messageId: originalMessage.MessageId,
                     media: new InputMediaAnimation(gifMessage.Document.FileId)
                     {
                         Thumb = new InputMedia(thumbStream, "thumb.jpg"),

@@ -13,7 +13,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
     {
         private readonly IMessageBus _innerBus;
 
-        private readonly List<IMessageSinkMessage> _messages = new List<IMessageSinkMessage>();
+        private readonly List<IMessageSinkMessage> _messages = new();
 
         public DelayedMessageBus(IMessageBus innerBus)
         {

@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             _fixture = fixture;
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessagePhotoWithUrl)]
+        [OrderedFact("Should change an inline message's photo to an audio using URL")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
         public async Task Should_Edit_Inline_Message_Photo()
@@ -43,8 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 new InlineQueryResultPhoto(
                     id: "photo:rainbow-girl",
                     photoUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
-                    thumbUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg"
-                )
+                    thumbUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")
                 {
                     Caption = "Rainbow Girl",
                     ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to edit"),
@@ -64,8 +63,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
                 media: new InputMediaAudio(
                     "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/" +
-                    "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3"
-                )
+                    "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3")
                 {
                     Caption = "**Audio** in `.mp3` format",
                     ParseMode = ParseMode.Markdown,
@@ -73,15 +71,15 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             );
         }
 
-        [OrderedFact(DisplayName = FactTitles.ShouldEditInlineMessageDocumentWithFileId)]
+        [OrderedFact("Should change an inline message's document to an animation using file_id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDocument)]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageMedia)]
-        public async Task ShouldEditInlineMessageDocumentWithFileId()
+        public async Task Should_Edit_Inline_Message_Document_With_FileId()
         {
             // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
             string animationFileId;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
             {
                 Message gifMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,
@@ -104,8 +102,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                     id: "document:acrobat",
                     documentUrl: "http://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf",
                     title: "Parameters for Opening PDF Files",
-                    mimeType: "application/pdf"
-                )
+                    mimeType: "application/pdf")
                 {
                     ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to edit"),
                 }
@@ -125,15 +122,6 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
                 media: new InputMediaAnimation(animationFileId)
             );
-        }
-
-        private static class FactTitles
-        {
-            public const string ShouldEditInlineMessagePhotoWithUrl =
-                "Should change an inline message's photo to an audio using URL";
-
-            public const string ShouldEditInlineMessageDocumentWithFileId =
-                "Should change an inline message's document to an animation using file_id";
         }
     }
 }

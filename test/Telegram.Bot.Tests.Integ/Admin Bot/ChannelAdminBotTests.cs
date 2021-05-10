@@ -114,13 +114,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPhoto)]
         public async Task Should_Set_Chat_Photo()
         {
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo))
-            {
-                await BotClient.SetChatPhotoAsync(
-                    chatId: _classFixture.Chat.Id,
-                    photo: stream
-                );
-            }
+            await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+            await BotClient.SetChatPhotoAsync(
+                chatId: _classFixture.Chat.Id,
+                photo: stream
+            );
         }
 
         [OrderedFact("Should get chat photo")]
@@ -146,8 +144,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(() =>
-                BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id));
+            Exception e = await Assert.ThrowsAnyAsync<Exception>(
+                async () => await BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id)
+            );
 
             Assert.IsType<ApiRequestException>(e);
             Assert.Equal("Bad Request: CHAT_NOT_MODIFIED", e.Message);
@@ -163,11 +162,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             const string setName = "EvilMinds";
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
-                _fixture.BotClient.SetChatStickerSetAsync(_classFixture.Chat.Id, setName)
+            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(async () =>
+                await _fixture.BotClient.SetChatStickerSetAsync(_classFixture.Chat.Id, setName)
             );
 
-            // ToDo: Create exception type
             Assert.Equal(400, exception.ErrorCode);
             Assert.Equal("Bad Request: method is available only for supergroups", exception.Message);
         }

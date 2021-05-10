@@ -1,10 +1,12 @@
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using Constants = Telegram.Bot.Tests.Integ.Framework.Constants;
 
 namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
@@ -166,6 +168,57 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     CanSendOtherMessages = false
                 }
             );
+        }
+
+        #endregion
+
+        #region Receving chat member status update
+
+        [OrderedFact("Should receive chat member updated")]
+        public async Task Should_Receive_Chat_Member_Updated()
+        {
+            await _fixture.SendTestInstructionsAsync(
+                $"Chat admin should kick @{_classFixture.RegularMemberUserName.Replace("_", @"\_")}."
+            );
+
+            Update update = (await _fixture.UpdateReceiver
+                    .GetUpdatesAsync(
+                        u => u.ChatMember?.Chat.Id == _fixture.SupergroupChat.Id,
+                        updateTypes: new [] { UpdateType.ChatMember }
+                    ).ConfigureAwait(false)
+                ).Single();
+
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
+            ChatMemberUpdated chatMemberUpdated = update.ChatMember;
+
+            Assert.True(chatMemberUpdated.NewChatMember.Status == ChatMemberStatus.Kicked);
+            Assert.Equal(_classFixture.RegularMemberUserId, chatMemberUpdated.NewChatMember.User.Id);
+        }
+
+        // This section is needed for technical reasons, don't remove
+        [OrderedFact("Should_Wait_For_Regular_Chat_Member_To_Join")]
+        public async Task Should_Wait_For_Regular_Chat_Member_To_Join()
+        {
+            TimeSpan waitTime = TimeSpan.FromMinutes(2);
+            using CancellationTokenSource cts = new(TimeSpan.FromMinutes(2));
+
+            await _fixture.SendTestInstructionsAsync(
+                $"Chat admin should invite @{_classFixture.RegularMemberUserName.Replace("_", @"\_")} back to the group. Bot will be waiting" +
+                $" for {waitTime.Minutes} minutes."
+            );
+
+            Update _ = (await _fixture.UpdateReceiver
+                    .GetUpdatesAsync(
+                        u => u.Message.Chat.Id == _fixture.SupergroupChat.Id &&
+                             u.Message.Type == MessageType.ChatMembersAdded,
+                        updateTypes: new[] {UpdateType.Message},
+                        cancellationToken: cts.Token
+                    )
+                ).Single();
+
+            // ReSharper disable once MethodSupportsCancellation
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
         }
 
         #endregion

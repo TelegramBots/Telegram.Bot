@@ -22,7 +22,7 @@ namespace Telegram.Bot.Types.Enums
         Text,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="PhotoSize"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.PhotoSize"/>
         /// </summary>
         Photo,
 
@@ -78,12 +78,12 @@ namespace Telegram.Bot.Types.Enums
         VideoNote,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="Invoice"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Payments.Invoice"/>
         /// </summary>
         Invoice,
 
         /// <summary>
-        /// The <see cref="Message"/> contains a <see cref="SuccessfulPayment"/>
+        /// The <see cref="Message"/> contains a <see cref="Types.Payments.SuccessfulPayment"/>
         /// </summary>
         [EnumMember(Value = "successful_payment")]
         SuccessfulPayment,
@@ -184,6 +184,12 @@ namespace Telegram.Bot.Types.Enums
         ProximityAlertTriggered,
 
         /// <summary>
+        /// The <see cref="Message"/> contains <see cref="Message.VoiceChatScheduled"/>
+        /// </summary>
+        [EnumMember(Value = "voice_chat_scheduled")]
+        VoiceChatScheduled,
+
+        /// <summary>
         /// The <see cref="Message"/> contains <see cref="Message.VoiceChatStarted"/>
         /// </summary>
         [EnumMember(Value = "voice_chat_started")]
@@ -199,6 +205,6 @@ namespace Telegram.Bot.Types.Enums
         /// The <see cref="Message"/> contains <see cref="Message.VoiceChatParticipantsInvited"/>
         /// </summary>
         [EnumMember(Value = "voice_chat_participants_invited")]
-        VoiceChatParticipantsInvited
+        VoiceChatParticipantsInvited,
     }
 }

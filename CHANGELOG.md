@@ -18,19 +18,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 -->
+<!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v16.0.0] - Unreleased
+## [Unreleased]
 
-[Bot API 5.1](https://core.telegram.org/bots/api#march-9-2021) (March 9, 2021)
+> [Bot API 5.2](https://core.telegram.org/bots/api#april-26-2021) (April 26, 2021)
 
 ### Added
 
-- Added the method `ITelegramBotClient.CreateChatInviteLinkAsync`
-- Added the method `ITelegramBotClient.EditChatInviteLinkAsync`
-- Added the method `ITelegramBotClient.RevokeChatInviteLinkAsync`
+- Property `VoiceChatScheduled` to the class `Message`.
+- Types `VoiceChatScheduled`, `InputInvoiceMessageContent`
+- New `MessageType` value: `VoiceChatScheduled`
+- Property `ChatType` to the class `InlineQuery`.
+- New `ChatType` value: `Sender`
+- New `ChatAction` values: `RecordVoice`, `UploadVoice`
+- Optional parameters `maxTipAmount` and `suggestedTipAmounts` to `ITelegramBotClient.SendInvoiceAsync`
+- Properties `MaxTipAmount` and `SuggestedTipAmounts` to `SendInvoiceRequest`
+
+### Changed
+
+- Parameter order in `ITelegramBotClient.UnpinChatMessageAsync`
+- Parameter `startParameter` of the method `ITelegramBotClient.SendInvoiceAsync` became optional
+- `ChatAction` values `RecordAudio` and `UploadAudio` marked as obsolete
+- `ReplyToMessageId` and `AllowSendingWithoutReply` in `IReplyMessage`, `CopyMessageRequest`, `SendLocationRequest`, `SendAnimationRequest`, `SendAudioRequest`, `SendContactRequest`, `SendDiceRequest`, `SendDocumentRequest`, `SendMediaGroupRequest`, `SendMessageRequest`, `SendPhotoRequest`, `SendPollRequest`, `SendVenueRequest`, `SendVideoNoteRequest`, `SendVideoRequest`, `SendVoiceRequest`, `SendGameRequest`, `SendStickerRequest` marked as optional
+
+> ⚠️ WARNING! ⚠️
+> After the next Bot API update (Bot API 5.3) there will be a one-time change of the value of the field `FileUniqueId` in objects of the type `PhotoSize` and of the fields `SmallFileUniqueId` and `BigFileUniqueId` in objects of the type `ChatPhoto`.
+
+<!-- -->
+> ⚠️ WARNING! ⚠️
+> Service messages about non-bot users joining the chat will be soon removed from large groups. We recommend using the “chat_member” update as a replacement.
+
+<!-- -->
+> ⚠️ WARNING! ⚠️
+> After one of the upcoming Bot API updates, user identifiers will become bigger than 2^31 - 1 and it will be no longer possible to store them in a signed 32-bit integer type. User identifiers will have up to 52 significant bits, so a 64-bit integer or double-precision float type would still be safe for storing them. Please make sure that your code can correctly handle such user identifiers.
+
+### Fixed
+
+- Align property order and description with official docs
+
+### Removed
+
+- Parameter `startParameter` from `SendInvoiceRequest` constructor
+
+## [v16.0.0-alpha.1] - 2021-05-01
+
+> [Bot API 5.1](https://core.telegram.org/bots/api#march-9-2021) (March 9, 2021)
+
+> [Bot API 5.0](https://core.telegram.org/bots/api#november-4-2020) (November 4, 2020)
+
+### Added
+
+- The method `ITelegramBotClient.CreateChatInviteLinkAsync`
+- The method `ITelegramBotClient.EditChatInviteLinkAsync`
+- The method `ITelegramBotClient.RevokeChatInviteLinkAsync`
 - Optional parameter `revokeMessages` to `ITelegramBotClient.KickChatMemberAsync`
 - Optional parameters `canManageChat`, `canManageVoiceChats` to `ITelegramBotClient.KickChatMemberAsync`
-- Property `RevokeMessages` to `KickChatMemberRequest`
 - Property `RevokeMessages` to `KickChatMemberRequest`
 - Properties `CanManageChat`, `CanManageVoiceChats` to `PromoteChatMemberRequest`
 - Properties `CanManageChat`, `CanManageVoiceChats` to `ChatMember`
@@ -41,47 +84,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - New enum values `MessageAutoDeleteTimerChanged`, `ProximityAlertTriggered`, `VoiceChatStarted`, `VoiceChatEnded`, `VoiceChatParticipantsInvited` for `MessageType`
 - New enum values `MyChatMember`, `ChatMember` for `UpdateType`
 - Delegate `AsyncEventHandler<T>`
-
-### Changed
-
-- Marked constructor for `TelegramBotClient` accepting `IWebProxy` as obsolete
-- Property `ITelegramBotClient.BotId` to `long?`
-- Event `MakingApiRequest` renamed to `OnMakingApiRequest` and it's type is changed to `AsyncEventHandler<ApiRequestEventArgs>`
-- Event `ApiResponseReceived` renamed to `OnApiResponseReceived` and it's type is changed to `AsyncEventHandler<ApiResponseEventArgs>`
-- Parameters order in following methods (to reflect [official docs](https://core.telegram.org/bots/api#available-methods)):
-  - `SetWebhookAsync`, `DeleteWebhookAsync`, `SendTextMessageAsync`, `SendPhotoAsync`, `SendAudioAsync`, `SendDocumentAsync`, `SendStickerAsync`, `SendVideoAsync`, `SendAnimationAsync`, `SendVoiceAsync`, `SendVideoNoteAsync`, `SendMediaGroupAsync`, `SendLocationAsync`, `SendVenueAsync`, `SendContactAsync`, `SendPollAsync`, `SendDiceAsync`, `KickChatMemberAsync`, `UnbanChatMemberAsync`, `PromoteChatMemberAsync`, `EditMessageTextAsync`, `EditMessageCaptionAsync`, `EditMessageLiveLocationAsync`, `SendInvoiceAsync`, `SendGameAsync`
-- Polling inside the library is now considered obsolete. The code, related to polling will be removed. It is recommended to use [Telegram.Bot.Extensions.Polling](https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling) package instead.
-  - These methods are now obsolete: `StartReceiving`, `StopReceiving`
-  - These events are now obsolete: `OnUpdate`, `OnMessage`, `OnMessageEdited`, `OnInlineQuery`, `OnInlineResultChosen`, `OnCallbackQuery`, `OnReceiveError`, `OnReceiveGeneralError`
-  - These fields are now obsolete: `IsReceiving`, `MessageOffset`
-- Parameter `baseUrl` in `TelegramBotClient` constructor accepts only URL's with protocol, host and port parts, everything else is ignored
-- Error `429 Too Many Request` is now handled by the client and is thrown as `ApiRequestException`
-
->⚠️ WARNING! ⚠️
->
->After one of the upcoming Bot API updates, _some_ user identifiers will become bigger than 2^31 - 1 and it will be no longer possible to store them in a signed 32-bit integer type. User identifiers will have up to 52 significant bits, so a 64-bit integer or double-precision float type would still be safe for storing them. Please make sure that your code can correctly handle such user identifiers.
-
-### Fixed
-
-- Incorrect property name `ExplanationCaptionEntities` -> `ExplanationEntities` in `SendPollRequest`
-
-### Removed
-
-- Obsolete overload method `ITelegramBotClient.DownloadFileAsync`
-- Obsolete overload method `ITelegramBotClient.SendMediaGroupAsync`
-- Obsolete constructor for `SendMediaGroupRequest`
-- Obsolete constructor for `InputMediaPhoto`
-- Obsolete constructor for `InputMediaVideo`
-- Obsolete property `AllMembersAreAdministrators` from `Chat`
-- Obsolete property `IsForwarded` from `Message`
-- Obsolete value `Animation` from enum `MessageType`
-
-## [v15.8.0] - Unreleased
-
-[Bot API 5.0](https://core.telegram.org/bots/api#november-4-2020) (November 4, 2020)
-
-### Added
-
 - Methods:
   - `ITelegramBotClient.LogOutAsync`
   - `ITelegramBotClient.CloseAsync`
@@ -122,7 +124,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Support for sending and receiving audio and document albums in the method `SendMediaGroupAsync`
 
 ### Changed
-- Constructor in `TelegramBotClient` accepts base url for custom Bot API server as optional third parameter
+
+- Constructor in `TelegramBotClient` accepts base url for custom Bot API server as optional third parameter, it accepts only URL's with protocol, host and port parts, everything else is ignored
+- Marked constructor for `TelegramBotClient` accepting `IWebProxy` as obsolete
+- Property `ITelegramBotClient.BotId` to `long?`
+- Event `MakingApiRequest` renamed to `OnMakingApiRequest` and it's type is changed to `AsyncEventHandler<ApiRequestEventArgs>`
+- Event `ApiResponseReceived` renamed to `OnApiResponseReceived` and it's type is changed to `AsyncEventHandler<ApiResponseEventArgs>`
+- Parameters order in following methods (to reflect [official docs](https://core.telegram.org/bots/api#available-methods)):
+  - `SetWebhookAsync`, `DeleteWebhookAsync`, `SendTextMessageAsync`, `SendPhotoAsync`, `SendAudioAsync`, `SendDocumentAsync`, `SendStickerAsync`, `SendVideoAsync`, `SendAnimationAsync`, `SendVoiceAsync`, `SendVideoNoteAsync`, `SendMediaGroupAsync`, `SendLocationAsync`, `SendVenueAsync`, `SendContactAsync`, `SendPollAsync`, `SendDiceAsync`, `KickChatMemberAsync`, `UnbanChatMemberAsync`, `PromoteChatMemberAsync`, `EditMessageTextAsync`, `EditMessageCaptionAsync`, `EditMessageLiveLocationAsync`, `SendInvoiceAsync`, `SendGameAsync`
+- Polling inside the library is now considered obsolete. The code, related to polling will be removed. It is recommended to use [Telegram.Bot.Extensions.Polling](https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling) package instead.
+  - These methods are now obsolete: `StartReceiving`, `StopReceiving`
+  - These events are now obsolete: `OnUpdate`, `OnMessage`, `OnMessageEdited`, `OnInlineQuery`, `OnInlineResultChosen`, `OnCallbackQuery`, `OnReceiveError`, `OnReceiveGeneralError`
+  - These fields are now obsolete: `IsReceiving`, `MessageOffset`
+- Error `429 Too Many Request` is now handled by the client and is thrown as `ApiRequestException`
+
+>⚠️ WARNING! ⚠️
+>
+>After one of the upcoming Bot API updates, _some_ user identifiers will become bigger than 2^31 - 1 and it will be no longer possible to store them in a signed 32-bit integer type. User identifiers will have up to 52 significant bits, so a 64-bit integer or double-precision float type would still be safe for storing them. Please make sure that your code can correctly handle such user identifiers.
+
+### Fixed
+
+- Incorrect property name `ExplanationCaptionEntities` -> `ExplanationEntities` in `SendPollRequest`
+
+### Removed
+
+- Obsolete overload method `ITelegramBotClient.DownloadFileAsync`
+- Obsolete overload method `ITelegramBotClient.SendMediaGroupAsync`
+- Obsolete constructor for `SendMediaGroupRequest`
+- Obsolete constructor for `InputMediaPhoto`
+- Obsolete constructor for `InputMediaVideo`
+- Obsolete property `AllMembersAreAdministrators` from `Chat`
+- Obsolete property `IsForwarded` from `Message`
+- Obsolete value `Animation` from enum `MessageType`
 
 ## [15.7.1] - 2020-06-18
 

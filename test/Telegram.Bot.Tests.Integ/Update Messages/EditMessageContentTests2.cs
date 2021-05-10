@@ -29,12 +29,12 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         public async Task Should_Edit_Message_Text()
         {
             const string originalMessagePrefix = "original\n";
-            (MessageEntityType Type, string Value)[] entityValueMappings = {
+            (MessageEntityType Type, string Value)[] entityValueMappings =
+            {
                 (MessageEntityType.Bold, "<b>bold</b>"),
                 (MessageEntityType.Italic, "<i>italic</i>"),
             };
-            string messageText = originalMessagePrefix +
-                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+            string messageText = $"{originalMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
             Message originalMessage = await BotClient.SendTextMessageAsync(
                 chatId: _fixture.SupergroupChat.Id,
@@ -45,8 +45,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             await Task.Delay(1_000);
 
             const string modifiedMessagePrefix = "modified\n";
-            messageText = modifiedMessagePrefix +
-                    string.Join("\n", entityValueMappings.Select(tuple => tuple.Value));
+            messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
+
             Message editedMessage = await BotClient.EditMessageTextAsync(
                 chatId: originalMessage.Chat.Id,
                 messageId: originalMessage.MessageId,
@@ -96,7 +96,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         public async Task Should_Edit_Message_Caption()
         {
             Message originalMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot))
             {
                 originalMessage = await BotClient.SendPhotoAsync(
                     chatId: _fixture.SupergroupChat.Id,

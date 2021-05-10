@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Exceptions;
@@ -38,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             #region Send Document
 
             Message documentMessage;
-            using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
+            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
             {
                 documentMessage = await BotClient.SendDocumentAsync(
                     chatId: _fixture.SupergroupChat,
@@ -67,7 +66,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
             _output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
-            using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
+            await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
             await BotClient.DownloadFileAsync(
                 filePath: _classFixture.File.FilePath,
                 destination: fileStream
@@ -84,7 +83,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
             _output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
-            using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
+            await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
             File file = await BotClient.GetInfoAndDownloadFileAsync(
                 fileId: _classFixture.File.FileId,
                 destination: fileStream
