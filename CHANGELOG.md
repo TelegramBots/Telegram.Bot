@@ -22,6 +22,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- `Animation` inherits from `FileBase`
+- All custom exceptions are marked as obsolete
+
+## [v16.0.0-alpha.2] - 2021-05-10
+
 > [Bot API 5.2](https://core.telegram.org/bots/api#april-26-2021) (April 26, 2021)
 
 ### Added
