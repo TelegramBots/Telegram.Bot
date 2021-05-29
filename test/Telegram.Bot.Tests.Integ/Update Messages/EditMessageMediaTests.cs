@@ -100,8 +100,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             {
                 new InlineQueryResultDocument(
                     id: "document:acrobat",
-                    documentUrl: "http://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf",
-                    title: "Parameters for Opening PDF Files",
+                    documentUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    title: "Dummy PDF File",
                     mimeType: "application/pdf")
                 {
                     ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to edit"),
