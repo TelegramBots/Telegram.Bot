@@ -3,6 +3,7 @@
 namespace Telegram.Bot.Exceptions
 {
     // ReSharper disable once UnusedTypeParameter
+    [Obsolete]
     internal interface IApiExceptionInfo<out T>
         where T : ApiRequestException
     {
@@ -13,6 +14,7 @@ namespace Telegram.Bot.Exceptions
         Type Type { get; }
     }
 
+    [Obsolete]
     internal class BadRequestExceptionInfo<T> : IApiExceptionInfo<T>
         where T : ApiRequestException
     {
@@ -28,6 +30,7 @@ namespace Telegram.Bot.Exceptions
         }
     }
 
+    [Obsolete]
     internal class ForbiddenExceptionInfo<T> : IApiExceptionInfo<T>
         where T : ApiRequestException
     {

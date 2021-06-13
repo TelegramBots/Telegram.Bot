@@ -7,19 +7,8 @@ namespace Telegram.Bot.Types
     /// This object represents an animation file to be displayed in the message containing a <see cref="Game"/>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class Animation
+    public class Animation : FileBase
     {
-        /// <summary>
-        /// Identifier for this file, which can be used to download or reuse the file
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string FileId { get; set; }
-
-        /// <summary>
-        /// Unique identifier for this file, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string FileUniqueId { get; set; }
 
         /// <summary>
         /// Video width as defined by sender
@@ -56,11 +45,5 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string MimeType { get; set; }
-
-        /// <summary>
-        /// File size.
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public int FileSize { get; set; }
     }
 }

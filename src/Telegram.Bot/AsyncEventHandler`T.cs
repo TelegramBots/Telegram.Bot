@@ -1,12 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+#pragma warning disable 1591
+
 namespace Telegram.Bot
 {
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TArgs"></typeparam>
     public delegate ValueTask AsyncEventHandler<in TArgs>(
         ITelegramBotClient botClient,
         TArgs args,

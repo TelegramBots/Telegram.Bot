@@ -6,6 +6,7 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// Represents an error from Bot API with 403 Forbidden HTTP status
     /// </summary>
+    [Obsolete("Custom exceptions will be removed in the next major update")]
     public abstract class ForbiddenException : ApiRequestException
     {
         /// <inheritdoc />

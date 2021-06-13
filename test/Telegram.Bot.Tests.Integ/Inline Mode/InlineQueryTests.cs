@@ -611,12 +611,12 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
             {
                 new InlineQueryResultDocument(
                     id: resultId,
-                    documentUrl: "http://www.adobe.com/content/dam/acom/en/devnet/acrobat/pdfs/pdf_open_parameters.pdf",
-                    title: "Parameters for Opening PDF Files",
+                    documentUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    title: "Dummy PDF File",
                     mimeType: "application/pdf")
                 {
-                    Caption = "Parameters for Opening PDF Files",
-                    Description = "Sample PDF file",
+                    Caption = "Dummy PDF File",
+                    Description = "Dummy PDF File for testing",
                 }
             };
 

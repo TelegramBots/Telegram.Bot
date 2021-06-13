@@ -1,9 +1,13 @@
 ﻿// ReSharper disable once CheckNamespace
+
+using System;
+
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>
     /// The exception that is thrown when the message is not modified
     /// </summary>
+    [Obsolete("Custom exceptions will be removed in the next major update")]
     public class MessageIsNotModifiedException : BadRequestException
     {
         /// <summary>
