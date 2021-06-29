@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 
@@ -9,10 +10,12 @@ namespace Telegram.Bot.Requests
     /// Get the number of members in a chat
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [Obsolete("Use GetChatMemberCountRequest instead")]
     public class GetChatMembersCountRequest : RequestBase<int>
     {
         /// <summary>
-        /// Unique identifier for the target chat or username of the target supergroup or channel (in the format @channelusername)
+        /// Unique identifier for the target chat or username of the target supergroup or channel
+        /// (in the format @channelusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }

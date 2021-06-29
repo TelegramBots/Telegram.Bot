@@ -18,9 +18,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 -->
+
 <!-- markdownlint-configure-file { "MD024": false } -->
 
 ## [Unreleased]
+
+> [Bot API 5.3](https://core.telegram.org/bots/api#june-25-2021) (June 25, 2021)
+
+### Added
+- Enum `InputMediaType`
+- Type `BanCommandScope`
+- Type `BanCommandScopeDefault`
+- Type `BanCommandScopeAllPrivateChats`
+- Type `BanCommandScopeAllGroupChats`
+- Type `BanCommandScopeAllChatAdministrators`
+- Type `BanCommandScopeChat`
+- Type `BanCommandScopeChatAdministrators`
+- Type `BanCommandScopeChatMember`
+- Enum `BanCommandScopeType`
+- Type `ChatMemberOwner`
+- Type `ChatMemberAdministrator`
+- Type `ChatMemberMember`
+- Type `ChatMemberRestricted`
+- Type `ChatMemberLeft`
+- Type `ChatMemberBanned`
+- Request `BanChatMemberRequest`
+- Request `BanChatMemberRequest`  
+- Request `DeleteMyCommandsRequest`
+- Request `GetChatMemberCountRequest`
+- Method `ITelegramBotClient.DeleteMyCommandsAsync`
+- Method `ITelegramBotClient.BanChatMemberAsync`
+- Method `ITelegramBotClient.GetChatMemberCountAsync`
+- Property `BotCommandScope GetMyCommandsRequest.Scope { get; set; }`
+- Property `string GetMyCommandsRequest.LanguageCode { get; set; }`
+- Property `BotCommandScope SetMyCommandsRequest.Scope { get; set; }`
+- Property `string SetMyCommandsRequest.LanguageCode { get; set; }`
+- Property `IRequest<TResponse>.IsWebhookResponse { get; set; }`
+- Protected constructor `InputMediaBase` that accepts `InputMedia`
+- Protected constructor `InputTelegramFile` that accepts `FileType`
+- Property `string ForceReplyMarkup.InputFieldPlaceholder { get; set; }`
+- Property `string ReplyKeyboardMarkup.InputFieldPlaceholder { get; set; }`
+
+### Changed
+- Type `ChatMember` is made abstract
+- Property `ChatMember.Status` is made abstract
+- Every use of enum `ParseMode` is made nullable to represent default text mode without any markup
+- Type `KickChatMemberRequest` is marked as obsolete
+- Type `GetChatMembersCountRequest` is marked as obsolete
+- Method `ITelegramBotClient.KickChatMemberAsync` is marked as obsolete
+- Method `ITelegramBotClient.GetChatMembersCountAsync` is marked as obsolete
+- All underlying enum values changed to start from `1` instead of `0`. `0` value are reserved for unknown enum values.
+- Type `ChatMember` is made abstract and it's properties are moved into separate inheriting classes
+- Changed parameters in `ITelegramBotClient.GetMyCommandsAsync`: added parameters `BotCommandScope scope` and `string language`
+- Changed parameters in `ITelegramBotClient.SetMyCommandsAsync`: added parameters `BotCommandScope scope` and `string language`
+- Type of property `IInputMedia.Type` changed from `string` to `InputMediaType`
+- Property `InputFileStream.FileType` is no longer virtual
+- Constructor of type `InputFileStream` that accepts both `Stream content` and `string fileName`: `filename` parameter is made optional
+- Constructor of type `InputOnlineFile` that accepts both `Stream content` and `string fileName`: `filename` parameter is made optional
+- Constructor of type `InputTelegramFile` that accepts both `Stream content` and `string fileName`: `filename` parameter is made optional
+- Property `InputMediaBase.Type` is made abstract
+- Protected setter `InputTelegramFile.FileId` is made private protected
+
+### Removed
+- Public setter `ChatMember.Status`
+- Enum member `ParseMode.Default`
+- Enum members `ChatAction.RecordAudio` and `ChatAction.UploadAudio`
+- Protected setter from property `InputFileStream.Content`
+- Constructor of type `InputFileStream` that accepts only `Stream`
+- Constructor of type `InputOnlineFile` that accepts only `Stream`
+- Constructor of type `InputTelegramFile` that accepts only `Stream`
+- Property setter `InputMediaBase.Media`
+- Protected setter `InputOnlineFile.Url`
+
+## [v16.0.0] - 2021-06-13
 
 ### Changed
 - `Animation` inherits from `FileBase`

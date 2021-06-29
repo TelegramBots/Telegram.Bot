@@ -10,6 +10,6 @@ namespace Telegram.Bot.Requests.Abstractions
         /// <summary>
         /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message
         /// </summary>
-        ParseMode ParseMode { get; set; }
+        ParseMode? ParseMode { get; set; }
     }
 }

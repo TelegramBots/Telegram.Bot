@@ -49,7 +49,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
 
             var message = JsonConvert.DeserializeObject<MessageEntity>(json);
 
-            Assert.Equal(MessageEntityType.Unknown, message.Type);
+            Assert.Equal((MessageEntityType)0, message.Type);
         }
 
         [Fact(DisplayName = "Should serialize message entity with unknown type")]
@@ -59,7 +59,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             {
                 Length = 10,
                 Offset = 10,
-                Type = MessageEntityType.Unknown
+                Type = 0
             };
 
             var json = JsonConvert.SerializeObject(messageEntity);

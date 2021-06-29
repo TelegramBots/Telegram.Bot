@@ -8,9 +8,12 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Kick a user from a group, a supergroup or a channel
+    /// Ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will
+    /// not be able to return to the chat on their own using invite links, etc., unless unbanned first. The bot
+    /// must be an administrator in the chat for this to work and must have the appropriate admin rights.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    [Obsolete("Use BanChatMemberRequest instead")]
     public class KickChatMemberRequest : RequestBase<bool>
     {
         /// <summary>

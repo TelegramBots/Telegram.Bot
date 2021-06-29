@@ -1,25 +1,60 @@
 ﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters
 {
-    internal class MessageEntityTypeConverter : JsonConverter
+    internal class MessageEntityTypeConverter : EnumConverter<MessageEntityType>
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var messageEntityType = (MessageEntityType)value;
-            var convertedEntityType = messageEntityType.ToStringValue();
-            writer.WriteValue(convertedEntityType);
-        }
+        static readonly IReadOnlyDictionary<string, MessageEntityType> StringToEnum =
+            new Dictionary<string, MessageEntityType>
+            {
+                { "mention", MessageEntityType.Mention },
+                { "hashtag", MessageEntityType.Hashtag },
+                { "bot_command", MessageEntityType.BotCommand },
+                { "url", MessageEntityType.Url },
+                { "email", MessageEntityType.Email },
+                { "bold", MessageEntityType.Bold },
+                { "italic", MessageEntityType.Italic },
+                { "code", MessageEntityType.Code },
+                { "pre", MessageEntityType.Pre },
+                { "text_link", MessageEntityType.TextLink },
+                { "text_mention", MessageEntityType.TextMention },
+                { "phone_number", MessageEntityType.PhoneNumber },
+                { "cashtag", MessageEntityType.Cashtag },
+                { "underline", MessageEntityType.Underline },
+                { "strikethrough", MessageEntityType.Strikethrough },
+            };
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            string value = JToken.ReadFrom(reader).Value<string>();
-            return value.ToMessageType();
-        }
+        static readonly IReadOnlyDictionary<MessageEntityType, string> EnumToString =
+            new Dictionary<MessageEntityType, string>
+            {
+                { 0, "unknown" },
+                { MessageEntityType.Mention, "mention" },
+                { MessageEntityType.Hashtag, "hashtag" },
+                { MessageEntityType.BotCommand, "bot_command" },
+                { MessageEntityType.Url, "url" },
+                { MessageEntityType.Email, "email" },
+                { MessageEntityType.Bold, "bold" },
+                { MessageEntityType.Italic, "italic" },
+                { MessageEntityType.Code, "code" },
+                { MessageEntityType.Pre, "pre" },
+                { MessageEntityType.TextLink, "text_link" },
+                { MessageEntityType.TextMention, "text_mention" },
+                { MessageEntityType.PhoneNumber, "phone_number" },
+                { MessageEntityType.Cashtag, "cashtag" },
+                { MessageEntityType.Underline, "underline" },
+                { MessageEntityType.Strikethrough, "strikethrough" },
+            };
 
-        public override bool CanConvert(Type objectType) => typeof(MessageEntityType) == objectType;
+        protected override MessageEntityType GetEnumValue(string value) =>
+            StringToEnum.TryGetValue(value, out var enumValue)
+                ? enumValue
+                : 0;
+
+        protected override string GetStringValue(MessageEntityType value) =>
+            EnumToString.TryGetValue(value, out var stringValue)
+                ? stringValue
+                : "unknown";
     }
 }

@@ -1,4 +1,5 @@
-using System;
+using Newtonsoft.Json;
+using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -8,13 +9,15 @@ namespace Telegram.Bot.Types
     /// </summary>
     public class InputMediaPhoto : InputMediaBase, IAlbumInputMedia
     {
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public override InputMediaType Type => InputMediaType.Photo;
+
         /// <summary>
         /// Initializes a new photo media to send with an <see cref="InputMedia"/>
         /// </summary>
-        public InputMediaPhoto(InputMedia media)
-        {
-            Type = "photo";
-            Media = media;
-        }
+        /// <param name="media"></param>
+        public InputMediaPhoto(InputMedia media) : base(media)
+        { }
     }
 }

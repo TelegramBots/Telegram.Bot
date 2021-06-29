@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the media
         /// </summary>
-        string Type { get; }
+        InputMediaType Type { get; }
 
         /// <summary>
         /// Media to send
@@ -26,10 +26,11 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in a caption
         /// </summary>
-        ParseMode ParseMode { get; }
+        ParseMode? ParseMode { get; }
 
         /// <summary>
-        /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+        /// Optional. List of special entities that appear in the caption, which can be specified
+        /// instead of <see cref="ParseMode"/>
         /// </summary>
         MessageEntity[] CaptionEntities { get; }
     }

@@ -1,10 +1,7 @@
 using System;
 using System.ComponentModel;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Polly;
-using Telegram.Bot.Exceptions;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 

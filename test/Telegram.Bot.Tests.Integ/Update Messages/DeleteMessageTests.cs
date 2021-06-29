@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) = await _fixture.UpdateReceiver
+            (Update messageUpdate, _) = await _fixture.UpdateReceiver
                 .GetInlineQueryResultUpdates(MessageType.Text);
 
             await Task.Delay(1_000);

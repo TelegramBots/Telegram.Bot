@@ -312,7 +312,7 @@ namespace Telegram.Bot
         Task<Message> SendTextMessageAsync(
             ChatId chatId,
             string text,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> entities = default,
             bool disableWebPagePreview = default,
             bool disableNotification = default,
@@ -359,7 +359,7 @@ namespace Telegram.Bot
             ChatId fromChatId,
             int messageId,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             int replyToMessageId = default,
             bool disableNotification = default,
@@ -386,7 +386,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile photo,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool disableNotification = default,
             int replyToMessageId = default,
@@ -425,7 +425,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile audio,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             int duration = default,
             string performer = default,
@@ -466,7 +466,7 @@ namespace Telegram.Bot
             InputOnlineFile document,
             InputMedia thumb = default,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool disableContentTypeDetection = default,
             bool disableNotification = default,
@@ -532,7 +532,7 @@ namespace Telegram.Bot
             int height = default,
             InputMedia thumb = default,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool supportsStreaming = default,
             bool disableNotification = default,
@@ -576,7 +576,7 @@ namespace Telegram.Bot
             int height = default,
             InputMedia thumb = default,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool disableNotification = default,
             int replyToMessageId = default,
@@ -605,7 +605,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile voice,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             int duration = default,
             bool disableNotification = default,
@@ -898,22 +898,64 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to kick a user from a group or a supergroup. In the case of supergroups, the user will not be able to return to the group on their own using invite links, etc., unless unbanned first. The bot must be an administrator in the group for this to work.
+        /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups
+        /// and channels, the user will not be able to return to the chat on their own using invite links, etc.,
+        /// unless unbanned first. The bot must be an administrator in the chat for this to work and must have
+        /// the appropriate admin rights.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
-        /// <param name="untilDate"><see cref="DateTime"/> when the user will be unbanned. If user is banned for more than 366 days or less than 30 seconds from the current time they are considered to be banned forever</param>
-        /// <param name="revokeMessages">Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed. Always True for supergroups and channels.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="untilDate">
+        /// <see cref="DateTime"/> when the user will be unbanned. If user is banned for more than 366 days or less
+        /// than 30 seconds from the current time they are considered to be banned forever
+        /// </param>
+        /// <param name="revokeMessages">
+        /// Pass <c>true</c> to delete all messages from the chat for the user that is being removed.
+        /// If <c>false</c>, the user will be able to see messages in the group that were sent before the user
+        /// was removed. Always <c>true</c> for supergroups and channels.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#kickchatmember"/>
+        [Obsolete("Use ITelegramBotClient.BanChatMemberAsync instead")]
         Task KickChatMemberAsync(
             ChatId chatId,
             long userId,
             DateTime untilDate = default,
             bool? revokeMessages = default,
             CancellationToken cancellationToken = default
-            );
+        );
+
+        /// <summary>
+        /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups
+        /// and channels, the user will not be able to return to the chat on their own using invite links, etc.,
+        /// unless unbanned first. The bot must be an administrator in the chat for this to work and must have
+        /// the appropriate admin rights.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="untilDate">
+        /// <see cref="DateTime"/> when the user will be unbanned. If user is banned for more than 366 days or less
+        /// than 30 seconds from the current time they are considered to be banned forever
+        /// </param>
+        /// <param name="revokeMessages">
+        /// Pass <c>true</c> to delete all messages from the chat for the user that is being removed.
+        /// If <c>false</c>, the user will be able to see messages in the group that were sent before the user
+        /// was removed. Always <c>true</c> for supergroups and channels.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#banchatmember"/>
+        Task BanChatMemberAsync(
+            ChatId chatId,
+            long userId,
+            DateTime untilDate = default,
+            bool? revokeMessages = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method for your bot to leave a group, supergroup or channel.
@@ -927,20 +969,26 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to unban a previously kicked user in a supergroup. The user will not return to the group automatically, but will be able to join via link, etc. The bot must be an administrator in the group for this to work.
+        /// Use this method to unban a previously banned user in a supergroup or channel. The user will not
+        /// return to the group or channel automatically, but will be able to join via link, etc. The bot must
+        /// be an administrator for this to work. By default, this method guarantees that after the call the
+        /// user is not a member of the chat, but will be able to join it. So if the user is a member of the
+        /// chat they will also be removed from the chat. If you don't want this, use the parameter
+        /// <paramref name="onlyIfBanned"/>.
         /// </summary>
         /// <param name="chatId"><see cref="ChatId"/> for the target group</param>
         /// <param name="userId">Unique identifier of the target user</param>
         /// <param name="onlyIfBanned">Do nothing if the user is not banned</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#unbanchatmember"/>
         Task UnbanChatMemberAsync(
             ChatId chatId,
             long userId,
             bool onlyIfBanned = default,
-            CancellationToken cancellationToken = default
-            );
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
@@ -971,7 +1019,19 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns Int on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#getchatmemberscount"/>
+        [Obsolete("Use ITelegramBotClient.GetChatMemberCountAsync")]
         Task<int> GetChatMembersCountAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to get the number of members in a chat.
+        /// </summary>
+        /// <param name="chatId"><see cref="ChatId"/> for the target chat</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>Returns Int on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#getchatmembercount"/>
+        Task<int> GetChatMemberCountAsync(
             ChatId chatId,
             CancellationToken cancellationToken = default);
 
@@ -1097,22 +1157,68 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to get the current list of the bot's commands
+        /// Use this method to get the current list of the bot's commands for the given <see cref="BotCommandScope"/>
+        /// and user language. Returns <see cref="T:BotCommand[]"/> on success. If commands aren't set,
+        /// an empty list is returned.
         /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Array of <see cref="BotCommand"/> on success.</returns>
+        /// <param name="scope">
+        /// An object, describing scope of users for which the commands are relevant.
+        /// Defaults to <see cref="BotCommandScopeDefault"/>.
+        /// </param>
+        /// <param name="languageCode">
+        /// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given
+        /// <see cref="BotCommandScope"/>, for whose language there are no dedicated commands
+        /// </param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to
+        /// receive notice of cancellation.</param>
+        /// <returns><see cref="T:BotCommand[]"/> on success or an empty array otherwise.</returns>
         /// <see href="https://core.telegram.org/bots/api#getmycommands"/>
-        Task<BotCommand[]> GetMyCommandsAsync(CancellationToken cancellationToken = default);
+        Task<BotCommand[]> GetMyCommandsAsync(
+            BotCommandScope scope = default,
+            string languageCode = default,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to change the list of the bot's commands. Returns True on success.
         /// </summary>
         /// <param name="commands">A list of bot commands to be set</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="scope">
+        /// An object, describing scope of users for which the commands are relevant.
+        /// Defaults to <see cref="BotCommandScopeDefault"/>.
+        /// </param>
+        /// <param name="languageCode">
+        /// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given
+        /// <see cref="BotCommandScope"/>, for whose language there are no dedicated commands
+        /// </param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to
+        /// receive notice of cancellation.</param>
         /// <returns><c>true</c> on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#setmycommands"/>
         Task SetMyCommandsAsync(
             IEnumerable<BotCommand> commands,
+            BotCommandScope scope = default,
+            string languageCode = default,
+            CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Use this method to delete the list of the bot's commands for the given <see cref="BotCommandScope"/>
+        /// and user language. After deletion, higher level commands will be shown to affected users.
+        /// </summary>
+        /// <param name="scope">
+        /// An object, describing scope of users for which the commands are relevant.
+        /// Defaults to <see cref="BotCommandScopeDefault"/>.
+        /// </param>
+        /// <param name="languageCode">
+        /// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given
+        /// <see cref="BotCommandScope"/>, for whose language there are no dedicated commands
+        /// </param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to
+        /// receive notice of cancellation.</param>
+        /// <returns><c>true</c> on success.</returns>
+        /// <see href="https://core.telegram.org/bots/api#deletemycommands"/>
+        Task DeleteMyCommandsAsync(
+            BotCommandScope scope = default,
+            string languageCode = default,
             CancellationToken cancellationToken = default);
 
         #endregion Available methods
@@ -1136,7 +1242,7 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             string text,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> entities = default,
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
@@ -1158,7 +1264,7 @@ namespace Telegram.Bot
         Task EditMessageTextAsync(
             string inlineMessageId,
             string text,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> entities = default,
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
@@ -1209,7 +1315,7 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             string caption,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
@@ -1229,7 +1335,7 @@ namespace Telegram.Bot
         Task EditMessageCaptionAsync(
             string inlineMessageId,
             string caption,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default

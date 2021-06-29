@@ -18,47 +18,24 @@ namespace Telegram.Bot.Types.InputFiles
         /// HTTP URL for Telegram to get a file from the Internet
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Url { get; protected set; }
-
-        /// <inheritdoc cref="IInputFile.FileType"/>
-        public override FileType FileType
-        {
-            get
-            {
-                if (Content != null) return FileType.Stream;
-                if (FileId != null) return FileType.Id;
-                if (Url != null) return FileType.Url;
-                throw new InvalidOperationException("Not a valid InputFile");
-            }
-        }
-
-        /// <summary>
-        /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Stream"/>
-        /// </summary>
-        /// <param name="content"><see cref="Stream"/> containing the file</param>
-        public InputOnlineFile(Stream content)
-            : this(content, default)
-        {
-        }
+        public string Url { get; }
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Stream"/> and a file name
         /// </summary>
         /// <param name="content"><see cref="Stream"/> containing the file</param>
         /// <param name="fileName">Name of the file</param>
-        public InputOnlineFile(Stream content, string fileName)
-        {
-            Content = content;
-            FileName = fileName;
-        }
+        public InputOnlineFile(Stream content, string fileName = default)
+            : base(content, fileName)
+        { }
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a string containing a uri or file id
         /// </summary>
         /// <param name="value"><see cref="string"/> containing a url or file id</param>
-        public InputOnlineFile(string value)
+        public InputOnlineFile(string value) : base(Check(value, out var isUrl))
         {
-            if (Uri.TryCreate(value, UriKind.Absolute, out Uri _))
+            if (isUrl)
             {
                 Url = value;
             }
@@ -72,27 +49,31 @@ namespace Telegram.Bot.Types.InputFiles
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Uri"/>
         /// </summary>
         /// <param name="url"><see cref="Uri"/> pointing to a file</param>
-        public InputOnlineFile(Uri url)
-        {
-            Url = url.AbsoluteUri;
-        }
+        public InputOnlineFile(Uri url) : base(FileType.Url) => Url = url.AbsoluteUri;
 
         /// <summary>
         /// ToDo
         /// </summary>
         /// <param name="stream"></param>
         public static implicit operator InputOnlineFile(Stream stream) =>
-            stream == null
-                ? default
-                : new InputOnlineFile(stream);
+            stream is null ? default : new InputOnlineFile(stream);
 
         /// <summary>
         /// ToDo
         /// </summary>
         /// <param name="value"></param>
         public static implicit operator InputOnlineFile(string value) =>
-            value == null
-                ? default
-                : new InputOnlineFile(value);
+            value is null ? default : new InputOnlineFile(value);
+
+        private static FileType Check(string value, out bool isUrl)
+        {
+            if (Uri.TryCreate(value, UriKind.Absolute, out _))
+            {
+                isUrl = true;
+                return FileType.Url;
+            }
+            isUrl = false;
+            return FileType.Id;
+        }
     }
 }

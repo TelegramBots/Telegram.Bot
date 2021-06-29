@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -56,7 +55,7 @@ namespace Telegram.Bot.Requests
         /// <returns></returns>
         protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
         {
-            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks.ToString());
+            var multipartContent = new MultipartFormDataContent($"{Guid.NewGuid()}{DateTime.UtcNow.Ticks}");
 
             var stringContents = JObject.FromObject(this)
                 .Properties()
@@ -66,8 +65,11 @@ namespace Telegram.Bot.Requests
                     prop.Name,
                     Content = new StringContent(prop.Value.ToString())
                 });
+
             foreach (var strContent in stringContents)
+            {
                 multipartContent.Add(strContent.Content, strContent.Name);
+            }
 
             return multipartContent;
         }

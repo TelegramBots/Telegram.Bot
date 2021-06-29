@@ -1,7 +1,6 @@
-﻿// ReSharper disable once CheckNamespace
+﻿using System;
 
-using System;
-
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>

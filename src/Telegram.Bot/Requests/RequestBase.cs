@@ -50,9 +50,7 @@ namespace Telegram.Bot.Requests
             return new StringContent(payload, Encoding.UTF8, "application/json");
         }
 
-        /// <summary>
-        /// Allows this object to be used as a response in webhooks
-        /// </summary>
+        /// <inheritdoc />
         [JsonIgnore]
         public bool IsWebhookResponse { get; set; }
 

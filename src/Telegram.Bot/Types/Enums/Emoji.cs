@@ -1,6 +1,5 @@
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
@@ -11,43 +10,37 @@ namespace Telegram.Bot.Types.Enums
     /// Telegram servers for compatibility reasons
     /// </remarks>
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(EmojiConverter))]
     public enum Emoji
     {
         /// <summary>
         /// Dice. Resulting value is 1-6
         /// </summary>
-        [EnumMember(Value = "🎲")]
-        Dice,
+        Dice = 1,
 
         /// <summary>
         /// Darts. Resulting value is 1-6
         /// </summary>
-        [EnumMember(Value = "🎯")]
         Darts,
 
         /// <summary>
         /// Basketball. Resulting value is 1-5
         /// </summary>
-        [EnumMember(Value = "🏀")]
         Basketball,
 
         /// <summary>
         /// Football. Resulting value is 1-5
         /// </summary>
-        [EnumMember(Value = "⚽")]
         Football,
 
         /// <summary>
         /// Slot machine. Resulting value is 1-64
         /// </summary>
-        [EnumMember(Value = "🎰")]
         SlotMachine,
 
         /// <summary>
         /// Bowling. Result value is 1-6
         /// </summary>
-        [EnumMember(Value = "🎳")]
         Bowling
     }
 }

@@ -14,5 +14,11 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public bool ForceReply => true;
+
+        /// <summary>
+        /// Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string InputFieldPlaceholder { get; set; }
     }
 }

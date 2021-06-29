@@ -1,6 +1,6 @@
-using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -11,6 +11,10 @@ namespace Telegram.Bot.Types
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputMediaVideo : InputMediaBase, IInputMediaThumb, IAlbumInputMedia
     {
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public override InputMediaType Type => InputMediaType.Video;
+
         /// <summary>
         /// Optional. Video width
         /// </summary>
@@ -42,10 +46,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Initializes a new video media to send with an <see cref="InputMedia"/>
         /// </summary>
-        public InputMediaVideo(InputMedia media)
-        {
-            Type = "video";
-            Media = media;
-        }
+        /// <param name="media"></param>
+        public InputMediaVideo(InputMedia media) : base(media)
+        { }
     }
 }

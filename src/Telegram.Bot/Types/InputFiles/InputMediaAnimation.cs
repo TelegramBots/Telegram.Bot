@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types
@@ -10,6 +11,10 @@ namespace Telegram.Bot.Types
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputMediaAnimation : InputMediaBase, IInputMediaThumb
     {
+        /// <inheritdoc />
+        [JsonProperty(Required = Required.Always)]
+        public override InputMediaType Type => InputMediaType.Animation;
+
         /// <summary>
         /// Optional. Animation width
         /// </summary>
@@ -35,10 +40,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Initializes a new animation media to send with an <see cref="InputMedia"/>
         /// </summary>
-        public InputMediaAnimation(InputMedia media)
-        {
-            Type = "animation";
-            Media = media;
-        }
+        /// <param name="media"></param>
+        public InputMediaAnimation(InputMedia media) : base(media)
+        { }
     }
 }

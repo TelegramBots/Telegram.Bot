@@ -6,6 +6,7 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using Xunit.Sdk;
 using Constants = Telegram.Bot.Tests.Integ.Framework.Constants;
 
 namespace Telegram.Bot.Tests.Integ.Admin_Bot
@@ -33,7 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_For_Ever()
         {
-            await BotClient.KickChatMemberAsync(
+            await BotClient.BanChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId
             );
@@ -128,7 +129,15 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 promotedRegularUser.User.Id
             );
 
-            Assert.Equal("CHANGED TITLE", newChatMember.CustomTitle);
+            Assert.Equal(ChatMemberStatus.Administrator, newChatMember.Status);
+            Assert.IsType<ChatMemberAdministrator>(newChatMember);
+
+            if (newChatMember is not ChatMemberAdministrator administrator)
+            {
+                throw new XunitException("Should not ever be thrown");
+            }
+
+            Assert.Equal("CHANGED TITLE", administrator.CustomTitle);
 
             // Restore default title by sending empty string
             await BotClient.SetChatAdministratorCustomTitleAsync(
@@ -235,7 +244,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 $" *{banSeconds} seconds* via the link shared in private chat with him/her"
             );
 
-            await BotClient.KickChatMemberAsync(
+            await BotClient.BanChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
                 untilDate: DateTime.UtcNow.AddSeconds(banSeconds)

@@ -1,21 +1,21 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// Type of the <see cref="Chat"/>, from which the inline query was sent
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter), true)]
+    [JsonConverter(typeof(ChatTypeConverter))]
     public enum ChatType
     {
         /// <summary>
         /// Normal one to one <see cref="Chat"/>
         /// </summary>
-        Private,
+        Private = 1,
 
         /// <summary>
-        /// Normal groupchat
+        /// Normal group chat
         /// </summary>
         Group,
 

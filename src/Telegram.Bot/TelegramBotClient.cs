@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -28,9 +27,6 @@ namespace Telegram.Bot
     {
         private const string BaseTelegramUrl = "https://api.telegram.org";
         private static readonly Update[] EmptyUpdates = { };
-
-        // Max long value that fits 52 bits is 9007199254740991 and is 16 chars long
-        private static readonly Regex TokenFormat = new Regex("^(?<token>[-]?[0-9]{1,16}):.*$", RegexOptions.Compiled);
 
         private readonly string _baseFileUrl;
         private readonly string _baseRequestUrl;
@@ -196,24 +192,38 @@ namespace Telegram.Bot
         {
             if (token is null) throw new ArgumentNullException(nameof(token));
 
-            var match = TokenFormat.Match(token);
-            if (match.Success)
-            {
-                var botIdString = match.Groups["token"].Value;
-                if (long.TryParse(botIdString, out var botId))
-                {
-                    BotId = botId;
-                }
-            }
+            BotId = GetIdFromToken(token);
 
-            _localBotServer = TrySetBaseUrl(
-                baseUrl ?? BaseTelegramUrl,
-                out var effectiveBaseUrl
-            );
+            _localBotServer = baseUrl is not null;
+            var effectiveBaseUrl = _localBotServer
+                ? ExtractBaseUrl(baseUrl)
+                : BaseTelegramUrl;
 
             _baseRequestUrl = $"{effectiveBaseUrl}/bot{token}";
             _baseFileUrl = $"{effectiveBaseUrl}/file/bot{token}";
             _httpClient = httpClient ?? new HttpClient();
+
+            static long? GetIdFromToken(string token)
+            {
+#if NETCOREAPP3_1_OR_GREATER
+                var span = token.AsSpan();
+                var index = span.IndexOf(':');
+
+                if (index is < 1 or > 16) { return null; }
+
+                var botIdSpan = span[..index];
+                if (!long.TryParse(botIdSpan, out var botId)) { return null; }
+#else
+                var index = token.IndexOf(':');
+
+                if (index is < 1 or > 16) { return null; }
+
+                var botIdSpan = token.Substring(0, index);
+                if (!long.TryParse(botIdSpan, out var botId)) { return null; }
+#endif
+
+                return botId;
+            }
         }
 
         /// <summary>
@@ -506,7 +516,7 @@ namespace Telegram.Bot
         public Task<Message> SendTextMessageAsync(
             ChatId chatId,
             string text,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> entities = default,
             bool disableWebPagePreview = default,
             bool disableNotification = default,
@@ -542,7 +552,7 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task<MessageId> CopyMessageAsync(ChatId chatId, ChatId fromChatId, int messageId,
                                                  string caption = default,
-                                                 ParseMode parseMode = default,
+                                                 ParseMode? parseMode = default,
                                                  IEnumerable<MessageEntity> captionEntities = default,
                                                  int replyToMessageId = default,
                                                  bool disableNotification = default,
@@ -563,7 +573,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile photo,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool disableNotification = default,
             int replyToMessageId = default,
@@ -587,7 +597,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile audio,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             int duration = default,
             string performer = default,
@@ -620,7 +630,7 @@ namespace Telegram.Bot
             InputOnlineFile document,
             InputMedia thumb = default,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool disableContentTypeDetection = default,
             bool disableNotification = default,
@@ -669,7 +679,7 @@ namespace Telegram.Bot
             int height = default,
             InputMedia thumb = default,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool supportsStreaming = default,
             bool disableNotification = default,
@@ -703,7 +713,7 @@ namespace Telegram.Bot
             int height = default,
             InputMedia thumb = default,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             bool disableNotification = default,
             int replyToMessageId = default,
@@ -731,7 +741,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile voice,
             string caption = default,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             int duration = default,
             bool disableNotification = default,
@@ -1016,6 +1026,20 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
+        public Task BanChatMemberAsync(
+            ChatId chatId,
+            long userId,
+            DateTime untilDate = default,
+            bool? revokeMessages = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new BanChatMemberRequest(chatId, userId)
+            {
+                UntilDate = untilDate,
+                RevokeMessages = revokeMessages
+            }, cancellationToken);
+
+        /// <inheritdoc />
         public Task KickChatMemberAsync(
             ChatId chatId,
             long userId,
@@ -1065,6 +1089,13 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new GetChatMembersCountRequest(chatId), cancellationToken);
+
+        /// <inheritdoc />
+        public Task<int> GetChatMemberCountAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetChatMemberCountRequest(chatId), cancellationToken);
 
         /// <inheritdoc />
         public Task<ChatMember> GetChatMemberAsync(
@@ -1157,14 +1188,47 @@ namespace Telegram.Bot
             MakeRequestAsync(new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
 
         /// <inheritdoc />
-        public Task<BotCommand[]> GetMyCommandsAsync(CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(new GetMyCommandsRequest(), cancellationToken);
+        public Task<BotCommand[]> GetMyCommandsAsync(
+            BotCommandScope scope = default,
+            string languageCode = default,
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(
+                new GetMyCommandsRequest
+                {
+                    Scope = scope,
+                    LanguageCode = languageCode
+                },
+                cancellationToken
+            );
 
         /// <inheritdoc />
         public Task SetMyCommandsAsync(
             IEnumerable<BotCommand> commands,
+            BotCommandScope scope = default,
+            string languageCode = default,
             CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(new SetMyCommandsRequest(commands), cancellationToken);
+            MakeRequestAsync(
+                new SetMyCommandsRequest(commands)
+                {
+                    Scope = scope,
+                    LanguageCode = languageCode
+                },
+                cancellationToken
+            );
+
+        /// <inheritdoc />
+        public Task DeleteMyCommandsAsync(
+            BotCommandScope scope = default,
+            string languageCode = default,
+            CancellationToken cancellationToken = default) =>
+            MakeRequestAsync(
+                new DeleteMyCommandsRequest
+                {
+                    Scope = scope,
+                    LanguageCode = languageCode
+                },
+                cancellationToken
+            );
 
         /// <inheritdoc />
         public Task<Message> StopMessageLiveLocationAsync(
@@ -1198,7 +1262,7 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             string text,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> entities = default,
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
@@ -1216,7 +1280,7 @@ namespace Telegram.Bot
         public Task EditMessageTextAsync(
             string inlineMessageId,
             string text,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> entities = default,
             bool disableWebPagePreview = default,
             InlineKeyboardMarkup replyMarkup = default,
@@ -1235,7 +1299,7 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             string caption,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
@@ -1251,7 +1315,7 @@ namespace Telegram.Bot
         public Task EditMessageCaptionAsync(
             string inlineMessageId,
             string caption,
-            ParseMode parseMode = default,
+            ParseMode? parseMode = default,
             IEnumerable<MessageEntity> captionEntities = default,
             InlineKeyboardMarkup replyMarkup = default,
             CancellationToken cancellationToken = default
@@ -1792,21 +1856,20 @@ namespace Telegram.Bot
 
         #endregion
 
-        private static HttpClient CreateHttpClient(IWebProxy webProxy)
-        {
-            if (webProxy is null) throw new ArgumentNullException(nameof(webProxy));
-            return new HttpClient(new HttpClientHandler { Proxy = webProxy, UseProxy = true });
-        }
+        private static HttpClient CreateHttpClient(IWebProxy webProxy) =>
+            new(new HttpClientHandler
+            {
+                Proxy = webProxy ?? throw new ArgumentNullException(nameof(webProxy)),
+                UseProxy = true
+            });
 
-        private static bool TrySetBaseUrl(
-            string baseUrl,
-            out string target)
+        private static string ExtractBaseUrl(string baseUrl)
         {
             if (baseUrl is null) throw new ArgumentNullException(nameof(baseUrl));
 
-            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var baseUri) ||
-                string.IsNullOrEmpty(baseUri.Scheme) ||
-                string.IsNullOrEmpty(baseUri.Authority))
+            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var baseUri)
+                || string.IsNullOrEmpty(baseUri.Scheme)
+                || string.IsNullOrEmpty(baseUri.Authority))
             {
                 throw new ArgumentException(
                     "Invalid format. A valid base url looks \"http://localhost:8081\" ",
@@ -1814,14 +1877,7 @@ namespace Telegram.Bot
                 );
             }
 
-            if (!baseUri.Host.Equals("api.telegram.org", StringComparison.Ordinal))
-            {
-                target = $"{baseUri.Scheme}://{baseUri.Authority}";
-                return true;
-            }
-
-            target = baseUrl;
-            return false;
+            return $"{baseUri.Scheme}://{baseUri.Authority}";
         }
 
         #region For testing purposes

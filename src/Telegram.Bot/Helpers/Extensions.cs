@@ -13,8 +13,8 @@ namespace Telegram.Bot.Helpers
     /// </summary>
     internal static class Extensions
     {
-        private static string EncodeUtf8(this string value) =>
-            new string(Encoding.UTF8.GetBytes(value).Select(c => Convert.ToChar(c)).ToArray());
+        static string EncodeUtf8(this string value) =>
+            new(Encoding.UTF8.GetBytes(value).Select(Convert.ToChar).ToArray());
 
         internal static void AddStreamContent(
             this MultipartFormDataContent multipartContent,
@@ -22,8 +22,8 @@ namespace Telegram.Bot.Helpers
             string name,
             string fileName = default)
         {
-            fileName = fileName ?? name;
-            string contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
+            fileName ??= name;
+            var contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
 
             HttpContent mediaPartContent = new StreamContent(content)
             {

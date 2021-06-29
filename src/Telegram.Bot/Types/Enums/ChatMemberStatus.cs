@@ -1,18 +1,18 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// ChatMember status
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter), true)]
+    [JsonConverter(typeof(ChatMemberStatusConverter))]
     public enum ChatMemberStatus
     {
         /// <summary>
         /// Creator of the <see cref="Chat"/>
         /// </summary>
-        Creator,
+        Creator = 1,
 
         /// <summary>
         /// Administrator of the <see cref="Chat"/>
