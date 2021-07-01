@@ -34,7 +34,7 @@ namespace Telegram.Bot.Requests
         { }
 
         /// <summary>
-        /// ToDo
+        /// Generate multipart form data content
         /// </summary>
         /// <param name="fileParameterName"></param>
         /// <param name="inputFile"></param>
@@ -49,7 +49,7 @@ namespace Telegram.Bot.Requests
         }
 
         /// <summary>
-        /// ToDo
+        /// Generate multipart form data content
         /// </summary>
         /// <param name="exceptPropertyNames"></param>
         /// <returns></returns>

@@ -8,10 +8,9 @@ namespace Telegram.Bot.Requests.Abstractions
     /// </summary>
     public interface IEntities
     {
-
         /// <summary>
-        /// List of special entities that appear in message text, which can be specified instead of parse_mode
+        /// List of special entities that appear in message text, which can be specified instead of <see cref="Types.Enums.ParseMode"/>
         /// </summary>
-        IEnumerable<MessageEntity> Entities { get; set; }
+        IEnumerable<MessageEntity>? Entities { get; set; }
     }
 }

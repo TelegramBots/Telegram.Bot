@@ -1,12 +1,15 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries. On success, True is returned. Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
+    /// Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an <see cref="Types.Update"/> with the field <see cref="Types.Update.PreCheckoutQuery"/>. Use this method to respond to such pre-checkout queries. On success, True is returned.
     /// </summary>
+    /// <remarks>
+    /// <b>Note</b>: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
+    /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     {
@@ -23,34 +26,32 @@ namespace Telegram.Bot.Requests
         public bool Ok { get; }
 
         /// <summary>
-        /// Required if ok is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
+        /// Required if <see cref="Ok"/> is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string ErrorMessage { get; set; }
-
-        private AnswerPreCheckoutQueryRequest()
-            : base("answerPreCheckoutQuery")
-        { }
+        public string? ErrorMessage { get; }
 
         /// <summary>
         /// Initializes a new successful answerPreCheckoutQuery request
         /// </summary>
-        /// <param name="preCheckoutQuery">Unique identifier for the query to be answered</param>
-        public AnswerPreCheckoutQueryRequest(string preCheckoutQuery)
-            : this(preCheckoutQuery, null)
+        /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
+        public AnswerPreCheckoutQueryRequest(string preCheckoutQueryId)
+            : base("answerPreCheckoutQuery")
         {
+            PreCheckoutQueryId = preCheckoutQueryId;
             Ok = true;
         }
 
         /// <summary>
         /// Initializes a new failing answerPreCheckoutQuery request with error message
         /// </summary>
-        /// <param name="preCheckoutQuery">Unique identifier for the query to be answered</param>
-        /// <param name="errorMessage">Error message in human readable form</param>
-        public AnswerPreCheckoutQueryRequest(string preCheckoutQuery, string errorMessage)
-            : this()
+        /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
+        /// <param name="errorMessage">Required if <see cref="Ok"/> is False. Error message in human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment details. Please choose a different color or garment!"). Telegram will display this message to the user.</param>
+        public AnswerPreCheckoutQueryRequest(string preCheckoutQueryId, string errorMessage)
+            : base("answerPreCheckoutQuery")
         {
-            PreCheckoutQueryId = preCheckoutQuery;
+            PreCheckoutQueryId = preCheckoutQueryId;
+            Ok = false;
             ErrorMessage = errorMessage;
         }
     }

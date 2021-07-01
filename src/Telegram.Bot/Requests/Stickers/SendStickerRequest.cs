@@ -11,7 +11,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send .webp stickers. On success, the sent <see cref="Message"/> is returned.
+    /// Use this method to send static .WEBP or animated .TGS stickers. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendStickerRequest : FileRequestBase<Message>,
@@ -20,20 +20,20 @@ namespace Telegram.Bot.Requests
                                       IReplyMarkupMessage<IReplyMarkup>
     {
         /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
+        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Sticker to send
+        /// Sticker to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InputOnlineFile Sticker { get; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool DisableNotification { get; set; }
+        public bool? DisableNotification { get; set; }
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -45,11 +45,13 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public IReplyMarkup ReplyMarkup { get; set; }
+        public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request chatId and sticker
         /// </summary>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="sticker">Sticker to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data</param>
         public SendStickerRequest(ChatId chatId, InputOnlineFile sticker)
             : base("sendSticker")
         {
@@ -58,7 +60,7 @@ namespace Telegram.Bot.Requests
         }
 
         /// <inheritdoc />
-        public override HttpContent ToHttpContent() =>
+        public override HttpContent? ToHttpContent() =>
             Sticker.FileType == FileType.Stream
                 ? ToMultipartFormDataContent("sticker", Sticker)
                 : base.ToHttpContent();

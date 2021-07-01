@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 
 // ReSharper disable once UnusedTypeParameter
 namespace Telegram.Bot.Requests.Abstractions
@@ -28,6 +28,6 @@ namespace Telegram.Bot.Requests.Abstractions
         /// Generate content of HTTP message
         /// </summary>
         /// <returns>Content of HTTP request</returns>
-        HttpContent ToHttpContent();
+        HttpContent? ToHttpContent();
     }
 }

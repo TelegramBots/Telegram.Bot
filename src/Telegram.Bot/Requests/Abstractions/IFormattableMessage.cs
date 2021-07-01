@@ -8,7 +8,7 @@ namespace Telegram.Bot.Requests.Abstractions
     public interface IFormattableMessage
     {
         /// <summary>
-        /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message
+        /// Mode for parsing entities in the new caption. See <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for more details.
         /// </summary>
         ParseMode? ParseMode { get; set; }
     }

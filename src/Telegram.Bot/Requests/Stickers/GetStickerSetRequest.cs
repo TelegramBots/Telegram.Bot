@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 
@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Get a sticker set. On success, a <see cref="StickerSet"/> object is returned.
+    /// Use this method to get a sticker set. On success, a <see cref="StickerSet"/> object is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetStickerSetRequest : RequestBase<StickerSet>

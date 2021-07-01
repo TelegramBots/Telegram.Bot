@@ -1,15 +1,14 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Add a new sticker to a set created by the bot. Returns True on success.
+    /// Use this method to add a new sticker to a set created by the bot. Static sticker sets can have up to 120 stickers. Returns True on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class AddStickerToSetRequest : FileRequestBase<bool>
@@ -27,7 +26,7 @@ namespace Telegram.Bot.Requests
         public string Name { get; }
 
         /// <summary>
-        /// Png image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px
+        /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InputOnlineFile PngSticker { get; }
@@ -39,17 +38,17 @@ namespace Telegram.Bot.Requests
         public string Emojis { get; }
 
         /// <summary>
-        /// One or more emoji corresponding to the sticker
+        /// An object for position where the mask should be placed on faces
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public MaskPosition MaskPosition { get; set; }
+        public MaskPosition? MaskPosition { get; set; }
 
         /// <summary>
-        /// Initializes a new request with userId, name pngSticker and emojis
+        /// Initializes a new request with userId, name, pngSticker and emojis
         /// </summary>
         /// <param name="userId">User identifier of sticker set owner</param>
         /// <param name="name">Sticker set name</param>
-        /// <param name="pngSticker">Png image with the sticker</param>
+        /// <param name="pngSticker"><b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data</param>
         /// <param name="emojis">One or more emoji corresponding to the sticker</param>
         public AddStickerToSetRequest(long userId, string name, InputOnlineFile pngSticker, string emojis)
             : base("addStickerToSet")
@@ -61,9 +60,9 @@ namespace Telegram.Bot.Requests
         }
 
         /// <inheritdoc />
-        public override HttpContent ToHttpContent() =>
-            PngSticker.FileType == FileType.Stream
-                ? ToMultipartFormDataContent("png_sticker", PngSticker)
-                : base.ToHttpContent();
+        public override HttpContent? ToHttpContent() =>
+            PngSticker is null
+                ? base.ToHttpContent()
+                : ToMultipartFormDataContent("tgs_sticker", PngSticker);
     }
 }

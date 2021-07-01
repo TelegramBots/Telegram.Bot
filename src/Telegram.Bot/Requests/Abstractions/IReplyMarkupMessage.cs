@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types.ReplyMarkups;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot.Requests.Abstractions
 {
@@ -9,8 +9,8 @@ namespace Telegram.Bot.Requests.Abstractions
         where TMarkup : IReplyMarkup
     {
         /// <summary>
-        /// Additional interface options. A JSON-serialized object for a custom reply keyboard, instructions to hide keyboard or to force a reply from the user.
+        /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>, <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to <see cref="ForceReplyMarkup">force a reply</see> from the user.
         /// </summary>
-        TMarkup ReplyMarkup { get; set; }
+        TMarkup? ReplyMarkup { get; set; }
     }
 }

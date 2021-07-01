@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Requests.Abstractions
+namespace Telegram.Bot.Requests.Abstractions
 {
     /// <summary>
     /// Represents a message with optional notification
@@ -8,6 +8,6 @@
         /// <summary>
         /// Sends the message silently. Users will receive a notification with no sound.
         /// </summary>
-        bool DisableNotification { get; set; }
+        bool? DisableNotification { get; set; }
     }
 }

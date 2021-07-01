@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types;
 
@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// A simple method for testing your bot's auth token.
+    /// A simple method for testing your bot's auth token. Requires no parameters. Returns basic information about the bot in form of a <see cref="User"/> object.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetMeRequest : ParameterlessRequest<User>
