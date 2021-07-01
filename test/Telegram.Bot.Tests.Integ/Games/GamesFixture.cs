@@ -36,11 +36,11 @@ namespace Telegram.Bot.Tests.Integ.Games
                     {
                         await fixture.BotClient.SendGameAsync(fixture.SupergroupChat.Id, GameShortName);
                     }
-                    catch (InvalidGameShortNameException e)
+                    catch (ApiRequestException e)
                     {
                         throw new ArgumentException(
                             $@"Bot doesn't have game: ""{GameShortName}"". Make sure you set up a game with @BotFather.",
-                            e.Parameter, e
+                            e
                         );
                     }
 

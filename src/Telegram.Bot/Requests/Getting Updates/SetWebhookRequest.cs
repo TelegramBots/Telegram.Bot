@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -27,7 +27,7 @@ namespace Telegram.Bot.Requests
         /// Upload your public key certificate so that the root certificate in use can be checked. See our <see href="https://core.telegram.org/bots/self-signed">self-signed guide</see> for details
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputFileStream? Certificate { get; }
+        public InputFileStream? Certificate { get; set; }
 
         /// <summary>
         /// The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS

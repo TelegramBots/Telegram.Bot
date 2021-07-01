@@ -1,8 +1,13 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -13,19 +18,21 @@ namespace Telegram.Bot.Helpers
     /// </summary>
     internal static class Extensions
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static string EncodeUtf8(this string value) =>
             new(Encoding.UTF8.GetBytes(value).Select(Convert.ToChar).ToArray());
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void AddStreamContent(
             this MultipartFormDataContent multipartContent,
             Stream content,
             string name,
-            string fileName = default)
+            string? fileName = default)
         {
             fileName ??= name;
             var contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
 
-            HttpContent mediaPartContent = new StreamContent(content)
+            var mediaPartContent = new StreamContent(content)
             {
                 Headers =
                 {
@@ -37,6 +44,7 @@ namespace Telegram.Bot.Helpers
             multipartContent.Add(mediaPartContent, name, fileName);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static void AddContentIfInputFileStream(
             this MultipartFormDataContent multipartContent,
             params IInputMedia[] inputMedia)
@@ -48,12 +56,134 @@ namespace Telegram.Bot.Helpers
                     multipartContent.AddStreamContent(input.Media.Content, input.Media.FileName);
                 }
 
-                var mediaThumb = (input as IInputMediaThumb)?.Thumb;
-                if (mediaThumb?.FileType == FileType.Stream)
+                if (input is IInputMediaThumb mediaThumb &&
+                    mediaThumb.Thumb.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(mediaThumb.Content, mediaThumb.FileName);
+                    multipartContent.AddStreamContent(mediaThumb.Thumb.Content, mediaThumb.Thumb.FileName);
                 }
             }
         }
+
+        /// <summary>
+        /// Deserialized JSON in Stream into <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="stream"><see cref="Stream"/> with content</param>
+        /// <typeparam name="T">Type of the resulting object</typeparam>
+        /// <returns>Deserialized instance of <typeparamref name="T" /> or <c>null</c></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static T? DeserializeJsonFromStream<T>(this Stream? stream)
+            where T : class
+        {
+            if (stream is null || !stream.CanRead) return default;
+
+            using var streamReader = new StreamReader(stream);
+            using var jsonTextReader = new JsonTextReader(streamReader);
+
+            var jsonSerializer = JsonSerializer.CreateDefault();
+            var searchResult = jsonSerializer.Deserialize<T>(jsonTextReader);
+
+            return searchResult;
+        }
+
+        /// <summary>
+        /// Deserialize body from HttpContent into <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="httpResponse"><see cref="HttpResponseMessage"/> instance</param>
+        /// <param name="guard"></param>
+        /// <param name="includeBody">
+        /// Specifies if stringified body should be included in <see cref="RequestException"/>
+        /// </param>
+        /// <typeparam name="T">Type of the resulting object</typeparam>
+        /// <returns></returns>
+        /// <exception cref="RequestException">
+        /// Thrown when body in the response can not be deserialized into <typeparamref name="T"/>
+        /// </exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static async Task<T> DeserializeContentAsync<T>(
+            this HttpResponseMessage httpResponse,
+            Func<T, bool> guard)
+            where T : class
+        {
+            Stream? contentStream = null;
+
+            if (httpResponse.Content is null)
+                throw new RequestException(
+                    "Response doesn't contain any content",
+                    httpResponse.StatusCode
+                );
+
+            try
+            {
+                T? deserializedObject;
+
+                try
+                {
+                    contentStream = await httpResponse.Content
+                        .ReadAsStreamAsync()
+                        .ConfigureAwait(false);
+
+                    deserializedObject = contentStream
+                        .DeserializeJsonFromStream<T>();
+                }
+                catch (Exception exception)
+                {
+                    throw await CreateRequestException(
+                        httpResponse: httpResponse,
+                        message: "Required properties not found in response",
+                        exception: exception
+                    );
+                }
+
+                if (deserializedObject is null)
+                {
+                    throw await CreateRequestException(
+                        httpResponse: httpResponse,
+                        message: "Required properties not found in response"
+                    );
+                }
+
+                if (guard(deserializedObject))
+                {
+                    throw await CreateRequestException(
+                        httpResponse: httpResponse,
+                        message: "Required properties not found in response"
+                    );
+                }
+
+                return deserializedObject;
+            }
+            finally
+            {
+                if (contentStream is not null)
+                {
+#if NETCOREAPP3_1_OR_GREATER
+                    await contentStream.DisposeAsync();
+#else
+                    contentStream.Dispose();
+#endif
+                }
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static T ThrowIfNull<T>([AllowNull] this T value, string parameterName) =>
+            value ?? throw new ArgumentNullException(parameterName);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        static async Task<RequestException> CreateRequestException(
+            HttpResponseMessage httpResponse,
+            string message,
+            Exception? exception = default
+        ) =>
+            exception is null
+                ? new RequestException(
+                    message,
+                    httpResponse.StatusCode
+                )
+                : new RequestException(
+                    message,
+                    httpResponse.StatusCode,
+                    exception
+                );
     }
 }

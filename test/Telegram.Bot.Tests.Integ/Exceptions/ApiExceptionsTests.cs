@@ -37,14 +37,14 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
             )).Single();
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            ForbiddenException e = await Assert.ThrowsAnyAsync<ForbiddenException>(() =>
-                BotClient.SendTextMessageAsync(
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(async () =>
+                await BotClient.SendTextMessageAsync(
                     forwardedMessageUpdate.Message.ForwardFrom.Id,
                     $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"
                 )
             );
 
-            Assert.IsType<ChatNotInitiatedException>(e);
+            Assert.Equal(403, e.ErrorCode);
         }
     }
 }
