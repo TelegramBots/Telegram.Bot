@@ -32,7 +32,7 @@ namespace Telegram.Bot
         private readonly string _baseRequestUrl;
         private readonly bool _localBotServer;
         private readonly HttpClient _httpClient;
-        private CancellationTokenSource _receivingCancellationTokenSource;
+        private CancellationTokenSource? _receivingCancellationTokenSource;
 
         #region Config Properties
 
@@ -53,7 +53,7 @@ namespace Telegram.Bot
         /// </summary>
         [Obsolete("This property will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public bool IsReceiving { get; set; }
+        public bool? IsReceiving { get; set; }
 
         /// <summary>
         /// The current message offset
@@ -69,12 +69,12 @@ namespace Telegram.Bot
         /// <summary>
         /// Occurs before sending a request to API
         /// </summary>
-        public event AsyncEventHandler<ApiRequestEventArgs> OnMakingApiRequest;
+        public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
 
         /// <summary>
         /// Occurs after receiving the response to an API request
         /// </summary>
-        public event AsyncEventHandler<ApiResponseEventArgs> OnApiResponseReceived;
+        public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
 
         /// <summary>
         /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>,
@@ -117,56 +117,56 @@ namespace Telegram.Bot
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<UpdateEventArgs> OnUpdate;
+        public event EventHandler<UpdateEventArgs>? OnUpdate;
 
         /// <summary>
         /// Occurs when a <see cref="Message"/> is received.
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<MessageEventArgs> OnMessage;
+        public event EventHandler<MessageEventArgs>? OnMessage;
 
         /// <summary>
         /// Occurs when <see cref="Message"/> was edited.
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<MessageEventArgs> OnMessageEdited;
+        public event EventHandler<MessageEventArgs>? OnMessageEdited;
 
         /// <summary>
         /// Occurs when an <see cref="InlineQuery"/> is received.
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<InlineQueryEventArgs> OnInlineQuery;
+        public event EventHandler<InlineQueryEventArgs>? OnInlineQuery;
 
         /// <summary>
         /// Occurs when a <see cref="ChosenInlineResult"/> is received.
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
+        public event EventHandler<ChosenInlineResultEventArgs>? OnInlineResultChosen;
 
         /// <summary>
         /// Occurs when an <see cref="CallbackQuery"/> is received
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
+        public event EventHandler<CallbackQueryEventArgs>? OnCallbackQuery;
 
         /// <summary>
         /// Occurs when an error occurs during the background update pooling.
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
+        public event EventHandler<ReceiveErrorEventArgs>? OnReceiveError;
 
         /// <summary>
         /// Occurs when an error occurs during the background update pooling.
         /// </summary>
         [Obsolete("This event will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
+        public event EventHandler<ReceiveGeneralErrorEventArgs>? OnReceiveGeneralError;
 
         #endregion
 
@@ -185,10 +185,9 @@ namespace Telegram.Bot
         /// <exception cref="ArgumentException">
         /// Thrown if <paramref name="baseUrl"/> format is invalid
         /// </exception>
-        public TelegramBotClient(
-            string token,
-            HttpClient httpClient = null,
-            string baseUrl = default)
+        public TelegramBotClient(string token,
+                                 HttpClient? httpClient = default,
+                                 string? baseUrl = default)
         {
             if (token is null) throw new ArgumentNullException(nameof(token));
 
@@ -196,7 +195,7 @@ namespace Telegram.Bot
 
             _localBotServer = baseUrl is not null;
             var effectiveBaseUrl = _localBotServer
-                ? ExtractBaseUrl(baseUrl)
+                ? ExtractBaseUrl(baseUrl!)
                 : BaseTelegramUrl;
 
             _baseRequestUrl = $"{effectiveBaseUrl}/bot{token}";
@@ -245,7 +244,7 @@ namespace Telegram.Bot
         /// Thrown if <paramref name="webProxy"/> is null
         /// </exception>
         [Obsolete("Provide httpClient with configured proxy instead.")]
-        public TelegramBotClient(string token, IWebProxy webProxy, string baseUrl = default)
+        public TelegramBotClient(string token, IWebProxy webProxy, string? baseUrl = default)
             : this(token, CreateHttpClient(webProxy), baseUrl)
         { }
 
@@ -337,10 +336,7 @@ namespace Telegram.Bot
             return apiResponse.Result;
         }
 
-        /// <summary>
-        /// Test the API token
-        /// </summary>
-        /// <returns><c>true</c> if token is valid</returns>
+        /// <inheritdoc />
         public async Task<bool> TestApiAsync(CancellationToken cancellationToken = default)
         {
             try
@@ -363,7 +359,7 @@ namespace Telegram.Bot
         /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
         [Obsolete("This method will be removed in the next major version. " +
             "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public void StartReceiving(UpdateType[] allowedUpdates = null,
+        public void StartReceiving(UpdateType[]? allowedUpdates = null,
                                    CancellationToken cancellationToken = default)
         {
             _receivingCancellationTokenSource = new CancellationTokenSource();
@@ -375,7 +371,7 @@ namespace Telegram.Bot
 
 #pragma warning disable AsyncFixer03 // Avoid fire & forget async void methods
         private async void ReceiveAsync(
-            UpdateType[] allowedUpdates,
+            UpdateType[]? allowedUpdates,
             CancellationToken cancellationToken = default)
         {
             IsReceiving = true;
@@ -433,7 +429,7 @@ namespace Telegram.Bot
         {
             try
             {
-                _receivingCancellationTokenSource.Cancel();
+                _receivingCancellationTokenSource?.Cancel();
             }
             catch (WebException)
             {
@@ -443,7 +439,7 @@ namespace Telegram.Bot
             }
             finally
             {
-                _receivingCancellationTokenSource.Dispose();
+                _receivingCancellationTokenSource?.Dispose();
             }
         }
 
@@ -453,10 +449,10 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<Update[]> GetUpdatesAsync(
-            int offset = default,
-            int limit = default,
-            int timeout = default,
-            IEnumerable<UpdateType> allowedUpdates = default,
+            int? offset = default,
+            int? limit = default,
+            int? timeout = default,
+            IEnumerable<UpdateType>? allowedUpdates = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new GetUpdatesRequest
@@ -470,59 +466,71 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task SetWebhookAsync(
             string url,
-            InputFileStream certificate = default,
-            string ipAddress = default,
-            int maxConnections = default,
-            IEnumerable<UpdateType> allowedUpdates = default,
-            bool dropPendingUpdates = default,
+            InputFileStream? certificate = default,
+            string? ipAddress = default,
+            int? maxConnections = default,
+            IEnumerable<UpdateType>? allowedUpdates = default,
+            bool? dropPendingUpdates = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SetWebhookRequest(url, certificate)
+            MakeRequestAsync(new SetWebhookRequest(url)
             {
+                Certificate = certificate,
+                IpAddress = ipAddress,
                 MaxConnections = maxConnections,
                 AllowedUpdates = allowedUpdates,
-                IpAddress = ipAddress,
                 DropPendingUpdates = dropPendingUpdates
             }, cancellationToken);
 
         /// <inheritdoc />
         public Task DeleteWebhookAsync(
-            bool dropPendingUpdates = default,
+            bool? dropPendingUpdates = default,
             CancellationToken cancellationToken = default
-        )
-            => MakeRequestAsync(new DeleteWebhookRequest() { DropPendingUpdates = dropPendingUpdates }, cancellationToken);
+        ) =>
+            MakeRequestAsync(new DeleteWebhookRequest()
+            {
+                DropPendingUpdates = dropPendingUpdates
+            }, cancellationToken);
 
         /// <inheritdoc />
-        public Task<WebhookInfo> GetWebhookInfoAsync(CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new GetWebhookInfoRequest(), cancellationToken);
+        public Task<WebhookInfo> GetWebhookInfoAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetWebhookInfoRequest(), cancellationToken);
 
         #endregion Getting updates
 
         #region Available methods
 
         /// <inheritdoc />
-        public Task<User> GetMeAsync(CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new GetMeRequest(), cancellationToken);
+        public Task<User> GetMeAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetMeRequest(), cancellationToken);
 
         /// <inheritdoc />
-        public Task LogOutAsync(CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new LogOutRequest(), cancellationToken);
+        public Task LogOutAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new LogOutRequest(), cancellationToken);
 
         /// <inheritdoc />
-        public Task CloseAsync(CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new CloseRequest(), cancellationToken);
+        public Task CloseAsync(
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new CloseRequest(), cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> SendTextMessageAsync(
             ChatId chatId,
             string text,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> entities = default,
-            bool disableWebPagePreview = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? entities = default,
+            bool? disableWebPagePreview = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendMessageRequest(chatId, text)
@@ -541,7 +549,7 @@ namespace Telegram.Bot
             ChatId chatId,
             ChatId fromChatId,
             int messageId,
-            bool disableNotification = default,
+            bool? disableNotification = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new ForwardMessageRequest(chatId, fromChatId, messageId)
@@ -551,37 +559,16 @@ namespace Telegram.Bot
 
         /// <inheritdoc />
         public Task<MessageId> CopyMessageAsync(ChatId chatId, ChatId fromChatId, int messageId,
-                                                 string caption = default,
+                                                 string? caption = default,
                                                  ParseMode? parseMode = default,
-                                                 IEnumerable<MessageEntity> captionEntities = default,
-                                                 int replyToMessageId = default,
-                                                 bool disableNotification = default,
-                                                 IReplyMarkup replyMarkup = default,
-                                                 CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new CopyMessageRequest(chatId, fromChatId, messageId)
-            {
-                Caption = caption,
-                ParseMode = parseMode,
-                CaptionEntities = captionEntities,
-                ReplyToMessageId = replyToMessageId,
-                DisableNotification = disableNotification,
-                ReplyMarkup = replyMarkup
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task<Message> SendPhotoAsync(
-            ChatId chatId,
-            InputOnlineFile photo,
-            string caption = default,
-            ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
+                                                 IEnumerable<MessageEntity>? captionEntities = default,
+                                                 bool? disableNotification = default,
+                                                 int? replyToMessageId = default,
+                                                 bool? allowSendingWithoutReply = default,
+                                                 IReplyMarkup? replyMarkup = default,
+                                                 CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new SendPhotoRequest(chatId, photo)
+            MakeRequestAsync(new CopyMessageRequest(chatId, fromChatId, messageId)
             {
                 Caption = caption,
                 ParseMode = parseMode,
@@ -593,20 +580,44 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
+        public Task<Message> SendPhotoAsync(
+            ChatId chatId,
+            InputOnlineFile photo,
+            string? caption = default,
+            ParseMode? parseMode = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendPhotoRequest(chatId, photo)
+            {
+                Caption = caption,
+                ParseMode = parseMode,
+                CaptionEntities = captionEntities,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                AllowSendingWithoutReply = allowSendingWithoutReply,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
         public Task<Message> SendAudioAsync(
             ChatId chatId,
             InputOnlineFile audio,
-            string caption = default,
+            string? caption = default,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            int duration = default,
-            string performer = default,
-            string title = default,
-            InputMedia thumb = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            int? duration = default,
+            string? performer = default,
+            string? title = default,
+            InputMedia? thumb = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendAudioRequest(chatId, audio)
@@ -628,42 +639,24 @@ namespace Telegram.Bot
         public Task<Message> SendDocumentAsync(
             ChatId chatId,
             InputOnlineFile document,
-            InputMedia thumb = default,
-            string caption = default,
+            InputMedia? thumb = default,
+            string? caption = default,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            bool disableContentTypeDetection = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            bool? disableContentTypeDetection = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendDocumentRequest(chatId, document)
             {
-                Caption = caption,
                 Thumb = thumb,
+                Caption = caption,
                 ParseMode = parseMode,
                 CaptionEntities = captionEntities,
-                DisableNotification = disableNotification,
-                ReplyToMessageId = replyToMessageId,
-                AllowSendingWithoutReply = allowSendingWithoutReply,
-                ReplyMarkup = replyMarkup,
-                DisableContentTypeDetection = disableNotification
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task<Message> SendStickerAsync(
-            ChatId chatId,
-            InputOnlineFile sticker,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new SendStickerRequest(chatId, sticker)
-            {
+                DisableContentTypeDetection = disableContentTypeDetection,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 AllowSendingWithoutReply = allowSendingWithoutReply,
@@ -674,18 +667,18 @@ namespace Telegram.Bot
         public Task<Message> SendVideoAsync(
             ChatId chatId,
             InputOnlineFile video,
-            int duration = default,
-            int width = default,
-            int height = default,
-            InputMedia thumb = default,
-            string caption = default,
+            int? duration = default,
+            int? width = default,
+            int? height = default,
+            InputMedia? thumb = default,
+            string? caption = default,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            bool supportsStreaming = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            bool? supportsStreaming = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVideoRequest(chatId, video)
@@ -708,17 +701,17 @@ namespace Telegram.Bot
         public Task<Message> SendAnimationAsync(
             ChatId chatId,
             InputOnlineFile animation,
-            int duration = default,
-            int width = default,
-            int height = default,
-            InputMedia thumb = default,
-            string caption = default,
+            int? duration = default,
+            int? width = default,
+            int? height = default,
+            InputMedia? thumb = default,
+            string? caption = default,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendAnimationRequest(chatId, animation)
@@ -740,14 +733,14 @@ namespace Telegram.Bot
         public Task<Message> SendVoiceAsync(
             ChatId chatId,
             InputOnlineFile voice,
-            string caption = default,
+            string? caption = default,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            int duration = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            int? duration = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVoiceRequest(chatId, voice)
@@ -766,13 +759,13 @@ namespace Telegram.Bot
         public Task<Message> SendVideoNoteAsync(
             ChatId chatId,
             InputTelegramFile videoNote,
-            int duration = default,
-            int length = default,
-            InputMedia thumb = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            int? duration = default,
+            int? length = default,
+            InputMedia? thumb = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVideoNoteRequest(chatId, videoNote)
@@ -790,9 +783,9 @@ namespace Telegram.Bot
         public Task<Message[]> SendMediaGroupAsync(
             ChatId chatId,
             IEnumerable<IAlbumInputMedia> media,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendMediaGroupRequest(chatId, media)
@@ -807,24 +800,86 @@ namespace Telegram.Bot
             ChatId chatId,
             float latitude,
             float longitude,
-            int livePeriod = default,
-            int heading = default,
-            int proximityAlertRadius = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            int? livePeriod = default,
+            int? heading = default,
+            int? proximityAlertRadius = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendLocationRequest(chatId, latitude, longitude)
             {
                 LivePeriod = livePeriod,
+                Heading = heading,
+                ProximityAlertRadius = proximityAlertRadius,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 AllowSendingWithoutReply = allowSendingWithoutReply,
                 ReplyMarkup = replyMarkup,
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<Message> EditMessageLiveLocationAsync(
+            ChatId chatId,
+            int messageId,
+            float latitude,
+            float longitude,
+            float? horizontalAccuracy = default,
+            int? heading = default,
+            int? proximityAlertRadius = default,
+            InlineKeyboardMarkup? replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
+            {
+                HorizontalAccuracy = horizontalAccuracy,
                 Heading = heading,
-                ProximityAlertRadius = proximityAlertRadius
+                ProximityAlertRadius = proximityAlertRadius,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task EditMessageLiveLocationAsync(
+            string inlineMessageId,
+            float latitude,
+            float longitude,
+            float? horizontalAccuracy = default,
+            int? heading = default,
+            int? proximityAlertRadius = default,
+            InlineKeyboardMarkup? replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
+            {
+                HorizontalAccuracy = horizontalAccuracy,
+                Heading = heading,
+                ProximityAlertRadius = proximityAlertRadius,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<Message> StopMessageLiveLocationAsync(
+            ChatId chatId,
+            int messageId,
+            InlineKeyboardMarkup? replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new StopMessageLiveLocationRequest(chatId, messageId)
+            {
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task StopMessageLiveLocationAsync(
+            string inlineMessageId,
+            InlineKeyboardMarkup? replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new StopInlineMessageLiveLocationRequest(inlineMessageId)
+            {
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -834,26 +889,26 @@ namespace Telegram.Bot
             float longitude,
             string title,
             string address,
-            string foursquareId = default,
-            string foursquareType = default,
-            string googlePlaceId = default,
-            string googlePlaceType = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            string? foursquareId = default,
+            string? foursquareType = default,
+            string? googlePlaceId = default,
+            string? googlePlaceType = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendVenueRequest(chatId, latitude, longitude, title, address)
             {
                 FoursquareId = foursquareId,
                 FoursquareType = foursquareType,
+                GooglePlaceId = googlePlaceId,
+                GooglePlaceType = googlePlaceType,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 AllowSendingWithoutReply = allowSendingWithoutReply,
-                ReplyMarkup = replyMarkup,
-                GooglePlaceId = googlePlaceId,
-                GooglePlaceType = googlePlaceType
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
@@ -861,12 +916,12 @@ namespace Telegram.Bot
             ChatId chatId,
             string phoneNumber,
             string firstName,
-            string lastName = default,
-            string vCard = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            string? lastName = default,
+            string? vCard = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendContactRequest(chatId, phoneNumber, firstName)
@@ -888,57 +943,55 @@ namespace Telegram.Bot
             PollType? type = default,
             bool? allowsMultipleAnswers = default,
             int? correctOptionId = default,
-            string explanation = default,
-            ParseMode explanationParseMode = default,
-            IEnumerable<MessageEntity> explanationEntities = default,
+            string? explanation = default,
+            ParseMode? explanationParseMode = default,
+            IEnumerable<MessageEntity>? explanationEntities = default,
             int? openPeriod = default,
             DateTime? closeDate = default,
             bool? isClosed = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendPollRequest(chatId, question, options)
             {
-                DisableNotification = disableNotification,
-                ReplyToMessageId = replyToMessageId,
-                AllowSendingWithoutReply = allowSendingWithoutReply,
-                ReplyMarkup = replyMarkup,
                 IsAnonymous = isAnonymous,
                 Type = type,
                 AllowsMultipleAnswers = allowsMultipleAnswers,
                 CorrectOptionId = correctOptionId,
-                IsClosed = isClosed,
-                OpenPeriod = openPeriod,
-                CloseDate = closeDate,
                 Explanation = explanation,
                 ExplanationParseMode = explanationParseMode,
                 ExplanationEntities = explanationEntities,
+                OpenPeriod = openPeriod,
+                CloseDate = closeDate,
+                IsClosed = isClosed,
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                AllowSendingWithoutReply = allowSendingWithoutReply,
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> SendDiceAsync(
             ChatId chatId,
             Emoji? emoji = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            IReplyMarkup replyMarkup = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(
                 new SendDiceRequest(chatId)
                 {
+                    Emoji = emoji,
                     DisableNotification = disableNotification,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
-                    Emoji = emoji
-                },
-                cancellationToken
-            );
+                }, cancellationToken);
 
         /// <inheritdoc />
         public Task SendChatActionAsync(
@@ -951,8 +1004,8 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task<UserProfilePhotos> GetUserProfilePhotosAsync(
             long userId,
-            int offset = default,
-            int limit = default,
+            int? offset = default,
+            int? limit = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new GetUserProfilePhotosRequest(userId)
@@ -1026,24 +1079,11 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
-        public Task BanChatMemberAsync(
-            ChatId chatId,
-            long userId,
-            DateTime untilDate = default,
-            bool? revokeMessages = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new BanChatMemberRequest(chatId, userId)
-            {
-                UntilDate = untilDate,
-                RevokeMessages = revokeMessages
-            }, cancellationToken);
-
-        /// <inheritdoc />
+        [Obsolete("Use BanChatMemberAsync instead")]
         public Task KickChatMemberAsync(
             ChatId chatId,
             long userId,
-            DateTime untilDate = default,
+            DateTime? untilDate = default,
             bool? revokeMessages = default,
             CancellationToken cancellationToken = default
         ) =>
@@ -1054,20 +1094,208 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
-        public Task LeaveChatAsync(
+        public Task BanChatMemberAsync(
             ChatId chatId,
+            long userId,
+            DateTime? untilDate = default,
+            bool? revokeMessages = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new LeaveChatRequest(chatId), cancellationToken);
+            MakeRequestAsync(new BanChatMemberRequest(chatId, userId)
+            {
+                UntilDate = untilDate,
+                RevokeMessages = revokeMessages
+            }, cancellationToken);
 
         /// <inheritdoc />
         public Task UnbanChatMemberAsync(
             ChatId chatId,
             long userId,
-            bool onlyIfBanned = default,
+            bool? onlyIfBanned = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new UnbanChatMemberRequest(chatId, userId) { OnlyIfBanned = onlyIfBanned }, cancellationToken);
+            MakeRequestAsync(new UnbanChatMemberRequest(chatId, userId)
+            {
+                OnlyIfBanned = onlyIfBanned
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task RestrictChatMemberAsync(
+            ChatId chatId,
+            long userId,
+            ChatPermissions permissions,
+            DateTime? untilDate = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
+                new RestrictChatMemberRequest(chatId, userId, permissions)
+                {
+                    UntilDate = untilDate
+                },
+                cancellationToken);
+
+        /// <inheritdoc />
+        public Task PromoteChatMemberAsync(
+            ChatId chatId,
+            long userId,
+            bool? isAnonymous = default,
+            bool? canManageChat = default,
+            bool? canPostMessages = default,
+            bool? canEditMessages = default,
+            bool? canDeleteMessages = default,
+            bool? canManageVoiceChats = default,
+            bool? canRestrictMembers = default,
+            bool? canPromoteMembers = default,
+            bool? canChangeInfo = default,
+            bool? canInviteUsers = default,
+            bool? canPinMessages = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new PromoteChatMemberRequest(chatId, userId)
+            {
+                IsAnonymous = isAnonymous,
+                CanManageChat = canManageChat,
+                CanPostMessages = canPostMessages,
+                CanEditMessages = canEditMessages,
+                CanDeleteMessages = canDeleteMessages,
+                CanManageVoiceChat = canManageVoiceChats,
+                CanRestrictMembers = canRestrictMembers,
+                CanPromoteMembers = canPromoteMembers,
+                CanChangeInfo = canChangeInfo,
+                CanInviteUsers = canInviteUsers,
+                CanPinMessages = canPinMessages,
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetChatAdministratorCustomTitleAsync(
+            ChatId chatId,
+            long userId,
+            string customTitle,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(
+                new SetChatAdministratorCustomTitleRequest(chatId, userId, customTitle),
+                cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetChatPermissionsAsync(
+            ChatId chatId,
+            ChatPermissions permissions,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
+
+        /// <inheritdoc />
+        public Task<string> ExportChatInviteLinkAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new ExportChatInviteLinkRequest(chatId), cancellationToken);
+
+        /// <inheritdoc />
+        public Task<ChatInviteLink> CreateChatInviteLinkAsync(
+            ChatId chatId,
+            DateTime? expireDate = default,
+            int? memberLimit = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new CreateChatInviteLinkRequest(chatId)
+            {
+                ExpireDate = expireDate,
+                MemberLimit = memberLimit
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<ChatInviteLink> EditChatInviteLinkAsync(
+            ChatId chatId,
+            string inviteLink,
+            DateTime? expireDate = default,
+            int? memberLimit = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new EditChatInviteLinkRequest(chatId, inviteLink)
+            {
+                ExpireDate = expireDate,
+                MemberLimit = memberLimit
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<ChatInviteLink> RevokeChatInviteLinkAsync(
+            ChatId chatId,
+            string inviteLink,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new RevokeChatInviteLinkRequest(chatId, inviteLink), cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetChatPhotoAsync(
+            ChatId chatId,
+            InputFileStream photo,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatPhotoRequest(chatId, photo), cancellationToken);
+
+        /// <inheritdoc />
+        public Task DeleteChatPhotoAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new DeleteChatPhotoRequest(chatId), cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetChatTitleAsync(
+            ChatId chatId,
+            string title,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatTitleRequest(chatId, title), cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetChatDescriptionAsync(
+            ChatId chatId,
+            string? description = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatDescriptionRequest(chatId)
+            {
+                Description = description
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task PinChatMessageAsync(
+            ChatId chatId,
+            int messageId,
+            bool? disableNotification = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new PinChatMessageRequest(chatId, messageId)
+            {
+                DisableNotification = disableNotification
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task UnpinChatMessageAsync(
+            ChatId chatId,
+            int? messageId = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new UnpinChatMessageRequest(chatId)
+            {
+                MessageId = messageId
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task UnpinAllChatMessages(
+            ChatId chatId, CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new UnpinAllChatMessagesRequest(chatId), cancellationToken);
+
+        /// <inheritdoc />
+        public Task LeaveChatAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new LeaveChatRequest(chatId), cancellationToken);
 
         /// <inheritdoc />
         public Task<Chat> GetChatAsync(
@@ -1084,6 +1312,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new GetChatAdministratorsRequest(chatId), cancellationToken);
 
         /// <inheritdoc />
+        [Obsolete("Use GetChatMemberCountAsync")]
         public Task<int> GetChatMembersCountAsync(
             ChatId chatId,
             CancellationToken cancellationToken = default
@@ -1106,12 +1335,27 @@ namespace Telegram.Bot
             MakeRequestAsync(new GetChatMemberRequest(chatId, userId), cancellationToken);
 
         /// <inheritdoc />
+        public Task SetChatStickerSetAsync(
+            ChatId chatId,
+            string stickerSetName,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken);
+
+        /// <inheritdoc />
+        public Task DeleteChatStickerSetAsync(
+            ChatId chatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new DeleteChatStickerSetRequest(chatId), cancellationToken);
+
+        /// <inheritdoc />
         public Task AnswerCallbackQueryAsync(
             string callbackQueryId,
-            string text = default,
-            bool showAlert = default,
-            string url = default,
-            int cacheTime = default,
+            string? text = default,
+            bool? showAlert = default,
+            string? url = default,
+            int? cacheTime = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new AnswerCallbackQueryRequest(callbackQueryId)
@@ -1123,134 +1367,40 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
-        public Task RestrictChatMemberAsync(
-            ChatId chatId,
-            long userId,
-            ChatPermissions permissions,
-            DateTime untilDate = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(
-                new RestrictChatMemberRequest(chatId, userId, permissions)
-                {
-                    UntilDate = untilDate
-                },
-                cancellationToken);
-
-        /// <inheritdoc />
-        public Task PromoteChatMemberAsync(
-            ChatId chatId,
-            long userId,
-            bool? isAnonymous = default,
-            bool? canManageChat = default,
-            bool? canChangeInfo = default,
-            bool? canPostMessages = default,
-            bool? canEditMessages = default,
-            bool? canDeleteMessages = default,
-            bool? canManageVoiceChats = default,
-            bool? canInviteUsers = default,
-            bool? canRestrictMembers = default,
-            bool? canPinMessages = default,
-            bool? canPromoteMembers = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new PromoteChatMemberRequest(chatId, userId)
-            {
-                IsAnonymous = isAnonymous,
-                CanChangeInfo = canChangeInfo,
-                CanPostMessages = canPostMessages,
-                CanEditMessages = canEditMessages,
-                CanDeleteMessages = canDeleteMessages,
-                CanInviteUsers = canInviteUsers,
-                CanRestrictMembers = canRestrictMembers,
-                CanPinMessages = canPinMessages,
-                CanPromoteMembers = canPromoteMembers,
-                CanManageChat = canManageChat,
-                CanManageVoiceChat = canManageVoiceChats
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task SetChatAdministratorCustomTitleAsync(
-            ChatId chatId,
-            long userId,
-            string customTitle,
-            CancellationToken cancellationToken = default)
-            => MakeRequestAsync(
-                new SetChatAdministratorCustomTitleRequest(chatId, userId, customTitle),
-                cancellationToken);
-
-        /// <inheritdoc />
-        public Task SetChatPermissionsAsync(
-            ChatId chatId,
-            ChatPermissions permissions,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
-
-        /// <inheritdoc />
-        public Task<BotCommand[]> GetMyCommandsAsync(
-            BotCommandScope scope = default,
-            string languageCode = default,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(
-                new GetMyCommandsRequest
-                {
-                    Scope = scope,
-                    LanguageCode = languageCode
-                },
-                cancellationToken
-            );
-
-        /// <inheritdoc />
         public Task SetMyCommandsAsync(
             IEnumerable<BotCommand> commands,
-            BotCommandScope scope = default,
-            string languageCode = default,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(
-                new SetMyCommandsRequest(commands)
-                {
-                    Scope = scope,
-                    LanguageCode = languageCode
-                },
-                cancellationToken
-            );
+            BotCommandScope? scope = default,
+            string? languageCode = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetMyCommandsRequest(commands)
+            {
+                Scope = scope,
+                LanguageCode = languageCode
+            }, cancellationToken);
 
         /// <inheritdoc />
         public Task DeleteMyCommandsAsync(
-            BotCommandScope scope = default,
-            string languageCode = default,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(
-                new DeleteMyCommandsRequest
-                {
-                    Scope = scope,
-                    LanguageCode = languageCode
-                },
-                cancellationToken
-            );
-
-        /// <inheritdoc />
-        public Task<Message> StopMessageLiveLocationAsync(
-            ChatId chatId,
-            int messageId,
-            InlineKeyboardMarkup replyMarkup = default,
+            BotCommandScope? scope = default,
+            string? languageCode = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new StopMessageLiveLocationRequest(chatId, messageId)
+            MakeRequestAsync(new DeleteMyCommandsRequest
             {
-                ReplyMarkup = replyMarkup
+                Scope = scope,
+                LanguageCode = languageCode
             }, cancellationToken);
 
         /// <inheritdoc />
-        public Task StopMessageLiveLocationAsync(
-            string inlineMessageId,
-            InlineKeyboardMarkup replyMarkup = default,
+        public Task<BotCommand[]> GetMyCommandsAsync(
+            BotCommandScope? scope = default,
+            string? languageCode = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new StopInlineMessageLiveLocationRequest(inlineMessageId)
+            MakeRequestAsync(new GetMyCommandsRequest
             {
-                ReplyMarkup = replyMarkup
+                Scope = scope,
+                LanguageCode = languageCode
             }, cancellationToken);
 
         #endregion Available methods
@@ -1263,9 +1413,9 @@ namespace Telegram.Bot
             int messageId,
             string text,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> entities = default,
-            bool disableWebPagePreview = default,
-            InlineKeyboardMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? entities = default,
+            bool? disableWebPagePreview = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new EditMessageTextRequest(chatId, messageId, text)
@@ -1281,31 +1431,32 @@ namespace Telegram.Bot
             string inlineMessageId,
             string text,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> entities = default,
-            bool disableWebPagePreview = default,
-            InlineKeyboardMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? entities = default,
+            bool? disableWebPagePreview = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new EditInlineMessageTextRequest(inlineMessageId, text)
             {
-                DisableWebPagePreview = disableWebPagePreview,
-                ReplyMarkup = replyMarkup,
                 ParseMode = parseMode,
-                Entities = entities
+                Entities = entities,
+                DisableWebPagePreview = disableWebPagePreview,
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Message> EditMessageCaptionAsync(
             ChatId chatId,
             int messageId,
-            string caption,
+            string? caption,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            InlineKeyboardMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId, caption)
+            MakeRequestAsync(new EditMessageCaptionRequest(chatId, messageId)
             {
+                Caption = caption,
                 ParseMode = parseMode,
                 CaptionEntities = captionEntities,
                 ReplyMarkup = replyMarkup
@@ -1314,14 +1465,15 @@ namespace Telegram.Bot
         /// <inheritdoc />
         public Task EditMessageCaptionAsync(
             string inlineMessageId,
-            string caption,
+            string? caption,
             ParseMode? parseMode = default,
-            IEnumerable<MessageEntity> captionEntities = default,
-            InlineKeyboardMarkup replyMarkup = default,
+            IEnumerable<MessageEntity>? captionEntities = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId, caption)
+            MakeRequestAsync(new EditInlineMessageCaptionRequest(inlineMessageId)
             {
+                Caption = caption,
                 ParseMode = parseMode,
                 CaptionEntities = captionEntities,
                 ReplyMarkup = replyMarkup
@@ -1332,7 +1484,7 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             InputMediaBase media,
-            InlineKeyboardMarkup replyMarkup = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new EditMessageMediaRequest(chatId, messageId, media)
@@ -1344,7 +1496,7 @@ namespace Telegram.Bot
         public Task EditMessageMediaAsync(
             string inlineMessageId,
             InputMediaBase media,
-            InlineKeyboardMarkup replyMarkup = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new EditInlineMessageMediaRequest(inlineMessageId, media)
@@ -1356,67 +1508,30 @@ namespace Telegram.Bot
         public Task<Message> EditMessageReplyMarkupAsync(
             ChatId chatId,
             int messageId,
-            InlineKeyboardMarkup replyMarkup = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(
-                new EditMessageReplyMarkupRequest(chatId, messageId, replyMarkup),
-                cancellationToken);
+            MakeRequestAsync(new EditMessageReplyMarkupRequest(chatId, messageId)
+            {
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
 
         /// <inheritdoc />
         public Task EditMessageReplyMarkupAsync(
             string inlineMessageId,
-            InlineKeyboardMarkup replyMarkup = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
-            MakeRequestAsync(
-                new EditInlineMessageReplyMarkupRequest(inlineMessageId, replyMarkup),
-                cancellationToken);
-
-        /// <inheritdoc />
-        public Task<Message> EditMessageLiveLocationAsync(
-            ChatId chatId,
-            int messageId,
-            float latitude,
-            float longitude,
-            float horizontalAccuracy = default,
-            int heading = default,
-            int proximityAlertRadius = default,
-            InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
+            MakeRequestAsync(new EditInlineMessageReplyMarkupRequest(inlineMessageId)
             {
-                ReplyMarkup = replyMarkup,
-                HorizontalAccuracy = horizontalAccuracy,
-                Heading = heading,
-                ProximityAlertRadius = proximityAlertRadius
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task EditMessageLiveLocationAsync(
-            string inlineMessageId,
-            float latitude,
-            float longitude,
-            float horizontalAccuracy = default,
-            int heading = default,
-            int proximityAlertRadius = default,
-            InlineKeyboardMarkup replyMarkup = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
-            {
-                ReplyMarkup = replyMarkup,
-                HorizontalAccuracy = horizontalAccuracy,
-                Heading = heading,
-                ProximityAlertRadius = proximityAlertRadius
+                ReplyMarkup = replyMarkup
             }, cancellationToken);
 
         /// <inheritdoc />
         public Task<Poll> StopPollAsync(
             ChatId chatId,
             int messageId,
-            InlineKeyboardMarkup replyMarkup = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new StopPollRequest(chatId, messageId)
@@ -1434,6 +1549,133 @@ namespace Telegram.Bot
 
         #endregion Updating messages
 
+        #region Stickers
+
+        /// <inheritdoc />
+        public Task<Message> SendStickerAsync(
+            ChatId chatId,
+            InputOnlineFile sticker,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            IReplyMarkup? replyMarkup = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SendStickerRequest(chatId, sticker)
+            {
+                DisableNotification = disableNotification,
+                ReplyToMessageId = replyToMessageId,
+                AllowSendingWithoutReply = allowSendingWithoutReply,
+                ReplyMarkup = replyMarkup
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task<StickerSet> GetStickerSetAsync(
+            string name,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new GetStickerSetRequest(name), cancellationToken);
+
+        /// <inheritdoc />
+        public Task<File> UploadStickerFileAsync(
+            long userId,
+            InputFileStream pngSticker,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new UploadStickerFileRequest(userId, pngSticker), cancellationToken);
+
+        /// <inheritdoc />
+        public Task CreateNewStickerSetAsync(
+            long userId,
+            string name,
+            string title,
+            InputOnlineFile pngSticker,
+            string emojis,
+            bool? containsMasks = default,
+            MaskPosition? maskPosition = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new CreateNewStickerSetRequest(userId, name, title, pngSticker, emojis)
+            {
+                ContainsMasks = containsMasks,
+                MaskPosition = maskPosition
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task CreateNewAnimatedStickerSetAsync(
+            long userId,
+            string name,
+            string title,
+            InputFileStream tgsSticker,
+            string emojis,
+            bool? containsMasks = default,
+            MaskPosition? maskPosition = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new CreateNewAnimatedStickerSetRequest(userId, name, title, tgsSticker, emojis)
+            {
+                ContainsMasks = containsMasks,
+                MaskPosition = maskPosition
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task AddStickerToSetAsync(
+            long userId,
+            string name,
+            InputOnlineFile pngSticker,
+            string emojis,
+            MaskPosition? maskPosition = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new AddStickerToSetRequest(userId, name, pngSticker, emojis)
+            {
+                MaskPosition = maskPosition
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task AddAnimatedStickerToSetAsync(
+            long userId,
+            string name,
+            InputFileStream tgsSticker,
+            string emojis,
+            MaskPosition? maskPosition = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new AddAnimatedStickerToSetRequest(userId, name, tgsSticker, emojis)
+            {
+                MaskPosition = maskPosition
+            }, cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetStickerPositionInSetAsync(
+            string sticker,
+            int position,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetStickerPositionInSetRequest(sticker, position),
+                cancellationToken);
+
+        /// <inheritdoc />
+        public Task DeleteStickerFromSetAsync(
+            string sticker,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new DeleteStickerFromSetRequest(sticker), cancellationToken);
+
+        /// <inheritdoc />
+        public Task SetStickerSetThumbAsync(
+            string name,
+            long userId,
+            InputOnlineFile? thumb = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            MakeRequestAsync(new SetStickerSetThumbRequest(name, userId)
+            {
+                Thumb = thumb
+            }, cancellationToken);
+
+        #endregion
+
         #region Inline mode
 
         /// <inheritdoc />
@@ -1441,10 +1683,10 @@ namespace Telegram.Bot
             string inlineQueryId,
             IEnumerable<InlineQueryResultBase> results,
             int? cacheTime = default,
-            bool isPersonal = default,
-            string nextOffset = default,
-            string switchPmText = default,
-            string switchPmParameter = default,
+            bool? isPersonal = default,
+            string? nextOffset = default,
+            string? switchPmText = default,
+            string? switchPmParameter = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new AnswerInlineQueryRequest(inlineQueryId, results)
@@ -1469,25 +1711,25 @@ namespace Telegram.Bot
             string providerToken,
             string currency,
             IEnumerable<LabeledPrice> prices,
-            int maxTipAmount = default,
-            int[] suggestedTipAmounts = default,
-            string startParameter = default,
-            string providerData = default,
-            string photoUrl = default,
-            int photoSize = default,
-            int photoWidth = default,
-            int photoHeight = default,
-            bool needName = default,
-            bool needPhoneNumber = default,
-            bool needEmail = default,
-            bool needShippingAddress = default,
-            bool sendPhoneNumberToProvider = default,
-            bool sendEmailToProvider = default,
-            bool isFlexible = default,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            InlineKeyboardMarkup replyMarkup = default,
+            int? maxTipAmount = default,
+            IEnumerable<int>? suggestedTipAmounts = default,
+            string? startParameter = default,
+            string? providerData = default,
+            string? photoUrl = default,
+            int? photoSize = default,
+            int? photoWidth = default,
+            int? photoHeight = default,
+            bool? needName = default,
+            bool? needPhoneNumber = default,
+            bool? needEmail = default,
+            bool? needShippingAddress = default,
+            bool? sendPhoneNumberToProvider = default,
+            bool? sendEmailToProvider = default,
+            bool? isFlexible = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendInvoiceRequest(
@@ -1561,10 +1803,10 @@ namespace Telegram.Bot
         public Task<Message> SendGameAsync(
             long chatId,
             string gameShortName,
-            bool disableNotification = default,
-            int replyToMessageId = default,
-            bool allowSendingWithoutReply = default,
-            InlineKeyboardMarkup replyMarkup = default,
+            bool? disableNotification = default,
+            int? replyToMessageId = default,
+            bool? allowSendingWithoutReply = default,
+            InlineKeyboardMarkup? replyMarkup = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SendGameRequest(chatId, gameShortName)
@@ -1581,8 +1823,8 @@ namespace Telegram.Bot
             int score,
             long chatId,
             int messageId,
-            bool force = default,
-            bool disableEditMessage = default,
+            bool? force = default,
+            bool? disableEditMessage = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SetGameScoreRequest(userId, score, chatId, messageId)
@@ -1596,8 +1838,8 @@ namespace Telegram.Bot
             long userId,
             int score,
             string inlineMessageId,
-            bool force = default,
-            bool disableEditMessage = default,
+            bool? force = default,
+            bool? disableEditMessage = default,
             CancellationToken cancellationToken = default
         ) =>
             MakeRequestAsync(new SetInlineGameScoreRequest(userId, score, inlineMessageId)
@@ -1630,229 +1872,6 @@ namespace Telegram.Bot
         #endregion Games
 
         #region Group and channel management
-
-        /// <inheritdoc />
-        public Task<string> ExportChatInviteLinkAsync(
-            ChatId chatId,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new ExportChatInviteLinkRequest(chatId), cancellationToken);
-
-        /// <inheritdoc />
-        public Task SetChatPhotoAsync(
-            ChatId chatId,
-            InputFileStream photo,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new SetChatPhotoRequest(chatId, photo), cancellationToken);
-
-        /// <inheritdoc />
-        public Task DeleteChatPhotoAsync(
-            ChatId chatId,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new DeleteChatPhotoRequest(chatId), cancellationToken);
-
-        /// <inheritdoc />
-        public Task SetChatTitleAsync(
-            ChatId chatId,
-            string title,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new SetChatTitleRequest(chatId, title), cancellationToken);
-
-        /// <inheritdoc />
-        public Task SetChatDescriptionAsync(
-            ChatId chatId,
-            string description = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new SetChatDescriptionRequest(chatId, description), cancellationToken);
-
-        /// <inheritdoc />
-        public Task PinChatMessageAsync(
-            ChatId chatId,
-            int messageId,
-            bool disableNotification = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new PinChatMessageRequest(chatId, messageId)
-            {
-                DisableNotification = disableNotification
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task UnpinChatMessageAsync(
-            ChatId chatId,
-            int messageId = default,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(new UnpinChatMessageRequest(chatId) { MessageId = messageId }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task UnpinAllChatMessages(ChatId chatId, CancellationToken cancellationToken = default)
-            => MakeRequestAsync(new UnpinAllChatMessagesRequest(chatId), cancellationToken);
-
-        /// <inheritdoc />
-        public Task SetChatStickerSetAsync(
-            ChatId chatId,
-            string stickerSetName,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken);
-
-        /// <inheritdoc />
-        public Task DeleteChatStickerSetAsync(
-            ChatId chatId,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new DeleteChatStickerSetRequest(chatId), cancellationToken);
-        /// <inheritdoc />
-        public Task<ChatInviteLink> CreateChatInviteLinkAsync(
-            ChatId chatId,
-            DateTime? expireDate = default,
-            int? memberLimit = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new CreateChatInviteLinkRequest(chatId)
-            {
-                ExpireDate = expireDate,
-                MemberLimit = memberLimit
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task<ChatInviteLink> EditChatInviteLinkAsync(
-            ChatId chatId,
-            string inviteLink,
-            DateTime? expireDate = default,
-            int? memberLimit = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new EditChatInviteLinkRequest(chatId, inviteLink)
-            {
-                ExpireDate = expireDate,
-                MemberLimit = memberLimit
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task<ChatInviteLink> RevokeChatInviteLinkAsync(
-            ChatId chatId,
-            string inviteLink,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new RevokeChatInviteLinkRequest(chatId, inviteLink), cancellationToken);
-
-        #endregion
-
-        #region Stickers
-
-        /// <inheritdoc />
-        public Task<StickerSet> GetStickerSetAsync(
-            string name,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new GetStickerSetRequest(name), cancellationToken);
-
-        /// <inheritdoc />
-        public Task<File> UploadStickerFileAsync(
-            long userId,
-            InputFileStream pngSticker,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new UploadStickerFileRequest(userId, pngSticker), cancellationToken);
-
-        /// <inheritdoc />
-        public Task CreateNewStickerSetAsync(
-            long userId,
-            string name,
-            string title,
-            InputOnlineFile pngSticker,
-            string emojis,
-            bool isMasks = default,
-            MaskPosition maskPosition = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new CreateNewStickerSetRequest(userId, name, title, pngSticker, emojis)
-            {
-                ContainsMasks = isMasks,
-                MaskPosition = maskPosition
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task AddStickerToSetAsync(
-            long userId,
-            string name,
-            InputOnlineFile pngSticker,
-            string emojis,
-            MaskPosition maskPosition = default,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new AddStickerToSetRequest(userId, name, pngSticker, emojis)
-            {
-                MaskPosition = maskPosition
-            }, cancellationToken);
-
-        /// <inheritdoc />
-        public Task CreateNewAnimatedStickerSetAsync(
-            long userId,
-            string name,
-            string title,
-            InputFileStream tgsSticker,
-            string emojis,
-            bool isMasks = default,
-            MaskPosition maskPosition = default,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(
-                new CreateNewAnimatedStickerSetRequest(userId, name, title, tgsSticker, emojis)
-                {
-                    ContainsMasks = isMasks,
-                    MaskPosition = maskPosition
-                },
-                cancellationToken
-            );
-
-        /// <inheritdoc />
-        public Task AddAnimatedStickerToSetAsync(
-            long userId,
-            string name,
-            InputFileStream tgsSticker,
-            string emojis,
-            MaskPosition maskPosition = default,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(
-                new AddAnimatedStickerToSetRequest(userId, name, tgsSticker, emojis)
-                {
-                    MaskPosition = maskPosition
-                },
-                cancellationToken
-            );
-
-        /// <inheritdoc />
-        public Task SetStickerPositionInSetAsync(
-            string sticker,
-            int position,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(
-                new SetStickerPositionInSetRequest(sticker, position),
-                cancellationToken
-            );
-
-        /// <inheritdoc />
-        public Task DeleteStickerFromSetAsync(
-            string sticker,
-            CancellationToken cancellationToken = default
-        ) =>
-            MakeRequestAsync(new DeleteStickerFromSetRequest(sticker), cancellationToken);
-
-        /// <inheritdoc />
-        public Task SetStickerSetThumbAsync(
-            string name,
-            long userId,
-            InputOnlineFile thumb = default,
-            CancellationToken cancellationToken = default) =>
-            MakeRequestAsync(
-                new SetStickerSetThumbRequest(name, userId, thumb),
-                cancellationToken
-            );
 
         #endregion
 
