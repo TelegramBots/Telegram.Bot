@@ -8,7 +8,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to edit live location messages. A location can be edited until its <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to <see cref="StopInlineMessageLiveLocationRequest"/>. On success the edited <see cref="Message"/> is returned.
+    /// Use this method to edit live location messages. A location can be edited until its <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to <see cref="StopMessageLiveLocationRequest"/>. On success the edited <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class EditMessageLiveLocationRequest : RequestBase<Message>,

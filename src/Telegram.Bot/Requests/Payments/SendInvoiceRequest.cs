@@ -10,7 +10,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// se this method to send invoices. On success, the sent <see cref="Message"/> is returned.
+    /// Use this method to send invoices. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendInvoiceRequest : RequestBase<Message>,

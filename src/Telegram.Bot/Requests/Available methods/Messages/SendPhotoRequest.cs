@@ -35,7 +35,7 @@ namespace Telegram.Bot.Requests
         public InputOnlineFile Photo { get; }
 
         /// <summary>
-        /// Photo caption (may also be used when resending photos by file_id), 0-1024 characters after entities parsing
+        /// Photo caption (may also be used when resending photos by <see cref="InputTelegramFile.FileId"/>), 0-1024 characters after entities parsing
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Caption { get; set; }

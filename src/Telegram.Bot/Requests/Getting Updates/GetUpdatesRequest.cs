@@ -10,6 +10,13 @@ namespace Telegram.Bot.Requests
     /// <summary>
     /// Use this method to receive incoming updates using long polling (<see href="https://en.wikipedia.org/wiki/Push_technology#Long_polling">wiki</see>). An Array of <see cref="Update"/> objects is returned.
     /// </summary>
+    /// <remarks>
+    /// <list type="number">
+    /// <item><description>This method will not work if an outgoing webhook is set up.</description></item>
+    /// <item><description>In order to avoid getting duplicate updates, recalculate <paramref name="offset"/> after each server response.</description></item>
+    /// </list>
+    /// </remarks>
+
     [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class GetUpdatesRequest : RequestBase<Update[]>
     {

@@ -15,7 +15,7 @@ namespace Telegram.Bot.Requests
     public class CreateNewStickerSetRequest : FileRequestBase<bool>
     {
         /// <summary>
-        /// User identifier of sticker set owner
+        /// User identifier of created sticker set owner
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public long UserId { get; }

@@ -8,13 +8,13 @@ using Telegram.Bot.Types.InputFiles;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to create a new animated sticker set owned by a user. The bot will be able to edit the sticker set thus created.Returns True on success.
+    /// Use this method to create a new animated sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class CreateNewAnimatedStickerSetRequest : FileRequestBase<bool>
     {
         /// <summary>
-        /// User identifier of sticker set owner
+        /// User identifier of created sticker set owner
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public long UserId { get; }

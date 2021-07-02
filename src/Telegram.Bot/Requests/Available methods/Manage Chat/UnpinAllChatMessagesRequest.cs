@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel. Returns True on success.
+    /// Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the '<see cref="ChatMemberAdministrator.CanPinMessages"/>' admin right in a supergroup or '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel. Returns True on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class UnpinAllChatMessagesRequest : RequestBase<bool>

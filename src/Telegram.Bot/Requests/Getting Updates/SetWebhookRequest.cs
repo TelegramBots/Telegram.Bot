@@ -10,10 +10,16 @@ namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized <see cref="Types.Update"/>. In case of an unsuccessful request, we will give up after a reasonable amount of attempts. Returns True on success.
-    /// </summary>
-    /// <remarks>
+    /// <para>
     /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>. Since nobody else knows your bot's token, you can be pretty sure it's us.
+    /// </para>
+    /// <remarks>
+    /// 1. You will not be able to receive updates using <see cref="GetUpdatesRequest"/> for as long as an outgoing webhook is set up.<para/>
+    /// 2. To use a self-signed certificate, you need to upload your <see href="https://core.telegram.org/bots/self-signed">public key certificate</see> using <see cref="Certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending a String will not work.<para/>
+    /// 3. Ports currently supported for Webhooks: <b>443, 80, 88, 8443</b>.<para/>
+    /// If you're having any trouble setting up webhooks, please check out this <see href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</see>.
     /// </remarks>
+    /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SetWebhookRequest : FileRequestBase<bool>
     {
@@ -42,7 +48,7 @@ namespace Telegram.Bot.Requests
         public int? MaxConnections { get; set; }
 
         /// <summary>
-        /// /// A list of the update types you want your bot to receive. For example, specify [<see cref="UpdateType.Message"/>, <see cref="UpdateType.EditedChannelPost"/>, <see cref="UpdateType.CallbackQuery"/>] to only receive updates of these types. See <see cref="UpdateType"/> for a complete list of available update types. Specify an empty list to receive all update types except <see cref="UpdateType.ChatMember"/> (default). If not specified, the previous setting will be used.
+        /// A list of the update types you want your bot to receive. For example, specify [<see cref="UpdateType.Message"/>, <see cref="UpdateType.EditedChannelPost"/>, <see cref="UpdateType.CallbackQuery"/>] to only receive updates of these types. See <see cref="UpdateType"/> for a complete list of available update types. Specify an empty list to receive all update types except <see cref="UpdateType.ChatMember"/> (default). If not specified, the previous setting will be used
         /// </summary>
         /// <remarks>
         /// Please note that this parameter doesn't affect updates created before the call to the <see cref="SetWebhookRequest"/>, so unwanted updates may be received for a short period of time.

@@ -14,7 +14,7 @@ namespace Telegram.Bot.Requests
     public class RestrictChatMemberRequest : RequestBase<bool>
     {
         /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+        /// Unique identifier for the target chat or username of the target supergroup (in the format <c>@supergroupusername</c>)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }

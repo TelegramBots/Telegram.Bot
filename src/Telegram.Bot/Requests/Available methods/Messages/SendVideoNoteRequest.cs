@@ -11,9 +11,9 @@ using Telegram.Bot.Types.ReplyMarkups;
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
-/// <summary>
-/// As of <see href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</see>, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent <see cref="Message"/> is returned.
-/// </summary>
+    /// <summary>
+    /// As of <see href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</see>, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages. On success, the sent <see cref="Message"/> is returned.
+    /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendVideoNoteRequest : FileRequestBase<Message>,
                                         INotifiableMessage,

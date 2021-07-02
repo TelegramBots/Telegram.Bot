@@ -24,7 +24,7 @@ namespace Telegram.Bot.Requests
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Optional. Emoji on which the dice throw animation is based. Currently, must be one of <see cref="Emoji.Dice"/>, <see cref="Emoji.Darts"/>, <see cref="Emoji.Basketball"/>, <see cref="Emoji.Football"/>, <see cref="Emoji.Bowling"/> or <see cref="Emoji.SlotMachine"/>. Dice can have values 1-6 for <see cref="Emoji.Dice"/>, <see cref="Emoji.Darts"/> and <see cref="Emoji.Bowling"/>, values 1-5 for cref="Emoji.Basketball"/> and <see cref="Emoji.Football"/>, and values 1-64 for <see cref="Emoji.SlotMachine"/>. Defauts to <see cref="Emoji.Dice"/>
+        /// Emoji on which the dice throw animation is based. Currently, must be one of <see cref="Emoji.Dice"/>, <see cref="Emoji.Darts"/>, <see cref="Emoji.Basketball"/>, <see cref="Emoji.Football"/>, <see cref="Emoji.Bowling"/> or <see cref="Emoji.SlotMachine"/>. Dice can have values 1-6 for <see cref="Emoji.Dice"/>, <see cref="Emoji.Darts"/> and <see cref="Emoji.Bowling"/>, values 1-5 for <see cref="Emoji.Basketball"/> and <see cref="Emoji.Football"/>, and values 1-64 for <see cref="Emoji.SlotMachine"/>. Defauts to <see cref="Emoji.Dice"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Emoji? Emoji { get; set; }

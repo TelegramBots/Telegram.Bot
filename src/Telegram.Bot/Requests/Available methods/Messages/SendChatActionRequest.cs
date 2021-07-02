@@ -11,6 +11,7 @@ namespace Telegram.Bot.Requests
     /// </summary>
     /// <remarks>
     /// Example: The <see href="https://t.me/imagebot">ImageBot</see> needs some time to process a request and upload the image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may use <see cref="SendChatActionRequest"/> with <see cref="Action"/> = <see cref="ChatAction.UploadPhoto"/>.The user will see a “sending photo” status for the bot.
+    /// <para>We only recommend using this method when a response from the bot will take a <b>noticeable</b> amount of time to arrive.</para>
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class SendChatActionRequest : RequestBase<bool>
