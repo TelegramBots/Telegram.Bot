@@ -24,22 +24,22 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_ChatNotFoundException()
         {
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.SendTextMessageAsync(0, "test")
             );
 
-            Assert.IsType<ChatNotFoundException>(e);
+            Assert.Equal(400, e.ErrorCode);
         }
 
         [OrderedFact("Should throw UserNotFoundException while trying to promote an invalid user id")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Throw_Exception_UserNotFoundException()
         {
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.PromoteChatMemberAsync(_fixture.SupergroupChat.Id, 123456)
             );
 
-            Assert.IsType<UserNotFoundException>(e);
+            Assert.Equal(400, e.ErrorCode);
         }
 
         [OrderedFact("Should throw ApiRequestException while asking for user's phone number " +
@@ -74,7 +74,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 text: messageTextToModify
             );
 
-            BadRequestException e = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+            ApiRequestException e = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
                 BotClient.EditMessageTextAsync(
                     chatId: _fixture.SupergroupChat.Id,
                     messageId: message.MessageId,
@@ -82,7 +82,7 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
                 )
             );
 
-            Assert.IsType<MessageIsNotModifiedException>(e);
+            Assert.Equal(400, e.ErrorCode);
         }
     }
 }
