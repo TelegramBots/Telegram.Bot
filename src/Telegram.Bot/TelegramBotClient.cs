@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -307,6 +308,7 @@ namespace Telegram.Bot
 
             return apiResponse.Result!;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             static async Task<HttpResponseMessage> SendRequestAsync(HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
             {
                 HttpResponseMessage? httpResponse;
@@ -500,6 +502,7 @@ namespace Telegram.Bot
                 );
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             async static Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, Uri fileUri, CancellationToken cancellationToken)
             {
                 HttpResponseMessage? httpResponse;
