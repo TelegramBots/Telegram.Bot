@@ -38,11 +38,5 @@ namespace Telegram.Bot.Requests
         {
             ChatId = chatId;
         }
-
-        public SetChatDescriptionRequest(ChatId chatId, string? description)
-            : this(chatId)
-        {
-            Description = description;
-        }
     }
 }
