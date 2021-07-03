@@ -102,7 +102,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
 
             Assert.Empty(info.Url);
             Assert.False(info.HasCustomCertificate);
-            Assert.Equal(0, info.MaxConnections);
+            Assert.Null(info.MaxConnections);
             Assert.Null(info.AllowedUpdates);
         }
     }

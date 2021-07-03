@@ -75,11 +75,11 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
                 Assert.Equal(MessageType.Location, editedMessage.Type);
                 Assert.Equal(LocationMessage.MessageId, editedMessage.MessageId);
-                Assert.Equal(newLocation.Latitude, editedMessage.Location.Latitude, 3);
-                Assert.Equal(newLocation.Longitude, editedMessage.Location.Longitude, 3);
+                Assert.Equal(newLocation.Latitude, editedMessage.Location!.Latitude, 3);
+                Assert.Equal(newLocation.Longitude, editedMessage.Location!.Longitude, 3);
             }
 
-            LocationMessage = editedMessage;
+            LocationMessage = editedMessage!;
         }
 
         [OrderedFact("Should stop live locations")]
@@ -93,8 +93,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
             Assert.Equal(LocationMessage.MessageId, message.MessageId);
             Assert.Equal(LocationMessage.Chat.Id, message.Chat.Id);
-            Assert.Equal(LocationMessage.From.Id, message.From.Id);
-            Assert.Equal(LocationMessage.Location.Longitude, message.Location.Longitude);
+            Assert.Equal(LocationMessage.From!.Id, message.From!.Id);
+            Assert.Equal(LocationMessage.Location!.Longitude, message.Location!.Longitude);
             Assert.Equal(LocationMessage.Location.Latitude, message.Location.Latitude);
             Assert.Equal(LocationMessage.Location.Longitude, message.Location.Longitude);
         }

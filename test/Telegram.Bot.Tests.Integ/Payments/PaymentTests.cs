@@ -460,7 +460,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
             SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
                 async () => await BotClient.MakeRequestAsync(requestRequest)
             );
 
@@ -521,7 +521,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
                 shippingQueryId: shippingUpdate.ShippingQuery.Id
             );
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
                 async () => await BotClient.MakeRequestAsync(shippingQueryRequest)
             );
 

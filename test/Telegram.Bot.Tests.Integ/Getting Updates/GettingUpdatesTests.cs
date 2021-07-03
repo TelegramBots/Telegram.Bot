@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
@@ -37,12 +38,13 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
         {
             ITelegramBotClient botClient = new TelegramBotClient("0:1this_is_an-invalid-token_for_tests");
 
-            Exception exception = await Assert.ThrowsAnyAsync<Exception>(() =>
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
                 botClient.TestApiAsync()
             );
 
-            Assert.Equal("Response status code does not indicate success: 404 (Not Found).", exception.Message);
-            Assert.IsType<HttpRequestException>(exception);
+            Assert.IsType<ApiRequestException>(exception);
+            Assert.Equal(404, exception.ErrorCode);
+            Assert.Equal("Not Found", exception.Message);
         }
 
         [OrderedFact("Should fail API Token test with invalid token")]

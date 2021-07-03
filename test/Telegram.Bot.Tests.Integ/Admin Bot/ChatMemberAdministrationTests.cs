@@ -76,20 +76,21 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 text: _classFixture.GroupInviteLink
             );
 
-            Update update = (await _fixture.UpdateReceiver
-                    .GetUpdatesAsync(u =>
-                            u.Message.Chat.Type == ChatType.Supergroup &&
-                            u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
-                            u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: UpdateType.Message)
+            Update update = (
+                await _fixture.UpdateReceiver.GetUpdatesAsync(
+                    predicate: u =>
+                            u.Message!.Chat.Type == ChatType.Supergroup
+                            && u.Message!.Chat.Id == _fixture.SupergroupChat.Id
+                            && u.Message!.Type == MessageType.ChatMembersAdded,
+                        updateTypes: new[] { UpdateType.Message })
                 ).Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            Message serviceMsg = update.Message;
+            Message serviceMsg = update.Message!;
 
             Assert.Equal(_classFixture.RegularMemberUserId.ToString(),
-                serviceMsg.NewChatMembers.Single().Id.ToString());
+                serviceMsg.NewChatMembers!.Single().Id.ToString());
         }
 
         #endregion
@@ -190,16 +191,18 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 $"Chat admin should kick @{_classFixture.RegularMemberUserName.Replace("_", @"\_")}."
             );
 
-            Update update = (await _fixture.UpdateReceiver
-                    .GetUpdatesAsync(
-                        u => u.ChatMember?.Chat.Id == _fixture.SupergroupChat.Id,
-                        updateTypes: new [] { UpdateType.ChatMember }
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
+            Update update = (
+                await _fixture.UpdateReceiver.GetUpdatesAsync(
+                        predicate: u => u.ChatMember!.Chat.Id == _fixture.SupergroupChat.Id,
+                        updateTypes: new[] { UpdateType.ChatMember }
                     ).ConfigureAwait(false)
                 ).Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            ChatMemberUpdated chatMemberUpdated = update.ChatMember;
+            ChatMemberUpdated chatMemberUpdated = update.ChatMember!;
 
             Assert.True(chatMemberUpdated.NewChatMember.Status == ChatMemberStatus.Kicked);
             Assert.Equal(_classFixture.RegularMemberUserId, chatMemberUpdated.NewChatMember.User.Id);
@@ -217,11 +220,13 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 $" for {waitTime.Minutes} minutes."
             );
 
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
             Update _ = (await _fixture.UpdateReceiver
                     .GetUpdatesAsync(
                         u => u.Message.Chat.Id == _fixture.SupergroupChat.Id &&
                              u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: new[] {UpdateType.Message},
+                        updateTypes: new[] { UpdateType.Message },
                         cancellationToken: cts.Token
                     )
                 ).Single();

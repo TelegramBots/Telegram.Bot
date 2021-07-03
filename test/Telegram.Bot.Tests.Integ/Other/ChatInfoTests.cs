@@ -72,8 +72,9 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.True(administrator.CanRestrictMembers);
             Assert.True(administrator.CanPinMessages);
             Assert.False(administrator.CanBeEdited);
-            Assert.False(administrator.CanPostMessages);
-            Assert.False(administrator.CanEditMessages);
+            // Channels only
+            Assert.Null(administrator.CanPostMessages);
+            Assert.Null(administrator.CanEditMessages);
 
             Asserts.UsersEqual(_fixture.BotUser, memberBot.User);
         }

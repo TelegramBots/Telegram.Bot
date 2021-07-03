@@ -26,19 +26,21 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _classFixture = fixture;
         }
 
-        [OrderedFact("Should get contact info from keyboard reply markup",
-            Skip = "Due to unexpected rate limiting errors")]
+        [OrderedFact("Should get contact info from keyboard reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Contact_Info()
         {
+            ReplyKeyboardMarkup replyKeyboardMarkup = new (
+                    keyboardRow: new[] { KeyboardButton.WithRequestContact("Share Contact"), })
+            {
+                ResizeKeyboard = true,
+                OneTimeKeyboard = true,
+            };
+
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
-                replyMarkup: new ReplyKeyboardMarkup(
-                    keyboardRow: new[] {KeyboardButton.WithRequestContact("Share Contact"),},
-                    resizeKeyboard: true,
-                    oneTimeKeyboard: true
-                )
+                replyMarkup: replyKeyboardMarkup
             );
 
             Message contactMessage = await GetMessageFromChat(MessageType.Contact);

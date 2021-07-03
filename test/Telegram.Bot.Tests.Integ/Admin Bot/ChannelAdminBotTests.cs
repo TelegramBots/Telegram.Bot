@@ -144,7 +144,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(
+            ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(
                 async () => await BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id)
             );
 
@@ -162,7 +162,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             const string setName = "EvilMinds";
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(async () =>
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
                 await _fixture.BotClient.SetChatStickerSetAsync(_classFixture.Chat.Id, setName)
             );
 

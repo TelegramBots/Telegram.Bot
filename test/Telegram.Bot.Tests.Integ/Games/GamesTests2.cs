@@ -39,7 +39,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.NotEmpty(gameMessage.Game.Description);
             Assert.NotNull(gameMessage.Game.Photo);
             Assert.NotEmpty(gameMessage.Game.Photo.Select(p => p.FileId));
-            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.FileSize > 1_000));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.FileSize > 100));
             Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Width > 80));
             Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Height > 40));
 
@@ -65,7 +65,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             Assert.NotEmpty(gameMessage.Game.Description);
             Assert.NotNull(gameMessage.Game.Photo);
             Assert.NotEmpty(gameMessage.Game.Photo.Select(p => p.FileId));
-            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.FileSize > 1_000));
+            Assert.All(gameMessage.Game.Photo, p => Assert.True(p.FileSize > 100));
             Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Width > 80));
             Assert.All(gameMessage.Game.Photo, p => Assert.True(p.Height > 40));
         }

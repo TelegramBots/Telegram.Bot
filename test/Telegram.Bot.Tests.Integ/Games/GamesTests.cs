@@ -39,8 +39,8 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             const string resultId = "game";
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: queryUpdate.InlineQuery.Id,
-                results: new InlineQueryResultBase[]
+                inlineQueryId: queryUpdate.InlineQuery!.Id,
+                results: new InlineQueryResult[]
                 {
                     new InlineQueryResultGame(
                         id: resultId,
@@ -50,14 +50,14 @@ namespace Telegram.Bot.Tests.Integ.Games
                 cacheTime: 0
             );
 
-            (Update messageUpdate, Update chosenResultUpdate) =
+            (Update? messageUpdate, Update? chosenResultUpdate) =
                 await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
 
-            Assert.Equal(MessageType.Game, messageUpdate.Message.Type);
-            Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
-            Assert.Empty(chosenResultUpdate.ChosenInlineResult.Query);
+            Assert.Equal(MessageType.Game, messageUpdate?.Message?.Type);
+            Assert.Equal(resultId, chosenResultUpdate?.ChosenInlineResult?.ResultId);
+            Assert.Empty(chosenResultUpdate?.ChosenInlineResult?.Query);
 
-            _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
+            _classFixture.InlineGameMessageId = chosenResultUpdate?.ChosenInlineResult?.InlineMessageId;
         }
 
         [OrderedFact("Should get game high score for inline message")]

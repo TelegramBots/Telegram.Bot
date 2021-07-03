@@ -59,7 +59,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact("Should send a message with multiple inline keyboard markup")]
+        [OrderedFact("Should send a message with multiple inline keyboard buttons markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Inline_Keyboard()
         {

@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetChatPermissions)]
         public async Task Should_Set_New_Default_Permissions()
         {
-            ChatPermissions newDefaultPermissions = new ChatPermissions()
+            ChatPermissions newDefaultPermissions = new()
             {
                 CanInviteUsers = false,
                 CanSendMediaMessages = true,
@@ -57,7 +57,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             await BotClient.SetChatPermissionsAsync(_classFixture.Chat.Id, newDefaultPermissions);
             Chat supergroup = await BotClient.GetChatAsync(_classFixture.Chat.Id);
-            ChatPermissions setChatPermissions = supergroup.Permissions;
+            ChatPermissions setChatPermissions = supergroup.Permissions!;
 
             Asserts.JsonEquals(newDefaultPermissions, setChatPermissions);
         }
@@ -213,7 +213,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(
+            ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(
                 () => BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id)
             );
 
@@ -231,7 +231,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             const string setName = "EvilMinds";
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
                 BotClient.SetChatStickerSetAsync(_classFixture.Chat.Id, setName)
             );
 

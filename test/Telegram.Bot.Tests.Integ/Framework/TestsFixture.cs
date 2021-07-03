@@ -65,15 +65,15 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public Task<Message> SendTestInstructionsAsync(
             string instructions,
-            ChatId chatId = default,
-            bool startInlineQuery = default
+            ChatId? chatId = default,
+            bool startInlineQuery = false
         )
         {
             string text = string.Format(Constants.InstructionsMessageFormat, instructions);
             chatId ??= SupergroupChat.Id;
 
-            IReplyMarkup replyMarkup = startInlineQuery
-                ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
+            IReplyMarkup? replyMarkup = startInlineQuery
+                ? (InlineKeyboardMarkup)InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 : default;
 
             return BotClient.SendTextMessageAsync(
@@ -122,8 +122,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public async Task<Chat> GetChatFromAdminAsync()
         {
-            bool IsMatch(Update u) => u.Message.Type == MessageType.Contact ||
-                                      u.Message.ForwardFrom?.Id is not null;
+            static bool IsMatch(Update u) =>
+                u.Message.Type == MessageType.Contact
+                || u.Message.ForwardFrom?.Id is not null;
 
             var update = (await UpdateReceiver
                 .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message))
@@ -131,7 +132,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            long userId = update.Message.Type == MessageType.Contact
+            long? userId = update.Message.Type == MessageType.Contact
                 ? update.Message.Contact.UserId
                 : update.Message.ForwardFrom.Id;
 
@@ -189,7 +190,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
 
             IReplyMarkup replyMarkup = switchInlineQuery
-                ? (InlineKeyboardMarkup) InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
+                ? (InlineKeyboardMarkup)InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 : default;
 
             var task = BotClient.SendTextMessageAsync(
@@ -241,7 +242,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         }
 
 #if DEBUG
-// Disable "The variable ‘x’ is assigned but its value is never used":
+        // Disable "The variable ‘x’ is assigned but its value is never used":
 #pragma warning disable 219
         // ReSharper disable NotAccessedVariable
         // ReSharper disable RedundantAssignment
@@ -266,7 +267,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 {
                     if (formContent is StringContent stringContent)
                     {
-                        var stringifiedContent = await stringContent.ReadAsStringAsync();
+                        var stringifiedContent = await stringContent.ReadAsStringAsync(cancellationToken);
                         stringifiedFormContent.Add(stringifiedContent);
                     }
                     else
@@ -280,7 +281,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             else
             {
                 hasContent = true;
-                content = await e.HttpContent.ReadAsStringAsync();
+                content = await e.HttpContent.ReadAsStringAsync(cancellationToken);
             }
 
             /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP request values. */
@@ -292,7 +293,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             ApiResponseEventArgs e,
             CancellationToken cancellationToken = default)
         {
-            string content = await e.ResponseMessage.Content.ReadAsStringAsync()
+            string content = await e.ResponseMessage.Content.ReadAsStringAsync(cancellationToken)
                 .ConfigureAwait(false);
 
             /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP response received. */

@@ -38,7 +38,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InlineQueryResultBase[] inlineQueryResults =
+            InlineQueryResult[] inlineQueryResults =
             {
                 new InlineQueryResultPhoto(
                     id: "photo:rainbow-girl",
@@ -96,7 +96,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-            InlineQueryResultBase[] inlineQueryResults =
+            InlineQueryResult[] inlineQueryResults =
             {
                 new InlineQueryResultDocument(
                     id: "document:acrobat",

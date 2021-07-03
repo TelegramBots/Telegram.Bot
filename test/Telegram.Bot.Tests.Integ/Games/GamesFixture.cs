@@ -16,7 +16,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
         public Message GameMessage { set; get; }
 
-        public string InlineGameMessageId { set; get; }
+        public string? InlineGameMessageId { set; get; }
 
         public GameHighScore[] HighScores { set; get; }
 

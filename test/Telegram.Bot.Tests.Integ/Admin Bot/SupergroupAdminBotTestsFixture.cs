@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     }
 
                     // Save default permissions so they can be restored
-                    ExistingDefaultPermissions = chat.Permissions;
+                    ExistingDefaultPermissions = chat.Permissions!;
                 },
                 dispose: async () =>
                 {
@@ -53,7 +53,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     // Reset original default permissions
                     await TestsFixture.BotClient.SetChatPermissionsAsync(
                         TestsFixture.SupergroupChat,
-                        ExistingDefaultPermissions
+                        ExistingDefaultPermissions!
+
                     );
                 }
             );

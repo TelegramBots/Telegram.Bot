@@ -7,6 +7,7 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
 using Xunit.Abstractions;
+using static System.Net.WebRequestMethods;
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot.Tests.Integ.Other
@@ -45,14 +46,15 @@ namespace Telegram.Bot.Tests.Integ.Other
                 );
             }
 
-            string fileId = documentMessage.Document.FileId;
+            string fileId = documentMessage.Document!.FileId;
 
             #endregion
 
             File file = await BotClient.GetFileAsync(documentMessage.Document.FileId);
 
             Assert.Equal(fileId, file.FileId);
-            Assert.InRange(file.FileSize, fileSize - 3500, fileSize + 3500);
+            Assert.NotNull(file.FileSize);
+            Assert.InRange((int)file.FileSize, fileSize - 3500, fileSize + 3500);
             Assert.NotEmpty(file.FilePath);
 
             _classFixture.File = file;
@@ -61,24 +63,27 @@ namespace Telegram.Bot.Tests.Integ.Other
         [OrderedFact("Should download file using file_path and write it to disk")]
         public async Task Should_Download_Write_Using_FilePath()
         {
-            int fileSize = _classFixture.File.FileSize;
+            int? fileSize = _classFixture.File.FileSize;
 
             string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
             _output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
-            await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
-            await BotClient.DownloadFileAsync(
-                filePath: _classFixture.File.FilePath,
-                destination: fileStream
-            );
+            await using (FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath))
+            {
+                await BotClient.DownloadFileAsync(
+                    filePath: _classFixture.File.FilePath,
+                    destination: fileStream
+                );
 
-            Assert.InRange(fileStream.Length, fileSize - 100, fileSize + 100);
+                Assert.NotNull(fileSize);
+                Assert.InRange(fileStream.Length, (int)fileSize - 100, (int)fileSize + 100);
+            }
         }
 
         [OrderedFact("Should download file using file_id and write it to disk")]
         public async Task Should_Download_Write_Using_FileId()
         {
-            int fileSize = _classFixture.File.FileSize;
+            int? fileSize = _classFixture.File.FileSize;
 
             string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
             _output.WriteLine($@"Writing file to ""{destinationFilePath}""");
@@ -89,7 +94,8 @@ namespace Telegram.Bot.Tests.Integ.Other
                 destination: fileStream
             );
 
-            Assert.InRange(fileStream.Length, fileSize - 100, fileSize + 100);
+            Assert.NotNull(fileSize);
+            Assert.InRange(fileStream.Length, (int)fileSize - 100, (int)fileSize + 100);
             Assert.True(JToken.DeepEquals(
                 JToken.FromObject(_classFixture.File), JToken.FromObject(file)
             ));
@@ -99,7 +105,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetFile)]
         public async Task Should_Throw_FileId_InvalidParameterException()
         {
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(async () =>
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
                 await BotClient.GetFileAsync("Invalid_File_id")
             );
 
@@ -111,7 +117,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         {
             Stream content = default;
 
-            ArgumentNullException exception = await Assert.ThrowsAnyAsync<ArgumentNullException>(async () =>
+            ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
                 await BotClient.DownloadFileAsync("Invalid_File_Path", content!);
             });

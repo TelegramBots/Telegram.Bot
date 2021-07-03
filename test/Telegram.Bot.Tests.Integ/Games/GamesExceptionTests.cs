@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Games
                 )
             );
 
-            Assert.Contains("game_short_name", e.Message);
+            Assert.Contains("Bad Request: GAME_SHORTNAME_INVALID", e.Message);
         }
 
         [OrderedFact("Should throw InvalidGameShortNameException for empty name")]
@@ -57,7 +57,7 @@ namespace Telegram.Bot.Tests.Integ.Games
                 )
             );
 
-            Assert.Contains("game_short_name", e.Message);
+            Assert.Contains("Bad Request: wrong game short name specified", e.Message);
         }
 
         // ToDo: Send game with markup & game button NOT as 1st: BUTTON_POS_INVALID

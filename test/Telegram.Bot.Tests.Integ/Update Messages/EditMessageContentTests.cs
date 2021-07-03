@@ -47,7 +47,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             string messageText = $"{originalMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
             string data = $"change-text{new Random().Next(2_000)}";
 
-            InlineQueryResultBase[] inlineQueryResults =
+            InlineQueryResult[] inlineQueryResults =
             {
                 new InlineQueryResultArticle(
                     id: "bot-api",
@@ -95,15 +95,15 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             string data = "change-me" + new Random().Next(2_000);
-            InlineKeyboardMarkup initialMarkup = new InlineKeyboardMarkup(new[]
+            InlineKeyboardMarkup initialMarkup = new(new[]
             {
                 InlineKeyboardButton.WithCallbackData("Click here to change this button", data)
             });
 
-            InputMessageContentBase inputMessageContent =
+            InputMessageContent inputMessageContent =
                 new InputTextMessageContent("https://core.telegram.org/bots/api");
 
-            InlineQueryResultBase[] inlineQueryResults =
+            InlineQueryResult[] inlineQueryResults =
             {
                 new InlineQueryResultArticle(
                     id: "bot-api",
@@ -143,13 +143,13 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
             string data = "change-me" + new Random().Next(2_000);
-            InlineKeyboardMarkup replyMarkup = new InlineKeyboardMarkup(new[]
+            InlineKeyboardMarkup replyMarkup = new(new[]
             {
                 InlineKeyboardButton.WithCallbackData("Click here to change caption", data)
             });
             const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
 
-            InlineQueryResultBase[] inlineQueryResults =
+            InlineQueryResult[] inlineQueryResults =
             {
                 new InlineQueryResultPhoto(
                     id: "photo1",

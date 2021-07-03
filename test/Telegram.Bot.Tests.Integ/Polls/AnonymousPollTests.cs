@@ -89,7 +89,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Throw_Exception_Not_Enough_Options()
         {
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
                 BotClient.SendPollAsync(
                     chatId: Fixture.SupergroupChat,
                     question: "You should never see this poll",
