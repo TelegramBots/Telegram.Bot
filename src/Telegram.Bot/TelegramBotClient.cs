@@ -257,7 +257,7 @@ namespace Telegram.Bot
         {
             if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
-            var url = new Uri($"{_baseRequestUrl}{request.MethodName}", UriKind.Absolute);
+            var url = $"{_baseRequestUrl}/{request.MethodName}";
             var httpRequest = new HttpRequestMessage(request.Method, url)
             {
                 Content = request.ToHttpContent()
@@ -467,7 +467,7 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(destination));
             }
 
-            var fileUri = new Uri($"{_baseFileUrl}{filePath}", UriKind.Absolute);
+            var fileUri = $"{_baseFileUrl}/{filePath}";
             using HttpResponseMessage? httpResponse = await GetResponseAsync(_httpClient, fileUri, cancellationToken).ConfigureAwait(false);
 
             if (!httpResponse.IsSuccessStatusCode)
@@ -503,7 +503,7 @@ namespace Telegram.Bot
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            async static Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, Uri fileUri, CancellationToken cancellationToken)
+            async static Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, string fileUri, CancellationToken cancellationToken)
             {
                 HttpResponseMessage? httpResponse;
                 try
