@@ -1,6 +1,5 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types
 {
     /// <summary>
@@ -28,22 +27,21 @@ namespace Telegram.Bot.Types
         public PhotoSize[] Photo { get; set; }
 
         /// <summary>
-        /// Brief description of the game or high scores included in the game message.
-        /// Can be automatically edited to include current high scores for the game when the bot calls setGameScore, or manually edited using editMessageText. 0-4096 characters.
+        /// Optional. Brief description of the game or high scores included in the game message. Can be automatically edited to include current high scores for the game when the bot calls <see cref="Requests.SetGameScoreRequest"/>, or manually edited using <see cref="Requests.EditMessageTextRequest"/>. 0-4096 characters.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
-        /// Special entities that appear in text, such as usernames, URLs, bot commands, etc.
+        /// Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public MessageEntity[] TextEntities { get; set; }
+        public MessageEntity[]? TextEntities { get; set; }
 
         /// <summary>
-        /// Animation that will be displayed in the game message in chats. Upload via BotFather.
+        /// Optional. Animation that will be displayed in the game message in chats. Upload via <see href="https://t.me/botfather">@BotFather</see>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Animation Animation { get; set; }
+        public Animation? Animation { get; set; }
     }
 }

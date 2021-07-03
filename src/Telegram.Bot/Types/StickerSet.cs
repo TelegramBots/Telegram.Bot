@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
@@ -44,6 +44,6 @@ namespace Telegram.Bot.Types
         /// Optional. Sticker set thumbnail in the .WEBP or .TGS format
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PhotoSize Thumb { get; set; }
+        public PhotoSize? Thumb { get; set; }
     }
 }

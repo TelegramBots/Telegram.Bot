@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
@@ -13,12 +13,12 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unique identifier for the chat
         /// </summary>
-        public readonly long Identifier;
+        public readonly long? Identifier;
 
         /// <summary>
         /// Username of the channel (in the format @channelusername)
         /// </summary>
-        public readonly string Username;
+        public readonly string? Username;
 
         /// <summary>
         /// Create a <see cref="ChatId"/> using an identifier
@@ -55,18 +55,18 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is ChatId chatId)
             {
                 return this == chatId;
             }
 
-            return ((string) this).Equals(obj?.ToString());
+            return ((string)this).Equals(obj?.ToString());
         }
 
         /// <inheritdoc />
-        public bool Equals(ChatId other) => this == other;
+        public bool Equals(ChatId? other) => this == other;
 
         /// <summary>
         /// Gets the hash code of this object
@@ -84,13 +84,13 @@ namespace Telegram.Bot.Types
         /// Create a <see cref="ChatId"/> out of an identifier
         /// </summary>
         /// <param name="identifier">The identifier</param>
-        public static implicit operator ChatId(long identifier) => new ChatId(identifier);
+        public static implicit operator ChatId(long identifier) => new(identifier);
 
         /// <summary>
         /// Create a <see cref="ChatId"/> out of an user name
         /// </summary>
         /// <param name="username">The user name</param>
-        public static implicit operator ChatId(string username) => new ChatId(username);
+        public static implicit operator ChatId(string username) => new(username);
 
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
@@ -103,12 +103,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="chat"></param>
         public static implicit operator ChatId(Chat chat) =>
-            new ChatId(chat?.Id ?? throw new ArgumentNullException(nameof(chat)));
+            new(chat?.Id ?? throw new ArgumentNullException(nameof(chat)));
 
         /// <summary>
         /// Compares two ChatId objects
         /// </summary>
-        public static bool operator ==(ChatId obj1, ChatId obj2)
+        public static bool operator ==(ChatId? obj1, ChatId? obj2)
         {
             if (ReferenceEquals(obj1, obj2))
             {

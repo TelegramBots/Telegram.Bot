@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types
     public class MessageId
     {
         /// <summary>
-        /// Unique message identifier
+        /// Message identifier in the chat specified in <see cref="Requests.CopyMessageRequest.FromChatId"/>
         /// </summary>
         [JsonProperty(Required = Required.Always, PropertyName = "message_id")]
         public int Id { get; set; }

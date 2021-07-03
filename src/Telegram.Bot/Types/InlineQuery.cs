@@ -44,6 +44,6 @@ namespace Telegram.Bot.Types
         /// Optional. Sender location, only for bots that request user location
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public Location Location { get; set; }
+        public Location? Location { get; set; }
     }
 }

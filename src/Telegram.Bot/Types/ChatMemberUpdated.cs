@@ -6,7 +6,7 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents a chat.
+    /// This object represents changes in the status of a chat member.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class ChatMemberUpdated
@@ -46,6 +46,6 @@ namespace Telegram.Bot.Types
         /// Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ChatInviteLink InviteLink { get; set; }
+        public ChatInviteLink? InviteLink { get; set; }
     }
 }

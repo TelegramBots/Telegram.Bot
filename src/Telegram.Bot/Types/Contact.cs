@@ -25,18 +25,18 @@ namespace Telegram.Bot.Types
         /// Optional. Contact's last name
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// Optional. Contact's user identifier in Telegram
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public long UserId { get; set; }
+        public long? UserId { get; set; }
 
         /// <summary>
         /// Optional. Additional data about the contact in the form of a vCard
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Vcard { get; set; }
+        public string? Vcard { get; set; }
     }
 }

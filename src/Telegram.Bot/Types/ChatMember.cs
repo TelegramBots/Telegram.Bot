@@ -15,16 +15,16 @@ namespace Telegram.Bot.Types
     public abstract class ChatMember
     {
         /// <summary>
-        /// Information about the user
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public User User { get; set; }
-
-        /// <summary>
         /// The member's status in the chat.
         /// </summary>
         [JsonProperty]
         public abstract ChatMemberStatus Status { get; }
+
+        /// <summary>
+        /// Information about the user
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public User User { get; set; }
     }
 
     /// <summary>
@@ -40,12 +40,12 @@ namespace Telegram.Bot.Types
         /// Custom title for this user
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string CustomTitle { get; set; }
+        public string? CustomTitle { get; set; }
 
         /// <summary>
         /// True, if the user's presence in the chat is hidden
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(Required = Required.Always)]
         public bool IsAnonymous { get; set; }
     }
 
@@ -67,8 +67,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Custom title for this user
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string CustomTitle { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string? CustomTitle { get; set; }
 
         /// <summary>
         /// <c>true</c>, if the user's presence in the chat is hidden
@@ -87,14 +87,14 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// <c>true</c>, if the administrator can post in the channel, channels only
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public bool CanPostMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanPostMessages { get; set; }
 
         /// <summary>
         /// <c>true</c>, if the administrator can edit messages of other users, channels only
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public bool CanEditMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanEditMessages { get; set; }
 
         /// <summary>
         /// <c>true</c>, if the administrator can delete messages of other users
@@ -137,8 +137,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// <c>true</c>, if the administrator can pin messages, supergroups only
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public bool CanPinMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanPinMessages { get; set; }
     }
 
     /// <summary>
@@ -181,8 +181,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// <c>true</c>, if the user can pin messages, supergroups only
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public bool CanPinMessages { get; set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CanPinMessages { get; set; }
 
         /// <summary>
         /// <c>true</c>, if the user can send text messages, contacts, locations and venues

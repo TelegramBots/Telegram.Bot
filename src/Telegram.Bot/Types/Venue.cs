@@ -16,7 +16,7 @@ namespace Telegram.Bot.Types
         public Location Location { get; set; }
 
         /// <summary>
-        /// Title of the result
+        /// Name of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Title { get; set; }
@@ -31,26 +31,25 @@ namespace Telegram.Bot.Types
         /// Optional. Foursquare identifier of the venue
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string FoursquareId { get; set; }
-
-        /// <summary>
-        /// Google Places identifier of the venue
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string GooglePlaceId { get; set; }
-
-        /// <summary>
-        /// Google Places type of the venue.
-        /// <see href="https://developers.google.com/places/web-service/supported_types"/>
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string GooglePlaceType { get; set; }
+        public string? FoursquareId { get; set; }
 
         /// <summary>
         /// Optional. Foursquare type of the venue. (For example, "arts_entertainment/default",
         /// "arts_entertainment/aquarium" or "food/icecream".)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string FoursquareType { get; set; }
+        public string? FoursquareType { get; set; }
+
+        /// <summary>
+        /// Optional. Google Places identifier of the venue
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string? GooglePlaceId { get; set; }
+
+        /// <summary>
+        /// Optional. Google Places type of the venue. (See <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>.)
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string? GooglePlaceType { get; set; }
     }
 }

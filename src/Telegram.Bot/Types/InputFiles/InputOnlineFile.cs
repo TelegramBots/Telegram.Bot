@@ -18,22 +18,24 @@ namespace Telegram.Bot.Types.InputFiles
         /// HTTP URL for Telegram to get a file from the Internet
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Url { get; }
+        public string? Url { get; }
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Stream"/> and a file name
         /// </summary>
-        /// <param name="content"><see cref="Stream"/> containing the file</param>
-        /// <param name="fileName">Name of the file</param>
-        public InputOnlineFile(Stream content, string fileName = default)
+        /// <param name="content">A <see cref="Stream"/> containing a file to send</param>
+        /// <param name="fileName">A name of the file</param>
+        public InputOnlineFile(Stream content, string? fileName = default)
             : base(content, fileName)
-        { }
+        {
+        }
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a string containing a uri or file id
         /// </summary>
-        /// <param name="value"><see cref="string"/> containing a url or file id</param>
-        public InputOnlineFile(string value) : base(Check(value, out var isUrl))
+        /// <param name="value">A <see cref="string"/> containing a url or file_id</param>
+        public InputOnlineFile(string value)
+            :base(DetectFileType(value, out var isUrl))
         {
             if (isUrl)
             {
@@ -48,24 +50,28 @@ namespace Telegram.Bot.Types.InputFiles
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Uri"/>
         /// </summary>
-        /// <param name="url"><see cref="Uri"/> pointing to a file</param>
-        public InputOnlineFile(Uri url) : base(FileType.Url) => Url = url.AbsoluteUri;
+        /// <param name="url">A <see cref="Uri"/> pointing to a file</param>
+        public InputOnlineFile(Uri url)
+            : base(FileType.Url)
+        {
+            Url = url.AbsoluteUri;
+        }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Stream"/>
         /// </summary>
-        /// <param name="stream"></param>
-        public static implicit operator InputOnlineFile(Stream stream) =>
+        /// <param name="stream">A <see cref="Stream"/> containing a file to send</param>
+        public static implicit operator InputOnlineFile?(Stream stream) =>
             stream is null ? default : new InputOnlineFile(stream);
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputOnlineFile"/> from a string containing a uri or file id
         /// </summary>
-        /// <param name="value"></param>
-        public static implicit operator InputOnlineFile(string value) =>
+        /// <param name="value">A <see cref="string"/> containing a url or file_id</param>
+        public static implicit operator InputOnlineFile?(string value) =>
             value is null ? default : new InputOnlineFile(value);
 
-        private static FileType Check(string value, out bool isUrl)
+        private static FileType DetectFileType(string value, out bool isUrl)
         {
             if (Uri.TryCreate(value, UriKind.Absolute, out _))
             {

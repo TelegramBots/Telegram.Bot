@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 // ReSharper disable once CheckNamespace
@@ -19,30 +19,24 @@ namespace Telegram.Bot.Types.Passport
         public string Type { get; set; }
 
         /// <summary>
-        /// Base64-encoded element hash for using in PassportElementErrorUnspecified
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string Hash { get; set; }
-
-        /// <summary>
         /// Optional. Base64-encoded encrypted Telegram Passport element data provided by the user, available for
         /// "personal_details", "passport", "driver_license", "identity_card", "identity_passport" and "address"
         /// types. Can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Data { get; set; }
+        public string? Data { get; set; }
 
         /// <summary>
         /// Optional. User's verified phone number, available only for "phone_number" type.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         /// <summary>
         /// Optional. User's verified email address, available only for "email" type.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Optional. Array of encrypted files with documents provided by the user, available for "utility_bill",
@@ -50,7 +44,7 @@ namespace Telegram.Bot.Types.Passport
         /// Files can be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PassportFile[] Files { get; set; }
+        public PassportFile[]? Files { get; set; }
 
         /// <summary>
         /// Optional. Encrypted file with the front side of the document, provided by the user. Available for
@@ -58,7 +52,7 @@ namespace Telegram.Bot.Types.Passport
         /// verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PassportFile FrontSide { get; set; }
+        public PassportFile? FrontSide { get; set; }
 
         /// <summary>
         /// Optional. Encrypted file with the reverse side of the document, provided by the user. Available for
@@ -66,7 +60,7 @@ namespace Telegram.Bot.Types.Passport
         /// <see cref="EncryptedCredentials"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PassportFile ReverseSide { get; set; }
+        public PassportFile? ReverseSide { get; set; }
 
         /// <summary>
         /// Optional. Encrypted file with the selfie of the user holding a document, provided by the user;
@@ -74,7 +68,7 @@ namespace Telegram.Bot.Types.Passport
         /// be decrypted and verified using the accompanying <see cref="EncryptedCredentials"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PassportFile Selfie { get; set; }
+        public PassportFile? Selfie { get; set; }
 
         /// <summary>
         /// Optional. Array of encrypted files with translated versions of documents provided by the user.
@@ -84,6 +78,12 @@ namespace Telegram.Bot.Types.Passport
         /// <see cref="EncryptedCredentials"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PassportFile[] Translation { get; set; }
+        public PassportFile[]? Translation { get; set; }
+
+        /// <summary>
+        /// Base64-encoded element hash for using in PassportElementErrorUnspecified
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string Hash { get; set; }
     }
 }

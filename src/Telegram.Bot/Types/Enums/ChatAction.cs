@@ -30,17 +30,17 @@ namespace Telegram.Bot.Types.Enums
         UploadVideo,
 
         /// <summary>
-        /// Recording an <see cref="Voice"/>
+        /// Recording a <see cref="Voice"/>
         /// </summary>
         RecordVoice,
 
         /// <summary>
-        /// Uploading an <see cref="Voice"/>
+        /// Uploading a <see cref="Voice"/>
         /// </summary>
         UploadVoice,
 
         /// <summary>
-        /// Uploading <see cref="Document"/>
+        /// Uploading a <see cref="Document"/>
         /// </summary>
         UploadDocument,
 

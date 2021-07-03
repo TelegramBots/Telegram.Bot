@@ -18,7 +18,7 @@ namespace Telegram.Bot.Types
         public string Id { get; set; }
 
         /// <summary>
-        /// Poll question, 1-255 characters
+        /// Poll question, 1-300 characters
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Question { get; set; }
@@ -69,13 +69,13 @@ namespace Telegram.Bot.Types
         /// Optional. Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Explanation { get; set; }
+        public string? Explanation { get; set; }
 
         /// <summary>
         /// Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the <see cref="Explanation"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public MessageEntity[] ExplanationEntities { get; set; }
+        public MessageEntity[]? ExplanationEntities { get; set; }
 
         /// <summary>
         /// Optional. Amount of time in seconds the poll will be active after creation

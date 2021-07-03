@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
@@ -45,7 +45,7 @@ namespace Telegram.Bot.Types
         /// <param name="chatId">
         /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
         /// </param>
-        public static BotCommandScopeChat Chat(ChatId chatId) => new() {ChatId = chatId};
+        public static BotCommandScopeChat Chat(ChatId chatId) => new() { ChatId = chatId };
 
         /// <summary>
         /// Create a <see cref="BotCommandScope"/> instance for a specific member in a specific <see cref="Chat"/>
@@ -54,17 +54,17 @@ namespace Telegram.Bot.Types
         /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
         /// </param>
         public static BotCommandScopeChatAdministrators ChatAdministrators(ChatId chatId) =>
-            new() {ChatId = chatId};
+            new() { ChatId = chatId };
 
         /// <summary>
-        ///
+        /// Represents the <see cref="BotCommandScope">scope</see> of bot commands, covering a specific member of a group or supergroup chat.
         /// </summary>
         /// <param name="chatId">
         /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
         /// </param>
         /// <param name="userId">Unique identifier of the target user</param>
         public static BotCommandScopeChatMember ChatMember(ChatId chatId, long userId) =>
-            new() {ChatId = chatId, UserId = userId};
+            new() { ChatId = chatId, UserId = userId };
     }
 
     /// <inheritdoc cref="BotCommandScopeType.Default"/>

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
@@ -10,19 +10,7 @@ namespace Telegram.Bot.Types
     public class ChatPhoto
     {
         /// <summary>
-        /// File id of the big version of this <see cref="ChatPhoto"/>
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string BigFileId { get; set; }
-
-        /// <summary>
-        /// Unique file identifier of big (640x640) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
-        public string BigFileUniqueId { get; set; }
-
-        /// <summary>
-        /// File id of the small version of this <see cref="ChatPhoto"/>
+        /// File identifier of small (160x160) chat photo. This FileId can be used only for photo download and only for as long as the photo is not changed.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string SmallFileId { get; set; }
@@ -32,5 +20,17 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string SmallFileUniqueId { get; set; }
+
+        /// <summary>
+        /// File identifier of big (640x640) chat photo. This FileId can be used only for photo download and only for as long as the photo is not changed.
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string BigFileId { get; set; }
+
+        /// <summary>
+        /// Unique file identifier of big (640x640) chat photo, which is supposed to be the same over time and for different bots. Can't be used to download or reuse the file.
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public string BigFileUniqueId { get; set; }
     }
 }

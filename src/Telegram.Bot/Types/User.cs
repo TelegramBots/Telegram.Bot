@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -32,43 +32,43 @@ namespace Telegram.Bot.Types
         /// Optional. User's or bot's last name
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string LastName { get; set; }
+        public string? LastName { get; set; }
 
         /// <summary>
         /// Optional. User's or bot's username
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
-        /// Optional. IETF language tag of the user's language
+        /// Optional. <see href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</see> of the user's language
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string LanguageCode { get; set; }
+        public string? LanguageCode { get; set; }
 
         /// <summary>
-        /// Optional. True, if the bot can be invited to groups. Returned only in getMe
+        /// Optional. True, if the bot can be invited to groups. Returned only in <see cref="Requests.GetMeRequest"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanJoinGroups { get; set; }
 
         /// <summary>
-        /// Optional. True, if privacy mode is disabled for the bot. Returned only in getMe
+        /// Optional. True, if privacy mode is disabled for the bot. Returned only in <see cref="Requests.GetMeRequest"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanReadAllGroupMessages { get; set; }
 
         /// <summary>
-        /// Optional. True, if the bot supports inline queries. Returned only in getMe
+        /// Optional. True, if the bot supports inline queries. Returned only in <see cref="Requests.GetMeRequest"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? SupportsInlineQueries { get; set; }
 
         /// <inheritdoc />
-        public override bool Equals(object obj) => Equals(obj as User);
+        public override bool Equals(object? obj) => Equals(obj as User);
 
         /// <inheritdoc />
-        public bool Equals(User other)
+        public bool Equals(User? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -91,7 +91,7 @@ namespace Telegram.Bot.Types
         /// <param name="rhs">Right-hand side user in expression</param>
         /// <returns>true if users are equal, otherwise false</returns>
         public static bool operator ==(User lhs, User rhs) =>
-            lhs?.Equals(rhs) ?? ReferenceEquals(rhs, null);
+            lhs?.Equals(rhs) ?? rhs is null;
 
         /// <summary>
         /// Compares two users for inequality

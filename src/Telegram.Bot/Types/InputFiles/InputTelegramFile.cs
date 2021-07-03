@@ -17,48 +17,48 @@ namespace Telegram.Bot.Types.InputFiles
         /// Id of a file that exists on Telegram servers
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string FileId { get; private protected set; }
+        public string? FileId { get; private protected set; }
 
         /// <summary>
-        ///
+        ///  Constructs an <see cref="InputTelegramFile"/> with a <see cref="FileType"/>
         /// </summary>
-        protected InputTelegramFile()
-        { }
-
-        /// <summary>
-        /// ToDo
-        /// </summary>
-        protected InputTelegramFile(FileType fileType) : base(fileType)
-        { }
+        protected InputTelegramFile(FileType fileType)
+            : base(fileType)
+        {
+        }
 
         /// <summary>
         /// Constructs an <see cref="InputTelegramFile"/> from a <see cref="Stream"/> and a file name
         /// </summary>
-        /// <param name="content"><see cref="Stream"/> containing the file</param>
-        /// <param name="fileName">Name of the file</param>
-        public InputTelegramFile(Stream content, string fileName = default)
+        /// <param name="content">A <see cref="Stream"/> containing a file to send</param>
+        /// <param name="fileName">A name of the file</param>
+        public InputTelegramFile(Stream content, string? fileName = default)
             : base(content, fileName)
-        { }
+        {
+        }
 
         /// <summary>
-        /// Constructs an <see cref="InputTelegramFile"/> from a file id
+        /// Constructs an <see cref="InputTelegramFile"/> with a <paramref name="fileId"/>
         /// </summary>
-        /// <param name="fileId">File id on Telegram's servers</param>
-        public InputTelegramFile(string fileId) : base(FileType.Id) =>
+        /// <param name="fileId">A file identifier</param>
+        public InputTelegramFile(string fileId)
+            : base(FileType.Id)
+        {
             FileId = fileId;
+        }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputTelegramFile"/> from a <see cref="Stream"/>
         /// </summary>
-        /// <param name="stream"></param>
-        public static implicit operator InputTelegramFile(Stream stream) =>
+        /// <param name="stream">A <see cref="Stream"/> containing a file to send</param>
+        public static implicit operator InputTelegramFile?(Stream stream) =>
             stream is null ? default : new InputTelegramFile(stream);
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputTelegramFile"/> with a <paramref name="fileId"/>
         /// </summary>
-        /// <param name="fileId"></param>
-        public static implicit operator InputTelegramFile(string fileId) =>
+        /// <param name="fileId">A file identifier</param>
+        public static implicit operator InputTelegramFile?(string fileId) =>
             fileId is null ? default : new InputTelegramFile(fileId);
     }
 }

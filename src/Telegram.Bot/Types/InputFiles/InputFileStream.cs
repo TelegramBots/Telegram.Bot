@@ -19,31 +19,27 @@ namespace Telegram.Bot.Types.InputFiles
         /// <summary>
         /// File content to upload
         /// </summary>
-        public Stream Content { get; }
+        public Stream? Content { get; }
 
         /// <summary>
         /// Name of a file to upload using multipart/form-data
         /// </summary>
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
         /// <summary>
-        ///
+        /// Constructs an <see cref="InputFileStream"/> with a given <see cref="FileType"/>
         /// </summary>
-        protected InputFileStream()
-        { }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="fileType"></param>
-        protected InputFileStream(FileType fileType) => FileType = fileType;
+        protected InputFileStream(FileType fileType)
+        {
+            FileType = fileType;
+        }
 
         /// <summary>
         /// Constructs an <see cref="InputFileStream"/> from a <see cref="Stream"/> and a file name
         /// </summary>
-        /// <param name="content"><see cref="Stream"/> containing the file</param>
-        /// <param name="fileName">Name of the file</param>
-        public InputFileStream(Stream content, string fileName = default)
+        /// <param name="content">A <see cref="Stream"/> containing a file to send</param>
+        /// <param name="fileName">A name of the file</param>
+        public InputFileStream(Stream content, string? fileName = default)
         {
             Content = content;
             FileName = fileName;
@@ -51,10 +47,10 @@ namespace Telegram.Bot.Types.InputFiles
         }
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputFileStream"/> from a <see cref="Stream"/>
         /// </summary>
-        /// <param name="stream"></param>
-        public static implicit operator InputFileStream(Stream stream) =>
+        /// <param name="stream">A <see cref="Stream"/> containing a file to send</param>
+        public static implicit operator InputFileStream?(Stream stream) =>
             stream is null ? default : new InputFileStream(stream);
     }
 }

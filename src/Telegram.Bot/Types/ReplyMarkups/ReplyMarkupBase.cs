@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types.ReplyMarkups
@@ -14,19 +14,19 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Optional. Use this parameter if you want to show the keyboard to specific users only. Targets:
         /// <list type="number">
         /// <item>
-        /// users that are @mentioned in the <see cref="Message.Text"/> of the <see cref="Message"/> object
+        /// users that are @mentioned in the <see cref="Message.Text"/> of the <see cref="Message"/> object;
         /// </item>
         /// <item>
         /// if the bot's message is a reply (has <see cref="Message.ReplyToMessage"/>), sender of the original
-        /// message
+        /// message.
         /// </item>
         /// </list>
         /// </summary>
-        /// <example>
-        /// A user requests to change the bot's language, bot replies to the request with a keyboard to select
+        /// <remarks>
+        /// <i>Example:</i> A user requests to change the bot's language, bot replies to the request with a keyboard to select
         /// the new language. Other users in the group don't see the keyboard.
-        /// </example>
+        /// </remarks>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool Selective { get; set; }
+        public bool? Selective { get; set; }
     }
 }

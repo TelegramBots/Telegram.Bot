@@ -26,17 +26,17 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// True, if the link is primary
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? IsPrimary { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public bool IsPrimary { get; set; }
 
         /// <summary>
         /// True, if the link is revoked
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? IsRevoked { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public bool IsRevoked { get; set; }
 
         /// <summary>
-        /// Optional. Point in time (Unix timestamp) when the link will expire or has been expired
+        /// Optional. Point in time when the link will expire or has been expired
         /// </summary>
         [JsonConverter(typeof(UnixDateTimeConverter))]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
@@ -18,7 +18,7 @@ namespace Telegram.Bot.Types
         public abstract InputMediaType Type { get; }
 
         /// <summary>
-        /// Media to send
+        /// File to send
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InputMedia Media { get; }
@@ -27,7 +27,14 @@ namespace Telegram.Bot.Types
         /// Optional. Caption of the photo to be sent, 0-1024 characters
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Caption { get; set; }
+        public string? Caption { get; set; }
+
+        /// <summary>
+        /// Optional. List of special entities that appear in the caption, which can be specified instead
+        /// of <see cref="ParseMode"/>
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[]? CaptionEntities { get; set; }
 
         /// <summary>
         /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in a caption
@@ -36,16 +43,12 @@ namespace Telegram.Bot.Types
         public ParseMode? ParseMode { get; set; }
 
         /// <summary>
-        /// Optional. List of special entities that appear in the caption, which can be specified instead
-        /// of <see cref="ParseMode"/>
+        /// Initialize an object
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public MessageEntity[] CaptionEntities { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="media"></param>
-        protected InputMediaBase(InputMedia media) => Media = media;
+        /// <param name="media">File to send</param>
+        protected InputMediaBase(InputMedia media)
+        {
+            Media = media;
+        }
     }
 }

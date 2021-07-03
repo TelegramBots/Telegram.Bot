@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
@@ -18,17 +18,20 @@ namespace Telegram.Bot.Types.Enums
     public enum ParseMode
     {
         /// <summary>
-        /// <see cref="Message.Text"/> is formatted in Markdown
+        /// Markdown-formatted A <see cref="Message.Text"/>
         /// </summary>
+        /// <remarks>
+        /// This is a legacy mode, retained for backward compatibility
+        /// </remarks>
         Markdown = 1,
 
         /// <summary>
-        /// <see cref="Message.Text"/> is formatted in HTML
+        /// HTML-formatted <see cref="Message.Text"/>
         /// </summary>
         Html,
 
         /// <summary>
-        /// <see cref="Message.Text"/> is formatted in MarkdownV2
+        /// MarkdownV2-formatted <see cref="Message.Text"/>
         /// </summary>
         MarkdownV2,
     }
