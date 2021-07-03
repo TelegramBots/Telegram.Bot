@@ -1,4 +1,4 @@
-﻿#if NETSTANDARD2_1
+﻿#if NETCOREAPP3_1_OR_GREATER
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,6 +9,7 @@ using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Extensions.Polling
 {
     /// <summary>
@@ -17,18 +18,23 @@ namespace Telegram.Bot.Extensions.Polling
     /// </summary>
     public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     {
-        private readonly ITelegramBotClient _botClient;
-        private readonly UpdateType[]? _allowedUpdates;
-        private readonly Func<Exception, CancellationToken, Task>? _errorHandler;
+        readonly ITelegramBotClient _botClient;
+        readonly UpdateType[]? _allowedUpdates;
+        readonly Func<Exception, CancellationToken, Task>? _errorHandler;
 
-        private Enumerator? _enumerator;
+        int _inProcess;
+        Enumerator? _enumerator;
 
         /// <summary>
         /// Constructs a new <see cref="QueuedUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="allowedUpdates">Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates</param>
-        /// <param name="errorHandler">The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests</param>
+        /// <param name="allowedUpdates">
+        /// Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates
+        /// </param>
+        /// <param name="errorHandler">
+        /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
+        /// </param>
         public QueuedUpdateReceiver(
             ITelegramBotClient botClient,
             UpdateType[]? allowedUpdates = default,
@@ -47,50 +53,57 @@ namespace Telegram.Bot.Extensions.Polling
         /// <summary>
         /// Gets the <see cref="IAsyncEnumerator{Update}"/>. This method may only be called once.
         /// </summary>
-        /// <param name="cancellationToken">The <see cref="CancellationToken"/> with which you can stop receiving</param>
+        /// <param name="cancellationToken">
+        /// The <see cref="CancellationToken"/> with which you can stop receiving
+        /// </param>
         public IAsyncEnumerator<Update> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
-            var enumerator = new Enumerator(this, cancellationToken);
-
-            if (Interlocked.CompareExchange(ref _enumerator, enumerator, null) != null)
+            if (Interlocked.CompareExchange(ref _inProcess, 1, 0) == 1)
+            {
                 throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
+            }
 
-            return enumerator;
+            _enumerator = new Enumerator(this, cancellationToken);
+
+            return _enumerator;
         }
 
-        private class Enumerator : IAsyncEnumerator<Update>
+        class Enumerator : IAsyncEnumerator<Update>
         {
-            private readonly QueuedUpdateReceiver _receiver;
-            private readonly CancellationTokenSource _cts;
+            readonly QueuedUpdateReceiver _receiver;
+            readonly CancellationTokenSource _cts;
+            readonly CancellationToken _token;
 
-            private Exception? _uncaughtException;
+            Exception? _uncaughtException;
 
-            private readonly Channel<Update> _channel;
-            private Update? _current;
+            readonly Channel<Update> _channel;
+            Update? _current;
 
-            private int _pendingUpdates;
+            int _pendingUpdates;
             public int PendingUpdates => _pendingUpdates;
 
             public Enumerator(QueuedUpdateReceiver receiver, CancellationToken cancellationToken)
             {
                 _receiver = receiver;
                 _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, default);
+                _token = _cts.Token;
 
-                _channel = Channel.CreateUnbounded<Update>(new UnboundedChannelOptions()
-                {
-                    SingleReader = true,
-                    SingleWriter = true
-                });
+                _channel = Channel.CreateUnbounded<Update>(
+                    new UnboundedChannelOptions
+                    {
+                        SingleReader = true,
+                        SingleWriter = true
+                    }
+                );
 
                 Task.Run(ReceiveUpdatesAsync);
             }
 
             public ValueTask<bool> MoveNextAsync()
             {
-                if (_uncaughtException != null)
-                    throw _uncaughtException;
+                if (_uncaughtException is not null) { throw _uncaughtException; }
 
-                _cts.Token.ThrowIfCancellationRequested();
+                _token.ThrowIfCancellationRequested();
 
                 if (_channel.Reader.TryRead(out _current))
                 {
@@ -103,24 +116,29 @@ namespace Telegram.Bot.Extensions.Polling
 
             public async Task<bool> ReadAsync()
             {
-                _current = await _channel.Reader.ReadAsync(_cts.Token);
+                _current = await _channel.Reader.ReadAsync(_token);
                 Interlocked.Decrement(ref _pendingUpdates);
                 return true;
             }
 
-            private async Task ReceiveUpdatesAsync()
+            async Task ReceiveUpdatesAsync()
             {
                 int messageOffset = 0;
                 while (!_cts.IsCancellationRequested)
                 {
                     try
                     {
-                        Update[] updateArray = await _receiver._botClient.MakeRequestAsync(new GetUpdatesRequest()
-                        {
-                            Offset = messageOffset,
-                            Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
-                            AllowedUpdates = _receiver._allowedUpdates,
-                        }, _cts.Token).ConfigureAwait(false);
+                        Update[] updateArray = await _receiver._botClient
+                            .MakeRequestAsync(
+                                new GetUpdatesRequest
+                                {
+                                    Offset = messageOffset,
+                                    Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
+                                    AllowedUpdates = _receiver._allowedUpdates,
+                                },
+                                _token
+                            )
+                            .ConfigureAwait(false);
 
                         if (updateArray.Length > 0)
                         {
@@ -131,7 +149,7 @@ namespace Telegram.Bot.Extensions.Polling
                             ChannelWriter<Update> writer = _channel.Writer;
                             foreach (Update update in updateArray)
                             {
-                                bool success = writer.TryWrite(update);
+                                var success = writer.TryWrite(update);
                                 Debug.Assert(success, "TryWrite should succeed as we are using an unbounded channel");
                             }
                         }
@@ -154,17 +172,26 @@ namespace Telegram.Bot.Extensions.Polling
                         {
                             try
                             {
-                                await _receiver._errorHandler(ex, _cts.Token).ConfigureAwait(false);
+                                await _receiver._errorHandler(ex, _token).ConfigureAwait(false);
                             }
                             catch (Exception errorHandlerException)
                             {
-                                _uncaughtException = new AggregateException(ex, errorHandlerException);
+                                _uncaughtException = new AggregateException(
+                                    message: "Exception was not caught by the errorHandler.",
+                                    ex,
+                                    errorHandlerException
+                                );
                                 _cts.Cancel();
                             }
                         }
 
-                        if (_uncaughtException != null)
-                            _uncaughtException = new Exception("Exception was not caught by the errorHandler.", _uncaughtException);
+                        if (_uncaughtException is not null)
+                        {
+                            _uncaughtException = new Exception(
+                                "Exception was not caught by the errorHandler.",
+                                _uncaughtException
+                            );
+                        }
                     }
                 }
             }
@@ -174,6 +201,7 @@ namespace Telegram.Bot.Extensions.Polling
             public ValueTask DisposeAsync()
             {
                 _cts.Cancel();
+                _cts.Dispose();
                 return new ValueTask();
             }
         }

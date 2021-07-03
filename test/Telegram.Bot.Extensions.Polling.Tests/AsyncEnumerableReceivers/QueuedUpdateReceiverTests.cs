@@ -147,22 +147,18 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             var mockClient = new MockTelegramBotClient("foo");
             var receiver = new QueuedUpdateReceiver(mockClient);
 
-            await using var enumerator = receiver.GetAsyncEnumerator();
+            var enumerator = receiver.GetAsyncEnumerator();
 
             await enumerator.MoveNextAsync();
-
-            ValueTask<bool> moveNextTask = enumerator.MoveNextAsync();
-            Assert.False(moveNextTask.IsCompleted);
-
             await enumerator.DisposeAsync();
 
-            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await moveNextTask);
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
         }
 
         [Fact]
         public async Task ExceptionIsCaughtByErrorHandler()
         {
-            var mockClient = new MockTelegramBotClient()
+            var mockClient = new MockTelegramBotClient
             {
                 ExceptionToThrow = new Exception("Oops")
             };

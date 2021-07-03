@@ -86,16 +86,14 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             var mockClient = new MockTelegramBotClient("foo");
             var receiver = new BlockingUpdateReceiver(mockClient);
 
-            await using var enumerator = receiver.GetAsyncEnumerator();
-
+            var enumerator = receiver.GetAsyncEnumerator();
             await enumerator.MoveNextAsync();
-
-            ValueTask<bool> moveNextTask = enumerator.MoveNextAsync();
-            Assert.False(moveNextTask.IsCompleted);
 
             await enumerator.DisposeAsync();
 
-            await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await moveNextTask);
+            await Assert.ThrowsAnyAsync<OperationCanceledException>(
+                async () => await enumerator.MoveNextAsync()
+            );
         }
 
         [Fact]
