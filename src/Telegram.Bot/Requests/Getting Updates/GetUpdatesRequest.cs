@@ -13,7 +13,7 @@ namespace Telegram.Bot.Requests
     /// <remarks>
     /// <list type="number">
     /// <item><description>This method will not work if an outgoing webhook is set up.</description></item>
-    /// <item><description>In order to avoid getting duplicate updates, recalculate <paramref name="offset"/> after each server response.</description></item>
+    /// <item><description>In order to avoid getting duplicate updates, recalculate <see cref="GetUpdatesRequest.Offset"/> after each server response.</description></item>
     /// </list>
     /// </remarks>
 
