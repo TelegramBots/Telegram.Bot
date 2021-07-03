@@ -2164,7 +2164,7 @@ namespace Telegram.Bot
         public static async Task AnswerInlineQueryAsync(
             this ITelegramBotClient botClient,
             string inlineQueryId,
-            IEnumerable<InlineQueryResultBase> results,
+            IEnumerable<InlineQueryResult> results,
             int? cacheTime = default,
             bool? isPersonal = default,
             string? nextOffset = default,
