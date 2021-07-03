@@ -10,7 +10,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
         [Fact(DisplayName = "Should serialize InlineQueryResultMpeg4Gif with ThumbMimeType")]
         public void Should_Serialize_InlineQueryResultMpeg4Gif_With_ThumbMimeType()
         {
-            InlineQueryResultBase[] results =
+            InlineQueryResult[] results =
             {
                 new InlineQueryResultMpeg4Gif(
                     id: "mpeg4_gif_result_with_video_thumb",
@@ -36,7 +36,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
         [Fact(DisplayName = "Should serialize InlineQueryResultGif with ThumbMimeType")]
         public void Should_Serialize_InlineQueryResultGif_With_ThumbMimeType()
         {
-            InlineQueryResultBase[] results =
+            InlineQueryResult[] results =
             {
                 new InlineQueryResultGif(
                     id: "gif_result_with_video_thumb",

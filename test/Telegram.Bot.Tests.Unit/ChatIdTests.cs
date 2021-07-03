@@ -30,7 +30,7 @@ namespace Telegram.Bot.Tests.Unit
 
             chatId = new ChatId("@valid_username");
             Assert.Equal("@valid_username", chatId.Username);
-            Assert.Equal(0, chatId.Identifier);
+            Assert.Null(chatId.Identifier);
 
             Assert.Throws<ArgumentException>(() => new ChatId("username"));
         }
