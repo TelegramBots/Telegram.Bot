@@ -57,7 +57,7 @@ namespace Telegram.Bot.Helpers
                 }
 
                 if (input is IInputMediaThumb mediaThumb &&
-                    mediaThumb.Thumb.FileType == FileType.Stream)
+                    mediaThumb.Thumb?.FileType == FileType.Stream)
                 {
                     multipartContent.AddStreamContent(mediaThumb.Thumb.Content, mediaThumb.Thumb.FileName);
                 }
@@ -90,9 +90,6 @@ namespace Telegram.Bot.Helpers
         /// </summary>
         /// <param name="httpResponse"><see cref="HttpResponseMessage"/> instance</param>
         /// <param name="guard"></param>
-        /// <param name="includeBody">
-        /// Specifies if stringified body should be included in <see cref="RequestException"/>
-        /// </param>
         /// <typeparam name="T">Type of the resulting object</typeparam>
         /// <returns></returns>
         /// <exception cref="RequestException">
@@ -127,7 +124,7 @@ namespace Telegram.Bot.Helpers
                 }
                 catch (Exception exception)
                 {
-                    throw await CreateRequestException(
+                    throw CreateRequestException(
                         httpResponse: httpResponse,
                         message: "Required properties not found in response",
                         exception: exception
@@ -136,7 +133,7 @@ namespace Telegram.Bot.Helpers
 
                 if (deserializedObject is null)
                 {
-                    throw await CreateRequestException(
+                    throw CreateRequestException(
                         httpResponse: httpResponse,
                         message: "Required properties not found in response"
                     );
@@ -144,7 +141,7 @@ namespace Telegram.Bot.Helpers
 
                 if (guard(deserializedObject))
                 {
-                    throw await CreateRequestException(
+                    throw CreateRequestException(
                         httpResponse: httpResponse,
                         message: "Required properties not found in response"
                     );
@@ -170,7 +167,7 @@ namespace Telegram.Bot.Helpers
             value ?? throw new ArgumentNullException(parameterName);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        static async Task<RequestException> CreateRequestException(
+        static RequestException CreateRequestException(
             HttpResponseMessage httpResponse,
             string message,
             Exception? exception = default
