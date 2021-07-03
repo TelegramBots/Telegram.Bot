@@ -128,11 +128,15 @@ namespace Telegram.Bot
             ReceiveOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
         {
-            if (botClient == null)
+            if (botClient is null)
+            {
                 throw new ArgumentNullException(nameof(botClient));
+            }
 
-            if (updateHandler == null)
+            if (updateHandler is null)
+            {
                 throw new ArgumentNullException(nameof(updateHandler));
+            }
 
             Task.Run(async () =>
             {
