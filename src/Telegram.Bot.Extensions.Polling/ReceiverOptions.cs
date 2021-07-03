@@ -7,9 +7,9 @@ namespace Telegram.Bot.Extensions.Polling
     /// <summary>
     /// Options to configure getUpdates requests
     /// </summary>
-    public sealed class ReceiveOptions
+    public sealed class ReceiverOptions
     {
-        private int? _limit;
+        int? _limit;
 
         /// <summary>
         /// Identifier of the first update to be returned. Will be ignored if
@@ -35,7 +35,7 @@ namespace Telegram.Bot.Extensions.Polling
             get => _limit;
             set
             {
-                if (value < 1 || value > 100)
+                if (value is < 1 or > 100)
                 {
                     throw new ArgumentOutOfRangeException(
                         nameof(value),

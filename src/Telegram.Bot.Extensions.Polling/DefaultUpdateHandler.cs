@@ -10,8 +10,8 @@ namespace Telegram.Bot.Extensions.Polling
     /// </summary>
     public class DefaultUpdateHandler : IUpdateHandler
     {
-        private readonly Func<ITelegramBotClient, Update, CancellationToken, Task> _updateHandler;
-        private readonly Func<ITelegramBotClient, Exception, CancellationToken, Task> _errorHandler;
+        readonly Func<ITelegramBotClient, Update, CancellationToken, Task> _updateHandler;
+        readonly Func<ITelegramBotClient, Exception, CancellationToken, Task> _errorHandler;
 
         /// <summary>
         /// Constructs a new <see cref="DefaultUpdateHandler"/> with the specified callback functions
@@ -27,14 +27,19 @@ namespace Telegram.Bot.Extensions.Polling
         }
 
         /// <inheritdoc />
-        public Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken) =>
+        public Task HandleUpdateAsync(
+            ITelegramBotClient botClient,
+            Update update,
+            CancellationToken cancellationToken
+        ) =>
             _updateHandler(botClient, update, cancellationToken);
 
         /// <inheritdoc />
         public Task HandleErrorAsync(
             ITelegramBotClient botClient,
             Exception exception,
-            CancellationToken cancellationToken) =>
+            CancellationToken cancellationToken
+        ) =>
             _errorHandler(botClient, exception, cancellationToken);
     }
 }

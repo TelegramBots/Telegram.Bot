@@ -74,7 +74,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             Assert.True(await enumerator.MoveNextAsync());
             Assert.Equal("foo", enumerator.Current.Message.Text);
 
-            mockClient.RequestDelay = 1000;
+            mockClient.Options.RequestDelay = 1000;
             cts.CancelAfter(200);
 
             await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
@@ -99,16 +99,14 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
         [Fact]
         public async Task ExceptionIsCaughtByErrorHandler()
         {
-            var mockClient = new MockTelegramBotClient
-            {
-                ExceptionToThrow = new Exception("Oops")
-            };
+            var mockClient = new MockTelegramBotClient();
+            mockClient.Options.ExceptionToThrow = new Exception("Oops");
 
             Exception exceptionFromErrorHandler = null;
 
             var receiver = new BlockingUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
             {
-                Assert.Same(mockClient.ExceptionToThrow, ex);
+                Assert.Same(mockClient.Options.ExceptionToThrow, ex);
                 throw (exceptionFromErrorHandler = new Exception("Oops2"));
             });
 
@@ -121,17 +119,15 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
         [Fact]
         public async Task ExceptionIsNotCaughtIfThereIsNoErrorHandler()
         {
-            var mockClient = new MockTelegramBotClient
-            {
-                ExceptionToThrow = new Exception("Oops")
-            };
+            var mockClient = new MockTelegramBotClient();
+            mockClient.Options.ExceptionToThrow = new Exception("Oops");
 
             var receiver = new BlockingUpdateReceiver(mockClient);
 
             await using var enumerator = receiver.GetAsyncEnumerator();
 
             Exception ex = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
-            Assert.Same(mockClient.ExceptionToThrow, ex);
+            Assert.Same(mockClient.Options.ExceptionToThrow, ex);
         }
     }
 }

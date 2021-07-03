@@ -32,8 +32,11 @@ namespace Telegram.Bot.Extensions.Polling.Extensions
             var updates = await botClient.MakeRequestAsync(request, cancellationToken)
                 .ConfigureAwait(false);
 
-            if (updates.Length > 0) return updates[0].Id + 1;
-
+#if NETCOREAPP3_1_OR_GREATER
+            if (updates.Length > 0) { return updates[^1].Id + 1; }
+#else
+            if (updates.Length > 0) { return updates[updates.Length - 1].Id + 1; }
+#endif
             return 0;
         }
     }

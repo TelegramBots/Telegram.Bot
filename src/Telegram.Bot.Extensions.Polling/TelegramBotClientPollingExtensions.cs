@@ -30,7 +30,7 @@ namespace Telegram.Bot
         /// </param>
         public static void StartReceiving<TUpdateHandler>(
             this ITelegramBotClient botClient,
-            ReceiveOptions? receiveOptions = default,
+            ReceiverOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
             where TUpdateHandler : IUpdateHandler, new()
         {
@@ -55,7 +55,7 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
             Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler,
-            ReceiveOptions? receiveOptions = default,
+            ReceiverOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
         {
             StartReceiving(
@@ -84,7 +84,7 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
             Action<ITelegramBotClient, Exception, CancellationToken> errorHandler,
-            ReceiveOptions? receiveOptions = default,
+            ReceiverOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
         {
             StartReceiving(
@@ -125,7 +125,7 @@ namespace Telegram.Bot
         public static void StartReceiving(
             this ITelegramBotClient botClient,
             IUpdateHandler updateHandler,
-            ReceiveOptions? receiveOptions = default,
+            ReceiverOptions? receiveOptions = default,
             CancellationToken cancellationToken = default)
         {
             if (botClient is null)
@@ -138,6 +138,7 @@ namespace Telegram.Bot
                 throw new ArgumentNullException(nameof(updateHandler));
             }
 
+            // ReSharper disable once MethodSupportsCancellation
             Task.Run(async () =>
             {
                 try
@@ -184,9 +185,9 @@ namespace Telegram.Bot
         /// </returns>
         public static async Task ReceiveAsync<TUpdateHandler>(
             this ITelegramBotClient botClient,
-            ReceiveOptions? receiveOptions = default,
-            CancellationToken cancellationToken = default)
-            where TUpdateHandler : IUpdateHandler, new() =>
+            ReceiverOptions? receiveOptions = default,
+            CancellationToken cancellationToken = default
+        ) where TUpdateHandler : IUpdateHandler, new() =>
             await ReceiveAsync(botClient, new TUpdateHandler(), receiveOptions, cancellationToken);
 
         /// <summary>
@@ -212,8 +213,9 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
             Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler,
-            ReceiveOptions? receiveOptions = default,
-            CancellationToken cancellationToken = default) =>
+            ReceiverOptions? receiveOptions = default,
+            CancellationToken cancellationToken = default
+        ) =>
             await ReceiveAsync(
                 botClient,
                 new DefaultUpdateHandler(
@@ -247,8 +249,9 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
             Action<ITelegramBotClient, Exception, CancellationToken> errorHandler,
-            ReceiveOptions? receiveOptions = default,
-            CancellationToken cancellationToken = default) =>
+            ReceiverOptions? receiveOptions = default,
+            CancellationToken cancellationToken = default
+        ) =>
             await ReceiveAsync(
                 botClient,
                 new DefaultUpdateHandler(
@@ -290,8 +293,9 @@ namespace Telegram.Bot
         public static async Task ReceiveAsync(
             this ITelegramBotClient botClient,
             IUpdateHandler updateHandler,
-            ReceiveOptions? receiveOptions = default,
-            CancellationToken cancellationToken = default) =>
+            ReceiverOptions? receiveOptions = default,
+            CancellationToken cancellationToken = default
+        ) =>
             await new DefaultUpdateReceiver(botClient, receiveOptions)
                 .ReceiveAsync(updateHandler, cancellationToken);
     }

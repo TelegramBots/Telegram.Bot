@@ -12,20 +12,20 @@ namespace Telegram.Bot.Extensions.Polling
     /// </summary>
     public class DefaultUpdateReceiver : IUpdateReceiver
     {
-        private static readonly Update[] EmptyUpdates = Array.Empty<Update>();
+        static readonly Update[] EmptyUpdates = Array.Empty<Update>();
 
-        private readonly ITelegramBotClient _botClient;
-        private readonly ReceiveOptions? _receiveOptions;
+        readonly ITelegramBotClient _botClient;
+        readonly ReceiverOptions? _receiveOptions;
 
         /// <summary>
         /// Constructs a new <see cref="DefaultUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>>
-        /// instance and optional <see cref="ReceiveOptions"/>
+        /// instance and optional <see cref="ReceiverOptions"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="receiveOptions">Options used to configure getUpdates requests</param>
         public DefaultUpdateReceiver(
             ITelegramBotClient botClient,
-            ReceiveOptions? receiveOptions = default)
+            ReceiverOptions? receiveOptions = default)
         {
             _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
             _receiveOptions = receiveOptions;
@@ -36,14 +36,14 @@ namespace Telegram.Bot.Extensions.Polling
             IUpdateHandler updateHandler,
             CancellationToken cancellationToken = default)
         {
-            if (updateHandler is null) throw new ArgumentNullException(nameof(updateHandler));
+            if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
 
             var allowedUpdates = _receiveOptions?.AllowedUpdates;
             var limit = _receiveOptions?.Limit ?? default;
             var messageOffset = _receiveOptions?.Offset ?? 0;
             var emptyUpdates = EmptyUpdates;
 
-            if (_receiveOptions?.ThrowPendingUpdates == true)
+            if (_receiveOptions?.ThrowPendingUpdates is true)
             {
                 try
                 {

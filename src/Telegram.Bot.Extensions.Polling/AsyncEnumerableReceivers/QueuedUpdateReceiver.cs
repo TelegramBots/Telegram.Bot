@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using Telegram.Bot.Extensions.Polling.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -19,7 +20,7 @@ namespace Telegram.Bot.Extensions.Polling
     public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     {
         readonly ITelegramBotClient _botClient;
-        readonly UpdateType[]? _allowedUpdates;
+        readonly ReceiverOptions? _receiveOptions;
         readonly Func<Exception, CancellationToken, Task>? _errorHandler;
 
         int _inProcess;
@@ -29,19 +30,17 @@ namespace Telegram.Bot.Extensions.Polling
         /// Constructs a new <see cref="QueuedUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="allowedUpdates">
-        /// Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates
-        /// </param>
+        /// <param name="receiveOptions"></param>
         /// <param name="errorHandler">
         /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
         /// </param>
         public QueuedUpdateReceiver(
             ITelegramBotClient botClient,
-            UpdateType[]? allowedUpdates = default,
+            ReceiverOptions? receiveOptions = default,
             Func<Exception, CancellationToken, Task>? errorHandler = default)
         {
             _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-            _allowedUpdates = allowedUpdates;
+            _receiveOptions = receiveOptions;
             _errorHandler = errorHandler;
         }
 
@@ -73,6 +72,8 @@ namespace Telegram.Bot.Extensions.Polling
             readonly QueuedUpdateReceiver _receiver;
             readonly CancellationTokenSource _cts;
             readonly CancellationToken _token;
+            readonly UpdateType[]? _allowedUpdates;
+            readonly int? _limit;
 
             Exception? _uncaughtException;
 
@@ -80,6 +81,8 @@ namespace Telegram.Bot.Extensions.Polling
             Update? _current;
 
             int _pendingUpdates;
+            int _messageOffset;
+
             public int PendingUpdates => _pendingUpdates;
 
             public Enumerator(QueuedUpdateReceiver receiver, CancellationToken cancellationToken)
@@ -87,6 +90,9 @@ namespace Telegram.Bot.Extensions.Polling
                 _receiver = receiver;
                 _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, default);
                 _token = _cts.Token;
+                _messageOffset = receiver._receiveOptions?.Offset ?? 0;
+                _limit = receiver._receiveOptions?.Limit ?? default;
+                _allowedUpdates = receiver._receiveOptions?.AllowedUpdates;
 
                 _channel = Channel.CreateUnbounded<Update>(
                     new UnboundedChannelOptions
@@ -123,7 +129,17 @@ namespace Telegram.Bot.Extensions.Polling
 
             async Task ReceiveUpdatesAsync()
             {
-                int messageOffset = 0;
+                try
+                {
+                    _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
+                        cancellationToken: _token
+                    );
+                }
+                catch (OperationCanceledException)
+                {
+                    // ignored
+                }
+
                 while (!_cts.IsCancellationRequested)
                 {
                     try
@@ -132,9 +148,10 @@ namespace Telegram.Bot.Extensions.Polling
                             .MakeRequestAsync(
                                 new GetUpdatesRequest
                                 {
-                                    Offset = messageOffset,
+                                    Offset = _messageOffset,
                                     Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
-                                    AllowedUpdates = _receiver._allowedUpdates,
+                                    AllowedUpdates = _allowedUpdates,
+                                    Limit = _limit,
                                 },
                                 _token
                             )
@@ -142,7 +159,7 @@ namespace Telegram.Bot.Extensions.Polling
 
                         if (updateArray.Length > 0)
                         {
-                            messageOffset = updateArray[^1].Id + 1;
+                            _messageOffset = updateArray[^1].Id + 1;
 
                             Interlocked.Add(ref _pendingUpdates, updateArray.Length);
 

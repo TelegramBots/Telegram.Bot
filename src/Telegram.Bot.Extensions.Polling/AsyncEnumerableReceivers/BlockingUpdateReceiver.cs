@@ -1,8 +1,10 @@
 ﻿#if NETCOREAPP3_1_OR_GREATER
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Telegram.Bot.Extensions.Polling.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -15,8 +17,8 @@ namespace Telegram.Bot.Extensions.Polling
     /// </summary>
     public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
     {
+        readonly ReceiverOptions? _receiveOptions;
         readonly ITelegramBotClient _botClient;
-        readonly UpdateType[]? _allowedUpdates;
         readonly Func<Exception, CancellationToken, Task>? _errorHandler;
 
         int _inProcess;
@@ -25,19 +27,17 @@ namespace Telegram.Bot.Extensions.Polling
         /// Constructs a new <see cref="BlockingUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="allowedUpdates">
-        /// Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates
-        /// </param>
+        /// <param name="receiveOptions"></param>
         /// <param name="errorHandler">
         /// The function used to handle <see cref="Exception"/>s thrown by ReceiveUpdates
         /// </param>
         public BlockingUpdateReceiver(
             ITelegramBotClient botClient,
-            UpdateType[]? allowedUpdates = default,
+            ReceiverOptions? receiveOptions = default,
             Func<Exception, CancellationToken, Task>? errorHandler = default)
         {
             _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-            _allowedUpdates = allowedUpdates;
+            _receiveOptions = receiveOptions;
             _errorHandler = errorHandler;
         }
 
@@ -62,16 +62,22 @@ namespace Telegram.Bot.Extensions.Polling
             readonly BlockingUpdateReceiver _receiver;
             readonly CancellationTokenSource _cts;
             readonly CancellationToken _token;
+            readonly UpdateType[]? _allowedUpdates;
+            readonly int? _limit;
 
             Update[] _updateArray = Array.Empty<Update>();
             int _updateIndex;
             int _messageOffset;
+            bool _updatesThrown;
 
             public Enumerator(BlockingUpdateReceiver receiver, CancellationToken cancellationToken)
             {
                 _receiver = receiver;
                 _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, default);
                 _token = _cts.Token;
+                _messageOffset = receiver._receiveOptions?.Offset ?? 0;
+                _limit = receiver._receiveOptions?.Limit ?? default;
+                _allowedUpdates = receiver._receiveOptions?.AllowedUpdates;
             }
 
             public ValueTask<bool> MoveNextAsync()
@@ -87,6 +93,25 @@ namespace Telegram.Bot.Extensions.Polling
 
             async Task<bool> ReceiveUpdatesAsync()
             {
+                var shouldThrowPendingUpdates = (_updatesThrown, _receiver._receiveOptions?.ThrowPendingUpdates);
+                if (shouldThrowPendingUpdates is (false, true))
+                {
+                    try
+                    {
+                        _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
+                            cancellationToken: _token
+                        );
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // ignored
+                    }
+                    finally
+                    {
+                        _updatesThrown = true;
+                    }
+                }
+
                 _updateArray = Array.Empty<Update>();
                 _updateIndex = 0;
 
@@ -100,7 +125,8 @@ namespace Telegram.Bot.Extensions.Polling
                                 {
                                     Offset = _messageOffset,
                                     Timeout = (int) _receiver._botClient.Timeout.TotalSeconds,
-                                    AllowedUpdates = _receiver._allowedUpdates,
+                                    Limit = _limit,
+                                    AllowedUpdates = _allowedUpdates,
                                 },
                                 _token
                             )

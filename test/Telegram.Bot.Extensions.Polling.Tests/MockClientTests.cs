@@ -10,9 +10,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         [Fact]
         public async Task WorksAsync()
         {
-            ITelegramBotClient bot = new MockTelegramBotClient(
-                new MockClientOptions("hello-world", "foo-bar-123")
-            );
+            var bot = new MockTelegramBotClient("hello-world", "foo-bar-123");
             Assert.Equal(2, bot.MessageGroupsLeft);
 
             var updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
@@ -36,12 +34,12 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         [Fact]
         public async Task ThrowsExceptionIfExceptionToThrownIsSet()
         {
-            var bot = new MockTelegramBotClient("foo")
-            {
-                ExceptionToThrow = new Exception("Oops")
-            };
+            var bot = new MockTelegramBotClient("foo");
+            bot.Options.ExceptionToThrow = new Exception("Oops");
 
-            Exception ex = await Assert.ThrowsAsync<Exception>(async () => await bot.MakeRequestAsync(new GetUpdatesRequest()));
+            Exception ex = await Assert.ThrowsAsync<Exception>(
+                async () => await bot.MakeRequestAsync(new GetUpdatesRequest())
+            );
             Assert.Equal("Oops", ex.Message);
         }
     }
