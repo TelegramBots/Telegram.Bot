@@ -53,13 +53,13 @@ namespace Telegram.Bot.Helpers
             {
                 if (input.Media.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(input.Media.Content, input.Media.FileName);
+                    multipartContent.AddStreamContent(input.Media.Content!, input.Media.FileName!);
                 }
 
                 if (input is IInputMediaThumb mediaThumb &&
                     mediaThumb.Thumb?.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(mediaThumb.Thumb.Content, mediaThumb.Thumb.FileName);
+                    multipartContent.AddStreamContent(mediaThumb.Thumb.Content!, mediaThumb.Thumb.FileName!);
                 }
             }
         }
