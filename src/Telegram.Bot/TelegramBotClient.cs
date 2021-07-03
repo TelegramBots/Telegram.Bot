@@ -1606,7 +1606,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SetChatDescriptionRequest(chatId, description), cancellationToken);
 
         /// <inheritdoc />
-        public Task PinChatMessageAsync(
+        public Task<bool> PinChatMessageAsync(
             ChatId chatId,
             int messageId,
             bool disableNotification = default,
@@ -1618,18 +1618,18 @@ namespace Telegram.Bot
             }, cancellationToken);
 
         /// <inheritdoc />
-        public Task UnpinChatMessageAsync(
+        public Task<bool> UnpinChatMessageAsync(
             ChatId chatId,
             int messageId = default,
             CancellationToken cancellationToken = default) =>
             MakeRequestAsync(new UnpinChatMessageRequest(chatId) { MessageId = messageId }, cancellationToken);
 
         /// <inheritdoc />
-        public Task UnpinAllChatMessages(ChatId chatId, CancellationToken cancellationToken = default)
+        public Task<bool> UnpinAllChatMessages(ChatId chatId, CancellationToken cancellationToken = default)
             => MakeRequestAsync(new UnpinAllChatMessagesRequest(chatId), cancellationToken);
 
         /// <inheritdoc />
-        public Task SetChatStickerSetAsync(
+        public Task<bool> SetChatStickerSetAsync(
             ChatId chatId,
             string stickerSetName,
             CancellationToken cancellationToken = default
@@ -1637,7 +1637,7 @@ namespace Telegram.Bot
             MakeRequestAsync(new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken);
 
         /// <inheritdoc />
-        public Task DeleteChatStickerSetAsync(
+        public Task<bool> DeleteChatStickerSetAsync(
             ChatId chatId,
             CancellationToken cancellationToken = default
         ) =>

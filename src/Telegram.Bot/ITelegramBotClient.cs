@@ -1846,7 +1846,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success.</returns>
         /// <see href="https://core.telegram.org/bots/api#pinchatmessage"/>
-        Task PinChatMessageAsync(
+        Task<bool> PinChatMessageAsync(
             ChatId chatId,
             int messageId,
             bool disableNotification = default,
@@ -1860,7 +1860,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinchatmessage"/>
-        Task UnpinChatMessageAsync(ChatId chatId, int messageId = default, CancellationToken cancellationToken = default);
+        Task<bool> UnpinChatMessageAsync(ChatId chatId, int messageId = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the 'can_pin_messages' admin right in a supergroup or 'can_edit_messages' admin right in a channel.
@@ -1869,7 +1869,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns True on success</returns>
         /// <see href="https://core.telegram.org/bots/api#unpinallchatmessages"/>
-        Task UnpinAllChatMessages(ChatId chatId, CancellationToken cancellationToken = default);
+        Task<bool> UnpinAllChatMessages(ChatId chatId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Use this method to set a new group sticker set for a supergroup.
@@ -1879,7 +1879,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#setchatstickerset"/>
-        Task SetChatStickerSetAsync(
+        Task<bool> SetChatStickerSetAsync(
             ChatId chatId,
             string stickerSetName,
             CancellationToken cancellationToken = default);
@@ -1891,7 +1891,7 @@ namespace Telegram.Bot
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <returns>Returns true on success</returns>
         /// <see href="https://core.telegram.org/bots/api#deletechatstickerset"/>
-        Task DeleteChatStickerSetAsync(
+        Task<bool> DeleteChatStickerSetAsync(
             ChatId chatId,
             CancellationToken cancellationToken = default);
 
