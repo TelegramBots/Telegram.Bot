@@ -129,15 +129,18 @@ namespace Telegram.Bot.Extensions.Polling
 
             async Task ReceiveUpdatesAsync()
             {
-                try
+                if (_receiver._receiveOptions?.ThrowPendingUpdates is true)
                 {
-                    _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
-                        cancellationToken: _token
-                    );
-                }
-                catch (OperationCanceledException)
-                {
-                    // ignored
+                    try
+                    {
+                        _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
+                            cancellationToken: _token
+                        );
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        // ignored
+                    }
                 }
 
                 while (!_cts.IsCancellationRequested)
