@@ -7,8 +7,8 @@
     <NullableContextOptions>enable</NullableContextOptions>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>0.2.0</Version>
-    <Authors>MihaZupan,TelegramBots</Authors>
+    <Version>1.0.0-alpha.1</Version>
+    <Authors>MihaZupan,tuscen,TelegramBots</Authors>
     <Copyright>Copyright © Telegram Bots 2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling</PackageProjectUrl>
