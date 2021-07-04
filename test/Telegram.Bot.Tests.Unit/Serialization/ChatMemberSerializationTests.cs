@@ -21,7 +21,9 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     last_name = "Last Name",
                     username = "test_bot",
                     language_code = "en_US",
-                }
+                },
+                is_anonymous = true,
+                custom_title = "custom test title"
             };
 
             var chatMemberJson = JsonConvert.SerializeObject(creator, Formatting.Indented);
@@ -29,6 +31,8 @@ namespace Telegram.Bot.Tests.Unit.Serialization
 
             Assert.IsType<ChatMemberOwner>(chatMember);
             Assert.Equal(ChatMemberStatus.Creator, chatMember.Status);
+            Assert.True(((ChatMemberOwner)chatMember).IsAnonymous);
+            Assert.Equal("custom test title", ((ChatMemberOwner)chatMember).CustomTitle);
             Assert.NotNull(chatMember.User);
             Assert.Equal(12345, chatMember.User.Id);
             Assert.True(chatMember.User.IsBot);
@@ -51,11 +55,15 @@ namespace Telegram.Bot.Tests.Unit.Serialization
                     LastName = "Last Name",
                     Username = "test_bot",
                     LanguageCode = "en_US",
-                }
+                },
+                IsAnonymous = true,
+                CustomTitle = "Custom test title"
             };
 
             var chatMemberJson = JsonConvert.SerializeObject(creator);
             Assert.Contains(@"""status"":""creator""", chatMemberJson);
+            Assert.Contains(@"""is_anonymous"":true", chatMemberJson);
+            Assert.Contains(@"""custom_title"":""Custom test title""", chatMemberJson);
             Assert.Contains(@"""user"":{", chatMemberJson);
             Assert.Contains(@"""id"":12345", chatMemberJson);
             Assert.Contains(@"""is_bot"":true", chatMemberJson);
