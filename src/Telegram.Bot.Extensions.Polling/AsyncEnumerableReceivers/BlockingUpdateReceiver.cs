@@ -93,7 +93,11 @@ namespace Telegram.Bot.Extensions.Polling
 
             async Task<bool> ReceiveUpdatesAsync()
             {
-                var shouldThrowPendingUpdates = (_updatesThrown, _receiver._receiveOptions?.ThrowPendingUpdates);
+                var shouldThrowPendingUpdates = (
+                    _updatesThrown,
+                    _receiver._receiveOptions?.ThrowPendingUpdates ?? false
+                );
+
                 if (shouldThrowPendingUpdates is (false, true))
                 {
                     try

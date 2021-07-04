@@ -129,5 +129,34 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             Exception ex = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
         }
+
+        [Fact]
+        public async Task ThrowOutPendingUpdates()
+        {
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(4));
+
+            var bot = new MockTelegramBotClient(
+                new MockClientOptions
+                {
+                    Messages = new [] {"foo-bar", "baz", "quux"},
+                    HandleNegativeOffset = true,
+                }
+            );
+
+            var receiver = new BlockingUpdateReceiver(bot, new() { ThrowPendingUpdates = true});
+
+            await using var enumerator = receiver.GetAsyncEnumerator(cancellationTokenSource.Token);
+
+            try
+            {
+                await enumerator.MoveNextAsync();
+            }
+            catch (OperationCanceledException)
+            {
+                // ignored
+            }
+
+            Assert.Equal(0, bot.MessageGroupsLeft);
+        }
     }
 }
