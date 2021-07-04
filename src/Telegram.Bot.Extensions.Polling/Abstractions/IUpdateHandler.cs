@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Extensions.Polling
 {
     /// <summary>
