@@ -22,7 +22,6 @@ namespace Telegram.Bot
     public class TelegramBotClient : ITelegramBotClient
     {
         const string BaseTelegramUrl = "https://api.telegram.org";
-        static readonly Update[] EmptyUpdates = { };
 
         static readonly ExceptionParser ExceptionParser = new();
 
@@ -31,12 +30,8 @@ namespace Telegram.Bot
         readonly bool _localBotServer;
         readonly HttpClient _httpClient;
 
-        CancellationTokenSource? _receivingCancellationTokenSource;
-
         /// <inheritdoc/>
         public long? BotId { get; }
-
-        #region Config Properties
 
         /// <summary>
         /// Timeout for requests
@@ -48,24 +43,6 @@ namespace Telegram.Bot
         }
 
         /// <summary>
-        /// Indicates if receiving updates
-        /// </summary>
-        [Obsolete("This property will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public bool IsReceiving { get; set; }
-
-        /// <summary>
-        /// The current message offset
-        /// </summary>
-        [Obsolete("This property will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public int MessageOffset { get; set; }
-
-        #endregion Config Properties
-
-        #region Events
-
-        /// <summary>
         /// Occurs before sending a request to API
         /// </summary>
         public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
@@ -74,100 +51,6 @@ namespace Telegram.Bot
         /// Occurs after receiving the response to an API request
         /// </summary>
         public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
-
-        /// <summary>
-        /// Raises the <see cref="OnUpdate" />, <see cref="OnMessage"/>,
-        /// <see cref="OnInlineQuery"/>, <see cref="OnInlineResultChosen"/> and
-        /// <see cref="OnCallbackQuery"/> events.
-        /// </summary>
-        /// <param name="e">
-        /// The <see cref="UpdateEventArgs"/> instance containing the event data.
-        /// </param>
-        protected virtual void OnUpdateReceived(UpdateEventArgs e)
-        {
-            OnUpdate?.Invoke(this, e);
-
-            switch (e.Update.Type)
-            {
-                case UpdateType.Message:
-                    OnMessage?.Invoke(this, e);
-                    break;
-
-                case UpdateType.InlineQuery:
-                    OnInlineQuery?.Invoke(this, e);
-                    break;
-
-                case UpdateType.ChosenInlineResult:
-                    OnInlineResultChosen?.Invoke(this, e);
-                    break;
-
-                case UpdateType.CallbackQuery:
-                    OnCallbackQuery?.Invoke(this, e);
-                    break;
-
-                case UpdateType.EditedMessage:
-                    OnMessageEdited?.Invoke(this, e);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// Occurs when an <see cref="Update"/> is received.
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<UpdateEventArgs>? OnUpdate;
-
-        /// <summary>
-        /// Occurs when a <see cref="Message"/> is received.
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<MessageEventArgs>? OnMessage;
-
-        /// <summary>
-        /// Occurs when <see cref="Message"/> was edited.
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<MessageEventArgs>? OnMessageEdited;
-
-        /// <summary>
-        /// Occurs when an <see cref="InlineQuery"/> is received.
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<InlineQueryEventArgs>? OnInlineQuery;
-
-        /// <summary>
-        /// Occurs when a <see cref="ChosenInlineResult"/> is received.
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<ChosenInlineResultEventArgs>? OnInlineResultChosen;
-
-        /// <summary>
-        /// Occurs when an <see cref="CallbackQuery"/> is received
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<CallbackQueryEventArgs>? OnCallbackQuery;
-
-        /// <summary>
-        /// Occurs when an error occurs during the background update pooling.
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<ReceiveErrorEventArgs>? OnReceiveError;
-
-        /// <summary>
-        /// Occurs when an error occurs during the background update pooling.
-        /// </summary>
-        [Obsolete("This event will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public event EventHandler<ReceiveGeneralErrorEventArgs>? OnReceiveGeneralError;
-
-        #endregion
 
         /// <summary>
         /// Create a new <see cref="TelegramBotClient"/> instance.
@@ -224,31 +107,6 @@ namespace Telegram.Bot
                 return botId;
             }
         }
-
-        /// <summary>
-        /// Create a new <see cref="TelegramBotClient"/> instance behind a proxy.
-        /// </summary>
-        /// <param name="token">API token</param>
-        /// <param name="webProxy">Use this <see cref="IWebProxy"/> to connect to the API</param>
-        /// <param name="baseUrl">
-        /// Used to change base url to your private bot api server URL. It looks like
-        /// http://localhost:8081. Path, query and fragment will be omitted if present.
-        /// </param>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="token"/> format is invalid
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// Thrown if <paramref name="baseUrl"/> format is invalid
-        /// </exception>
-        /// <exception cref="ArgumentNullException">
-        /// Thrown if <paramref name="webProxy"/> is null
-        /// </exception>
-        [Obsolete("Provide httpClient with configured proxy instead.")]
-        public TelegramBotClient(string token, IWebProxy webProxy, string? baseUrl = default)
-            : this(token, CreateHttpClient(webProxy), baseUrl)
-        { }
-
-        #region Helpers
 
         /// <inheritdoc />
         public async Task<TResponse> MakeRequestAsync<TResponse>(
@@ -335,7 +193,6 @@ namespace Telegram.Bot
             }
         }
 
-
         /// <summary>
         /// Test the API token
         /// </summary>
@@ -353,103 +210,6 @@ namespace Telegram.Bot
                 return false;
             }
         }
-
-        /// <summary>
-        /// Start update receiving
-        /// </summary>
-        /// <param name="allowedUpdates">List the types of updates you want your bot to receive.</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="ApiRequestException"> Thrown if token is invalid</exception>
-        [Obsolete("This method will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public void StartReceiving(UpdateType[]? allowedUpdates = default,
-                                   CancellationToken cancellationToken = default)
-        {
-            _receivingCancellationTokenSource = new CancellationTokenSource();
-
-            cancellationToken.Register(() => _receivingCancellationTokenSource.Cancel());
-
-            ReceiveAsync(allowedUpdates, _receivingCancellationTokenSource.Token);
-        }
-
-#pragma warning disable AsyncFixer03 // Avoid fire & forget async void methods
-        async void ReceiveAsync(
-            UpdateType[]? allowedUpdates,
-            CancellationToken cancellationToken = default)
-        {
-            IsReceiving = true;
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                var timeout = Convert.ToInt32(Timeout.TotalSeconds);
-                var updates = EmptyUpdates;
-
-                try
-                {
-                    updates = await MakeRequestAsync(
-                        new GetUpdatesRequest
-                        {
-                            Offset = MessageOffset,
-                            Timeout = timeout,
-                            AllowedUpdates = allowedUpdates,
-                        },
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
-                }
-                catch (OperationCanceledException)
-                {
-                }
-                catch (ApiRequestException apiException)
-                {
-                    OnReceiveError?.Invoke(this, apiException);
-                }
-                catch (Exception generalException)
-                {
-                    OnReceiveGeneralError?.Invoke(this, generalException);
-                }
-
-                try
-                {
-                    foreach (var update in updates)
-                    {
-                        OnUpdateReceived(new UpdateEventArgs(update));
-                        MessageOffset = update.Id + 1;
-                    }
-                }
-                catch
-                {
-                    IsReceiving = false;
-                    throw;
-                }
-            }
-
-            IsReceiving = false;
-        }
-#pragma warning restore AsyncFixer03 // Avoid fire & forget async void methods
-
-        /// <summary>
-        /// Stop update receiving
-        /// </summary>
-        [Obsolete("This method will be removed in the next major version. " +
-            "Please consider using Telegram.Bot.Extensions.Polling instead.")]
-        public void StopReceiving()
-        {
-            try
-            {
-                _receivingCancellationTokenSource?.Cancel();
-            }
-            catch (WebException)
-            {
-            }
-            catch (TaskCanceledException)
-            {
-            }
-            finally
-            {
-                _receivingCancellationTokenSource?.Dispose();
-            }
-        }
-
-        #endregion Helpers
 
         /// <inheritdoc />
         public async Task DownloadFileAsync(
@@ -544,13 +304,6 @@ namespace Telegram.Bot
 
             return file;
         }
-
-        static HttpClient CreateHttpClient(IWebProxy webProxy) =>
-            new(new HttpClientHandler
-            {
-                Proxy = webProxy ?? throw new ArgumentNullException(nameof(webProxy)),
-                UseProxy = true
-            });
 
         static string ExtractBaseUrl(string? baseUrl)
         {
