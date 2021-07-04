@@ -4,9 +4,13 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents a parameter of the inline keyboard button used to automatically authorize a user.Serves as a great replacement for the <see href="https://core.telegram.org/widgets/login">Telegram Login Widget</see> when the user is coming from Telegram. All the user needs to do is tap/click a button and confirm that they want to log in.
+    /// This object represents a parameter of the inline keyboard button used to automatically authorize a user.
+    /// Serves as a great replacement for the
+    /// <see href="https://core.telegram.org/widgets/login">Telegram Login Widget</see> when the user is coming from
+    /// Telegram. All the user needs to do is tap/click a button and confirm that they want to log in.
     /// <para>
-    /// Telegram apps support these buttons as of <see href="https://telegram.org/blog/privacy-discussions-web-bots#meet-seamless-web-bots">version 5.7</see>.
+    /// Telegram apps support these buttons as of
+    /// <see href="https://telegram.org/blog/privacy-discussions-web-bots#meet-seamless-web-bots">version 5.7</see>.
     /// </para>
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -14,13 +18,20 @@ namespace Telegram.Bot.Types
     {
 
         /// <summary>
-        /// An HTTP URL to be opened with user authorization data added to the query string when the button is pressed. If the user refuses to provide authorization data, the original URL without information about the user will be opened. The data added is the same as described in <see href="https://core.telegram.org/widgets/login#receiving-authorization-data">Receiving authorization data</see>.
+        /// An HTTP URL to be opened with user authorization data added to the query string when the button is pressed.
+        /// If the user refuses to provide authorization data, the original URL without information about the user will
+        /// be opened. The data added is the same as described in
+        /// <see href="https://core.telegram.org/widgets/login#receiving-authorization-data">
+        /// Receiving authorization data
+        /// </see>.
         /// <para>
-        /// <b>NOTE:</b> You <b>must</b> always check the hash of the received data to verify the authentication and the integrity of the data as described in <see href="https://core.telegram.org/widgets/login#checking-authorization">Checking authorization</see>.
+        /// <b>NOTE:</b> You <b>must</b> always check the hash of the received data to verify the authentication and
+        /// the integrity of the data as described in
+        /// <see href="https://core.telegram.org/widgets/login#checking-authorization">Checking authorization</see>.
         /// </para>
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Url { get; set; }
+        public string Url { get; set; } = default!;
 
         /// <summary>
         /// Optional. New text of the button in forwarded messages
@@ -29,7 +40,12 @@ namespace Telegram.Bot.Types
         public string? ForwardText { get; set; }
 
         /// <summary>
-        /// Optional. Username of a bot, which will be used for user authorization. See <see href="https://core.telegram.org/widgets/login#setting-up-a-bot">Setting up a bot</see> for more details. If not specified, the current bot's username will be assumed. The url's domain must be the same as the domain linked with the bot. See <see href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot">Linking your domain to the bot</see> for more details.
+        /// Optional. Username of a bot, which will be used for user authorization. See
+        /// <see href="https://core.telegram.org/widgets/login#setting-up-a-bot">Setting up a bot</see> for more
+        /// details. If not specified, the current bot's username will be assumed. The url's domain must be the same
+        /// as the domain linked with the bot. See
+        /// <see href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot">
+        /// Linking your domain to the bot</see> for more details.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? BotUsername { get; set; }

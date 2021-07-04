@@ -16,7 +16,7 @@ namespace Telegram.Bot.Types
         /// Webhook URL, may be empty if webhook is not set up
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Url { get; set; }
+        public string Url { get; set; } = default!;
 
         /// <summary>
         /// True, if a custom certificate was provided for webhook certificate checks
@@ -44,7 +44,8 @@ namespace Telegram.Bot.Types
         public DateTime? LastErrorDate { get; set; }
 
         /// <summary>
-        /// Optional. Error message in human-readable format for the most recent error that happened when trying to deliver an update via webhook
+        /// Optional. Error message in human-readable format for the most recent error that happened when trying to
+        /// deliver an update via webhook
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? LastErrorMessage { get; set; }
@@ -56,7 +57,8 @@ namespace Telegram.Bot.Types
         public int? MaxConnections { get; set; }
 
         /// <summary>
-        /// Optional. A list of update types the bot is subscribed to. Defaults to all update types except <see cref="UpdateType.ChatMember"/>
+        /// Optional. A list of update types the bot is subscribed to. Defaults to all update types except
+        /// <see cref="UpdateType.ChatMember"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public UpdateType[]? AllowedUpdates { get; set; }

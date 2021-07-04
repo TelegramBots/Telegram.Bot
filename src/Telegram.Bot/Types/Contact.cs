@@ -13,13 +13,13 @@ namespace Telegram.Bot.Types
         /// Contact's phone number
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; } = default!;
 
         /// <summary>
         /// Contact's first name
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = default!;
 
         /// <summary>
         /// Optional. Contact's last name

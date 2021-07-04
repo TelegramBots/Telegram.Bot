@@ -27,15 +27,14 @@ namespace Telegram.Bot.Types.InputFiles
         /// <param name="fileName">A name of the file</param>
         public InputOnlineFile(Stream content, string? fileName = default)
             : base(content, fileName)
-        {
-        }
+        { }
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a string containing a uri or file id
         /// </summary>
         /// <param name="value">A <see cref="string"/> containing a url or file_id</param>
         public InputOnlineFile(string value)
-            :base(DetectFileType(value, out var isUrl))
+            : base(DetectFileType(value, out var isUrl))
         {
             if (isUrl)
             {
@@ -51,27 +50,23 @@ namespace Telegram.Bot.Types.InputFiles
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Uri"/>
         /// </summary>
         /// <param name="url">A <see cref="Uri"/> pointing to a file</param>
-        public InputOnlineFile(Uri url)
-            : base(FileType.Url)
-        {
-            Url = url.AbsoluteUri;
-        }
+        public InputOnlineFile(Uri url) : base(FileType.Url) => Url = url.AbsoluteUri;
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Stream"/>
         /// </summary>
         /// <param name="stream">A <see cref="Stream"/> containing a file to send</param>
-        public static implicit operator InputOnlineFile?(Stream stream) =>
-            stream is null ? default : new InputOnlineFile(stream);
+        public static implicit operator InputOnlineFile?(Stream? stream) =>
+            stream is null ? default : new(stream);
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a string containing a uri or file id
         /// </summary>
         /// <param name="value">A <see cref="string"/> containing a url or file_id</param>
-        public static implicit operator InputOnlineFile?(string value) =>
-            value is null ? default : new InputOnlineFile(value);
+        public static implicit operator InputOnlineFile?(string? value) =>
+            value is null ? default : new(value);
 
-        private static FileType DetectFileType(string value, out bool isUrl)
+        static FileType DetectFileType(string value, out bool isUrl)
         {
             if (Uri.TryCreate(value, UriKind.Absolute, out _))
             {

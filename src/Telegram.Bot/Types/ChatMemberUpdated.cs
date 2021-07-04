@@ -15,13 +15,13 @@ namespace Telegram.Bot.Types
         /// Chat the user belongs to
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public Chat Chat { get; set; }
+        public Chat Chat { get; set; } = default!;
 
         /// <summary>
         /// Performer of the action, which resulted in the change
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public User From { get; set; }
+        public User From { get; set; } = default!;
 
         /// <summary>
         /// Date the change was done
@@ -34,16 +34,17 @@ namespace Telegram.Bot.Types
         /// Previous information about the chat member
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatMember OldChatMember { get; set; }
+        public ChatMember OldChatMember { get; set; } = default!;
 
         /// <summary>
         /// New information about the chat member
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatMember NewChatMember { get; set; }
+        public ChatMember NewChatMember { get; set; } = default!;
 
         /// <summary>
-        /// Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events only.
+        /// Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link
+        /// events only.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ChatInviteLink? InviteLink { get; set; }

@@ -47,7 +47,7 @@ namespace Telegram.Bot.Converters
             var value = Activator.CreateInstance(actualType);
             serializer.Populate(jo.CreateReader(), value);
 
-            return value;
+            return value!;
         }
     }
 }

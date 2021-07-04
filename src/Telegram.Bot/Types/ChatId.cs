@@ -24,23 +24,24 @@ namespace Telegram.Bot.Types
         /// Create a <see cref="ChatId"/> using an identifier
         /// </summary>
         /// <param name="identifier">The Identifier</param>
-        public ChatId(long identifier)
-        {
-            Identifier = identifier;
-        }
+        public ChatId(long identifier) => Identifier = identifier;
 
         /// <summary>
         /// Create a <see cref="ChatId"/> using an user name
         /// </summary>
         /// <param name="username">The user name</param>
-        /// <exception cref="ArgumentException">Thrown when string value isn`t number and doesn't start with @</exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when string value isn`t number and doesn't start with @
+        /// </exception>
+        /// <exception cref="ArgumentNullException">Thrown when string value is <c>null</c></exception>
         public ChatId(string username)
         {
+            if (username is null) { throw new ArgumentNullException(nameof(username)); }
             if (username.Length > 1 && username.StartsWith("@"))
             {
                 Username = username;
             }
-            else if (long.TryParse(username, out long identifier))
+            else if (long.TryParse(username, out var identifier))
             {
                 Identifier = identifier;
             }
@@ -57,11 +58,7 @@ namespace Telegram.Bot.Types
         /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
         public override bool Equals(object? obj)
         {
-            if (obj is ChatId chatId)
-            {
-                return this == chatId;
-            }
-
+            if (obj is ChatId chatId) { return this == chatId; }
             return ((string)this).Equals(obj?.ToString());
         }
 
@@ -78,7 +75,7 @@ namespace Telegram.Bot.Types
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
         /// </summary>
         /// <returns>The <see cref="ChatId"/> as <c>string</c></returns>
-        public override string ToString() => Username ?? Identifier.ToString();
+        public override string ToString() => (Username ?? Identifier?.ToString())!;
 
         /// <summary>
         /// Create a <see cref="ChatId"/> out of an identifier
@@ -90,6 +87,10 @@ namespace Telegram.Bot.Types
         /// Create a <see cref="ChatId"/> out of an user name
         /// </summary>
         /// <param name="username">The user name</param>
+        /// <exception cref="ArgumentException">
+        /// Thrown when string value isn`t number and doesn't start with @
+        /// </exception>
+        /// <exception cref="ArgumentNullException">Thrown when string value is <c>null</c></exception>
         public static implicit operator ChatId(string username) => new(username);
 
         /// <summary>
@@ -110,14 +111,9 @@ namespace Telegram.Bot.Types
         /// </summary>
         public static bool operator ==(ChatId? obj1, ChatId? obj2)
         {
-            if (ReferenceEquals(obj1, obj2))
-            {
-                return true;
-            }
+            if (ReferenceEquals(obj1, obj2)) { return true; }
             if (obj1 is null || obj2 is null)
-            {
-                return false;
-            }
+            { return false; }
 
             // checking by Identifier is more consistent but we should check that its value isn`t default
             if (obj1.Identifier != 0)

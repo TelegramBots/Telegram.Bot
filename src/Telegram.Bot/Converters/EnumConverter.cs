@@ -22,7 +22,8 @@ namespace Telegram.Bot.Converters
             Type objectType,
             TEnum existingValue,
             bool hasExistingValue,
-            JsonSerializer serializer) =>
+            JsonSerializer serializer
+        ) =>
             GetEnumValue(JToken.ReadFrom(reader).Value<string>());
     }
 }

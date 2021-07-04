@@ -115,7 +115,7 @@ namespace Telegram.Bot.Types
         /// (in the format @supergroupusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; set; } = default!;
     }
 
     /// <inheritdoc cref="BotCommandScopeType.ChatAdministrators"/>
@@ -131,7 +131,7 @@ namespace Telegram.Bot.Types
         /// (in the format @supergroupusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; set; } = default!;
     }
 
     /// <inheritdoc cref="BotCommandScopeType.ChatMember"/>
@@ -147,7 +147,7 @@ namespace Telegram.Bot.Types
         /// (in the format @supergroupusername)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public ChatId ChatId { get; set; }
+        public ChatId ChatId { get; set; } = default!;
 
         /// <summary>
         /// Unique identifier of the target user

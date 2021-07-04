@@ -24,7 +24,7 @@ namespace Telegram.Bot.Types
         /// Information about the user
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public User User { get; set; }
+        public User User { get; set; } = default!;
     }
 
     /// <summary>

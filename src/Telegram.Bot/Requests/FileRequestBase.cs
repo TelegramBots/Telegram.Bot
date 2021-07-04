@@ -39,9 +39,16 @@ namespace Telegram.Bot.Requests
         /// <param name="fileParameterName"></param>
         /// <param name="inputFile"></param>
         /// <returns></returns>
-        protected MultipartFormDataContent ToMultipartFormDataContent(string fileParameterName, InputFileStream inputFile)
+        protected MultipartFormDataContent ToMultipartFormDataContent(
+            string fileParameterName,
+            InputFileStream inputFile)
         {
             var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
+
+            if (inputFile.Content is null)
+            {
+                throw new ArgumentNullException(nameof(inputFile.Content));
+            }
 
             multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
 

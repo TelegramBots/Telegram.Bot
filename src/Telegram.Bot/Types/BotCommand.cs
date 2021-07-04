@@ -13,12 +13,12 @@ namespace Telegram.Bot.Types
         /// Text of the command, 1-32 characters. Can contain only lowercase English letters, digits and underscores.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Command { get; set; }
+        public string Command { get; set; } = default!;
 
         /// <summary>
         /// Description of the command, 3-256 characters.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Description { get; set; }
+        public string Description { get; set; } = default!;
     }
 }

@@ -13,19 +13,19 @@ namespace Telegram.Bot.Types
         /// Venue location
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public Location Location { get; set; }
+        public Location Location { get; set; } = default!;
 
         /// <summary>
         /// Name of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Title { get; set; }
+        public string Title { get; set; } = default!;
 
         /// <summary>
         /// Address of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Address { get; set; }
+        public string Address { get; set; } = default!;
 
         /// <summary>
         /// Optional. Foursquare identifier of the venue
@@ -47,7 +47,8 @@ namespace Telegram.Bot.Types
         public string? GooglePlaceId { get; set; }
 
         /// <summary>
-        /// Optional. Google Places type of the venue. (See <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>.)
+        /// Optional. Google Places type of the venue. (See
+        /// <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>.)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? GooglePlaceType { get; set; }

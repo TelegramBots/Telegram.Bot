@@ -35,7 +35,10 @@ namespace Telegram.Bot.Converters
             JsonSerializer serializer)
         {
             var value = JToken.ReadFrom(reader).Value<string>();
-            return value?.StartsWith("attach://") == true
+
+            if (value is null) { return null!; }
+
+            return value.StartsWith("attach://")
                     ? new InputMedia(Stream.Null, value.Substring(9))
                     : new InputMedia(value);
         }

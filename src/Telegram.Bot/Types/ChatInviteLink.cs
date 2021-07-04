@@ -12,16 +12,17 @@ namespace Telegram.Bot.Types
     public class ChatInviteLink
     {
         /// <summary>
-        /// The invite link. If the link was created by another chat administrator, then the second part of the link will be replaced with “…”.
+        /// The invite link. If the link was created by another chat administrator, then the second part of the
+        /// link will be replaced with “…”.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string InviteLink { get; set; }
+        public string InviteLink { get; set; } = default!;
 
         /// <summary>
         /// Creator of the link
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public User Creator { get; set; }
+        public User Creator { get; set; } = default!;
 
         /// <summary>
         /// True, if the link is primary
@@ -43,7 +44,8 @@ namespace Telegram.Bot.Types
         public DateTime? ExpireDate { get; set; }
 
         /// <summary>
-        /// Optional. Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+        /// Optional. Maximum number of users that can be members of the chat simultaneously after joining the chat
+        /// via this invite link; 1-99999
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? MemberLimit { get; set; }

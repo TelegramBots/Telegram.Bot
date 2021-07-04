@@ -30,7 +30,9 @@ namespace Telegram.Bot.Types
         public User? From { get; set; }
 
         /// <summary>
-        /// Optional. Sender of the message, sent on behalf of a chat. The channel itself for channel messages. The supergroup itself for messages from anonymous group administrators. The linked channel for messages automatically forwarded to the discussion group
+        /// Optional. Sender of the message, sent on behalf of a chat. The channel itself for channel messages.
+        /// The supergroup itself for messages from anonymous group administrators. The linked channel for messages
+        /// automatically forwarded to the discussion group
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Chat? SenderChat { get; set; }
@@ -46,7 +48,7 @@ namespace Telegram.Bot.Types
         /// Conversation the message belongs to
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public Chat Chat { get; set; }
+        public Chat Chat { get; set; } = default!;
 
         /// <summary>
         /// Optional. For forwarded messages, sender of the original message
@@ -55,7 +57,8 @@ namespace Telegram.Bot.Types
         public User? ForwardFrom { get; set; }
 
         /// <summary>
-        /// Optional. For messages forwarded from channels or from anonymous administrators, information about the original sender chat
+        /// Optional. For messages forwarded from channels or from anonymous administrators, information about the
+        /// original sender chat
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Chat? ForwardFromChat { get; set; }
@@ -73,7 +76,8 @@ namespace Telegram.Bot.Types
         public string? ForwardSignature { get; set; }
 
         /// <summary>
-        /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in forwarded messages
+        /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
+        /// forwarded messages
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? ForwardSenderName { get; set; }
@@ -86,7 +90,8 @@ namespace Telegram.Bot.Types
         public DateTime? ForwardDate { get; set; }
 
         /// <summary>
-        /// Optional. For replies, the original message. Note that the <see cref="Message"/> object in this field will not contain further <see cref="ReplyToMessage"/> fields even if it itself is a reply.
+        /// Optional. For replies, the original message. Note that the <see cref="Message"/> object in this field
+        /// will not contain further <see cref="ReplyToMessage"/> fields even if it itself is a reply.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message? ReplyToMessage { get; set; }
@@ -111,7 +116,8 @@ namespace Telegram.Bot.Types
         public string? MediaGroupId { get; set; }
 
         /// <summary>
-        /// Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group administrator
+        /// Optional. Signature of the post author for messages in channels, or the custom title of an anonymous
+        /// group administrator
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? AuthorSignature { get; set; }
@@ -123,7 +129,8 @@ namespace Telegram.Bot.Types
         public string? Text { get; set; }
 
         /// <summary>
-        /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
+        /// Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear
+        /// in the text
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? Entities { get; set; }
@@ -140,7 +147,8 @@ namespace Telegram.Bot.Types
                 : Entities?.Select(entity => Text.Substring(entity.Offset, entity.Length));
 
         /// <summary>
-        /// Optional. Message is an animation, information about the animation. For backward compatibility, when this field is set, the <see cref="Document"/> field will also be set
+        /// Optional. Message is an animation, information about the animation. For backward compatibility, when this
+        /// field is set, the <see cref="Document"/> field will also be set
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Animation? Animation { get; set; }
@@ -194,7 +202,8 @@ namespace Telegram.Bot.Types
         public string? Caption { get; set; }
 
         /// <summary>
-        /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
+        /// Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that
+        /// appear in the caption
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? CaptionEntities { get; set; }
@@ -235,7 +244,8 @@ namespace Telegram.Bot.Types
         public Poll? Poll { get; set; }
 
         /// <summary>
-        /// Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set, the <see cref="Location"/> field will also be set
+        /// Optional. Message is a venue, information about the venue. For backward compatibility, when this field
+        /// is set, the <see cref="Location"/> field will also be set
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Venue? Venue { get; set; }
@@ -247,7 +257,8 @@ namespace Telegram.Bot.Types
         public Location? Location { get; set; }
 
         /// <summary>
-        /// Optional. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members)
+        /// Optional. New members that were added to the group or supergroup and information about them
+        /// (the bot itself may be one of these members)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public User[]? NewChatMembers { get; set; }
@@ -283,13 +294,18 @@ namespace Telegram.Bot.Types
         public bool? GroupChatCreated { get; set; }
 
         /// <summary>
-        /// Optional. Service message: the supergroup has been created. This field can't be received in a message coming through updates, because bot can't be a member of a supergroup when it is created. It can only be found in <see cref="ReplyToMessage"/> if someone replies to a very first message in a directly created supergroup.
+        /// Optional. Service message: the supergroup has been created. This field can't be received in a message
+        /// coming through updates, because bot can't be a member of a supergroup when it is created. It can only be
+        /// found in <see cref="ReplyToMessage"/> if someone replies to a very first message in a directly created
+        /// supergroup.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? SupergroupChatCreated { get; set; }
 
         /// <summary>
-        /// Optional. Service message: the channel has been created. This field can't be received in a message coming through updates, because bot can't be a member of a channel when it is created. It can only be found in <see cref="ReplyToMessage"/> if someone replies to a very first message in a channel.
+        /// Optional. Service message: the channel has been created. This field can't be received in a message coming
+        /// through updates, because bot can't be a member of a channel when it is created. It can only be found in
+        /// <see cref="ReplyToMessage"/> if someone replies to a very first message in a channel.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? ChannelChatCreated { get; set; }
@@ -313,13 +329,15 @@ namespace Telegram.Bot.Types
         public long? MigrateFromChatId { get; set; }
 
         /// <summary>
-        /// Optional. Specified message was pinned. Note that the Message object in this field will not contain further <see cref="ReplyToMessage"/> fields even if it is itself a reply.
+        /// Optional. Specified message was pinned. Note that the Message object in this field will not contain
+        /// further <see cref="ReplyToMessage"/> fields even if it is itself a reply.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Message? PinnedMessage { get; set; }
 
         /// <summary>
-        /// Optional. Message is an invoice for a <see href="https://core.telegram.org/bots/api#payments">payment</see>, information about the invoice
+        /// Optional. Message is an invoice for a
+        /// <see href="https://core.telegram.org/bots/api#payments">payment</see>, information about the invoice
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public Invoice? Invoice { get; set; }
@@ -343,7 +361,8 @@ namespace Telegram.Bot.Types
         public PassportData? PassportData { get; set; }
 
         /// <summary>
-        /// Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live Location
+        /// Optional. Service message. A user in the chat triggered another user's proximity alert while
+        /// sharing Live Location
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ProximityAlertTriggered? ProximityAlertTriggered { get; set; }
@@ -373,7 +392,8 @@ namespace Telegram.Bot.Types
         public VoiceChatParticipantsInvited? VoiceChatParticipantsInvited { get; set; }
 
         /// <summary>
-        /// Optional. Inline keyboard attached to the message. <see cref="LoginUrl"/> buttons are represented as ordinary url buttons.
+        /// Optional. Inline keyboard attached to the message. <see cref="LoginUrl"/> buttons are represented as
+        /// ordinary url buttons.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
@@ -384,9 +404,8 @@ namespace Telegram.Bot.Types
         /// <value>
         /// The <see cref="MessageType"/> of the <see cref="Message"/>
         /// </value>
-        public MessageType Type
-        {
-            get => this switch
+        public MessageType Type =>
+            this switch
             {
                 { Text: { } }                          => MessageType.Text,
                 { Photo: { } }                         => MessageType.Photo,
@@ -395,8 +414,7 @@ namespace Telegram.Bot.Types
                 { Voice: { } }                         => MessageType.Voice,
                 { Document: { } }                      => MessageType.Document,
                 { Sticker: { } }                       => MessageType.Sticker,
-                // Venue also contains Location
-                { Location: { } } and { Venue: null }  => MessageType.Location,
+                { Location: { } }                      => MessageType.Location,
                 { Venue: { } }                         => MessageType.Venue,
                 { Contact: { } }                       => MessageType.Contact,
                 { Game: { } }                          => MessageType.Game,
@@ -425,6 +443,5 @@ namespace Telegram.Bot.Types
                 { VoiceChatParticipantsInvited: { } }  => MessageType.VoiceChatParticipantsInvited,
                 _                                      => MessageType.Unknown
             };
-        }
     }
 }

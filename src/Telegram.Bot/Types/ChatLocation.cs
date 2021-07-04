@@ -13,12 +13,12 @@ namespace Telegram.Bot.Types
         /// The location to which the supergroup is connected. Can't be a live location.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public Location Location { get; set; }
+        public Location Location { get; set; } = default!;
 
         /// <summary>
         /// Location address; 1-64 characters, as defined by the chat owner
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string String { get; set; }
+        public string String { get; set; } = default!;
     }
 }
