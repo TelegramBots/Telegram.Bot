@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Protected constructor `InputTelegramFile` that accepts `FileType`
 - Property `string ForceReplyMarkup.InputFieldPlaceholder { get; set; }`
 - Property `string ReplyKeyboardMarkup.InputFieldPlaceholder { get; set; }`
+- Enum `EncryptedPassportElementType`
 
 ### Changed
 - Type `ChatMember` is made abstract
@@ -78,6 +79,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Constructor of type `InputTelegramFile` that accepts both `Stream content` and `string fileName`: `filename` parameter is made optional
 - Property `InputMediaBase.Type` is made abstract
 - Protected setter `InputTelegramFile.FileId` is made private protected
+- Type of property `EncryptedPassportElement.Type` changed from `string` to `EncryptedPassportElementType`
+- All optional types are made nullable be it value or reference types
 
 ### Removed
 - Public setter `ChatMember.Status`
@@ -89,6 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Constructor of type `InputTelegramFile` that accepts only `Stream`
 - Property setter `InputMediaBase.Media`
 - Protected setter `InputOnlineFile.Url`
+- All obsolete types, methods and properties related to polling events
 
 ## [v16.0.0] - 2021-06-13
 
