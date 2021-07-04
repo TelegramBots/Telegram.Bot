@@ -111,7 +111,7 @@ await bot.ReceiveAsync(
 
 ## Update streams
 
-With .Net Core 3.0+ comes support for an `IAsyncEnumerable<Update>` to stream Updates as they are received.
+With .Net Core 3.1+ comes support for an `IAsyncEnumerable<Update>` to stream Updates as they are received.
 
 The package also exposes a more advanced `QueuedUpdateReceiver`, that enqueues Updates.
 
