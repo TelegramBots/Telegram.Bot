@@ -113,7 +113,11 @@ await bot.ReceiveAsync(
 
 With .Net Core 3.1+ comes support for an `IAsyncEnumerable<Update>` to stream Updates as they are received.
 
-The package also exposes a more advanced `QueuedUpdateReceiver`, that enqueues Updates.
+There are two implementations:
+- `BlockingUpdateReceiver` blocks execution on every new `getUpdates` request
+- `QueuedUpdateReceiver` enqueues updates in an internal queue in a background process to make `Update` interation faster so you don't have to wait on `getUpdates` requests to finish
+
+Example:
 
 ```csharp
 using Telegram.Bot;
