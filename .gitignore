@@ -3,4 +3,4 @@
 bin
 obj
 .idea
-/Telegram.Bot.Extensions.Polling.sln.DotSettings.user
+*.user

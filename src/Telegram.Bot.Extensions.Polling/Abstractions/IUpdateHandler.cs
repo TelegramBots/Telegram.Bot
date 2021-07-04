@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Extensions.Polling
 {
     /// <summary>
@@ -23,7 +23,7 @@ namespace Telegram.Bot.Extensions.Polling
         /// The <see cref="CancellationToken"/> which will notify that method execution should be cancelled
         /// </param>
         /// <returns></returns>
-        Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
+        Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
 
         /// <summary>
         /// Handles an <see cref="Exception"/>
@@ -36,11 +36,6 @@ namespace Telegram.Bot.Extensions.Polling
         /// The <see cref="CancellationToken"/> which will notify that method execution should be cancelled
         /// </param>
         /// <returns></returns>
-        Task HandleError(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
-
-        /// <summary>
-        /// Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates
-        /// </summary>
-        UpdateType[]? AllowedUpdates { get; }
+        Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
     }
 }

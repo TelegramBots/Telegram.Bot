@@ -7,22 +7,29 @@
     <NullableContextOptions>enable</NullableContextOptions>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>0.2.0</Version>
-    <Authors>MihaZupan,TelegramBots</Authors>
+    <Version>1.0.0-alpha.1</Version>
+    <Authors>MihaZupan,tuscen,TelegramBots</Authors>
     <Copyright>Copyright © Telegram Bots 2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Polling</PackageTags>
     <Description>Provides ITelegramBotClient extensions for polling updates.</Description>
-    <PackageIconUrl>https://telegram.org/img/tl_card_store.gif</PackageIconUrl>
+    <PackageIcon>package-icon.png</PackageIcon>
     <Company>TelegramBots</Company>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="../../package-icon.png">
+      <Pack>true</Pack>
+      <PackagePath>/</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
-    <PackageReference Include="Telegram.Bot" Version="17.0.0-alpha.1.ci.295" />
+    <PackageReference Include="Telegram.Bot" Version="17.0.0-alpha.1.ci.307" />
   </ItemGroup>
 
 </Project>

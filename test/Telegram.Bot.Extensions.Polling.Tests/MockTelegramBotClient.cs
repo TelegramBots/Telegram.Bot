@@ -8,47 +8,85 @@ using Telegram.Bot.Args;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
+
+#pragma warning disable CS0067
 
 namespace Telegram.Bot.Extensions.Polling.Tests
 {
+    public class MockClientOptions
+    {
+        public bool HandleNegativeOffset { get; set; }
+        public string[] Messages { get; set; } = Array.Empty<string>();
+        public int RequestDelay { get; set; } = 10;
+        public Exception ExceptionToThrow { get; set; }
+
+    }
+
     public class MockTelegramBotClient : ITelegramBotClient
     {
         readonly Queue<string[]> _messages;
 
         public int MessageGroupsLeft => _messages.Count;
+        public MockClientOptions Options { get; }
 
-        public int RequestDelay = 10;
-
-        public Exception ExceptionToThrow;
+        public MockTelegramBotClient(MockClientOptions options = default)
+        {
+            Options = options ?? new();
+            _messages = new Queue<string[]>(
+                Options.Messages.Select(message => message.Split('-').ToArray())
+            );
+        }
 
         public MockTelegramBotClient(params string[] messages)
         {
+            Options = new();
             _messages = new Queue<string[]>(messages.Select(message => message.Split('-').ToArray()));
         }
 
-        public async Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default)
+        public async Task<TResponse> MakeRequestAsync<TResponse>(
+            IRequest<TResponse> request,
+            CancellationToken cancellationToken = default)
         {
-            if (request is GetUpdatesRequest getUpdatesRequest)
+            if (request is not GetUpdatesRequest getUpdatesRequest) { throw new NotImplementedException(); }
+
+            await Task.Delay(Options.RequestDelay, cancellationToken);
+
+            if (Options.ExceptionToThrow is not null) { throw Options.ExceptionToThrow; }
+
+            if (Options.HandleNegativeOffset && getUpdatesRequest.Offset == -1)
             {
-                await Task.Delay(RequestDelay, cancellationToken);
+                var messageCount = _messages.Select(group => @group.Length).Sum() + 1;
+                var lastMessage = _messages.Last().Last();
 
-                if (ExceptionToThrow != null)
-                    throw ExceptionToThrow;
+                _messages.Clear();
 
-                if (!_messages.TryDequeue(out string[] messages))
-                    return (TResponse)(object)new Update[0];
-
-                return (TResponse)(object)messages.Select((message, i) => new Update()
+                return (TResponse)(object) new[]
                 {
-                    Message = new Message
+                    new Update
                     {
-                        Text = messages[i]
-                    },
-                    Id = getUpdatesRequest.Offset ?? 0 + i + 1
-                }).ToArray();
+                        Message = new()
+                        {
+                            Text = lastMessage
+                        },
+                        Id = messageCount
+                    }
+                };
             }
-            else throw new NotImplementedException();
+
+            if (!_messages.TryDequeue(out var messages))
+            {
+                return (TResponse)(object)Array.Empty<Update>();
+            }
+
+            return (TResponse)(object)messages.Select((_, i) => new Update
+            {
+                Message = new()
+                {
+                    Text = messages[i]
+                },
+                Id = getUpdatesRequest.Offset ?? 0 + i + 1
+            }).ToArray();
+
         }
 
         public TimeSpan Timeout { get; set; } = TimeSpan.FromMilliseconds(50);
@@ -58,25 +96,11 @@ namespace Telegram.Bot.Extensions.Polling.Tests
         // NOT IMPLEMENTED
         // ---------------
 
-        #pragma warning disable CS0067
-
         public long? BotId => throw new NotImplementedException();
-        public bool IsReceiving => throw new NotImplementedException();
-        public int MessageOffset { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public event AsyncEventHandler<ApiRequestEventArgs> OnMakingApiRequest;
         public event AsyncEventHandler<ApiResponseEventArgs> OnApiResponseReceived;
-        public event EventHandler<UpdateEventArgs> OnUpdate;
-        public event EventHandler<MessageEventArgs> OnMessage;
-        public event EventHandler<MessageEventArgs> OnMessageEdited;
-        public event EventHandler<InlineQueryEventArgs> OnInlineQuery;
-        public event EventHandler<ChosenInlineResultEventArgs> OnInlineResultChosen;
-        public event EventHandler<CallbackQueryEventArgs> OnCallbackQuery;
-        public event EventHandler<ReceiveErrorEventArgs> OnReceiveError;
-        public event EventHandler<ReceiveGeneralErrorEventArgs> OnReceiveGeneralError;
         public Task DownloadFileAsync(string filePath, Stream destination, CancellationToken cancellationToken = default) => throw new NotImplementedException();
         public Task<Types.File> GetInfoAndDownloadFileAsync(string fileId, Stream destination, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-        public void StartReceiving(UpdateType[] allowedUpdates = null, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-        public void StopReceiving() => throw new NotImplementedException();
         public Task<bool> TestApiAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
     }
 }

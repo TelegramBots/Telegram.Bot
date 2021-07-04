@@ -32,46 +32,108 @@ ITelegramBotClient bot = new TelegramBotClient("<token>");
 
 You have two ways of starting to receive updates
 1. `StartReceiving` does not block the caller thread. Receiving is done on the ThreadPool.
-```c#
-using System.Threading;
-using Telegram.Bot.Extensions.Polling;
 
-var cts = new CancellationTokenSource();
-var cancellationToken = cts.Token;
+    ```c#
+    using System.Threading;
+    using Telegram.Bot.Extensions.Polling;
 
-bot.StartReceiving(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync), cancellationToken);
-```
+    var cts = new CancellationTokenSource();
+    var cancellationToken = cts.Token;
+    var receiveOptions = new ReceiveOptions
+    {
+        AllowedUpdates = {} // receive all update types
+    };
+    bot.StartReceiving(
+        HandleUpdateAsync,
+        HandleErrorAsync,
+        receiveOptions,
+        cancellationToken
+    );
+    ```
 
 2. Awaiting `ReceiveAsync` will block until cancellation in triggered (both methods accept a CancellationToken)
-```c#
-using System.Threading;
-using Telegram.Bot.Extensions.Polling;
 
-var cts = new CancellationTokenSource();
-var cancellationToken = cts.Token;
+    ```c#
+    using System.Threading;
+    using Telegram.Bot.Extensions.Polling;
 
-await bot.ReceiveAsync(new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync), cancellationToken);
-```
+    var cts = new CancellationTokenSource();
+    var cancellationToken = cts.Token;
+
+    var receiveOptions = new ReceiveOptions
+    {
+        AllowedUpdates = {} // receive all update types
+    };
+
+    await bot.ReceiveAsync(
+        HandleUpdateAsync,
+        HandleErrorAsync,
+        receiveOptions,
+        cancellationToken
+    );
+    ```
 
 Trigger cancellation by calling `cts.Cancel()` somewhere to stop receiving update in both methods.
 
+---
+
+In case you want to throw out all pending updates on start there is an option
+`ReceiveOptions.ThrowPendingUpdates`.
+If set to `true` `ReceiveOptions.Offset` property will be ignored even if it's set to non-null value
+and all implemented update receivers will attempt to throw out all pending updates before starting
+to call your handlers. In that case `ReceiveOptions.AllowedUpdates` property should be set to
+desired values otherwise it will be effectively set to allow all updates.
+
+Example
+
+```csharp
+using System.Threading;
+using Telegram.Bot.Extensions.Polling;
+using Telegram.Bot.Types.Enums;
+
+var cts = new CancellationTokenSource();
+var cancellationToken = cts.Token;
+
+var receiveOptions = new ReceiveOptions
+{
+    AllowedUpdates = new { UpdateType.Message, UpdateType.CallbackQuery }
+    ThrowPendingUpdates = true
+};
+
+await bot.ReceiveAsync(
+    HandleUpdateAsync,
+    HandleErrorAsync,
+    receiveOptions,
+    cancellationToken
+);
+```
+
+
 ## Update streams
 
-With .Net Core 3.0+ comes support for an `IAsyncEnumerable<Update>` to stream Updates as they are received.
+With .Net Core 3.1+ comes support for an `IAsyncEnumerable<Update>` to stream Updates as they are received.
 
-The package also exposes a more advanced `QueuedUpdateReceiver`, that enqueues Updates.
+There are two implementations:
+- `BlockingUpdateReceiver` blocks execution on every new `getUpdates` request
+- `QueuedUpdateReceiver` enqueues updates in an internal queue in a background process to make `Update` interation faster so you don't have to wait on `getUpdates` requests to finish
+
+Example:
 
 ```csharp
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Extensions.Polling;
 
-ITelegramBotClient bot = new TelegramBotClient("<token>");
-QueuedUpdateReceiver updateReceiver = new QueuedUpdateReceiver(bot);
+var bot = new TelegramBotClient("<token>");
+var receiveOptions = new ReceiveOptions
+{
+    AllowedUpdates = {} // receive all update types
+};
+var updateReceiver = new QueuedUpdateReceiver(bot, receiveOptions);
 
 updateReceiver.StartReceiving();
 
-await foreach (Update update in updateReceiver.YieldUpdatesAsync())
+await foreach (Update update in updateReceiver)
 {
     if (update.Message is Message message)
     {

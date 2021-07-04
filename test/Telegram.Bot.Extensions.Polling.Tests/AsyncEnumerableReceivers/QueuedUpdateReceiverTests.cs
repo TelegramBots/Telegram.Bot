@@ -43,7 +43,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             var mockClient = new MockTelegramBotClient("foo-bar", "123", "one-two-three", "456");
             var receiver = new QueuedUpdateReceiver(mockClient);
 
-            mockClient.RequestDelay = 250;
+            mockClient.Options.RequestDelay = 250;
 
             Assert.Equal(4, mockClient.MessageGroupsLeft);
             Assert.Equal(0, receiver.PendingUpdates);
@@ -116,7 +116,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             var mockClient = new MockTelegramBotClient("foo", "bar", "foo");
             var receiver = new QueuedUpdateReceiver(mockClient);
 
-            mockClient.RequestDelay = 200;
+            mockClient.Options.RequestDelay = 200;
 
             var cts = new CancellationTokenSource();
 
@@ -158,17 +158,15 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
         [Fact]
         public async Task ExceptionIsCaughtByErrorHandler()
         {
-            var mockClient = new MockTelegramBotClient
-            {
-                ExceptionToThrow = new Exception("Oops")
-            };
+            var mockClient = new MockTelegramBotClient();
+            mockClient.Options.ExceptionToThrow = new Exception("Oops");
 
             var cts = new CancellationTokenSource();
 
             bool seenException = false;
             var receiver = new QueuedUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
             {
-                Assert.Same(mockClient.ExceptionToThrow, ex);
+                Assert.Same(mockClient.Options.ExceptionToThrow, ex);
                 seenException = true;
                 cts.Cancel();
                 return Task.CompletedTask;
@@ -184,10 +182,8 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
         [Fact]
         public async Task ReceivingIsCanceledOnExceptionIfThereIsNoErrorHandler()
         {
-            var mockClient = new MockTelegramBotClient
-            {
-                ExceptionToThrow = new Exception("Oops")
-            };
+            var mockClient = new MockTelegramBotClient();
+            mockClient.Options.ExceptionToThrow = new Exception("Oops");
 
             var receiver = new QueuedUpdateReceiver(mockClient);
 
@@ -196,22 +192,20 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
 
             Exception ex = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
-            Assert.Same(mockClient.ExceptionToThrow, ex.InnerException);
+            Assert.Same(mockClient.Options.ExceptionToThrow, ex.InnerException);
         }
 
         [Fact]
         public async Task UncaughtExceptionIsStoredIfErrorHandlerThrows()
         {
-            var mockClient = new MockTelegramBotClient
-            {
-                ExceptionToThrow = new Exception("Oops")
-            };
+            var mockClient = new MockTelegramBotClient();
+            mockClient.Options.ExceptionToThrow = new Exception("Oops");
 
             Exception exceptionFromErrorHandler = null;
 
             var receiver = new QueuedUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
             {
-                Assert.Same(mockClient.ExceptionToThrow, ex);
+                Assert.Same(mockClient.Options.ExceptionToThrow, ex);
                 throw (exceptionFromErrorHandler = new Exception("Oops2"));
             });
 
@@ -224,7 +218,7 @@ namespace Telegram.Bot.Extensions.Polling.Tests.AsyncEnumerableReceivers
             var aggregateEx = ex.InnerException as AggregateException;
             Assert.NotNull(aggregateEx);
             Assert.Equal(2, aggregateEx.InnerExceptions.Count);
-            Assert.Same(mockClient.ExceptionToThrow, aggregateEx.InnerExceptions[0]);
+            Assert.Same(mockClient.Options.ExceptionToThrow, aggregateEx.InnerExceptions[0]);
             Assert.Same(exceptionFromErrorHandler, aggregateEx.InnerExceptions[1]);
         }
     }

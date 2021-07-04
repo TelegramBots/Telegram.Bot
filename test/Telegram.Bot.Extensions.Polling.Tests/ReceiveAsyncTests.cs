@@ -16,22 +16,24 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
             int updateCount = 0;
-            async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+            async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken token)
             {
                 updateCount++;
                 Assert.Contains(update.Message.Text, "start end");
                 await Task.Delay(10, cancellationTokenSource.Token);
                 if (update.Message.Text == "end")
+                {
                     cancellationTokenSource.Cancel();
+                }
             }
 
             var updateHandler = new DefaultUpdateHandler(
-                HandleUpdate,
-                errorHandler: async (client, e, token) => await Task.Delay(10, token)
+                updateHandler: HandleUpdate,
+                errorHandler: async (_, _, token) => await Task.Delay(10, token)
             );
 
             var cancellationToken = cancellationTokenSource.Token;
-            await bot.ReceiveAsync(updateHandler, cancellationToken);
+            await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
 
             Assert.True(cancellationToken.IsCancellationRequested);
             Assert.Equal(2, updateCount);
@@ -53,8 +55,8 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             }
 
             var updateHandler = new DefaultUpdateHandler(
-                HandleUpdate,
-                errorHandler: async (client, e, token) => await Task.Delay(10, token)
+                updateHandler: HandleUpdate,
+                errorHandler: async (_, _, token) => await Task.Delay(10, token)
             );
 
             try
@@ -69,6 +71,45 @@ namespace Telegram.Bot.Extensions.Polling.Tests
             }
 
             Assert.Equal(3, updateCount);
+            Assert.Equal(0, bot.MessageGroupsLeft);
+        }
+
+        [Fact]
+        public async Task ThrowOutPendingUpdates()
+        {
+            var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(4));
+
+            var bot = new MockTelegramBotClient(
+                new MockClientOptions
+                {
+                    Messages = new [] {"foo-bar", "baz", "quux"},
+                    HandleNegativeOffset = true
+                }
+            );
+
+            int handleCount = 0;
+
+            Task HandleUpdate(
+                ITelegramBotClient botClient,
+                Update update,
+                CancellationToken cancellationToken)
+            {
+                handleCount += 1;
+                return Task.CompletedTask;
+            };
+
+            var updateHandler = new DefaultUpdateHandler(
+                updateHandler: HandleUpdate,
+                errorHandler: (_, _, _) => Task.CompletedTask
+            );
+
+            await bot.ReceiveAsync(
+                updateHandler,
+                new ReceiverOptions { ThrowPendingUpdates = true },
+                cancellationTokenSource.Token
+            );
+
+            Assert.Equal(0, handleCount);
             Assert.Equal(0, bot.MessageGroupsLeft);
         }
     }

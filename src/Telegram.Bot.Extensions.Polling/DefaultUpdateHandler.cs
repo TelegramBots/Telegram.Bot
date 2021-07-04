@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Extensions.Polling
 {
@@ -12,34 +11,23 @@ namespace Telegram.Bot.Extensions.Polling
     public class DefaultUpdateHandler : IUpdateHandler
     {
         readonly Func<ITelegramBotClient, Update, CancellationToken, Task> _updateHandler;
-
         readonly Func<ITelegramBotClient, Exception, CancellationToken, Task> _errorHandler;
-
-        /// <summary>
-        /// Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates
-        /// </summary>
-        public UpdateType[]? AllowedUpdates { get; set; }
 
         /// <summary>
         /// Constructs a new <see cref="DefaultUpdateHandler"/> with the specified callback functions
         /// </summary>
         /// <param name="updateHandler">The function to invoke when an update is received</param>
         /// <param name="errorHandler">The function to invoke when an error occurs</param>
-        /// <param name="allowedUpdates">
-        /// Indicates which <see cref="UpdateType"/>s are allowed to be received. null means all updates
-        /// </param>
         public DefaultUpdateHandler(
             Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
-            Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler,
-            UpdateType[]? allowedUpdates = default)
+            Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler)
         {
             _updateHandler = updateHandler ?? throw new ArgumentNullException(nameof(updateHandler));
             _errorHandler = errorHandler ?? throw new ArgumentNullException(nameof(errorHandler));
-            AllowedUpdates = allowedUpdates;
         }
 
         /// <inheritdoc />
-        public Task HandleUpdate(
+        public Task HandleUpdateAsync(
             ITelegramBotClient botClient,
             Update update,
             CancellationToken cancellationToken
@@ -47,7 +35,7 @@ namespace Telegram.Bot.Extensions.Polling
             _updateHandler(botClient, update, cancellationToken);
 
         /// <inheritdoc />
-        public Task HandleError(
+        public Task HandleErrorAsync(
             ITelegramBotClient botClient,
             Exception exception,
             CancellationToken cancellationToken
