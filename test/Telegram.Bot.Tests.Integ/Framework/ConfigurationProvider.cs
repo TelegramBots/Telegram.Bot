@@ -43,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 throw new ArgumentNullException(nameof(TestConfigurations.ApiToken),
                     "API token is not provided or is empty.");
 
-            if (TestConfigurations.ApiToken?.Length < 25)
+            if (TestConfigurations.ApiToken.Length < 25)
                 throw new ArgumentException("API token is too short.", nameof(TestConfigurations.ApiToken));
 
             if (string.IsNullOrWhiteSpace(TestConfigurations.SuperGroupChatId))

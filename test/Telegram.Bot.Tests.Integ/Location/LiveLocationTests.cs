@@ -45,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             );
 
             Assert.Equal(MessageType.Location, message.Type);
-            Assert.Equal(latBerlin, message.Location.Latitude, 3);
+            Assert.Equal(latBerlin, message.Location!.Latitude, 3);
             Assert.Equal(lonBerlin, message.Location.Longitude, 3);
 
             LocationMessage = message;
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 new Location { Latitude = 35.6892f, Longitude = 51.3890f },  // Tehran
             };
 
-            Message editedMessage = default;
+            Message? editedMessage = default;
             foreach (Location newLocation in locations)
             {
                 await Task.Delay(1_500);
