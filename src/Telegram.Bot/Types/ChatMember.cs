@@ -181,8 +181,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// <c>true</c>, if the user can pin messages, supergroups only
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool? CanPinMessages { get; set; }
+        [JsonProperty(Required = Required.Always)]
+        public bool CanPinMessages { get; set; }
 
         /// <summary>
         /// <c>true</c>, if the user can send text messages, contacts, locations and venues
