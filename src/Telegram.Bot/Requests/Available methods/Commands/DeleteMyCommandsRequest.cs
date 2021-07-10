@@ -6,7 +6,10 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to delete the list of the bot's commands for the given <see cref="Scope">scope</see> and <see cref="LanguageCode">user language</see>. After deletion, <see href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</see> will be shown to affected users. Returns True on success.
+    /// Use this method to delete the list of the bot's commands for the given
+    /// <see cref="Scope">scope</see> and <see cref="LanguageCode">user language</see>.  After deletion,
+    /// <see href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</see>
+    /// will be shown to affected users. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class DeleteMyCommandsRequest : RequestBase<bool>
@@ -19,8 +22,9 @@ namespace Telegram.Bot.Requests
         public BotCommandScope? Scope { get; set; }
 
         /// <summary>
-        /// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users from the given
-        /// <see cref="Scope">Scope</see>, for whose language there are no dedicated commands
+        /// A two-letter ISO 639-1 language code. If empty, commands will be applied to all users
+        /// from the given <see cref="Scope">Scope</see>, for whose language there are no dedicated
+        /// commands
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? LanguageCode { get; set; }

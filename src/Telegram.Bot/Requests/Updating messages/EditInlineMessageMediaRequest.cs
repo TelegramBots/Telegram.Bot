@@ -8,14 +8,17 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. Use a previously uploaded file via its <see cref="Types.InputFiles.InputTelegramFile.FileId"/> or specify a URL. On success True is returned.
+    /// Use this method to edit animation, audio, document, photo, or video messages. If a message is
+    /// part of a message album, then it can be edited only to an audio for audio albums, only to a
+    /// document for document albums and to a photo or a video otherwise. Use a previously uploaded file
+    /// via its <see cref="Types.InputFiles.InputTelegramFile.FileId"/> or specify a URL. On success
+    /// <c>true</c> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditInlineMessageMediaRequest : RequestBase<bool>,
-                                                 IInlineMessage,
-                                                 IInlineReplyMarkupMessage
+    public class EditInlineMessageMediaRequest : RequestBase<bool>
     {
-        /// <inheritdoc />
+
+        /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
         [JsonProperty(Required = Required.Always)]
         public string InlineMessageId { get; }
 
@@ -25,7 +28,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public InputMediaBase Media { get; }
 
-        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
+        /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 

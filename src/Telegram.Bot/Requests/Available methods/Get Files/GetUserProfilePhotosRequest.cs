@@ -1,19 +1,19 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to get a list of profile pictures for a user. Returns a <see cref="UserProfilePhotos"/> object.
+    /// Use this method to get a list of profile pictures for a user. Returns a
+    /// <see cref="UserProfilePhotos"/> object.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>
+    public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>, IUserTargetable
     {
-        /// <summary>
-        /// Unique identifier of the target user
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public long UserId { get; }
 

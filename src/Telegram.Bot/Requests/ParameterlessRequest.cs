@@ -1,4 +1,4 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -17,8 +17,7 @@ namespace Telegram.Bot.Requests
         /// <param name="methodName">Name of request method</param>
         public ParameterlessRequest(string methodName)
             : base(methodName)
-        {
-        }
+        { }
 
         /// <summary>
         /// Initializes an instance of <see cref="ParameterlessRequest{TResult}"/>
@@ -27,8 +26,7 @@ namespace Telegram.Bot.Requests
         /// <param name="method">HTTP request method</param>
         public ParameterlessRequest(string methodName, HttpMethod method)
             : base(methodName, method)
-        {
-        }
+        { }
 
         /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
         public override HttpContent? ToHttpContent() =>

@@ -9,15 +9,13 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to stop a poll which was sent by the bot. On success, the stopped <see cref="Poll"/> with the final results is returned.
+    /// Use this method to stop a poll which was sent by the bot. On success, the stopped <see cref="Poll"/>
+    /// with the final results is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class StopPollRequest : RequestBase<Poll>,
-                                   IReplyMarkupMessage<InlineKeyboardMarkup>
+    public class StopPollRequest : RequestBase<Poll>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -27,14 +25,17 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public int MessageId { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId, messageId
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel (in the format
+        /// <c>@channelusername</c>)
+        /// </param>
         /// <param name="messageId">Identifier of the original message with the poll</param>
         public StopPollRequest(ChatId chatId, int messageId)
             : base("stopPoll")

@@ -1,6 +1,7 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
@@ -8,19 +9,21 @@ using Telegram.Bot.Types.InputFiles;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to create a new animated sticker set owned by a user. The bot will be able to edit the sticker set thus created. Returns True on success.
+    /// Use this method to create a new animated sticker set owned by a user. The bot will be able to
+    /// edit the sticker set thus created. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class CreateNewAnimatedStickerSetRequest : FileRequestBase<bool>
+    public class CreateNewAnimatedStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     {
-        /// <summary>
-        /// User identifier of created sticker set owner
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public long UserId { get; }
 
         /// <summary>
-        /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in <i>"_by_&lt;bot username&gt;"</i>. <i>&lt;bot_username&gt;</i> is case insensitive. 1-64 characters
+        /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>).
+        /// Can contain only english letters, digits and underscores. Must begin with a letter, can't
+        /// contain consecutive underscores and must end in <i>"_by_&lt;bot username&gt;"</i>.
+        /// <i>&lt;bot_username&gt;</i> is case insensitive. 1-64 characters
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string Name { get; }
@@ -32,7 +35,9 @@ namespace Telegram.Bot.Requests
         public string Title { get; }
 
         /// <summary>
-        /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See <see href="https://core.telegram.org/animated_stickers#technical-requirements"/> for technical requirements
+        /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
+        /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+        /// for technical requirements
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InputFileStream TgsSticker { get; }
@@ -59,16 +64,25 @@ namespace Telegram.Bot.Requests
         /// Initializes a new request with userId, name, tgsSticker and emojis
         /// </summary>
         /// <param name="userId">User identifier of sticker set owner</param>
-        /// <param name="name">Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>). Can contain only english letters, digits and underscores. Must begin with a letter, can't contain consecutive underscores and must end in <i>"_by_&lt;bot username&gt;"</i>. <i>&lt;bot_username&gt;</i> is case insensitive. 1-64 characters</param>
+        /// <param name="name">
+        /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>).
+        /// Can contain only english letters, digits and underscores. Must begin with a letter, can't
+        /// contain consecutive underscores and must end in <i>"_by_&lt;bot username&gt;"</i>.
+        /// <i>&lt;bot_username&gt;</i> is case insensitive. 1-64 characters
+        /// </param>
         /// <param name="title">Sticker set title, 1-64 characters</param>
-        /// <param name="tgsSticker"><b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See <see href="https://core.telegram.org/animated_stickers#technical-requirements"/> for technical requirements</param>
+        /// <param name="tgsSticker">
+        /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
+        /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+        /// for technical requirements
+        /// </param>
         /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-        public CreateNewAnimatedStickerSetRequest(long userId,
-                                                  string name,
-                                                  string title,
-                                                  InputFileStream tgsSticker,
-                                                  string emojis)
-            : base("createNewStickerSet")
+        public CreateNewAnimatedStickerSetRequest(
+            long userId,
+            string name,
+            string title,
+            InputFileStream tgsSticker,
+            string emojis) : base("createNewStickerSet")
         {
             UserId = userId;
             Name = name;
@@ -78,12 +92,9 @@ namespace Telegram.Bot.Requests
         }
 
         /// <inheritdoc />
-        public override HttpContent? ToHttpContent()
-        {
-            if (TgsSticker != null)
-                return ToMultipartFormDataContent("tgs_sticker", TgsSticker);
-
-            return base.ToHttpContent();
-        }
+        public override HttpContent? ToHttpContent() =>
+            TgsSticker.Content is not null
+                ? ToMultipartFormDataContent("tgs_sticker", TgsSticker)
+                : base.ToHttpContent();
     }
 }

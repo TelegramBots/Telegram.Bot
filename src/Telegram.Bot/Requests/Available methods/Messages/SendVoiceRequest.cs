@@ -12,24 +12,23 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>). On success, the sent <see cref="Message"/> is returned. Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
+    /// Use this method to send audio files, if you want Telegram clients to display the file as a playable
+    /// voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other
+    /// formats may be sent as <see cref="Audio"/> or <see cref="Document"/>). On success, the sent
+    /// <see cref="Message"/> is returned. Bots can currently send voice messages of up to 50 MB in size,
+    /// this limit may be changed in the future.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendVoiceRequest : FileRequestBase<Message>,
-                                    INotifiableMessage,
-                                    IReplyMessage,
-                                    IReplyMarkupMessage<IReplyMarkup>,
-                                    IFormattableMessage,
-                                    ICaptionEntities
+    public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data
+        /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that
+        /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get
+        /// a file from the Internet, or upload a new one using multipart/form-data
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InputOnlineFile Voice { get; }
@@ -40,11 +39,11 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Caption { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ParseMode"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.CaptionEntities"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
@@ -54,27 +53,33 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? Duration { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.DisableNotitication"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableNotification { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ReplyToMessageId { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? AllowSendingWithoutReply { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and voice
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-        /// <param name="voice">Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
+        /// <param name="voice">
+        /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file
+        /// that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
+        /// to get a file from the Internet, or upload a new one using multipart/form-data
+        /// </param>
         public SendVoiceRequest(ChatId chatId, InputOnlineFile voice)
             : base("sendVoice")
         {

@@ -8,15 +8,13 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to edit only the reply markup of messages. On success the edited <see cref="Message"/> is returned.
+    /// Use this method to edit only the reply markup of messages. On success the edited
+    /// <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditMessageReplyMarkupRequest : RequestBase<Message>,
-                                                 IInlineReplyMarkupMessage
+    public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -26,14 +24,17 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public int MessageId { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and messageId
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         /// <param name="messageId">Identifier of the message to edit</param>
         public EditMessageReplyMarkupRequest(ChatId chatId, int messageId)
             : base("editMessageReplyMarkup")

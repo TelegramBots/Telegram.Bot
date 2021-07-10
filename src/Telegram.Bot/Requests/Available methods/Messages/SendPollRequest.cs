@@ -15,14 +15,9 @@ namespace Telegram.Bot.Requests
     /// Use this method to send a native poll. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendPollRequest : RequestBase<Message>,
-                                   INotifiableMessage,
-                                   IReplyMessage,
-                                   IReplyMarkupMessage<IReplyMarkup>
+    public class SendPollRequest : RequestBase<Message>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -45,7 +40,7 @@ namespace Telegram.Bot.Requests
         public bool? IsAnonymous { get; set; }
 
         /// <summary>
-        /// Poll type, <see cref="PollType.Quiz"/> or <see cref="PollType.Regular"/>, defaults to <see cref="PollType.Regular"/>
+        /// Poll type, defaults to <see cref="PollType.Regular"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public PollType? Type { get; set; }
@@ -63,31 +58,37 @@ namespace Telegram.Bot.Requests
         public int? CorrectOptionId { get; set; }
 
         /// <summary>
-        /// Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
+        /// Text that is shown when a user chooses an incorrect answer or taps on the lamp icon in a
+        /// quiz-style poll, 0-200 characters with at most 2 line feeds after entities parsing
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Explanation { get; set; }
 
         /// <summary>
-        /// Mode for parsing entities in the explanation. See <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see> for more details.
+        /// Mode for parsing entities in the explanation. See
+        /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see>
+        /// for more details.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ExplanationParseMode { get; set; }
 
         /// <summary>
-        /// List of special entities that appear in the poll explanation, which can be specified instead of <see cref="ParseMode"/>
+        /// List of special entities that appear in the poll explanation, which can be specified instead
+        /// of <see cref="ParseMode"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IEnumerable<MessageEntity>? ExplanationEntities { get; set; }
 
         /// <summary>
-        /// Amount of time in seconds the poll will be active after creation, 5-600. Can't be used together with <see cref="CloseDate"/>.
+        /// Amount of time in seconds the poll will be active after creation, 5-600. Can't be used
+        /// together with <see cref="CloseDate"/>.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? OpenPeriod { get; set; }
 
         /// <summary>
-        /// Point in time when the poll will be automatically closed. Must be at least 5 and no more than 600 seconds in the future. Can't be used together with <see cref="OpenPeriod"/>.
+        /// Point in time when the poll will be automatically closed. Must be at least 5 and no more
+        /// than 600 seconds in the future. Can't be used together with <see cref="OpenPeriod"/>.
         /// </summary>
         [JsonConverter(typeof(UnixDateTimeConverter))]
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -99,26 +100,28 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? IsClosed { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableNotification { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ReplyToMessageId { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? AllowSendingWithoutReply { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId, question and <see cref="PollOption"/>
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         /// <param name="question">Poll question, 1-300 characters</param>
         /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
         public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)

@@ -11,14 +11,9 @@ namespace Telegram.Bot.Requests
     /// Use this method to send information about a venue. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendVenueRequest : RequestBase<Message>,
-                                    INotifiableMessage,
-                                    IReplyMessage,
-                                    IReplyMarkupMessage<IReplyMarkup>
+    public class SendVenueRequest : RequestBase<Message>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -26,13 +21,13 @@ namespace Telegram.Bot.Requests
         /// Latitude of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; }
+        public double Latitude { get; }
 
         /// <summary>
         /// Longitude of the venue
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; }
+        public double Longitude { get; }
 
         /// <summary>
         /// Name of the venue
@@ -53,7 +48,8 @@ namespace Telegram.Bot.Requests
         public string? FoursquareId { get; set; }
 
         /// <summary>
-        /// Foursquare type of the venue, if known. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+        /// Foursquare type of the venue, if known. (For example, “arts_entertainment/default”,
+        /// “arts_entertainment/aquarium” or “food/icecream”.)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? FoursquareType { get; set; }
@@ -65,41 +61,44 @@ namespace Telegram.Bot.Requests
         public string? GooglePlaceId { get; set; }
 
         /// <summary>
-        /// Google Places type of the venue. (See <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>.)
+        /// Google Places type of the venue.
+        /// (See <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>.)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? GooglePlaceType { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableNotification { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ReplyToMessageId { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? AllowSendingWithoutReply { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId, location, venue title and address
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         /// <param name="latitude">Latitude of the venue</param>
         /// <param name="longitude">Longitude of the venue</param>
         /// <param name="title">Name of the venue</param>
         /// <param name="address">Address of the venue</param>
-        public SendVenueRequest(ChatId chatId,
-                                float latitude,
-                                float longitude,
-                                string title,
-                                string address)
-            : base("sendVenue")
+        public SendVenueRequest(
+            ChatId chatId,
+            double latitude,
+            double longitude,
+            string title,
+            string address) : base("sendVenue")
         {
             ChatId = chatId;
             Latitude = latitude;

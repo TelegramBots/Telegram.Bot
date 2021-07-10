@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -6,15 +6,14 @@ using Telegram.Bot.Requests.Abstractions;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to set the score of the specified user in a game. On success returns True. Returns an error, if the new score is not greater than the user's current score in the chat and <see cref="Force"/> is False.
+    /// Use this method to set the score of the specified user in a game. On success returns <c>true</c>.
+    /// Returns an error, if the new score is not greater than the user's current score in the chat and
+    /// <see cref="Force"/> is <c>false</c>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SetInlineGameScoreRequest : RequestBase<bool>,
-                                             IInlineMessage
+    public class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargetable
     {
-        /// <summary>
-        /// User identifier
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public long UserId { get; }
 
@@ -25,7 +24,8 @@ namespace Telegram.Bot.Requests
         public int Score { get; }
 
         /// <summary>
-        /// Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes or banning cheaters.
+        /// Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes
+        /// or banning cheaters.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? Force { get; set; }
@@ -36,7 +36,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableEditMessage { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
         [JsonProperty(Required = Required.Always)]
         public string InlineMessageId { get; }
 

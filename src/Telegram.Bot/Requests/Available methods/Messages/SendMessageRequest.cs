@@ -13,16 +13,9 @@ namespace Telegram.Bot.Requests
     /// Use this method to send text messages. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendMessageRequest : RequestBase<Message>,
-                                      INotifiableMessage,
-                                      IReplyMessage,
-                                      IFormattableMessage,
-                                      IReplyMarkupMessage<IReplyMarkup>,
-                                      IEntities
+    public class SendMessageRequest : RequestBase<Message>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -32,11 +25,11 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public string Text { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ParseMode"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.Entities"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IEnumerable<MessageEntity>? Entities { get; set; }
 
@@ -46,26 +39,28 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableWebPagePreview { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableNotification { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ReplyToMessageId { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? AllowSendingWithoutReply { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IReplyMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and text
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         /// <param name="text">Text of the message to be sent, 1-4096 characters after entities parsing</param>
         public SendMessageRequest(ChatId chatId, string text)
             : base("sendMessage")

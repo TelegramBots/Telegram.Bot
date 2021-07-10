@@ -1,4 +1,4 @@
-// ReSharper disable once CheckNamespace
+﻿// ReSharper disable once CheckNamespace
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -6,7 +6,8 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to remove webhook integration if you decide to switch back to <see cref="GetUpdatesRequest"/>. Returns True on success.
+    /// Use this method to remove webhook integration if you decide to switch back to
+    /// <see cref="GetUpdatesRequest"/>. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class DeleteWebhookRequest : ParameterlessRequest<bool>

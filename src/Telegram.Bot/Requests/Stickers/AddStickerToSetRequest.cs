@@ -1,6 +1,7 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
 
@@ -8,14 +9,13 @@ using Telegram.Bot.Types.InputFiles;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to add a new sticker to a set created by the bot. Static sticker sets can have up to 120 stickers. Returns True on success.
+    /// Use this request to add a new sticker to a set created by the bot. Static sticker sets
+    /// can have up to 120 stickers. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class AddStickerToSetRequest : FileRequestBase<bool>
+    public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     {
-        /// <summary>
-        /// User identifier of sticker set owner
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public long UserId { get; }
 
@@ -26,7 +26,15 @@ namespace Telegram.Bot.Requests
         public string Name { get; }
 
         /// <summary>
-        /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data
+        /// <para>
+        /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must
+        /// not exceed 512px, and either width or height must be exactly 512px.
+        /// </para>
+        /// <para>
+        /// Pass a <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that already
+        /// exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
+        /// or upload a new one using multipart/form-data
+        /// </para>
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InputOnlineFile PngSticker { get; }
@@ -48,7 +56,13 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="userId">User identifier of sticker set owner</param>
         /// <param name="name">Sticker set name</param>
-        /// <param name="pngSticker"><b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px, and either width or height must be exactly 512px. Pass a <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or upload a new one using multipart/form-data</param>
+        /// <param name="pngSticker">
+        /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must
+        /// not exceed 512px, and either width or height must be exactly 512px. Pass a
+        /// <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file
+        /// that already exists on the Telegram servers, pass an HTTP URL as a String for Telegram
+        /// to get a file from the Internet, or upload a new one using multipart/form-data
+        /// </param>
         /// <param name="emojis">One or more emoji corresponding to the sticker</param>
         public AddStickerToSetRequest(long userId, string name, InputOnlineFile pngSticker, string emojis)
             : base("addStickerToSet")
@@ -61,7 +75,7 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         public override HttpContent? ToHttpContent() =>
-            PngSticker is null
+            PngSticker.Content is null
                 ? base.ToHttpContent()
                 : ToMultipartFormDataContent("tgs_sticker", PngSticker);
     }

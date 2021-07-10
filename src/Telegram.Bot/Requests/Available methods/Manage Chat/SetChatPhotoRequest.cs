@@ -1,6 +1,7 @@
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InputFiles;
@@ -9,14 +10,14 @@ using Telegram.Bot.Types.InputFiles;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Returns True on success.
+    /// Use this method to set a new profile photo for the chat. Photos can't be changed for private
+    /// chats. The bot must be an administrator in the chat for this to work and must have the appropriate
+    /// admin rights. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SetChatPhotoRequest : FileRequestBase<bool>
+    public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -29,7 +30,9 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with chatId and photo
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         /// <param name="photo">New chat photo, uploaded using multipart/form-data</param>
         public SetChatPhotoRequest(ChatId chatId, InputFileStream photo)
             : base("setChatPhoto")

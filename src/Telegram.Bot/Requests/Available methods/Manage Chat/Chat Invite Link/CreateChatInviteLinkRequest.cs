@@ -2,20 +2,22 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. The link can be revoked using the method <see cref="RevokeChatInviteLinkRequest"/>. Returns the new invite link as <see cref="Types.ChatInviteLink"/> object.
+    /// Use this method to create an additional invite link for a chat. The bot must be an
+    /// administrator in the chat for this to work and must have the appropriate admin rights.
+    /// The link can be revoked using the method <see cref="RevokeChatInviteLinkRequest"/>.
+    /// Returns the new invite link as <see cref="Types.ChatInviteLink"/> object.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>
+    public class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -27,7 +29,8 @@ namespace Telegram.Bot.Requests
         public DateTime? ExpireDate { get; set; }
 
         /// <summary>
-        ///	Maximum number of users that can be members of the chat simultaneously after joining the chat via this invite link; 1-99999
+        ///	Maximum number of users that can be members of the chat simultaneously after joining the
+        /// chat via this invite link; 1-99999
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? MemberLimit { get; set; }
@@ -35,7 +38,9 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with chatId
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         public CreateChatInviteLinkRequest(ChatId chatId)
             : base("createChatInviteLink")
         {

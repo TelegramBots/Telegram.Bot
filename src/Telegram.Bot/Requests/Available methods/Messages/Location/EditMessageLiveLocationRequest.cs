@@ -8,15 +8,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to edit live location messages. A location can be edited until its <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to <see cref="StopMessageLiveLocationRequest"/>. On success the edited <see cref="Message"/> is returned.
+    /// Use this method to edit live location messages. A location can be edited until its
+    /// <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to
+    /// <see cref="StopMessageLiveLocationRequest"/>. On success the edited <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditMessageLiveLocationRequest : RequestBase<Message>,
-                                                  IInlineReplyMarkupMessage
+    public class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
@@ -30,13 +29,13 @@ namespace Telegram.Bot.Requests
         /// Latitude of new location
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; }
+        public double Latitude { get; }
 
         /// <summary>
         /// Longitude of new location
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; }
+        public double Longitude { get; }
 
         /// <summary>
         /// The radius of uncertainty for the location, measured in meters; 0-1500
@@ -51,23 +50,27 @@ namespace Telegram.Bot.Requests
         public int? Heading { get; set; }
 
         /// <summary>
-        /// Maximum distance for proximity alerts about approaching another chat member, in meters. Must be between 1 and 100000 if specified.
+        /// Maximum distance for proximity alerts about approaching another chat member, in meters.
+        /// Must be between 1 and 100000 if specified.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ProximityAlertRadius { get; set; }
 
-        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
+        /// <inheritdoc cref="Abstractions.Documentation.InlineReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId, messageId, latitude and longitude
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         /// <param name="messageId">Identifier of the message to edit</param>
         /// <param name="latitude">Latitude of new location</param>
         /// <param name="longitude">Longitude of new location</param>
-        public EditMessageLiveLocationRequest(ChatId chatId, int messageId, float latitude, float longitude)
+        public EditMessageLiveLocationRequest(ChatId chatId, int messageId, double latitude, double longitude)
             : base("editMessageLiveLocation")
         {
             ChatId = chatId;
@@ -77,3 +80,5 @@ namespace Telegram.Bot.Requests
         }
     }
 }
+
+

@@ -10,17 +10,18 @@ namespace Telegram.Bot.Requests
     /// Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class ForwardMessageRequest : RequestBase<Message>,
-                                         INotifiableMessage
+    public class ForwardMessageRequest : RequestBase<Message>, IChatTargetable
     {
         /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
+        /// Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
         /// <summary>
-        /// Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)
+        /// Unique identifier for the chat where the original message was sent
+        /// (or channel username in the format <c>@channelusername</c>)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public ChatId FromChatId { get; }
@@ -31,20 +32,27 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public int MessageId { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableNotification { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId, fromChatId and messageId
         /// </summary>
-        /// <param name="chatdId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
-        /// <param name="fromChatId">Unique identifier for the chat where the original message was sent (or channel username in the format <c>@channelusername</c>)</param>
-        /// <param name="messageId">Message identifier in the chat specified in <see cref="FromChatId"/></param>
-        public ForwardMessageRequest(ChatId chatdId, ChatId fromChatId, int messageId)
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
+        /// <param name="fromChatId">
+        /// Unique identifier for the chat where the original message was sent
+        /// (or channel username in the format <c>@channelusername</c>)
+        /// </param>
+        /// <param name="messageId">
+        /// Message identifier in the chat specified in <see cref="FromChatId"/>
+        /// </param>
+        public ForwardMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
             : base("forwardMessage")
         {
-            ChatId = chatdId;
+            ChatId = chatId;
             FromChatId = fromChatId;
             MessageId = messageId;
         }

@@ -10,16 +10,12 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to edit text and game messages. On success True is returned.
+    /// Use this method to edit text and game messages. On success <c>true</c> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditInlineMessageTextRequest : RequestBase<bool>,
-                                                IFormattableMessage,
-                                                IInlineMessage,
-                                                IInlineReplyMarkupMessage,
-                                                IEntities
+    public class EditInlineMessageTextRequest : RequestBase<bool>
     {
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
         [JsonProperty(Required = Required.Always)]
         public string InlineMessageId { get; }
 
@@ -29,11 +25,11 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public string Text { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ParseMode"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.Entities"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public IEnumerable<MessageEntity>? Entities { get; set; }
 
@@ -43,7 +39,7 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableWebPagePreview { get; set; }
 
-        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
+        /// <inheritdoc cref="Documentation.ReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 

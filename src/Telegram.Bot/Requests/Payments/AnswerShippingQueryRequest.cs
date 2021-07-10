@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Payments;
@@ -7,7 +7,10 @@ using Telegram.Bot.Types.Payments;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// If you sent an invoice requesting a shipping address and the parameter <see cref="SendInvoiceRequest.IsFlexible"/> was specified, the Bot API will send an <see cref="Types.Update"/> with a <see cref="Types.Update.ShippingQuery"/> field to the bot. Use this method to reply to shipping queries. On success, True is returned.
+    /// If you sent an invoice requesting a shipping address and the parameter
+    /// <see cref="SendInvoiceRequest.IsFlexible"/> was specified, the Bot API will send an
+    /// <see cref="Types.Update"/> with a <see cref="Types.Update.ShippingQuery"/> field to the
+    /// bot. Use this method to reply to shipping queries. On success, <c>true</c> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class AnswerShippingQueryRequest : RequestBase<bool>
@@ -19,7 +22,8 @@ namespace Telegram.Bot.Requests
         public string ShippingQueryId { get; }
 
         /// <summary>
-        /// Specify True if delivery to the specified address is possible and False if there are any problems (for example, if delivery to the specified address is not possible)
+        /// Specify <c>true</c> if delivery to the specified address is possible and <c>false</c>
+        /// if there are any problems (for example, if delivery to the specified address is not possible)
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public bool Ok { get; }
@@ -31,7 +35,9 @@ namespace Telegram.Bot.Requests
         public IEnumerable<ShippingOption>? ShippingOptions { get; }
 
         /// <summary>
-        /// Required if <see cref="Ok"/> is False. Error message in human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address is unavailable'). Telegram will display this message to the user.
+        /// Required if <see cref="Ok"/> is False. Error message in human readable form that explains
+        /// why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address
+        /// is unavailable'). Telegram will display this message to the user.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? ErrorMessage { get; }
@@ -54,8 +60,9 @@ namespace Telegram.Bot.Requests
         /// </summary>
         /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
         /// <param name="shippingOptions">A JSON-serialized array of available shipping options</param>
-        public AnswerShippingQueryRequest(string shippingQueryId, IEnumerable<ShippingOption> shippingOptions)
-            : base("answerShippingQuery")
+        public AnswerShippingQueryRequest(
+            string shippingQueryId,
+            IEnumerable<ShippingOption> shippingOptions) : base("answerShippingQuery")
         {
             ShippingQueryId = shippingQueryId;
             Ok = true;

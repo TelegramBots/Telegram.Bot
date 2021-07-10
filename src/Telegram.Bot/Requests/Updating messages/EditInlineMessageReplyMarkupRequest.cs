@@ -7,18 +7,16 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to edit only the reply markup of messages. On success True is returned.
+    /// Use this method to edit only the reply markup of messages. On success <c>true</c> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>,
-                                                       IInlineMessage,
-                                                       IInlineReplyMarkupMessage
+    public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
     {
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
         [JsonProperty(Required = Required.Always)]
         public string InlineMessageId { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 

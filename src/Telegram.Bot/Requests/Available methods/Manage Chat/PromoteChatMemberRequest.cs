@@ -1,25 +1,24 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass <c>False</c> for all boolean parameters to demote a user. Returns <c>True</c> on success.
+    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be
+    /// an administrator in the chat for this to work and must have the appropriate admin rights.
+    /// Pass <c>false</c> for all boolean parameters to demote a user. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class PromoteChatMemberRequest : RequestBase<bool>
+    public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
-        /// <summary>
-        /// Unique identifier of the target user
-        /// </summary>
+        /// <inheritdoc />
         [JsonProperty(Required = Required.Always)]
         public long UserId { get; }
 
@@ -30,7 +29,9 @@ namespace Telegram.Bot.Requests
         public bool? IsAnonymous { get; set; }
 
         /// <summary>
-        /// Pass True, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+        /// Pass True, if the administrator can access the chat event log, chat statistics, message
+        /// statistics in channels, see channel members, see anonymous administrators in supergroups
+        /// and ignore slow mode. Implied by any other administrator privilege
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanManageChat { get; set; }
@@ -42,7 +43,8 @@ namespace Telegram.Bot.Requests
         public bool? CanPostMessages { get; set; }
 
         /// <summary>
-        /// Pass True, if the administrator can edit messages of other users and can pin messages, channels only
+        /// Pass True, if the administrator can edit messages of other users and can pin messages,
+        /// channels only
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanEditMessages { get; set; }
@@ -66,7 +68,9 @@ namespace Telegram.Bot.Requests
         public bool? CanRestrictMembers { get; set; }
 
         /// <summary>
-        /// Pass True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
+        /// Pass True, if the administrator can add new administrators with a subset of their own
+        /// privileges or demote administrators that he has promoted, directly or indirectly
+        /// (promoted by administrators that were appointed by him)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? CanPromoteMembers { get; set; }
@@ -92,7 +96,9 @@ namespace Telegram.Bot.Requests
         /// <summary>
         /// Initializes a new request with chatId and userId
         /// </summary>
-        /// <param name="chatId">Unique identifier for the target chat or username of the target channel (in the format <c>@channelusername</c>)</param>
+        /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
         /// <param name="userId">Unique identifier of the target user</param>
         public PromoteChatMemberRequest(ChatId chatId, long userId)
             : base("promoteChatMember")
