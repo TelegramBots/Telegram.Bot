@@ -63,6 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Interface `IUserTargetable`
 
 ### Changed
+- Type `InlineQueryResultBase` renamed to `InlineQueryResult`
 - Type `ChatMember` is made abstract
 - Property `ChatMember.Status` is made abstract
 - Every use of enum `ParseMode` is made nullable to represent default text mode without any markup
