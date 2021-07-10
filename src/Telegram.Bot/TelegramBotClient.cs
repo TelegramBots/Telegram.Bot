@@ -635,11 +635,11 @@ namespace Telegram.Bot
                 Thumb = thumb,
                 ParseMode = parseMode,
                 CaptionEntities = captionEntities,
+                DisableContentTypeDetection = disableContentTypeDetection,
                 DisableNotification = disableNotification,
                 ReplyToMessageId = replyToMessageId,
                 AllowSendingWithoutReply = allowSendingWithoutReply,
                 ReplyMarkup = replyMarkup,
-                DisableContentTypeDetection = disableNotification
             }, cancellationToken);
 
         /// <inheritdoc />
