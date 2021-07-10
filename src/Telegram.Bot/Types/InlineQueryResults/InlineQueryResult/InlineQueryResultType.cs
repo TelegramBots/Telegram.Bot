@@ -1,13 +1,13 @@
-using System.Runtime.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Converters;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Type of the InlineQueryResult
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter), true)]
+    [JsonConverter(typeof(InlineQueryResultTypeConverter))]
     public enum InlineQueryResultType
     {
         /// <summary>
@@ -36,7 +36,6 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <see cref="InlineQueryResultMpeg4Gif"/>
         /// <see cref="InlineQueryResultCachedVideo"/>
         /// </summary>
-        [EnumMember(Value = "mpeg4_gif")]
         Mpeg4Gif,
 
         /// <summary>
