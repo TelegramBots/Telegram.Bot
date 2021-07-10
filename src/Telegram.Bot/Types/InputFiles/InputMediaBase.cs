@@ -46,9 +46,6 @@ namespace Telegram.Bot.Types
         /// Initialize an object
         /// </summary>
         /// <param name="media">File to send</param>
-        protected InputMediaBase(InputMedia media)
-        {
-            Media = media;
-        }
+        protected InputMediaBase(InputMedia media) => Media = media;
     }
 }

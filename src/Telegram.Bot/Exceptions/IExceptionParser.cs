@@ -1,5 +1,3 @@
-using Telegram.Bot.Types;
-
 namespace Telegram.Bot.Exceptions
 {
     /// <summary>

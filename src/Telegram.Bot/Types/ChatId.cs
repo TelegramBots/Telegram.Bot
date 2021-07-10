@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
@@ -112,15 +112,12 @@ namespace Telegram.Bot.Types
         public static bool operator ==(ChatId? obj1, ChatId? obj2)
         {
             if (ReferenceEquals(obj1, obj2)) { return true; }
-            if (obj1 is null || obj2 is null)
-            { return false; }
+            if (obj1 is null || obj2 is null) { return false; }
 
             // checking by Identifier is more consistent but we should check that its value isn`t default
-            if (obj1.Identifier != 0)
-            {
-                return obj1.Identifier == obj2.Identifier || obj1.Username == obj2.Username;
-            }
-            return obj1.Identifier == obj2.Identifier && obj1.Username == obj2.Username;
+            return obj1.Identifier != 0
+                ? obj1.Identifier == obj2.Identifier || obj1.Username == obj2.Username
+                : obj1.Identifier == obj2.Identifier && obj1.Username == obj2.Username;
         }
 
         /// <summary>

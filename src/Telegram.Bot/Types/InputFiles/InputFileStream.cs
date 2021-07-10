@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -50,7 +51,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// Constructs an <see cref="InputFileStream"/> from a <see cref="Stream"/>
         /// </summary>
         /// <param name="stream">A <see cref="Stream"/> containing a file to send</param>
-        public static implicit operator InputFileStream?(Stream stream) =>
+        [return: NotNullIfNotNull("stream")]
+        public static implicit operator InputFileStream?(Stream? stream) =>
             stream is null ? default : new InputFileStream(stream);
     }
 }

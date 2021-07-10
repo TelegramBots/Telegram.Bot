@@ -44,7 +44,6 @@ namespace Telegram.Bot.Types
         /// <param name="media">File to send</param>
         public InputMediaAnimation(InputMedia media)
             : base(media)
-        {
-        }
+        { }
     }
 }

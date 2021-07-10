@@ -1,11 +1,12 @@
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using static System.Net.WebRequestMethods;
 
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents a <see href="https://telegram.org/blog/video-messages-and-telescope">video message</see> (available in Telegram apps as of <see href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</see>).
+    /// This object represents a <see href="https://telegram.org/blog/video-messages-and-telescope">video message</see>
+    /// (available in Telegram apps as of
+    /// <see href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</see>).
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class VideoNote : FileBase

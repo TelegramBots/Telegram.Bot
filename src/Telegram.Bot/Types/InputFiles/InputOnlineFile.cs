@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -63,6 +64,7 @@ namespace Telegram.Bot.Types.InputFiles
         /// Constructs an <see cref="InputOnlineFile"/> from a string containing a uri or file id
         /// </summary>
         /// <param name="value">A <see cref="string"/> containing a url or file_id</param>
+        [return: NotNullIfNotNull("value")]
         public static implicit operator InputOnlineFile?(string? value) =>
             value is null ? default : new(value);
 

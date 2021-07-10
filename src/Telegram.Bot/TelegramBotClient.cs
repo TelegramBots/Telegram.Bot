@@ -11,7 +11,6 @@ using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
@@ -121,7 +120,7 @@ namespace Telegram.Bot
                 Content = request.ToHttpContent()
             };
 
-            if (OnMakingApiRequest != null)
+            if (OnMakingApiRequest is not null)
             {
                 var requestEventArgs = new ApiRequestEventArgs(
                     request.MethodName,
@@ -130,9 +129,9 @@ namespace Telegram.Bot
                 await OnMakingApiRequest.Invoke(this, requestEventArgs, cancellationToken);
             }
 
-            using HttpResponseMessage? httpResponse = await SendRequestAsync(_httpClient, httpRequest, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await SendRequestAsync(_httpClient, httpRequest, cancellationToken).ConfigureAwait(false);
 
-            if (OnApiResponseReceived != null)
+            if (OnApiResponseReceived is not null)
             {
                 var requestEventArgs = new ApiRequestEventArgs(
                     request.MethodName,
@@ -149,8 +148,11 @@ namespace Telegram.Bot
             {
                 var failedApiResponse = await httpResponse
                     .DeserializeContentAsync<ApiResponse>(
-                        guard: response => response.ErrorCode == default ||
-                                           response.Description is null
+                        guard: response =>
+                            response.ErrorCode == default ||
+                            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+                            response.Description is null
+                            // ReSharper restore ConditionIsAlwaysTrueOrFalse
                     )
                     .ConfigureAwait(false);
 
@@ -234,8 +236,11 @@ namespace Telegram.Bot
             {
                 var failedApiResponse = await httpResponse
                     .DeserializeContentAsync<ApiResponse>(
-                        guard: response => response.ErrorCode == default ||
-                                           response.Description is null
+                        guard: response =>
+                            response.ErrorCode == default ||
+                            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+                            response.Description is null
+                            // ReSharper restore ConditionIsAlwaysTrueOrFalse
                     )
                     .ConfigureAwait(false);
 

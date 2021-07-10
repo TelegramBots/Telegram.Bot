@@ -20,7 +20,6 @@ namespace Telegram.Bot.Types
         /// <param name="media">File to send</param>
         public InputMediaPhoto(InputMedia media)
             : base(media)
-        {
-        }
+        { }
     }
 }

@@ -1,3 +1,4 @@
+﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
@@ -39,6 +40,7 @@ namespace Telegram.Bot.Types
         /// file_id to send a file that exists on the Telegram servers or an HTTP URL for Telegram to get a file
         /// from the Internet
         /// </param>
+        [return: NotNullIfNotNull("value")]
         public static implicit operator InputMedia?(string? value) =>
             value is null ? default : new InputMedia(value);
     }
