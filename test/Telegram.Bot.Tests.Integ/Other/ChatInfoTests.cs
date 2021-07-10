@@ -58,12 +58,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             );
 
             Assert.Equal(ChatMemberStatus.Administrator, memberBot.Status);
-            Assert.IsType<ChatMemberAdministrator>(memberBot);
-
-            if (memberBot is not ChatMemberAdministrator administrator)
-            {
-                throw new XunitException("Should not ever be thrown");
-            }
+            ChatMemberAdministrator administrator = Assert.IsType<ChatMemberAdministrator>(memberBot);
 
             Assert.True(administrator.CanChangeInfo);
             Assert.True(administrator.CanDeleteMessages);
@@ -87,10 +82,10 @@ namespace Telegram.Bot.Tests.Integ.Other
                 chatId: _fixture.SupergroupChat.Id
             );
 
-            ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
+            ChatMember? memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
             Assert.IsType<ChatMemberOwner>(memberCreator);
 
-            ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
+            ChatMember? memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
             Debug.Assert(memberBot != null);
 
             Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator

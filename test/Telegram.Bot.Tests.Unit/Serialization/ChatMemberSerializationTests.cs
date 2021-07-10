@@ -29,10 +29,11 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             var chatMemberJson = JsonConvert.SerializeObject(creator, Formatting.Indented);
             var chatMember = JsonConvert.DeserializeObject<ChatMember>(chatMemberJson);
 
-            Assert.IsType<ChatMemberOwner>(chatMember);
+            ChatMemberOwner owner = Assert.IsType<ChatMemberOwner>(chatMember);
+
             Assert.Equal(ChatMemberStatus.Creator, chatMember.Status);
-            Assert.True(((ChatMemberOwner)chatMember).IsAnonymous);
-            Assert.Equal("custom test title", ((ChatMemberOwner)chatMember).CustomTitle);
+            Assert.True(owner.IsAnonymous);
+            Assert.Equal("custom test title", owner.CustomTitle);
             Assert.NotNull(chatMember.User);
             Assert.Equal(12345, chatMember.User.Id);
             Assert.True(chatMember.User.IsBot);

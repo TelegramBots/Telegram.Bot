@@ -6,7 +6,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using Xunit.Sdk;
 using Constants = Telegram.Bot.Tests.Integ.Framework.Constants;
 
 namespace Telegram.Bot.Tests.Integ.Admin_Bot
@@ -30,6 +29,18 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Kick, Unban, and Invite chat member back
 
+        [OrderedFact("Should get banned chat member with member status and of ChatMemberMember type")]
+        public async Task Should_Get_Chat_Member_Member()
+        {
+            ChatMember chatMember = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            Assert.Equal(ChatMemberStatus.Member, chatMember.Status);
+            ChatMemberMember member = Assert.IsType<ChatMemberMember>(chatMember);
+        }
+
         [OrderedFact("Should kick user from chat and ban him/her for ever")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_For_Ever()
@@ -38,6 +49,19 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId
             );
+        }
+
+        [OrderedFact("Should get banned chat member with kicked status and of ChatMemberBanned type")]
+        public async Task Should_Get_Chat_Member_Kicked()
+        {
+            ChatMember chatMember = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            Assert.Equal(ChatMemberStatus.Kicked, chatMember.Status);
+            ChatMemberBanned bannedChatMember = Assert.IsType<ChatMemberBanned>(chatMember);
+            Assert.Equal(default, bannedChatMember.UntilDate);
         }
 
         [OrderedFact("Should unban a chat member")]
@@ -131,12 +155,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
 
             Assert.Equal(ChatMemberStatus.Administrator, newChatMember.Status);
-            Assert.IsType<ChatMemberAdministrator>(newChatMember);
-
-            if (newChatMember is not ChatMemberAdministrator administrator)
-            {
-                throw new XunitException("Should not ever be thrown");
-            }
+            ChatMemberAdministrator administrator = Assert.IsType<ChatMemberAdministrator>(newChatMember);
 
             Assert.Equal("CHANGED TITLE", administrator.CustomTitle);
 
@@ -178,6 +197,20 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     CanSendOtherMessages = false
                 }
             );
+        }
+
+        [OrderedFact("Should get banned chat member with restricted status and of ChatMemberRestricted type")]
+        public async Task Should_Get_Chat_Member_Restricted()
+        {
+            ChatMember chatMember = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            Assert.Equal(ChatMemberStatus.Restricted, chatMember.Status);
+            ChatMemberRestricted restrictedMember = Assert.IsType<ChatMemberRestricted>(chatMember);
+            Assert.NotEqual(default, restrictedMember.UntilDate);
+            Assert.False(restrictedMember.CanSendOtherMessages);
         }
 
         #endregion
