@@ -1,16 +1,18 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use <see cref="InlineQueryResultVoice.InputMessageContent"/> to send a message with the specified content instead of the the voice message.
+    /// Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this
+    /// voice recording will be sent by the user. Alternatively, you can use
+    /// <see cref="InlineQueryResultVoice.InputMessageContent"/> to send a message with the specified
+    /// content instead of the the voice message.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultVoice : InlineQueryResult,
-                                          ICaptionInlineQueryResult
+    public class InlineQueryResultVoice : InlineQueryResult
     {
         /// <summary>
         /// Type of the result, must be voice
@@ -30,15 +32,15 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(Required = Required.Always)]
         public string Title { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.Caption" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Caption { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ParseMode" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.CaptionEntities" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? CaptionEntities { get; set; }
 
@@ -48,9 +50,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? VoiceDuration { get; set; }
 
-        /// <summary>
-        /// Optional. Content of the message to be sent instead of the voice recording
-        /// </summary>
+        /// <inheritdoc cref="Documentation.InputMessageContent" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent? InputMessageContent { get; set; }
 

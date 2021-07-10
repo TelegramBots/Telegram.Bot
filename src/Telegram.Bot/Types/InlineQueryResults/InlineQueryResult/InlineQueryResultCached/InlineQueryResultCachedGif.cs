@@ -1,16 +1,18 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to an animated GIF file stored on the Telegram servers. By default, this animated GIF file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InlineQueryResultCachedGif.InputMessageContent"/> to send a message with specified content instead of the animation.
+    /// Represents a link to an animated GIF file stored on the Telegram servers. By default, this
+    /// animated GIF file will be sent by the user with an optional caption. Alternatively, you can
+    /// use <see cref="InlineQueryResultCachedGif.InputMessageContent"/> to send a message with
+    /// specified content instead of the animation.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedGif : InlineQueryResult,
-                                              ICaptionInlineQueryResult
+    public class InlineQueryResultCachedGif : InlineQueryResult
     {
         /// <summary>
         /// Type of the result, must be gif
@@ -30,19 +32,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Title { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.Caption" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Caption { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ParseMode" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.CaptionEntities" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? CaptionEntities { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.InputMessageContent" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent? InputMessageContent { get; set; }
 

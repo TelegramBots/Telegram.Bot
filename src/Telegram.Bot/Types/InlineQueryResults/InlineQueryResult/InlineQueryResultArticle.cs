@@ -1,15 +1,14 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
     /// Represents a link to an article or web page.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultArticle : InlineQueryResult,
-                                            IThumbnailInlineQueryResult
+    public class InlineQueryResultArticle : InlineQueryResult
     {
         /// <summary>
         /// Type of the result, must be article
@@ -47,15 +46,15 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Description { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ThumbUrl" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? ThumbUrl { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ThumbWidth" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ThumbWidth { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ThumbHeight" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ThumbHeight { get; set; }
 

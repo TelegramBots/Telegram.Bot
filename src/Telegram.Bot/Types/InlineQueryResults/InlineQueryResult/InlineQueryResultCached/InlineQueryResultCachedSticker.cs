@@ -1,11 +1,14 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to a sticker stored on the Telegram servers. By default, this sticker will be sent by the user. Alternatively, you can use <see cref="InlineQueryResultCachedSticker.InputMessageContent"/> to send a message with the specified content instead of the sticker.
+    /// Represents a link to a sticker stored on the Telegram servers. By default, this sticker will
+    /// be sent by the user. Alternatively, you can use
+    /// <see cref="InlineQueryResultCachedSticker.InputMessageContent"/> to send a message with
+    /// the specified content instead of the sticker.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InlineQueryResultCachedSticker : InlineQueryResult
@@ -22,9 +25,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(Required = Required.Always)]
         public string StickerFileId { get; }
 
-        /// <summary>
-        /// Optional. Content of the message to be sent instead of the sticker
-        /// </summary>
+        /// <inheritdoc cref="Documentation.InputMessageContent" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent? InputMessageContent { get; set; }
 

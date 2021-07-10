@@ -1,19 +1,22 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use <see cref="InlineQueryResultVideo.InputMessageContent"/> to send a message with the specified content instead of the video.
+    /// Represents a link to a page containing an embedded video player or a video file. By default, this
+    /// video file will be sent by the user with an optional caption. Alternatively, you can use
+    /// <see cref="InlineQueryResultVideo.InputMessageContent"/> to send a message with the specified
+    /// content instead of the video.
     /// </summary>
     /// <remarks>
-    /// If an <see cref="InlineQueryResultVideo"/> message contains an embedded video (e.g., YouTube), you <b>must</b> replace its content using <see cref="InlineQueryResultVideo.InputMessageContent"/>.
+    /// If an <see cref="InlineQueryResultVideo"/> message contains an embedded video (e.g., YouTube),
+    /// you <b>must</b> replace its content using <see cref="InlineQueryResultVideo.InputMessageContent"/>.
     /// </remarks>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultVideo : InlineQueryResult,
-                                          ICaptionInlineQueryResult
+    public class InlineQueryResultVideo : InlineQueryResult
     {
         /// <summary>
         /// Type of the result, must be video
@@ -45,17 +48,15 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(Required = Required.Always)]
         public string Title { get; }
 
-        /// <summary>
-        /// Optional. Caption of the video to be sent, 0-1024 characters after entities parsing
-        /// </summary>
+        /// <inheritdoc cref="Documentation.Caption" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Caption { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ParseMode" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.CaptionEntities" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? CaptionEntities { get; set; }
 
@@ -84,7 +85,9 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string? Description { get; set; }
 
         /// <summary>
-        /// Optional. Content of the message to be sent instead of the video. This field is <b>required</b> if <see cref="InlineQueryResultVideo"/> is used to send an HTML-page as a result (e.g., a YouTube video).
+        /// Optional. Content of the message to be sent instead of the video. This field is
+        /// <b>required</b> if <see cref="InlineQueryResultVideo"/> is used to send an
+        /// HTML-page as a result (e.g., a YouTube video).
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent? InputMessageContent { get; set; }
@@ -96,13 +99,17 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="videoUrl">A valid URL for the embedded video player</param>
         /// <param name="thumbUrl">Url of the thumbnail for the result</param>
         /// <param name="title">Title of the result</param>
-        /// <param name="inputMessageContent">Content of the message to be sent instead of the video. This field is <b>required</b> if <see cref="InlineQueryResultVideo"/> is used to send an HTML-page as a result (e.g., a YouTube video).</param>
-        public InlineQueryResultVideo(string id,
-                                      string videoUrl,
-                                      string thumbUrl,
-                                      string title,
-                                      InputMessageContent? inputMessageContent = default)
-            : base(id)
+        /// <param name="inputMessageContent">
+        /// Content of the message to be sent instead of the video. This field is <b>required</b> if
+        /// <see cref="InlineQueryResultVideo"/> is used to send an HTML-page as a result
+        /// (e.g., a YouTube video).
+        /// </param>
+        public InlineQueryResultVideo(
+            string id,
+            string videoUrl,
+            string thumbUrl,
+            string title,
+            InputMessageContent? inputMessageContent = default) : base(id)
         {
             VideoUrl = videoUrl;
             MimeType = inputMessageContent is null ? "video/mp4" : "text/html";

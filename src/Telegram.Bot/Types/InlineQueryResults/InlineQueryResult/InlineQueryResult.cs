@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.ReplyMarkups;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
@@ -28,14 +29,10 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
-
-        ///  <summary>
+        /// <summary>
         /// Initializes a new inline query result
-        ///  </summary>
+        /// </summary>
         /// <param name="id">Unique identifier for this result, 1-64 Bytes</param>
-        protected InlineQueryResult(string id)
-        {
-            Id = id;
-        }
+        protected InlineQueryResult(string id) => Id = id;
     }
 }

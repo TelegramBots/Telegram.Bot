@@ -1,10 +1,12 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents the content of a <see cref="Venue"/> message to be sent as the result of an <see cref="InlineQuery">inline query</see>.
+    /// Represents the content of a <see cref="Venue"/> message to be sent as the result of an
+    /// <see cref="InlineQuery">inline query</see>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputVenueMessageContent : InputMessageContent
@@ -13,13 +15,13 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// Latitude of the venue in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Latitude { get; }
+        public double Latitude { get; }
 
         /// <summary>
         /// Longitude of the venue in degrees
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public float Longitude { get; }
+        public double Longitude { get; }
 
         /// <summary>
         /// Name of the venue
@@ -40,7 +42,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string? FoursquareId { get; set; }
 
         /// <summary>
-        /// Optional. Foursquare type of the venue. (For example, “arts_entertainment/default”, “arts_entertainment/aquarium” or “food/icecream”.)
+        /// Optional. Foursquare type of the venue. (For example, “arts_entertainment/default”,
+        /// “arts_entertainment/aquarium” or “food/icecream”.)
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? FoursquareType { get; set; }
@@ -65,7 +68,7 @@ namespace Telegram.Bot.Types.InlineQueryResults
         /// <param name="address">The address of the venue</param>
         /// <param name="latitude">The latitude of the venue</param>
         /// <param name="longitude">The longitude of the venue</param>
-        public InputVenueMessageContent(string title, string address, float latitude, float longitude)
+        public InputVenueMessageContent(string title, string address, double latitude, double longitude)
         {
             Title = title;
             Address = address;

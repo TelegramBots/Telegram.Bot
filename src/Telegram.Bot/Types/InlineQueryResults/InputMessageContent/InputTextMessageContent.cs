@@ -2,10 +2,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents the content of a text message to be sent as the result of an <see cref="InlineQuery">inline query</see>.
+    /// Represents the content of a text message to be sent as the result of an
+    /// <see cref="InlineQuery">inline query</see>.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class InputTextMessageContent : InputMessageContent
@@ -17,13 +19,16 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string MessageText { get; }
 
         /// <summary>
-        /// Optional. Mode for <see href="https://core.telegram.org/bots/api#formatting-options">parsing entities</see> in the message text. See formatting options for more details.
+        /// Optional. Mode for
+        /// <see href="https://core.telegram.org/bots/api#formatting-options">parsing entities</see> in the message
+        /// text. See formatting options for more details.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
         /// <summary>
-        /// Optional. List of special entities that appear in message text, which can be specified instead of <see cref="ParseMode"/>
+        /// Optional. List of special entities that appear in message text, which can be specified
+        /// instead of <see cref="ParseMode"/>
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? Entities { get; set; } // ToDo: add test

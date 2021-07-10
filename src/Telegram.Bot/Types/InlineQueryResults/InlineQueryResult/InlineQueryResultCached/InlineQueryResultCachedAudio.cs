@@ -1,16 +1,18 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio file will be sent by the user. Alternatively, you can use <see cref="InlineQueryResultCachedAudio.InputMessageContent"/> to send a message with the specified content instead of the audio.
+    /// Represents a link to an MP3 audio file stored on the Telegram servers. By default, this audio
+    /// file will be sent by the user. Alternatively, you can use
+    /// <see cref="InlineQueryResultCachedAudio.InputMessageContent"/> to send a message with the
+    /// specified content instead of the audio.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultCachedAudio : InlineQueryResult,
-                                                ICaptionInlineQueryResult
+    public class InlineQueryResultCachedAudio : InlineQueryResult
     {
         /// <summary>
         /// Type of the result, must be audio
@@ -24,21 +26,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(Required = Required.Always)]
         public string AudioFileId { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.Caption" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Caption { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ParseMode" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.CaptionEntities" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? CaptionEntities { get; set; }
 
-        /// <summary>
-        /// Optional. Content of the message to be sent instead of the audio
-        /// </summary>
+        /// <inheritdoc cref="Documentation.InputMessageContent" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent? InputMessageContent { get; set; }
 

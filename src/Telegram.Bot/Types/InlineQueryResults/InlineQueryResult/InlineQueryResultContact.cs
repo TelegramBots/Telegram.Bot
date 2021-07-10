@@ -1,15 +1,16 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use <see cref="InlineQueryResultContact.InputMessageContent"/> to send a message with the specified content instead of the contact.
+    /// Represents a contact with a phone number. By default, this contact will be sent by the user.
+    /// Alternatively, you can use <see cref="InlineQueryResultContact.InputMessageContent"/> to send
+    /// a message with the specified content instead of the contact.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultContact : InlineQueryResult,
-                                            IThumbnailInlineQueryResult
+    public class InlineQueryResultContact : InlineQueryResult
     {
         /// <summary>
         /// Type of the result, must be contact
@@ -41,21 +42,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Vcard { get; set; }
 
-        /// <summary>
-        /// Optional. Content of the message to be sent instead of the contact
-        /// </summary>
+        /// <inheritdoc cref="Documentation.InputMessageContent" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent? InputMessageContent { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ThumbUrl" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? ThumbUrl { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ThumbWidth" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ThumbWidth { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ThumbHeight" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ThumbHeight { get; set; }
 

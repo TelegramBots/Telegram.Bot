@@ -1,16 +1,18 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InlineQueryResults.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults
 {
     /// <summary>
-    /// Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use <see cref="InlineQueryResultGif.InputMessageContent"/> to send a message with the specified content instead of the animation.
+    /// Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the
+    /// user with optional caption. Alternatively, you can use
+    /// <see cref="InlineQueryResultGif.InputMessageContent"/> to send a message with the
+    /// specified content instead of the animation.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class InlineQueryResultGif : InlineQueryResult,
-                                        ICaptionInlineQueryResult
+    public class InlineQueryResultGif : InlineQueryResult
     {
         /// <summary>
         /// Type of the result, must be gif
@@ -49,7 +51,8 @@ namespace Telegram.Bot.Types.InlineQueryResults
         public string ThumbUrl { get; }
 
         /// <summary>
-        /// Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”, or “video/mp4”. Defaults to “image/jpeg”
+        /// Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”,
+        /// or “video/mp4”. Defaults to “image/jpeg”
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? ThumbMimeType { get; set; }
@@ -60,23 +63,19 @@ namespace Telegram.Bot.Types.InlineQueryResults
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Title { get; set; }
 
-        /// <summary>
-        /// Optional. Caption of the GIF file to be sent, 0-1024 characters after entities parsing
-        /// </summary>
+        /// <inheritdoc cref="Documentation.Caption" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Caption { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.ParseMode" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public ParseMode? ParseMode { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Documentation.CaptionEntities" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public MessageEntity[]? CaptionEntities { get; set; }
 
-        /// <summary>
-        /// Optional. Content of the message to be sent instead of the GIF animation
-        /// </summary>
+        /// <inheritdoc cref="Documentation.InputMessageContent" />
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public InputMessageContent? InputMessageContent { get; set; }
 
