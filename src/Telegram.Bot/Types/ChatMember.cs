@@ -221,7 +221,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         [JsonConverter(typeof(BanTimeUnixDateTimeConverter))]
-        public DateTime UntilDate { get; set; }
+        public DateTime? UntilDate { get; set; }
     }
 
     /// <summary>
@@ -249,6 +249,6 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         [JsonConverter(typeof(BanTimeUnixDateTimeConverter))]
-        public DateTime UntilDate { get; set; }
+        public DateTime? UntilDate { get; set; }
     }
 }
