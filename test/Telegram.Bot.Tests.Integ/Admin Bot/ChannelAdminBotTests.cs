@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -13,11 +12,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChannelAdminBotTests : IClassFixture<ChannelAdminBotTestFixture>
     {
-        private readonly ChannelAdminBotTestFixture _classFixture;
+        readonly ChannelAdminBotTestFixture _classFixture;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
         public ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTestFixture classFixture)
         {

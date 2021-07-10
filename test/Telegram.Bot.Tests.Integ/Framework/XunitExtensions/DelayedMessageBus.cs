@@ -11,14 +11,10 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
     /// </summary>
     public class DelayedMessageBus : IMessageBus
     {
-        private readonly IMessageBus _innerBus;
+        readonly IMessageBus _innerBus;
+        readonly List<IMessageSinkMessage> _messages = new();
 
-        private readonly List<IMessageSinkMessage> _messages = new();
-
-        public DelayedMessageBus(IMessageBus innerBus)
-        {
-            _innerBus = innerBus;
-        }
+        public DelayedMessageBus(IMessageBus innerBus) => _innerBus = innerBus;
 
         /// <inheritdoc />
         public bool QueueMessage(IMessageSinkMessage message)

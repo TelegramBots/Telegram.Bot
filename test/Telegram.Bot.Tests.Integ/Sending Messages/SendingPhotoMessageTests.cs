@@ -15,11 +15,11 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SendingPhotoMessageTests : IClassFixture<EntityFixture<Message>>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private readonly EntityFixture<Message> _classFixture;
+        readonly EntityFixture<Message> _classFixture;
 
         public SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Message> classFixture)
         {

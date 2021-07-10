@@ -7,7 +7,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
 using Xunit.Abstractions;
-using static System.Net.WebRequestMethods;
 using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot.Tests.Integ.Other
@@ -16,11 +15,11 @@ namespace Telegram.Bot.Tests.Integ.Other
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class FileDownloadTests : IClassFixture<FileDownloadTests.Fixture>
     {
-        private readonly ITestOutputHelper _output;
-        private readonly Fixture _classFixture;
-        private readonly TestsFixture _fixture;
+        readonly ITestOutputHelper _output;
+        readonly Fixture _classFixture;
+        readonly TestsFixture _fixture;
 
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
         public FileDownloadTests(TestsFixture fixture, Fixture classFixture, ITestOutputHelper output)
         {
@@ -117,9 +116,10 @@ namespace Telegram.Bot.Tests.Integ.Other
         {
             Stream content = default;
 
-            ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
             {
-                await BotClient.DownloadFileAsync("Invalid_File_Path", content!);
+                // ReSharper disable once AssignNullToNotNullAttribute
+                await BotClient.DownloadFileAsync("Invalid_File_Path", content);
             });
 
             Assert.Null(content);

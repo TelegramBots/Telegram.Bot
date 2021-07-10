@@ -11,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ReplyMarkupTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public ReplyMarkupTests(TestsFixture testsFixture)
         {

@@ -11,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Polls
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SelfStoppingPollTests : IClassFixture<SelfStoppingPollTestsFixture>
     {
-        private readonly SelfStoppingPollTestsFixture _classFixture;
-        private TestsFixture Fixture => _classFixture.TestsFixture;
-        private ITelegramBotClient BotClient => Fixture.BotClient;
+        readonly SelfStoppingPollTestsFixture _classFixture;
+        TestsFixture Fixture => _classFixture.TestsFixture;
+        ITelegramBotClient BotClient => Fixture.BotClient;
 
         public SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture)
         {

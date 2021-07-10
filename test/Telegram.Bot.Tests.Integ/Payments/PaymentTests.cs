@@ -20,10 +20,10 @@ namespace Telegram.Bot.Tests.Integ.Payments
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
     {
-        private readonly TestsFixture _fixture;
-        private readonly PaymentFixture _classFixture;
+        readonly TestsFixture _fixture;
+        readonly PaymentFixture _classFixture;
 
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
         public PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         {
@@ -575,7 +575,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             await BotClient.MakeRequestAsync(requestRequest);
         }
 
-        private async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default)
+        async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default)
         {
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -589,7 +589,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             return update;
         }
 
-        private async Task<Update> GetPreCheckoutQueryUpdate(CancellationToken cancellationToken = default)
+        async Task<Update> GetPreCheckoutQueryUpdate(CancellationToken cancellationToken = default)
         {
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 cancellationToken: cancellationToken,
@@ -602,7 +602,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             return update;
         }
 
-        private async Task<Update> GetSuccessfulPaymentUpdate(CancellationToken cancellationToken = default)
+        async Task<Update> GetSuccessfulPaymentUpdate(CancellationToken cancellationToken = default)
         {
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
                 predicate: u => u.Message.Type == MessageType.SuccessfulPayment,

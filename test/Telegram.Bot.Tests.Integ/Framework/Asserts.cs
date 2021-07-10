@@ -51,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             );
         }
 
-        private static JToken RemoveFields(this JToken token, params string[] fields)
+        static JToken RemoveFields(this JToken token, params string[] fields)
         {
             if (fields?.Length > 0)
             {
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             return token;
         }
 
-        private static void _RemoveFields(JToken token, string[] fields)
+        static void _RemoveFields(JToken token, string[] fields)
         {
             if (fields.Length > 0 && token is JContainer container)
             {

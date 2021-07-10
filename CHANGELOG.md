@@ -59,6 +59,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `string ForceReplyMarkup.InputFieldPlaceholder { get; set; }`
 - Property `string ReplyKeyboardMarkup.InputFieldPlaceholder { get; set; }`
 - Enum `EncryptedPassportElementType`
+- Interface `IChatTargetable`
+- Interface `IUserTargetable`
 
 ### Changed
 - Type `ChatMember` is made abstract
@@ -93,6 +95,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property setter `InputMediaBase.Media`
 - Protected setter `InputOnlineFile.Url`
 - All obsolete types, methods and properties related to polling events
+- Following interfaces: `ICaptionEntities`, `IEntities`, `IFormattableEntities`, `IInlineMessage`, 
+  `IInlineReplyMarkupMessage`, `INotifiableMessage`, `IReplyMarkupMessage`, `IReplyMessage`, `IThumbMediaMessage`, 
+  `ICaptionInlineQueryResult`, `ILocationInlineQueryResult`, `IThumbnailInlineQueryResult`, 
+  `IThumbnailUrlInlineQueryResult`
+  
 
 ## [v16.0.0] - 2021-06-13
 

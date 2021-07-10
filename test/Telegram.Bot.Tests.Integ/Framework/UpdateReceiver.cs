@@ -6,18 +6,20 @@ using System.Threading.Tasks;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
+#nullable enable
+
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     public class UpdateReceiver
     {
+        readonly ITelegramBotClient _botClient;
+
         public List<string> AllowedUsernames { get; }
 
-        private readonly ITelegramBotClient _botClient;
-
-        public UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string> allowedUsernames)
+        public UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
         {
             _botClient = botClient;
-            AllowedUsernames = allowedUsernames.ToList();
+            AllowedUsernames = allowedUsernames?.ToList() ?? new();
         }
 
         public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
@@ -57,8 +59,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Func<Update, bool>? predicate = default,
             int offset = 0,
             CancellationToken cancellationToken = default,
-            params UpdateType[] updateTypes
-        )
+            params UpdateType[] updateTypes)
         {
             CancellationTokenSource? cts = default;
             predicate ??= PassthroughPredicate;
@@ -105,21 +106,18 @@ namespace Telegram.Bot.Tests.Integ.Framework
             int? messageId = default,
             string? data = default,
             bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default
-        )
+            CancellationToken cancellationToken = default)
         {
-            if (discardNewUpdates)
-                await DiscardNewUpdatesAsync(cancellationToken);
+            if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
             var updates = await GetUpdatesAsync(
-                predicate: u =>
-                    (messageId == default || u.CallbackQuery.Message.MessageId == messageId)
-                    && (data == default || u.CallbackQuery.Data == data),
-                updateTypes: new[] { UpdateType.CallbackQuery },
-                cancellationToken: cancellationToken);
+                predicate: u => (messageId == default || u.CallbackQuery?.Message?.MessageId == messageId) &&
+                                (data == default || u.CallbackQuery?.Data == data),
+                updateTypes: new [] { UpdateType.CallbackQuery },
+                cancellationToken: cancellationToken
+            );
 
-            if (discardNewUpdates)
-                await DiscardNewUpdatesAsync(cancellationToken);
+            if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
             var update = updates.First();
             return update;
@@ -127,45 +125,40 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public async Task<Update> GetInlineQueryUpdateAsync(
             bool discardNewUpdates = true,
-            CancellationToken cancellationToken = default
-        )
+            CancellationToken cancellationToken = default)
         {
-            if (discardNewUpdates)
-                await DiscardNewUpdatesAsync(cancellationToken);
+            if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
             var updates = await GetUpdatesAsync(
-                updateTypes: new[] { UpdateType.InlineQuery },
-                cancellationToken: cancellationToken);
+                updateTypes: new [] { UpdateType.InlineQuery },
+                cancellationToken: cancellationToken
+            );
 
-            if (discardNewUpdates)
-                await DiscardNewUpdatesAsync(cancellationToken);
+            if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
             var update = updates.First();
             return update;
         }
 
         /// <summary>
-        /// Receive the chosen inline query result and the message that was sent to chat. Use this method only after bot answers to an inline query.
+        /// Receive the chosen inline query result and the message that was sent to chat. Use this method only after
+        /// bot answers to an inline query.
         /// </summary>
         /// <param name="messageType">Type of message for chosen inline query e.g. Text message for article results</param>
         /// <param name="cancellationToken"></param>
         /// <returns>Message update generated for chosen result, and the update for chosen inline query result</returns>
         public async Task<(Update? MessageUpdate, Update? ChosenResultUpdate)> GetInlineQueryResultUpdates(
             MessageType messageType,
-            CancellationToken cancellationToken = default
-        )
+            CancellationToken cancellationToken = default)
         {
             Update? messageUpdate = default;
             Update? chosenResultUpdate = default;
 
-            while (
-                !cancellationToken.IsCancellationRequested
-                && (messageUpdate is null || chosenResultUpdate is null)
-            )
+            while (ShouldContinue(cancellationToken, messageUpdate ?? chosenResultUpdate))
             {
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
                 var updates = await GetUpdatesAsync(
-                    predicate: u => u.Message?.Type == messageType || u.ChosenInlineResult != null,
+                    predicate: u => u.Message?.Type == messageType || u.ChosenInlineResult is not null,
                     cancellationToken: cancellationToken,
                     updateTypes: new[] { UpdateType.Message, UpdateType.ChosenInlineResult }
                 );
@@ -175,33 +168,31 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
 
             return (messageUpdate, chosenResultUpdate);
+
+            static bool ShouldContinue(CancellationToken cancellationToken, Update? update) =>
+                cancellationToken.IsCancellationRequested || update is null;
         }
 
-        private async Task<Update[]> GetOnlyAllowedUpdatesAsync(
+        async Task<Update[]> GetOnlyAllowedUpdatesAsync(
             int offset,
             CancellationToken cancellationToken,
-            params UpdateType[] types
-        )
+            params UpdateType[] types)
         {
             var updates = await _botClient.GetUpdatesAsync(
-                offset,
+                offset: offset,
                 timeout: 120,
                 allowedUpdates: types,
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationToken
+            );
 
-            var allowedUpdates = updates
-                .Where(u => IsAllowed(u))
-                .ToArray();
-            return allowedUpdates;
+            return updates.Where(IsAllowed).ToArray();
         }
 
-
-        private bool IsAllowed(Update update)
+        bool IsAllowed(Update update)
         {
-            if (AllowedUsernames is null || AllowedUsernames.All(string.IsNullOrWhiteSpace))
-                return true;
+            if (AllowedUsernames.All(string.IsNullOrWhiteSpace)) { return true; }
 
-            bool isAllowed = update.Type switch
+            return update.Type switch
             {
                 UpdateType.Message
                 or UpdateType.InlineQuery
@@ -211,15 +202,19 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 or UpdateType.ChosenInlineResult
                 or UpdateType.PollAnswer
                 or UpdateType.ChatMember
-                or UpdateType.MyChatMember => AllowedUsernames.Contains(
-                                       update.GetUser().Username,
-                                       StringComparer.OrdinalIgnoreCase
-                                   ),
+                or UpdateType.MyChatMember =>
+                    AllowedUsernames.Contains(
+                        update.GetUser()?.Username,
+                        StringComparer.OrdinalIgnoreCase
+                    ),
                 UpdateType.Poll => true,
                 UpdateType.EditedMessage or UpdateType.ChannelPost or UpdateType.EditedChannelPost => false,
-                _ => throw new ArgumentOutOfRangeException(nameof(update.Type)),
+                _ => throw new ArgumentOutOfRangeException(
+                    paramName: nameof(update.Type),
+                    actualValue: update.Type,
+                    message: $"Unsupported update type {update.Type}"
+                ),
             };
-            return isAllowed;
         }
     }
 }

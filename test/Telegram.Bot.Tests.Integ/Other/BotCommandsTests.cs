@@ -9,7 +9,7 @@ namespace Telegram.Bot.Tests.Integ.Other
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class BotCommandsTests : IClassFixture<BotCommandsFixture>
     {
-        private readonly BotCommandsFixture _fixture;
+        readonly BotCommandsFixture _fixture;
 
         public BotCommandsTests(BotCommandsFixture fixture)
         {

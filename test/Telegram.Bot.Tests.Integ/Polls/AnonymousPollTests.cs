@@ -13,10 +13,9 @@ namespace Telegram.Bot.Tests.Integ.Polls
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class AnonymousPollTests : IClassFixture<AnonymousPollTestsFixture>
     {
-
-        private readonly AnonymousPollTestsFixture _classFixture;
-        private TestsFixture Fixture => _classFixture.TestsFixture;
-        private ITelegramBotClient BotClient => Fixture.BotClient;
+        readonly AnonymousPollTestsFixture _classFixture;
+        TestsFixture Fixture => _classFixture.TestsFixture;
+        ITelegramBotClient BotClient => Fixture.BotClient;
 
         public AnonymousPollTests( AnonymousPollTestsFixture classFixture)
         {

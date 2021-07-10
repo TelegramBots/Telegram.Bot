@@ -57,12 +57,14 @@ namespace Telegram.Bot.Tests.Unit
             //with Identifier
             var chatId = new ChatId(123);
             Assert.True(chatId.Equals(123));
+            // ReSharper disable once SuspiciousTypeConversion.Global
             Assert.False(123.Equals(chatId)); // to be aware
             Assert.True(chatId == 123);
             Assert.True(123 == chatId);
 
             chatId = new ChatId("123");
             Assert.True(chatId.Equals(123));
+            // ReSharper disable once SuspiciousTypeConversion.Global
             Assert.False(123.Equals(chatId)); // to be aware
             Assert.True(chatId == 123);
             Assert.True(123 == chatId);

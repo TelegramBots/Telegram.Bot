@@ -6,8 +6,8 @@ namespace Telegram.Bot.Tests.Integ.Other
 {
     public class BotCommandsFixture : AsyncLifetimeFixture
     {
-        private readonly TestsFixture _testsFixture;
-        private BotCommand[] _originalCommands;
+        readonly TestsFixture _testsFixture;
+        BotCommand[] _originalCommands;
 
         public ITelegramBotClient BotClient => _testsFixture.BotClient;
         public BotCommand[] NewBotCommands { get; set; }

@@ -8,7 +8,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
     public class SupergroupAdminBotTestsFixture : AsyncLifetimeFixture
     {
-        private byte[] _oldChatPhoto;
+        byte[] _oldChatPhoto;
 
         public TestsFixture TestsFixture { get; }
         public Chat Chat => TestsFixture.SupergroupChat;

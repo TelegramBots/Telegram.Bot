@@ -14,9 +14,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixture>
     {
-        private readonly SupergroupAdminBotTestsFixture _classFixture;
+        readonly SupergroupAdminBotTestsFixture _classFixture;
 
-        private ITelegramBotClient BotClient => _classFixture.TestsFixture.BotClient;
+        ITelegramBotClient BotClient => _classFixture.TestsFixture.BotClient;
 
         public SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture)
         {

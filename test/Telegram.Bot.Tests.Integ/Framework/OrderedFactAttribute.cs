@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Sdk;
 
+#nullable enable
+
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     /// <summary>
@@ -14,10 +16,14 @@ namespace Telegram.Bot.Tests.Integ.Framework
     [XunitTestCaseDiscoverer(Constants.TestCaseDiscoverer, Constants.AssemblyName)]
     public class OrderedFactAttribute : FactAttribute
     {
+        readonly int _maxRetries = 1;
+        readonly int _delaySeconds = 60;
+        readonly Type _exceptionType = typeof(TaskCanceledException);
+
         /// <summary>
         /// Line number in source file
         /// </summary>
-        public readonly int LineNumber;
+        public int LineNumber { get; }
 
         /// <summary>
         /// Number of test case retry attempts after test case is ran once. Assign 0 to disable test case retry.
@@ -25,10 +31,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public int MaxRetries
         {
             get => _maxRetries;
-            set
+            init
             {
-                if (value < 0)
-                    throw new ArgumentOutOfRangeException(nameof(MaxRetries));
+                if (value < 0) { throw new ArgumentOutOfRangeException(nameof(MaxRetries)); }
                 _maxRetries = value;
             }
         }
@@ -39,11 +44,9 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public int DelaySeconds
         {
             get => _delaySeconds;
-            set
+            init
             {
-                if (value < 1)
-                    throw new ArgumentOutOfRangeException(nameof(DelaySeconds));
-
+                if (value < 1) { throw new ArgumentOutOfRangeException(nameof(DelaySeconds)); }
                 _delaySeconds = value;
             }
         }
@@ -54,48 +57,32 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public Type ExceptionType
         {
             get => _exceptionType;
-            set
+            init
             {
-                if (value is null)
-                    throw new ArgumentNullException(nameof(ExceptionType));
-                if (!(value == typeof(Exception) || value.IsSubclassOf(typeof(Exception))))
+                if (!typeof(Exception).IsAssignableFrom(value))
+                {
                     throw new ArgumentException("Type should be an Exception", nameof(ExceptionType));
+                }
 
                 _exceptionType = value;
-                ExceptionTypeFullName = ExceptionType.FullName;
             }
         }
 
-        internal string? ExceptionTypeFullName { get; private set; }
-
-        private int _maxRetries;
-
-        private int _delaySeconds;
-
-        private Type _exceptionType;
+        internal string? ExceptionTypeFullName => _exceptionType.FullName;
 
         /// <summary>
-        /// Initializes an instance of <see cref="OrderedFactAttribute"/> with 1 retry attempt and delay of 30 seconds if a <see cref="TaskCanceledException"/> is thrown.
+        /// Initializes an instance of <see cref="OrderedFactAttribute"/> with 1 retry attempt and delay of
+        /// 30 seconds if a <see cref="TaskCanceledException"/> is thrown.
         /// </summary>
         /// <param name="description">Description of test case.</param>
         /// <param name="line">Line number in source file.</param>
         public OrderedFactAttribute(string description, [CallerLineNumber] int line = default)
         {
-            if (line < 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(line));
-            }
-
-            if (!string.IsNullOrWhiteSpace(description))
-            {
-                // ReSharper disable once VirtualMemberCallInConstructor
-                DisplayName = description;
-            }
+            if (line < 1) { throw new ArgumentOutOfRangeException(nameof(line)); }
+            // ReSharper disable once VirtualMemberCallInConstructor
+            if (!string.IsNullOrWhiteSpace(description)) { DisplayName = description; }
 
             LineNumber = line;
-            MaxRetries = 1;
-            DelaySeconds = 60;
-            ExceptionType = typeof(TaskCanceledException);
         }
     }
 }

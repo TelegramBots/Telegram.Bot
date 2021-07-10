@@ -5,6 +5,8 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
 
+#nullable disable
+
 namespace Telegram.Bot.Tests.Integ.Games
 {
     /// <summary>
@@ -16,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.Games
 
         public Message GameMessage { set; get; }
 
-        public string? InlineGameMessageId { set; get; }
+        public string InlineGameMessageId { set; get; }
 
         public GameHighScore[] HighScores { set; get; }
 
@@ -49,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
         }
 
-        private static async Task<User> GetPlayerIdFromChatAdmins(TestsFixture testsFixture, long chatId)
+        static async Task<User> GetPlayerIdFromChatAdmins(TestsFixture testsFixture, long chatId)
         {
             ChatMember[] admins = await testsFixture.BotClient.GetChatAdministratorsAsync(chatId);
             ChatMember player = admins[new Random(DateTime.Now.Millisecond).Next(admins.Length)];

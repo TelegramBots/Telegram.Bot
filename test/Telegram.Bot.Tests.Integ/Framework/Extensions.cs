@@ -3,6 +3,8 @@ using System.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
+#nullable enable
+
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     internal static class Extensions

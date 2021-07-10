@@ -15,11 +15,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChatMemberAdministrationTests : IClassFixture<ChatMemberAdministrationTestFixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private readonly ChatMemberAdministrationTestFixture _classFixture;
+        readonly ChatMemberAdministrationTestFixture _classFixture;
 
         public ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdministrationTestFixture classFixture)
         {
@@ -113,8 +113,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             Message serviceMsg = update.Message!;
 
-            Assert.Equal(_classFixture.RegularMemberUserId.ToString(),
-                serviceMsg.NewChatMembers!.Single().Id.ToString());
+            Assert.Equal(
+                _classFixture.RegularMemberUserId.ToString(),
+                serviceMsg!.NewChatMembers!.Single().Id.ToString()
+            );
         }
 
         #endregion

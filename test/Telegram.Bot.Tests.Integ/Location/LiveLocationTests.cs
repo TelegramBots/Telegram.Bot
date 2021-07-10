@@ -12,17 +12,17 @@ namespace Telegram.Bot.Tests.Integ.Locations
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class LiveLocationTests : IClassFixture<EntityFixture<Message>>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private Message LocationMessage
+        Message LocationMessage
         {
             get => _classFixture.Entity;
             set => _classFixture.Entity = value;
         }
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private readonly EntityFixture<Message> _classFixture;
+        readonly EntityFixture<Message> _classFixture;
 
         public LiveLocationTests(TestsFixture fixture, EntityFixture<Message> classFixture)
         {
@@ -61,7 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
                 new Location { Latitude = 35.6892f, Longitude = 51.3890f },  // Tehran
             };
 
-            Message? editedMessage = default;
+            Message editedMessage = default;
             foreach (Location newLocation in locations)
             {
                 await Task.Delay(1_500);

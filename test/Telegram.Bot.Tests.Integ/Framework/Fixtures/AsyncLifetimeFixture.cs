@@ -10,7 +10,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 {
     public abstract class AsyncLifetimeFixture : IAsyncLifetime
     {
-        private readonly List<IAsyncLifetime> _lifetimes = new();
+        readonly List<IAsyncLifetime> _lifetimes = new();
 
         protected void AddLifetime(IAsyncLifetime lifetime)
         {
@@ -44,10 +44,10 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
             }
         }
 
-        private sealed class AsyncLifetimeAction : IAsyncLifetime
+        sealed class AsyncLifetimeAction : IAsyncLifetime
         {
-            private readonly Func<Task>? _initialize;
-            private readonly Func<Task>? _dispose;
+            readonly Func<Task>? _initialize;
+            readonly Func<Task>? _dispose;
 
             public AsyncLifetimeAction(Func<Task>? initialize = default, Func<Task>? dispose = default)
             {

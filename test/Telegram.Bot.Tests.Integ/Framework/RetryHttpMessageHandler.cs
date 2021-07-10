@@ -8,12 +8,14 @@ using Telegram.Bot.Types;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
+#nullable enable
+
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     internal class RetryHttpMessageHandler : HttpClientHandler
     {
-        private readonly int _retryCount;
-        private readonly IMessageSink _diagnosticMessageSink;
+        readonly int _retryCount;
+        readonly IMessageSink _diagnosticMessageSink;
 
         internal RetryHttpMessageHandler(int retryCount, IMessageSink diagnosticMessageSink)
         {

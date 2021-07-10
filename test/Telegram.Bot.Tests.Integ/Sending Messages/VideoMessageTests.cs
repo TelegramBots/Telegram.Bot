@@ -11,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SendingVideoMessageTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public SendingVideoMessageTests(TestsFixture fixture)
         {

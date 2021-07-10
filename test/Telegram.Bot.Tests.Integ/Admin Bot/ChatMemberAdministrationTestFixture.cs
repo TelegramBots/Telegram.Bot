@@ -38,7 +38,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             AddLifetime(() => testsFixture.UpdateReceiver.AllowedUsernames.Remove(RegularMemberUserName));
         }
 
-        private static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
+        static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
         {
             Chat chat;
 

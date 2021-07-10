@@ -11,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ApiExceptionsTests2
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public ApiExceptionsTests2(TestsFixture fixture)
         {

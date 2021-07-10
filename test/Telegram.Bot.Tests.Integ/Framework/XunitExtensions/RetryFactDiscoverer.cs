@@ -6,7 +6,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 {
     public class RetryFactDiscoverer : IXunitTestCaseDiscoverer
     {
-        private readonly IMessageSink _diagnosticMessageSink;
+        readonly IMessageSink _diagnosticMessageSink;
 
         public RetryFactDiscoverer(IMessageSink diagnosticMessageSink)
         {

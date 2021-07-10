@@ -124,7 +124,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             var message = JsonConvert.DeserializeObject<Message>(json);
 
             Assert.Equal(MessageType.Document, message.Type);
-            Assert.Equal("test_file.txt", message.Document.FileName);
+            Assert.Equal("test_file.txt", message.Document?.FileName);
             Assert.Null(message.Chat.CanSetStickerSet);
         }
     }

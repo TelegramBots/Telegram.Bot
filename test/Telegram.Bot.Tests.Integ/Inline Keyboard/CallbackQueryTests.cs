@@ -15,9 +15,9 @@ namespace Telegram.Bot.Tests.Integ.Interactive
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class CallbackQueryTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public CallbackQueryTests(TestsFixture fixture)
         {
@@ -42,10 +42,10 @@ namespace Telegram.Bot.Tests.Integ.Interactive
             );
 
             Update responseUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(message.MessageId);
-            CallbackQuery callbackQuery = responseUpdate.CallbackQuery;
+            CallbackQuery callbackQuery = responseUpdate.CallbackQuery!;
 
             await BotClient.AnswerCallbackQueryAsync(
-                callbackQueryId: callbackQuery.Id,
+                callbackQueryId: callbackQuery!.Id,
                 text: "You clicked on OK"
             );
 

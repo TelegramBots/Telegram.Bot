@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -10,9 +10,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SendingContactMessageTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public SendingContactMessageTests(TestsFixture fixture)
         {

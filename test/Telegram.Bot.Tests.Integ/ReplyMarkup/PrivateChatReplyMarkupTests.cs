@@ -14,11 +14,11 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PrivateChatReplyMarkupTests : IClassFixture<PrivateChatReplyMarkupTests.Fixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly Fixture _classFixture;
+        readonly Fixture _classFixture;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public PrivateChatReplyMarkupTests(TestsFixture testsFixture, Fixture fixture)
         {
@@ -77,7 +77,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        private async Task<Message> GetMessageFromChat(MessageType messageType) =>
+        async Task<Message> GetMessageFromChat(MessageType messageType) =>
             (await _fixture.UpdateReceiver.GetUpdatesAsync(
                 predicate: u => u.Message.Type == messageType &&
                                 u.Message.Chat.Id == _classFixture.PrivateChat.Id,

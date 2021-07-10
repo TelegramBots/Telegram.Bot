@@ -13,11 +13,11 @@ namespace Telegram.Bot.Tests.Integ.Games
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class GamesTests2 : IClassFixture<GamesFixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private readonly GamesFixture _classFixture;
+        readonly GamesFixture _classFixture;
 
         public GamesTests2(TestsFixture fixture, GamesFixture classFixture)
         {
@@ -35,8 +35,10 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
 
             Assert.Equal(MessageType.Game, gameMessage.Type);
-            Assert.NotEmpty(gameMessage.Game.Title);
-            Assert.NotEmpty(gameMessage.Game.Description);
+            Assert.NotNull(gameMessage.Game);
+            Assert.NotNull(gameMessage.Game?.Title);
+            Assert.NotEmpty(gameMessage.Game!.Title);
+            Assert.NotEmpty(gameMessage.Game!.Description);
             Assert.NotNull(gameMessage.Game.Photo);
             Assert.NotEmpty(gameMessage.Game.Photo.Select(p => p.FileId));
             Assert.All(gameMessage.Game.Photo, p => Assert.True(p.FileSize > 100));
@@ -61,7 +63,8 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
 
             Assert.Equal(MessageType.Game, gameMessage.Type);
-            Assert.NotEmpty(gameMessage.Game.Title);
+            Assert.NotNull(gameMessage.Game);
+            Assert.NotEmpty(gameMessage.Game!.Title);
             Assert.NotEmpty(gameMessage.Game.Description);
             Assert.NotNull(gameMessage.Game.Photo);
             Assert.NotEmpty(gameMessage.Game.Photo.Select(p => p.FileId));
@@ -104,7 +107,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             int newScore = oldScore + 1 + new Random().Next(3);
 
             await _fixture.SendTestInstructionsAsync(
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}."
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username!.Replace("_", @"\_")}."
             );
 
             Message gameMessage = await BotClient.SetGameScoreAsync(
@@ -132,7 +135,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             int newScore = oldScore - 1;
 
             await _fixture.SendTestInstructionsAsync(
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}."
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username!.Replace("_", @"\_")}."
             );
 
             Message gameMessage = await BotClient.SetGameScoreAsync(

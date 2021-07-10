@@ -5,7 +5,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Other
 {
@@ -13,14 +12,10 @@ namespace Telegram.Bot.Tests.Integ.Other
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChatInfoTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
+        readonly TestsFixture _fixture;
 
-        private readonly TestsFixture _fixture;
-
-        public ChatInfoTests(TestsFixture fixture)
-        {
-            _fixture = fixture;
-        }
+        public ChatInfoTests(TestsFixture fixture) => _fixture = fixture;
 
         [OrderedFact("Should get supergroup chat info")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
@@ -82,10 +77,10 @@ namespace Telegram.Bot.Tests.Integ.Other
                 chatId: _fixture.SupergroupChat.Id
             );
 
-            ChatMember? memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
+            ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
             Assert.IsType<ChatMemberOwner>(memberCreator);
 
-            ChatMember? memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
+            ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
             Debug.Assert(memberBot != null);
 
             Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator
@@ -116,6 +111,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(privateChatId, chat.Id);
 
             // Mandatory fields:
+            Assert.NotNull(chat.Username);
+            Assert.NotNull(chat.FirstName);
             Assert.NotEmpty(chat.Username);
             Assert.NotEmpty(chat.FirstName);
 

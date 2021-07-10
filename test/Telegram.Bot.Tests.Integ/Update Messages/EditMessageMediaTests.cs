@@ -15,9 +15,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class EditMessageMediaTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public EditMessageMediaTests(TestsFixture fixture)
         {

@@ -11,24 +11,24 @@ namespace Telegram.Bot.Tests.Integ.Payments
 {
     public class PaymentsBuilder
     {
-        private readonly List<ShippingOption> _shippingOptions = new();
-        private Product? _product;
-        private string? _currency;
-        private string? _startParameter;
-        private string? _payload;
-        private long? _chatId;
-        private bool? _needName;
-        private bool? _needEmail;
-        private bool? _needShippingAddress;
-        private bool? _needPhoneNumber;
-        private bool? _isFlexible;
-        private bool? _sendEmailToProvider;
-        private bool? _sendPhoneNumberToProvider;
-        private string? _providerData;
-        private InlineKeyboardMarkup? _replyMarkup;
-        private string? _paymentsProviderToken;
-        private int? _maxTipAmount;
-        private int[]? _suggestedTipAmounts;
+        readonly List<ShippingOption> _shippingOptions = new();
+        Product? _product;
+        string? _currency;
+        string? _startParameter;
+        string? _payload;
+        long? _chatId;
+        bool? _needName;
+        bool? _needEmail;
+        bool? _needShippingAddress;
+        bool? _needPhoneNumber;
+        bool? _isFlexible;
+        bool? _sendEmailToProvider;
+        bool? _sendPhoneNumberToProvider;
+        string? _providerData;
+        InlineKeyboardMarkup? _replyMarkup;
+        string? _paymentsProviderToken;
+        int? _maxTipAmount;
+        int[]? _suggestedTipAmounts;
 
         public PaymentsBuilder WithCurrency(string currency)
         {
@@ -260,9 +260,9 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
         public class ShippingOptionsBuilder
         {
-            private string? _id;
-            private string? _title;
-            private readonly List<LabeledPrice> _shippingPrices = new();
+            string? _id;
+            string? _title;
+            readonly List<LabeledPrice> _shippingPrices = new();
 
             public ShippingOptionsBuilder WithId(string id)
             {
@@ -301,12 +301,12 @@ namespace Telegram.Bot.Tests.Integ.Payments
 
         public class ProductBuilder
         {
-            private string? _description;
-            private string? _title;
-            private string? _photoUrl;
-            private int _photoWidth;
-            private int _photoHeight;
-            private readonly List<LabeledPrice> _productPrices = new();
+            string? _description;
+            string? _title;
+            string? _photoUrl;
+            int _photoWidth;
+            int _photoHeight;
+            readonly List<LabeledPrice> _productPrices = new();
 
             public ProductBuilder WithTitle(string title)
             {

@@ -11,11 +11,13 @@ using Telegram.Bot.Types.ReplyMarkups;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
+#nullable disable
+
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     public class TestsFixture : IDisposable
     {
-        private readonly IMessageSink _diagnosticMessageSink;
+        readonly IMessageSink _diagnosticMessageSink;
 
         public ITelegramBotClient BotClient { get; private set; }
 
@@ -33,9 +35,6 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public static TestsFixture Instance { get; private set; }
 
-        private CancellationToken CancellationToken =>
-            new CancellationTokenSource(TimeSpan.FromSeconds(45)).Token;
-
         public TestsFixture(IMessageSink diagnosticMessageSink)
         {
             _diagnosticMessageSink = diagnosticMessageSink;
@@ -45,43 +44,58 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public void Dispose()
         {
-            UpdateReceiver.DiscardNewUpdatesAsync(CancellationToken).GetAwaiter().GetResult();
+            WithCancellation(async token =>
+            {
+                await UpdateReceiver.DiscardNewUpdatesAsync(token);
+                int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Failed;
 
-            int passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Failed;
-
-            BotClient.SendTextMessageAsync(
-                SupergroupChat.Id,
-                string.Format(
-                    Constants.TestExecutionResultMessageFormat,
-                    RunSummary.Total,
-                    passed,
-                    RunSummary.Skipped,
-                    RunSummary.Failed
-                ),
-                ParseMode.Markdown,
-                cancellationToken: CancellationToken
-            ).GetAwaiter().GetResult();
+                await BotClient.SendTextMessageAsync(
+                    SupergroupChat.Id,
+                    string.Format(
+                        Constants.TestExecutionResultMessageFormat,
+                        RunSummary.Total,
+                        passed,
+                        RunSummary.Skipped,
+                        RunSummary.Failed
+                    ),
+                    ParseMode.Markdown,
+                    cancellationToken: token
+                );
+            }).GetAwaiter().GetResult();
         }
 
-        public Task<Message> SendTestInstructionsAsync(
+        public async Task<T> WithCancellation<T>(Func<CancellationToken, Task<T>> fn)
+        {
+            using var _ = new CancellationTokenSource(TimeSpan.FromSeconds(45));
+            return await fn(_.Token);
+        }
+
+        public async Task WithCancellation(Func<CancellationToken, Task> fn)
+        {
+            using var _ = new CancellationTokenSource(TimeSpan.FromSeconds(45));
+            await fn(_.Token);
+        }
+
+        public async Task<Message> SendTestInstructionsAsync(
             string instructions,
-            ChatId? chatId = default,
-            bool startInlineQuery = false
-        )
+            ChatId chatId = default,
+            bool startInlineQuery = false)
         {
             string text = string.Format(Constants.InstructionsMessageFormat, instructions);
             chatId ??= SupergroupChat.Id;
 
-            IReplyMarkup? replyMarkup = startInlineQuery
+            IReplyMarkup replyMarkup = startInlineQuery
                 ? (InlineKeyboardMarkup)InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("Start inline query")
                 : default;
 
-            return BotClient.SendTextMessageAsync(
-                chatId,
-                text,
-                ParseMode.Markdown,
-                replyMarkup: replyMarkup,
-                cancellationToken: CancellationToken
+            return await WithCancellation(async token =>
+                await BotClient.SendTextMessageAsync(
+                    chatId,
+                    text,
+                    ParseMode.Markdown,
+                    replyMarkup: replyMarkup,
+                    cancellationToken: token
+                )
             );
         }
 
@@ -91,18 +105,29 @@ namespace Telegram.Bot.Tests.Integ.Framework
         public async Task<Message> SendTestCollectionNotificationAsync(
             string collectionName,
             string instructions = default,
-            ChatId chatId = default) =>
-            await SendNotificationToChatAsync(true, collectionName, instructions, chatId);
+            ChatId chatId = default
+        ) =>
+            await WithCancellation(async token =>
+                await SendNotificationToChatAsync(
+                    isForCollection: true,
+                    name: collectionName,
+                    instructions: instructions,
+                    chatId: chatId,
+                    cancellationToken: token
+                )
+            );
 
-        public async Task<Chat> GetChatFromTesterAsync(ChatType chatType, CancellationToken cancellationToken = default)
+        public async Task<Chat> GetChatFromTesterAsync(
+            ChatType chatType,
+            CancellationToken cancellationToken = default)
         {
             bool IsMatch(Update u) =>
             (
-                u.Message.Chat.Type == chatType &&
+                u.Message?.Chat.Type == chatType &&
                 u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true
             ) || (
                 ChatType.Channel == chatType &&
-                ChatType.Channel == u.Message.ForwardFromChat?.Type
+                ChatType.Channel == u.Message?.ForwardFromChat?.Type
             );
 
             var updates = await UpdateReceiver.GetUpdatesAsync(
@@ -116,15 +141,15 @@ namespace Telegram.Bot.Tests.Integ.Framework
             await UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
             return chatType == ChatType.Channel
-                ? update.Message.ForwardFromChat
-                : update.Message.Chat;
+                ? update.Message?.ForwardFromChat
+                : update.Message?.Chat;
         }
 
         public async Task<Chat> GetChatFromAdminAsync()
         {
             static bool IsMatch(Update u) =>
-                u.Message.Type == MessageType.Contact
-                || u.Message.ForwardFrom?.Id is not null;
+                u.Message?.Type == MessageType.Contact ||
+                u.Message?.ForwardFrom?.Id is not null;
 
             var update = (await UpdateReceiver
                 .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message))
@@ -132,36 +157,43 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            long? userId = update.Message.Type == MessageType.Contact
-                ? update.Message.Contact.UserId
-                : update.Message.ForwardFrom.Id;
+            long? userId = update.Message?.Type == MessageType.Contact
+                ? update.Message.Contact?.UserId
+                : update.Message?.ForwardFrom?.Id;
 
-            return await BotClient.GetChatAsync(userId);
+            return await BotClient.GetChatAsync(userId!);
         }
 
-        private async Task InitAsync()
+        async Task InitAsync()
         {
             string apiToken = ConfigurationProvider.TestConfigurations.ApiToken;
 
             var httpClientHandler = new RetryHttpMessageHandler(3, _diagnosticMessageSink);
             var httpClient = new HttpClient(httpClientHandler);
             BotClient = new TelegramBotClient(apiToken, httpClient);
-            BotUser = await BotClient.GetMeAsync(CancellationToken);
-            await BotClient.DeleteWebhookAsync(cancellationToken: CancellationToken);
 
-            SupergroupChat = await FindSupergroupTestChatAsync();
-            var allowedUserNames = await FindAllowedTesterUserNames();
+            var allowedUserNames = await WithCancellation(
+                async token =>
+                {
+                    BotUser = await BotClient.GetMeAsync(token);
+                    await BotClient.DeleteWebhookAsync(cancellationToken: token);
+
+                    SupergroupChat = await FindSupergroupTestChatAsync(token);
+                    return await FindAllowedTesterUserNames(token);
+                }
+            );
+
             UpdateReceiver = new UpdateReceiver(BotClient, allowedUserNames);
 
-            await BotClient.SendTextMessageAsync(
+            await WithCancellation(async token => await BotClient.SendTextMessageAsync(
                 SupergroupChat.Id,
                 "```\nTest execution is starting...\n```\n" +
                 "#testers\n" +
                 "These users are allowed to interact with the bot:\n\n" + UpdateReceiver.GetTesters(),
                 ParseMode.Markdown,
                 disableNotification: true,
-                cancellationToken: CancellationToken
-            );
+                cancellationToken: token
+            ));
 
 #if DEBUG
             BotClient.OnMakingApiRequest += OnMakingApiRequest;
@@ -169,13 +201,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
 #endif
         }
 
-        private Task<Message> SendNotificationToChatAsync(
+        Task<Message> SendNotificationToChatAsync(
             bool isForCollection,
             string name,
             string instructions = default,
             ChatId chatId = default,
-            bool switchInlineQuery = default
-        )
+            bool switchInlineQuery = default,
+            CancellationToken cancellationToken = default)
         {
             var textFormat = isForCollection
                 ? Constants.StartCollectionMessageFormat
@@ -198,12 +230,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 text: text,
                 parseMode: ParseMode.Markdown,
                 replyMarkup: replyMarkup,
-                cancellationToken: CancellationToken
+                cancellationToken: cancellationToken
             );
             return task;
         }
 
-        private async Task<Chat> FindSupergroupTestChatAsync()
+        async Task<Chat> FindSupergroupTestChatAsync(CancellationToken cancellationToken = default)
         {
             Chat supergroupChat;
             string supergroupChatId = ConfigurationProvider.TestConfigurations.SuperGroupChatId;
@@ -215,13 +247,13 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
             else
             {
-                supergroupChat = await BotClient.GetChatAsync(supergroupChatId, CancellationToken);
+                supergroupChat = await BotClient.GetChatAsync(supergroupChatId, cancellationToken);
             }
 
             return supergroupChat;
         }
 
-        private async Task<IEnumerable<string>> FindAllowedTesterUserNames()
+        async Task<IEnumerable<string>> FindAllowedTesterUserNames(CancellationToken cancellationToken = default)
         {
             // Try to get user names from test configurations first
             string[] allowedUserNames = ConfigurationProvider.TestConfigurations.AllowedUserNames
@@ -232,7 +264,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             if (allowedUserNames.Any()) return allowedUserNames;
 
             // Assume all chat admins are allowed testers
-            ChatMember[] admins = await BotClient.GetChatAdministratorsAsync(SupergroupChat, CancellationToken);
+            ChatMember[] admins = await BotClient.GetChatAdministratorsAsync(SupergroupChat, cancellationToken);
             allowedUserNames = admins
                 .Where(member => !member.User.IsBot)
                 .Select(member => member.User.Username)
@@ -246,7 +278,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 #pragma warning disable 219
         // ReSharper disable NotAccessedVariable
         // ReSharper disable RedundantAssignment
-        private async ValueTask OnMakingApiRequest(
+        async ValueTask OnMakingApiRequest(
             ITelegramBotClient botClient,
             ApiRequestEventArgs e,
             CancellationToken cancellationToken = default)
@@ -288,7 +320,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         }
 
         // ReSharper disable UnusedVariable
-        private async ValueTask OnApiResponseReceived(
+        async ValueTask OnApiResponseReceived(
             ITelegramBotClient botClient,
             ApiResponseEventArgs e,
             CancellationToken cancellationToken = default)
@@ -300,7 +332,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
         }
 #pragma warning restore 219
 #endif
-        private static class Constants
+        static class Constants
         {
             public const string StartCollectionMessageFormat = "💬 Test Collection:\n*{0}*";
 
