@@ -231,15 +231,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             await _fixture.SendTestInstructionsAsync(
                 $"Chat admin should kick @{_classFixture.RegularMemberUserName.Replace("_", @"\_")}."
             );
+            Update[] updates = await _fixture.UpdateReceiver
+                .GetUpdatesAsync(
+                    predicate: u => u.ChatMember?.Chat.Id == _fixture.SupergroupChat.Id,
+                    updateTypes: UpdateType.ChatMember
+                )
+                .ConfigureAwait(false);
 
-            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
-
-            Update update = (
-                await _fixture.UpdateReceiver.GetUpdatesAsync(
-                        predicate: u => u.ChatMember!.Chat.Id == _fixture.SupergroupChat.Id,
-                        updateTypes: new[] { UpdateType.ChatMember }
-                    ).ConfigureAwait(false)
-                ).Single();
+            Update update = updates.Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -277,7 +276,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     .GetUpdatesAsync(
                         u => u.Message?.Chat.Id == _fixture.SupergroupChat.Id &&
                              u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: new[] { UpdateType.Message },
+                        updateTypes: UpdateType.Message,
                         cancellationToken: cts.Token
                     )
                 ).Single();

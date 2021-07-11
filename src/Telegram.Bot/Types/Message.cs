@@ -414,7 +414,8 @@ namespace Telegram.Bot.Types
                 { Voice: { } }                         => MessageType.Voice,
                 { Document: { } }                      => MessageType.Document,
                 { Sticker: { } }                       => MessageType.Sticker,
-                { Location: { } }                      => MessageType.Location,
+                // Venue also contains Location
+                { Location: { } } and { Venue: null }  => MessageType.Location,
                 { Venue: { } }                         => MessageType.Venue,
                 { Contact: { } }                       => MessageType.Contact,
                 { Game: { } }                          => MessageType.Game,

@@ -100,6 +100,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(MessageType.Voice, message.Type);
             Assert.Equal(caption, message.Caption);
+            Assert.NotNull(message.Voice);
             Assert.Equal(duration, message.Voice.Duration);
             Assert.Equal("audio/ogg", message.Voice.MimeType);
             Assert.NotEmpty(message.Voice.FileId);
