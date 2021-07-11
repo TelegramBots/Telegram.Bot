@@ -11,24 +11,24 @@ namespace Telegram.Bot.Types.InlineQueryResults
         { }
 
         /// <summary>
-        /// Optional. Content of the message to be sent instead of the result
+        /// Content of the message to be sent instead of the result
         /// </summary>
         object InputMessageContent { get; set; }
 
         /// <summary>
-        /// Optional. Caption of the result to be sent, 0-1024 characters after entities parsing
+        /// Caption of the result to be sent, 0-1024 characters after entities parsing
         /// </summary>
         object Caption;
 
         /// <summary>
-        /// Optional. Mode for parsing entities in the result caption. See
+        /// Mode for parsing entities in the result caption. See
         /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see>
         /// for more details.
         /// </summary>
         object ParseMode;
 
         /// <summary>
-        /// Optional. List of special entities that appear in the caption, which can be specified
+        /// List of special entities that appear in the caption, which can be specified
         /// instead of <see cref="ParseMode"/>
         /// </summary>
         object CaptionEntities;
@@ -44,17 +44,17 @@ namespace Telegram.Bot.Types.InlineQueryResults
         object Longitude;
 
         /// <summary>
-        /// Optional. Thumbnail width
+        /// Thumbnail width
         /// </summary>
         object ThumbWidth;
 
         /// <summary>
-        /// Optional. Thumbnail height
+        /// Thumbnail height
         /// </summary>
         object ThumbHeight;
 
         /// <summary>
-        /// Optional. Url of the thumbnail for the result
+        /// Url of the thumbnail for the result
         /// </summary>
         object ThumbUrl;
     }

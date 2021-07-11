@@ -46,6 +46,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.NotNull(message.Animation);
 
             Assert.Equal("Rotating Earth", message.Caption);
+            Assert.NotNull(message.CaptionEntities);
+            Assert.NotNull(message.CaptionEntityValues);
             Assert.Equal(2, message.CaptionEntities.Length);
             Assert.Equal(2, message.CaptionEntityValues.Count());
 
@@ -58,6 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal("video/mp4", message.Animation.MimeType);
             Assert.NotEmpty(message.Animation.FileId);
             Assert.NotEmpty(message.Animation.FileUniqueId);
+            Assert.NotNull(message.Animation.FileName);
             Assert.NotEmpty(message.Animation.FileName);
             Assert.True(message.Animation.FileSize > 80_000);
         }

@@ -230,7 +230,7 @@ namespace Telegram.Bot
             }
 
             var fileUri = $"{_baseFileUrl}/{filePath}";
-            using HttpResponseMessage? httpResponse = await GetResponseAsync(_httpClient, fileUri, cancellationToken).ConfigureAwait(false);
+            using HttpResponseMessage httpResponse = await GetResponseAsync(_httpClient, fileUri, cancellationToken).ConfigureAwait(false);
 
             if (!httpResponse.IsSuccessStatusCode)
             {
@@ -268,7 +268,7 @@ namespace Telegram.Bot
             }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            async static Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, string fileUri, CancellationToken cancellationToken)
+            static async Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, string fileUri, CancellationToken cancellationToken)
             {
                 HttpResponseMessage? httpResponse;
                 try

@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Location newYork = new Location {Latitude = 40.7128f, Longitude = -74.0060f};
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: iqUpdate.InlineQuery.Id,
+                inlineQueryId: iqUpdate.InlineQuery!.Id,
                 cacheTime: 0,
                 results: new[]
                 {
