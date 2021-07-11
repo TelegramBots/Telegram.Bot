@@ -18,23 +18,22 @@ namespace Telegram.Bot.Types.ReplyMarkups
         public IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
 
         /// <summary>
-        /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of <see cref="KeyboardButton"/>). Defaults to <c>false</c>, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+        /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool ResizeKeyboard { get; set; }
+        public bool? ResizeKeyboard { get; set; }
 
         /// <summary>
-        /// Optional. Requests clients to hide the keyboard as soon as it's been used. Defaults to <c>false</c>.
+        /// Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat – the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool OneTimeKeyboard { get; set; }
+        public bool? OneTimeKeyboard { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>
+        /// Optional. The placeholder to be shown in the input field when the keyboard is active; 1-64 characters
         /// </summary>
-        public ReplyKeyboardMarkup()
-        {
-        }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string? InputFieldPlaceholder { get; set; }
 
         /// <summary>
         /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/> with one button
@@ -49,43 +48,35 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>
         /// </summary>
         /// <param name="keyboardRow">The keyboard row.</param>
-        /// <param name="resizeKeyboard">if set to <c>true</c> the keyboard resizes vertically for optimal fit.</param>
-        /// <param name="oneTimeKeyboard">if set to <c>true</c> the client hides the keyboard as soon as it's been used.</param>
-        public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow, bool resizeKeyboard = default,
-            bool oneTimeKeyboard = default)
-            : this(new[] { keyboardRow }, resizeKeyboard, oneTimeKeyboard)
-        {
-        }
+        public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow)
+            : this(new[] { keyboardRow })
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReplyKeyboardMarkup"/> class.
         /// </summary>
         /// <param name="keyboard">The keyboard.</param>
-        /// <param name="resizeKeyboard">if set to <c>true</c> the keyboard resizes vertically for optimal fit.</param>
-        /// <param name="oneTimeKeyboard">if set to <c>true</c> the client hides the keyboard as soon as it's been used.</param>
-        public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard, bool resizeKeyboard = default,
-            bool oneTimeKeyboard = default)
+        [JsonConstructor]
+        public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard)
         {
             Keyboard = keyboard;
-            ResizeKeyboard = resizeKeyboard;
-            OneTimeKeyboard = oneTimeKeyboard;
         }
 
         /// <summary>
         /// Generates a reply keyboard markup with one button
         /// </summary>
         /// <param name="text">Button's text</param>
-        public static implicit operator ReplyKeyboardMarkup(string text) =>
-            text == null
+        public static implicit operator ReplyKeyboardMarkup?(string? text) =>
+            text is null
                 ? default
-                : new ReplyKeyboardMarkup(new[] { new KeyboardButton(text) });
+                : new(new[] { new KeyboardButton(text) });
 
         /// <summary>
         /// Generates a reply keyboard markup with multiple buttons on one row
         /// </summary>
         /// <param name="texts">Texts of buttons</param>
-        public static implicit operator ReplyKeyboardMarkup(string[] texts) =>
-            texts == null
+        public static implicit operator ReplyKeyboardMarkup?(string[]? texts) =>
+            texts is null
                 ? default
                 : new[] { texts };
 
@@ -93,8 +84,8 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// Generates a reply keyboard markup with multiple buttons
         /// </summary>
         /// <param name="textsItems">Texts of buttons</param>
-        public static implicit operator ReplyKeyboardMarkup(string[][] textsItems) =>
-            textsItems == null
+        public static implicit operator ReplyKeyboardMarkup?(string[][]? textsItems) =>
+            textsItems is null
                 ? default
                 : new ReplyKeyboardMarkup(
                     textsItems.Select(texts =>

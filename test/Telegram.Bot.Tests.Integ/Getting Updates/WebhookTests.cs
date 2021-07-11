@@ -17,9 +17,9 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class WebhookTests : IDisposable
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public WebhookTests(TestsFixture fixture)
         {
@@ -102,7 +102,7 @@ namespace Telegram.Bot.Tests.Integ.Getting_Updates
 
             Assert.Empty(info.Url);
             Assert.False(info.HasCustomCertificate);
-            Assert.Equal(0, info.MaxConnections);
+            Assert.Null(info.MaxConnections);
             Assert.Null(info.AllowedUpdates);
         }
     }

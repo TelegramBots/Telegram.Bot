@@ -1,4 +1,3 @@
-﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
@@ -16,30 +15,37 @@ namespace Telegram.Bot.Types
         /// Type of the media
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Type { get; protected set; }
+        public abstract InputMediaType Type { get; }
 
         /// <summary>
-        /// Media to send
+        /// File to send
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputMedia Media { get; set; } // ToDo Should be get-only. Media is set in ctors
+        public InputMedia Media { get; }
 
         /// <summary>
         /// Optional. Caption of the photo to be sent, 0-1024 characters
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Caption { get; set; }
+        public string? Caption { get; set; }
+
+        /// <summary>
+        /// Optional. List of special entities that appear in the caption, which can be specified instead
+        /// of <see cref="ParseMode"/>
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public MessageEntity[]? CaptionEntities { get; set; }
 
         /// <summary>
         /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in a caption
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ParseMode ParseMode { get; set; }
+        public ParseMode? ParseMode { get; set; }
 
         /// <summary>
-        /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+        /// Initialize an object
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public MessageEntity[] CaptionEntities { get; set; }
+        /// <param name="media">File to send</param>
+        protected InputMediaBase(InputMedia media) => Media = media;
     }
 }

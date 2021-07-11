@@ -8,12 +8,14 @@ using Telegram.Bot.Types;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
+#nullable enable
+
 namespace Telegram.Bot.Tests.Integ.Framework
 {
     internal class RetryHttpMessageHandler : HttpClientHandler
     {
-        private readonly int _retryCount;
-        private readonly IMessageSink _diagnosticMessageSink;
+        readonly int _retryCount;
+        readonly IMessageSink _diagnosticMessageSink;
 
         internal RetryHttpMessageHandler(int retryCount, IMessageSink diagnosticMessageSink)
         {
@@ -25,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            HttpResponseMessage httpResponseMessage = default;
+            HttpResponseMessage? httpResponseMessage = default;
 
             for (var i = 0; i < _retryCount; i++)
             {
@@ -38,7 +40,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
                 _diagnosticMessageSink.OnMessage(new DiagnosticMessage("Request was rate limited"));
 
-                var body = await httpResponseMessage.Content.ReadAsStringAsync();
+                var body = await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken);
 
                 // Deserializing with an arbitrary type parameter since Result property should
                 // be empty at this stage
@@ -46,7 +48,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
                 if (apiResponse.Parameters is not null)
                 {
-                    var seconds = apiResponse.Parameters.RetryAfter;
+                    const int mandatoryDelay = 30;
+                    var seconds = apiResponse.Parameters.RetryAfter ?? mandatoryDelay;
 
                     _diagnosticMessageSink.OnMessage(
                         new DiagnosticMessage($"Retry attempt {i + 1}. Waiting for {seconds} seconds before retrying.")
@@ -57,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 }
             }
 
-            return httpResponseMessage;
+            return httpResponseMessage!;
         }
     }
 }

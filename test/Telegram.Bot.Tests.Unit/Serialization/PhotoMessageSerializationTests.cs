@@ -65,16 +65,17 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             var message = JsonConvert.DeserializeObject<Message>(json);
 
             Assert.Equal(MessageType.Photo, message.Type);
-            Assert.NotEmpty(message.Photo);
-            Assert.All(message.Photo.Select(ps => ps.FileId), Assert.NotEmpty);
-            Assert.All(message.Photo.Select(ps => ps.Width), w => Assert.NotEqual(default, w));
-            Assert.All(message.Photo.Select(ps => ps.Height), h => Assert.NotEqual(default, h));
+            Assert.NotNull(message.Photo);
+            Assert.NotEmpty(message.Photo!);
+            Assert.All(message.Photo!.Select(ps => ps.FileId), Assert.NotEmpty);
+            Assert.All(message.Photo!.Select(ps => ps.Width), w => Assert.NotEqual(default, w));
+            Assert.All(message.Photo!.Select(ps => ps.Height), h => Assert.NotEqual(default, h));
         }
 
         [Fact(DisplayName = "Should serialize a photo message")]
         public void Should_Serialize_PhotoMessage()
         {
-            Message message = new Message
+            Message message = new()
             {
                 MessageId = 1234,
                 From = new User

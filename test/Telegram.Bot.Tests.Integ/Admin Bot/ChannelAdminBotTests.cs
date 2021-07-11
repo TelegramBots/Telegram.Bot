@@ -1,5 +1,4 @@
 using Newtonsoft.Json.Linq;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -13,11 +12,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChannelAdminBotTests : IClassFixture<ChannelAdminBotTestFixture>
     {
-        private readonly ChannelAdminBotTestFixture _classFixture;
+        readonly ChannelAdminBotTestFixture _classFixture;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
         public ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTestFixture classFixture)
         {
@@ -144,7 +143,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteChatPhoto)]
         public async Task Should_Throw_On_Deleting_Chat_Deleted_Photo()
         {
-            Exception e = await Assert.ThrowsAnyAsync<Exception>(
+            ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(
                 async () => await BotClient.DeleteChatPhotoAsync(_classFixture.Chat.Id)
             );
 
@@ -162,7 +161,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             const string setName = "EvilMinds";
 
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(async () =>
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
                 await _fixture.BotClient.SetChatStickerSetAsync(_classFixture.Chat.Id, setName)
             );
 

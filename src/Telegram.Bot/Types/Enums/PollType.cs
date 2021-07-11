@@ -1,5 +1,5 @@
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
@@ -10,13 +10,13 @@ namespace Telegram.Bot.Types.Enums
     /// Telegram servers for compatibility reasons
     /// </remarks>
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter), true)]
+    [JsonConverter(typeof(PollTypeConverter))]
     public enum PollType
     {
         /// <summary>
         /// Regular poll
         /// </summary>
-        Regular,
+        Regular = 1,
 
         /// <summary>
         /// Quiz

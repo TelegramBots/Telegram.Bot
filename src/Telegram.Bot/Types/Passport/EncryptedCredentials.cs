@@ -17,18 +17,18 @@ namespace Telegram.Bot.Types.Passport
         /// required for <see cref="EncryptedPassportElement"/> decryption and authentication.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Data { get; set; }
+        public string Data { get; set; } = default!;
 
         /// <summary>
         /// Base64-encoded data hash for data authentication.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Hash { get; set; }
+        public string Hash { get; set; } = default!;
 
         /// <summary>
         /// Base64-encoded secret, encrypted with the bot's public RSA key, required for data decryption.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string Secret { get; set; }
+        public string Secret { get; set; } = default!;
     }
 }

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types
@@ -29,27 +29,27 @@ namespace Telegram.Bot.Types
         public bool IsAnimated { get; set; }
 
         /// <summary>
-        /// Sticker thumbnail in .webp or .jpg format
+        /// Optional. Sticker thumbnail in the .WEBP or .JPG format
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PhotoSize Thumb { get; set; }
+        public PhotoSize? Thumb { get; set; }
 
         /// <summary>
-        /// Emoji associated with the sticker
+        /// Optional. Emoji associated with the sticker
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string Emoji { get; set; }
+        public string? Emoji { get; set; }
 
         /// <summary>
         /// Optional. Name of the sticker set to which the sticker belongs
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string SetName { get; set; }
+        public string? SetName { get; set; }
 
         /// <summary>
         /// Optional. For mask stickers, the position where the mask should be placed
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public MaskPosition MaskPosition { get; set; }
+        public MaskPosition? MaskPosition { get; set; }
     }
 }

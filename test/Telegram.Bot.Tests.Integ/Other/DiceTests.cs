@@ -10,7 +10,7 @@ namespace Telegram.Bot.Tests.Integ.Other
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class DiceTests
     {
-        private readonly TestsFixture _testsFixture;
+        readonly TestsFixture _testsFixture;
 
         public DiceTests(TestsFixture testsFixture)
         {

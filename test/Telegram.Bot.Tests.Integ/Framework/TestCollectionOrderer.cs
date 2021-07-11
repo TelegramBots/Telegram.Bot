@@ -9,7 +9,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
     // ReSharper disable once UnusedMember.Global
     public class TestCollectionOrderer : ITestCollectionOrderer
     {
-        private readonly string[] _orderedCollections =
+        readonly string[] _orderedCollections =
         {
             // Tests that require user interaction:
             Constants.TestCollections.CallbackQuery,
@@ -68,7 +68,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
         }
 
-        private int FindExecutionOrder(ITestCollection collection)
+        int FindExecutionOrder(ITestCollection collection)
         {
             int? order = null;
             for (int i = 0; i < _orderedCollections.Length; i++)

@@ -28,10 +28,17 @@ namespace Telegram.Bot.Converters
             }
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(
+            JsonReader reader,
+            Type objectType,
+            object existingValue,
+            JsonSerializer serializer)
         {
-            string value = JToken.ReadFrom(reader).Value<string>();
-            return value?.StartsWith("attach://") == true
+            var value = JToken.ReadFrom(reader).Value<string>();
+
+            if (value is null) { return null!; }
+
+            return value.StartsWith("attach://")
                     ? new InputMedia(Stream.Null, value.Substring(9))
                     : new InputMedia(value);
         }

@@ -11,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ReplyMarkupTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public ReplyMarkupTests(TestsFixture testsFixture)
         {
@@ -59,7 +59,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        [OrderedFact("Should send a message with multiple inline keyboard markup")]
+        [OrderedFact("Should send a message with multiple inline keyboard buttons markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Send_Inline_Keyboard()
         {

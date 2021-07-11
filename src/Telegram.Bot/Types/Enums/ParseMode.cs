@@ -1,35 +1,37 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
+    /// <para>
     /// Text parsing mode
-    ///
-    /// The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline links and pre-formatted code in your bots' messages.
-    /// Telegram clients will render them accordingly. You can use either markdown-style or HTML-style formatting.
+    /// </para>
+    /// <para>
+    /// The Bot API supports basic formatting for messages. You can use bold and italic text, as well as inline
+    /// links and pre-formatted code in your bots' messages. Telegram clients will render them accordingly.
+    /// You can use either markdown-style or HTML-style formatting.
+    /// </para>
     /// </summary>
     /// <see href="https://core.telegram.org/bots/api#formatting-options"/>
-    [JsonConverter(typeof(StringEnumConverter))]
+    [JsonConverter(typeof(ParseModeConverter))]
     public enum ParseMode
     {
         /// <summary>
-        /// <see cref="Message.Text"/> is plain text
+        /// Markdown-formatted A <see cref="Message.Text"/>
         /// </summary>
-        Default = 0,
+        /// <remarks>
+        /// This is a legacy mode, retained for backward compatibility
+        /// </remarks>
+        Markdown = 1,
 
         /// <summary>
-        /// <see cref="Message.Text"/> is formatted in Markdown
-        /// </summary>
-        Markdown,
-
-        /// <summary>
-        /// <see cref="Message.Text"/> is formatted in HTML
+        /// HTML-formatted <see cref="Message.Text"/>
         /// </summary>
         Html,
 
         /// <summary>
-        /// <see cref="Message.Text"/> is formatted in MarkdownV2
+        /// MarkdownV2-formatted <see cref="Message.Text"/>
         /// </summary>
         MarkdownV2,
     }

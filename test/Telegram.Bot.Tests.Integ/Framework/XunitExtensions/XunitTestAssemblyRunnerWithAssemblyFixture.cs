@@ -11,7 +11,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 {
     public class XunitTestAssemblyRunnerWithAssemblyFixture : XunitTestAssemblyRunner
     {
-        private readonly Dictionary<Type, object> _assemblyFixtureMappings = new();
+        readonly Dictionary<Type, object> _assemblyFixtureMappings = new();
 
         public XunitTestAssemblyRunnerWithAssemblyFixture(
             ITestAssembly testAssembly,

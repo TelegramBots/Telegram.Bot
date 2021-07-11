@@ -1,10 +1,7 @@
 using System;
 using System.ComponentModel;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Polly;
-using Telegram.Bot.Exceptions;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -13,17 +10,14 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
     [Serializable]
     public class RetryTestCase : XunitTestCase
     {
-        private int _maxRetries;
-
-        private int _delaySeconds;
-
-        private string _exceptionTypeFullName;
+        int _maxRetries;
+        int _delaySeconds;
+        string _exceptionTypeFullName = default!;
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("Called by the de-serializer", true)]
         public RetryTestCase()
-        {
-        }
+        { }
 
         public RetryTestCase(
             IMessageSink diagnosticMessageSink,
@@ -31,9 +25,12 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
             ITestMethod testMethod,
             int maxRetries,
             int delaySeconds,
-            string exceptionTypeFullName
-        )
-            : base(diagnosticMessageSink, testMethodDisplay, TestMethodDisplayOptions.All, testMethod)
+            string exceptionTypeFullName)
+            : base(
+                diagnosticMessageSink,
+                testMethodDisplay,
+                TestMethodDisplayOptions.All,
+                testMethod)
         {
             _maxRetries = maxRetries;
             _delaySeconds = delaySeconds;

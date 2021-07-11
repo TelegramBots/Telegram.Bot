@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -13,17 +12,17 @@ namespace Telegram.Bot.Tests.Integ.Locations
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class LiveLocationTests : IClassFixture<EntityFixture<Message>>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private Message LocationMessage
+        Message LocationMessage
         {
             get => _classFixture.Entity;
             set => _classFixture.Entity = value;
         }
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private readonly EntityFixture<Message> _classFixture;
+        readonly EntityFixture<Message> _classFixture;
 
         public LiveLocationTests(TestsFixture fixture, EntityFixture<Message> classFixture)
         {
@@ -46,7 +45,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             );
 
             Assert.Equal(MessageType.Location, message.Type);
-            Assert.Equal(latBerlin, message.Location.Latitude, 3);
+            Assert.Equal(latBerlin, message.Location!.Latitude, 3);
             Assert.Equal(lonBerlin, message.Location.Longitude, 3);
 
             LocationMessage = message;
@@ -76,11 +75,11 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
                 Assert.Equal(MessageType.Location, editedMessage.Type);
                 Assert.Equal(LocationMessage.MessageId, editedMessage.MessageId);
-                Assert.Equal(newLocation.Latitude, editedMessage.Location.Latitude, 3);
-                Assert.Equal(newLocation.Longitude, editedMessage.Location.Longitude, 3);
+                Assert.Equal(newLocation.Latitude, editedMessage.Location!.Latitude, 3);
+                Assert.Equal(newLocation.Longitude, editedMessage.Location!.Longitude, 3);
             }
 
-            LocationMessage = editedMessage;
+            LocationMessage = editedMessage!;
         }
 
         [OrderedFact("Should stop live locations")]
@@ -94,8 +93,8 @@ namespace Telegram.Bot.Tests.Integ.Locations
 
             Assert.Equal(LocationMessage.MessageId, message.MessageId);
             Assert.Equal(LocationMessage.Chat.Id, message.Chat.Id);
-            Assert.Equal(LocationMessage.From.Id, message.From.Id);
-            Assert.Equal(LocationMessage.Location.Longitude, message.Location.Longitude);
+            Assert.Equal(LocationMessage.From!.Id, message.From!.Id);
+            Assert.Equal(LocationMessage.Location!.Longitude, message.Location!.Longitude);
             Assert.Equal(LocationMessage.Location.Latitude, message.Location.Latitude);
             Assert.Equal(LocationMessage.Location.Longitude, message.Location.Longitude);
         }

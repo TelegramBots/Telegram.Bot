@@ -1,18 +1,18 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums
 {
     /// <summary>
     /// Type of a <see cref="IInputFile"/>
     /// </summary>
-    [JsonConverter(typeof(StringEnumConverter), true)]
+    [JsonConverter(typeof(FileTypeConverter))]
     public enum FileType
     {
         /// <summary>
         /// FileStream
         /// </summary>
-        Stream,
+        Stream = 1,
 
         /// <summary>
         /// FileId

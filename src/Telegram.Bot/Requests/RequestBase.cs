@@ -7,7 +7,7 @@ using Telegram.Bot.Requests.Abstractions;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Represents a API request
+    /// Represents an API request
     /// </summary>
     /// <typeparam name="TResponse">Type of result expected in result</typeparam>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -44,15 +44,13 @@ namespace Telegram.Bot.Requests
         /// Generate content of HTTP message
         /// </summary>
         /// <returns>Content of HTTP request</returns>
-        public virtual HttpContent ToHttpContent()
+        public virtual HttpContent? ToHttpContent()
         {
             string payload = JsonConvert.SerializeObject(this);
             return new StringContent(payload, Encoding.UTF8, "application/json");
         }
 
-        /// <summary>
-        /// Allows this object to be used as a response in webhooks
-        /// </summary>
+        /// <inheritdoc />
         [JsonIgnore]
         public bool IsWebhookResponse { get; set; }
 
@@ -60,8 +58,7 @@ namespace Telegram.Bot.Requests
         /// If <see cref="IsWebhookResponse"/> is set to <see langword="true"/> is set to the method
         /// name, otherwise it won't be serialized
         /// </summary>
-
         [JsonProperty("method", DefaultValueHandling = DefaultValueHandling.Ignore)]
-        internal string WebHookMethodName => IsWebhookResponse ? MethodName : default;
+        internal string? WebHookMethodName => IsWebhookResponse ? MethodName : default;
     }
 }

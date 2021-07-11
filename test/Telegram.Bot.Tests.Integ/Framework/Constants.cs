@@ -113,18 +113,18 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public static class PathToFile
         {
-            private const string FilesDir = "Files/";
+            const string FilesDir = "Files/";
 
             public static class Documents
             {
-                private const string DocumentDir = FilesDir + "Document/";
+                const string DocumentDir = FilesDir + "Document/";
 
                 public const string Hamlet = DocumentDir + "hamlet.pdf";
             }
 
             public static class Photos
             {
-                private const string PhotoDir = FilesDir + "Photo/";
+                const string PhotoDir = FilesDir + "Photo/";
 
                 public const string Bot = PhotoDir + "bot.gif";
 
@@ -143,7 +143,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public static class Videos
             {
-                private const string VideoDir = FilesDir + "Video/";
+                const string VideoDir = FilesDir + "Video/";
 
                 public const string GoldenRatio = VideoDir + "golden-ratio-240px.mp4";
 
@@ -152,7 +152,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public static class Audio
             {
-                private const string AudioDir = FilesDir + "Audio/";
+                const string AudioDir = FilesDir + "Audio/";
 
                 public const string AStateOfDespairMp3 = AudioDir + "Ask Again - A State of Despair.mp3";
 
@@ -163,21 +163,21 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public static class Certificate
             {
-                private const string CertificateDir = FilesDir + "Certificate/";
+                const string CertificateDir = FilesDir + "Certificate/";
 
                 public const string PublicKey = CertificateDir + "public-key.pem";
             }
 
             public static class Animation
             {
-                private const string Dir = FilesDir + "Animation/";
+                const string Dir = FilesDir + "Animation/";
 
                 public const string Earth = Dir + "earth.gif";
             }
 
             public static class Thumbnail
             {
-                private const string Dir = FilesDir + "Thumbnail/";
+                const string Dir = FilesDir + "Thumbnail/";
 
                 public const string Video = Dir + "video.jpg";
 
@@ -316,6 +316,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
             public const string SetMyCommands = "setMyCommands";
 
             public const string GetMyCommands = "getMyCommands";
+
+            public const string DeleteMyCommands = "deleteMyCommands";
 
             public const string SendDice = "sendDice";
 

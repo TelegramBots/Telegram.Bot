@@ -10,16 +10,16 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SendingContactMessageTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public SendingContactMessageTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }
 
-        [OrderedFact("Should send a contact", Skip = "Due to unexpected rate limiting errors")]
+        [OrderedFact("Should send a contact")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact()
         {
@@ -35,13 +35,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Contact, message.Type);
-            Assert.Equal(phoneNumber, message.Contact.PhoneNumber);
+            Assert.Equal(phoneNumber, message.Contact!.PhoneNumber);
             Assert.Equal(firstName, message.Contact.FirstName);
             Assert.Equal(lastName, message.Contact.LastName);
         }
 
-        [OrderedFact("Should send a contact including his vCard",
-            Skip = "Due to unexpected rate limiting errors")]
+        [OrderedFact("Should send a contact including his vCard")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendContact)]
         public async Task Should_Send_Contact_With_VCard()
         {

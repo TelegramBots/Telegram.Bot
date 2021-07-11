@@ -6,10 +6,10 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 {
     public class ChannelChatFixture : AsyncLifetimeFixture
     {
-        private readonly TestsFixture _testsFixture;
+        readonly TestsFixture _testsFixture;
 
         public Chat ChannelChat { get; private set; }
-        public string ChannelChatId { get; private set; }
+        public ChatId ChannelChatId { get; private set; }
 
         public ChannelChatFixture(TestsFixture testsFixture, string collectionName)
         {
@@ -21,9 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
                     _testsFixture.ChannelChat ??= await GetChat(collectionName);
                     ChannelChat = _testsFixture.ChannelChat;
 
-                    ChannelChatId = ChannelChat.Username is null
-                        ? ChannelChat.Id.ToString()
-                        : $"@{ChannelChat.GetSafeUsername()}";
+                    ChannelChatId = ChannelChat;
 
                     await _testsFixture.SendTestCollectionNotificationAsync(
                         collectionName,
@@ -33,7 +31,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
             );
         }
 
-        private async Task<Chat> GetChat(string collectionName)
+        async Task<Chat> GetChat(string collectionName)
         {
             string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
             if (chatId is not null) return await _testsFixture.BotClient.GetChatAsync(chatId);

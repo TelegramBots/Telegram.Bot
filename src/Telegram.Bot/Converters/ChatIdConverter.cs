@@ -5,30 +5,29 @@ using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Converters
 {
-    internal class ChatIdConverter : JsonConverter
+    internal class ChatIdConverter : JsonConverter<ChatId>
     {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, ChatId value, JsonSerializer serializer)
         {
-            var chatId = (ChatId)value;
-
-            if (chatId.Username != null)
+            if (value.Username != null)
             {
-                writer.WriteValue(chatId.Username);
+                writer.WriteValue(value.Username);
             }
             else
             {
-                writer.WriteValue(chatId.Identifier);
+                writer.WriteValue(value.Identifier);
             }
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override ChatId ReadJson(
+            JsonReader reader,
+            Type objectType,
+            ChatId existingValue,
+            bool hasExistingValue,
+            JsonSerializer serializer)
         {
             var value = JToken.ReadFrom(reader).Value<string>();
-
             return new ChatId(value);
         }
-
-        public override bool CanConvert(Type objectType)
-            => typeof(ChatId) == objectType;
     }
 }

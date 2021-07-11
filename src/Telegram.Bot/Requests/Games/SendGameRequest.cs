@@ -8,13 +8,10 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Send a game. On success, the sent <see cref="Message"/> is returned.
+    /// Use this method to send a game. On success, the sent <see cref="Message"/> is returned.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class SendGameRequest : RequestBase<Message>,
-                                   INotifiableMessage,
-                                   IReplyMessage,
-                                   IInlineReplyMarkupMessage
+    public class SendGameRequest : RequestBase<Message>, IChatTargetable
     {
         /// <summary>
         /// Unique identifier for the target chat
@@ -22,33 +19,40 @@ namespace Telegram.Bot.Requests
         [JsonProperty(Required = Required.Always)]
         public long ChatId { get; }
 
+        /// <inheritdoc />
+        ChatId IChatTargetable.ChatId => ChatId;
+
         /// <summary>
-        /// Short name of the game, serves as the unique identifier for the game
+        /// Short name of the game, serves as the unique identifier for the game. Set up your games
+        /// via <see href="https://t.me/botfather">@Botfather</see>
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public string GameShortName { get; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool DisableNotification { get; set; }
+        public bool? DisableNotification { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? ReplyToMessageId { get; set; }
 
-        /// <inheritdoc />
+        /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? AllowSendingWithoutReply { get; set; }
 
-        /// <inheritdoc cref="IInlineReplyMarkupMessage.ReplyMarkup" />
+        /// <inheritdoc cref="Abstractions.Documentation.InlineReplyMarkup"/>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InlineKeyboardMarkup ReplyMarkup { get; set; }
+        public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and gameShortName
         /// </summary>
         /// <param name="chatId">Unique identifier for the target chat</param>
-        /// <param name="gameShortName">Short name of the game, serves as the unique identifier for the game</param>
+        /// <param name="gameShortName">
+        /// Short name of the game, serves as the unique identifier for the game. Set up your games via
+        /// <see href="https://t.me/botfather">@Botfather</see>
+        /// </param>
         public SendGameRequest(long chatId, string gameShortName)
             : base("sendGame")
         {

@@ -7,8 +7,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 {
     public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
     {
-        private ChannelChatFixture _channelChatFixture;
-        private byte[] _oldChatPhoto;
+        ChannelChatFixture _channelChatFixture;
+        byte[] _oldChatPhoto;
 
         public Chat Chat => _channelChatFixture.ChannelChat;
         public Message PinnedMessage { get; set; }
