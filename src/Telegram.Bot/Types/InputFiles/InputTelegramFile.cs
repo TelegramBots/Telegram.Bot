@@ -1,4 +1,4 @@
-using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -18,69 +18,44 @@ namespace Telegram.Bot.Types.InputFiles
         /// Id of a file that exists on Telegram servers
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string FileId { get; protected set; }
-
-        /// <inheritdoc cref="IInputFile.FileType"/>
-        public override FileType FileType
-        {
-            get
-            {
-                if (Content != null) return FileType.Stream;
-                if (FileId != null) return FileType.Id;
-                throw new InvalidOperationException("Not a valid Input File");
-            }
-        }
+        public string? FileId { get; private protected set; }
 
         /// <summary>
-        /// ToDo
+        ///  Constructs an <see cref="InputTelegramFile"/> with a <see cref="FileType"/>
         /// </summary>
-        protected InputTelegramFile()
-        { }
-
-        /// <summary>
-        /// Constructs an <see cref="InputTelegramFile"/> from a <see cref="Stream"/>
-        /// </summary>
-        /// <param name="content"><see cref="Stream"/> containing the file</param>
-        public InputTelegramFile(Stream content)
-            : this(content, default)
+        protected InputTelegramFile(FileType fileType)
+            : base(fileType)
         { }
 
         /// <summary>
         /// Constructs an <see cref="InputTelegramFile"/> from a <see cref="Stream"/> and a file name
         /// </summary>
-        /// <param name="content"><see cref="Stream"/> containing the file</param>
-        /// <param name="fileName">Name of the file</param>
-        public InputTelegramFile(Stream content, string fileName)
-        {
-            Content = content;
-            FileName = fileName;
-        }
+        /// <param name="content">A <see cref="Stream"/> containing a file to send</param>
+        /// <param name="fileName">A name of the file</param>
+        public InputTelegramFile(Stream content, string? fileName = default)
+            : base(content, fileName)
+        { }
 
         /// <summary>
-        /// Constructs an <see cref="InputTelegramFile"/> from a file id
+        /// Constructs an <see cref="InputTelegramFile"/> with a <paramref name="fileId"/>
         /// </summary>
-        /// <param name="fileId">File id on Telegram's servers</param>
-        public InputTelegramFile(string fileId)
-        {
-            FileId = fileId;
-        }
+        /// <param name="fileId">A file identifier</param>
+        public InputTelegramFile(string fileId) : base(FileType.Id) => FileId = fileId;
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputTelegramFile"/> from a <see cref="Stream"/>
         /// </summary>
-        /// <param name="stream"></param>
-        public static implicit operator InputTelegramFile(Stream stream) =>
-            stream == null
-                ? default
-                : new InputTelegramFile(stream);
+        /// <param name="stream">A <see cref="Stream"/> containing a file to send</param>
+        [return: NotNullIfNotNull("stream")]
+        public static implicit operator InputTelegramFile?(Stream? stream) =>
+            stream is null ? default : new InputTelegramFile(stream);
 
         /// <summary>
-        /// ToDo
+        /// Constructs an <see cref="InputTelegramFile"/> with a <paramref name="fileId"/>
         /// </summary>
-        /// <param name="fileId"></param>
-        public static implicit operator InputTelegramFile(string fileId) =>
-            fileId == null
-                ? default
-                : new InputTelegramFile(fileId);
+        /// <param name="fileId">A file identifier</param>
+        [return: NotNullIfNotNull("fileId")]
+        public static implicit operator InputTelegramFile?(string? fileId) =>
+            fileId is null ? default : new InputTelegramFile(fileId);
     }
 }

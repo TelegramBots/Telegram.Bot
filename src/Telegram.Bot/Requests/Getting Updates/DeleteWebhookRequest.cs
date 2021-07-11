@@ -6,7 +6,8 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Remove webhook integration if you decide to switch back to getUpdates.
+    /// Use this method to remove webhook integration if you decide to switch back to
+    /// <see cref="GetUpdatesRequest"/>. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class DeleteWebhookRequest : ParameterlessRequest<bool>
@@ -15,7 +16,7 @@ namespace Telegram.Bot.Requests
         /// Pass True to drop all pending updates
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public bool DropPendingUpdates { get; set; }
+        public bool? DropPendingUpdates { get; set; }
 
         /// <summary>
         /// Initializes a new request

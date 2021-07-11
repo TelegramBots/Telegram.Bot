@@ -122,7 +122,7 @@
 //        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
 //        public async Task Should_Throw_InvalidStickerSetNameException()
 //        {
-//            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+//            BadRequestException exception = await Assert.ThrowsAsync<BadRequestException>(() =>
 //                BotClient.CreateNewStickerSetAsync(
 //                    userId: _classFixture.OwnerUserId,
 //                    name: "Invalid_Sticker_Set_Name",
@@ -140,7 +140,7 @@
 //        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
 //        public async Task Should_Throw_InvalidStickerEmojisException()
 //        {
-//            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+//            BadRequestException exception = await Assert.ThrowsAsync<BadRequestException>(() =>
 //                BotClient.CreateNewStickerSetAsync(
 //                    userId: _classFixture.OwnerUserId,
 //                    name: "valid_name3" + _classFixture.TestStickerSetName,
@@ -162,7 +162,7 @@
 //            BadRequestException exception;
 //            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Logo))
 //            {
-//                exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+//                exception = await Assert.ThrowsAsync<BadRequestException>(() =>
 //                    BotClient.CreateNewStickerSetAsync(
 //                        userId: _classFixture.OwnerUserId,
 //                        name: "valid_name2" + _classFixture.TestStickerSetName,
@@ -238,7 +238,7 @@
 //            Exception exception;
 //            using (System.IO.Stream stream = System.IO.File.OpenRead(Constants.FileNames.Photos.Ruby))
 //            {
-//                exception = await Assert.ThrowsAnyAsync<Exception>(() =>
+//                exception = await Assert.ThrowsAsync<Exception>(() =>
 //                    BotClient.CreateNewStickerSetAsync(
 //                        userId: _classFixture.OwnerUserId,
 //                        name: _classFixture.TestStickerSetName,
@@ -349,7 +349,7 @@
 //        {
 //            StickerSet testStickerSet = await BotClient.GetStickerSetAsync(_classFixture.TestStickerSet.Name);
 //
-//            BadRequestException exception = await Assert.ThrowsAnyAsync<BadRequestException>(() =>
+//            BadRequestException exception = await Assert.ThrowsAsync<BadRequestException>(() =>
 //                BotClient.DeleteStickerFromSetAsync(
 //                    sticker: testStickerSet.Stickers.Single().FileId
 //                )

@@ -12,7 +12,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// New auto-delete time for messages in the chat
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty(Required = Required.Always)]
         public int MessageAutoDeleteTime { get; set; }
     }
 }

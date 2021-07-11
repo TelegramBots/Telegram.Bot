@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types
     public class MaskPosition
     {
         /// <summary>
-        /// The part of the face relative to which the mask should be placed. One of “forehead”, “eyes”, “mouth”, or “chin”.
+        /// The part of the face relative to which the mask should be placed.
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public MaskPositionPoint Point { get; set; }

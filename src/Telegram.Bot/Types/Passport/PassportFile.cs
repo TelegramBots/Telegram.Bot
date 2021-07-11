@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types.Passport
     public class PassportFile : FileBase
     {
         /// <summary>
-        /// Unix time when the file was uploaded
+        /// DateTime when the file was uploaded
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         [JsonConverter(typeof(UnixDateTimeConverter))]

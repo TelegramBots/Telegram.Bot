@@ -14,11 +14,11 @@ namespace Telegram.Bot.Tests.Integ.Locations
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLocationTests.Fixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly Fixture _classFixture;
+        readonly Fixture _classFixture;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public InlineMessageLiveLocationTests(TestsFixture fixture, Fixture classFixture)
         {
@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Location newYork = new Location {Latitude = 40.7128f, Longitude = -74.0060f};
 
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: iqUpdate.InlineQuery.Id,
+                inlineQueryId: iqUpdate.InlineQuery!.Id,
                 cacheTime: 0,
                 results: new[]
                 {
@@ -74,7 +74,7 @@ namespace Telegram.Bot.Tests.Integ.Locations
             Location beijing = new Location {Latitude = 39.9042f, Longitude = 116.4074f};
 
             await BotClient.EditMessageLiveLocationAsync(
-                inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
+                inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,
                 latitude: beijing.Latitude,
                 longitude: beijing.Longitude,
                 replyMarkup: InlineKeyboardMarkup.Empty()

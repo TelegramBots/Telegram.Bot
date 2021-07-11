@@ -25,7 +25,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 .GetAwaiter().GetResult();
         }
 
-        private static async Task<long> GetStickerOwnerIdAsync(TestsFixture testsFixture, string collectionName)
+        static async Task<long> GetStickerOwnerIdAsync(TestsFixture testsFixture, string collectionName)
         {
             long ownerId;
 

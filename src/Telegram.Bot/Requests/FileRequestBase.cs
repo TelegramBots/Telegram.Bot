@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -35,14 +34,21 @@ namespace Telegram.Bot.Requests
         { }
 
         /// <summary>
-        /// ToDo
+        /// Generate multipart form data content
         /// </summary>
         /// <param name="fileParameterName"></param>
         /// <param name="inputFile"></param>
         /// <returns></returns>
-        protected MultipartFormDataContent ToMultipartFormDataContent(string fileParameterName, InputFileStream inputFile)
+        protected MultipartFormDataContent ToMultipartFormDataContent(
+            string fileParameterName,
+            InputFileStream inputFile)
         {
             var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
+
+            if (inputFile.Content is null)
+            {
+                throw new ArgumentNullException(nameof(inputFile.Content));
+            }
 
             multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
 
@@ -50,24 +56,27 @@ namespace Telegram.Bot.Requests
         }
 
         /// <summary>
-        /// ToDo
+        /// Generate multipart form data content
         /// </summary>
         /// <param name="exceptPropertyNames"></param>
         /// <returns></returns>
         protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
         {
-            var multipartContent = new MultipartFormDataContent(Guid.NewGuid().ToString() + DateTime.UtcNow.Ticks.ToString());
+            var multipartContent = new MultipartFormDataContent($"{Guid.NewGuid()}{DateTime.UtcNow.Ticks}");
 
             var stringContents = JObject.FromObject(this)
                 .Properties()
-                .Where(prop => exceptPropertyNames?.Contains(prop.Name) == false)
+                .Where(prop => exceptPropertyNames.Contains(prop.Name) == false)
                 .Select(prop => new
                 {
                     prop.Name,
                     Content = new StringContent(prop.Value.ToString())
                 });
+
             foreach (var strContent in stringContents)
+            {
                 multipartContent.Add(strContent.Content, strContent.Name);
+            }
 
             return multipartContent;
         }

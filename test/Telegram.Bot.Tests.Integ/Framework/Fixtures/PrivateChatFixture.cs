@@ -24,7 +24,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
             );
         }
 
-        private static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
+        static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
         {
             Chat chat;
             long? chatId = ConfigurationProvider.TestConfigurations.TesterPrivateChatId;

@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Type of the media
         /// </summary>
-        string Type { get; }
+        InputMediaType Type { get; }
 
         /// <summary>
         /// Media to send
@@ -19,18 +19,19 @@ namespace Telegram.Bot.Types
         InputMedia Media { get; }
 
         /// <summary>
-        /// Optional. Caption of the photo to be sent, 0-1024 characters
+        /// Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing
         /// </summary>
-        string Caption { get; }
+        string? Caption { get; }
 
         /// <summary>
-        /// Change, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in a caption
+        /// Optional. Mode for parsing entities in the photo caption. See <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see> for more details.
         /// </summary>
-        ParseMode ParseMode { get; }
+        ParseMode? ParseMode { get; }
 
         /// <summary>
-        /// Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+        /// Optional. List of special entities that appear in the caption, which can be specified
+        /// instead of <see cref="ParseMode"/>
         /// </summary>
-        MessageEntity[] CaptionEntities { get; }
+        MessageEntity[]? CaptionEntities { get; }
     }
 }

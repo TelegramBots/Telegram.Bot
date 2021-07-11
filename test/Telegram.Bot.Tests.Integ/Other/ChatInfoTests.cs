@@ -12,14 +12,10 @@ namespace Telegram.Bot.Tests.Integ.Other
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChatInfoTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
+        readonly TestsFixture _fixture;
 
-        private readonly TestsFixture _fixture;
-
-        public ChatInfoTests(TestsFixture fixture)
-        {
-            _fixture = fixture;
-        }
+        public ChatInfoTests(TestsFixture fixture) => _fixture = fixture;
 
         [OrderedFact("Should get supergroup chat info")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
@@ -57,20 +53,19 @@ namespace Telegram.Bot.Tests.Integ.Other
             );
 
             Assert.Equal(ChatMemberStatus.Administrator, memberBot.Status);
-            Assert.True(memberBot.CanChangeInfo);
-            Assert.True(memberBot.CanDeleteMessages);
-            Assert.True(memberBot.CanInviteUsers);
-            Assert.True(memberBot.CanPromoteMembers);
-            Assert.True(memberBot.CanRestrictMembers);
-            Assert.True(memberBot.CanPinMessages);
-            Assert.False(memberBot.CanBeEdited);
-            Assert.Null(memberBot.UntilDate);
-            Assert.Null(memberBot.CanPostMessages);
-            Assert.Null(memberBot.CanEditMessages);
-            Assert.Null(memberBot.CanSendMessages);
-            Assert.Null(memberBot.CanSendMediaMessages);
-            Assert.Null(memberBot.CanSendOtherMessages);
-            Assert.Null(memberBot.CanAddWebPagePreviews);
+            ChatMemberAdministrator administrator = Assert.IsType<ChatMemberAdministrator>(memberBot);
+
+            Assert.True(administrator.CanChangeInfo);
+            Assert.True(administrator.CanDeleteMessages);
+            Assert.True(administrator.CanInviteUsers);
+            Assert.True(administrator.CanPromoteMembers);
+            Assert.True(administrator.CanRestrictMembers);
+            Assert.True(administrator.CanPinMessages);
+            Assert.False(administrator.CanBeEdited);
+            // Channels only
+            Assert.Null(administrator.CanPostMessages);
+            Assert.Null(administrator.CanEditMessages);
+
             Asserts.UsersEqual(_fixture.BotUser, memberBot.User);
         }
 
@@ -83,26 +78,12 @@ namespace Telegram.Bot.Tests.Integ.Other
             );
 
             ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
-            Debug.Assert(memberCreator != null);
+            Assert.IsType<ChatMemberOwner>(memberCreator);
 
             ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
             Debug.Assert(memberBot != null);
 
             Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator
-            Assert.Null(memberCreator.UntilDate);
-            Assert.Null(memberCreator.CanBeEdited);
-            Assert.Null(memberCreator.CanChangeInfo);
-            Assert.Null(memberCreator.CanPostMessages);
-            Assert.Null(memberCreator.CanEditMessages);
-            Assert.Null(memberCreator.CanDeleteMessages);
-            Assert.Null(memberCreator.CanInviteUsers);
-            Assert.Null(memberCreator.CanRestrictMembers);
-            Assert.Null(memberCreator.CanPinMessages);
-            Assert.Null(memberCreator.CanPromoteMembers);
-            Assert.Null(memberCreator.CanSendMessages);
-            Assert.Null(memberCreator.CanSendMediaMessages);
-            Assert.Null(memberCreator.CanSendOtherMessages);
-            Assert.Null(memberCreator.CanAddWebPagePreviews);
             Asserts.UsersEqual(_fixture.BotUser, memberBot.User);
         }
 
@@ -130,6 +111,8 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(privateChatId, chat.Id);
 
             // Mandatory fields:
+            Assert.NotNull(chat.Username);
+            Assert.NotNull(chat.FirstName);
             Assert.NotEmpty(chat.Username);
             Assert.NotEmpty(chat.FirstName);
 
@@ -146,7 +129,7 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChatMembersCount)]
         public async Task Should_Get_Chat_Members_Count()
         {
-            int membersCount = await BotClient.GetChatMembersCountAsync(
+            int membersCount = await BotClient.GetChatMemberCountAsync(
                 chatId: _fixture.SupergroupChat.Id
             );
 

@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types
 {
     /// <summary>
-    /// This object represents an animation file to be displayed in the message containing a <see cref="Game"/>.
+    /// This object represents an animation file (GIF or H.264/MPEG-4 AVC video without sound).
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
     public class Animation : FileBase
@@ -29,21 +29,21 @@ namespace Telegram.Bot.Types
         public int Duration { get; set; }
 
         /// <summary>
-        /// Animation thumbnail as defined by sender.
+        /// Optional. Animation thumbnail as defined by sender
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public PhotoSize Thumb { get; set; }
+        public PhotoSize? Thumb { get; set; }
 
         /// <summary>
-        /// Original animation filename as defined by sender.
+        /// Optional. Original animation filename as defined by sender
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
         /// <summary>
-        /// MIME type of the file as defined by sender.
+        /// Optional. MIME type of the file as defined by sender
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public string MimeType { get; set; }
+        public string? MimeType { get; set; }
     }
 }

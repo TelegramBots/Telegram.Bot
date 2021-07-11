@@ -11,9 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class SendingVideoMessageTests
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public SendingVideoMessageTests(TestsFixture fixture)
         {
@@ -51,7 +51,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.True(message.Video.Thumb.FileSize > 200);
             Assert.Equal(320, message.Video.Thumb.Width);
             Assert.Equal(240, message.Video.Thumb.Height);
-            Assert.InRange(message.Video.Thumb.FileSize, 600, 900);
+            Assert.NotNull(message.Video.Thumb.FileSize);
+            Assert.InRange((int)message.Video.Thumb.FileSize, 600, 900);
         }
 
         [OrderedFact("Should send a video note")]
@@ -78,7 +79,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.NotEmpty(message.VideoNote.Thumb.FileUniqueId);
             Assert.Equal(240, message.VideoNote.Thumb.Width);
             Assert.Equal(240, message.VideoNote.Thumb.Height);
-            Assert.InRange(message.VideoNote.Thumb.FileSize, 1_000, 1_500);
+            Assert.NotNull(message.VideoNote.Thumb.FileSize);
+            Assert.InRange((int)message.VideoNote.Thumb.FileSize, 1_000, 1_500);
         }
 
         [OrderedFact("Should send a video with thumbnail")]
@@ -103,7 +105,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.NotEmpty(message.Video.Thumb.FileUniqueId);
             Assert.Equal(320, message.Video.Thumb.Width);
             Assert.Equal(240, message.Video.Thumb.Height);
-            Assert.InRange(message.Video.Thumb.FileSize, 600, 900);
+            Assert.NotNull(message.Video.Thumb.FileSize);
+            Assert.InRange((int)message.Video.Thumb.FileSize, 600, 900);
         }
 
         [OrderedFact("Should send a video note with thumbnail")]
@@ -128,7 +131,8 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.NotEmpty(message.VideoNote.Thumb.FileUniqueId);
             Assert.Equal(240, message.VideoNote.Thumb.Height);
             Assert.Equal(240, message.VideoNote.Thumb.Width);
-            Assert.InRange(message.VideoNote.Thumb.FileSize, 1_000, 1_500);
+            Assert.NotNull(message.VideoNote.Thumb.FileSize);
+            Assert.InRange((int)message.VideoNote.Thumb.FileSize, 1_000, 1_500);
         }
     }
 }

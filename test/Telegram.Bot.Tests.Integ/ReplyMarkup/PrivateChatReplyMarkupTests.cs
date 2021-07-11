@@ -14,11 +14,11 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class PrivateChatReplyMarkupTests : IClassFixture<PrivateChatReplyMarkupTests.Fixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly Fixture _classFixture;
+        readonly Fixture _classFixture;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
         public PrivateChatReplyMarkupTests(TestsFixture testsFixture, Fixture fixture)
         {
@@ -26,19 +26,21 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             _classFixture = fixture;
         }
 
-        [OrderedFact("Should get contact info from keyboard reply markup",
-            Skip = "Due to unexpected rate limiting errors")]
+        [OrderedFact("Should get contact info from keyboard reply markup")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
         public async Task Should_Receive_Contact_Info()
         {
+            ReplyKeyboardMarkup replyKeyboardMarkup = new (
+                    keyboardRow: new[] { KeyboardButton.WithRequestContact("Share Contact"), })
+            {
+                ResizeKeyboard = true,
+                OneTimeKeyboard = true,
+            };
+
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.PrivateChat,
                 text: "Share your contact info using the keyboard reply markup provided.",
-                replyMarkup: new ReplyKeyboardMarkup(
-                    keyboardRow: new[] {KeyboardButton.WithRequestContact("Share Contact"),},
-                    resizeKeyboard: true,
-                    oneTimeKeyboard: true
-                )
+                replyMarkup: replyKeyboardMarkup
             );
 
             Message contactMessage = await GetMessageFromChat(MessageType.Contact);
@@ -75,7 +77,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
             );
         }
 
-        private async Task<Message> GetMessageFromChat(MessageType messageType) =>
+        async Task<Message> GetMessageFromChat(MessageType messageType) =>
             (await _fixture.UpdateReceiver.GetUpdatesAsync(
                 predicate: u => u.Message.Type == messageType &&
                                 u.Message.Chat.Id == _classFixture.PrivateChat.Id,

@@ -20,9 +20,14 @@ namespace Telegram.Bot.Requests.Abstractions
         string MethodName { get; }
 
         /// <summary>
+        /// Allows this object to be used as a response in webhooks
+        /// </summary>
+        bool IsWebhookResponse { get; set; }
+
+        /// <summary>
         /// Generate content of HTTP message
         /// </summary>
         /// <returns>Content of HTTP request</returns>
-        HttpContent ToHttpContent();
+        HttpContent? ToHttpContent();
     }
 }

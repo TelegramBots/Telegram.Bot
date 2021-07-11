@@ -9,8 +9,8 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
 {
     public class XunitTestCollectionRunnerWithAssemblyFixture : XunitTestCollectionRunner
     {
-        private readonly Dictionary<Type, object> _assemblyFixtureMappings;
-        private readonly IMessageSink _diagnosticMessageSink;
+        readonly Dictionary<Type, object> _assemblyFixtureMappings;
+        readonly IMessageSink _diagnosticMessageSink;
 
         public XunitTestCollectionRunnerWithAssemblyFixture(
             Dictionary<Type, object> assemblyFixtureMappings,

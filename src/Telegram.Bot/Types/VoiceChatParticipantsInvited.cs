@@ -13,6 +13,6 @@ namespace Telegram.Bot.Types
         /// Optional. New members that were invited to the voice chat
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public User[] Users { get; set; }
+        public User[]? Users { get; set; }
     }
 }

@@ -15,11 +15,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class ChatMemberAdministrationTests : IClassFixture<ChatMemberAdministrationTestFixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private readonly ChatMemberAdministrationTestFixture _classFixture;
+        readonly ChatMemberAdministrationTestFixture _classFixture;
 
         public ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdministrationTestFixture classFixture)
         {
@@ -29,14 +29,40 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Kick, Unban, and Invite chat member back
 
+        [OrderedFact("Should get regular chat member with member status and of ChatMemberMember type")]
+        public async Task Should_Get_Chat_Member_Member()
+        {
+            ChatMember chatMember = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            Assert.Equal(ChatMemberStatus.Member, chatMember.Status);
+            Assert.IsType<ChatMemberMember>(chatMember);
+        }
+
         [OrderedFact("Should kick user from chat and ban him/her for ever")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_For_Ever()
         {
-            await BotClient.KickChatMemberAsync(
+            await BotClient.BanChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId
             );
+        }
+
+        [OrderedFact("Should get banned chat member with kicked status and of ChatMemberBanned type")]
+        public async Task Should_Get_Chat_Member_Kicked()
+        {
+            ChatMember chatMember = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            Assert.Equal(ChatMemberStatus.Kicked, chatMember.Status);
+            ChatMemberBanned bannedChatMember = Assert.IsType<ChatMemberBanned>(chatMember);
+            Assert.Equal(default, bannedChatMember.UntilDate);
+            Assert.Null(bannedChatMember.UntilDate);
         }
 
         [OrderedFact("Should unban a chat member")]
@@ -75,20 +101,28 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 text: _classFixture.GroupInviteLink
             );
 
-            Update update = (await _fixture.UpdateReceiver
-                    .GetUpdatesAsync(u =>
-                            u.Message.Chat.Type == ChatType.Supergroup &&
-                            u.Message.Chat.Id.ToString() == _fixture.SupergroupChat.Id.ToString() &&
-                            u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: UpdateType.Message)
+            Update update = (
+                await _fixture.UpdateReceiver.GetUpdatesAsync(
+                    predicate: u =>
+                            u.Message!.Chat.Type == ChatType.Supergroup
+                            && u.Message!.Chat.Id == _fixture.SupergroupChat.Id
+                            && u.Message!.Type == MessageType.ChatMembersAdded,
+                        updateTypes: new[] { UpdateType.Message })
                 ).Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
             Message serviceMsg = update.Message;
 
-            Assert.Equal(_classFixture.RegularMemberUserId.ToString(),
-                serviceMsg.NewChatMembers.Single().Id.ToString());
+            Assert.NotNull(serviceMsg);
+            Assert.NotNull(serviceMsg.NewChatMembers);
+            Assert.NotEmpty(serviceMsg.NewChatMembers);
+            User newUser = Assert.Single(serviceMsg.NewChatMembers);
+
+            Assert.Equal(
+                _classFixture.RegularMemberUserId.ToString(),
+                newUser!.Id.ToString()
+            );
         }
 
         #endregion
@@ -128,7 +162,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 promotedRegularUser.User.Id
             );
 
-            Assert.Equal("CHANGED TITLE", newChatMember.CustomTitle);
+            Assert.Equal(ChatMemberStatus.Administrator, newChatMember.Status);
+            ChatMemberAdministrator administrator = Assert.IsType<ChatMemberAdministrator>(newChatMember);
+
+            Assert.Equal("CHANGED TITLE", administrator.CustomTitle);
 
             // Restore default title by sending empty string
             await BotClient.SetChatAdministratorCustomTitleAsync(
@@ -170,6 +207,20 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
+        [OrderedFact("Should get banned chat member with restricted status and of ChatMemberRestricted type")]
+        public async Task Should_Get_Chat_Member_Restricted()
+        {
+            ChatMember chatMember = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            Assert.Equal(ChatMemberStatus.Restricted, chatMember.Status);
+            ChatMemberRestricted restrictedMember = Assert.IsType<ChatMemberRestricted>(chatMember);
+            Assert.NotNull(restrictedMember.UntilDate);
+            Assert.False(restrictedMember.CanSendOtherMessages);
+        }
+
         #endregion
 
         #region Receving chat member status update
@@ -180,20 +231,31 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             await _fixture.SendTestInstructionsAsync(
                 $"Chat admin should kick @{_classFixture.RegularMemberUserName.Replace("_", @"\_")}."
             );
+            Update[] updates = await _fixture.UpdateReceiver
+                .GetUpdatesAsync(
+                    predicate: u => u.ChatMember?.Chat.Id == _fixture.SupergroupChat.Id,
+                    updateTypes: UpdateType.ChatMember
+                )
+                .ConfigureAwait(false);
 
-            Update update = (await _fixture.UpdateReceiver
-                    .GetUpdatesAsync(
-                        u => u.ChatMember?.Chat.Id == _fixture.SupergroupChat.Id,
-                        updateTypes: new [] { UpdateType.ChatMember }
-                    ).ConfigureAwait(false)
-                ).Single();
+            Update update = updates.Single();
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
             ChatMemberUpdated chatMemberUpdated = update.ChatMember;
 
+            Assert.NotNull(chatMemberUpdated);
+            Assert.NotNull(chatMemberUpdated.OldChatMember);
+            Assert.NotNull(chatMemberUpdated.NewChatMember);
+
+            Assert.True(chatMemberUpdated.OldChatMember.Status == ChatMemberStatus.Restricted);
             Assert.True(chatMemberUpdated.NewChatMember.Status == ChatMemberStatus.Kicked);
-            Assert.Equal(_classFixture.RegularMemberUserId, chatMemberUpdated.NewChatMember.User.Id);
+
+            Assert.IsType<ChatMemberRestricted>(chatMemberUpdated.OldChatMember);
+            ChatMemberBanned newChatMember = Assert.IsType<ChatMemberBanned>(chatMemberUpdated.NewChatMember);
+
+            Assert.Null(newChatMember.UntilDate);
+            Assert.Equal(_classFixture.RegularMemberUserId, newChatMember.User.Id);
         }
 
         // This section is needed for technical reasons, don't remove
@@ -208,11 +270,13 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 $" for {waitTime.Minutes} minutes."
             );
 
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
             Update _ = (await _fixture.UpdateReceiver
                     .GetUpdatesAsync(
-                        u => u.Message.Chat.Id == _fixture.SupergroupChat.Id &&
+                        u => u.Message?.Chat.Id == _fixture.SupergroupChat.Id &&
                              u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: new[] {UpdateType.Message},
+                        updateTypes: UpdateType.Message,
                         cancellationToken: cts.Token
                     )
                 ).Single();
@@ -235,11 +299,24 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 $" *{banSeconds} seconds* via the link shared in private chat with him/her"
             );
 
-            await BotClient.KickChatMemberAsync(
+            await BotClient.BanChatMemberAsync(
                 chatId: _fixture.SupergroupChat.Id,
                 userId: _classFixture.RegularMemberUserId,
                 untilDate: DateTime.UtcNow.AddSeconds(banSeconds)
             );
+        }
+
+        [OrderedFact("Should get banned chat member with restricted status and of ChatMemberBanned type with not null UntilDate")]
+        public async Task Should_Get_Chat_Member_Restricted_With_Until_Date()
+        {
+            ChatMember chatMember = await BotClient.GetChatMemberAsync(
+                chatId: _fixture.SupergroupChat,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            Assert.Equal(ChatMemberStatus.Kicked, chatMember.Status);
+            ChatMemberBanned restrictedMember = Assert.IsType<ChatMemberBanned>(chatMember);
+            Assert.NotNull(restrictedMember.UntilDate);
         }
 
         #endregion

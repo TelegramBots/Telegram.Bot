@@ -14,11 +14,11 @@ namespace Telegram.Bot.Tests.Integ.Games
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class GamesTests : IClassFixture<GamesFixture>
     {
-        private ITelegramBotClient BotClient => _fixture.BotClient;
+        ITelegramBotClient BotClient => _fixture.BotClient;
 
-        private readonly TestsFixture _fixture;
+        readonly TestsFixture _fixture;
 
-        private readonly GamesFixture _classFixture;
+        readonly GamesFixture _classFixture;
 
         public GamesTests(TestsFixture fixture, GamesFixture classFixture)
         {
@@ -39,8 +39,8 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             const string resultId = "game";
             await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: queryUpdate.InlineQuery.Id,
-                results: new InlineQueryResultBase[]
+                inlineQueryId: queryUpdate.InlineQuery!.Id,
+                results: new InlineQueryResult[]
                 {
                     new InlineQueryResultGame(
                         id: resultId,
@@ -51,10 +51,14 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
 
             (Update messageUpdate, Update chosenResultUpdate) =
-                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                    chatId: _fixture.SupergroupChat.Id,
+                    messageType: MessageType.Game
+                );
 
-            Assert.Equal(MessageType.Game, messageUpdate.Message.Type);
-            Assert.Equal(resultId, chosenResultUpdate.ChosenInlineResult.ResultId);
+            Assert.Equal(MessageType.Game, messageUpdate?.Message?.Type);
+            Assert.Equal(resultId, chosenResultUpdate?.ChosenInlineResult?.ResultId);
+            Assert.NotNull(chosenResultUpdate?.ChosenInlineResult);
             Assert.Empty(chosenResultUpdate.ChosenInlineResult.Query);
 
             _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
@@ -85,7 +89,7 @@ namespace Telegram.Bot.Tests.Integ.Games
             int newScore = oldScore + 1 + new Random().Next(3);
 
             await _fixture.SendTestInstructionsAsync(
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username.Replace("_", @"\_")}."
+                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username!.Replace("_", @"\_")}."
             );
 
             await BotClient.SetGameScoreAsync(
@@ -105,10 +109,10 @@ namespace Telegram.Bot.Tests.Integ.Games
 
             Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
 
-            Assert.True(cqUpdate.CallbackQuery.IsGameQuery);
+            Assert.True(cqUpdate.CallbackQuery?.IsGameQuery);
 
             await BotClient.AnswerCallbackQueryAsync(
-                callbackQueryId: cqUpdate.CallbackQuery.Id,
+                callbackQueryId: cqUpdate.CallbackQuery!.Id,
                 url: "https://tbot.xyz/lumber/"
             );
         }

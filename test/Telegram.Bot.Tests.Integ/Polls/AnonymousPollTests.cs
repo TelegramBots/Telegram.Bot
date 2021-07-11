@@ -13,10 +13,9 @@ namespace Telegram.Bot.Tests.Integ.Polls
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
     public class AnonymousPollTests : IClassFixture<AnonymousPollTestsFixture>
     {
-
-        private readonly AnonymousPollTestsFixture _classFixture;
-        private TestsFixture Fixture => _classFixture.TestsFixture;
-        private ITelegramBotClient BotClient => Fixture.BotClient;
+        readonly AnonymousPollTestsFixture _classFixture;
+        TestsFixture Fixture => _classFixture.TestsFixture;
+        ITelegramBotClient BotClient => Fixture.BotClient;
 
         public AnonymousPollTests( AnonymousPollTestsFixture classFixture)
         {
@@ -89,7 +88,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendPoll)]
         public async Task Should_Throw_Exception_Not_Enough_Options()
         {
-            ApiRequestException exception = await Assert.ThrowsAnyAsync<ApiRequestException>(() =>
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
                 BotClient.SendPollAsync(
                     chatId: Fixture.SupergroupChat,
                     question: "You should never see this poll",
