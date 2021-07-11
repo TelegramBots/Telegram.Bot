@@ -12,20 +12,14 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
     {
         readonly List<IAsyncLifetime> _lifetimes = new();
 
-        protected void AddLifetime(IAsyncLifetime lifetime)
-        {
+        protected void AddLifetime(IAsyncLifetime lifetime) =>
             _lifetimes.Add(lifetime);
-        }
 
-        protected void AddLifetime(Func<Task>? initialize = default, Func<Task>? dispose = default)
-        {
+        protected void AddLifetime(Func<Task>? initialize = default, Func<Task>? dispose = default) =>
             _lifetimes.Add(new AsyncLifetimeAction(initialize, dispose));
-        }
 
-        protected void AddLifetime(Action? initialize = default, Action? dispose = default)
-        {
+        protected void AddLifetime(Action? initialize = default, Action? dispose = default) =>
             _lifetimes.Add(new AsyncLifetimeAction(initialize, dispose));
-        }
 
         public async Task InitializeAsync()
         {
@@ -57,7 +51,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
             public AsyncLifetimeAction(Action? initialize = default, Action? dispose = default)
             {
-                if (initialize != null)
+                if (initialize is not null)
                 {
                     _initialize = () =>
                     {
@@ -66,7 +60,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
                     };
                 }
 
-                if (dispose != null)
+                if (dispose is not null)
                 {
                     _dispose = () =>
                     {
@@ -78,12 +72,12 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
             public async Task InitializeAsync()
             {
-                if (_initialize != null) await _initialize();
+                if (_initialize is not null) { await _initialize(); }
             }
 
             public async Task DisposeAsync()
             {
-                if (_dispose != null) await _dispose();
+                if (_dispose is not null) { await _dispose(); }
             }
         }
     }

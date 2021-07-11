@@ -29,7 +29,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
         #region Kick, Unban, and Invite chat member back
 
-        [OrderedFact("Should get banned chat member with member status and of ChatMemberMember type")]
+        [OrderedFact("Should get regular chat member with member status and of ChatMemberMember type")]
         public async Task Should_Get_Chat_Member_Member()
         {
             ChatMember chatMember = await BotClient.GetChatMemberAsync(

@@ -92,6 +92,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
                     await Task.Delay(TimeSpan.FromSeconds(1.5), cancellationToken);
                 }
 
+                cancellationToken.ThrowIfCancellationRequested();
+
                 return matchingUpdates;
             }
             finally

@@ -151,9 +151,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 u.Message?.Type == MessageType.Contact ||
                 u.Message?.ForwardFrom?.Id is not null;
 
-            var update = (await UpdateReceiver
-                .GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message))
-                .Single();
+            var updates = await UpdateReceiver.GetUpdatesAsync(IsMatch, updateTypes: UpdateType.Message);
+            var update = updates.Single();
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
