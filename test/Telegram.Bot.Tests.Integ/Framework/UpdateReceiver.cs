@@ -154,7 +154,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             Update? messageUpdate = default;
             Update? chosenResultUpdate = default;
 
-            while (ShouldContinue(cancellationToken, messageUpdate ?? chosenResultUpdate))
+            while (ShouldContinue(cancellationToken, (messageUpdate, chosenResultUpdate)))
             {
                 await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
                 var updates = await GetUpdatesAsync(
@@ -169,8 +169,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             return (messageUpdate, chosenResultUpdate);
 
-            static bool ShouldContinue(CancellationToken cancellationToken, Update? update) =>
-                cancellationToken.IsCancellationRequested || update is null;
+            static bool ShouldContinue(CancellationToken cancellationToken, (Update? update1, Update? update2) updates) =>
+                !cancellationToken.IsCancellationRequested && updates is (null, null);
         }
 
         async Task<Update[]> GetOnlyAllowedUpdatesAsync(
