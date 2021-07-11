@@ -51,7 +51,10 @@ namespace Telegram.Bot.Tests.Integ.Games
             );
 
             (Update messageUpdate, Update chosenResultUpdate) =
-                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(MessageType.Game);
+                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                    chatId: _fixture.SupergroupChat.Id,
+                    messageType: MessageType.Game
+                );
 
             Assert.Equal(MessageType.Game, messageUpdate?.Message?.Type);
             Assert.Equal(resultId, chosenResultUpdate?.ChosenInlineResult?.ResultId);
