@@ -7,11 +7,14 @@ namespace Telegram.Bot.Tests.Integ.Other
 {
     [Collection(Constants.TestCollections.BotCommands)]
     [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class BotCommandsTests : IClassFixture<BotCommandsFixture>
+    public class BotCommandsTests: IAsyncLifetime
     {
-        readonly BotCommandsFixture _fixture;
+        readonly TestsFixture _fixture;
+        BotCommandScope _scope;
 
-        public BotCommandsTests(BotCommandsFixture fixture)
+        ITelegramBotClient BotClient => _fixture.BotClient;
+
+        public BotCommandsTests(TestsFixture fixture)
         {
             _fixture = fixture;
         }
@@ -20,31 +23,129 @@ namespace Telegram.Bot.Tests.Integ.Other
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyCommands)]
         public async Task Should_Set_New_Bot_Command_List()
         {
-            _fixture.NewBotCommands = new[]
+            BotCommand[] commands =
             {
-                new BotCommand
+                new()
                 {
                     Command = "start",
                     Description = "Start command"
                 },
-                new BotCommand
+                new()
                 {
                     Command = "help",
                     Description = "Help command"
                 },
             };
 
-            await _fixture.BotClient.SetMyCommandsAsync(_fixture.NewBotCommands);
+            _scope = BotCommandScope.Default();
+
+            await BotClient.SetMyCommandsAsync(
+                commands: commands,
+                scope: _scope
+            );
         }
 
         [OrderedFact("Should get previously set bot command list")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMyCommands)]
         public async Task Should_Get_Set_Bot_Commands()
         {
+            BotCommand[] commands =
+            {
+                new()
+                {
+                    Command = "start",
+                    Description = "Start command"
+                },
+                new()
+                {
+                    Command = "help",
+                    Description = "Help command"
+                },
+            };
+
+            _scope = BotCommandScope.Default();
+
+            await _fixture.BotClient.SetMyCommandsAsync(
+                commands: commands,
+                scope: _scope
+            );
+
             BotCommand[] currentCommands = await _fixture.BotClient.GetMyCommandsAsync();
 
             Assert.Equal(2, currentCommands.Length);
-            Asserts.JsonEquals(_fixture.NewBotCommands, currentCommands);
+            Asserts.JsonEquals(commands, currentCommands);
         }
+
+        [OrderedFact("Should delete bot command list")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyCommands)]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteMessage)]
+        public async Task Should_Delete_Bot_Commands()
+        {
+            BotCommand[] commands =
+            {
+                new()
+                {
+                    Command = "start",
+                    Description = "Start command"
+                },
+                new()
+                {
+                    Command = "help",
+                    Description = "Help command"
+                },
+            };
+
+            _scope = BotCommandScope.Default();
+
+            await BotClient.SetMyCommandsAsync(
+                commands: commands,
+                scope: _scope
+            );
+
+            BotCommand[] setCommands = await BotClient.GetMyCommandsAsync();
+
+            Assert.NotNull(setCommands);
+            Asserts.JsonEquals(commands, setCommands);
+
+            await BotClient.DeleteMyCommandsAsync(scope: _scope);
+
+            BotCommand[] currentCommands = await BotClient.GetMyCommandsAsync(scope: _scope);
+
+            Assert.NotNull(currentCommands);
+            Assert.Empty(currentCommands);
+        }
+
+        [OrderedFact("Should set group scoped commands")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyCommands)]
+        public async Task Should_Set_Group_Scoped_Commands()
+        {
+            BotCommand[] commands =
+            {
+                new()
+                {
+                    Command = "start",
+                    Description = "Start command"
+                },
+                new()
+                {
+                    Command = "help",
+                    Description = "Help command"
+                },
+            };
+
+            _scope = BotCommandScope.AllGroupChats();
+
+            await BotClient.SetMyCommandsAsync(
+                commands: commands,
+                scope: _scope
+            );
+
+            BotCommand[] newCommands = await BotClient.GetMyCommandsAsync(scope: _scope);
+
+            Asserts.JsonEquals(commands, newCommands);
+        }
+
+        public Task InitializeAsync() => Task.CompletedTask;
+        public async Task DisposeAsync() => await _fixture.BotClient.DeleteMyCommandsAsync(scope: _scope);
     }
 }

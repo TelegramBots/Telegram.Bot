@@ -317,6 +317,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string GetMyCommands = "getMyCommands";
 
+            public const string DeleteMyCommands = "deleteMyCommands";
+
             public const string SendDice = "sendDice";
 
             public const string CopyMessage = "copyMessage";

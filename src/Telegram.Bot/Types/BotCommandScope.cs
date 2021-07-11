@@ -31,7 +31,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Create a <see cref="BotCommandScope"/> instance for all group chats
         /// </summary>
-        public static BotCommandScopeAllGroupChats AllGroupChats => new();
+        public static BotCommandScopeAllGroupChats AllGroupChats() => new();
 
         /// <summary>
         /// Create a <see cref="BotCommandScope"/> instance for all chat administrators
