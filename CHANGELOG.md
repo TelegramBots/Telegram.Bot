@@ -21,7 +21,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [v16.0.1] - 2021-07-10
+
+### Fixed
+- `ITelegramBotClient.SendDocumentAsync` passed wrong value into `DisableContentTypeDetection` property
+
+## [v16.0.0] - 2021-06-13
 
 > [Bot API 5.3](https://core.telegram.org/bots/api#june-25-2021) (June 25, 2021)
 
