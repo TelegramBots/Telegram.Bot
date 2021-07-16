@@ -19,6 +19,6 @@ namespace Telegram.Bot.Types
         /// Location address; 1-64 characters, as defined by the chat owner
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public string String { get; set; } = default!;
+        public string Address { get; set; } = default!;
     }
 }
