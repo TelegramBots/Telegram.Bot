@@ -4,6 +4,9 @@ on:
   push:
     branches-ignore: [ master ]
 
+env:
+  USE_CI_FEED: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,6 +17,7 @@ jobs:
         with:
           dotnet-version: 5.0.x
       - name: Copy nuget.config with development feed from Azure
+        if: ${{ env.USE_CI_FEED == 'true' }}
         shell: pwsh
         run: Copy-Item -Path .github/nuget.config
       - name: Restore dependencies
