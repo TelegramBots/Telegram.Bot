@@ -64,13 +64,19 @@ You have two ways of starting to receive updates
     {
         AllowedUpdates = {} // receive all update types
     };
-
-    await bot.ReceiveAsync(
-        HandleUpdateAsync,
-        HandleErrorAsync,
-        receiveOptions,
-        cancellationToken
-    );
+   
+   try
+   {
+        await bot.ReceiveAsync(
+            HandleUpdateAsync,
+            HandleErrorAsync,
+            receiveOptions,
+            cancellationToken
+        );
+   }
+   catch (OperationCancelledException exception)
+   {
+   }
     ```
 
 Trigger cancellation by calling `cts.Cancel()` somewhere to stop receiving update in both methods.
@@ -100,14 +106,19 @@ var receiveOptions = new ReceiveOptions
     ThrowPendingUpdates = true
 };
 
-await bot.ReceiveAsync(
-    HandleUpdateAsync,
-    HandleErrorAsync,
-    receiveOptions,
-    cancellationToken
-);
+try
+{
+    await bot.ReceiveAsync(
+        HandleUpdateAsync,
+        HandleErrorAsync,
+        receiveOptions,
+        cancellationToken
+   );
+}
+catch (OperationCancelledException exception)
+{
+}
 ```
-
 
 ## Update streams
 
@@ -131,16 +142,24 @@ var receiveOptions = new ReceiveOptions
 };
 var updateReceiver = new QueuedUpdateReceiver(bot, receiveOptions);
 
-updateReceiver.StartReceiving();
+// to cancel
+var cts = new CancellationTokenSource();
 
-await foreach (Update update in updateReceiver)
+try
 {
-    if (update.Message is Message message)
-    {
-        await Bot.SendTextMessageAsync(
-            message.Chat,
-            $"Still have to process {updateReceiver.PendingUpdates} updates"
-        );
-    }
+    await foreach (Update update in updateReceiver.WithCancellation(cts.Token))
+   {
+       if (update.Message is Message message)
+       {
+           await Bot.SendTextMessageAsync(
+               message.Chat,
+               $"Still have to process {updateReceiver.PendingUpdates} updates"
+           );
+       }
+   }
+}
+catch (OperationCancelledException exception)
+{
 }
 ```
+
