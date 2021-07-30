@@ -3,10 +3,6 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
-    <NullableContextOptions>enable</NullableContextOptions>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>1.0.0-alpha.1</Version>
     <Authors>MihaZupan,tuscen,TelegramBots</Authors>
     <Copyright>Copyright © Telegram Bots 2021</Copyright>
@@ -17,7 +13,25 @@
     <Description>Provides ITelegramBotClient extensions for polling updates.</Description>
     <PackageIcon>package-icon.png</PackageIcon>
     <Company>TelegramBots</Company>
+    <LangVersion>9.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
     <Nullable>enable</Nullable>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>
+      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+    </AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <!-- Make build deterministic only in CI environment to make local development easier with non-trimmed paths -->
+  <!-- CI is a predefined variable in Github Actions -->
+  <PropertyGroup Condition="'$(CI)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +44,7 @@
   <ItemGroup>
     <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
     <PackageReference Include="Telegram.Bot" Version="17.0.0-alpha.1" />
+    <PackageReference Include="Microsoft.SourceLink.Github" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
