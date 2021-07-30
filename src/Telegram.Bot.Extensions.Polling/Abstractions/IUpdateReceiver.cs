@@ -27,6 +27,7 @@ namespace Telegram.Bot.Extensions.Polling
         /// </returns>
         Task ReceiveAsync(
             IUpdateHandler updateHandler,
-            CancellationToken cancellationToken = default);
+            CancellationToken cancellationToken = default
+        );
     }
 }

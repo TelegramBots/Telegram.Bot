@@ -27,19 +27,19 @@ namespace Telegram.Bot.Extensions.Polling
         }
 
         /// <inheritdoc />
-        public Task HandleUpdateAsync(
+        public async Task HandleUpdateAsync(
             ITelegramBotClient botClient,
             Update update,
             CancellationToken cancellationToken
         ) =>
-            _updateHandler(botClient, update, cancellationToken);
+            await _updateHandler(botClient, update, cancellationToken);
 
         /// <inheritdoc />
-        public Task HandleErrorAsync(
+        public async Task HandleErrorAsync(
             ITelegramBotClient botClient,
             Exception exception,
             CancellationToken cancellationToken
         ) =>
-            _errorHandler(botClient, exception, cancellationToken);
+            await _errorHandler(botClient, exception, cancellationToken);
     }
 }

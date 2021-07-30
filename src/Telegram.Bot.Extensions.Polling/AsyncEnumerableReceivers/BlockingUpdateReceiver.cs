@@ -54,7 +54,7 @@ namespace Telegram.Bot.Extensions.Polling
                 throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
             }
 
-            return new Enumerator(this, cancellationToken);
+            return new Enumerator(receiver: this, cancellationToken: cancellationToken);
         }
 
         class Enumerator : IAsyncEnumerator<Update>
@@ -125,14 +125,14 @@ namespace Telegram.Bot.Extensions.Polling
                     {
                         _updateArray = await _receiver._botClient
                             .MakeRequestAsync(
-                                new GetUpdatesRequest
+                                request: new GetUpdatesRequest
                                 {
                                     Offset = _messageOffset,
                                     Timeout = (int) _receiver._botClient.Timeout.TotalSeconds,
                                     Limit = _limit,
                                     AllowedUpdates = _allowedUpdates,
                                 },
-                                _token
+                                cancellationToken: _token
                             )
                             .ConfigureAwait(false);
                     }

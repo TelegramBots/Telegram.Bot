@@ -29,7 +29,7 @@ namespace Telegram.Bot.Extensions.Polling.Extensions
                 Timeout = timeout,
                 AllowedUpdates = Array.Empty<UpdateType>(),
             };
-            var updates = await botClient.MakeRequestAsync(request, cancellationToken)
+            var updates = await botClient.MakeRequestAsync(request: request, cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
 #if NETCOREAPP3_1_OR_GREATER

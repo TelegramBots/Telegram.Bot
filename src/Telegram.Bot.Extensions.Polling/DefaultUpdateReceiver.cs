@@ -70,19 +70,25 @@ namespace Telegram.Bot.Extensions.Polling
                         Timeout = timeout,
                         AllowedUpdates = allowedUpdates,
                     };
-                    updates = await _botClient.MakeRequestAsync(request, cancellationToken)
-                        .ConfigureAwait(false);
+                    updates = await _botClient.MakeRequestAsync(
+                            request: request,
+                            cancellationToken:
+                            cancellationToken
+                        ).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
                     // Ignore
                 }
-                catch (Exception ex)
+                catch (Exception exception)
                 {
                     try
                     {
-                        await updateHandler.HandleErrorAsync(_botClient, ex, cancellationToken)
-                            .ConfigureAwait(false);
+                        await updateHandler.HandleErrorAsync(
+                                botClient: _botClient,
+                                exception: exception,
+                                cancellationToken: cancellationToken
+                            ).ConfigureAwait(false);
                     }
                     catch (OperationCanceledException)
                     {
@@ -94,8 +100,11 @@ namespace Telegram.Bot.Extensions.Polling
                 {
                     try
                     {
-                        await updateHandler.HandleUpdateAsync(_botClient, update, cancellationToken)
-                            .ConfigureAwait(false);
+                        await updateHandler.HandleUpdateAsync(
+                                botClient: _botClient,
+                                update: update,
+                                cancellationToken: cancellationToken
+                            ).ConfigureAwait(false);
 
                         messageOffset = update.Id + 1;
                     }

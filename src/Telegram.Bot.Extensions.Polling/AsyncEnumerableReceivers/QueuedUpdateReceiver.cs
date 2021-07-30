@@ -62,7 +62,7 @@ namespace Telegram.Bot.Extensions.Polling
                 throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
             }
 
-            _enumerator = new Enumerator(this, cancellationToken);
+            _enumerator = new Enumerator(receiver: this, cancellationToken: cancellationToken);
 
             return _enumerator;
         }
@@ -149,14 +149,14 @@ namespace Telegram.Bot.Extensions.Polling
                     {
                         Update[] updateArray = await _receiver._botClient
                             .MakeRequestAsync(
-                                new GetUpdatesRequest
+                                request: new GetUpdatesRequest
                                 {
                                     Offset = _messageOffset,
                                     Timeout = (int)_receiver._botClient.Timeout.TotalSeconds,
                                     AllowedUpdates = _allowedUpdates,
                                     Limit = _limit,
                                 },
-                                _token
+                                cancellationToken: _token
                             )
                             .ConfigureAwait(false);
 
@@ -208,8 +208,8 @@ namespace Telegram.Bot.Extensions.Polling
                         if (_uncaughtException is not null)
                         {
                             _uncaughtException = new Exception(
-                                "Exception was not caught by the errorHandler.",
-                                _uncaughtException
+                                message: "Exception was not caught by the errorHandler.",
+                                innerException: _uncaughtException
                             );
                         }
                     }
