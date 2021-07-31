@@ -10,6 +10,7 @@ using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types;
+using Telegram.Bot.Extensions.Polling;
 
 async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
 {
@@ -39,14 +40,14 @@ You have two ways of starting to receive updates
 
     var cts = new CancellationTokenSource();
     var cancellationToken = cts.Token;
-    var receiveOptions = new ReceiveOptions
+    var receiverOptions = new ReceiverOptions
     {
         AllowedUpdates = {} // receive all update types
     };
     bot.StartReceiving(
         HandleUpdateAsync,
         HandleErrorAsync,
-        receiveOptions,
+        receiverOptions,
         cancellationToken
     );
     ```
@@ -60,7 +61,7 @@ You have two ways of starting to receive updates
     var cts = new CancellationTokenSource();
     var cancellationToken = cts.Token;
 
-    var receiveOptions = new ReceiveOptions
+    var receiverOptions = new ReceiverOptions
     {
         AllowedUpdates = {} // receive all update types
     };
@@ -70,7 +71,7 @@ You have two ways of starting to receive updates
         await bot.ReceiveAsync(
             HandleUpdateAsync,
             HandleErrorAsync,
-            receiveOptions,
+            receiverOptions,
             cancellationToken
         );
    }
@@ -100,7 +101,7 @@ using Telegram.Bot.Types.Enums;
 var cts = new CancellationTokenSource();
 var cancellationToken = cts.Token;
 
-var receiveOptions = new ReceiveOptions
+var receiverOptions = new ReceiverOptions
 {
     AllowedUpdates = new { UpdateType.Message, UpdateType.CallbackQuery }
     ThrowPendingUpdates = true
@@ -111,7 +112,7 @@ try
     await bot.ReceiveAsync(
         HandleUpdateAsync,
         HandleErrorAsync,
-        receiveOptions,
+        receiverOptions,
         cancellationToken
    );
 }
@@ -136,11 +137,11 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Extensions.Polling;
 
 var bot = new TelegramBotClient("<token>");
-var receiveOptions = new ReceiveOptions
+var receiverOptions = new ReceiverOptions
 {
     AllowedUpdates = {} // receive all update types
 };
-var updateReceiver = new QueuedUpdateReceiver(bot, receiveOptions);
+var updateReceiver = new QueuedUpdateReceiver(bot, receiverOptions);
 
 // to cancel
 var cts = new CancellationTokenSource();
