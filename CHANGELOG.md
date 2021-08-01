@@ -21,6 +21,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+## [Unreleased]
+
+### Added
+- Interface `IExceptionsParser`
+- Type `ApiResponse`
+- Property `ITelegramBotClient.ExceptionsParser`
+
+## [v.16.0.2] - 2021-08-16
+### Fixed
+- Parameter name `ChatLocation.String` replaced with `ChatLocation.Address`
+
 ## [v16.0.1] - 2021-07-10
 
 ### Fixed
