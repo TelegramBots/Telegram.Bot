@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [v17.0.0-alpha.2] - 2021-09-01
 
 ### Added
 - Interface `IExceptionsParser`
@@ -29,19 +29,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `ITelegramBotClient.ExceptionsParser`
 
 ## [v.16.0.2] - 2021-08-16
+
 ### Fixed
 - Parameter name `ChatLocation.String` replaced with `ChatLocation.Address`
 
 ## [v16.0.1] - 2021-07-10
 
 ### Fixed
+
 - `ITelegramBotClient.SendDocumentAsync` passed wrong value into `DisableContentTypeDetection` property
 
-## [v16.0.0] - 2021-06-13
+## [v17.0.0-alpha.1] - 2021-06-13
 
 > [Bot API 5.3](https://core.telegram.org/bots/api#june-25-2021) (June 25, 2021)
 
 ### Added
+
 - Enum `InputMediaType`
 - Type `BanCommandScope`
 - Type `BanCommandScopeDefault`
@@ -79,6 +82,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Interface `IUserTargetable`
 
 ### Changed
+
 - Type `InlineQueryResultBase` renamed to `InlineQueryResult`
 - Type `ChatMember` is made abstract
 - Property `ChatMember.Status` is made abstract
@@ -102,6 +106,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - All optional types are made nullable be it value or reference types
 
 ### Removed
+
 - Public setter `ChatMember.Status`
 - Enum member `ParseMode.Default`
 - Enum members `ChatAction.RecordAudio` and `ChatAction.UploadAudio`
@@ -112,15 +117,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property setter `InputMediaBase.Media`
 - Protected setter `InputOnlineFile.Url`
 - All obsolete types, methods and properties related to polling events
-- Following interfaces: `ICaptionEntities`, `IEntities`, `IFormattableEntities`, `IInlineMessage`, 
-  `IInlineReplyMarkupMessage`, `INotifiableMessage`, `IReplyMarkupMessage`, `IReplyMessage`, `IThumbMediaMessage`, 
-  `ICaptionInlineQueryResult`, `ILocationInlineQueryResult`, `IThumbnailInlineQueryResult`, 
+- Following interfaces: `ICaptionEntities`, `IEntities`, `IFormattableEntities`, `IInlineMessage`,
+  `IInlineReplyMarkupMessage`, `INotifiableMessage`, `IReplyMarkupMessage`, `IReplyMessage`, `IThumbMediaMessage`,
+  `ICaptionInlineQueryResult`, `ILocationInlineQueryResult`, `IThumbnailInlineQueryResult`,
   `IThumbnailUrlInlineQueryResult`
-  
 
 ## [v16.0.0] - 2021-06-13
 
 ### Changed
+
 - `Animation` inherits from `FileBase`
 - All custom exceptions are marked as obsolete
 
@@ -168,7 +173,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [v16.0.0-alpha.1] - 2021-05-01
 
 > [Bot API 5.1](https://core.telegram.org/bots/api#march-9-2021) (March 9, 2021)
-
 > [Bot API 5.0](https://core.telegram.org/bots/api#november-4-2020) (November 4, 2020)
 
 ### Added
