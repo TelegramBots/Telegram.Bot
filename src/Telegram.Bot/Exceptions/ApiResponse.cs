@@ -8,7 +8,7 @@ namespace Telegram.Bot.Exceptions
     /// Represents failed API response
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    internal class ApiResponse
+    public class ApiResponse
     {
         /// <summary>
         /// Gets the error message.

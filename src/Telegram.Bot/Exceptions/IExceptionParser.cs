@@ -3,7 +3,7 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// Parses unsuccessful responses from Telegram Bot API to make specific exceptions
     /// </summary>
-    internal interface IExceptionParser
+    public interface IExceptionParser
     {
         /// <summary>
         /// Parses HTTP response and constructs a specific exception out of it
