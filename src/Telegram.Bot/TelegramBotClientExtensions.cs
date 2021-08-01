@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Helpers;
@@ -1024,7 +1025,7 @@ namespace Telegram.Bot
         /// Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. The file can then be downloaded via the link <c>https://api.telegram.org/file/bot&lt;token&gt;/&lt;file_path&gt;</c>, where <c>&lt;file_path&gt;</c> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling <see cref="GetFileAsync"/> again.
         /// </summary>
         /// <remarks>
-        /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or <see cref="ITelegramBotClient.GetInfoAndDownloadFileAsync"/> methods to download the file
+        /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or <see cref="TelegramBotClientExtensions.GetInfoAndDownloadFileAsync"/> methods to download the file
         /// </remarks>
         /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/>.</param>
         /// <param name="fileId">File identifier to get info about</param>
@@ -1037,6 +1038,29 @@ namespace Telegram.Bot
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
                 new GetFileRequest(fileId), cancellationToken);
+
+        /// <summary>
+        /// Use this method to get basic info about a file download it. For the moment, bots can download files of up to 20MB in size.
+        /// </summary>
+        /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/>.</param>
+        /// <param name="fileId">File identifier to get info about</param>
+        /// <param name="destination">Destination stream to write file to</param>
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <returns>On success, a <see cref="File"/> object is returned.</returns>
+        public static async Task<File> GetInfoAndDownloadFileAsync(
+            this ITelegramBotClient botClient,
+            string fileId,
+            Stream destination,
+            CancellationToken cancellationToken = default)
+        {
+            var file = await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(new GetFileRequest(fileId), cancellationToken)
+                .ConfigureAwait(false);
+
+            await botClient.DownloadFileAsync(file.FilePath!, destination, cancellationToken)
+                .ConfigureAwait(false);
+
+            return file;
+        } 
 
         /// <summary>
         /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless <see cref="UnbanChatMemberAsync(ITelegramBotClient, ChatId, long, bool?, CancellationToken)">unbanned</see> first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.

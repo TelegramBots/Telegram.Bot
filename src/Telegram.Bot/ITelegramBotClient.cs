@@ -76,18 +76,5 @@ namespace Telegram.Bot
             Stream destination,
             CancellationToken cancellationToken = default
         );
-
-        /// <summary>
-        /// Use this method to get basic info about a file download it. For the moment, bots can download files of up to 20MB in size.
-        /// </summary>
-        /// <param name="fileId">File identifier to get info about</param>
-        /// <param name="destination">Destination stream to write file to</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <returns>On success, a <see cref="File"/> object is returned.</returns>
-        Task<File> GetInfoAndDownloadFileAsync(
-            string fileId,
-            Stream destination,
-            CancellationToken cancellationToken = default
-        );
     }
 }

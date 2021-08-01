@@ -329,21 +329,6 @@ namespace Telegram.Bot
             }
         }
 
-        /// <inheritdoc />
-        public async Task<File> GetInfoAndDownloadFileAsync(
-            string fileId,
-            Stream destination,
-            CancellationToken cancellationToken = default)
-        {
-            var file = await MakeRequestAsync(new GetFileRequest(fileId), cancellationToken)
-                .ConfigureAwait(false);
-
-            await DownloadFileAsync(file.FilePath!, destination, cancellationToken)
-                .ConfigureAwait(false);
-
-            return file;
-        }
-
         static string ExtractBaseUrl(string? baseUrl)
         {
             if (baseUrl is null) { throw new ArgumentNullException(paramName: nameof(baseUrl)); }
