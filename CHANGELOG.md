@@ -24,9 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Changed
+- Fields `ChatId.Identifier` and `ChatId.Username` changed into get-only properties
+
+## [v17.0.0-alpha.3] - 2021-09-01
+
+### Changed
 - Method `GetInfoAndDownloadFileAsync` moved into static class `TelegramBotClientExtensions` as an extension method
 - Symbols are always include in the package
-- Fields `ChatId.Identifier` and `ChatId.Username` changed into get-only properies
 
 ## [v17.0.0-alpha.2] - 2021-09-01
 
