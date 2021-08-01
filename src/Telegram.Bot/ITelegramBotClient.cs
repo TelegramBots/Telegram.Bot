@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests.Abstractions;
 using File = Telegram.Bot.Types.File;
 
@@ -25,6 +26,13 @@ namespace Telegram.Bot
         /// Timeout for requests
         /// </summary>
         TimeSpan Timeout { get; set; }
+
+        /// <summary>
+        /// Instance of <see cref="IExceptionParser"/> to parse errors from Bot API into
+        /// <see cref="ApiRequestException"/>
+        /// </summary>
+        /// <remarks>This property is not thread safe</remarks>
+        IExceptionParser ExceptionsParser { get; set; }
 
         /// <summary>
         /// Occurs before sending a request to API

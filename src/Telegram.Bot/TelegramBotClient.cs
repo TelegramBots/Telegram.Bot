@@ -22,8 +22,6 @@ namespace Telegram.Bot
     {
         const string BaseTelegramUrl = "https://api.telegram.org";
 
-        static readonly ExceptionParser ExceptionParser = new();
-
         readonly string _baseFileUrl;
         readonly string _baseRequestUrl;
         readonly bool _localBotServer;
@@ -40,6 +38,9 @@ namespace Telegram.Bot
             get => _httpClient.Timeout;
             set => _httpClient.Timeout = value;
         }
+
+        /// <inheritdoc />
+        public IExceptionParser ExceptionsParser { get; set; } = new DefaultExceptionParser();
 
         /// <summary>
         /// Occurs before sending a request to API
@@ -156,7 +157,7 @@ namespace Telegram.Bot
                     )
                     .ConfigureAwait(false);
 
-                throw ExceptionParser.Parse(failedApiResponse);
+                throw ExceptionsParser.Parse(failedApiResponse);
             }
 
             var apiResponse = await httpResponse
@@ -244,7 +245,7 @@ namespace Telegram.Bot
                     )
                     .ConfigureAwait(false);
 
-                throw ExceptionParser.Parse(failedApiResponse);
+                throw ExceptionsParser.Parse(failedApiResponse);
             }
 
             if (httpResponse.Content is null)
