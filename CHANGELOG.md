@@ -21,19 +21,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v17.0.0-alpha.2] - Unreleased
-
-### Fixed
-
-- `ChatLocation.String` -> `ChatLocation.Address`
-
-## [v17.0.0-alpha.1] - 2021-07-11
+## [v17.0.0-alpha.2] - 2021-09-01
 
 ### Added
+- Interface `IExceptionsParser`
+- Type `ApiResponse`
+- Property `ITelegramBotClient.ExceptionsParser`
 
-### Changed
+## [v.16.0.2] - 2021-08-16
 
 ### Fixed
+- Parameter name `ChatLocation.String` replaced with `ChatLocation.Address`
 
 ## [v16.0.1] - 2021-07-10
 
@@ -41,7 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - `ITelegramBotClient.SendDocumentAsync` passed wrong value into `DisableContentTypeDetection` property
 
-## [v16.0.0] - 2021-06-13
+## [v17.0.0-alpha.1] - 2021-06-13
 
 > [Bot API 5.3](https://core.telegram.org/bots/api#june-25-2021) (June 25, 2021)
 
