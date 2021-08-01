@@ -21,15 +21,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+## [Unreleased]
+
+### Changed
+- Method `GetInfoAndDownloadFileAsync` moved into static class `TelegramBotClientExtensions` as an extension method
+- Symbols are always include in the package
+
 ## [v17.0.0-alpha.2] - 2021-09-01
 
 ### Added
 - Interface `IExceptionsParser`
 - Type `ApiResponse`
 - Property `ITelegramBotClient.ExceptionsParser`
-
-### Changed
-- Method `GetInfoAndDownloadFileAsync` moved into static class `TelegramBotClientExtensions` as an extension method
 
 ## [v.16.0.2] - 2021-08-16
 
