@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Type `ApiResponse`
 - Property `ITelegramBotClient.ExceptionsParser`
 
+### Changed
+- Method `GetInfoAndDownloadFileAsync` moved into static class `TelegramBotClientExtensions` as an extension method
+
 ## [v.16.0.2] - 2021-08-16
 
 ### Fixed
