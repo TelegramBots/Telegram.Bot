@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests.Abstractions;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
 {

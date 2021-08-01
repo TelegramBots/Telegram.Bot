@@ -1036,8 +1036,12 @@ namespace Telegram.Bot
             string fileId,
             CancellationToken cancellationToken = default
         ) =>
-            await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetFileRequest(fileId), cancellationToken);
+            await botClient.ThrowIfNull(nameof(botClient))
+                .MakeRequestAsync(
+                    request: new GetFileRequest(fileId),
+                    cancellationToken: cancellationToken
+                )
+                .ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get basic info about a file download it. For the moment, bots can download files of up to 20MB in size.

@@ -52,7 +52,7 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         public override HttpContent? ToHttpContent() =>
             Thumb?.FileType switch {
-                FileType.Stream => ToMultipartFormDataContent("thumb", Thumb),
+                FileType.Stream => ToMultipartFormDataContent(fileParameterName: "thumb", inputFile: Thumb),
                 _               => base.ToHttpContent()
             };
     }

@@ -11,7 +11,6 @@ using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
 {

@@ -112,12 +112,20 @@ namespace Telegram.Bot.Requests
                 var multipartContent = GenerateMultipartFormDataContent("audio", "thumb");
                 if (Audio.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(Audio.Content!, "audio", Audio.FileName);
+                    multipartContent.AddStreamContent(
+                        content: Audio.Content!,
+                        name: "audio",
+                        fileName: Audio.FileName
+                    );
                 }
 
                 if (Thumb?.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(Thumb.Content!, "thumb", Thumb.FileName);
+                    multipartContent.AddStreamContent(
+                        content: Thumb.Content!,
+                        name: "thumb",
+                        fileName: Thumb.FileName
+                    );
                 }
 
                 httpContent = multipartContent;

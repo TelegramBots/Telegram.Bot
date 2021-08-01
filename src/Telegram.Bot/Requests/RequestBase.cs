@@ -19,7 +19,7 @@ namespace Telegram.Bot.Requests
 
         /// <inheritdoc />
         [JsonIgnore]
-        public string MethodName { get; protected set; }
+        public string MethodName { get; }
 
         /// <summary>
         /// Initializes an instance of request
@@ -47,7 +47,7 @@ namespace Telegram.Bot.Requests
         public virtual HttpContent? ToHttpContent()
         {
             string payload = JsonConvert.SerializeObject(this);
-            return new StringContent(payload, Encoding.UTF8, "application/json");
+            return new StringContent(content: payload, encoding: Encoding.UTF8, mediaType: "application/json");
         }
 
         /// <inheritdoc />
