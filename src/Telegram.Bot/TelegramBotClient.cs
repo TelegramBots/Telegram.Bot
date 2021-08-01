@@ -72,7 +72,7 @@ namespace Telegram.Bot
             HttpClient? httpClient = null,
             string? baseUrl = default)
         {
-            if (token is null) throw new ArgumentNullException(nameof(token));
+            if (token is null) { throw new ArgumentNullException(nameof(token)); }
 
             BotId = GetIdFromToken(token);
 
@@ -96,11 +96,11 @@ namespace Telegram.Bot
                 var botIdSpan = span[..index];
                 if (!long.TryParse(botIdSpan, out var botId)) { return null; }
 #else
-                var index = token.IndexOf(':');
+                var index = token.IndexOf(value: ':');
 
                 if (index is < 1 or > 16) { return null; }
 
-                var botIdSpan = token.Substring(0, index);
+                var botIdSpan = token.Substring(startIndex: 0, length: index);
                 if (!long.TryParse(botIdSpan, out var botId)) { return null; }
 #endif
 
@@ -116,7 +116,7 @@ namespace Telegram.Bot
             if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
             var url = $"{_baseRequestUrl}/{request.MethodName}";
-            var httpRequest = new HttpRequestMessage(request.Method, url)
+            var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
             {
                 Content = request.ToHttpContent()
             };
@@ -124,25 +124,37 @@ namespace Telegram.Bot
             if (OnMakingApiRequest is not null)
             {
                 var requestEventArgs = new ApiRequestEventArgs(
-                    request.MethodName,
-                    httpRequest.Content
+                    methodName: request.MethodName,
+                    httpContent: httpRequest.Content
                 );
-                await OnMakingApiRequest.Invoke(this, requestEventArgs, cancellationToken);
+                await OnMakingApiRequest.Invoke(
+                    botClient: this,
+                    args: requestEventArgs,
+                    cancellationToken: cancellationToken
+                );
             }
 
-            using var httpResponse = await SendRequestAsync(_httpClient, httpRequest, cancellationToken).ConfigureAwait(false);
+            using var httpResponse = await SendRequestAsync(
+                httpClient: _httpClient,
+                httpRequest: httpRequest,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
 
             if (OnApiResponseReceived is not null)
             {
                 var requestEventArgs = new ApiRequestEventArgs(
-                    request.MethodName,
-                    httpRequest.Content
+                    methodName: request.MethodName,
+                    httpContent: httpRequest.Content
                 );
                 var responseEventArgs = new ApiResponseEventArgs(
-                    httpResponse,
-                    requestEventArgs
+                    responseMessage: httpResponse,
+                    apiRequestEventArgs: requestEventArgs
                 );
-                await OnApiResponseReceived.Invoke(this, responseEventArgs, cancellationToken);
+                await OnApiResponseReceived.Invoke(
+                    botClient: this,
+                    args: responseEventArgs,
+                    cancellationToken: cancellationToken
+                );
             }
 
             if (httpResponse.StatusCode != HttpStatusCode.OK)
@@ -169,14 +181,18 @@ namespace Telegram.Bot
 
             return apiResponse.Result!;
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static async Task<HttpResponseMessage> SendRequestAsync(HttpClient httpClient, HttpRequestMessage httpRequest, CancellationToken cancellationToken)
+            [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
+            static async Task<HttpResponseMessage> SendRequestAsync(
+                HttpClient httpClient,
+                HttpRequestMessage httpRequest,
+                CancellationToken cancellationToken)
             {
                 HttpResponseMessage? httpResponse;
                 try
                 {
-                    httpResponse = await httpClient.SendAsync(httpRequest, cancellationToken)
-                        .ConfigureAwait(false);
+                    httpResponse = await httpClient
+                        .SendAsync(request: httpRequest, cancellationToken: cancellationToken)
+                        .ConfigureAwait(continueOnCapturedContext: false);
                 }
                 catch (TaskCanceledException exception)
                 {
@@ -185,11 +201,14 @@ namespace Telegram.Bot
                         throw;
                     }
 
-                    throw new RequestException("Request timed out", exception);
+                    throw new RequestException(message: "Request timed out", innerException: exception);
                 }
                 catch (Exception exception)
                 {
-                    throw new RequestException("Exception during making request", exception);
+                    throw new RequestException(
+                        message: "Exception during making request",
+                        innerException: exception
+                    );
                 }
 
                 return httpResponse;
@@ -204,7 +223,8 @@ namespace Telegram.Bot
         {
             try
             {
-                await MakeRequestAsync(new GetMeRequest(), cancellationToken).ConfigureAwait(false);
+                await MakeRequestAsync(request: new GetMeRequest(), cancellationToken: cancellationToken)
+                    .ConfigureAwait(false);
                 return true;
             }
             catch (ApiRequestException e)
@@ -222,16 +242,17 @@ namespace Telegram.Bot
         {
             if (string.IsNullOrWhiteSpace(filePath) || filePath.Length < 2)
             {
-                throw new ArgumentException("Invalid file path", nameof(filePath));
+                throw new ArgumentException(message: "Invalid file path", paramName: nameof(filePath));
             }
 
-            if (destination is null)
-            {
-                throw new ArgumentNullException(nameof(destination));
-            }
+            if (destination is null) { throw new ArgumentNullException(nameof(destination)); }
 
             var fileUri = $"{_baseFileUrl}/{filePath}";
-            using HttpResponseMessage httpResponse = await GetResponseAsync(_httpClient, fileUri, cancellationToken).ConfigureAwait(false);
+            using HttpResponseMessage httpResponse = await GetResponseAsync(
+                httpClient: _httpClient,
+                fileUri: fileUri,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
 
             if (!httpResponse.IsSuccessStatusCode)
             {
@@ -249,10 +270,12 @@ namespace Telegram.Bot
             }
 
             if (httpResponse.Content is null)
+            {
                 throw new RequestException(
-                    "Response doesn't contain any content",
+                    message: "Response doesn't contain any content",
                     httpResponse.StatusCode
                 );
+            }
 
             try
             {
@@ -262,34 +285,44 @@ namespace Telegram.Bot
             catch (Exception exception)
             {
                 throw new RequestException(
-                    "Exception during file download",
+                    message: "Exception during file download",
                     httpResponse.StatusCode,
                     exception
                 );
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            static async Task<HttpResponseMessage> GetResponseAsync(HttpClient httpClient, string fileUri, CancellationToken cancellationToken)
+            [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
+            static async Task<HttpResponseMessage> GetResponseAsync(
+                HttpClient httpClient,
+                string fileUri,
+                CancellationToken cancellationToken)
             {
                 HttpResponseMessage? httpResponse;
                 try
                 {
                     httpResponse = await httpClient
-                        .GetAsync(fileUri, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
-                        .ConfigureAwait(false);
+                        .GetAsync(
+                            requestUri: fileUri,
+                            completionOption: HttpCompletionOption.ResponseHeadersRead,
+                            cancellationToken: cancellationToken
+                        )
+                        .ConfigureAwait(continueOnCapturedContext: false);
                 }
                 catch (TaskCanceledException exception)
                 {
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        throw;
-                    }
+                    if (cancellationToken.IsCancellationRequested) { throw; }
 
-                    throw new RequestException("Request timed out", exception);
+                    throw new RequestException(
+                        message: "Request timed out",
+                        innerException: exception
+                    );
                 }
                 catch (Exception exception)
                 {
-                    throw new RequestException("Exception during file download", exception);
+                    throw new RequestException(
+                        message: "Exception during file download",
+                        innerException: exception
+                    );
                 }
 
                 return httpResponse;
@@ -313,15 +346,15 @@ namespace Telegram.Bot
 
         static string ExtractBaseUrl(string? baseUrl)
         {
-            if (baseUrl is null) throw new ArgumentNullException(nameof(baseUrl));
+            if (baseUrl is null) { throw new ArgumentNullException(paramName: nameof(baseUrl)); }
 
-            if (!Uri.TryCreate(baseUrl, UriKind.Absolute, out var baseUri)
-                || string.IsNullOrEmpty(baseUri.Scheme)
-                || string.IsNullOrEmpty(baseUri.Authority))
+            if (!Uri.TryCreate(uriString: baseUrl, uriKind: UriKind.Absolute, out var baseUri)
+                || string.IsNullOrEmpty(value: baseUri.Scheme)
+                || string.IsNullOrEmpty(value: baseUri.Authority))
             {
                 throw new ArgumentException(
-                    "Invalid format. A valid base url looks \"http://localhost:8081\" ",
-                    nameof(baseUrl)
+                    message: "Invalid format. A valid base url looks \"http://localhost:8081\" ",
+                    paramName: nameof(baseUrl)
                 );
             }
 

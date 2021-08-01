@@ -45,10 +45,8 @@ namespace Telegram.Bot.Exceptions
         /// <see cref="HttpStatusCode"/> of the received response
         /// </param>
         public RequestException(string message, HttpStatusCode httpStatusCode)
-            : base(message)
-        {
+            : base(message) =>
             HttpStatusCode = httpStatusCode;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RequestException"/> class.
@@ -64,9 +62,7 @@ namespace Telegram.Bot.Exceptions
         /// (Nothing in Visual Basic) if no inner exception is specified.
         /// </param>
         public RequestException(string message, HttpStatusCode httpStatusCode, Exception innerException)
-            : base(message, innerException)
-        {
+            : base(message, innerException) =>
             HttpStatusCode = httpStatusCode;
-        }
     }
 }
