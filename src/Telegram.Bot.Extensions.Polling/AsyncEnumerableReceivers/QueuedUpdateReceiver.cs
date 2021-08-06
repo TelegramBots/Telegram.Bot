@@ -20,7 +20,7 @@ namespace Telegram.Bot.Extensions.Polling
     public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     {
         readonly ITelegramBotClient _botClient;
-        readonly ReceiverOptions? _receiveOptions;
+        readonly ReceiverOptions? _receiverOptions;
         readonly Func<Exception, CancellationToken, Task>? _errorHandler;
 
         int _inProcess;
@@ -30,17 +30,17 @@ namespace Telegram.Bot.Extensions.Polling
         /// Constructs a new <see cref="QueuedUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="receiveOptions"></param>
+        /// <param name="receiverOptions"></param>
         /// <param name="errorHandler">
         /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
         /// </param>
         public QueuedUpdateReceiver(
             ITelegramBotClient botClient,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             Func<Exception, CancellationToken, Task>? errorHandler = default)
         {
             _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-            _receiveOptions = receiveOptions;
+            _receiverOptions = receiverOptions;
             _errorHandler = errorHandler;
         }
 
@@ -90,9 +90,9 @@ namespace Telegram.Bot.Extensions.Polling
                 _receiver = receiver;
                 _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, default);
                 _token = _cts.Token;
-                _messageOffset = receiver._receiveOptions?.Offset ?? 0;
-                _limit = receiver._receiveOptions?.Limit ?? default;
-                _allowedUpdates = receiver._receiveOptions?.AllowedUpdates;
+                _messageOffset = receiver._receiverOptions?.Offset ?? 0;
+                _limit = receiver._receiverOptions?.Limit ?? default;
+                _allowedUpdates = receiver._receiverOptions?.AllowedUpdates;
 
                 _channel = Channel.CreateUnbounded<Update>(
                     new UnboundedChannelOptions
@@ -129,7 +129,7 @@ namespace Telegram.Bot.Extensions.Polling
 
             async Task ReceiveUpdatesAsync()
             {
-                if (_receiver._receiveOptions?.ThrowPendingUpdates is true)
+                if (_receiver._receiverOptions?.ThrowPendingUpdates is true)
                 {
                     try
                     {

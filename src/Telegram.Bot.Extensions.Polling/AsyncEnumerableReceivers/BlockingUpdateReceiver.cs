@@ -1,7 +1,6 @@
 ﻿#if NETCOREAPP3_1_OR_GREATER
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Extensions.Polling.Extensions;
@@ -17,7 +16,7 @@ namespace Telegram.Bot.Extensions.Polling
     /// </summary>
     public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
     {
-        readonly ReceiverOptions? _receiveOptions;
+        readonly ReceiverOptions? _receiverOptions;
         readonly ITelegramBotClient _botClient;
         readonly Func<Exception, CancellationToken, Task>? _errorHandler;
 
@@ -27,17 +26,17 @@ namespace Telegram.Bot.Extensions.Polling
         /// Constructs a new <see cref="BlockingUpdateReceiver"/> for the specified <see cref="ITelegramBotClient"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="receiveOptions"></param>
+        /// <param name="receiverOptions"></param>
         /// <param name="errorHandler">
         /// The function used to handle <see cref="Exception"/>s thrown by ReceiveUpdates
         /// </param>
         public BlockingUpdateReceiver(
             ITelegramBotClient botClient,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             Func<Exception, CancellationToken, Task>? errorHandler = default)
         {
             _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-            _receiveOptions = receiveOptions;
+            _receiverOptions = receiverOptions;
             _errorHandler = errorHandler;
         }
 
@@ -75,9 +74,9 @@ namespace Telegram.Bot.Extensions.Polling
                 _receiver = receiver;
                 _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, default);
                 _token = _cts.Token;
-                _messageOffset = receiver._receiveOptions?.Offset ?? 0;
-                _limit = receiver._receiveOptions?.Limit ?? default;
-                _allowedUpdates = receiver._receiveOptions?.AllowedUpdates;
+                _messageOffset = receiver._receiverOptions?.Offset ?? 0;
+                _limit = receiver._receiverOptions?.Limit ?? default;
+                _allowedUpdates = receiver._receiverOptions?.AllowedUpdates;
             }
 
             public ValueTask<bool> MoveNextAsync()
@@ -95,7 +94,7 @@ namespace Telegram.Bot.Extensions.Polling
             {
                 var shouldThrowPendingUpdates = (
                     _updatesThrown,
-                    _receiver._receiveOptions?.ThrowPendingUpdates ?? false
+                    _receiver._receiverOptions?.ThrowPendingUpdates ?? false
                 );
 
                 if (shouldThrowPendingUpdates is (false, true))

@@ -24,19 +24,19 @@ namespace Telegram.Bot
         /// The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s
         /// </typeparam>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
         public static void StartReceiving<TUpdateHandler>(
             this ITelegramBotClient botClient,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default
         ) where TUpdateHandler : IUpdateHandler, new() =>
             StartReceiving(
                 botClient: botClient,
                 updateHandler: new TUpdateHandler(),
-                receiveOptions: receiveOptions,
+                receiverOptions: receiverOptions,
                 cancellationToken: cancellationToken
             );
 
@@ -50,7 +50,7 @@ namespace Telegram.Bot
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
         /// <param name="errorHandler">Delegate used for processing polling errors</param>
-        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
@@ -58,7 +58,7 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
             Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default
         ) =>
             StartReceiving(
@@ -67,7 +67,7 @@ namespace Telegram.Bot
                     updateHandler: updateHandler,
                     errorHandler: errorHandler
                 ),
-                receiveOptions: receiveOptions,
+                receiverOptions: receiverOptions,
                 cancellationToken: cancellationToken
             );
 
@@ -81,7 +81,7 @@ namespace Telegram.Bot
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
         /// <param name="errorHandler">Delegate used for processing polling errors</param>
-        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
@@ -89,7 +89,7 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
             Action<ITelegramBotClient, Exception, CancellationToken> errorHandler,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default
         ) =>
             StartReceiving(
@@ -106,7 +106,7 @@ namespace Telegram.Bot
                         return Task.CompletedTask;
                     }
                 ),
-                receiveOptions: receiveOptions,
+                receiverOptions: receiverOptions,
                 cancellationToken: cancellationToken
             );
 
@@ -122,14 +122,14 @@ namespace Telegram.Bot
         /// <param name="updateHandler">
         /// The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s
         /// </param>
-        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
         public static void StartReceiving(
             this ITelegramBotClient botClient,
             IUpdateHandler updateHandler,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default)
         {
             if (botClient is null) { throw new ArgumentNullException(nameof(botClient)); }
@@ -143,7 +143,7 @@ namespace Telegram.Bot
                     await ReceiveAsync(
                         botClient: botClient,
                         updateHandler: updateHandler,
-                        receiveOptions: receiveOptions,
+                        receiverOptions: receiverOptions,
                         cancellationToken: cancellationToken
                     );
                 }
@@ -181,7 +181,7 @@ namespace Telegram.Bot
         /// The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s
         /// </typeparam>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="receiveOptions">Options used to configure getUpdates request</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates request</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
@@ -191,13 +191,13 @@ namespace Telegram.Bot
         /// </returns>
         public static async Task ReceiveAsync<TUpdateHandler>(
             this ITelegramBotClient botClient,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default
         ) where TUpdateHandler : IUpdateHandler, new() =>
             await ReceiveAsync(
                 botClient: botClient,
                 updateHandler: new TUpdateHandler(),
-                receiveOptions: receiveOptions,
+                receiverOptions: receiverOptions,
                 cancellationToken: cancellationToken
             );
 
@@ -212,7 +212,7 @@ namespace Telegram.Bot
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
         /// <param name="errorHandler">Delegate used for processing polling errors</param>
-        /// <param name="receiveOptions">Options used to configure getUpdates requests</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
@@ -224,7 +224,7 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
             Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default
         ) =>
             await ReceiveAsync(
@@ -233,7 +233,7 @@ namespace Telegram.Bot
                     updateHandler: updateHandler,
                     errorHandler: errorHandler
                 ),
-                receiveOptions: receiveOptions,
+                receiverOptions: receiverOptions,
                 cancellationToken: cancellationToken
             );
 
@@ -248,7 +248,7 @@ namespace Telegram.Bot
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
         /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
         /// <param name="errorHandler">Delegate used for processing polling errors</param>
-        /// <param name="receiveOptions">Options used to configure getUpdates requests</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
@@ -260,7 +260,7 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
             Action<ITelegramBotClient, Exception, CancellationToken> errorHandler,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default
         ) =>
             await ReceiveAsync(
@@ -277,7 +277,7 @@ namespace Telegram.Bot
                         return Task.CompletedTask;
                     }
                 ),
-                receiveOptions: receiveOptions,
+                receiverOptions: receiverOptions,
                 cancellationToken: cancellationToken
             );
 
@@ -293,7 +293,7 @@ namespace Telegram.Bot
         /// <param name="updateHandler">
         /// The <see cref="IUpdateHandler"/> used for processing <see cref="Update"/>s
         /// </param>
-        /// <param name="receiveOptions">Options used to configure getUpdates requests</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
         /// <param name="cancellationToken">
         /// The <see cref="CancellationToken"/> with which you can stop receiving
         /// </param>
@@ -304,10 +304,10 @@ namespace Telegram.Bot
         public static async Task ReceiveAsync(
             this ITelegramBotClient botClient,
             IUpdateHandler updateHandler,
-            ReceiverOptions? receiveOptions = default,
+            ReceiverOptions? receiverOptions = default,
             CancellationToken cancellationToken = default
         ) =>
-            await new DefaultUpdateReceiver(botClient: botClient, receiveOptions: receiveOptions)
+            await new DefaultUpdateReceiver(botClient: botClient, receiverOptions: receiverOptions)
                 .ReceiveAsync(updateHandler: updateHandler, cancellationToken: cancellationToken);
     }
 }

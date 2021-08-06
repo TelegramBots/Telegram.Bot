@@ -15,20 +15,20 @@ namespace Telegram.Bot.Extensions.Polling
         static readonly Update[] EmptyUpdates = Array.Empty<Update>();
 
         readonly ITelegramBotClient _botClient;
-        readonly ReceiverOptions? _receiveOptions;
+        readonly ReceiverOptions? _receiverOptions;
 
         /// <summary>
         /// Constructs a new <see cref="DefaultUpdateReceiver"/> with the specified <see cref="ITelegramBotClient"/>>
         /// instance and optional <see cref="ReceiverOptions"/>
         /// </summary>
         /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
-        /// <param name="receiveOptions">Options used to configure getUpdates requests</param>
+        /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
         public DefaultUpdateReceiver(
             ITelegramBotClient botClient,
-            ReceiverOptions? receiveOptions = default)
+            ReceiverOptions? receiverOptions = default)
         {
             _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
-            _receiveOptions = receiveOptions;
+            _receiverOptions = receiverOptions;
         }
 
         /// <inheritdoc />
@@ -38,12 +38,12 @@ namespace Telegram.Bot.Extensions.Polling
         {
             if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
 
-            var allowedUpdates = _receiveOptions?.AllowedUpdates;
-            var limit = _receiveOptions?.Limit ?? default;
-            var messageOffset = _receiveOptions?.Offset ?? 0;
+            var allowedUpdates = _receiverOptions?.AllowedUpdates;
+            var limit = _receiverOptions?.Limit ?? default;
+            var messageOffset = _receiverOptions?.Offset ?? 0;
             var emptyUpdates = EmptyUpdates;
 
-            if (_receiveOptions?.ThrowPendingUpdates is true)
+            if (_receiverOptions?.ThrowPendingUpdates is true)
             {
                 try
                 {
