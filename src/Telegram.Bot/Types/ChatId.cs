@@ -13,12 +13,12 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unique identifier for the chat
         /// </summary>
-        public readonly long? Identifier;
+        public long? Identifier { get; }
 
         /// <summary>
         /// Username of the channel (in the format @channelusername)
         /// </summary>
-        public readonly string? Username;
+        public string? Username { get; }
 
         /// <summary>
         /// Create a <see cref="ChatId"/> using an identifier
@@ -104,6 +104,7 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="chat"></param>
         public static implicit operator ChatId(Chat chat) =>
+            // ReSharper disable once ConstantConditionalAccessQualifier
             new(chat?.Id ?? throw new ArgumentNullException(nameof(chat)));
 
         /// <summary>

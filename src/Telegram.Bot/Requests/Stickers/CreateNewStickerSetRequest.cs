@@ -99,7 +99,7 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         public override HttpContent? ToHttpContent() =>
             PngSticker.FileType == FileType.Stream
-                ? ToMultipartFormDataContent("png_sticker", PngSticker)
+                ? ToMultipartFormDataContent(fileParameterName: "png_sticker", inputFile: PngSticker)
                 : base.ToHttpContent();
     }
 }

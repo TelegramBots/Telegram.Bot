@@ -85,7 +85,7 @@ namespace Telegram.Bot.Requests
         public override HttpContent? ToHttpContent() =>
             Photo.FileType switch
             {
-                FileType.Stream => ToMultipartFormDataContent("photo", Photo),
+                FileType.Stream => ToMultipartFormDataContent(fileParameterName: "photo", inputFile: Photo),
                 _               => base.ToHttpContent()
             };
     }

@@ -67,7 +67,7 @@ namespace Telegram.Bot.Requests
         /// <inheritdoc />
         public override HttpContent? ToHttpContent() =>
             Sticker.FileType == FileType.Stream
-                ? ToMultipartFormDataContent("sticker", Sticker)
+                ? ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: Sticker)
                 : base.ToHttpContent();
     }
 }

@@ -6,7 +6,7 @@ namespace Telegram.Bot.Converters
 {
     internal class BanTimeUnixDateTimeConverter : UnixDateTimeConverter
     {
-        static readonly DateTime DefaultUtc = DateTime.SpecifyKind(default, DateTimeKind.Utc);
+        static readonly DateTime DefaultUtc = DateTime.SpecifyKind(value: default, kind: DateTimeKind.Utc);
 
         public override object? ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {

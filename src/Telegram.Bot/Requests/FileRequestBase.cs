@@ -50,7 +50,11 @@ namespace Telegram.Bot.Requests
                 throw new ArgumentNullException(nameof(inputFile.Content));
             }
 
-            multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
+            multipartContent.AddStreamContent(
+                content: inputFile.Content,
+                name: fileParameterName,
+                fileName: inputFile.FileName
+            );
 
             return multipartContent;
         }
@@ -75,7 +79,7 @@ namespace Telegram.Bot.Requests
 
             foreach (var strContent in stringContents)
             {
-                multipartContent.Add(strContent.Content, strContent.Name);
+                multipartContent.Add(content: strContent.Content, name: strContent.Name);
             }
 
             return multipartContent;
