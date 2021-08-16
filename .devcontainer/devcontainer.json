@@ -1,0 +1,17 @@
+{
+  "name": "Telegram.Bot",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "devhost",
+  "shutdownAction": "stopCompose",
+  "workspaceFolder": "/workspace",
+  "extensions": [
+    "ms-dotnettools.csharp",
+    "ms-azuretools.vscode-docker",
+    "editorconfig.editorconfig",
+    "eamodio.gitlens",
+    "tintoy.msbuild-project-tools",
+    "logerfo.sln-support",
+    "formulahendry.dotnet-test-explorer"
+  ],
+  "remoteUser": "vscode"
+}
