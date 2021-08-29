@@ -212,6 +212,3 @@ src/Telegram.Bot.Documentation/
 
 # Rider IDE
 .idea
-
-# VS Code
-.vscode/
