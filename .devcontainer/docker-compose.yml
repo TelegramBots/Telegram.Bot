@@ -1,0 +1,12 @@
+version: '3'
+services:
+  devhost:
+    user: vscode
+    build: .
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - DOTNET_NOLOGO=1
+    volumes:
+      - ..:/workspace
+      - ./persistence/nuget:/vscode/.nuget
+    command: sleep infinity
