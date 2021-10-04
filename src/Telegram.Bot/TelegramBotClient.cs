@@ -131,7 +131,7 @@ namespace Telegram.Bot
                     botClient: this,
                     args: requestEventArgs,
                     cancellationToken: cancellationToken
-                );
+                ).ConfigureAwait(false);
             }
 
             using var httpResponse = await SendRequestAsync(
@@ -154,7 +154,7 @@ namespace Telegram.Bot
                     botClient: this,
                     args: responseEventArgs,
                     cancellationToken: cancellationToken
-                );
+                ).ConfigureAwait(false);
             }
 
             if (httpResponse.StatusCode != HttpStatusCode.OK)

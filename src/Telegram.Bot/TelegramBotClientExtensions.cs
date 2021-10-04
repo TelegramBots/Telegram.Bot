@@ -61,7 +61,7 @@ namespace Telegram.Bot
                     Limit = limit,
                     Timeout = timeout,
                     AllowedUpdates = allowedUpdates
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is an update for the bot, we will send an HTTPS POST request to the specified url, containing a JSON-serialized <see cref="Types.Update"/>. In case of an unsuccessful request, we will give up after a reasonable amount of attempts
@@ -109,7 +109,7 @@ namespace Telegram.Bot
                     MaxConnections = maxConnections,
                     AllowedUpdates = allowedUpdates,
                     DropPendingUpdates = dropPendingUpdates
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to remove webhook integration if you decide to switch back to <see cref="GetUpdatesAsync"/>
@@ -127,7 +127,7 @@ namespace Telegram.Bot
                 new DeleteWebhookRequest()
                 {
                     DropPendingUpdates = dropPendingUpdates
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get current webhook status.
@@ -140,7 +140,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetWebhookInfoRequest(), cancellationToken);
+                new GetWebhookInfoRequest(), cancellationToken).ConfigureAwait(false);
 
         #endregion Getting updates
 
@@ -157,7 +157,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetMeRequest(), cancellationToken);
+                new GetMeRequest(), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to log out from the cloud Bot API server before launching the bot locally. You <b>must</b> log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes.
@@ -169,7 +169,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new LogOutRequest(), cancellationToken);
+                new LogOutRequest(), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched.
@@ -181,7 +181,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new CloseRequest(), cancellationToken);
+                new CloseRequest(), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send text messages.
@@ -221,7 +221,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to forward messages of any kind. Service messages can't be forwarded.
@@ -245,7 +245,7 @@ namespace Telegram.Bot
                 new ForwardMessageRequest(chatId, fromChatId, messageId)
                 {
                     DisableNotification = disableNotification
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied. The method is analogous to the method <see cref="ForwardMessageAsync"/>, but the copied message doesn't have a link to the original message.
@@ -286,7 +286,7 @@ namespace Telegram.Bot
                     DisableNotification = disableNotification,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send photos.
@@ -326,7 +326,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display them in the music player. Your audio must be in the .MP3 or .M4A format. Bots can currently send audio files of up to 50 MB in size, this limit may be changed in the future.
@@ -378,7 +378,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send general files. Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
@@ -424,7 +424,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send video files, Telegram clients support mp4 videos (other formats may be sent as <see cref="Document"/>). Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
@@ -479,7 +479,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send animation files (GIF or H.264/MPEG-4 AVC video without sound). Bots can currently send animation files of up to 50 MB in size, this limit may be changed in the future.
@@ -531,7 +531,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>). Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
@@ -574,7 +574,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// As of <see href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</see>, Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.
@@ -614,7 +614,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send a group of photos, videos, documents or audios as an album. Documents and audio files can be only grouped in an album with messages of the same type.
@@ -642,7 +642,7 @@ namespace Telegram.Bot
                     DisableNotification = disableNotification,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send point on the map.
@@ -684,7 +684,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit live location messages. A location can be edited until its <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to <see cref="StopMessageLiveLocationAsync(ITelegramBotClient, ChatId, int, InlineKeyboardMarkup?, CancellationToken)"/>.
@@ -719,7 +719,7 @@ namespace Telegram.Bot
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit live location messages. A location can be edited until its <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to <see cref="StopMessageLiveLocationAsync(ITelegramBotClient, string, InlineKeyboardMarkup?, CancellationToken)"/>.
@@ -751,7 +751,7 @@ namespace Telegram.Bot
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to stop updating a live location message before <see cref="Types.Location.LivePeriod"/> expires.
@@ -773,7 +773,7 @@ namespace Telegram.Bot
                 new StopMessageLiveLocationRequest(chatId, messageId)
                 {
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to stop updating a live location message before <see cref="Types.Location.LivePeriod"/> expires.
@@ -792,7 +792,7 @@ namespace Telegram.Bot
                 new StopInlineMessageLiveLocationRequest(inlineMessageId)
                 {
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send information about a venue.
@@ -842,7 +842,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send phone contacts.
@@ -881,7 +881,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send a native poll.
@@ -944,7 +944,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send an animated emoji that will display a random value.
@@ -976,7 +976,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method when you need to tell the user that something is happening on the bot's side. The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
@@ -996,7 +996,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new SendChatActionRequest(chatId, chatAction), cancellationToken);
+                new SendChatActionRequest(chatId, chatAction), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get a list of profile pictures for a user.
@@ -1019,7 +1019,7 @@ namespace Telegram.Bot
                 {
                     Offset = offset,
                     Limit = limit
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get basic info about a file and prepare it for downloading. For the moment, bots can download files of up to 20MB in size. The file can then be downloaded via the link <c>https://api.telegram.org/file/bot&lt;token&gt;/&lt;file_path&gt;</c>, where <c>&lt;file_path&gt;</c> is taken from the response. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling <see cref="GetFileAsync"/> again.
@@ -1037,7 +1037,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetFileRequest(fileId), cancellationToken);
+                new GetFileRequest(fileId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get basic info about a file download it. For the moment, bots can download files of up to 20MB in size.
@@ -1085,7 +1085,7 @@ namespace Telegram.Bot
                 {
                     UntilDate = untilDate,
                     RevokeMessages = revokeMessages
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and channels, the user will not be able to return to the chat on their own using invite links, etc., unless <see cref="UnbanChatMemberAsync(ITelegramBotClient, ChatId, long, bool?, CancellationToken)">unbanned</see> first. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1109,7 +1109,7 @@ namespace Telegram.Bot
                 {
                     UntilDate = untilDate,
                     RevokeMessages = revokeMessages
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to unban a previously banned user in a supergroup or channel. The user will <b>not</b> return to the group or channel automatically, but will be able to join via link, etc. The bot must be an administrator for this to work. By default, this method guarantees that after the call the user is not a member of the chat, but will be able to join it. So if the user is a member of the chat they will also be <b>removed</b> from the chat. If you don't want this, use the parameter <paramref name="onlyIfBanned"/>.
@@ -1130,7 +1130,7 @@ namespace Telegram.Bot
                 new UnbanChatMemberRequest(chatId, userId)
                 {
                     OnlyIfBanned = onlyIfBanned
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup for this to work and must have the appropriate admin rights. Pass True for all permissions to lift restrictions from a user.
@@ -1154,7 +1154,7 @@ namespace Telegram.Bot
                 {
                     UntilDate = untilDate
                 },
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass <c>False</c> for all boolean parameters to demote a user.
@@ -1205,7 +1205,7 @@ namespace Telegram.Bot
                     CanChangeInfo = canChangeInfo,
                     CanInviteUsers = canInviteUsers,
                     CanPinMessages = canPinMessages,
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
@@ -1224,7 +1224,7 @@ namespace Telegram.Bot
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
                 new SetChatAdministratorCustomTitleRequest(chatId, userId, customTitle),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
@@ -1240,7 +1240,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new SetChatPermissionsRequest(chatId, permissions), cancellationToken);
+                new SetChatPermissionsRequest(chatId, permissions), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to generate a new primary invite link for a chat; any previously generated primary link is revoked. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1254,7 +1254,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new ExportChatInviteLinkRequest(chatId), cancellationToken);
+                new ExportChatInviteLinkRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to create an additional invite link for a chat. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. The link can be revoked using the method <see cref="RevokeChatInviteLinkAsync"/>.
@@ -1277,7 +1277,7 @@ namespace Telegram.Bot
                 {
                     ExpireDate = expireDate,
                     MemberLimit = memberLimit
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit a non-primary invite link created by the bot. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1302,7 +1302,7 @@ namespace Telegram.Bot
                 {
                     ExpireDate = expireDate,
                     MemberLimit = memberLimit
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to revoke an invite link created by the bot. If the primary link is revoked, a new link is automatically generated. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1319,7 +1319,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new RevokeChatInviteLinkRequest(chatId, inviteLink), cancellationToken);
+                new RevokeChatInviteLinkRequest(chatId, inviteLink), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1335,7 +1335,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new SetChatPhotoRequest(chatId, photo), cancellationToken);
+                new SetChatPhotoRequest(chatId, photo), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to delete a chat photo. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1349,7 +1349,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync
-            (new DeleteChatPhotoRequest(chatId), cancellationToken);
+            (new DeleteChatPhotoRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to change the title of a chat. Titles can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1365,7 +1365,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new SetChatTitleRequest(chatId, title), cancellationToken);
+                new SetChatTitleRequest(chatId, title), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to change the description of a group, a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
@@ -1384,7 +1384,7 @@ namespace Telegram.Bot
                 new SetChatDescriptionRequest(chatId)
                 {
                     Description = description
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the '<see cref="ChatPermissions.CanPinMessages"/>' admin right in a supergroup or '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel.
@@ -1405,7 +1405,7 @@ namespace Telegram.Bot
                 new PinChatMessageRequest(chatId, messageId)
                 {
                     DisableNotification = disableNotification
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to remove a message from the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the '<see cref="ChatMemberAdministrator.CanPinMessages"/>' admin right in a supergroup or '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel.
@@ -1424,7 +1424,7 @@ namespace Telegram.Bot
                 new UnpinChatMessageRequest(chatId)
                 {
                     MessageId = messageId
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to clear the list of pinned messages in a chat. If the chat is not a private chat, the bot must be an administrator in the chat for this to work and must have the '<see cref="ChatMemberAdministrator.CanPinMessages"/>' admin right in a supergroup or '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel. Returns True on success.
@@ -1438,7 +1438,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new UnpinAllChatMessagesRequest(chatId), cancellationToken);
+                new UnpinAllChatMessagesRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method for your bot to leave a group, supergroup or channel.
@@ -1452,7 +1452,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new LeaveChatRequest(chatId), cancellationToken);
+                new LeaveChatRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
@@ -1467,7 +1467,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetChatRequest(chatId), cancellationToken);
+                new GetChatRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get a list of administrators in a chat.
@@ -1482,7 +1482,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetChatAdministratorsRequest(chatId), cancellationToken);
+                new GetChatAdministratorsRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get the number of members in a chat.
@@ -1498,7 +1498,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetChatMembersCountRequest(chatId), cancellationToken);
+                new GetChatMembersCountRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get the number of members in a chat.
@@ -1513,7 +1513,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetChatMemberCountRequest(chatId), cancellationToken);
+                new GetChatMemberCountRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get information about a member of a chat.
@@ -1530,7 +1530,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetChatMemberRequest(chatId, userId), cancellationToken);
+                new GetChatMemberRequest(chatId, userId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field <see cref="Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatAsync"/> requests to check if the bot can use this method.
@@ -1546,7 +1546,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken);
+                new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Use the field <see cref="Types.Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatAsync"/> requests to check if the bot can use this method.
@@ -1560,7 +1560,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new DeleteChatStickerSetRequest(chatId), cancellationToken);
+                new DeleteChatStickerSetRequest(chatId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to send answers to callback queries sent from <see cref="Types.ReplyMarkups.InlineKeyboardMarkup">inline keyboards</see>. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
@@ -1594,7 +1594,7 @@ namespace Telegram.Bot
                     ShowAlert = showAlert,
                     Url = url,
                     CacheTime = cacheTime
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to change the list of the bot's commands. See <see href="https://core.telegram.org/bots#commands"/> for more details about bot commands. Returns True on success.
@@ -1620,7 +1620,7 @@ namespace Telegram.Bot
                 {
                     Scope = scope,
                     LanguageCode = languageCode
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to delete the list of the bot's commands for the given <paramref name="scope"/> and <paramref name="languageCode">user language</paramref>. After deletion, <see href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</see> will be shown to affected users. Returns True on success.
@@ -1646,7 +1646,7 @@ namespace Telegram.Bot
                 {
                     Scope = scope,
                     LanguageCode = languageCode
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get the current list of the bot's commands for the given <paramref name="scope"/> and <paramref name="languageCode">user language</paramref>.
@@ -1671,7 +1671,7 @@ namespace Telegram.Bot
                 {
                     Scope = scope,
                     LanguageCode = languageCode
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         #endregion Available methods
 
@@ -1708,7 +1708,7 @@ namespace Telegram.Bot
                     Entities = entities,
                     DisableWebPagePreview = disableWebPagePreview,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit text and game messages.
@@ -1738,7 +1738,7 @@ namespace Telegram.Bot
                     Entities = entities,
                     DisableWebPagePreview = disableWebPagePreview,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit captions of messages.
@@ -1769,7 +1769,7 @@ namespace Telegram.Bot
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit captions of messages.
@@ -1797,7 +1797,7 @@ namespace Telegram.Bot
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. Use a previously uploaded file via its <see cref="Types.InputFiles.InputTelegramFile.FileId"/> or specify a URL.
@@ -1821,7 +1821,7 @@ namespace Telegram.Bot
                 new EditMessageMediaRequest(chatId, messageId, media)
                 {
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit animation, audio, document, photo, or video messages. If a message is part of a message album, then it can be edited only to an audio for audio albums, only to a document for document albums and to a photo or a video otherwise. Use a previously uploaded file via its <see cref="Types.InputFiles.InputTelegramFile.FileId"/> or specify a URL.
@@ -1842,7 +1842,7 @@ namespace Telegram.Bot
                 new EditInlineMessageMediaRequest(inlineMessageId, media)
                 {
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages.
@@ -1864,7 +1864,7 @@ namespace Telegram.Bot
                 new EditMessageReplyMarkupRequest(chatId, messageId)
                 {
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to edit only the reply markup of messages.
@@ -1883,7 +1883,7 @@ namespace Telegram.Bot
                 new EditInlineMessageReplyMarkupRequest(inlineMessageId)
                 {
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to stop a poll which was sent by the bot.
@@ -1905,7 +1905,7 @@ namespace Telegram.Bot
                 new StopPollRequest(chatId, messageId)
                 {
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to delete a message, including service messages, with the following limitations:
@@ -1930,7 +1930,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new DeleteMessageRequest(chatId, messageId), cancellationToken);
+                new DeleteMessageRequest(chatId, messageId), cancellationToken).ConfigureAwait(false);
 
         #endregion Updating messages
 
@@ -1965,7 +1965,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get a sticker set.
@@ -1980,7 +1980,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new GetStickerSetRequest(name), cancellationToken);
+                new GetStickerSetRequest(name), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to upload a .PNG file with a sticker for later use in <see cref="CreateNewStickerSetAsync"/>/<see cref="CreateNewAnimatedStickerSetAsync"/> and <see cref="AddStickerToSetAsync"/>/<see cref="AddAnimatedStickerToSetAsync"/> methods (can be used multiple times).
@@ -1997,7 +1997,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new UploadStickerFileRequest(userId, pngSticker), cancellationToken);
+                new UploadStickerFileRequest(userId, pngSticker), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to create a new static sticker set owned by a user. The bot will be able to edit the sticker set thus created.
@@ -2027,7 +2027,7 @@ namespace Telegram.Bot
                 {
                     ContainsMasks = containsMasks,
                     MaskPosition = maskPosition
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to create a new animated sticker set owned by a user. The bot will be able to edit the sticker set thus created.
@@ -2057,7 +2057,7 @@ namespace Telegram.Bot
                 {
                     ContainsMasks = containsMasks,
                     MaskPosition = maskPosition
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to add a new sticker to a set created by the bot. Static sticker sets can have up to 120 stickers.
@@ -2082,7 +2082,7 @@ namespace Telegram.Bot
                 new AddStickerToSetRequest(userId, name, pngSticker, emojis)
                 {
                     MaskPosition = maskPosition
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to add a new sticker to a set created by the bot. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Returns True on success.
@@ -2107,7 +2107,7 @@ namespace Telegram.Bot
                 new AddAnimatedStickerToSetRequest(userId, name, tgsSticker, emojis)
                 {
                     MaskPosition = maskPosition
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to move a sticker in a set created by the bot to a specific position.
@@ -2124,7 +2124,7 @@ namespace Telegram.Bot
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
                 new SetStickerPositionInSetRequest(sticker, position),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to delete a sticker from a set created by the bot.
@@ -2138,7 +2138,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new DeleteStickerFromSetRequest(sticker), cancellationToken);
+                new DeleteStickerFromSetRequest(sticker), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated sticker sets only.
@@ -2159,7 +2159,7 @@ namespace Telegram.Bot
                 new SetStickerSetThumbRequest(name, userId)
                 {
                     Thumb = thumb
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         #endregion
 
@@ -2204,7 +2204,7 @@ namespace Telegram.Bot
                     NextOffset = nextOffset,
                     SwitchPmText = switchPmText,
                     SwitchPmParameter = switchPmParameter
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         # endregion Inline mode
 
@@ -2303,7 +2303,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// If you sent an invoice requesting a shipping address and the parameter <c>isFlexible"</c> was specified, the Bot API will send an <see cref="Types.Update"/> with a <see cref="Types.Update.ShippingQuery"/> field to the bot. Use this method to reply to shipping queries.
@@ -2319,7 +2319,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new AnswerShippingQueryRequest(shippingQueryId, shippingOptions), cancellationToken);
+                new AnswerShippingQueryRequest(shippingQueryId, shippingOptions), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// If you sent an invoice requesting a shipping address and the parameter <c>isFlexible"</c> was specified, the Bot API will send an <see cref="Types.Update"/> with a <see cref="Types.Update.ShippingQuery"/> field to the bot. Use this method to indicate failed shipping query.
@@ -2335,7 +2335,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new AnswerShippingQueryRequest(shippingQueryId, errorMessage), cancellationToken);
+                new AnswerShippingQueryRequest(shippingQueryId, errorMessage), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an <see cref="Types.Update"/> with the field <see cref="Types.Update.PreCheckoutQuery"/>. Use this method to respond to such pre-checkout queries.
@@ -2352,7 +2352,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new AnswerPreCheckoutQueryRequest(preCheckoutQueryId), cancellationToken);
+                new AnswerPreCheckoutQueryRequest(preCheckoutQueryId), cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an <see cref="Types.Update"/> with the field <see cref="Types.Update.PreCheckoutQuery"/>. Use this method to respond to indicate failed pre-checkout query.
@@ -2368,7 +2368,7 @@ namespace Telegram.Bot
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
-                new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage), cancellationToken);
+                new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage), cancellationToken).ConfigureAwait(false);
 
         #endregion Payments
 
@@ -2403,7 +2403,7 @@ namespace Telegram.Bot
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
@@ -2432,7 +2432,7 @@ namespace Telegram.Bot
                 {
                     Force = force,
                     DisableEditMessage = disableEditMessage
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to set the score of the specified user in a game.
@@ -2459,7 +2459,7 @@ namespace Telegram.Bot
                 {
                     Force = force,
                     DisableEditMessage = disableEditMessage
-                }, cancellationToken);
+                }, cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game.
@@ -2482,7 +2482,7 @@ namespace Telegram.Bot
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
                 new GetGameHighScoresRequest(userId, chatId, messageId),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
         /// <summary>
         /// Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game.
@@ -2503,7 +2503,7 @@ namespace Telegram.Bot
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).MakeRequestAsync(
                 new GetInlineGameHighScoresRequest(userId, inlineMessageId),
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
         #endregion Games
     }
