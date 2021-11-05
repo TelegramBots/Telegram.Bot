@@ -23,6 +23,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Request `ApproveChatJoinRequest`
+- Request `DeclineChatJoinRequest`
+- Property `bool? CreateChatInviteLinkRequest.CreatesJoinRequest`
+- Property `string? CreateChatInviteLinkRequest.Name`
+- Property `bool? EditChatInviteLinkRequest.CreatesJoinRequest`
+- Property `string? EditChatInviteLinkRequest.Name`
+- Property `bool ChatInviteLink.CreatesJoinRequest`
+- Property `int? ChatInviteLink.PendingJoinRequestCount`
+- Type `ChatJoinRequest`
+- Property `ChatJoinRequest Update.ChatJoinRequest`
+- Enum member `ChatAction.ChooseSticker`
+- Extension method `TelegramBotClientExtensions.ApproveChatJoinRequestAsync`
+- Extension method `TelegramBotClientExtensions.DeclineChatJoinRequestAsync`
+
+### Changed
+- Extension method `TelegramBotClientExtensions.EditChatInviteLinkAsync`:
+  - Added parameters `string? name` and `bool? createsJoinRequest`
+- Extension method `TelegramBotClientExtensions.CreateChatInviteLinkAsync`:
+  - Added parameters `string? name` and `bool? createsJoinRequest`
+
 ### Changed
 - Fields `ChatId.Identifier` and `ChatId.Username` changed into get-only properties
 
