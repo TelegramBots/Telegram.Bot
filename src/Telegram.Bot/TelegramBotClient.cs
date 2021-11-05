@@ -115,7 +115,8 @@ namespace Telegram.Bot
             if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
             var url = $"{_baseRequestUrl}/{request.MethodName}";
-            var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
+
+            using var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
             {
                 Content = request.ToHttpContent()
             };

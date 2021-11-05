@@ -132,7 +132,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// <param name="text">Label text on the button</param>
         /// <param name="callbackGame">Description of the game that will be launched when the user presses the button.</param>
         public static InlineKeyboardButton WithCallBackGame(string text, CallbackGame? callbackGame = default) =>
-            new(text) { CallbackGame = callbackGame ?? new CallbackGame() };
+            new(text) { CallbackGame = callbackGame ?? new() };
 
         /// <summary>
         /// Creates an inline keyboard button for a PayButton

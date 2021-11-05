@@ -6,7 +6,9 @@ namespace Telegram.Bot.Exceptions
     /// <summary>
     /// Represents a request error
     /// </summary>
+#pragma warning disable CA1032
     public class RequestException : Exception
+#pragma warning restore CA1032
     {
         /// <summary>
         /// <see cref="HttpStatusCode"/> of the received response

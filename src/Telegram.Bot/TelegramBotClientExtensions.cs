@@ -2054,7 +2054,7 @@ namespace Telegram.Bot
         /// </param>
         /// <param name="createsJoinRequest">
         /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
-        /// If <c>true</c>, <see cref="memberLimit"/> can't be specified
+        /// If <c>true</c>, <paramref name="memberLimit"/> can't be specified
         /// </param>
         /// <param name="cancellationToken">
         /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2100,7 +2100,7 @@ namespace Telegram.Bot
         /// </param>
         /// <param name="createsJoinRequest">
         /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
-        /// If <c>true</c>, <see cref="memberLimit"/> can't be specified
+        /// If <c>true</c>, <paramref name="memberLimit"/> can't be specified
         /// </param>
         /// <param name="cancellationToken">
         /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -3362,8 +3362,8 @@ namespace Telegram.Bot
         /// and either width or height must be exactly 512px. Pass a
         /// <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that already exists
         /// on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
-        /// or upload a new one using multipart/form-data<
-        /// /param>
+        /// or upload a new one using multipart/form-data
+        /// </param>
         /// <param name="emojis">One or more emoji corresponding to the sticker</param>
         /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
         /// <param name="cancellationToken">

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
@@ -51,7 +52,7 @@ namespace Telegram.Bot.Types.ReplyMarkups
         /// </summary>
         /// <returns>Empty inline keyboard markup</returns>
         public static InlineKeyboardMarkup Empty() =>
-            new(new InlineKeyboardButton[0][]);
+            new(Array.Empty<InlineKeyboardButton[]>());
 
         /// <summary>
         /// Generate an inline keyboard markup with one button

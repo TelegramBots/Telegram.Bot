@@ -32,6 +32,8 @@ namespace Telegram.Bot.Helpers
             fileName ??= name;
             var contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
 
+            // It will be dispose of after the request is made
+#pragma warning disable CA2000
             var mediaPartContent = new StreamContent(content)
             {
                 Headers =
@@ -40,6 +42,7 @@ namespace Telegram.Bot.Helpers
                     {"Content-Disposition", contentDisposition}
                 }
             };
+#pragma warning restore CA2000
 
             multipartContent.Add(mediaPartContent, name, fileName);
         }
@@ -141,7 +144,7 @@ namespace Telegram.Bot.Helpers
                 if (contentStream is not null)
                 {
 #if NETCOREAPP3_1_OR_GREATER
-                    await contentStream.DisposeAsync();
+                    await contentStream.DisposeAsync().ConfigureAwait(false);
 #else
                     contentStream.Dispose();
 #endif

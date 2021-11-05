@@ -1,5 +1,6 @@
 ﻿#nullable disable
 #pragma warning disable 169
+#pragma warning disable CA1823
 // ReSharper disable InconsistentNaming
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults

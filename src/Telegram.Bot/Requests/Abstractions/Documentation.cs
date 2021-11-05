@@ -1,9 +1,10 @@
-using Telegram.Bot.Types.ReplyMarkups;
-
 #nullable disable
 #pragma warning disable 169
-// ReSharper disable InconsistentNaming
+#pragma warning disable CA1823
 
+using Telegram.Bot.Types.ReplyMarkups;
+
+// ReSharper disable InconsistentNaming
 namespace Telegram.Bot.Requests.Abstractions
 {
     // ReSharper disable once UnusedType.Global
