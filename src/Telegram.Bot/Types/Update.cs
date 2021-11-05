@@ -98,6 +98,13 @@ namespace Telegram.Bot.Types
         public ChatMemberUpdated? ChatMember { get; set; }
 
         /// <summary>
+        /// Optional. A request to join the chat has been sent. The bot must have the
+        /// <see cref="ChatPermissions.CanInviteUsers"/> administrator right in the chat to receive these updates.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public ChatJoinRequest ChatJoinRequest { get; set; }
+
+        /// <summary>
         /// Gets the update type.
         /// </summary>
         /// <value>

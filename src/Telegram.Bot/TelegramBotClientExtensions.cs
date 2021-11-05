@@ -2046,10 +2046,15 @@ namespace Telegram.Bot
         /// Unique identifier for the target chat or username of the target channel
         /// (in the format <c>@channelusername</c>)
         /// </param>
+        /// <param name="name">Invite link name; 0-32 characters</param>
         /// <param name="expireDate">Point in time when the link will expire</param>
         /// <param name="memberLimit">
         /// Maximum number of users that can be members of the chat simultaneously after joining the chat
         /// via this invite link; 1-99999
+        /// </param>
+        /// <param name="createsJoinRequest">
+        /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
+        /// If <c>true</c>, <see cref="memberLimit"/> can't be specified
         /// </param>
         /// <param name="cancellationToken">
         /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2058,14 +2063,17 @@ namespace Telegram.Bot
         public static async Task<ChatInviteLink> CreateChatInviteLinkAsync(
             this ITelegramBotClient botClient,
             ChatId chatId,
+            string? name = default,
             DateTime? expireDate = default,
             int? memberLimit = default,
+            bool? createsJoinRequest = default,
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient))
                 .MakeRequestAsync(
                     request: new CreateChatInviteLinkRequest(chatId)
                     {
+                        Name = name,
                         ExpireDate = expireDate,
                         MemberLimit = memberLimit
                     },
@@ -2083,10 +2091,15 @@ namespace Telegram.Bot
         /// (in the format <c>@channelusername</c>)
         /// </param>
         /// <param name="inviteLink">The invite link to edit</param>
+        /// <param name="name">Invite link name; 0-32 characters</param>
         /// <param name="expireDate">Point in time when the link will expire</param>
         /// <param name="memberLimit">
         /// Maximum number of users that can be members of the chat simultaneously after joining the chat
         /// via this invite link; 1-99999
+        /// </param>
+        /// <param name="createsJoinRequest">
+        /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
+        /// If <c>true</c>, <see cref="memberLimit"/> can't be specified
         /// </param>
         /// <param name="cancellationToken">
         /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2096,14 +2109,17 @@ namespace Telegram.Bot
             this ITelegramBotClient botClient,
             ChatId chatId,
             string inviteLink,
+            string? name = default,
             DateTime? expireDate = default,
             int? memberLimit = default,
+            bool? createsJoinRequest = default,
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient))
                 .MakeRequestAsync(
                     request: new EditChatInviteLinkRequest(chatId, inviteLink)
                     {
+                        Name = name,
                         ExpireDate = expireDate,
                         MemberLimit = memberLimit
                     },
@@ -2135,6 +2151,60 @@ namespace Telegram.Bot
             await botClient.ThrowIfNull(nameof(botClient))
                 .MakeRequestAsync(
                     request: new RevokeChatInviteLinkRequest(chatId, inviteLink),
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
+
+        /// <summary>
+        /// Use this method to approve a chat join request. The bot must be an administrator in the chat for this to
+        /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
+        /// Returns <c>true</c> on success.
+        /// </summary>
+        /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+        /// </param>
+        public static async Task<bool> ApproveChatJoinRequest(
+            this ITelegramBotClient botClient,
+            ChatId chatId,
+            long userId,
+            CancellationToken cancellationToken = default
+        ) =>
+            await botClient.ThrowIfNull(nameof(botClient))
+                .MakeRequestAsync(
+                    request: new ApproveChatJoinRequest(chatId, userId),
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
+
+        /// <summary>
+        /// Use this method to decline a chat join request. The bot must be an administrator in the chat for this to
+        /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
+        /// Returns <c>true</c> on success.
+        /// </summary>
+        /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target channel
+        /// (in the format <c>@channelusername</c>)
+        /// </param>
+        /// <param name="userId">Unique identifier of the target user</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+        /// </param>
+        public static async Task<bool> DeclineChatJoinRequest(
+            this ITelegramBotClient botClient,
+            ChatId chatId,
+            long userId,
+            CancellationToken cancellationToken = default
+        ) =>
+            await botClient.ThrowIfNull(nameof(botClient))
+                .MakeRequestAsync(
+                    request: new DeclineChatJoinRequest(chatId, userId),
                     cancellationToken
                 )
                 .ConfigureAwait(false);

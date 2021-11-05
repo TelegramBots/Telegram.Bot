@@ -58,5 +58,10 @@ namespace Telegram.Bot.Types.Enums
         /// Uploading a <see cref="VideoNote"/>
         /// </summary>
         UploadVideoNote,
+
+        /// <summary>
+        /// Choosing a <see cref="Sticker"/>
+        /// </summary>
+        ChooseSticker,
     }
 }

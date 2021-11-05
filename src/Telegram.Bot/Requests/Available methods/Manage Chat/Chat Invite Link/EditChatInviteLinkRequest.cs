@@ -27,6 +27,12 @@ namespace Telegram.Bot.Requests
         public string InviteLink { get; }
 
         /// <summary>
+        /// Invite link name; 0-32 characters
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public string? Name { get; set; }
+
+        /// <summary>
         /// Point in time when the link will expire
         /// </summary>
         [JsonConverter(typeof(UnixDateTimeConverter))]
@@ -39,6 +45,13 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? MemberLimit { get; set; }
+
+        /// <summary>
+        /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
+        /// If <c>true</c>, <see cref="MemberLimit"/> can't be specified
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? CreatesJoinRequest { get; set; }
 
         /// <summary>
         /// Initializes a new request with chatId and inviteLink
