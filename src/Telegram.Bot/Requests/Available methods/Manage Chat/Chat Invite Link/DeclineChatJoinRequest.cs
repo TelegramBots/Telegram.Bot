@@ -4,11 +4,11 @@
 namespace Telegram.Bot.Requests
 {
     /// <summary>
-    /// Use this request to approve a chat join request. The bot must be an administrator in the chat for this to
+    /// Use this request to decline a chat join request. The bot must be an administrator in the chat for this to
     /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
     /// Returns <c>true</c> on success.
     /// </summary>
-    public class ApproveChatJoinRequest : RequestBase<bool>
+    public class DeclineChatJoinRequest : RequestBase<bool>
     {
         /// <summary>
         /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
@@ -16,7 +16,7 @@ namespace Telegram.Bot.Requests
         public ChatId ChatId { get; }
 
         /// <summary>
-        ///
+        /// Unique identifier of the target user
         /// </summary>
         public long UserId { get; }
 
@@ -27,8 +27,8 @@ namespace Telegram.Bot.Requests
         /// (in the format <c>@channelusername</c>)
         /// </param>
         /// <param name="userId">Unique identifier of the target user</param>
-        public ApproveChatJoinRequest(ChatId chatId, long userId)
-            : base("approveChatJoinRequest")
+        public DeclineChatJoinRequest(ChatId chatId, long userId)
+            : base("declineChatJoinRequest")
         {
             ChatId = chatId;
             UserId = userId;

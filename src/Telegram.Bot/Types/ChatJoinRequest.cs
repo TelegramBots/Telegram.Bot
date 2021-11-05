@@ -26,6 +26,7 @@ namespace Telegram.Bot.Types
         /// Date the request was sent
         /// </summary>
         [JsonProperty(Required = Required.Always)]
+        [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime Date { get; set; }
 
         /// <summary>
