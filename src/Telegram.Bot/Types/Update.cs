@@ -102,7 +102,7 @@ namespace Telegram.Bot.Types
         /// <see cref="ChatPermissions.CanInviteUsers"/> administrator right in the chat to receive these updates.
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public ChatJoinRequest ChatJoinRequest { get; set; }
+        public ChatJoinRequest? ChatJoinRequest { get; set; }
 
         /// <summary>
         /// Gets the update type.
@@ -125,6 +125,7 @@ namespace Telegram.Bot.Types
             { PollAnswer: { } }         => UpdateType.PollAnswer,
             { MyChatMember: { } }       => UpdateType.MyChatMember,
             { ChatMember: { } }         => UpdateType.ChatMember,
+            { ChatJoinRequest: { } }    => UpdateType.ChatJoinRequest,
             _                           => UpdateType.Unknown
         };
     }

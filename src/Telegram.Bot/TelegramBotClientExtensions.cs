@@ -2075,7 +2075,8 @@ namespace Telegram.Bot
                     {
                         Name = name,
                         ExpireDate = expireDate,
-                        MemberLimit = memberLimit
+                        MemberLimit = memberLimit,
+                        CreatesJoinRequest = createsJoinRequest,
                     },
                     cancellationToken
                 )
@@ -2121,7 +2122,8 @@ namespace Telegram.Bot
                     {
                         Name = name,
                         ExpireDate = expireDate,
-                        MemberLimit = memberLimit
+                        MemberLimit = memberLimit,
+                        CreatesJoinRequest = createsJoinRequest,
                     },
                     cancellationToken
                 )
