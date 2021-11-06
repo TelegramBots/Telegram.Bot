@@ -25,16 +25,27 @@ namespace Telegram.Bot.Types
         public User Creator { get; set; } = default!;
 
         /// <summary>
-        /// True, if the link is primary
+        /// <c>true</c>, if users joining the chat via the link need to be approved by chat administrators
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public bool CreatesJoinRequest { get; set; }
+
+        /// <summary>
+        /// <c>true</c>, if the link is primary
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public bool IsPrimary { get; set; }
 
         /// <summary>
-        /// True, if the link is revoked
+        /// <c>true</c>, if the link is revoked
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public bool IsRevoked { get; set; }
+
+        /// <summary>
+        /// Optional. Invite link name
+        /// </summary>
+        public string? Name { get; set; }
 
         /// <summary>
         /// Optional. Point in time when the link will expire or has been expired
@@ -49,5 +60,10 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public int? MemberLimit { get; set; }
+
+        /// <summary>
+        /// Optional. Number of pending join requests created using this link
+        /// </summary>
+        public int? PendingJoinRequestCount { get; set; }
     }
 }

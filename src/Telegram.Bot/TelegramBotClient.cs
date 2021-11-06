@@ -11,7 +11,6 @@ using Telegram.Bot.Helpers;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
 {
@@ -116,7 +115,8 @@ namespace Telegram.Bot
             if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
             var url = $"{_baseRequestUrl}/{request.MethodName}";
-            var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
+
+            using var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
             {
                 Content = request.ToHttpContent()
             };
@@ -131,7 +131,7 @@ namespace Telegram.Bot
                     botClient: this,
                     args: requestEventArgs,
                     cancellationToken: cancellationToken
-                );
+                ).ConfigureAwait(false);
             }
 
             using var httpResponse = await SendRequestAsync(
@@ -154,7 +154,7 @@ namespace Telegram.Bot
                     botClient: this,
                     args: responseEventArgs,
                     cancellationToken: cancellationToken
-                );
+                ).ConfigureAwait(false);
             }
 
             if (httpResponse.StatusCode != HttpStatusCode.OK)

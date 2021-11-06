@@ -77,6 +77,11 @@ namespace Telegram.Bot.Types.Enums
         /// <summary>
         /// The <see cref="Update"/> contains an <see cref="ChatMember"/>
         /// </summary>
-        ChatMember
+        ChatMember,
+
+        /// <summary>
+        /// The <see cref="Update"/> contains an <see cref="ChatJoinRequest"/>
+        /// </summary>
+        ChatJoinRequest,
     }
 }

@@ -51,7 +51,8 @@ namespace Telegram.Bot.Types.InputFiles
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Uri"/>
         /// </summary>
         /// <param name="url">A <see cref="Uri"/> pointing to a file</param>
-        public InputOnlineFile(Uri url) : base(FileType.Url) => Url = url.AbsoluteUri;
+        public InputOnlineFile(Uri url) : base(FileType.Url) =>
+            Url = url?.AbsoluteUri ?? throw new ArgumentNullException(nameof(url));
 
         /// <summary>
         /// Constructs an <see cref="InputOnlineFile"/> from a <see cref="Stream"/>

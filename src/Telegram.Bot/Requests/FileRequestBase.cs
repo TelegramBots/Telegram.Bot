@@ -43,14 +43,21 @@ namespace Telegram.Bot.Requests
             string fileParameterName,
             InputFileStream inputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
-
-            if (inputFile.Content is null)
+            if (inputFile is null or { Content: null })
             {
-                throw new ArgumentNullException(nameof(inputFile.Content));
+                throw new ArgumentNullException(nameof(inputFile), $"{nameof(inputFile)} or it's content is null");
             }
 
-            multipartContent.AddStreamContent(inputFile.Content, fileParameterName, inputFile.FileName);
+            var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
+
+            multipartContent.AddStreamContent(
+                // Probably is a compiler bug, inputFile is already checked at this point
+#pragma warning disable CA1062
+                content: inputFile.Content,
+#pragma warning restore CA1062
+                name: fileParameterName,
+                fileName: inputFile.FileName
+            );
 
             return multipartContent;
         }
@@ -75,7 +82,7 @@ namespace Telegram.Bot.Requests
 
             foreach (var strContent in stringContents)
             {
-                multipartContent.Add(strContent.Content, strContent.Name);
+                multipartContent.Add(content: strContent.Content, name: strContent.Name);
             }
 
             return multipartContent;

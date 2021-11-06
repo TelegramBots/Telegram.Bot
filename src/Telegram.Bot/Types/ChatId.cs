@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
@@ -13,12 +14,12 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Unique identifier for the chat
         /// </summary>
-        public readonly long? Identifier;
+        public long? Identifier { get; }
 
         /// <summary>
         /// Username of the channel (in the format @channelusername)
         /// </summary>
-        public readonly string? Username;
+        public string? Username { get; }
 
         /// <summary>
         /// Create a <see cref="ChatId"/> using an identifier
@@ -37,7 +38,7 @@ namespace Telegram.Bot.Types
         public ChatId(string username)
         {
             if (username is null) { throw new ArgumentNullException(nameof(username)); }
-            if (username.Length > 1 && username.StartsWith("@"))
+            if (username.Length > 1 && username.StartsWith("@", StringComparison.InvariantCulture))
             {
                 Username = username;
             }
@@ -47,7 +48,7 @@ namespace Telegram.Bot.Types
             }
             else
             {
-                throw new ArgumentException($"Username value should be Identifier or Username that starts with @");
+                throw new ArgumentException("Username value should be Identifier or Username that starts with @");
             }
         }
 
@@ -56,11 +57,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         /// <param name="obj">The object to compare with the current object.</param>
         /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
-        public override bool Equals(object? obj)
-        {
-            if (obj is ChatId chatId) { return this == chatId; }
-            return ((string)this).Equals(obj?.ToString());
-        }
+        public override bool Equals(object? obj) =>
+            obj switch
+            {
+                ChatId chatId => this == chatId,
+                _ => false,
+            };
 
         /// <inheritdoc />
         public bool Equals(ChatId? other) => this == other;
@@ -69,13 +71,17 @@ namespace Telegram.Bot.Types
         /// Gets the hash code of this object
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
-        public override int GetHashCode() => ((string)this).GetHashCode();
+    #if NETCOREAPP3_1_OR_GREATER
+        public override int GetHashCode() => ToString().GetHashCode(StringComparison.InvariantCulture);
+#else
+        public override int GetHashCode() => ToString().GetHashCode();
+#endif
 
         /// <summary>
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
         /// </summary>
         /// <returns>The <see cref="ChatId"/> as <c>string</c></returns>
-        public override string ToString() => (Username ?? Identifier?.ToString())!;
+        public override string ToString() => (Username ?? Identifier?.ToString(CultureInfo.InvariantCulture))!;
 
         /// <summary>
         /// Create a <see cref="ChatId"/> out of an identifier
@@ -97,14 +103,14 @@ namespace Telegram.Bot.Types
         /// Create a <c>string</c> out of a <see cref="ChatId"/>
         /// </summary>
         /// <param name="chatId">The <see cref="ChatId"/>The ChatId</param>
-        public static implicit operator string(ChatId chatId) => chatId.ToString();
+        public static implicit operator string?(ChatId? chatId) => chatId?.ToString();
 
         /// <summary>
         /// Convert a Chat Object to a <see cref="ChatId"/>
         /// </summary>
         /// <param name="chat"></param>
-        public static implicit operator ChatId(Chat chat) =>
-            new(chat?.Id ?? throw new ArgumentNullException(nameof(chat)));
+        public static implicit operator ChatId?(Chat? chat) =>
+            chat is null ? null : new(chat.Id);
 
         /// <summary>
         /// Compares two ChatId objects

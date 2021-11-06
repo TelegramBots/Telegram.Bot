@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests.Abstractions;
-using File = Telegram.Bot.Types.File;
 
 namespace Telegram.Bot
 {
@@ -64,11 +63,14 @@ namespace Telegram.Bot
         Task<bool> TestApiAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Use this method to download a file. Get <paramref name="filePath"/> by calling <see cref="TelegramBotClientExtensions.GetFileAsync(ITelegramBotClient, string, CancellationToken)"/>.
+        /// Use this method to download a file. Get <paramref name="filePath"/> by calling
+        /// <see cref="TelegramBotClientExtensions.GetFileAsync(ITelegramBotClient, string, CancellationToken)"/>
         /// </summary>
         /// <param name="filePath">Path to file on server</param>
         /// <param name="destination">Destination stream to write file to</param>
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation.
+        /// </param>
         /// <exception cref="ArgumentException">filePath is <c>null</c>, empty or too short</exception>
         /// <exception cref="ArgumentNullException"><paramref name="destination"/> is <c>null</c></exception>
         Task DownloadFileAsync(

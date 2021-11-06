@@ -91,7 +91,7 @@ namespace Telegram.Bot.Requests
         public override HttpContent? ToHttpContent() =>
             Voice.FileType switch
             {
-                FileType.Stream => ToMultipartFormDataContent("voice", Voice),
+                FileType.Stream => ToMultipartFormDataContent(fileParameterName: "voice", inputFile: Voice),
                 _               => base.ToHttpContent()
             };
     }

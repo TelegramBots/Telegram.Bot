@@ -48,7 +48,7 @@ namespace Telegram.Bot.Requests
         public override HttpContent? ToHttpContent() =>
             PngSticker.FileType switch
             {
-                FileType.Stream => ToMultipartFormDataContent("png_sticker", PngSticker),
+                FileType.Stream => ToMultipartFormDataContent(fileParameterName: "png_sticker", inputFile: PngSticker),
                 _               => base.ToHttpContent()
             };
     }

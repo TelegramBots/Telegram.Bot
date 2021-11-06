@@ -24,6 +24,26 @@
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CA1003</NoWarn> <!-- Change the event name to replace the type with a generic EventHandler,
+                                           for example EventHandler<T>, where T is a valid EventArgs -->
+    <NoWarn>$(NoWarn);CA1819</NoWarn> <!-- Properties should not return arrays-->
+    <NoWarn>$(NoWarn);CA1008</NoWarn> <!-- Add a member to enum that has a value of zero with a suggested
+                                           name of 'None' -->
+    <NoWarn>$(NoWarn);CA1056</NoWarn> <!-- Change the type of property from 'string' to 'System.Uri' -->
+    <NoWarn>$(NoWarn);CA1711</NoWarn> <!-- Rename type name so that it does not end in 'Stream' -->
+    <NoWarn>$(NoWarn);CA1040</NoWarn> <!-- Avoid empty interfaces-->
+    <NoWarn>$(NoWarn);CA1822</NoWarn> <!-- Member does not access instance data and can be marked as static -->
+    <NoWarn>$(NoWarn);CA2225</NoWarn> <!-- Provide a method named 'ToEntity' or 'FromString' as an alternate
+                                           for operator op_Implicit -->
+    <NoWarn>$(NoWarn);CA1054</NoWarn> <!-- Change the type of parameter 'url' from 'string' to 'System.Uri', or
+                                           provide an overload to '(string, string)' that allows 'url' to be passed
+                                           as a 'System.Uri' object -->
+    <NoWarn>$(NoWarn);CA2234</NoWarn> <!-- Modify method to call
+                                           'HttpClient.GetAsync(Uri, HttpCompletionOption, CancellationToken)' instead
+                                           of 'HttpClient.GetAsync(string, HttpCompletionOption, CancellationToken)' -->
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="../../package-icon.png">
       <Pack>true</Pack>

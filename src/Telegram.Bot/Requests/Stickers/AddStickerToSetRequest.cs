@@ -77,6 +77,6 @@ namespace Telegram.Bot.Requests
         public override HttpContent? ToHttpContent() =>
             PngSticker.Content is null
                 ? base.ToHttpContent()
-                : ToMultipartFormDataContent("tgs_sticker", PngSticker);
+                : ToMultipartFormDataContent(fileParameterName: "tgs_sticker", inputFile: PngSticker);
     }
 }

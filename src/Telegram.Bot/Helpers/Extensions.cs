@@ -32,6 +32,8 @@ namespace Telegram.Bot.Helpers
             fileName ??= name;
             var contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
 
+            // It will be dispose of after the request is made
+#pragma warning disable CA2000
             var mediaPartContent = new StreamContent(content)
             {
                 Headers =
@@ -40,6 +42,7 @@ namespace Telegram.Bot.Helpers
                     {"Content-Disposition", contentDisposition}
                 }
             };
+#pragma warning restore CA2000
 
             multipartContent.Add(mediaPartContent, name, fileName);
         }
@@ -53,13 +56,19 @@ namespace Telegram.Bot.Helpers
             {
                 if (input.Media.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(input.Media.Content!, input.Media.FileName!);
+                    multipartContent.AddStreamContent(
+                        content: input.Media.Content!,
+                        name: input.Media.FileName!
+                    );
                 }
 
                 if (input is IInputMediaThumb mediaThumb &&
                     mediaThumb.Thumb?.FileType == FileType.Stream)
                 {
-                    multipartContent.AddStreamContent(mediaThumb.Thumb.Content!, mediaThumb.Thumb.FileName!);
+                    multipartContent.AddStreamContent(
+                        content: mediaThumb.Thumb.Content!,
+                        name: mediaThumb.Thumb.FileName!
+                    );
                 }
             }
         }
@@ -74,7 +83,7 @@ namespace Telegram.Bot.Helpers
         /// <exception cref="RequestException">
         /// Thrown when body in the response can not be deserialized into <typeparamref name="T"/>
         /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(methodImplOptions: MethodImplOptions.AggressiveInlining)]
         internal static async Task<T> DeserializeContentAsync<T>(
             this HttpResponseMessage httpResponse,
             Func<T, bool> guard)
@@ -83,10 +92,12 @@ namespace Telegram.Bot.Helpers
             Stream? contentStream = null;
 
             if (httpResponse.Content is null)
+            {
                 throw new RequestException(
-                    "Response doesn't contain any content",
-                    httpResponse.StatusCode
+                    message: "Response doesn't contain any content",
+                    httpStatusCode: httpResponse.StatusCode
                 );
+            }
 
             try
             {
@@ -96,7 +107,7 @@ namespace Telegram.Bot.Helpers
                 {
                     contentStream = await httpResponse.Content
                         .ReadAsStreamAsync()
-                        .ConfigureAwait(false);
+                        .ConfigureAwait(continueOnCapturedContext: false);
 
                     deserializedObject = contentStream
                         .DeserializeJsonFromStream<T>();
@@ -133,7 +144,7 @@ namespace Telegram.Bot.Helpers
                 if (contentStream is not null)
                 {
 #if NETCOREAPP3_1_OR_GREATER
-                    await contentStream.DisposeAsync();
+                    await contentStream.DisposeAsync().ConfigureAwait(false);
 #else
                     contentStream.Dispose();
 #endif
@@ -151,7 +162,7 @@ namespace Telegram.Bot.Helpers
         static T? DeserializeJsonFromStream<T>(this Stream? stream)
             where T : class
         {
-            if (stream is null || !stream.CanRead) return default;
+            if (stream is null || !stream.CanRead) { return default; }
 
             using var streamReader = new StreamReader(stream);
             using var jsonTextReader = new JsonTextReader(streamReader);
@@ -174,13 +185,13 @@ namespace Telegram.Bot.Helpers
         ) =>
             exception is null
                 ? new RequestException(
-                    message,
-                    httpResponse.StatusCode
+                    message: message,
+                    httpStatusCode: httpResponse.StatusCode
                 )
                 : new RequestException(
-                    message,
-                    httpResponse.StatusCode,
-                    exception
+                    message: message,
+                    httpStatusCode: httpResponse.StatusCode,
+                    innerException: exception
                 );
     }
 }

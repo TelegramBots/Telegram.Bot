@@ -7,7 +7,9 @@ namespace Telegram.Bot.Exceptions
     /// Represents an API error
     /// </summary>
     // ReSharper disable once ClassWithVirtualMembersNeverInherited.Global
+#pragma warning disable CA1032
     public class ApiRequestException : RequestException
+#pragma warning restore CA1032
     {
         /// <summary>
         /// Gets the error code.

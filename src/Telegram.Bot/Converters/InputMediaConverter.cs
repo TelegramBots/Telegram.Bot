@@ -38,8 +38,8 @@ namespace Telegram.Bot.Converters
 
             if (value is null) { return null!; }
 
-            return value.StartsWith("attach://")
-                    ? new InputMedia(Stream.Null, value.Substring(9))
+            return value.StartsWith("attach://", StringComparison.InvariantCulture)
+                    ? new(Stream.Null, value.Substring(9))
                     : new InputMedia(value);
         }
     }
