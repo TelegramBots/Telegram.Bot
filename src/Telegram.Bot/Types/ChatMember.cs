@@ -219,6 +219,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Date when restrictions will be lifted for this user, UTC time
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonConverter(typeof(BanTimeUnixDateTimeConverter))]
         public DateTime? UntilDate { get; set; }
     }
@@ -246,8 +247,8 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Date when restrictions will be lifted for this user, UTC time
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
         [JsonConverter(typeof(BanTimeUnixDateTimeConverter))]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public DateTime? UntilDate { get; set; }
     }
 }
