@@ -24,6 +24,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+
+- Added missing JSON attributes on types `ApproveChatJoinRequest` and `DeclineChatJoinRequest`
+- Types `ApproveChatJoinRequest` and `DeclineChatJoinRequest` implement `IChatTargetable` interface
+
+## [v17.0.0-alpha.4] - 2021-11-06
+
+> [Bot API 5.4](https://core.telegram.org/bots/api#november-5-2021) (November 5, 2021)
+
+### Added
 - Request `ApproveChatJoinRequest`
 - Request `DeclineChatJoinRequest`
 - Property `bool? CreateChatInviteLinkRequest.CreatesJoinRequest`
