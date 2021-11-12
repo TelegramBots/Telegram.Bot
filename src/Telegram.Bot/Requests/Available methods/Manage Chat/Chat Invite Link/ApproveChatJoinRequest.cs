@@ -1,4 +1,7 @@
-﻿using Telegram.Bot.Types;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests
@@ -8,16 +11,17 @@ namespace Telegram.Bot.Requests
     /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
     /// Returns <c>true</c> on success.
     /// </summary>
-    public class ApproveChatJoinRequest : RequestBase<bool>
+    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+    public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable
     {
-        /// <summary>
-        /// Unique identifier for the target chat or username of the target channel (in the format @channelusername)
-        /// </summary>
+        /// <inheritdoc/>
+        [JsonProperty(Required = Required.Always)]
         public ChatId ChatId { get; }
 
         /// <summary>
         /// Unique identifier of the target user
         /// </summary>
+        [JsonProperty(Required = Required.Always)]
         public long UserId { get; }
 
         /// <summary>
