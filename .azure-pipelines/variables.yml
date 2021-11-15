@@ -6,6 +6,18 @@ variables:
     value: "alpha.5"
   - name: ciVersionSuffix
     value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
+  - name: isPreRelease
+    value: ${{ ne(variables.versionSuffix, '') }}
+  - name: releaseVersion
+    ${{ if eq(variables.isPreRelease, true) }}:
+      value: $(versionPrefix)-$(versionSuffix)
+    ${{ else }}:
+      value: $(versionPrefix)
+  - name: ciVersion
+    ${{ if eq(variables.isPreRelease, true) }}:
+      value: $(versionPrefix)-$(versionSuffix).$(ciVersionSuffix)
+    ${{ else }}:
+      value: $(versionPrefix)-$(ciVersionSuffix)
   - name: buildConfiguration
     value: Release
   - name: vmImage
