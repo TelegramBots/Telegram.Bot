@@ -24,9 +24,9 @@ stages:
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
           strategies:
-            - Windows: windows-2019
+            - Windows: windows-2022
             - Ubuntu: ubuntu-20.04
-            - macOS: macOS-10.15
+            - macOS: macOS-11
   - stage: IntegrationTests
     displayName: 🧪 Integration tests
     jobs:
