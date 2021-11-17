@@ -7,7 +7,7 @@ on:
 env:
   USE_CI_FEED: false
   VERSION: 1.0.0
-  IS_PRERELEASE: ${{ contains(env.VERSION, '-') }}
+  IS_PRERELEASE: false
   PROJECT_PATH: src/Telegram.Bot/Telegram.Bot.csproj
   CONFIGURATION: Release
 
