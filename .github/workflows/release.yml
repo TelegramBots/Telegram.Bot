@@ -1,0 +1,53 @@
+name: ci
+
+on:
+  push:
+    branches: [ master ]
+
+env:
+  USE_CI_FEED: false
+  VERSION: 1.0.0
+  IS_PRERELEASE: ${{ contains(env.VERSION, '-') }}
+  PROJECT_PATH: src/Telegram.Bot/Telegram.Bot.csproj
+  CONFIGURATION: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: > 
+          dotnet build 
+          --no-restore 
+          --configuration ${{ env.CONFIGURATION }}
+          -p:Version=${{ env.VERSION }}
+          ${{ env.PROJECT_PATH }}
+      - name: Pack
+        run: >
+          dotnet pack
+          --no-build
+          --output artifacts
+          --configuration ${{ env.CONFIGURATION }}
+          -p:Version=${{ env.VERSION }}
+          ${{ env.PROJECT_PATH }}
+      - name: Publish package to NuGet
+        run: >
+          dotnet nuget push
+          artifacts/*.nupkg
+          --api-key ${{ secrets.NUGET_API_KEY }}
+          --skip-duplicate
+          --source https://api.nuget.org/v3/index.json
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: '*.nupkg'
+          tag_name: v${{ env.VERSION }}
+          prerelease: ${{ env.IS_PRERELEASE }}
+          fail_on_unmatched_files: true
