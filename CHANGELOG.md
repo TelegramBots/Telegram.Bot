@@ -20,3 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 -->
 
 <!-- markdownlint-configure-file { "MD024": false } -->
+
+## [Unreleased]
+
+### Changed
+- All method arguments that accept `ReceiverOptions` are renamed from `receiveOptions` to `receiverOptions`
+
+## [v1.0.0-alpha.1] - 2021-07-20

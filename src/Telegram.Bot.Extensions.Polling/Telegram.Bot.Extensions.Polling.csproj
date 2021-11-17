@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <Version>1.0.0-alpha.1</Version>
     <Authors>MihaZupan,tuscen,TelegramBots</Authors>
     <Copyright>Copyright © Telegram Bots 2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -13,7 +12,7 @@
     <Description>Provides ITelegramBotClient extensions for polling updates.</Description>
     <PackageIcon>package-icon.png</PackageIcon>
     <Company>TelegramBots</Company>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>10</LangVersion>
     <NullableContextOptions>enable</NullableContextOptions>
     <Nullable>enable</Nullable>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -42,9 +41,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
-    <PackageReference Include="Telegram.Bot" Version="17.0.0-alpha.1" />
-    <PackageReference Include="Microsoft.SourceLink.Github" Version="1.0.0" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    <PackageReference Include="System.Threading.Channels" Version="6.0.0" />
+    <PackageReference Include="Telegram.Bot" Version="17.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

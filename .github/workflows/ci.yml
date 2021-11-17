@@ -15,7 +15,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.x
+          dotnet-version: 6.0.x
       - name: Copy nuget.config with development feed from Azure
         if: ${{ env.USE_CI_FEED == 'true' }}
         shell: pwsh
