@@ -47,7 +47,7 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: '*.nupkg'
+          files: artifacts/*.nupkg
           tag_name: v${{ env.VERSION }}
           prerelease: ${{ env.IS_PRERELEASE }}
           fail_on_unmatched_files: true
