@@ -28,7 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".azure-pipelines", ".azure-
 		.azure-pipelines\develop-pipeline.yml = .azure-pipelines\develop-pipeline.yml
 		.azure-pipelines\manual-pipeline.yml = .azure-pipelines\manual-pipeline.yml
 		.azure-pipelines\release-pipeline.yml = .azure-pipelines\release-pipeline.yml
-		.azure-pipelines\setVersionVariables.js = .azure-pipelines\setVersionVariables.js
 		.azure-pipelines\variables.yml = .azure-pipelines\variables.yml
 	EndProjectSection
 EndProject
