@@ -3,7 +3,6 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <Version>1.0.0-alpha.1</Version>
     <Authors>MihaZupan,tuscen,TelegramBots</Authors>
     <Copyright>Copyright © Telegram Bots 2021</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -43,7 +42,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Threading.Channels" Version="5.0.0" />
-    <PackageReference Include="Telegram.Bot" Version="17.0.0-alpha.1" />
+    <PackageReference Include="Telegram.Bot" Version="17.0.0" />
     <PackageReference Include="Microsoft.SourceLink.Github" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
