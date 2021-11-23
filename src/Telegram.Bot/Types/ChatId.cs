@@ -120,10 +120,20 @@ namespace Telegram.Bot.Types
             if (ReferenceEquals(obj1, obj2)) { return true; }
             if (obj1 is null || obj2 is null) { return false; }
 
-            // checking by Identifier is more consistent but we should check that its value isn`t default
-            return obj1.Identifier != 0
-                ? obj1.Identifier == obj2.Identifier || obj1.Username == obj2.Username
-                : obj1.Identifier == obj2.Identifier && obj1.Username == obj2.Username;
+            if (obj1.Identifier == obj2.Identifier && obj1.Username == obj2.Username)
+                return true;
+
+            if (obj1.Identifier != 0 && obj2.Identifier != 0)
+            {
+                return obj1.Identifier == obj2.Identifier;
+            }
+
+            if (obj1.Username == null && obj2.Username == null)
+            {
+                return obj1.Identifier == obj2.Identifier;
+            }
+
+            return obj1.Username == obj2.Username && obj1.Identifier == obj2.Identifier;
         }
 
         /// <summary>

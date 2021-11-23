@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Telegram.Bot.Types;
 using Xunit;
 
@@ -47,8 +49,12 @@ namespace Telegram.Bot.Tests.Unit
             Assert.Equal("123456789012", new ChatId((123456789012)).ToString());
             Assert.Equal("123456789012", new ChatId("123456789012").ToString());
 
+
             //username
             Assert.Equal("@valid_username", new ChatId("@valid_username").ToString());
+
+
+            Assert.True(848993490 != new ChatId(1830775754));
         }
 
         [Fact]
@@ -80,5 +86,26 @@ namespace Telegram.Bot.Tests.Unit
             Assert.Equal(chatId, chatId);
             Assert.Equal(new ChatId(123), new ChatId(123));
         }
+
+        [Theory]
+        [ClassData(typeof(ChatIdTestData))]
+        public void Equals_Test2(ChatId id1, ChatId id2, bool result)
+        {
+            Assert.Equal(id1==id2, result);
+        }
+    }
+
+    public class ChatIdTestData : IEnumerable<object[]>
+    {
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { new ChatId(0), new ChatId(0), true };
+            yield return new object[] { new ChatId(50), new ChatId(50), true };
+            yield return new object[] { new ChatId(100), new ChatId(50), false };
+            yield return new object[] { new ChatId("@user"), new ChatId("@user"), true };
+            yield return new object[] { new ChatId(50), new ChatId("@50"), false };
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
