@@ -159,7 +159,7 @@ try
        }
    }
 }
-catch (OperationCancelledException exception)
+catch (OperationCanceledException exception)
 {
 }
 ```
