@@ -152,14 +152,14 @@ try
    {
        if (update.Message is Message message)
        {
-           await Bot.SendTextMessageAsync(
+           await bot.SendTextMessageAsync(
                message.Chat,
                $"Still have to process {updateReceiver.PendingUpdates} updates"
            );
        }
    }
 }
-catch (OperationCancelledException exception)
+catch (OperationCanceledException exception)
 {
 }
 ```
