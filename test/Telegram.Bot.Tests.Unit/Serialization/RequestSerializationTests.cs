@@ -7,6 +7,18 @@ namespace Telegram.Bot.Tests.Unit.Serialization
 {
     public class RequestSerializationTests
     {
+        [Fact]
+        public async Task Should_Serialize_DeleteWebhookRequest_Content()
+        {
+            DeleteWebhookRequest deleteWebhookRequest = new() { DropPendingUpdates = true };
+            HttpContent? deleteWebhookContent = deleteWebhookRequest.ToHttpContent();
+
+            string? stringContent = await deleteWebhookContent?.ReadAsStringAsync();
+
+            Assert.NotNull(stringContent);
+            Assert.Contains("\"drop_pending_updates\":true", stringContent);
+        }
+
         [Fact(DisplayName = "Should serialize request")]
         public void Should_Serialize_Request()
         {
