@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 using Xunit;
 
