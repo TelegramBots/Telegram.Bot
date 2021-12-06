@@ -23,6 +23,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- 'DeleteWebhookRequest' parameters are now properly serializing
+
+## [v17.0.0] - 2021-11-17
+
+- v17 release
+
+## [v17.0.0-alpha.5] - 2021-11-12
+
 ### Added
 
 - Added missing JSON attributes on types `ApproveChatJoinRequest` and `DeclineChatJoinRequest`
@@ -33,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 > [Bot API 5.4](https://core.telegram.org/bots/api#november-5-2021) (November 5, 2021)
 
 ### Added
+
 - Request `ApproveChatJoinRequest`
 - Request `DeclineChatJoinRequest`
 - Property `bool? CreateChatInviteLinkRequest.CreatesJoinRequest`
@@ -48,23 +59,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Extension method `TelegramBotClientExtensions.DeclineChatJoinRequestAsync`
 
 ### Changed
+
 - Extension method `TelegramBotClientExtensions.EditChatInviteLinkAsync`:
   - Added parameters `string? name` and `bool? createsJoinRequest`
 - Extension method `TelegramBotClientExtensions.CreateChatInviteLinkAsync`:
   - Added parameters `string? name` and `bool? createsJoinRequest`
 
 ### Changed
+
 - Fields `ChatId.Identifier` and `ChatId.Username` changed into get-only properties
 
 ## [v17.0.0-alpha.3] - 2021-09-01
 
 ### Changed
+
 - Method `GetInfoAndDownloadFileAsync` moved into static class `TelegramBotClientExtensions` as an extension method
 - Symbols are always include in the package
 
 ## [v17.0.0-alpha.2] - 2021-09-01
 
 ### Added
+
 - Interface `IExceptionsParser`
 - Type `ApiResponse`
 - Property `ITelegramBotClient.ExceptionsParser`
@@ -72,6 +87,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [v.16.0.2] - 2021-08-16
 
 ### Fixed
+
 - Parameter name `ChatLocation.String` replaced with `ChatLocation.Address`
 
 ## [v16.0.1] - 2021-07-10
