@@ -71,28 +71,28 @@ namespace Telegram.Bot.Tests.Unit.Serialization
         [Fact(DisplayName = "Should build a StringContent with method name in parameterless webhook responses")]
         public async Task Should_Build_StringContent_With_MethodName_In_Parameterless_Webhook_ResponseAsync()
         {
-            DeleteWebhookRequest deleteWebhookRequest = new()
+            CloseRequest closeRequest = new()
             {
                 IsWebhookResponse = true
             };
 
-            HttpContent? content = deleteWebhookRequest.ToHttpContent();
+            HttpContent? content = closeRequest.ToHttpContent();
             Assert.IsType<StringContent>(content);
             Assert.NotNull(content);
             StringContent stringContent = (StringContent) content!;
             string body = await stringContent!.ReadAsStringAsync();
-            Assert.Equal(@"{""method"":""deleteWebhook""}", body);
+            Assert.Equal(@"{""method"":""close""}", body);
         }
 
         [Fact(DisplayName = "Should not build an HttpContent when not a parameterless webhook responses")]
         public void Should_Not_Serialize_MethodName_When_Not_Parameterless_Webhook_Responses()
         {
-            DeleteWebhookRequest deleteWebhookRequest = new()
+            CloseRequest closeRequest = new()
             {
                 IsWebhookResponse = false
             };
 
-            HttpContent? content = deleteWebhookRequest.ToHttpContent();
+            HttpContent? content = closeRequest.ToHttpContent();
             Assert.Null(content);
         }
     }
