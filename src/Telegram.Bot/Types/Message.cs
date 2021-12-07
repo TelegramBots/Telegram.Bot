@@ -90,6 +90,13 @@ namespace Telegram.Bot.Types
         public DateTime? ForwardDate { get; set; }
 
         /// <summary>
+        /// <c>true</c>, if the message is a channel post that was automatically forwarded to the connected
+        /// discussion group
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? IsAutomaticForward { get; set; }
+
+        /// <summary>
         /// Optional. For replies, the original message. Note that the <see cref="Message"/> object in this field
         /// will not contain further <see cref="ReplyToMessage"/> fields even if it itself is a reply.
         /// </summary>
@@ -108,6 +115,13 @@ namespace Telegram.Bot.Types
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [JsonConverter(typeof(UnixDateTimeConverter))]
         public DateTime? EditDate { get; set; }
+
+        /// <summary>
+        /// Optional. <c>true</c>, if messages from the chat can't be forwarded to other chats.
+        /// Returned only in <see cref="Requests.GetChatRequest"/>.
+        /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? HasProtectedContent { get; set; }
 
         /// <summary>
         /// Optional. The unique identifier of a media message group this message belongs to

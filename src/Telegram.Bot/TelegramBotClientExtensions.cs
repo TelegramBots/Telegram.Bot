@@ -1986,6 +1986,64 @@ namespace Telegram.Bot
                 .ConfigureAwait(false);
 
         /// <summary>
+        /// Use this method to ban a channel chat in a supergroup or a channel. The owner of the chat will not be
+        /// able to send messages and join live streams on behalf of the chat, unless it is unbanned first. The bot
+        /// must be an administrator in the supergroup or channel for this to work and must have the appropriate
+        /// administrator rights. Returns <c>true</c> on success.
+        /// </summary>
+        /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target supergroup
+        /// (in the format <c>@supergroupusername</c>)
+        /// </param>
+        /// <param name="senderChatId">Unique identifier of the target sender chat</param>
+        /// <param name="untilDate">
+        /// Date when the sender chat will be unbanned, unix time. If the chat is banned for more than 366 days or
+        /// less than 30 seconds from the current time they are considered to be banned forever.
+        /// </param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+        /// </param>
+        public static async Task BanChatSenderChatAsync(this ITelegramBotClient botClient,
+            ChatId chatId,
+            long senderChatId,
+            DateTime? untilDate = default,
+            CancellationToken cancellationToken = default
+        ) =>
+            await botClient.ThrowIfNull(nameof(botClient))
+                .MakeRequestAsync(
+                    new BanChatSenderChatRequest(chatId, senderChatId) { UntilDate = untilDate },
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
+
+        /// <summary>
+        /// Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be
+        /// an administrator for this to work and must have the appropriate administrator rights.
+        /// Returns <c>true</c> on success.
+        /// </summary>
+        /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+        /// <param name="chatId">
+        /// Unique identifier for the target chat or username of the target supergroup
+        /// (in the format <c>@supergroupusername</c>)
+        /// </param>
+        /// <param name="senderChatId">Unique identifier of the target sender chat</param>
+        /// <param name="cancellationToken">
+        /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+        /// </param>
+        public static async Task UnbanChatSenderChatAsync(this ITelegramBotClient botClient,
+            ChatId chatId,
+            long senderChatId,
+            CancellationToken cancellationToken = default
+        ) =>
+            await botClient.ThrowIfNull(nameof(botClient))
+                .MakeRequestAsync(
+                    new UnbanChatSenderChatRequest(chatId, senderChatId),
+                    cancellationToken
+                )
+                .ConfigureAwait(false);
+
+        /// <summary>
         /// Use this method to set default chat permissions for all members. The bot must be an administrator
         /// in the group or a supergroup for this to work and must have the can_restrict_members admin rights
         /// </summary>
