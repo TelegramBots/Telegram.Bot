@@ -21,12 +21,11 @@ internal static class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default)
     {
-        var timeout = (int) botClient.Timeout.TotalSeconds;
         var request = new GetUpdatesRequest
         {
             Limit = 1,
             Offset = -1,
-            Timeout = timeout,
+            Timeout = 0,
             AllowedUpdates = Array.Empty<UpdateType>(),
         };
         var updates = await botClient.MakeRequestAsync(request: request, cancellationToken: cancellationToken)
