@@ -25,6 +25,7 @@ namespace Telegram.Bot.Types
         /// Create a <see cref="ChatId"/> using an identifier
         /// </summary>
         /// <param name="identifier">The Identifier</param>
+        // ReSharper disable once MemberCanBePrivate.Global
         public ChatId(long identifier) => Identifier = identifier;
 
         /// <summary>
@@ -117,23 +118,19 @@ namespace Telegram.Bot.Types
         /// </summary>
         public static bool operator ==(ChatId? obj1, ChatId? obj2)
         {
-            if (ReferenceEquals(obj1, obj2)) { return true; }
             if (obj1 is null || obj2 is null) { return false; }
 
-            if (obj1.Identifier == obj2.Identifier && obj1.Username == obj2.Username)
-                return true;
-
-            if (obj1.Identifier != 0 && obj2.Identifier != 0)
+            if (obj1.Identifier is not null && obj2.Identifier is not null)
             {
                 return obj1.Identifier == obj2.Identifier;
             }
 
-            if (obj1.Username == null && obj2.Username == null)
+            if (obj1.Username is not null && obj2.Username is not null)
             {
-                return obj1.Identifier == obj2.Identifier;
+                return obj1.Username == obj2.Username;
             }
 
-            return obj1.Username == obj2.Username && obj1.Identifier == obj2.Identifier;
+            return false;
         }
 
         /// <summary>
