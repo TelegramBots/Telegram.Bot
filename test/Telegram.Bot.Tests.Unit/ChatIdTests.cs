@@ -77,6 +77,7 @@ namespace Telegram.Bot.Tests.Unit
             ChatId chatId = new ChatId(identifier);
 
             Assert.True(chatId.Equals(identifier));
+            // ReSharper disable once SuspiciousTypeConversion.Global
             Assert.False(identifier.Equals(chatId));
             Assert.True(chatId == identifier);
             Assert.True(identifier == chatId);
@@ -90,6 +91,7 @@ namespace Telegram.Bot.Tests.Unit
             ChatId chatId = new ChatId(identifier);
 
             Assert.True(chatId.Equals(identifierValue));
+            // ReSharper disable once SuspiciousTypeConversion.Global
             Assert.False(identifierValue.Equals(chatId));
             Assert.True(chatId == identifierValue);
             Assert.True(identifierValue == chatId);
