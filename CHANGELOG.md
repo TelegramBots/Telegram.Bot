@@ -23,6 +23,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed timeout for throwing out pending updates on start
+
+## [1.0.0] - 2021-11-17
+
 ### Changed
 - All method arguments that accept `ReceiverOptions` are renamed from `receiveOptions` to `receiverOptions`
 
