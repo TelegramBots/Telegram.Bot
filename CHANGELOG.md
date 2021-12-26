@@ -23,6 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Dependency on package `JetBrains.Annotations` is made private
+
+## [1.0.1] - 2021-12-19
+
 ### Fixed
 
 - Fixed timeout for throwing out pending updates on start

@@ -12,11 +12,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md
+		CHANGELOG.md = CHANGELOG.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D9549736-D112-4D83-A116-0AEF455A82F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.Extensions.Polling.Tests", "test\Telegram.Bot.Extensions.Polling.Tests\Telegram.Bot.Extensions.Polling.Tests.csproj", "{16570A8F-7E19-41EA-AEE1-9FD378585169}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{055FB192-3BB9-4FB9-B5C3-1ED8370CEFE9}"
+	ProjectSection(SolutionItems) = preProject
+		.github\nuget.config = .github\nuget.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{AA1E8187-E2AB-4D11-8517-95B3D67821F1}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +51,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{437A7244-12E6-45F8-A230-9E1241DFA857} = {338ECE13-AF3D-4C77-A3B9-AF0E7C7298C8}
 		{16570A8F-7E19-41EA-AEE1-9FD378585169} = {D9549736-D112-4D83-A116-0AEF455A82F8}
+		{055FB192-3BB9-4FB9-B5C3-1ED8370CEFE9} = {C49D6AD4-FC8B-4F2D-AEF8-A77A09120A01}
+		{AA1E8187-E2AB-4D11-8517-95B3D67821F1} = {055FB192-3BB9-4FB9-B5C3-1ED8370CEFE9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90F2F608-0C73-4233-8D9F-8D375CC014D0}
