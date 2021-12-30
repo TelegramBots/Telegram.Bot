@@ -73,5 +73,10 @@ namespace Telegram.Bot.Requests.Abstractions
         /// multipart/form-data under &lt;file_attach_name&gt;
         /// </summary>
         object Thumb;
+
+        /// <summary>
+        /// Protects the contents of sent messages from forwarding and saving
+        /// </summary>
+        object ProtectContent;
     }
 }

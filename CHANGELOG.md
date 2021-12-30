@@ -33,6 +33,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `int? MessageAutoDeleteTime` to class `Chat`
 - Property `bool? IsAutomaticForward` to class `Message`
 - Property `bool? HasProtectedContent` to class `Message`
+- Property `bool? ProtectContent` to following requests:
+  - `SendLocationRequest`
+  - `SendVenueRequest`
+  - `CopyMessageRequest`
+  - `ForwardMessageRequest`
+  - `SendAnimationRequest`
+  - `SendAudioRequest`
+  - `SendContactRequest`
+  - `SendDiceRequest`
+  - `SendDocumentRequest`
+  - `SendMediaGroupRequest`
+  - `SendMessageRequest`
+  - `SendPhotoRequest`
+  - `SendPollRequest`
+  - `SendVideoNoteRequest`
+  - `SendVideoRequest`
+  - `SendVoiceRequest`
+- Parameter `bool? protectContent = default` to following methods:
+  - `TelegramBotExtensions.SendLocationRequestAsync`
+  - `TelegramBotExtensions.SendVenueRequestAsync`
+  - `TelegramBotExtensions.CopyMessageRequestAsync`
+  - `TelegramBotExtensions.ForwardMessageRequestAsync`
+  - `TelegramBotExtensions.SendAnimationRequestAsync`
+  - `TelegramBotExtensions.SendAudioRequestAsync`
+  - `TelegramBotExtensions.SendContactRequestAsync`
+  - `TelegramBotExtensions.SendDiceRequestAsync`
+  - `TelegramBotExtensions.SendDocumentRequestAsync`
+  - `TelegramBotExtensions.SendMediaGroupRequestAsync`
+  - `TelegramBotExtensions.SendMessageRequestAsync`
+  - `TelegramBotExtensions.SendPhotoRequestAsync`
+  - `TelegramBotExtensions.SendPollRequestAsync`
+  - `TelegramBotExtensions.SendVideoNoteRequestAsync`
+  - `TelegramBotExtensions.SendVideoRequestAsync`
+  - `TelegramBotExtensions.SendVoiceRequestAsync`
+- Enum member `MessageEntityType.Spoiler`
 
 ### Fixed
 

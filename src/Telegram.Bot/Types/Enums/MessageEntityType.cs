@@ -83,5 +83,10 @@ namespace Telegram.Bot.Types.Enums
         /// Strikethrough text
         /// </summary>
         Strikethrough,
+
+        /// <summary>
+        /// Spoiler message
+        /// </summary>
+        Spoiler,
     }
 }

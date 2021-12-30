@@ -288,6 +288,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -310,6 +311,7 @@ namespace Telegram.Bot
             IEnumerable<MessageEntity>? entities = default,
             bool? disableWebPagePreview = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -323,6 +325,7 @@ namespace Telegram.Bot
                         Entities = entities,
                         DisableWebPagePreview = disableWebPagePreview,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -347,6 +350,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="cancellationToken">
         /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
         /// </param>
@@ -357,6 +361,7 @@ namespace Telegram.Bot
             ChatId fromChatId,
             int messageId,
             bool? disableNotification = default,
+            bool? protectContent = default,
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient))
@@ -400,6 +405,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -423,6 +429,7 @@ namespace Telegram.Bot
             ParseMode? parseMode = default,
             IEnumerable<MessageEntity>? captionEntities = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -436,6 +443,7 @@ namespace Telegram.Bot
                         CaptionEntities = captionEntities,
                         ReplyToMessageId = replyToMessageId,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
                     },
@@ -473,6 +481,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -495,6 +504,7 @@ namespace Telegram.Bot
             ParseMode? parseMode = default,
             IEnumerable<MessageEntity>? captionEntities = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -508,6 +518,7 @@ namespace Telegram.Bot
                         ParseMode = parseMode,
                         CaptionEntities = captionEntities,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -554,6 +565,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -580,6 +592,7 @@ namespace Telegram.Bot
             string? title = default,
             InputMedia? thumb = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -597,6 +610,7 @@ namespace Telegram.Bot
                         Title = title,
                         Thumb = thumb,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -645,6 +659,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -669,6 +684,7 @@ namespace Telegram.Bot
             IEnumerable<MessageEntity>? captionEntities = default,
             bool? disableContentTypeDetection = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -684,6 +700,7 @@ namespace Telegram.Bot
                         CaptionEntities = captionEntities,
                         DisableContentTypeDetection = disableContentTypeDetection,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -733,6 +750,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -760,6 +778,7 @@ namespace Telegram.Bot
             IEnumerable<MessageEntity>? captionEntities = default,
             bool? supportsStreaming = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -778,6 +797,7 @@ namespace Telegram.Bot
                         CaptionEntities = captionEntities,
                         SupportsStreaming = supportsStreaming,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -826,6 +846,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -852,6 +873,7 @@ namespace Telegram.Bot
             ParseMode? parseMode = default,
             IEnumerable<MessageEntity>? captionEntities = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -869,6 +891,7 @@ namespace Telegram.Bot
                         ParseMode = parseMode,
                         CaptionEntities = captionEntities,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup,
@@ -907,6 +930,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -930,6 +954,7 @@ namespace Telegram.Bot
             IEnumerable<MessageEntity>? captionEntities = default,
             int? duration = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -944,6 +969,7 @@ namespace Telegram.Bot
                         CaptionEntities = captionEntities,
                         Duration = duration,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -978,6 +1004,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -1000,6 +1027,7 @@ namespace Telegram.Bot
             int? length = default,
             InputMedia? thumb = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -1013,6 +1041,7 @@ namespace Telegram.Bot
                         Length = length,
                         Thumb = thumb,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -1034,6 +1063,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -1047,6 +1077,7 @@ namespace Telegram.Bot
             ChatId chatId,
             IEnumerable<IAlbumInputMedia> media,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             CancellationToken cancellationToken = default
@@ -1056,6 +1087,7 @@ namespace Telegram.Bot
                     request: new SendMediaGroupRequest(chatId, media)
                     {
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                     },
@@ -1087,6 +1119,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -1110,6 +1143,7 @@ namespace Telegram.Bot
             int? heading = default,
             int? proximityAlertRadius = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -1123,6 +1157,7 @@ namespace Telegram.Bot
                         Heading = heading,
                         ProximityAlertRadius = proximityAlertRadius,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup,
@@ -1334,6 +1369,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -1361,6 +1397,7 @@ namespace Telegram.Bot
             string? googlePlaceId = default,
             string? googlePlaceType = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -1375,6 +1412,7 @@ namespace Telegram.Bot
                         GooglePlaceId = googlePlaceId,
                         GooglePlaceType = googlePlaceType,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -1398,6 +1436,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -1420,6 +1459,7 @@ namespace Telegram.Bot
             string? lastName = default,
             string? vCard = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -1432,6 +1472,7 @@ namespace Telegram.Bot
                         LastName = lastName,
                         Vcard = vCard,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -1489,6 +1530,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -1519,6 +1561,7 @@ namespace Telegram.Bot
             DateTime? closeDate = default,
             bool? isClosed = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -1539,6 +1582,7 @@ namespace Telegram.Bot
                         CloseDate = closeDate,
                         IsClosed = isClosed,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -1566,6 +1610,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -1585,6 +1630,7 @@ namespace Telegram.Bot
             ChatId chatId,
             Emoji? emoji = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -1596,6 +1642,7 @@ namespace Telegram.Bot
                     {
                         Emoji = emoji,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup,
@@ -2388,6 +2435,7 @@ namespace Telegram.Bot
             ChatId chatId,
             int messageId,
             bool? disableNotification = default,
+            bool? protectContent = default,
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient)).
@@ -3233,6 +3281,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -3252,6 +3301,7 @@ namespace Telegram.Bot
             ChatId chatId,
             InputOnlineFile sticker,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             IReplyMarkup? replyMarkup = default,
@@ -3262,6 +3312,7 @@ namespace Telegram.Bot
                     request: new SendStickerRequest(chatId, sticker)
                     {
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -3703,6 +3754,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -3742,6 +3794,7 @@ namespace Telegram.Bot
             bool? sendEmailToProvider = default,
             bool? isFlexible = default,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             InlineKeyboardMarkup? replyMarkup = default,
@@ -3775,6 +3828,7 @@ namespace Telegram.Bot
                         SendEmailToProvider = sendEmailToProvider,
                         IsFlexible = isFlexible,
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
@@ -3904,6 +3958,7 @@ namespace Telegram.Bot
         /// <param name="disableNotification">
         /// Sends the message silently. Users will receive a notification with no sound
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
         /// <param name="allowSendingWithoutReply">
         /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
@@ -3923,6 +3978,7 @@ namespace Telegram.Bot
             long chatId,
             string gameShortName,
             bool? disableNotification = default,
+            bool? protectContent = default,
             int? replyToMessageId = default,
             bool? allowSendingWithoutReply = default,
             InlineKeyboardMarkup? replyMarkup = default,
@@ -3933,6 +3989,7 @@ namespace Telegram.Bot
                     request: new SendGameRequest(chatId, gameShortName)
                     {
                         DisableNotification = disableNotification,
+                        ProtectContent = protectContent,
                         ReplyToMessageId = replyToMessageId,
                         AllowSendingWithoutReply = allowSendingWithoutReply,
                         ReplyMarkup = replyMarkup
