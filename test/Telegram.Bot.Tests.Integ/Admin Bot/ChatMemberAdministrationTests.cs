@@ -79,11 +79,11 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ExportChatInviteLink)]
         public async Task Should_Export_Chat_Invite_Link()
         {
-            string result = await BotClient.ExportChatInviteLinkAsync(_fixture.SupergroupChat.Id);
+            string chatInviteLink = await BotClient.ExportChatInviteLinkAsync(_fixture.SupergroupChat.Id);
 
-            Assert.StartsWith("https://t.me/joinchat/", result);
+            Assert.Matches("https://t.me/.+", chatInviteLink);
 
-            _classFixture.GroupInviteLink = result;
+            _classFixture.GroupInviteLink = chatInviteLink;
         }
 
         [OrderedFact("Should receive a notification of new member (same kicked member) joining the chat")]
