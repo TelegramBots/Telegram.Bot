@@ -2427,6 +2427,7 @@ namespace Telegram.Bot
         /// Pass <c><c>true</c></c>, if it is not necessary to send a notification to all chat members about
         /// the new pinned message. Notifications are always disabled in channels and private chats
         /// </param>
+        /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
         /// <param name="cancellationToken">
         /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
         /// </param>
