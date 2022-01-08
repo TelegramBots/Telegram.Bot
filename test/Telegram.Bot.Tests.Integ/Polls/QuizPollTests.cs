@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -40,6 +39,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
+            Assert.NotNull(message.Poll);
             Assert.NotEmpty(message.Poll.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.False(message.Poll.IsAnonymous);
@@ -56,6 +56,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             Assert.Equal("Three", message.Poll.Options[2].Text);
             Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
             Assert.Equal("Three silmarils were made", message.Poll.Explanation);
+            Assert.NotNull(message.Poll.ExplanationEntities);
             Assert.Single(message.Poll.ExplanationEntities);
             Assert.Contains(
                 message.Poll.ExplanationEntities,
@@ -77,15 +78,16 @@ namespace Telegram.Bot.Tests.Integ.Polls
 
             Poll poll = _classFixture.OriginalPollMessage.Poll;
 
-            Update pollAnswerUpdates = (await Fixture.UpdateReceiver.GetUpdatesAsync(
-                update => update.PollAnswer.OptionIds.Length == 1 &&
-                          update.PollAnswer.PollId == poll.Id,
+            Update pollAnswerUpdates = await Fixture.UpdateReceiver.GetUpdateAsync(
+                update => update.PollAnswer?.OptionIds.Length == 1 &&
+                          update.PollAnswer.PollId == poll!.Id,
                 updateTypes: UpdateType.PollAnswer
-            )).Last();
+            );
 
             PollAnswer pollAnswer = pollAnswerUpdates.PollAnswer;
 
-            Assert.Equal(poll.Id, pollAnswer.PollId);
+            Assert.NotNull(pollAnswer);
+            Assert.Equal(poll!.Id, pollAnswer.PollId);
             Assert.NotNull(pollAnswer.User);
             Assert.All(
                 pollAnswer.OptionIds,
@@ -110,7 +112,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
                 messageId: _classFixture.OriginalPollMessage.MessageId
             );
 
-            Assert.Equal(_classFixture.OriginalPollMessage.Poll.Id, closedPoll.Id);
+            Assert.Equal(_classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);
             Assert.True(closedPoll.IsClosed);
 
             PollAnswer pollAnswer = _classFixture.PollAnswer;

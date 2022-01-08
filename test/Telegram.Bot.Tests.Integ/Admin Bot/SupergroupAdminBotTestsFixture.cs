@@ -18,7 +18,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public SupergroupAdminBotTestsFixture(TestsFixture testsFixture)
         {
             TestsFixture = testsFixture;
-            PinnedMessages = new List<Message>(3);
+            PinnedMessages = new(3);
 
             AddLifetime(
                 initialize: async () =>

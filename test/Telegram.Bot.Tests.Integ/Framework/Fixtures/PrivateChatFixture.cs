@@ -27,7 +27,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
         static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
         {
             Chat chat;
-            long? chatId = ConfigurationProvider.TestConfigurations.TesterPrivateChatId;
+            long? chatId = testsFixture.Configuration.TesterPrivateChatId;
             if (chatId.HasValue)
             {
                 chat = await testsFixture.BotClient.GetChatAsync(chatId);
@@ -38,7 +38,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
                 string botUsername = testsFixture.BotUser.GetSafeUsername();
                 await testsFixture.SendTestCollectionNotificationAsync(collectionName,
-                    $"No value is set for `{nameof(ConfigurationProvider.TestConfigurations.TesterPrivateChatId)}` in test " +
+                    $"No value is set for `{nameof(TestConfiguration.TesterPrivateChatId)}` in test " +
                     $"settings. Tester should send /test command in private chat with @{botUsername}."
                 );
 

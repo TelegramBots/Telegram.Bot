@@ -21,7 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             Chat chat;
 
-            if (long.TryParse(ConfigurationProvider.TestConfigurations.RegularGroupMemberId, out long userId))
+            if (testsFixture.Configuration.RegularGroupMemberId is {} userId)
             {
                 chat = await testsFixture.BotClient.GetChatAsync(userId);
             }
@@ -30,9 +30,9 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 await testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
                 await testsFixture.SendTestCollectionNotificationAsync(collectionName,
-                    $"No value is set for `{nameof(ConfigurationProvider.TestConfigurations.RegularGroupMemberId)}` " +
-                    "in test settings.\n" +
-                    "An admin should forward a message from non-admin member or send his/her contact."
+                    $"No value is set for `{nameof(TestConfiguration.RegularGroupMemberId)}` " +
+                    "in test settings.\n" + "An admin should either forward a message from non-admin member," +
+                    " send his/her contact or add a non-admin member to the group."
                 );
 
                 chat = await testsFixture.GetChatFromAdminAsync();

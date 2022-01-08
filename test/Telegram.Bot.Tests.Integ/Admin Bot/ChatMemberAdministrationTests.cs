@@ -41,7 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             Assert.IsType<ChatMemberMember>(chatMember);
         }
 
-        [OrderedFact("Should kick user from chat and ban him/her for ever")]
+        [OrderedFact("Should kick user from chat and ban them for ever")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.KickChatMember)]
         public async Task Should_Kick_Chat_Member_For_Ever()
         {
@@ -101,14 +101,13 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 text: _classFixture.GroupInviteLink
             );
 
-            Update update = (
-                await _fixture.UpdateReceiver.GetUpdatesAsync(
-                    predicate: u =>
-                            u.Message!.Chat.Type == ChatType.Supergroup
-                            && u.Message!.Chat.Id == _fixture.SupergroupChat.Id
-                            && u.Message!.Type == MessageType.ChatMembersAdded,
-                        updateTypes: new[] { UpdateType.Message })
-                ).Single();
+            Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
+                predicate: u =>
+                    u.Message!.Chat.Type == ChatType.Supergroup
+                    && u.Message!.Chat.Id == _fixture.SupergroupChat.Id
+                    && u.Message!.Type == MessageType.ChatMembersAdded,
+                updateTypes: new[] { UpdateType.Message }
+            );
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -272,14 +271,13 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            Update _ = (await _fixture.UpdateReceiver
-                    .GetUpdatesAsync(
-                        u => u.Message?.Chat.Id == _fixture.SupergroupChat.Id &&
-                             u.Message.Type == MessageType.ChatMembersAdded,
-                        updateTypes: UpdateType.Message,
-                        cancellationToken: cts.Token
-                    )
-                ).Single();
+            Update _ = await _fixture.UpdateReceiver
+                .GetUpdateAsync(
+                    u => u.Message?.Chat.Id == _fixture.SupergroupChat.Id &&
+                         u.Message.Type == MessageType.ChatMembersAdded,
+                    updateTypes: UpdateType.Message,
+                    cancellationToken: cts.Token
+                );
 
             // ReSharper disable once MethodSupportsCancellation
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();

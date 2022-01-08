@@ -213,6 +213,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             public const string ExportChatInviteLink = "exportChatInviteLink";
 
+            public const string CreateChatInviteLink = "createChatInviteLink";
+
+            public const string EditChatInviteLink = "editChatInviteLink";
+
+            public const string RevokeChatInviteLink = "revokeChatInviteLink";
+
             public const string PinChatMessage = "pinChatMessage";
 
             public const string GetChat = "getChat";

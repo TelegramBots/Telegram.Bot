@@ -78,18 +78,17 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         }
 
         async Task<Message> GetMessageFromChat(MessageType messageType) =>
-            (await _fixture.UpdateReceiver.GetUpdatesAsync(
-                predicate: u => u.Message.Type == messageType &&
+            (await _fixture.UpdateReceiver.GetUpdateAsync(
+                predicate: u => u.Message!.Type == messageType &&
                                 u.Message.Chat.Id == _classFixture.PrivateChat.Id,
                 updateTypes: UpdateType.Message
-            )).Single().Message;
+            )).Message;
 
         public class Fixture : PrivateChatFixture
         {
             public Fixture(TestsFixture testsFixture)
                 : base(testsFixture, Constants.TestCollections.ReplyMarkup)
-            {
-            }
+            { }
         }
     }
 }

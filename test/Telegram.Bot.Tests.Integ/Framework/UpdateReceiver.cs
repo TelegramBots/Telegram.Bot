@@ -10,6 +10,13 @@ using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Tests.Integ.Framework
 {
+    public enum UpdatePosition
+    {
+        First,
+        Last,
+        Single
+    }
+
     public class UpdateReceiver
     {
         readonly ITelegramBotClient _botClient;
@@ -30,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 if (cancellationToken == default)
                 {
-                    cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                    cts = new(TimeSpan.FromSeconds(30));
                     cancellationToken = cts.Token;
                 }
 
@@ -68,7 +75,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             {
                 if (cancellationToken == default)
                 {
-                    cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
+                    cts = new(TimeSpan.FromMinutes(2));
                     cancellationToken = cts.Token;
                 }
 
@@ -102,6 +109,29 @@ namespace Telegram.Bot.Tests.Integ.Framework
             }
 
             static bool PassthroughPredicate(Update _) => true;
+        }
+
+        public async Task<Update> GetUpdateAsync(
+            Func<Update, bool>? predicate = default,
+            int offset = 0,
+            UpdatePosition updatePosition = UpdatePosition.Last,
+            CancellationToken cancellationToken = default,
+            params UpdateType[] updateTypes)
+        {
+            Update[] updates = await GetUpdatesAsync(
+                predicate: predicate,
+                offset: offset,
+                updateTypes: updateTypes,
+                cancellationToken: cancellationToken
+            );
+
+            return updatePosition switch
+            {
+                UpdatePosition.First => updates.First(),
+                UpdatePosition.Last => updates.Last(),
+                UpdatePosition.Single => updates.Single(),
+                _ => throw new InvalidOperationException()
+            };
         }
 
         public async Task<Update> GetCallbackQueryUpdateAsync(
