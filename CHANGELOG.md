@@ -69,6 +69,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `TelegramBotExtensions.SendVoiceRequestAsync`
 - Enum member `MessageEntityType.Spoiler`
 
+### Changed
+
+- Method `TelegramBotClient.MakeRequestAsync` is made virtual
+
 ### Fixed
 
 - 'DeleteWebhookRequest' parameters are now properly serializing
