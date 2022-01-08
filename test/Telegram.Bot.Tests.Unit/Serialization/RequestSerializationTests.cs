@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Net.Http;
@@ -13,9 +14,9 @@ namespace Telegram.Bot.Tests.Unit.Serialization
         public async Task Should_Serialize_DeleteWebhookRequest_Content()
         {
             DeleteWebhookRequest deleteWebhookRequest = new() { DropPendingUpdates = true };
-            HttpContent? deleteWebhookContent = deleteWebhookRequest.ToHttpContent();
+            HttpContent deleteWebhookContent = deleteWebhookRequest.ToHttpContent()!;
 
-            string? stringContent = await deleteWebhookContent?.ReadAsStringAsync();
+            string stringContent = await deleteWebhookContent.ReadAsStringAsync();
 
             Assert.NotNull(stringContent);
             Assert.Contains("\"drop_pending_updates\":true", stringContent);
@@ -63,6 +64,30 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             Assert.DoesNotContain(@"""is_webhook_response""", serializeRequest);
             Assert.Contains(@"""offset"":12345", serializeRequest);
             Assert.DoesNotContain(@"""allowed_updates""", serializeRequest);
+        }
+
+        [Fact(DisplayName = "Should serialize createChatInviteLink request")]
+        public async Task Should_Serialize_CreateChatInviteLink_Request()
+        {
+            DateTime expireDate = new DateTime(2022, 1, 8, 10, 33, 45, DateTimeKind.Utc);
+            CreateChatInviteLinkRequest createChatInviteLinkRequest = new(chatId: 1_000_000)
+            {
+                ExpireDate = expireDate,
+                CreatesJoinRequest = true,
+                MemberLimit = 123,
+                Name = "Test link name"
+            };
+
+            HttpContent createChatInviteLinkContent = createChatInviteLinkRequest.ToHttpContent()!;
+
+            string stringContent = await createChatInviteLinkContent.ReadAsStringAsync();
+
+            Assert.Contains("\"expire_date\":1641638025", stringContent);
+            Assert.Contains("\"chat_id\":1000000", stringContent);
+            Assert.Contains("\"name\":\"Test link name\"", stringContent);
+            Assert.Contains("\"member_limit\":123", stringContent);
+            Assert.Contains("\"creates_join_request\":true", stringContent);
+
         }
     }
 }
