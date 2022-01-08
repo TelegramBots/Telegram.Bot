@@ -16,6 +16,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public long RegularMemberUserId { get; private set; }
         public string RegularMemberUserName { get; private set; }
         public string GroupInviteLink { get; set; }
+        public ChatInviteLink ChatInviteLink { get; set; }
+        public ChatJoinRequest ChatJoinRequest { get; set; }
 
         static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
         {

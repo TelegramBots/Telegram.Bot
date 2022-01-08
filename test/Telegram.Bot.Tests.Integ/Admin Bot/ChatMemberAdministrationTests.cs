@@ -124,6 +124,91 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             );
         }
 
+        [OrderedFact("Should create an invite link to the group")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateChatInviteLink)]
+        public async Task Should_Create_Chat_Invite_Link()
+        {
+            DateTime createdAt = DateTime.UtcNow;
+            DateTime expireDate = DateTime.UtcNow.Date.AddHours(1);
+
+            string inviteLinkName = $"Integration tests invite link (created at {createdAt:yyyy-MM-ddTHH:mm:ss})";
+
+            ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLinkAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                createsJoinRequest: true,
+                name: inviteLinkName,
+                expireDate: expireDate
+            );
+
+            Assert.NotNull(chatInviteLink);
+            Assert.NotNull(chatInviteLink.Creator);
+            Assert.NotNull(chatInviteLink.InviteLink);
+            Assert.Matches("https://t.me/.+", chatInviteLink.InviteLink);
+            Assert.False(chatInviteLink.IsRevoked);
+            Assert.False(chatInviteLink.IsPrimary);
+            Assert.Null(chatInviteLink.MemberLimit);
+            Assert.True(chatInviteLink.CreatesJoinRequest);
+            Assert.Null(chatInviteLink.PendingJoinRequestCount);
+            Assert.Equal(inviteLinkName, chatInviteLink.Name);
+            Assert.Equal(expireDate, chatInviteLink.ExpireDate);
+
+            _classFixture.ChatInviteLink = chatInviteLink;
+        }
+
+        [OrderedFact("Should receive a notification of new member (same kicked member) joining the chat")]
+        public async Task Should_Receive_Chat_Join_Request()
+        {
+            await _fixture.SendTestInstructionsAsync(
+                $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should send a request to join the" +
+                "chat by following the invite link sent to them in private chat. The administrator should " +
+                "approve this request."
+            );
+
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
+            await BotClient.BanChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            await BotClient.SendTextMessageAsync(
+                chatId: _classFixture.RegularMemberChat,
+                text: _classFixture.ChatInviteLink.InviteLink
+            );
+
+            Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
+                predicate: u => u.ChatJoinRequest is not null,
+                updateTypes: new[] { UpdateType.Message }
+            );
+
+            await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
+            ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
+
+            Assert.NotNull(chatJoinRequest);
+            Assert.NotNull(chatJoinRequest.InviteLink);
+            Assert.NotNull(chatJoinRequest.Chat);
+            Assert.NotNull(chatJoinRequest.From);
+            Assert.NotEqual(default, chatJoinRequest.Date);
+            Assert.Equal(_fixture.SupergroupChat.Id, chatJoinRequest.Chat.Id);
+            Assert.Equal(chatJoinRequest.From.Id, _classFixture.RegularMemberUserId);
+
+            _classFixture.ChatJoinRequest = chatJoinRequest;
+        }
+
+        [OrderedFact("Should approve chat join request")]
+        public async Task Should_Approve_Chat_Join_Request()
+        {
+
+            Exception exception = await Record.ExceptionAsync(async () =>
+                await BotClient.ApproveChatJoinRequest(
+                    chatId: _fixture.SupergroupChat.Id,
+                    userId: _classFixture.RegularMemberUserId
+                )
+            );
+            Assert.Null(exception);
+        }
+
         #endregion
 
         #region Promote and Restrict Chat Member

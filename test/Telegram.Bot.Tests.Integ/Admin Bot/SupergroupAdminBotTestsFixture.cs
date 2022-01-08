@@ -9,11 +9,12 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
     public class SupergroupAdminBotTestsFixture : AsyncLifetimeFixture
     {
         byte[] _oldChatPhoto;
+        ChatPermissions _existingDefaultPermissions;
 
         public TestsFixture TestsFixture { get; }
         public Chat Chat => TestsFixture.SupergroupChat;
         public List<Message> PinnedMessages { get; }
-        public ChatPermissions ExistingDefaultPermissions { get; private set; }
+        public ChatInviteLink ChatInviteLink { get; set; }
 
         public SupergroupAdminBotTestsFixture(TestsFixture testsFixture)
         {
@@ -36,7 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     }
 
                     // Save default permissions so they can be restored
-                    ExistingDefaultPermissions = chat.Permissions!;
+                    _existingDefaultPermissions = chat.Permissions!;
                 },
                 dispose: async () =>
                 {
@@ -53,9 +54,18 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                     // Reset original default permissions
                     await TestsFixture.BotClient.SetChatPermissionsAsync(
                         TestsFixture.SupergroupChat,
-                        ExistingDefaultPermissions!
+                        _existingDefaultPermissions!
 
                     );
+
+                    // Revoke invite link created during the test run
+                    if (ChatInviteLink is not null)
+                    {
+                        await TestsFixture.BotClient.RevokeChatInviteLinkAsync(
+                            chatId: TestsFixture.SupergroupChat,
+                            inviteLink: ChatInviteLink.InviteLink
+                        );
+                    }
                 }
             );
         }
