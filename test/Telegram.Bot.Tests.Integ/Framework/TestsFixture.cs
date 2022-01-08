@@ -147,10 +147,10 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             await UpdateReceiver.DiscardNewUpdatesAsync();
 
-            long? userId = update.Message switch
+            var userId = update.Message switch
             {
-                { Contact: { UserId: var id } } => id,
-                { ForwardFrom: { Id: var id } } => id,
+                { Contact.UserId: {} id } => id,
+                { ForwardFrom.Id: {} id } => id,
                 { NewChatMembers: { Length: 1 } members } => members[0].Id,
                 _ => throw new InvalidOperationException()
             };
@@ -165,8 +165,8 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
             BotClient = new RetryTelegramBotClient(
                 options: new(
-                    RetryCount: 3,
-                    DefaultTimeout: TimeSpan.FromSeconds(30),
+                    RetryCount: Configuration.RetryCount,
+                    DefaultTimeout: TimeSpan.FromSeconds(Configuration.DefaultRetryTimeout),
                     Token: apiToken
                 ),
                 diagnosticMessageSink: _diagnosticMessageSink
