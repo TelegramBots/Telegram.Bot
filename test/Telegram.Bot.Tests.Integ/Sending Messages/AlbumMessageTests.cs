@@ -73,7 +73,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
         {
             // Take file_id of photos uploaded in previous test case
             string[] fileIds = _classFixture.Entities
-                .Select(msg => msg.Photo.First().FileId)
+                .Select(msg => msg.Photo!.First().FileId)
                 .ToArray();
 
             Message[] messages = await BotClient.SendMediaGroupAsync(
@@ -108,8 +108,13 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(2, messages.Length);
-            Assert.All(messages, msg => Assert.Equal(MessageType.Photo, msg.Type));
-            Assert.All(messages, msg => Assert.Equal(replyToMessageId, msg.ReplyToMessage.MessageId));
+            Assert.All(messages, message => Assert.Equal(MessageType.Photo, message.Type));
+            // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
+            Assert.All(messages, message =>
+            {
+                Assert.NotNull(message.ReplyToMessage);
+                Assert.Equal(replyToMessageId, message.ReplyToMessage.MessageId);
+            });
         }
 
         [OrderedFact("Should upload 2 videos and a photo with captions and send them in an album")]
@@ -150,83 +155,95 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(3, messages.Length);
 
+            Message videoMessage1 = messages[0];
+            Message videoMessage2 = messages[1];
+            Message photoMessage = messages[2];
+
+            Assert.NotNull(videoMessage1.Video);
+            Assert.NotNull(videoMessage2.Video);
+            Assert.NotNull(photoMessage.Photo);
+
             Assert.Equal(MessageType.Video, messages[0].Type);
             Assert.Equal("Golden Ratio", messages[0].Caption);
-            Assert.Equal(240, messages[0].Video.Width);
-            Assert.Equal(240, messages[0].Video.Height);
-            Assert.InRange(messages[0].Video.Duration, 28 - 2, 28 + 2);
+            Assert.Equal(240, videoMessage1.Video.Width);
+            Assert.Equal(240, videoMessage1.Video.Height);
+            Assert.InRange(videoMessage1.Video.Duration, 28 - 2, 28 + 2);
 
-            Assert.Equal(MessageType.Video, messages[1].Type);
-            Assert.Equal("Moon Landing", messages[1].Caption);
+            Assert.Equal(MessageType.Video, videoMessage2.Type);
+            Assert.Equal("Moon Landing", videoMessage2.Caption);
 
-            Assert.Equal(MessageType.Photo, messages[2].Type);
-            Assert.Equal("Bot", messages[2].Caption);
+            Assert.Equal(MessageType.Photo, photoMessage.Type);
+            Assert.Equal("Bot", photoMessage.Caption);
         }
 
         [OrderedFact("Should upload 2 photos with markdown encoded captions and send them in an album")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Upload_2_Photos_Album_With_Markdown_Encoded_Captions()
         {
-            Message[] messages;
-            await using (Stream
+            await using Stream
                 stream1 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo),
-                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot)
-            )
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
+
+            IAlbumInputMedia[] inputMedia =
             {
-                IAlbumInputMedia[] inputMedia =
+                new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
                 {
-                    new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
-                    {
-                        Caption = "*Logo*",
-                        ParseMode = ParseMode.Markdown
-                    },
-                    new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
-                    {
-                        Caption = "_Bot_",
-                        ParseMode = ParseMode.Markdown
-                    },
-                };
+                    Caption = "*Logo*",
+                    ParseMode = ParseMode.Markdown
+                },
+                new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
+                {
+                    Caption = "_Bot_",
+                    ParseMode = ParseMode.Markdown
+                },
+            };
 
-                messages = await BotClient.SendMediaGroupAsync(
-                    chatId: _fixture.SupergroupChat.Id,
-                    media: inputMedia
-                );
-            }
+            Message[] messages = await BotClient.SendMediaGroupAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                media: inputMedia
+            );
 
-            Assert.Equal("Logo", messages[0].CaptionEntityValues.Single());
-            Assert.Equal(MessageEntityType.Bold, messages[0].CaptionEntities.Single().Type);
+            Message message1 = messages[0];
+            Message message2 = messages[1];
 
-            Assert.Equal("Bot", messages[1].CaptionEntityValues.Single());
-            Assert.Equal(MessageEntityType.Italic, messages[1].CaptionEntities.Single().Type);
+            Assert.NotNull(message1.CaptionEntities);
+            Assert.NotNull(message1.CaptionEntityValues);
+            Assert.NotNull(message2.CaptionEntities);
+            Assert.NotNull(message2.CaptionEntityValues);
+
+
+            Assert.Equal("Logo", message1.CaptionEntityValues.Single());
+            Assert.Equal(MessageEntityType.Bold, message1.CaptionEntities.Single().Type);
+
+            Assert.Equal("Bot", message2.CaptionEntityValues.Single());
+            Assert.Equal(MessageEntityType.Italic, message2.CaptionEntities.Single().Type);
         }
 
         [OrderedFact("Should send a video with thumbnail in an album")]
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMediaGroup)]
         public async Task Should_Video_With_Thumbnail_In_Album()
         {
-            Message[] messages;
-            await using (Stream
+            await using Stream
                 stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
-                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video)
-            )
-            {
-                IAlbumInputMedia[] inputMedia =
-                {
-                    new InputMediaVideo(new InputMedia(stream1, "GoldenRatio.mp4"))
-                    {
-                        Thumb = new InputMedia(stream2, "thumbnail.jpg"),
-                        SupportsStreaming = true,
-                    },
-                    new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
-                };
+                stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
 
-                messages = await BotClient.SendMediaGroupAsync(
-                    chatId: _fixture.SupergroupChat.Id,
-                    media: inputMedia
-                );
-            }
+            IAlbumInputMedia[] inputMedia =
+            {
+                new InputMediaVideo(new InputMedia(stream1, "GoldenRatio.mp4"))
+                {
+                    Thumb = new InputMedia(stream2, "thumbnail.jpg"),
+                    SupportsStreaming = true,
+                },
+                new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
+            };
+
+            Message[] messages = await BotClient.SendMediaGroupAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                media: inputMedia
+            );
 
             Assert.Equal(MessageType.Video, messages[0].Type);
+            Assert.NotNull(messages[0].Video);
             Assert.NotNull(messages[0].Video.Thumb);
         }
     }

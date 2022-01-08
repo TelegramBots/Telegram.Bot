@@ -39,6 +39,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(MessageType.Video, message.Type);
             Assert.Equal("Moon Landing", message.Caption);
+            Assert.NotNull(message.Video);
             Assert.NotEmpty(message.Video.FileId);
             Assert.NotEmpty(message.Video.FileUniqueId);
             Assert.Equal(104, message.Video.Duration);
@@ -46,6 +47,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(240, message.Video.Height);
             Assert.Equal("video/mp4", message.Video.MimeType);
             Assert.Equal("moon-landing.mp4", message.Video.FileName);
+            Assert.NotNull(message.Video.Thumb);
             Assert.NotEmpty(message.Video.Thumb.FileId);
             Assert.NotEmpty(message.Video.Thumb.FileUniqueId);
             Assert.True(message.Video.Thumb.FileSize > 200);
@@ -71,10 +73,12 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             }
 
             Assert.Equal(MessageType.VideoNote, message.Type);
+            Assert.NotNull(message.VideoNote);
             Assert.NotEmpty(message.VideoNote.FileId);
             Assert.NotEmpty(message.VideoNote.FileUniqueId);
             Assert.Equal(28, message.VideoNote.Duration);
             Assert.Equal(240, message.VideoNote.Length);
+            Assert.NotNull(message.VideoNote.Thumb);
             Assert.NotEmpty(message.VideoNote.Thumb.FileId);
             Assert.NotEmpty(message.VideoNote.Thumb.FileUniqueId);
             Assert.Equal(240, message.VideoNote.Thumb.Width);
@@ -100,6 +104,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
+            Assert.NotNull(message.Video);
             Assert.NotNull(message.Video.Thumb);
             Assert.NotEmpty(message.Video.Thumb.FileId);
             Assert.NotEmpty(message.Video.Thumb.FileUniqueId);
@@ -126,6 +131,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
+            Assert.NotNull(message.VideoNote);
             Assert.NotNull(message.VideoNote.Thumb);
             Assert.NotEmpty(message.VideoNote.Thumb.FileId);
             Assert.NotEmpty(message.VideoNote.Thumb.FileUniqueId);

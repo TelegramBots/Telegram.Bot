@@ -37,6 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             #region Answer Inline Query with a media message
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Assert.NotNull(iqUpdate.InlineQuery);
 
             InlineQueryResult[] inlineQueryResults =
             {
@@ -56,6 +57,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             // Bot waits for user to click on inline button under the media
             Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(data: "Click here to edit");
+
+            Assert.NotNull(cqUpdate.CallbackQuery);
+            Assert.NotNull(cqUpdate.CallbackQuery.InlineMessageId);
 
             // Change the photo for an audio. Note that, in the case of an inline message, the new media should be
             // either an URL or the file_id of a previously uploaded media.
@@ -78,23 +82,23 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
         public async Task Should_Edit_Inline_Message_Document_With_FileId()
         {
             // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
-            string animationFileId;
-            await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
-            {
-                Message gifMessage = await BotClient.SendDocumentAsync(
-                    chatId: _fixture.SupergroupChat,
-                    document: new InputOnlineFile(stream, "Earth.gif"),
-                    caption: "`file_id` of this GIF will be used",
-                    parseMode: ParseMode.Markdown,
-                    replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
-                        .WithSwitchInlineQueryCurrentChat("Start Inline Query")
-                );
-                animationFileId = gifMessage.Document.FileId;
-            }
+            await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth);
+            Message gifMessage = await BotClient.SendDocumentAsync(
+                chatId: _fixture.SupergroupChat,
+                document: new InputOnlineFile(stream, "Earth.gif"),
+                caption: "`file_id` of this GIF will be used",
+                parseMode: ParseMode.Markdown,
+                replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start Inline Query")
+            );
+
+            Assert.NotNull(gifMessage.Document);
+            string animationFileId = gifMessage.Document.FileId;
 
             #region Answer Inline Query with a media message
 
             Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Assert.NotNull(iqUpdate.InlineQuery);
 
             InlineQueryResult[] inlineQueryResults =
             {
@@ -114,6 +118,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             // Bot waits for user to click on inline button under the media
             Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync(data: "Click here to edit");
+            Assert.NotNull(cqUpdate.CallbackQuery);
+            Assert.NotNull(cqUpdate.CallbackQuery.InlineMessageId);
 
             // Change the YouTube video for an animation. Note that, in the case of an inline message, the new media
             // should be either an URL or the file_id of a previously uploaded media.

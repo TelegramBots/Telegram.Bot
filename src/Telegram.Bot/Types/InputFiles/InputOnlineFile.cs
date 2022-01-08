@@ -52,6 +52,7 @@ namespace Telegram.Bot.Types.InputFiles
         /// </summary>
         /// <param name="url">A <see cref="Uri"/> pointing to a file</param>
         public InputOnlineFile(Uri url) : base(FileType.Url) =>
+            // ReSharper disable once ConstantConditionalAccessQualifier
             Url = url?.AbsoluteUri ?? throw new ArgumentNullException(nameof(url));
 
         /// <summary>

@@ -34,6 +34,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
+            Assert.NotNull(message.Poll);
             Assert.NotEmpty(message.Poll.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.True(message.Poll.IsAnonymous);
@@ -89,6 +90,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
+            Assert.NotNull(message.Poll);
             Assert.NotEmpty(message.Poll.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.True(message.Poll.IsAnonymous);

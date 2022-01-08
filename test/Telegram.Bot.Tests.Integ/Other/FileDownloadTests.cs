@@ -54,6 +54,7 @@ namespace Telegram.Bot.Tests.Integ.Other
             Assert.Equal(fileId, file.FileId);
             Assert.NotNull(file.FileSize);
             Assert.InRange((int)file.FileSize, fileSize - 3500, fileSize + 3500);
+            Assert.NotNull(file.FilePath);
             Assert.NotEmpty(file.FilePath);
 
             _classFixture.File = file;
@@ -67,16 +68,14 @@ namespace Telegram.Bot.Tests.Integ.Other
             string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
             _output.WriteLine($@"Writing file to ""{destinationFilePath}""");
 
-            await using (FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath))
-            {
-                await BotClient.DownloadFileAsync(
-                    filePath: _classFixture.File.FilePath,
-                    destination: fileStream
-                );
+            await using FileStream fileStream = System.IO.File.OpenWrite(destinationFilePath);
+            await BotClient.DownloadFileAsync(
+                filePath: _classFixture.File.FilePath!,
+                destination: fileStream
+            );
 
-                Assert.NotNull(fileSize);
-                Assert.InRange(fileStream.Length, (int)fileSize - 100, (int)fileSize + 100);
-            }
+            Assert.NotNull(fileSize);
+            Assert.InRange(fileStream.Length, (int)fileSize - 100, (int)fileSize + 100);
         }
 
         [OrderedFact("Should download file using file_id and write it to disk")]

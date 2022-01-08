@@ -241,7 +241,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 or UpdateType.ChatMember
                 or UpdateType.MyChatMember =>
                     AllowedUsernames.Contains(
-                        update.GetUser()?.Username,
+                        update.GetUser().Username,
                         StringComparer.OrdinalIgnoreCase
                     ),
                 UpdateType.Poll => true,

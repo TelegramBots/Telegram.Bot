@@ -39,6 +39,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Assert.Equal(MessageType.Text, message.Type);
             Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
             Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
+            Assert.NotNull(message.From);
             Assert.Equal(_fixture.BotUser.Id, message.From.Id);
             Assert.Equal(_fixture.BotUser.Username, message.From.Username);
 
@@ -116,6 +117,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 disableWebPagePreview: true
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
             Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
             Asserts.UsersEqual(
@@ -153,6 +155,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 disableWebPagePreview: true
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(
                 entityValueMappings.Select(tuple => tuple.Type),
                 message.Entities.Select(e => e.Type)
@@ -185,6 +188,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(
                 entityValueMappings.Select(t => t.Type),
                 message.Entities.Select(e => e.Type)
@@ -220,6 +224,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 disableWebPagePreview: true
             );
 
+            Assert.NotNull(message.Entities);
             Assert.Equal(entityValueMappings.Keys, message.Entities.Select(e => e.Type));
             Assert.Equal(url, message.Entities.Single(e => e.Type == MessageEntityType.TextLink).Url);
             Asserts.UsersEqual(

@@ -37,6 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             #region Answer Inline Query with an Article
 
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Assert.NotNull(inlineQUpdate.InlineQuery);
 
             const string originalMessagePrefix = "original\n";
             (MessageEntityType Type, string Value)[] entityValueMappings =
@@ -70,6 +71,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Update callbackQUpdate = await _fixture.UpdateReceiver
                 .GetCallbackQueryUpdateAsync(data: data);
 
+            Assert.NotNull(callbackQUpdate.CallbackQuery);
+            Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
+
             const string modifiedMessagePrefix = "✌ modified 👌\n";
             messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
@@ -93,6 +97,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             #region Answer Inline Query with an Article
 
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Assert.NotNull(inlineQUpdate.InlineQuery);
 
             string data = "change-me" + new Random().Next(2_000);
             InlineKeyboardMarkup initialMarkup = new(new[]
@@ -122,6 +127,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Update callbackQUpdate = await _fixture.UpdateReceiver
                 .GetCallbackQueryUpdateAsync(data: data);
 
+            Assert.NotNull(callbackQUpdate.CallbackQuery);
+            Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
+
             await BotClient.EditMessageReplyMarkupAsync(
                 inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
                 replyMarkup: "✌ Edited 👌"
@@ -141,6 +149,7 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             #region Answer Inline Query with an Article
 
             Update inlineQUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+            Assert.NotNull(inlineQUpdate.InlineQuery);
 
             string data = "change-me" + new Random().Next(2_000);
             InlineKeyboardMarkup replyMarkup = new(new[]
@@ -167,6 +176,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
 
             Update callbackQUpdate = await _fixture.UpdateReceiver
                 .GetCallbackQueryUpdateAsync(data: data);
+
+            Assert.NotNull(callbackQUpdate.CallbackQuery);
+            Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
             await BotClient.EditMessageCaptionAsync(
                 inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,

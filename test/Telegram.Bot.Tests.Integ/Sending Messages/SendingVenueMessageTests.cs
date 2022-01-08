@@ -41,6 +41,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Venue, message.Type);
+            Assert.NotNull(message.Venue);
             Assert.Equal(title, message.Venue.Title);
             Assert.Equal(address, message.Venue.Address);
             Assert.Equal(foursquareId, message.Venue.FoursquareId);
@@ -67,6 +68,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             Message message = await BotClient.MakeRequestAsync(request);
 
             Assert.Equal(MessageType.Venue, message.Type);
+            Assert.NotNull(message.Venue);
             Assert.Equal("Burggarten", message.Venue.Title);
             Assert.Equal("Opernring", message.Venue.Address);
             Assert.Equal("4b7ff7c3f964a5208d4730e3", message.Venue.FoursquareId);

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -22,12 +21,12 @@ namespace Telegram.Bot.Tests.Integ.Framework
                     return new
                     {
                         TestCase = tc,
-                        Attribute = attribute ?? throw new Exception(
+                        Attribute = attribute ?? throw new(
                             $@"Test case ""{tc.DisplayName}"" doesn't have {nameof(OrderedFactAttribute)}."
                         )
                     };
                 })
-                .OrderBy(x => x.Attribute.LineNumber)
+                .OrderBy(x => x.Attribute!.LineNumber)
                 .Select(x => x.TestCase);
         }
     }

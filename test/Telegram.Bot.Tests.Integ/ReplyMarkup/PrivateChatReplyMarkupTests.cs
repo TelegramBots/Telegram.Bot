@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
@@ -45,6 +44,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 
             Message contactMessage = await GetMessageFromChat(MessageType.Contact);
 
+            Assert.NotNull(contactMessage.Contact);
             Assert.NotEmpty(contactMessage.Contact.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
             Assert.Equal(_classFixture.PrivateChat.Id, contactMessage.Contact.UserId);
