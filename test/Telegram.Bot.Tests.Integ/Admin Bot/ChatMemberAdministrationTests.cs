@@ -163,8 +163,8 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         {
             await _fixture.SendTestInstructionsAsync(
                 $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should send a request to join the" +
-                "chat by following the invite link sent to them in private chat. The administrator should " +
-                "approve this request."
+                "chat by following the invite link sent to them in private chat two time. The administrator should " +
+                "decline the first attempt and then approve the second one."
             );
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
@@ -199,7 +199,22 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             _classFixture.ChatJoinRequest = chatJoinRequest;
         }
 
+        [OrderedFact("Should decline chat join request")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeclineChatJoinRequest)]
+        public async Task Should_Decline_Chat_Join_Request()
+        {
+
+            Exception exception = await Record.ExceptionAsync(async () =>
+                await BotClient.DeclineChatJoinRequest(
+                    chatId: _fixture.SupergroupChat.Id,
+                    userId: _classFixture.RegularMemberUserId
+                )
+            );
+            Assert.Null(exception);
+        }
+
         [OrderedFact("Should approve chat join request")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ApproveChatJoinRequest)]
         public async Task Should_Approve_Chat_Join_Request()
         {
 
