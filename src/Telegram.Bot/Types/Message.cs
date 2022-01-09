@@ -90,7 +90,7 @@ namespace Telegram.Bot.Types
         public DateTime? ForwardDate { get; set; }
 
         /// <summary>
-        /// <c>true</c>, if the message is a channel post that was automatically forwarded to the connected
+        /// Optional. <c>true</c>, if the message is a channel post that was automatically forwarded to the connected
         /// discussion group
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

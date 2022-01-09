@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `int? MessageAutoDeleteTime` to class `Chat`
 - Property `bool? HasPrivateForwards` to class `Chat`
 - Property `bool? HasProtectedContent` to class `Chat`
-- Property `int? MessageAutoDeleteTime` to class `Chat`
+- Property `int? MessageAutoDeleteTime` to class `Message`
 - Property `bool? IsAutomaticForward` to class `Message`
 - Property `bool? HasProtectedContent` to class `Message`
 - Property `bool? ProtectContent` to following requests:
