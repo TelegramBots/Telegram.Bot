@@ -129,7 +129,10 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         public async Task Should_Create_Chat_Invite_Link()
         {
             DateTime createdAt = DateTime.UtcNow;
-            DateTime expireDate = DateTime.UtcNow.Date.AddHours(1);
+
+            // Milliseconds are ignored during conversion to unix timestamp since it counts only up to
+            // seconds, so for equality to work later on assertion we need to zero out milliseconds
+            DateTime expireDate = createdAt.With(new () {Millisecond = 0}).AddHours(1);
 
             string inviteLinkName = $"Integration tests invite link (created at {createdAt:yyyy-MM-ddTHH:mm:ss})";
 

@@ -31,5 +31,28 @@ namespace Telegram.Bot.Tests.Integ.Framework
 
         public static string? GetSafeUsername(this User user) => user.Username?.Replace("_", "\\_");
         public static string? GetSafeUsername(this Chat chat) => chat.Username?.Replace("_", "\\_");
+
+        public static DateTime With(this DateTime dateTime, DateTimeComponents components) =>
+            new(year: components.Year ?? dateTime.Year,
+                month: components.Month ?? dateTime.Month,
+                day: components.Day ?? dateTime.Day,
+                hour: components.Hour ?? dateTime.Hour,
+                minute: components.Minute ?? dateTime.Minute,
+                second: components.Second ?? dateTime.Second,
+                millisecond: components.Millisecond ?? dateTime.Millisecond,
+                kind: components.Kind ?? dateTime.Kind
+            );
+    }
+
+    public class DateTimeComponents
+    {
+        public int? Year { get; init; }
+        public int? Month { get; init; }
+        public int? Day { get; init; }
+        public int? Hour { get; init; }
+        public int? Minute { get; init; }
+        public int? Second { get; init; }
+        public int? Millisecond { get; init; }
+        public DateTimeKind? Kind { get; init; }
     }
 }
