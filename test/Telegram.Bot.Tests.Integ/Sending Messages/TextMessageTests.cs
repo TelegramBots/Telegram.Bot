@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -146,6 +147,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 (MessageEntityType.Pre, "<pre>pre-formatted fixed-width code block</pre>"),
                 (MessageEntityType.Strikethrough, "<s>strikethrough</s>"),
                 (MessageEntityType.Underline, "<u>underline</u>"),
+                (MessageEntityType.Spoiler, "<tg-spoiler>spoiler</tg-spoiler>"),
             };
 
             Message message = await BotClient.SendTextMessageAsync(
@@ -215,6 +217,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 {MessageEntityType.Pre, "```pre-formatted fixed-width code block```"},
                 {MessageEntityType.Strikethrough, "~strikethrough~"},
                 {MessageEntityType.Underline, "__underline__"},
+                {MessageEntityType.Spoiler, "||spoiler||"},
             };
 
             Message message = await BotClient.SendTextMessageAsync(
@@ -233,12 +236,57 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
         }
 
+        [OrderedFact("Should send a message with protected content")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        public async Task Should_Send_Message_With_Protected_Content()
+        {
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                text: "This content is protected!",
+                protectContent: true
+            );
+
+            Assert.Equal("This content is protected!", message.Text);
+            Assert.Equal(MessageType.Text, message.Type);
+            Assert.Equal(_fixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
+            Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
+            Assert.NotNull(message.From);
+            Assert.Equal(_fixture.BotUser.Id, message.From.Id);
+            Assert.Equal(_fixture.BotUser.Username, message.From.Username);
+            Assert.True(message.HasProtectedContent);
+
+            // getMe request returns more information than is present in received updates
+            Asserts.UsersEqual(_fixture.BotUser, message.From);
+        }
+
+        [OrderedFact("Should send a message with protected content")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
+        public async Task Should_Receive_Error_Trying_Forward_A_Message__With_Protected_Content()
+        {
+            Message message = await BotClient.SendTextMessageAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                text: "This content is protected!",
+                protectContent: true
+            );
+
+            Assert.True(message.HasProtectedContent);
+
+            ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
+                async () => await BotClient.ForwardMessageAsync(
+                    fromChatId: _fixture.SupergroupChat.Id,
+                    chatId: _fixture.SupergroupChat.Id,
+                    messageId: message.MessageId
+                )
+            );
+
+            Assert.Equal(400, exception.ErrorCode);
+        }
+
         public class Fixture : ChannelChatFixture
         {
             public Fixture(TestsFixture testsFixture)
                 : base(testsFixture, Constants.TestCollections.SendTextMessage)
-            {
-            }
+            { }
         }
     }
 }
