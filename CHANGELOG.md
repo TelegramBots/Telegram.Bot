@@ -78,6 +78,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - 'DeleteWebhookRequest' parameters are now properly serializing
 - Added missing json attribute to property `ChatInviteLink.Name`
 
+### Removed
+
+- Parameter `untilDate` is removed from `TelegramBotClientExtensions.BanChatSenderChatAsync`
+- Property `UntilDate` is removed from `BanChatSenderChatRequest`
+
 ## [v17.0.0] - 2021-11-17
 
 - v17 release

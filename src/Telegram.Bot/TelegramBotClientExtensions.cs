@@ -2044,22 +2044,17 @@ namespace Telegram.Bot
         /// (in the format <c>@supergroupusername</c>)
         /// </param>
         /// <param name="senderChatId">Unique identifier of the target sender chat</param>
-        /// <param name="untilDate">
-        /// Date when the sender chat will be unbanned, unix time. If the chat is banned for more than 366 days or
-        /// less than 30 seconds from the current time they are considered to be banned forever.
-        /// </param>
         /// <param name="cancellationToken">
         /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
         /// </param>
         public static async Task BanChatSenderChatAsync(this ITelegramBotClient botClient,
             ChatId chatId,
             long senderChatId,
-            DateTime? untilDate = default,
             CancellationToken cancellationToken = default
         ) =>
             await botClient.ThrowIfNull(nameof(botClient))
                 .MakeRequestAsync(
-                    new BanChatSenderChatRequest(chatId, senderChatId) { UntilDate = untilDate },
+                    new BanChatSenderChatRequest(chatId, senderChatId),
                     cancellationToken
                 )
                 .ConfigureAwait(false);
