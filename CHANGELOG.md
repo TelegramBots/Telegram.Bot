@@ -76,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 
 - 'DeleteWebhookRequest' parameters are now properly serializing
+- Added missing json attribute to property `ChatInviteLink.Name`
 
 ## [v17.0.0] - 2021-11-17
 
