@@ -134,7 +134,7 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
             // seconds, so for equality to work later on assertion we need to zero out milliseconds
             DateTime expireDate = createdAt.With(new () {Millisecond = 0}).AddHours(1);
 
-            string inviteLinkName = $"Integration tests invite link (created at {createdAt:yyyy-MM-ddTHH:mm:ss})";
+            string inviteLinkName = $"Created at {createdAt:yyyy-MM-ddTHH:mm:ss}";
 
             ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLinkAsync(
                 chatId: _fixture.SupergroupChat.Id,
