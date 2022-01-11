@@ -21,6 +21,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
                 { MyChatMember.NewChatMember.User: {} user } => user,
                 { ChatMember.NewChatMember.User: {} user } => user,
                 { EditedMessage.From: {} user } => user,
+                { ChatJoinRequest.From: {} user } => user,
                 _ => throw new ArgumentException("Unsupported update type {0}.", update.Type.ToString())
             };
 

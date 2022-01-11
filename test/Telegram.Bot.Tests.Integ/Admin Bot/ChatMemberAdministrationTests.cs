@@ -174,17 +174,25 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
                 userId: _classFixture.RegularMemberUserId
             );
 
+            await Task.Delay(TimeSpan.FromSeconds(3));
+
+            await BotClient.UnbanChatMemberAsync(
+                chatId: _fixture.SupergroupChat.Id,
+                userId: _classFixture.RegularMemberUserId
+            );
+
+            await Task.Delay(TimeSpan.FromSeconds(3));
+
             await BotClient.SendTextMessageAsync(
                 chatId: _classFixture.RegularMemberChat,
                 text: _classFixture.ChatInviteLink.InviteLink
             );
 
-            Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
-                predicate: u => u.ChatJoinRequest is not null,
-                updateTypes: new[] { UpdateType.Message }
-            );
-
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
+            Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
+                predicate: u => u.ChatJoinRequest is not null
+            );
 
             ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
 
@@ -217,6 +225,20 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ApproveChatJoinRequest)]
         public async Task Should_Approve_Chat_Join_Request()
         {
+            Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
+                predicate: u => u.ChatJoinRequest is not null,
+                updateTypes: UpdateType.ChatJoinRequest
+            );
+
+            ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
+
+            Assert.NotNull(chatJoinRequest);
+            Assert.NotNull(chatJoinRequest.InviteLink);
+            Assert.NotNull(chatJoinRequest.Chat);
+            Assert.NotNull(chatJoinRequest.From);
+            Assert.NotEqual(default, chatJoinRequest.Date);
+            Assert.Equal(_fixture.SupergroupChat.Id, chatJoinRequest.Chat.Id);
+            Assert.Equal(chatJoinRequest.From.Id, _classFixture.RegularMemberUserId);
 
             Exception exception = await Record.ExceptionAsync(async () =>
                 await BotClient.ApproveChatJoinRequest(
