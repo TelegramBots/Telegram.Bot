@@ -12,7 +12,7 @@ namespace Telegram.Bot.Requests
     /// Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable
+    public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
     {
         /// <inheritdoc/>
         [JsonProperty(Required = Required.Always)]
