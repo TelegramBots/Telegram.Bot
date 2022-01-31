@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using Telegram.Bot.Requests.Abstractions;
 
 namespace Telegram.Bot.Args
 {
@@ -9,24 +10,24 @@ namespace Telegram.Bot.Args
     public class ApiRequestEventArgs : EventArgs
     {
         /// <summary>
-        /// Bot API method name
+        /// Bot API Request
         /// </summary>
-        public string MethodName { get; }
+        public IRequest Request { get; }
 
         /// <summary>
-        /// HTTP content of the request message
+        /// HTTP Request Message
         /// </summary>
-        public HttpContent? HttpContent { get; }
+        public HttpRequestMessage? HttpRequestMessage { get; }
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="methodName"></param>
-        /// <param name="httpContent"></param>
-        public ApiRequestEventArgs(string methodName, HttpContent? httpContent = default)
+        /// <param name="request"></param>
+        /// <param name="httpRequestMessage"></param>
+        public ApiRequestEventArgs(IRequest request, HttpRequestMessage? httpRequestMessage = default)
         {
-            MethodName = methodName;
-            HttpContent = httpContent;
+            Request = request;
+            HttpRequestMessage = httpRequestMessage;
         }
     }
 }

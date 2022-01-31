@@ -285,11 +285,11 @@ namespace Telegram.Bot.Tests.Integ.Framework
             bool hasContent;
             string content;
             string[] multipartContent;
-            if (e.HttpContent is null)
+            if (e.HttpRequestMessage?.Content is null)
             {
                 hasContent = false;
             }
-            else if (e.HttpContent is MultipartFormDataContent multipartFormDataContent)
+            else if (e.HttpRequestMessage.Content is MultipartFormDataContent multipartFormDataContent)
             {
                 hasContent = true;
                 var stringifiedFormContent = new List<string>(multipartFormDataContent.Count());
@@ -312,7 +312,7 @@ namespace Telegram.Bot.Tests.Integ.Framework
             else
             {
                 hasContent = true;
-                content = await e.HttpContent.ReadAsStringAsync(cancellationToken);
+                content = await e.HttpRequestMessage.Content.ReadAsStringAsync(cancellationToken);
             }
 
             /* Debugging Hint: set breakpoints with conditions here in order to investigate the HTTP request values. */
