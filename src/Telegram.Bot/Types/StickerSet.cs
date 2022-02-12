@@ -27,6 +27,12 @@ namespace Telegram.Bot.Types
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public bool IsAnimated { get; set; }
+        
+        /// <summary>
+        /// <c>true</c>, if the sticker set contains video stickers
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public bool IsVideo { get; set; }
 
         /// <summary>
         /// True, if the sticker set contains masks
