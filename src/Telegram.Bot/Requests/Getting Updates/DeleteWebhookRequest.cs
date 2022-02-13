@@ -10,7 +10,7 @@ namespace Telegram.Bot.Requests
     /// <see cref="GetUpdatesRequest"/>. Returns <c>true</c> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    public class DeleteWebhookRequest : ParameterlessRequest<bool>
+    public class DeleteWebhookRequest : RequestBase<bool>
     {
         /// <summary>
         /// Pass True to drop all pending updates

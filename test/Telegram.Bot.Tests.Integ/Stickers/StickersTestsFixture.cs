@@ -29,14 +29,13 @@ namespace Telegram.Bot.Tests.Integ.Stickers
         {
             long ownerId;
 
-            if (ConfigurationProvider.TestConfigurations.StickerOwnerUserId == default)
+            if (testsFixture.Configuration.StickerOwnerUserId == default)
             {
                 await testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-                Message notifMessage = await testsFixture.SendTestCollectionNotificationAsync(collectionName,
-                    $"\nNo value is set for `{nameof(ConfigurationProvider.TestConfigurations.StickerOwnerUserId)}` " +
-                    "in test settings.\n\n" +
-                    ""
+                Message notificationMessage = await testsFixture.SendTestCollectionNotificationAsync(collectionName,
+                    $"\nNo value is set for `{nameof(TestConfiguration.StickerOwnerUserId)}` " +
+                    "in test settings.\n\n"
                 );
 
                 const string cqData = "sticker_tests:owner";
@@ -44,7 +43,7 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                     testsFixture.SupergroupChat,
                     testsFixture.UpdateReceiver.GetTesters() +
                     "\nUse the following button to become Sticker Set Owner",
-                    replyToMessageId: notifMessage.MessageId,
+                    replyToMessageId: notificationMessage.MessageId,
                     replyMarkup: new InlineKeyboardMarkup(
                         InlineKeyboardButton.WithCallbackData("I am the Owner!", cqData)
                     )
@@ -53,11 +52,11 @@ namespace Telegram.Bot.Tests.Integ.Stickers
                 Update cqUpdate = await testsFixture.UpdateReceiver
                     .GetCallbackQueryUpdateAsync(cqMessage.MessageId, cqData);
 
-                ownerId = cqUpdate.CallbackQuery.From.Id;
+                ownerId = cqUpdate.CallbackQuery!.From.Id;
             }
             else
             {
-                ownerId = ConfigurationProvider.TestConfigurations.StickerOwnerUserId.Value;
+                ownerId = testsFixture.Configuration.StickerOwnerUserId.Value;
             }
 
             return ownerId;

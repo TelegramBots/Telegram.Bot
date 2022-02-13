@@ -36,6 +36,10 @@ namespace Telegram.Bot.Requests
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public bool? DisableNotification { get; set; }
 
+        /// <inheritdoc cref="Abstractions.Documentation.ProtectContent"/>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        public bool? ProtectContent { get; set; }
+
         /// <summary>
         /// Initializes a new request with chatId, fromChatId and messageId
         /// </summary>

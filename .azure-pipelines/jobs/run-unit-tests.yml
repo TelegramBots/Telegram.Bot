@@ -15,6 +15,11 @@ jobs:
     pool:
       vmImage: $(VM_IMAGE)
     steps:
+      - task: UseDotNet@2
+        displayName: Install .NET SDK
+        inputs:
+          packageType: sdk
+          version: 6.0.x
       - task: DotNetCoreCLI@2
         displayName: Execute unit tests
         inputs:

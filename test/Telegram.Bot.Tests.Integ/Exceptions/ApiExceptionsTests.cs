@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -34,16 +33,17 @@ namespace Telegram.Bot.Tests.Integ.Exceptions
 
             await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-            Update forwardedMessageUpdate = (
-                await _fixture.UpdateReceiver.GetUpdatesAsync(
-                    predicate: u => u.Message!.ForwardFrom is not null,
-                    updateTypes: new[] { UpdateType.Message })
-                ).Single();
+            Update forwardedMessageUpdate = await _fixture.UpdateReceiver.GetUpdateAsync(
+                predicate: u => u.Message?.ForwardFrom is not null,
+                updateTypes: new[] { UpdateType.Message }
+            );
+
+            User forwardFromUser = forwardedMessageUpdate.Message!.ForwardFrom!;
 
             ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(async () =>
                 await BotClient.SendTextMessageAsync(
-                    forwardedMessageUpdate.Message.ForwardFrom!.Id,
-                    $"Error! If you see this message, talk to @{forwardedMessageUpdate.Message.From.Username}"
+                    forwardFromUser.Id,
+                    $"Error! If you see this message, talk to @{forwardFromUser.Username}"
                 )
             );
 

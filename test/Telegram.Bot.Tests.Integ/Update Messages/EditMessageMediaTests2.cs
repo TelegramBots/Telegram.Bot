@@ -73,6 +73,8 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
                 caption: "`file_id` of this GIF will be used"
             );
 
+            Assert.NotNull(gifMessage.Document);
+
             // Send a photo to chat. This media will be changed later in test.
             Message originalMessage = await BotClient.SendPhotoAsync(
                 chatId: _fixture.SupergroupChat,
@@ -83,21 +85,18 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             await Task.Delay(500);
 
             // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
-            Message editedMessage;
-            await using (Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video))
-            {
-                editedMessage = await BotClient.EditMessageMediaAsync(
-                    chatId: originalMessage.Chat,
-                    messageId: originalMessage.MessageId,
-                    media: new InputMediaAnimation(gifMessage.Document.FileId)
-                    {
-                        Thumb = new InputMedia(thumbStream, "thumb.jpg"),
-                        Duration = 4,
-                        Height = 320,
-                        Width = 320,
-                    }
-                );
-            }
+            await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
+            Message editedMessage = await BotClient.EditMessageMediaAsync(
+                chatId: originalMessage.Chat,
+                messageId: originalMessage.MessageId,
+                media: new InputMediaAnimation(gifMessage.Document.FileId)
+                {
+                    Thumb = new InputMedia(thumbStream, "thumb.jpg"),
+                    Duration = 4,
+                    Height = 320,
+                    Width = 320,
+                }
+            );
 
             Assert.Equal(originalMessage.MessageId, editedMessage.MessageId);
 
@@ -112,7 +111,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages
             Assert.NotEqual(0, editedMessage.Animation.Height);
             Assert.NotEqual(0, editedMessage.Animation.FileSize);
             Assert.NotEmpty(editedMessage.Animation.FileId);
+            Assert.NotNull(editedMessage.Animation.FileName);
             Assert.NotEmpty(editedMessage.Animation.FileName);
+            Assert.NotNull(editedMessage.Animation.MimeType);
             Assert.NotEmpty(editedMessage.Animation.MimeType);
 
             Assert.NotNull(editedMessage.Animation.Thumb);

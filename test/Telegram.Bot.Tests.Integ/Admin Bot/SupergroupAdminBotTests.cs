@@ -240,5 +240,107 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot
         }
 
         #endregion
+
+        #region 7. Chat invite links management
+
+        [OrderedFact("Should create an invite link to the group")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateChatInviteLink)]
+        public async Task Should_Create_Chat_Invite_Link()
+        {
+            DateTime createdAt = DateTime.UtcNow;
+
+            // Milliseconds are ignored during conversion to unix timestamp since it counts only up to
+            // seconds, so for equality to work later on assertion we need to zero out milliseconds
+            DateTime expireDate = createdAt.With(new () {Millisecond = 0}).AddHours(1);
+
+            string inviteLinkName = $"Created at {createdAt:yyyy-MM-ddTHH:mm:ss}Z";
+
+            ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLinkAsync(
+                chatId: _classFixture.TestsFixture.SupergroupChat.Id,
+                createsJoinRequest: true,
+                name: inviteLinkName,
+                expireDate: expireDate
+            );
+
+            Assert.NotNull(chatInviteLink);
+            Assert.NotNull(chatInviteLink.Creator);
+            Assert.Equal(_classFixture.TestsFixture.BotUser.Id, chatInviteLink.Creator.Id);
+            Assert.Equal(_classFixture.TestsFixture.BotUser.Username, chatInviteLink.Creator.Username);
+            Assert.True(chatInviteLink.Creator.IsBot);
+            Assert.NotNull(chatInviteLink.InviteLink);
+            Assert.Matches("https://t.me/.+", chatInviteLink.InviteLink);
+            Assert.False(chatInviteLink.IsRevoked);
+            Assert.False(chatInviteLink.IsPrimary);
+            Assert.Null(chatInviteLink.MemberLimit);
+            Assert.True(chatInviteLink.CreatesJoinRequest);
+            Assert.Null(chatInviteLink.PendingJoinRequestCount);
+            Assert.Equal(inviteLinkName, chatInviteLink.Name);
+            Assert.Equal(expireDate, chatInviteLink.ExpireDate);
+
+            _classFixture.ChatInviteLink = chatInviteLink;
+        }
+
+        [OrderedFact("Should edit previously created invite link to the group")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditChatInviteLink)]
+        public async Task Should_Edit_Chat_Invite_Link()
+        {
+            DateTime editedAt = DateTime.UtcNow;
+
+            // Milliseconds are ignored during conversion to unix timestamp since it counts only up to
+            // seconds, so for equality to work later on assertion we need to zero out milliseconds
+            DateTime expireDate = editedAt.With(new () {Millisecond = 0}).AddHours(1);
+
+            string inviteLinkName = $"Edited at {editedAt:yyyy-MM-ddTHH:mm:ss}Z";
+
+            ChatInviteLink editedChatInviteLink = await BotClient.EditChatInviteLinkAsync(
+                chatId: _classFixture.TestsFixture.SupergroupChat.Id,
+                inviteLink: _classFixture.ChatInviteLink.InviteLink,
+                createsJoinRequest: false,
+                name: inviteLinkName,
+                expireDate: expireDate,
+                memberLimit: 100
+            );
+
+            ChatInviteLink chatInviteLink = _classFixture.ChatInviteLink;
+
+            Assert.NotNull(editedChatInviteLink);
+            Assert.NotNull(editedChatInviteLink.Creator);
+            Assert.Equal(inviteLinkName, editedChatInviteLink.Name);
+            Assert.Equal(expireDate, editedChatInviteLink.ExpireDate);
+            Assert.Equal(100, editedChatInviteLink.MemberLimit);
+
+            Assert.Equal(chatInviteLink.InviteLink, editedChatInviteLink.InviteLink);
+            Assert.Equal(chatInviteLink.IsPrimary, editedChatInviteLink.IsPrimary);
+            Assert.False(editedChatInviteLink.CreatesJoinRequest);
+            Assert.Equal(chatInviteLink.PendingJoinRequestCount, editedChatInviteLink.PendingJoinRequestCount);
+            Assert.Equal(chatInviteLink.IsRevoked, editedChatInviteLink.IsRevoked);
+
+            _classFixture.ChatInviteLink = editedChatInviteLink;
+        }
+
+        #endregion
+
+        [OrderedFact("Should revoke previously edited invite link to the group")]
+        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.RevokeChatInviteLink)]
+        public async Task Should_Revoke_Chat_Invite_Link()
+        {
+            ChatInviteLink revokedChatInviteLink = await BotClient.RevokeChatInviteLinkAsync(
+                chatId: _classFixture.TestsFixture.SupergroupChat.Id,
+                inviteLink: _classFixture.ChatInviteLink.InviteLink
+            );
+
+            ChatInviteLink editedChatInviteLink = _classFixture.ChatInviteLink;
+
+            Assert.NotNull(revokedChatInviteLink);
+            Assert.NotNull(revokedChatInviteLink.Creator);
+            Assert.Equal(editedChatInviteLink.InviteLink, revokedChatInviteLink.InviteLink);
+            Assert.Equal(editedChatInviteLink.Name, revokedChatInviteLink.Name);
+            Assert.Equal(editedChatInviteLink.ExpireDate, revokedChatInviteLink.ExpireDate);
+            Assert.Equal(editedChatInviteLink.IsPrimary, revokedChatInviteLink.IsPrimary);
+            Assert.Equal(editedChatInviteLink.MemberLimit, revokedChatInviteLink.MemberLimit);
+            Assert.Equal(editedChatInviteLink.CreatesJoinRequest, revokedChatInviteLink.CreatesJoinRequest);
+            Assert.Equal(editedChatInviteLink.PendingJoinRequestCount, revokedChatInviteLink.PendingJoinRequestCount);
+            Assert.True(revokedChatInviteLink.IsRevoked);
+        }
     }
 }

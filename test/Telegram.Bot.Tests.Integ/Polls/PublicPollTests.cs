@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -38,6 +37,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
             );
 
             Assert.Equal(MessageType.Poll, message.Type);
+            Assert.NotNull(message.Poll);
             Assert.NotEmpty(message.Poll.Id);
             Assert.False(message.Poll.IsClosed);
             Assert.False(message.Poll.IsAnonymous);
@@ -66,15 +66,16 @@ namespace Telegram.Bot.Tests.Integ.Polls
                 "🗳 Vote for more than one option on the poll above 👆"
             );
 
-            Update pollAnswerUpdate = (await Fixture.UpdateReceiver.GetUpdatesAsync(
-                update => update.PollAnswer.OptionIds.Length > 1,
+            Update pollAnswerUpdate = await Fixture.UpdateReceiver.GetUpdateAsync(
+                update => update.PollAnswer!.OptionIds.Length > 1,
                 updateTypes: UpdateType.PollAnswer
-            )).First();
+            );
 
             Poll poll = _classFixture.OriginalPollMessage.Poll;
             PollAnswer pollAnswer = pollAnswerUpdate.PollAnswer;
 
-            Assert.Equal(poll.Id, pollAnswer.PollId);
+            Assert.NotNull(pollAnswer);
+            Assert.Equal(poll!.Id, pollAnswer.PollId);
             Assert.NotNull(pollAnswer.User);
             Assert.All(
                 pollAnswer.OptionIds,
@@ -99,7 +100,7 @@ namespace Telegram.Bot.Tests.Integ.Polls
                 messageId: _classFixture.OriginalPollMessage.MessageId
             );
 
-            Assert.Equal(_classFixture.OriginalPollMessage.Poll.Id, closedPoll.Id);
+            Assert.Equal(_classFixture.OriginalPollMessage.Poll!.Id, closedPoll.Id);
             Assert.True(closedPoll.IsClosed);
 
             PollAnswer pollAnswer = _classFixture.PollAnswer;

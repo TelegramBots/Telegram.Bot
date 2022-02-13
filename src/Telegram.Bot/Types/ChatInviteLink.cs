@@ -45,6 +45,7 @@ namespace Telegram.Bot.Types
         /// <summary>
         /// Optional. Invite link name
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string? Name { get; set; }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters
@@ -20,7 +20,8 @@ namespace Telegram.Bot.Converters
                 {"poll", UpdateType.Poll},
                 {"poll_answer", UpdateType.PollAnswer},
                 {"my_chat_member", UpdateType.MyChatMember},
-                {"chat_member", UpdateType.ChatMember}
+                {"chat_member", UpdateType.ChatMember},
+                {"chat_join_request", UpdateType.ChatJoinRequest}
             };
 
         static readonly IReadOnlyDictionary<UpdateType, string> EnumToString =
@@ -39,7 +40,8 @@ namespace Telegram.Bot.Converters
                 {UpdateType.Poll, "poll"},
                 {UpdateType.PollAnswer, "poll_answer"},
                 {UpdateType.MyChatMember, "my_chat_member"},
-                {UpdateType.ChatMember, "chat_member"}
+                {UpdateType.ChatMember, "chat_member"},
+                {UpdateType.ChatJoinRequest, "chat_join_request"}
             };
 
         protected override UpdateType GetEnumValue(string value) =>

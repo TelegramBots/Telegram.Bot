@@ -33,8 +33,8 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures
 
         async Task<Chat> GetChat(string collectionName)
         {
-            string chatId = ConfigurationProvider.TestConfigurations.ChannelChatId;
-            if (chatId is not null) return await _testsFixture.BotClient.GetChatAsync(chatId);
+            var chatId = _testsFixture.Configuration.ChannelChatId;
+            if (chatId is not null) return await _testsFixture.BotClient.GetChatAsync(chatId.Value);
 
             await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 

@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
@@ -45,6 +44,7 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
 
             Message contactMessage = await GetMessageFromChat(MessageType.Contact);
 
+            Assert.NotNull(contactMessage.Contact);
             Assert.NotEmpty(contactMessage.Contact.FirstName);
             Assert.NotEmpty(contactMessage.Contact.PhoneNumber);
             Assert.Equal(_classFixture.PrivateChat.Id, contactMessage.Contact.UserId);
@@ -78,18 +78,17 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup
         }
 
         async Task<Message> GetMessageFromChat(MessageType messageType) =>
-            (await _fixture.UpdateReceiver.GetUpdatesAsync(
-                predicate: u => u.Message.Type == messageType &&
+            (await _fixture.UpdateReceiver.GetUpdateAsync(
+                predicate: u => u.Message!.Type == messageType &&
                                 u.Message.Chat.Id == _classFixture.PrivateChat.Id,
                 updateTypes: UpdateType.Message
-            )).Single().Message;
+            )).Message;
 
         public class Fixture : PrivateChatFixture
         {
             public Fixture(TestsFixture testsFixture)
                 : base(testsFixture, Constants.TestCollections.ReplyMarkup)
-            {
-            }
+            { }
         }
     }
 }

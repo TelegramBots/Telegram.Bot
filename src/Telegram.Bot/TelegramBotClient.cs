@@ -108,7 +108,7 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
-        public async Task<TResponse> MakeRequestAsync<TResponse>(
+        public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
             IRequest<TResponse> request,
             CancellationToken cancellationToken = default)
         {
@@ -124,8 +124,8 @@ namespace Telegram.Bot
             if (OnMakingApiRequest is not null)
             {
                 var requestEventArgs = new ApiRequestEventArgs(
-                    methodName: request.MethodName,
-                    httpContent: httpRequest.Content
+                    request: request,
+                    httpRequestMessage: httpRequest
                 );
                 await OnMakingApiRequest.Invoke(
                     botClient: this,
@@ -143,8 +143,8 @@ namespace Telegram.Bot
             if (OnApiResponseReceived is not null)
             {
                 var requestEventArgs = new ApiRequestEventArgs(
-                    methodName: request.MethodName,
-                    httpContent: httpRequest.Content
+                    request: request,
+                    httpRequestMessage: httpRequest
                 );
                 var responseEventArgs = new ApiResponseEventArgs(
                     responseMessage: httpResponse,

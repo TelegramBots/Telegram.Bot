@@ -23,6 +23,7 @@ namespace Telegram.Bot.Converters
                 { "cashtag", MessageEntityType.Cashtag },
                 { "underline", MessageEntityType.Underline },
                 { "strikethrough", MessageEntityType.Strikethrough },
+                { "spoiler", MessageEntityType.Spoiler },
             };
 
         static readonly IReadOnlyDictionary<MessageEntityType, string> EnumToString =
@@ -44,6 +45,7 @@ namespace Telegram.Bot.Converters
                 { MessageEntityType.Cashtag, "cashtag" },
                 { MessageEntityType.Underline, "underline" },
                 { MessageEntityType.Strikethrough, "strikethrough" },
+                { MessageEntityType.Spoiler, "spoiler" },
             };
 
         protected override MessageEntityType GetEnumValue(string value) =>
