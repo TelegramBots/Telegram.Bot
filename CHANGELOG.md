@@ -21,10 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [2.0.0] - Unreleases
 
 ### Changed
 - Dependency on package `JetBrains.Annotations` is made private
+- `Telegram.Bot` version upgraded to `18.0.0`
 
 ## [1.0.1] - 2021-12-19
 

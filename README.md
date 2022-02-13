@@ -1,4 +1,5 @@
 # Telegram.Bot.Extensions.Polling [![NuGet](https://img.shields.io/nuget/vpre/Telegram.Bot.Extensions.Polling.svg)](https://www.nuget.org/packages/Telegram.Bot.Extensions.Polling/) [![ci](https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling/actions/workflows/ci.yml/badge.svg)](https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling/actions/workflows/ci.yml)
+[![Gitpod Ready-to-Code](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 Provides `ITelegramBotClient` extensions for polling updates.
 

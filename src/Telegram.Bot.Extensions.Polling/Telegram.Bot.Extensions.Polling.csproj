@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <Authors>MihaZupan,tuscen,TelegramBots</Authors>
-    <Copyright>Copyright © Telegram Bots 2021</Copyright>
+    <Copyright>Copyright © Telegram Bots 2022</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling</PackageProjectUrl>
     <RepositoryUrl>https://github.com/TelegramBots/Telegram.Bot.Extensions.Polling.git</RepositoryUrl>
@@ -42,7 +42,7 @@
 
   <ItemGroup Label="Dependencies">
     <PackageReference Include="System.Threading.Channels" Version="6.0.0" />
-    <PackageReference Include="Telegram.Bot" Version="17.0.0" />
+    <PackageReference Include="Telegram.Bot" Version="18.0.0-alpha.1" />
   </ItemGroup>
 
   <ItemGroup Label="DevDependencies">
