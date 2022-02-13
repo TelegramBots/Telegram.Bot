@@ -28,23 +28,7 @@ namespace Telegram.Bot.Requests
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public InputOnlineFile PngSticker { get; }
-
-        /// <summary>
-        /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data.
-        /// <see href="https://core.telegram.org/stickers#animated-sticker-requirements"/>
-        /// for technical requirements
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputFileStream? TgsSticker { get; private set; }
-
-        /// <summary>
-        /// <b>WEBM</b> video with the sticker, uploaded using multipart/form-data.
-        /// <see href="https://core.telegram.org/stickers#video-sticker-requirements"/>
-        /// for technical requirements
-        /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-        public InputFileStream? WebmSticker { get; private set; }
-
+        
         /// <inheritdoc />
         /// <param name="pngSticker">
         /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not

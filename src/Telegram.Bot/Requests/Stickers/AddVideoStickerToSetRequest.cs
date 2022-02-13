@@ -19,7 +19,7 @@ namespace Telegram.Bot.Requests
         /// for technical requirements
         /// </summary>
         [JsonProperty(Required = Required.Always)]
-        public InputFileStream WebmSticker { get; private set; }
+        public InputFileStream WebmSticker { get; }
 
         /// <inheritdoc />
         /// <param name="webmSticker">
