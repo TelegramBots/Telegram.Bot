@@ -11,8 +11,8 @@ namespace Telegram.Bot.Requests
 {
     /// <summary>
     /// Use this method to upload a .PNG file with a sticker for later use in
-    /// <see cref="CreateNewStickerSetRequest"/>/<see cref="CreateNewAnimatedStickerSetRequest"/> and
-    /// <see cref="AddStickerToSetRequest"/>/<see cref="AddAnimatedStickerToSetRequest"/> methods
+    /// <see cref="CreateNewStaticStickerSetRequest"/>/<see cref="CreateNewAnimatedStickerSetRequest"/> and
+    /// <see cref="AddStaticStickerToSetRequest"/>/<see cref="AddAnimatedStickerToSetRequest"/> methods
     /// (can be used multiple times). Returns the uploaded <see cref="File"/> on success.
     /// </summary>
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

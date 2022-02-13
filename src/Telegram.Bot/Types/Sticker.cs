@@ -23,10 +23,16 @@ namespace Telegram.Bot.Types
         public int Height { get; set; }
 
         /// <summary>
-        /// True, if the sticker is animated
+        /// <c>true</c>, if the sticker is animated
         /// </summary>
         [JsonProperty(Required = Required.Always)]
         public bool IsAnimated { get; set; }
+
+        /// <summary>
+        /// <c>true</c>, if the sticker is a video sticker
+        /// </summary>
+        [JsonProperty(Required = Required.Always)]
+        public bool IsVideo { get; set; }
 
         /// <summary>
         /// Optional. Sticker thumbnail in the .WEBP or .JPG format

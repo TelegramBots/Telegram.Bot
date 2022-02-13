@@ -21,7 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [v18.0.0] - Unrealeased
+
+> [Bot API 5.7](https://core.telegram.org/bots/api#january-31-2022) (January 31, 2022)
+
+> [Bot API 5.6](https://core.telegram.org/bots/api#december-30-2021) (December 30, 2021)
+
+> [Bot API 5.5](https://core.telegram.org/bots/api#december-7-2021) (December 7, 2021)
 
 ### Changed
 
@@ -29,8 +35,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
-- Requests `BanChatSenderChatRequest` and `UnbanChatSenderChatRequest`
-- Extension methods `TelegramBotClientExtensions.BanChatSenderChatRequestAsync` and `TelegramBotClientExtensions.UnbanChatSenderChatRequestAsync`
+- Requests `CreateNewVideoStickerSetRequest`, `AddVideoStickerToSetRequest`, `BanChatSenderChatRequest`, `UnbanChatSenderChatRequest`
+- Extension methods `TelegramBotClientExtensions.CreateNewVideoStickerSetAsync`, `TelegramBotClientExtensions.AddVideoStickerToSetAsync`, `TelegramBotClientExtensions.BanChatSenderChatRequestAsync`, `TelegramBotClientExtensions.UnbanChatSenderChatRequestAsync`
 - Property `int? MessageAutoDeleteTime` to class `Chat`
 - Property `bool? HasPrivateForwards` to class `Chat`
 - Property `bool? HasProtectedContent` to class `Chat`
@@ -54,6 +60,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `SendVideoNoteRequest`
   - `SendVideoRequest`
   - `SendVoiceRequest`
+- Property `IsVideo` to class `Sticker`
+- Property `IsVideo` to class `StickerSet`
 - Parameter `bool? protectContent = default` to following methods:
   - `TelegramBotExtensions.SendLocationRequestAsync`
   - `TelegramBotExtensions.SendVenueRequestAsync`
@@ -76,10 +84,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Method `TelegramBotClient.MakeRequestAsync` is made virtual
+- Class `CreateNewStickerSetRequest` renamed to `CreateNewStaticStickerSetRequest`
+- Class `CreateNewStickerSetRequest` is made abstract
+- Class `AddStickerToSetRequest` renamed to `AddStaticStickerToSetRequest`
+- Class `AddStickerToSetRequest` is made abstract
+- Method `TelegramBotClientExtensions.AddStickerToSetAsync` is renamed to `AddStaticStickerToSetAsync`
+- Method `TelegramBotClientExtensions.CreateNewStaticStickerSetAsync` is renamed to `CreateNewStaticStickerSetAsync`
 
 ### Fixed
 
-- 'DeleteWebhookRequest' parameters are now properly serializing
+- `DeleteWebhookRequest` parameters are now properly serializing
 - Added missing json attribute to property `ChatInviteLink.Name`
 
 ### Removed
