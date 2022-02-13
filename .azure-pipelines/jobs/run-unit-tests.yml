@@ -16,7 +16,7 @@ jobs:
       vmImage: $(VM_IMAGE)
     steps:
       - task: UseDotNet@2
-        displayName: 'Use .NET 6.0 SDK'
+        displayName: Install .NET SDK
         inputs:
           packageType: sdk
           version: 6.0.x

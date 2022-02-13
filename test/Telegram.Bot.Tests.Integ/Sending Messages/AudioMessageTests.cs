@@ -44,6 +44,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
 
             Assert.Equal(MessageType.Audio, message.Type);
             Assert.Equal(caption, message.Caption);
+            Assert.NotNull(message.Audio);
             Assert.Equal(performer, message.Audio.Performer);
             Assert.Equal(title, message.Audio.Title);
             Assert.Equal(duration, message.Audio.Duration);
@@ -72,6 +73,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
                 );
             }
 
+            Assert.NotNull(message.Audio);
             Assert.NotNull(message.Audio.Thumb);
             Assert.NotEmpty(message.Audio.Thumb.FileId);
             Assert.NotEmpty(message.Audio.Thumb.FileUniqueId);

@@ -11,7 +11,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         public PaymentFixture(TestsFixture testsFixture)
             : base(testsFixture, Constants.TestCollections.Payment)
         {
-            PaymentProviderToken = ConfigurationProvider.TestConfigurations.PaymentProviderToken;
+            PaymentProviderToken = testsFixture.Configuration.PaymentProviderToken;
             if (PaymentProviderToken is null)
             {
                 throw new ArgumentNullException(nameof(PaymentProviderToken));

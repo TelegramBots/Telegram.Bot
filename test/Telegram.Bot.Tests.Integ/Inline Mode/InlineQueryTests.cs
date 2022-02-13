@@ -103,12 +103,12 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode
                 cacheTime: 0
             );
 
-            Update messageUpdate = (
-                await _fixture.UpdateReceiver.GetUpdatesAsync(
+            Update messageUpdate = await _fixture.UpdateReceiver.GetUpdateAsync(
                 predicate: update => update.Message!.ViaBot is not null,
-                updateTypes: new[] { UpdateType.Message })
-            ).First();
+                updateTypes: new[] { UpdateType.Message }
+            );
 
+            Assert.NotNull(messageUpdate.Message);
             Assert.Equal(MessageType.Text, messageUpdate.Message.Type);
             Assert.NotNull(messageUpdate.Message.ViaBot);
             Assert.Equal(_fixture.BotUser.Id, messageUpdate.Message.ViaBot.Id);

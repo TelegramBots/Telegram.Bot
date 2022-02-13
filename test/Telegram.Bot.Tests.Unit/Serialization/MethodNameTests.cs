@@ -80,7 +80,7 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             Assert.IsType<StringContent>(content);
             Assert.NotNull(content);
             StringContent stringContent = (StringContent) content!;
-            string body = await stringContent!.ReadAsStringAsync();
+            string body = await stringContent.ReadAsStringAsync();
             Assert.Equal(@"{""method"":""close""}", body);
         }
 

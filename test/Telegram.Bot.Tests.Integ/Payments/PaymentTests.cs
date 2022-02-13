@@ -61,6 +61,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Invoice invoice = message.Invoice;
 
             Assert.Equal(MessageType.Invoice, message.Type);
+            Assert.NotNull(invoice);
             Assert.Equal(preliminaryInvoice.Title, invoice.Title);
             Assert.Equal(preliminaryInvoice.Currency, invoice.Currency);
             Assert.Equal(preliminaryInvoice.TotalAmount, invoice.TotalAmount);
@@ -112,7 +113,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update shippingUpdate = await GetShippingQueryUpdate();
 
             AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id
             );
 
             await BotClient.MakeRequestAsync(shippingQueryRequest);
@@ -172,7 +173,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update shippingUpdate = await GetShippingQueryUpdate();
 
             AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id
             );
 
             await BotClient.MakeRequestAsync(shippingQueryRequest);
@@ -181,7 +182,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
             await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
-                preCheckoutQueryId: query.Id
+                preCheckoutQueryId: query!.Id
             );
 
             PreliminaryInvoice preliminaryInvoice = paymentsBuilder.GetPreliminaryInvoice();
@@ -251,7 +252,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update shippingUpdate = await GetShippingQueryUpdate();
 
             AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id
             );
 
             await BotClient.MakeRequestAsync(shippingQueryRequest);
@@ -260,15 +261,16 @@ namespace Telegram.Bot.Tests.Integ.Payments
             PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
             await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
-                preCheckoutQueryId: query.Id
+                preCheckoutQueryId: query!.Id
             );
 
             Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
-            SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message.SuccessfulPayment;
+            SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
             int totalAmount = paymentsBuilder.GetTotalAmount();
 
-            Assert.Equal(totalAmount, successfulPayment.TotalAmount);
+            Assert.Equal(totalAmount, successfulPayment!.TotalAmount);
             Assert.Equal("<my-payload>", successfulPayment.InvoicePayload);
+            Assert.NotNull(invoiceMessage.Invoice);
             Assert.Equal(invoiceMessage.Invoice.Currency, successfulPayment.Currency);
             Assert.Equal("dhl-express", successfulPayment.ShippingOptionId);
             Assert.NotNull(successfulPayment.OrderInfo);
@@ -322,18 +324,19 @@ namespace Telegram.Bot.Tests.Integ.Payments
             PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
             await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
-                preCheckoutQueryId: query.Id
+                preCheckoutQueryId: query!.Id
             );
 
             Update successfulPaymentUpdate = await GetSuccessfulPaymentUpdate();
-            SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message.SuccessfulPayment;
+            SuccessfulPayment successfulPayment = successfulPaymentUpdate.Message!.SuccessfulPayment;
             int totalAmount = paymentsBuilder.GetTotalAmount();
 
             int[] suggestedTips = {100, 150, 200};
             int[] totalAmountWithTip = suggestedTips.Select(_ => _ + totalAmount).ToArray();
 
-            Assert.Contains(totalAmountWithTip, _ => _ == successfulPayment.TotalAmount);
-            Assert.Equal("<my-payload>", successfulPayment.InvoicePayload);
+            Assert.Contains(totalAmountWithTip, _ => _ == successfulPayment!.TotalAmount);
+            Assert.Equal("<my-payload>", successfulPayment!.InvoicePayload);
+            Assert.NotNull(invoiceMessage.Invoice);
             Assert.Equal(invoiceMessage.Invoice.Currency, successfulPayment.Currency);
         }
 
@@ -383,7 +386,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update shippingUpdate = await GetShippingQueryUpdate();
 
             AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id,
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id,
                 errorMessage: "Sorry, but we don't ship to your contry."
             );
 
@@ -430,7 +433,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
             await _fixture.BotClient.AnswerPreCheckoutQueryAsync(
-                preCheckoutQueryId: query.Id,
+                preCheckoutQueryId: query!.Id,
                 errorMessage: "Sorry, we couldn't process the transaction. Please, contact our support."
             );
         }
@@ -518,7 +521,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
             Update shippingUpdate = await GetShippingQueryUpdate();
 
             AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
-                shippingQueryId: shippingUpdate.ShippingQuery.Id
+                shippingQueryId: shippingUpdate.ShippingQuery!.Id
             );
 
             ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
@@ -605,7 +608,7 @@ namespace Telegram.Bot.Tests.Integ.Payments
         async Task<Update> GetSuccessfulPaymentUpdate(CancellationToken cancellationToken = default)
         {
             Update[] updates = await _fixture.UpdateReceiver.GetUpdatesAsync(
-                predicate: u => u.Message.Type == MessageType.SuccessfulPayment,
+                predicate: u => u.Message?.Type == MessageType.SuccessfulPayment,
                 cancellationToken: cancellationToken,
                 updateTypes: UpdateType.Message
             );

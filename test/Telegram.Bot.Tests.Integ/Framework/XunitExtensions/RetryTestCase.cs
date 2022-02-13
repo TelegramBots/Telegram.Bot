@@ -59,7 +59,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                 // contain run status) until we know we've decided to accept the final result;
                 var delayedMessageBus = new DelayedMessageBus(messageBus);
 
-                string testName = DisplayName;
+                var testName = DisplayName;
                 if (runCount > 0)
                 {
                     testName += $"\n\nRETRY:{runCount}";
@@ -68,37 +68,20 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
                 // Do not throw any exceptions here if can't send test case notification because
                 // xunit do not expects any exceptions here and so it crashes the process.
                 // Notification sending fails probably because of rate limiting by Telegram.
-                for (int i = 0; i < 2; i++)
+                try
                 {
-                    try
-                    {
-                        await TestsFixture.Instance.SendTestCaseNotificationAsync(testName);
-                        break;
-                    }
-                    catch (Exception)
-                    {
-                        // Log any exceptions here so we could at least know if notification
-                        // sending failed
-                        var waitTimeout = 30;
-                        var message = new DiagnosticMessage(
-                            "Couldn't send test name notification for test '{0}', " +
-                            "will try one more in {1} seconds.",
-                            DisplayName,
-                            waitTimeout
-                        );
-                        diagnosticMessageSink.OnMessage(message);
-                        await Task.Delay(TimeSpan.FromSeconds(waitTimeout));
-                    }
+                    await TestsFixture.Instance.SendTestCaseNotificationAsync(testName);
                 }
-
-                // await Policy
-                //     .Handle<TaskCanceledException>()
-                //     .Or<HttpRequestException>()
-                //     .Or<ApiRequestException>()
-                //     .WaitAndRetry(1, i => TimeSpan.FromSeconds(30))
-                //     .Execute(() =>
-                //         TestsFixture.Instance.SendTestCaseNotificationAsync(testName)
-                //     );
+                catch (Exception e)
+                {
+                    // Log any exceptions here so we could at least know if notification
+                    // sending failed
+                    var message = new DiagnosticMessage(
+                        format: $"Couldn't send test name notification for test '{0}'.\n\n{e}",
+                        DisplayName
+                    );
+                    diagnosticMessageSink.OnMessage(message);
+                }
 
                 var summary = await base.RunAsync(
                     diagnosticMessageSink,

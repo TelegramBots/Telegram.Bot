@@ -30,7 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Property `int? MessageAutoDeleteTime` to class `Chat`
 - Property `bool? HasPrivateForwards` to class `Chat`
 - Property `bool? HasProtectedContent` to class `Chat`
-- Property `int? MessageAutoDeleteTime` to class `Chat`
+- Property `int? MessageAutoDeleteTime` to class `Message`
 - Property `bool? IsAutomaticForward` to class `Message`
 - Property `bool? HasProtectedContent` to class `Message`
 - Property `bool? ProtectContent` to following requests:
@@ -69,9 +69,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `TelegramBotExtensions.SendVoiceRequestAsync`
 - Enum member `MessageEntityType.Spoiler`
 
+### Changed
+
+- Method `TelegramBotClient.MakeRequestAsync` is made virtual
+
 ### Fixed
 
 - 'DeleteWebhookRequest' parameters are now properly serializing
+- Added missing json attribute to property `ChatInviteLink.Name`
+
+### Removed
+
+- Parameter `untilDate` is removed from `TelegramBotClientExtensions.BanChatSenderChatAsync`
+- Property `UntilDate` is removed from `BanChatSenderChatRequest`
 
 ## [v17.0.0] - 2021-11-17
 

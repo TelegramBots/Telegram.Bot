@@ -69,6 +69,7 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages
             );
 
             Assert.Equal(MessageType.Contact, message.Type);
+            Assert.NotNull(message.Contact);
             Assert.Equal(vcard, message.Contact.Vcard);
         }
     }

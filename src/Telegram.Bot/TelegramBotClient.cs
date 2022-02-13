@@ -108,7 +108,7 @@ namespace Telegram.Bot
         }
 
         /// <inheritdoc />
-        public async Task<TResponse> MakeRequestAsync<TResponse>(
+        public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
             IRequest<TResponse> request,
             CancellationToken cancellationToken = default)
         {
