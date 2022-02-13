@@ -5,7 +5,7 @@ on:
     branches-ignore: [ master ]
 
 env:
-  USE_CI_FEED: false
+  USE_CI_FEED: true
 
 jobs:
   build:

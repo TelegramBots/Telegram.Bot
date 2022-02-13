@@ -42,7 +42,7 @@
 
   <ItemGroup Label="Dependencies">
     <PackageReference Include="System.Threading.Channels" Version="6.0.0" />
-    <PackageReference Include="Telegram.Bot" Version="17.0.0" />
+    <PackageReference Include="Telegram.Bot" Version="18.0.0-alpha.1" />
   </ItemGroup>
 
   <ItemGroup Label="DevDependencies">
