@@ -20,12 +20,16 @@ jobs:
         inputs:
           packageType: sdk
           version: 6.0.x
-      - task: DotNetCoreCLI@2
+      - shell: >
+          dotnet test
+          --verbosity normal
+          --configuration ${{ parameters.buildConfiguration }}
+          --logger "trx;LogFileName=testresults.trx"
+          ${{ parameters.projects }}
         displayName: Execute unit tests
+      - task: PublishTestResults@2
+        displayName: Publish test results
         inputs:
-          command: test
-          projects: ${{ parameters.projects }}
+          testResultsFormat: VSTest
+          testResultsFiles: testresults.trx
           configuration: ${{ parameters.buildConfiguration }}
-          arguments: >
-            --verbosity normal
-          publishTestResults: true
