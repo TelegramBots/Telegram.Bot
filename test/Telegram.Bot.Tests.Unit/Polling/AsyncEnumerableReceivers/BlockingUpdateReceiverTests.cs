@@ -108,7 +108,7 @@ public class BlockingUpdateReceiverTests
             }
         };
 
-        Exception exceptionFromErrorHandler = null;
+        Exception exceptionFromErrorHandler = null!;
 
         var receiver = new BlockingUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
         {

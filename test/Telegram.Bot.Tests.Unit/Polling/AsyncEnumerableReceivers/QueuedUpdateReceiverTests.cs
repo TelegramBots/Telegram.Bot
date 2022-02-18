@@ -217,7 +217,7 @@ public class QueuedUpdateReceiverTests
             }
         };
 
-        Exception exceptionFromErrorHandler = null;
+        Exception exceptionFromErrorHandler = null!;
 
         var receiver = new QueuedUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
         {
@@ -233,7 +233,7 @@ public class QueuedUpdateReceiverTests
 
         var aggregateEx = ex.InnerException as AggregateException;
         Assert.NotNull(aggregateEx);
-        Assert.Equal(2, aggregateEx.InnerExceptions.Count);
+        Assert.Equal(2, aggregateEx!.InnerExceptions.Count);
         Assert.Same(mockClient.Options.ExceptionToThrow, aggregateEx.InnerExceptions[0]);
         Assert.Same(exceptionFromErrorHandler, aggregateEx.InnerExceptions[1]);
     }

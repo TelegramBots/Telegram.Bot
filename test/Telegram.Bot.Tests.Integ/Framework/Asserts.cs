@@ -5,81 +5,79 @@ using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.Framework
+namespace Telegram.Bot.Tests.Integ.Framework;
+
+public static class Asserts
 {
-    public static class Asserts
+    public static void JsonEquals(
+        object expected,
+        object actual,
+        params string[] excludeFields)
     {
-        public static void JsonEquals(
-            object expected,
-            object actual,
-            params string[] excludeFields
-        )
+        if (expected is null || actual is null)
         {
-            if (expected is null || actual is null)
+            Assert.Equal(expected, actual);
+        }
+        else
+        {
+            var expectedToken = JToken.FromObject(expected).RemoveFields(excludeFields);
+            var actualToken = JToken.FromObject(actual).RemoveFields(excludeFields);
+            bool equals = JToken.DeepEquals(expectedToken, actualToken);
+
+            if (equals)
             {
-                Assert.Equal(expected, actual);
+                Assert.True(equals);
             }
             else
             {
-                var expectedToken = JToken.FromObject(expected).RemoveFields(excludeFields);
-                var actualToken = JToken.FromObject(actual).RemoveFields(excludeFields);
-                bool equals = JToken.DeepEquals(expectedToken, actualToken);
-
-                if (equals)
-                {
-                    Assert.True(equals);
-                }
-                else
-                {
-                    // Print out both JSON values in the case of an inequality
-                    string expectedJson = JsonConvert.SerializeObject(expectedToken);
-                    string actualJson = JsonConvert.SerializeObject(actualToken);
-                    Assert.Equal(expectedJson, actualJson);
-                }
+                // Print out both JSON values in the case of an inequality
+                string expectedJson = JsonConvert.SerializeObject(expectedToken);
+                string actualJson = JsonConvert.SerializeObject(actualToken);
+                Assert.Equal(expectedJson, actualJson);
             }
         }
+    }
 
-        // getMe request returns more information than is present in received updates
-        public static void UsersEqual(User expected, User actual)
+    // getMe request returns more information than is present in received updates
+    public static void UsersEqual(User expected, User actual)
+    {
+        JsonEquals(
+            expected,
+            actual,
+            "can_join_groups",
+            "can_read_all_group_messages",
+            "supports_inline_queries"
+        );
+    }
+
+    static JToken RemoveFields(this JToken token, params string[] fields)
+    {
+        if (fields?.Length > 0)
         {
-            JsonEquals(
-                expected,
-                actual,
-                "can_join_groups",
-                "can_read_all_group_messages",
-                "supports_inline_queries"
-            );
+            _RemoveFields(token, fields);
         }
 
-        static JToken RemoveFields(this JToken token, params string[] fields)
+        return token;
+    }
+
+    static void _RemoveFields(JToken token, string[] fields)
+    {
+        if (fields.Length > 0 && token is JContainer container)
         {
-            if (fields?.Length > 0)
+            var removeList = new List<JToken>();
+            foreach (var el in container.Children())
             {
-                _RemoveFields(token, fields);
+                if (el is JProperty p && fields.Contains(p.Name))
+                {
+                    removeList.Add(el);
+                }
+
+                _RemoveFields(el, fields);
             }
 
-            return token;
-        }
-
-        static void _RemoveFields(JToken token, string[] fields)
-        {
-            if (fields.Length > 0 && token is JContainer container)
+            foreach (var el in removeList)
             {
-                var removeList = new List<JToken>();
-                foreach (var el in container.Children())
-                {
-                    if (el is JProperty p && fields.Contains(p.Name))
-                    {
-                        removeList.Add(el);
-                    }
-
-                    _RemoveFields(el, fields);
-                }
-
-                foreach (var el in removeList)
-                {
-                    el.Remove();
-                }
+                el.Remove();
             }
         }
     }

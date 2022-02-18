@@ -19,7 +19,7 @@ public class MockClientOptions
     public bool HandleNegativeOffset { get; set; }
     public string[] Messages { get; set; } = Array.Empty<string>();
     public int RequestDelay { get; set; } = 10;
-    public Exception ExceptionToThrow { get; set; }
+    public Exception? ExceptionToThrow { get; set; }
 
 }
 
@@ -30,10 +30,10 @@ public class MockTelegramBotClient : ITelegramBotClient
     public int MessageGroupsLeft => _messages.Count;
     public MockClientOptions Options { get; }
 
-    public MockTelegramBotClient(MockClientOptions options = default)
+    public MockTelegramBotClient(MockClientOptions? options = default)
     {
         Options = options ?? new();
-        _messages = new Queue<string[]>(
+        _messages = new(
             Options.Messages.Select(message => message.Split('-').ToArray())
         );
     }
@@ -87,21 +87,24 @@ public class MockTelegramBotClient : ITelegramBotClient
             },
             Id = getUpdatesRequest.Offset ?? 0 + i + 1
         }).ToArray();
-
     }
 
     public TimeSpan Timeout { get; set; } = TimeSpan.FromMilliseconds(50);
 
-    public IExceptionParser ExceptionsParser { get; set; }
-
+    public IExceptionParser ExceptionsParser { get; set; } = new DefaultExceptionParser();
 
     // ---------------
     // NOT IMPLEMENTED
     // ---------------
 
     public long? BotId => throw new NotImplementedException();
-    public event AsyncEventHandler<ApiRequestEventArgs> OnMakingApiRequest;
-    public event AsyncEventHandler<ApiResponseEventArgs> OnApiResponseReceived;
-    public Task DownloadFileAsync(string filePath, Stream destination, CancellationToken cancellationToken = default) => throw new NotImplementedException();
-    public Task<bool> TestApiAsync(CancellationToken cancellationToken = default) => throw new NotImplementedException();
+    public event AsyncEventHandler<ApiRequestEventArgs>? OnMakingApiRequest;
+    public event AsyncEventHandler<ApiResponseEventArgs>? OnApiResponseReceived;
+    public Task DownloadFileAsync(
+        string filePath,
+        Stream destination,
+        CancellationToken cancellationToken = default) =>
+        throw new NotImplementedException();
+    public Task<bool> TestApiAsync(CancellationToken cancellationToken = default) =>
+        throw new NotImplementedException();
 }

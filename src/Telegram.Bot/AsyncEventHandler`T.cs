@@ -3,13 +3,11 @@ using System.Threading.Tasks;
 
 #pragma warning disable 1591
 
-namespace Telegram.Bot
-{
+namespace Telegram.Bot;
 #pragma warning disable CA1711
-    public delegate ValueTask AsyncEventHandler<in TArgs>(
+public delegate ValueTask AsyncEventHandler<in TArgs>(
 #pragma warning restore CA1711
-        ITelegramBotClient botClient,
-        TArgs args,
-        CancellationToken cancellationToken = default
-    );
-}
+    ITelegramBotClient botClient,
+    TArgs args,
+    CancellationToken cancellationToken = default
+);

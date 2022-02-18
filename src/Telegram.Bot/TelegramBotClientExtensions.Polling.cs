@@ -141,7 +141,9 @@ public static partial class TelegramBotClientExtensions
         if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
 
         // ReSharper disable once MethodSupportsCancellation
+#pragma warning disable CA2016
         Task.Run(async () =>
+#pragma warning restore CA2016
         {
             try
             {
@@ -150,7 +152,7 @@ public static partial class TelegramBotClientExtensions
                     updateHandler: updateHandler,
                     receiverOptions: receiverOptions,
                     cancellationToken: cancellationToken
-                );
+                ).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -164,7 +166,7 @@ public static partial class TelegramBotClientExtensions
                         botClient: botClient,
                         exception: ex,
                         cancellationToken: cancellationToken
-                    );
+                    ).ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
@@ -205,7 +207,7 @@ public static partial class TelegramBotClientExtensions
             updateHandler: new TUpdateHandler(),
             receiverOptions: receiverOptions,
             cancellationToken: cancellationToken
-        );
+        ).ConfigureAwait(false);
 
     /// <summary>
     /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking
@@ -242,7 +244,7 @@ public static partial class TelegramBotClientExtensions
             ),
             receiverOptions: receiverOptions,
             cancellationToken: cancellationToken
-        );
+        ).ConfigureAwait(false);
 
     /// <summary>
     /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking
@@ -287,7 +289,7 @@ public static partial class TelegramBotClientExtensions
             ),
             receiverOptions: receiverOptions,
             cancellationToken: cancellationToken
-        );
+        ).ConfigureAwait(false);
 
     /// <summary>
     /// Starts receiving <see cref="Update"/>s on the ThreadPool, invoking
@@ -317,5 +319,6 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await new DefaultUpdateReceiver(botClient: botClient, receiverOptions: receiverOptions)
-            .ReceiveAsync(updateHandler: updateHandler, cancellationToken: cancellationToken);
+            .ReceiveAsync(updateHandler: updateHandler, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
 }

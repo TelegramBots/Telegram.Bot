@@ -1,13 +1,12 @@
-﻿namespace Telegram.Bot.Requests.Abstractions
+﻿namespace Telegram.Bot.Requests.Abstractions;
+
+/// <summary>
+/// Represents a request having <see cref="UserId"/> parameter
+/// </summary>
+public interface IUserTargetable
 {
     /// <summary>
-    /// Represents a request having <see cref="UserId"/> parameter
+    /// User identifier
     /// </summary>
-    public interface IUserTargetable
-    {
-        /// <summary>
-        /// User identifier
-        /// </summary>
-        long UserId { get; }
-    }
+    long UserId { get; }
 }

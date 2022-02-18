@@ -3,70 +3,69 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Unit.Serialization
+namespace Telegram.Bot.Tests.Unit.Serialization;
+
+public class MessageEntityTests
 {
-    public class MessageEntityTests
+    [Fact(DisplayName = "Should deserialize message entity with phone number type")]
+    public void Should_Deserialize_Message_Entity_With_Phone_Number_Type()
     {
-        [Fact(DisplayName = "Should deserialize message entity with phone number type")]
-        public void Should_Deserialize_Message_Entity_With_Phone_Number_Type()
-        {
-            const string json = @"{
+        const string json = @"{
                 ""offset"": 10,
                 ""length"": 10,
                 ""type"": ""phone_number""
             }";
 
-            var message = JsonConvert.DeserializeObject<MessageEntity>(json);
+        var message = JsonConvert.DeserializeObject<MessageEntity>(json);
 
-            Assert.Equal(MessageEntityType.PhoneNumber, message.Type);
-        }
+        Assert.Equal(MessageEntityType.PhoneNumber, message.Type);
+    }
 
-        [Fact(DisplayName = "Should serialize message entity with phone number type")]
-        public void Should_Serialize_Message_Entity_With_Phone_Number_Type()
+    [Fact(DisplayName = "Should serialize message entity with phone number type")]
+    public void Should_Serialize_Message_Entity_With_Phone_Number_Type()
+    {
+        var messageEntity = new MessageEntity
         {
-            var messageEntity = new MessageEntity
-            {
-                Length = 10,
-                Offset = 10,
-                Type = MessageEntityType.PhoneNumber
-            };
+            Length = 10,
+            Offset = 10,
+            Type = MessageEntityType.PhoneNumber
+        };
 
-            var json = JsonConvert.SerializeObject(messageEntity);
+        var json = JsonConvert.SerializeObject(messageEntity);
 
-            Assert.NotNull(json);
-            Assert.True(json.Length > 10);
-            Assert.Contains(@"""type"":""phone_number""", json);
-        }
+        Assert.NotNull(json);
+        Assert.True(json.Length > 10);
+        Assert.Contains(@"""type"":""phone_number""", json);
+    }
 
-        [Fact(DisplayName = "Should deserialize message entity with unknown type")]
-        public void Should_Deserialize_Message_Entity_With_Unknown_Type()
-        {
-            const string json = @"{
+    [Fact(DisplayName = "Should deserialize message entity with unknown type")]
+    public void Should_Deserialize_Message_Entity_With_Unknown_Type()
+    {
+        const string json = @"{
                 ""offset"": 10,
                 ""length"": 10,
                 ""type"": ""totally_unknown_type""
             }";
 
-            var message = JsonConvert.DeserializeObject<MessageEntity>(json);
+        var message = JsonConvert.DeserializeObject<MessageEntity>(json);
 
-            Assert.Equal((MessageEntityType)0, message.Type);
-        }
+        Assert.Equal((MessageEntityType)0, message.Type);
+    }
 
-        [Fact(DisplayName = "Should serialize message entity with unknown type")]
-        public void Should_Serialize_Message_Entity_With_Unknown_Type()
+    [Fact(DisplayName = "Should serialize message entity with unknown type")]
+    public void Should_Serialize_Message_Entity_With_Unknown_Type()
+    {
+        var messageEntity = new MessageEntity
         {
-            var messageEntity = new MessageEntity
-            {
-                Length = 10,
-                Offset = 10,
-                Type = 0
-            };
+            Length = 10,
+            Offset = 10,
+            Type = 0
+        };
 
-            var json = JsonConvert.SerializeObject(messageEntity);
+        var json = JsonConvert.SerializeObject(messageEntity);
 
-            Assert.NotNull(json);
-            Assert.True(json.Length > 10);
-            Assert.Contains(@"""type"":""unknown""", json);
-        }
+        Assert.NotNull(json);
+        Assert.True(json.Length > 10);
+        Assert.Contains(@"""type"":""unknown""", json);
     }
 }
