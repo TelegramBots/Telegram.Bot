@@ -31,5 +31,6 @@ jobs:
         displayName: Publish test results
         inputs:
           testResultsFormat: VSTest
-          testResultsFiles: testresults.trx
+          testResultsFiles: "**/*.trx"
+          mergeTestResults: true
           configuration: ${{ parameters.buildConfiguration }}
