@@ -77,10 +77,12 @@ stages:
               version: 6.0.x
           - task: NuGetAuthenticate@0
             displayName: 'NuGet Authenticate'
-          - pwsh: >
-              dotnet nuget push
-              --skip-duplicate
-              --source $(internalFeedName)
-              $(Pipeline.Workspace)/packages/*.*upkg
+          - task: NuGetCommand@2
             displayName: Publish CI package to Azure artifacts
-
+            inputs:
+              command: 'push'
+              packagesToPush: $(Pipeline.Workspace)/packages/*.*upkg
+              nuGetFeedType: 'internal'
+              vstsFeed: $(internalFeedName)
+              publishVstsFeed: $(internalFeedName)
+              allowPackageConflicts: true
