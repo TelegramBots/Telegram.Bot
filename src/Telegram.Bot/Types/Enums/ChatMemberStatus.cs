@@ -1,42 +1,41 @@
 ﻿using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
-namespace Telegram.Bot.Types.Enums
+namespace Telegram.Bot.Types.Enums;
+
+/// <summary>
+/// ChatMember status
+/// </summary>
+[JsonConverter(typeof(ChatMemberStatusConverter))]
+public enum ChatMemberStatus
 {
     /// <summary>
-    /// ChatMember status
+    /// Creator of the <see cref="Chat"/>
     /// </summary>
-    [JsonConverter(typeof(ChatMemberStatusConverter))]
-    public enum ChatMemberStatus
-    {
-        /// <summary>
-        /// Creator of the <see cref="Chat"/>
-        /// </summary>
-        Creator = 1,
+    Creator = 1,
 
-        /// <summary>
-        /// Administrator of the <see cref="Chat"/>
-        /// </summary>
-        Administrator,
+    /// <summary>
+    /// Administrator of the <see cref="Chat"/>
+    /// </summary>
+    Administrator,
 
-        /// <summary>
-        /// Normal member of the <see cref="Chat"/>
-        /// </summary>
-        Member,
+    /// <summary>
+    /// Normal member of the <see cref="Chat"/>
+    /// </summary>
+    Member,
 
-        /// <summary>
-        /// A <see cref="User"/> who left the <see cref="Chat"/>
-        /// </summary>
-        Left,
+    /// <summary>
+    /// A <see cref="User"/> who left the <see cref="Chat"/>
+    /// </summary>
+    Left,
 
-        /// <summary>
-        /// A <see cref="User"/> who was kicked from the <see cref="Chat"/>
-        /// </summary>
-        Kicked,
+    /// <summary>
+    /// A <see cref="User"/> who was kicked from the <see cref="Chat"/>
+    /// </summary>
+    Kicked,
 
-        /// <summary>
-        /// A <see cref="User"/> who is restricted in the <see cref="Chat"/>
-        /// </summary>
-        Restricted
-    }
+    /// <summary>
+    /// A <see cref="User"/> who is restricted in the <see cref="Chat"/>
+    /// </summary>
+    Restricted
 }

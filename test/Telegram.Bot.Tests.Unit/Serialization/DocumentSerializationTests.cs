@@ -4,53 +4,53 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Unit.Serialization
+namespace Telegram.Bot.Tests.Unit.Serialization;
+
+public class DocumentSerializationTests
 {
-    public class DocumentSerializationTests
+    [Fact(DisplayName = "Should serialize a document message")]
+    public void Should_Serialize_DocumentMessage()
     {
-        [Fact(DisplayName = "Should serialize a document message")]
-        public void Should_Serialize_DocumentMessage()
+        var documentMessage = new Message
         {
-            var documentMessage = new Message
+            MessageId = 1234,
+            From = new User
             {
-                MessageId = 1234,
-                From = new User
-                {
-                    Id = 123_456_789,
-                    FirstName = "TelegramBots",
-                    Username = "Telegram_Bots"
-                },
-                Chat = new Chat
-                {
-                    Id = -9_877_654_320_000,
-                    Title = "Test Chat",
-                    Type = ChatType.Supergroup,
-                    CanSetStickerSet = true
-                },
-                Document = new Document
-                {
-                    FileId = "KLAHCVUydfS_jHIBildtwpmvxZg",
-                    FileUniqueId = "AgADcOsAAhUdZAc",
-                    FileName = "test_file.txt",
-                    FileSize = 123_456,
-                    MimeType = "plain/text"
-                },
-                Date = DateTime.UtcNow,
-                Caption = "Test Document Description"
-            };
+                Id = 123_456_789,
+                FirstName = "TelegramBots",
+                Username = "Telegram_Bots"
+            },
+            Chat = new Chat
+            {
+                Id = -9_877_654_320_000,
+                Title = "Test Chat",
+                Type = ChatType.Supergroup,
+                CanSetStickerSet = true
+            },
+            Document = new Document
+            {
+                FileId = "KLAHCVUydfS_jHIBildtwpmvxZg",
+                FileUniqueId = "AgADcOsAAhUdZAc",
+                FileName = "test_file.txt",
+                FileSize = 123_456,
+                MimeType = "plain/text"
+            },
+            Date = DateTime.UtcNow,
+            Caption = "Test Document Description"
+        };
 
-            string json = JsonConvert.SerializeObject(documentMessage);
+        string json = JsonConvert.SerializeObject(documentMessage);
 
-            Assert.NotNull(json);
-            Assert.True(json.Length > 100);
-            Assert.Contains(@"""file_id"":""KLAHCVUydfS_jHIBildtwpmvxZg""", json);
-            Assert.Contains(@"""can_set_sticker_set"":true", json);
-        }
+        Assert.NotNull(json);
+        Assert.True(json.Length > 100);
+        Assert.Contains(@"""file_id"":""KLAHCVUydfS_jHIBildtwpmvxZg""", json);
+        Assert.Contains(@"""can_set_sticker_set"":true", json);
+    }
 
-        [Fact(DisplayName = "Should deserialize a document message")]
-        public void Should_Deserialize_DocumentMessage()
-        {
-            const string json = @"
+    [Fact(DisplayName = "Should deserialize a document message")]
+    public void Should_Deserialize_DocumentMessage()
+    {
+        const string json = @"
             {
                 ""message_id"": 1234,
                 ""from"": {
@@ -121,11 +121,10 @@ namespace Telegram.Bot.Tests.Unit.Serialization
             }
             ";
 
-            var message = JsonConvert.DeserializeObject<Message>(json);
+        var message = JsonConvert.DeserializeObject<Message>(json);
 
-            Assert.Equal(MessageType.Document, message.Type);
-            Assert.Equal("test_file.txt", message.Document?.FileName);
-            Assert.Null(message.Chat.CanSetStickerSet);
-        }
+        Assert.Equal(MessageType.Document, message.Type);
+        Assert.Equal("test_file.txt", message.Document?.FileName);
+        Assert.Null(message.Chat.CanSetStickerSet);
     }
 }
