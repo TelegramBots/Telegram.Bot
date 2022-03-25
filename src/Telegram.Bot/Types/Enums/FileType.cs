@@ -1,27 +1,26 @@
 ﻿using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
-namespace Telegram.Bot.Types.Enums
+namespace Telegram.Bot.Types.Enums;
+
+/// <summary>
+/// Type of a <see cref="IInputFile"/>
+/// </summary>
+[JsonConverter(typeof(FileTypeConverter))]
+public enum FileType
 {
     /// <summary>
-    /// Type of a <see cref="IInputFile"/>
+    /// FileStream
     /// </summary>
-    [JsonConverter(typeof(FileTypeConverter))]
-    public enum FileType
-    {
-        /// <summary>
-        /// FileStream
-        /// </summary>
-        Stream = 1,
+    Stream = 1,
 
-        /// <summary>
-        /// FileId
-        /// </summary>
-        Id,
+    /// <summary>
+    /// FileId
+    /// </summary>
+    Id,
 
-        /// <summary>
-        /// File Url
-        /// </summary>
-        Url
-    }
+    /// <summary>
+    /// File Url
+    /// </summary>
+    Url
 }

@@ -30,16 +30,14 @@ stages:
             inputs:
               packageType: sdk
               version: 6.0.x
-          - task: DotNetCoreCLI@2
+          - pwsh: >
+              dotnet build 
+              --configuration $(buildConfiguration)
+              -p:Version=$(ciVersion)
+              -p:CI_EMBED_SYMBOLS=true 
+              $(projectPath)
             displayName: Build project with CI version
-            inputs:
-              command: build
-              projects: $(projectPath)
-              arguments: >
-                --configuration $(buildConfiguration)
-                -p:Version=$(ciVersion)
-                -p:CI_EMBED_SYMBOLS=true
-          - bash: >
+          - pwsh: >
               dotnet pack
               --no-build
               --output "$(Build.ArtifactStagingDirectory)/packages"
@@ -50,7 +48,6 @@ stages:
             displayName: Create CI nuget package
           - publish: $(Build.ArtifactStagingDirectory)/packages
             artifact: packages
-
   - stage: UnitTest
     dependsOn: Build
     displayName: 🧪 Unit test
@@ -61,7 +58,6 @@ stages:
           projects: $(unitTestsProject)
           strategies:
             - Ubuntu: ubuntu-20.04
-
   - stage: PublishArtifacts
     dependsOn: Build
     displayName: 📤 Publish artifacts
@@ -79,11 +75,14 @@ stages:
             inputs:
               packageType: sdk
               version: 6.0.x
-          - task: DotNetCoreCLI@2
+          - task: NuGetAuthenticate@0
+            displayName: 'NuGet Authenticate'
+          - task: NuGetCommand@2
             displayName: Publish CI package to Azure artifacts
             inputs:
-              command: push
-              nuGetFeedType: internal
-              feedPublish: $(internalFeedName)
-              publishPackageMetadata: true
+              command: 'push'
               packagesToPush: $(Pipeline.Workspace)/packages/*.*upkg
+              nuGetFeedType: 'internal'
+              vstsFeed: $(internalFeedName)
+              publishVstsFeed: $(internalFeedName)
+              allowPackageConflicts: true

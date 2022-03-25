@@ -15,13 +15,17 @@ jobs:
         inputs:
           packageType: sdk
           version: 6.0.x
-      - task: DotNetCoreCLI@2
+      - pwsh: >
+          dotnet test
+          --verbosity normal
+          --configuration ${{ parameters.buildConfiguration }}
+          --logger "trx;LogFileName=testresults.trx"
+          ${{ parameters.arguments }}
+          ${{ parameters.projects }}
         displayName: Execute integration tests
+      - task: PublishTestResults@2
+        displayName: Publish test results
         inputs:
-          command: test
-          projects: ${{ parameters.projects }}
-          configuration: ${{ parameters.buildConfiguration }}
-          arguments: >
-            --verbosity normal
-            ${{ parameters.arguments }}
-          publishTestResults: true
+        testResultsFormat: VSTest
+        testResultsFiles: testresults.trx
+        configuration: ${{ parameters.buildConfiguration }}

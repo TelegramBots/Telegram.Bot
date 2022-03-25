@@ -7,114 +7,113 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.Games
+namespace Telegram.Bot.Tests.Integ.Games;
+
+[Collection(Constants.TestCollections.Games)]
+[Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
+[TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+public class GamesTests : IClassFixture<GamesFixture>
 {
-    [Collection(Constants.TestCollections.Games)]
-    [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class GamesTests : IClassFixture<GamesFixture>
+    ITelegramBotClient BotClient => _fixture.BotClient;
+
+    readonly TestsFixture _fixture;
+
+    readonly GamesFixture _classFixture;
+
+    public GamesTests(TestsFixture fixture, GamesFixture classFixture)
     {
-        ITelegramBotClient BotClient => _fixture.BotClient;
+        _fixture = fixture;
+        _classFixture = classFixture;
+    }
 
-        readonly TestsFixture _fixture;
+    [OrderedFact("Should answer inline query with a game")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
+    public async Task Should_Answer_InlineQuery_With_Game()
+    {
+        await _fixture.SendTestInstructionsAsync(
+            "Staring the inline query with this message...",
+            startInlineQuery: true
+        );
 
-        readonly GamesFixture _classFixture;
+        Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-        public GamesTests(TestsFixture fixture, GamesFixture classFixture)
-        {
-            _fixture = fixture;
-            _classFixture = classFixture;
-        }
+        const string resultId = "game";
+        await BotClient.AnswerInlineQueryAsync(
+            inlineQueryId: queryUpdate.InlineQuery!.Id,
+            results: new InlineQueryResult[]
+            {
+                new InlineQueryResultGame(
+                    id: resultId,
+                    gameShortName: _classFixture.GameShortName
+                )
+            },
+            cacheTime: 0
+        );
 
-        [OrderedFact("Should answer inline query with a game")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
-        public async Task Should_Answer_InlineQuery_With_Game()
-        {
-            await _fixture.SendTestInstructionsAsync(
-                "Staring the inline query with this message...",
-                startInlineQuery: true
+        (Update messageUpdate, Update chosenResultUpdate) =
+            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: _fixture.SupergroupChat.Id,
+                messageType: MessageType.Game
             );
 
-            Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Assert.Equal(MessageType.Game, messageUpdate?.Message?.Type);
+        Assert.Equal(resultId, chosenResultUpdate?.ChosenInlineResult?.ResultId);
+        Assert.NotNull(chosenResultUpdate?.ChosenInlineResult);
+        Assert.Empty(chosenResultUpdate.ChosenInlineResult.Query);
 
-            const string resultId = "game";
-            await BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: queryUpdate.InlineQuery!.Id,
-                results: new InlineQueryResult[]
-                {
-                    new InlineQueryResultGame(
-                        id: resultId,
-                        gameShortName: _classFixture.GameShortName
-                    )
-                },
-                cacheTime: 0
-            );
+        _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
+    }
 
-            (Update messageUpdate, Update chosenResultUpdate) =
-                await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                    chatId: _fixture.SupergroupChat.Id,
-                    messageType: MessageType.Game
-                );
+    [OrderedFact("Should get game high score for inline message")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
+    public async Task Should_Get_High_Scores_Inline_Message()
+    {
+        GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
+            userId: _classFixture.Player.Id,
+            inlineMessageId: _classFixture.InlineGameMessageId
+        );
 
-            Assert.Equal(MessageType.Game, messageUpdate?.Message?.Type);
-            Assert.Equal(resultId, chosenResultUpdate?.ChosenInlineResult?.ResultId);
-            Assert.NotNull(chosenResultUpdate?.ChosenInlineResult);
-            Assert.Empty(chosenResultUpdate.ChosenInlineResult.Query);
+        Assert.All(highScores, _ => Assert.True(_.Position > 0));
+        Assert.All(highScores, _ => Assert.True(_.Score > 0));
+        Assert.All(highScores.Select(_ => _.User), Assert.NotNull);
 
-            _classFixture.InlineGameMessageId = chosenResultUpdate.ChosenInlineResult.InlineMessageId;
-        }
+        _classFixture.HighScores = highScores;
+    }
 
-        [OrderedFact("Should get game high score for inline message")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
-        public async Task Should_Get_High_Scores_Inline_Message()
-        {
-            GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
-                userId: _classFixture.Player.Id,
-                inlineMessageId: _classFixture.InlineGameMessageId
-            );
+    [OrderedFact("Should set game score for inline message")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetGameScore)]
+    public async Task Should_Set_Game_Score_Inline_Message()
+    {
+        long playerId = _classFixture.Player.Id;
+        int oldScore = _classFixture.HighScores.Single(highScore => highScore.User.Id == playerId).Score;
+        int newScore = oldScore + 1 + new Random().Next(3);
 
-            Assert.All(highScores, _ => Assert.True(_.Position > 0));
-            Assert.All(highScores, _ => Assert.True(_.Score > 0));
-            Assert.All(highScores.Select(_ => _.User), Assert.NotNull);
+        await _fixture.SendTestInstructionsAsync(
+            $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username!.Replace("_", @"\_")}."
+        );
 
-            _classFixture.HighScores = highScores;
-        }
+        await BotClient.SetGameScoreAsync(
+            userId: playerId,
+            score: newScore,
+            inlineMessageId: _classFixture.InlineGameMessageId
+        );
+    }
 
-        [OrderedFact("Should set game score for inline message")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetGameScore)]
-        public async Task Should_Set_Game_Score_Inline_Message()
-        {
-            long playerId = _classFixture.Player.Id;
-            int oldScore = _classFixture.HighScores.Single(highScore => highScore.User.Id == playerId).Score;
-            int newScore = oldScore + 1 + new Random().Next(3);
+    [OrderedFact("Should answer game callback query")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
+    public async Task Should_Answer_CallbackQuery_With_Game_Url()
+    {
+        await _fixture.SendTestInstructionsAsync(
+            "Click on any Play button on any of the game messages above 👆"
+        );
 
-            await _fixture.SendTestInstructionsAsync(
-                $"Changing score from {oldScore} to {newScore} for {_classFixture.Player.Username!.Replace("_", @"\_")}."
-            );
+        Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
 
-            await BotClient.SetGameScoreAsync(
-                userId: playerId,
-                score: newScore,
-                inlineMessageId: _classFixture.InlineGameMessageId
-            );
-        }
+        Assert.True(cqUpdate.CallbackQuery?.IsGameQuery);
 
-        [OrderedFact("Should answer game callback query")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerCallbackQuery)]
-        public async Task Should_Answer_CallbackQuery_With_Game_Url()
-        {
-            await _fixture.SendTestInstructionsAsync(
-                "Click on any Play button on any of the game messages above 👆"
-            );
-
-            Update cqUpdate = await _fixture.UpdateReceiver.GetCallbackQueryUpdateAsync();
-
-            Assert.True(cqUpdate.CallbackQuery?.IsGameQuery);
-
-            await BotClient.AnswerCallbackQueryAsync(
-                callbackQueryId: cqUpdate.CallbackQuery!.Id,
-                url: "https://tbot.xyz/lumber/"
-            );
-        }
+        await BotClient.AnswerCallbackQueryAsync(
+            callbackQueryId: cqUpdate.CallbackQuery!.Id,
+            url: "https://tbot.xyz/lumber/"
+        );
     }
 }

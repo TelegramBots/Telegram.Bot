@@ -21,7 +21,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v18.0.0] - Unrealeased
+## [Unreleased]
+
+### Added
+
+- Package `Telegram.Bot.Extensions.Polling` is merged in the main package
+
+## [v18.0.0-alpha.1] - 2022-02-13
 
 > [Bot API 5.7](https://core.telegram.org/bots/api#january-31-2022) (January 31, 2022)
 

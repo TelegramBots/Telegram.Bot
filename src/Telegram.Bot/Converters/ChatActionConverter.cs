@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Converters
+namespace Telegram.Bot.Converters;
+
+internal class ChatActionConverter : EnumConverter<ChatAction>
 {
     internal class ChatActionConverter : EnumConverter<ChatAction>
     {
@@ -38,15 +40,13 @@ namespace Telegram.Bot.Converters
                 {ChatAction.UploadVideoNote, "upload_video_note"},
                 {ChatAction.ChooseSticker, "choose_sticker" },
             };
+    protected override ChatAction GetEnumValue(string value) =>
+        StringToEnum.TryGetValue(value, out var enumValue)
+            ? enumValue
+            : 0;
 
-        protected override ChatAction GetEnumValue(string value) =>
-            StringToEnum.TryGetValue(value, out var enumValue)
-                ? enumValue
-                : 0;
-
-        protected override string GetStringValue(ChatAction value) =>
-            EnumToString.TryGetValue(value, out var stringValue)
-                ? stringValue
-                : throw new NotSupportedException();
-    }
+    protected override string GetStringValue(ChatAction value) =>
+        EnumToString.TryGetValue(value, out var stringValue)
+            ? stringValue
+            : throw new NotSupportedException();
 }

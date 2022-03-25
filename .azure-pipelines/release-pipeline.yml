@@ -25,15 +25,13 @@ steps:
     inputs:
       packageType: sdk
       version: 6.0.x
-  - task: DotNetCoreCLI@2
+  - pwsh: >
+      dotnet build
+      --configuration $(buildConfiguration)
+      -p:Version=$(releaseVersion)
+      $(projectPath)
     displayName: Build project with release version
-    inputs:
-      command: build
-      projects: $(projectPath)
-      arguments: >
-        --configuration $(buildConfiguration)
-        -p:Version=$(releaseVersion)
-  - bash: >
+  - pwsh: >
       dotnet pack
       --no-build
       --output "$(Build.ArtifactStagingDirectory)/packages"
@@ -41,7 +39,7 @@ steps:
       -p:Version=$(releaseVersion)
       $(projectPath)
     displayName: Create release nuget package
-  - bash: >
+  - pwsh: >
       dotnet nuget push
       $(Build.ArtifactStagingDirectory)/packages/*.nupkg
       --api-key $(NugetApiKey)
