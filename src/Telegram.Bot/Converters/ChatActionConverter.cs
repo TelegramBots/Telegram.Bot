@@ -19,6 +19,7 @@ namespace Telegram.Bot.Converters
                 {"find_location",ChatAction.FindLocation},
                 {"record_video_note", ChatAction.RecordVideoNote},
                 {"upload_video_note", ChatAction.UploadVideoNote},
+                {"choose_sticker", ChatAction.ChooseSticker},
             };
 
         static readonly IReadOnlyDictionary<ChatAction, string> EnumToString =
@@ -35,6 +36,7 @@ namespace Telegram.Bot.Converters
                 {ChatAction.FindLocation, "find_location"},
                 {ChatAction.RecordVideoNote, "record_video_note"},
                 {ChatAction.UploadVideoNote, "upload_video_note"},
+                {ChatAction.ChooseSticker, "choose_sticker" },
             };
 
         protected override ChatAction GetEnumValue(string value) =>
