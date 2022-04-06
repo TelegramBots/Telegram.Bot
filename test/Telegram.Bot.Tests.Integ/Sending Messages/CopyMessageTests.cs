@@ -3,37 +3,36 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
 
-namespace Telegram.Bot.Tests.Integ.Sending_Messages
+namespace Telegram.Bot.Tests.Integ.Sending_Messages;
+
+[Collection(Constants.TestCollections.SendCopyMessage)]
+[TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
+public class CopyMessageTests
 {
-    [Collection(Constants.TestCollections.SendCopyMessage)]
-    [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-    public class CopyMessageTests
+    ITelegramBotClient BotClient => _fixture.BotClient;
+
+    readonly TestsFixture _fixture;
+
+    public CopyMessageTests(TestsFixture testsFixture)
     {
-        ITelegramBotClient BotClient => _fixture.BotClient;
+        _fixture = testsFixture;
+    }
 
-        readonly TestsFixture _fixture;
+    [OrderedFact("Should copy text message")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CopyMessage)]
+    public async Task Should_Copy_Text_Message()
+    {
+        Message message = await BotClient.SendTextMessageAsync(
+            chatId: _fixture.SupergroupChat.Id,
+            text: "hello"
+        );
 
-        public CopyMessageTests(TestsFixture testsFixture)
-        {
-            _fixture = testsFixture;
-        }
+        MessageId copyMessageId = await BotClient.CopyMessageAsync(
+            _fixture.SupergroupChat.Id,
+            _fixture.SupergroupChat.Id,
+            message.MessageId
+        );
 
-        [OrderedFact("Should copy text message")]
-        [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CopyMessage)]
-        public async Task Should_Copy_Text_Message()
-        {
-            Message message = await BotClient.SendTextMessageAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                text: "hello"
-            );
-
-            MessageId copyMessageId = await BotClient.CopyMessageAsync(
-                _fixture.SupergroupChat.Id,
-                _fixture.SupergroupChat.Id,
-                message.MessageId
-            );
-
-            Assert.NotEqual(0, copyMessageId.Id);
-        }
+        Assert.NotEqual(0, copyMessageId.Id);
     }
 }

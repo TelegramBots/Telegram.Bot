@@ -21,6 +21,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".azure-pipelines", ".azure-pipelines", "{71662597-40F2-4192-AC4D-5FB9A1F12642}"
+	ProjectSection(SolutionItems) = preProject
+		.azure-pipelines\ci.yml = .azure-pipelines\ci.yml
+		.azure-pipelines\default-pipeline.yml = .azure-pipelines\default-pipeline.yml
+		.azure-pipelines\develop-pipeline.yml = .azure-pipelines\develop-pipeline.yml
+		.azure-pipelines\manual-pipeline.yml = .azure-pipelines\manual-pipeline.yml
+		.azure-pipelines\release-pipeline.yml = .azure-pipelines\release-pipeline.yml
+		.azure-pipelines\variables.yml = .azure-pipelines\variables.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jobs", "jobs", "{C20A563E-603B-49E8-A954-DB90D4F351DE}"
+	ProjectSection(SolutionItems) = preProject
+		.azure-pipelines\jobs\run-integration-tests.yml = .azure-pipelines\jobs\run-integration-tests.yml
+		.azure-pipelines\jobs\run-unit-tests.yml = .azure-pipelines\jobs\run-unit-tests.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontainer", "{4897F36C-2F57-48A7-B425-D8F695E0AC0D}"
+	ProjectSection(SolutionItems) = preProject
+		.devcontainer\devcontainer.json = .devcontainer\devcontainer.json
+		.devcontainer\docker-compose.yml = .devcontainer\docker-compose.yml
+		.devcontainer\Dockerfile = .devcontainer\Dockerfile
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +70,9 @@ Global
 		{12FD39CD-A6FD-4040-8C8B-8FABEDD5FE0F} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
 		{B662E909-CF8B-47C6-BAA8-FCA595BA53EA} = {15F0DD71-1D15-4085-AF6F-E3E5D8ACB489}
 		{AAB9E3BA-D749-4D38-9021-EBD8D0BC8975} = {15F0DD71-1D15-4085-AF6F-E3E5D8ACB489}
+		{71662597-40F2-4192-AC4D-5FB9A1F12642} = {C45387C6-C93F-4FD2-84A8-A69CCE93B7EE}
+		{C20A563E-603B-49E8-A954-DB90D4F351DE} = {71662597-40F2-4192-AC4D-5FB9A1F12642}
+		{4897F36C-2F57-48A7-B425-D8F695E0AC0D} = {C45387C6-C93F-4FD2-84A8-A69CCE93B7EE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6A9C4CA-DF26-4772-9119-627935D70E7C}

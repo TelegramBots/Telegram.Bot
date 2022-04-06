@@ -1,33 +1,31 @@
 ﻿using System.Net.Http;
 
 // ReSharper disable once UnusedTypeParameter
-namespace Telegram.Bot.Requests.Abstractions
+namespace Telegram.Bot.Requests.Abstractions;
+
+/// <summary>
+/// Represents a request to Bot API
+/// </summary>
+public interface IRequest
 {
     /// <summary>
-    /// Represents a request to Bot API
+    /// HTTP method of request
     /// </summary>
-    /// <typeparam name="TResponse">Type of result expected in result</typeparam>
-    public interface IRequest<TResponse>
-    {
-        /// <summary>
-        /// HTTP method of request
-        /// </summary>
-        HttpMethod Method { get; }
+    HttpMethod Method { get; }
 
-        /// <summary>
-        /// API method name
-        /// </summary>
-        string MethodName { get; }
+    /// <summary>
+    /// API method name
+    /// </summary>
+    string MethodName { get; }
 
-        /// <summary>
-        /// Allows this object to be used as a response in webhooks
-        /// </summary>
-        bool IsWebhookResponse { get; set; }
+    /// <summary>
+    /// Allows this object to be used as a response in webhooks
+    /// </summary>
+    bool IsWebhookResponse { get; set; }
 
-        /// <summary>
-        /// Generate content of HTTP message
-        /// </summary>
-        /// <returns>Content of HTTP request</returns>
-        HttpContent? ToHttpContent();
-    }
+    /// <summary>
+    /// Generate content of HTTP message
+    /// </summary>
+    /// <returns>Content of HTTP request</returns>
+    HttpContent? ToHttpContent();
 }

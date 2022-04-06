@@ -2,19 +2,18 @@
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
-namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions
-{
-    public class XunitTestFrameworkWithAssemblyFixture : XunitTestFramework
-    {
-        public XunitTestFrameworkWithAssemblyFixture(IMessageSink messageSink)
-            : base(messageSink)
-        { }
+namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
-        protected override ITestFrameworkExecutor CreateExecutor(AssemblyName assemblyName)
-            => new XunitTestFrameworkExecutorWithAssemblyFixture(
-                assemblyName,
-                SourceInformationProvider,
-                DiagnosticMessageSink
-            );
-    }
+public class XunitTestFrameworkWithAssemblyFixture : XunitTestFramework
+{
+    public XunitTestFrameworkWithAssemblyFixture(IMessageSink messageSink)
+        : base(messageSink)
+    { }
+
+    protected override ITestFrameworkExecutor CreateExecutor(AssemblyName assemblyName)
+        => new XunitTestFrameworkExecutorWithAssemblyFixture(
+            assemblyName,
+            SourceInformationProvider,
+            DiagnosticMessageSink
+        );
 }

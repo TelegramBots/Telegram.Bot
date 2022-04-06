@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>10</LangVersion>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Title>Telegram Bot API Client</Title>
-    <Description>The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.</Description>
+    <Description>
+      The Bot API is an HTTP-based interface created for developers keen on building bots for Telegram.
+    </Description>
     <PackageId>Telegram.Bot</PackageId>
     <Authors>RoundRobin,Poulad,tuscen</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
@@ -20,6 +20,31 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>
+      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
+    </AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CA1003</NoWarn> <!-- Change the event name to replace the type with a generic EventHandler,
+                                           for example EventHandler<T>, where T is a valid EventArgs -->
+    <NoWarn>$(NoWarn);CA1819</NoWarn> <!-- Properties should not return arrays-->
+    <NoWarn>$(NoWarn);CA1008</NoWarn> <!-- Add a member to enum that has a value of zero with a suggested
+                                           name of 'None' -->
+    <NoWarn>$(NoWarn);CA1056</NoWarn> <!-- Change the type of property from 'string' to 'System.Uri' -->
+    <NoWarn>$(NoWarn);CA1711</NoWarn> <!-- Rename type name so that it does not end in 'Stream' -->
+    <NoWarn>$(NoWarn);CA1040</NoWarn> <!-- Avoid empty interfaces-->
+    <NoWarn>$(NoWarn);CA1822</NoWarn> <!-- Member does not access instance data and can be marked as static -->
+    <NoWarn>$(NoWarn);CA2225</NoWarn> <!-- Provide a method named 'ToEntity' or 'FromString' as an alternate
+                                           for operator op_Implicit -->
+    <NoWarn>$(NoWarn);CA1054</NoWarn> <!-- Change the type of parameter 'url' from 'string' to 'System.Uri', or
+                                           provide an overload to '(string, string)' that allows 'url' to be passed
+                                           as a 'System.Uri' object -->
+    <NoWarn>$(NoWarn);CA2234</NoWarn> <!-- Modify method to call
+                                           'HttpClient.GetAsync(Uri, HttpCompletionOption, CancellationToken)' instead
+                                           of 'HttpClient.GetAsync(string, HttpCompletionOption, CancellationToken)' -->
+    <NoWarn>$(NoWarn);CA1031</NoWarn> <!-- Catch a more specific allowed exception type, or rethrow the exception -->
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,21 +61,18 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
 
-  <!-- Embed PBD files into test package built in CI because Azure Pipelines don't have symbols server yet -->
-  <PropertyGroup Condition="'$(CI_EMBED_SYMBOLS)' == 'true'">
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>
-      $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
-    </AllowedOutputExtensionsInPackageBuildOutputFolder>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-    <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  </ItemGroup>
+  
+  <ItemGroup Label="Dev">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" PrivateAssets="All" />
+    <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
   </ItemGroup>
 
 </Project>

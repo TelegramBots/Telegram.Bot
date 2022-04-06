@@ -20,29 +20,26 @@ pool:
   vmImage: $(vmImage)
 
 steps:
-  - script: node .azure-pipelines/setVersionVariables.js
-    env:
-      VERSION_PREFIX: $(versionPrefix)
-      VERSION_SUFFIX: $(versionSuffix)
-      CI_VERSION_SUFFIX: $(ciVersionSuffix)
-    displayName: Set version variables
-  - task: DotNetCoreCLI@2
-    displayName: Build project with release version
+  - task: UseDotNet@2
+    displayName: Install .NET sdk
     inputs:
-      command: build
-      projects: $(projectPath)
-      arguments: >
-        --configuration $(buildConfiguration)
-        -p:Version=$(RELEASE_VERSION)
-  - bash: >
+      packageType: sdk
+      version: 6.0.x
+  - pwsh: >
+      dotnet build
+      --configuration $(buildConfiguration)
+      -p:Version=$(releaseVersion)
+      $(projectPath)
+    displayName: Build project with release version
+  - pwsh: >
       dotnet pack
       --no-build
       --output "$(Build.ArtifactStagingDirectory)/packages"
       --configuration $(buildConfiguration)
-      -p:Version=$(RELEASE_VERSION)
+      -p:Version=$(releaseVersion)
       $(projectPath)
     displayName: Create release nuget package
-  - bash: >
+  - pwsh: >
       dotnet nuget push
       $(Build.ArtifactStagingDirectory)/packages/*.nupkg
       --api-key $(NugetApiKey)
@@ -54,12 +51,12 @@ steps:
       action: create
       target: $(Build.SourceVersion)
       tagSource: manual
-      tag: v$(RELEASE_VERSION)
-      tagPattern: v$(RELEASE_VERSION)
-      title: v$(RELEASE_VERSION)
+      tag: v$(releaseVersion)
+      tagPattern: v$(releaseVersion)
+      title: v$(releaseVersion)
       githubConnection: githubRelease
       repositoryName: $(Build.Repository.Name)
-      isPreRelease: $(IS_PRE_RELEASE)
+      isPreRelease: $(isPreRelease)
       addChangeLog: false
       assets: $(Build.ArtifactStagingDirectory)/packages/*
     displayName: Create Github Release

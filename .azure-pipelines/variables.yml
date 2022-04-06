@@ -1,11 +1,23 @@
 variables:
   - group: Integration Tests Variables
   - name: versionPrefix
-    value: 17.0.0
+    value: 18.0.0
   - name: versionSuffix
-    value: "alpha.1"
+    value: 'alpha.2'
   - name: ciVersionSuffix
     value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
+  - name: isPreRelease
+    value: ${{ ne(variables.versionSuffix, '') }}
+  - name: releaseVersion
+    ${{ if eq(variables.isPreRelease, true) }}:
+      value: $(versionPrefix)-$(versionSuffix)
+    ${{ else }}:
+      value: $(versionPrefix)
+  - name: ciVersion
+    ${{ if eq(variables.isPreRelease, true) }}:
+      value: $(versionPrefix)-$(versionSuffix).$(ciVersionSuffix)
+    ${{ else }}:
+      value: $(versionPrefix)-$(ciVersionSuffix)
   - name: buildConfiguration
     value: Release
   - name: vmImage
@@ -27,11 +39,11 @@ variables:
 
 # Add variables group named "Integration Tests Variables" and add following
 # variables to it:
-# - TelegramBot.ApiToken             (required)          test-bot-api-token
-# - TelegramBot.SuperGroupChatId     (required)          -1234
-# - TelegramBot.ChannelChatId        (required)          -9876
-# - TelegramBot.PaymentProviderToken (required)          token-from-stripe-test-bot
-# - TelegramBot.AllowedUserNames     (optional)          main_tester,some_other_user
-# - TelegramBot.TesterPrivateChatId  (optional)          1234
-# - TelegramBot.StickerOwnerUserId   (optional)          1234
-# - TelegramBot.RegularGroupMemberId (optional)          9876
+# - TelegramBot.ApiToken               (required)          test-bot-api-token
+# - TelegramBot.SuperGroupChatId       (required)          -1234
+# - TelegramBot.ChannelChatId          (required)          -9876
+# - TelegramBot.PaymentProviderToken   (required)          token-from-stripe-test-bot
+# - TelegramBot.AllowedUserNamesString (optional)          main_tester,some_other_user
+# - TelegramBot.TesterPrivateChatId    (optional)          1234
+# - TelegramBot.StickerOwnerUserId     (optional)          1234
+# - TelegramBot.RegularGroupMemberId   (optional)          9876

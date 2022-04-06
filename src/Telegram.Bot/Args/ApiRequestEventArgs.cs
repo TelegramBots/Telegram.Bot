@@ -1,32 +1,32 @@
 ﻿using System;
 using System.Net.Http;
+using Telegram.Bot.Requests.Abstractions;
 
-namespace Telegram.Bot.Args
+namespace Telegram.Bot.Args;
+
+/// <summary>
+/// Provides data for MakingApiRequest event
+/// </summary>
+public class ApiRequestEventArgs : EventArgs
 {
     /// <summary>
-    /// Provides data for MakingApiRequest event
+    /// Bot API Request
     /// </summary>
-    public class ApiRequestEventArgs : EventArgs
+    public IRequest Request { get; }
+
+    /// <summary>
+    /// HTTP Request Message
+    /// </summary>
+    public HttpRequestMessage? HttpRequestMessage { get; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="httpRequestMessage"></param>
+    public ApiRequestEventArgs(IRequest request, HttpRequestMessage? httpRequestMessage = default)
     {
-        /// <summary>
-        /// Bot API method name
-        /// </summary>
-        public string MethodName { get; }
-
-        /// <summary>
-        /// HTTP content of the request message
-        /// </summary>
-        public HttpContent? HttpContent { get; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="methodName"></param>
-        /// <param name="httpContent"></param>
-        public ApiRequestEventArgs(string methodName, HttpContent? httpContent = default)
-        {
-            MethodName = methodName;
-            HttpContent = httpContent;
-        }
+        Request = request;
+        HttpRequestMessage = httpRequestMessage;
     }
 }

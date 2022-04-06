@@ -1,7 +1,7 @@
 # .NET Client for Telegram Bot API
 
 [![package](https://img.shields.io/nuget/vpre/Telegram.Bot.svg?label=Telegram.Bot&style=flat-square)](https://www.nuget.org/packages/Telegram.Bot)
-[![Bot API Version](https://img.shields.io/badge/Bot%20API-5.2%20(June%2025,%202021)-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
+[![Bot API Version](https://img.shields.io/badge/Bot%20API-5.7%20(January%2031,%202022)-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api#january-31-2022)
 [![documentations](https://img.shields.io/badge/Documentations-Book-orange.svg?style=flat-square)](https://telegrambots.github.io/book/)
 [![telegram chat](https://img.shields.io/badge/Support_Chat-Telegram-blue.svg?style=flat-square)](https://t.me/joinchat/B35YY0QbLfd034CFnvCtCA)
 
@@ -11,6 +11,8 @@
 [![contributors](https://img.shields.io/github/contributors/TelegramBots/Telegram.Bot.svg?style=flat-square&label=Contributors)](https://github.com/TelegramBots/Telegram.Bot/graphs/contributors)
 [![license](https://img.shields.io/github/license/TelegramBots/telegram.bot.svg?style=flat-square&maxAge=2592000&label=License)](https://raw.githubusercontent.com/TelegramBots/telegram.bot/master/LICENSE)
 
+[![Gitpod Ready-to-Code](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
+
 **Telegram.Bot** is the most popular .NET Client for 🤖 [Telegram Bot API].
 
 The Bot API is an HTTP-based interface created for developers keen on building bots for [Telegram].
@@ -18,6 +20,9 @@ The Bot API is an HTTP-based interface created for developers keen on building b
 Check 👉 [_Bots: An introduction for developers_] 👈 to understand what a Telegram bot is and what it can do.
 
 We, the [Telegram Bots team], mainly focus on developing multiple [NuGet packages] for creating chatbots.
+
+> ➡️ If Bot API is too limited for your use cases you can try Telegram Client API implementation written 100% in C#
+> <https://github.com/wiz0u/WTelegramClient>
 
 |Package|Documentation|News Channel|Team|Group Chat|
 |:-----:|:-----------:|:----------:|:--:|:--------:|

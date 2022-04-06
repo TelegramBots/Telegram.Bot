@@ -1,54 +1,53 @@
 using System;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
-namespace Telegram.Bot.Tests.Integ.Framework
+namespace Telegram.Bot.Tests.Integ.Framework;
+
+public class ConfigurationProvider : IDisposable
 {
-    public static class ConfigurationProvider
+    private readonly IServiceProvider _services;
+
+    public TestConfiguration Configuration { get; }
+
+    public ConfigurationProvider()
     {
-        public static readonly TestConfigurations TestConfigurations;
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.Development.json", true)
+            .AddEnvironmentVariables("TelegramBot_")
+            .Build();
 
-        static ConfigurationProvider()
+        var serviceCollection = new ServiceCollection();
+
+        serviceCollection
+            .AddOptions<TestConfiguration>()
+            .ValidateDataAnnotations()
+            .PostConfigure(x =>
+            {
+                if (x.AllowedUserNamesString is not null)
+                {
+                    x.AllowedUserNames = x.AllowedUserNamesString
+                        .Split(",", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                        .ToArray();
+                }
+            });
+
+        serviceCollection.Configure<TestConfiguration>(configuration);
+
+        _services = serviceCollection.BuildServiceProvider();
+
+        Configuration = _services.GetRequiredService<IOptions<TestConfiguration>>().Value;
+    }
+
+    public void Dispose()
+    {
+        if (_services is IDisposable disposable)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.Development.json", true)
-                .AddEnvironmentVariables("TelegramBot_")
-                .Build();
-
-            TestConfigurations = new TestConfigurations
-            {
-                ApiToken = configuration[nameof(TestConfigurations.ApiToken)],
-                AllowedUserNames = configuration[nameof(TestConfigurations.AllowedUserNames)] ?? string.Empty,
-
-                SuperGroupChatId = configuration[nameof(TestConfigurations.SuperGroupChatId)],
-                ChannelChatId = configuration[nameof(TestConfigurations.ChannelChatId)],
-
-                PaymentProviderToken = configuration[nameof(TestConfigurations.PaymentProviderToken)],
-
-                RegularGroupMemberId = configuration[nameof(TestConfigurations.RegularGroupMemberId)],
-            };
-
-            if (long.TryParse(configuration[nameof(TestConfigurations.TesterPrivateChatId)], out long privateChat))
-            {
-                TestConfigurations.TesterPrivateChatId = privateChat;
-            }
-
-            if (long.TryParse(configuration[nameof(TestConfigurations.StickerOwnerUserId)], out long stickerOwnerUserId))
-            {
-                TestConfigurations.StickerOwnerUserId = stickerOwnerUserId;
-            }
-
-            if (string.IsNullOrWhiteSpace(TestConfigurations.ApiToken))
-                throw new ArgumentNullException(nameof(TestConfigurations.ApiToken),
-                    "API token is not provided or is empty.");
-
-            if (TestConfigurations.ApiToken.Length < 25)
-                throw new ArgumentException("API token is too short.", nameof(TestConfigurations.ApiToken));
-
-            if (string.IsNullOrWhiteSpace(TestConfigurations.SuperGroupChatId))
-                throw new ArgumentNullException(nameof(TestConfigurations.SuperGroupChatId),
-                    "Supergroup ID is not provided or is empty.");
+            disposable.Dispose();
         }
     }
 }
