@@ -17,21 +17,23 @@ public class ChatId : IEquatable<ChatId>
     public long? Identifier { get; }
 
     /// <summary>
-    /// Username of the channel (in the format @channelusername)
+    /// Username of the supergroup or channel (in the format @channelusername)
     /// </summary>
     public string? Username { get; }
 
     /// <summary>
-    /// Create a <see cref="ChatId"/> using an identifier
+    /// Create a <see cref="ChatId"/> using unique identifier for the chat
     /// </summary>
-    /// <param name="identifier">The Identifier</param>
+    /// <param name="identifier">Unique identifier for the chat</param>
     // ReSharper disable once MemberCanBePrivate.Global
     public ChatId(long identifier) => Identifier = identifier;
 
     /// <summary>
-    /// Create a <see cref="ChatId"/> using an user name
+    /// Create a <see cref="ChatId"/> using unique identifier for the chat or username of
+    /// the supergroup or channel (in the format @channelusername)
     /// </summary>
-    /// <param name="username">The user name</param>
+    /// <param name="username">Unique identifier for the chat or username of 
+    /// the supergroup or channel (in the format @channelusername)</param>
     /// <exception cref="ArgumentException">
     /// Thrown when string value isn`t number and doesn't start with @
     /// </exception>
@@ -75,7 +77,7 @@ public class ChatId : IEquatable<ChatId>
 #if NETCOREAPP3_1_OR_GREATER
     public override int GetHashCode() => ToString().GetHashCode(StringComparison.InvariantCulture);
 #else
-        public override int GetHashCode() => ToString().GetHashCode();
+    public override int GetHashCode() => ToString().GetHashCode();
 #endif
 
     /// <summary>
@@ -85,15 +87,17 @@ public class ChatId : IEquatable<ChatId>
     public override string ToString() => (Username ?? Identifier?.ToString(CultureInfo.InvariantCulture))!;
 
     /// <summary>
-    /// Create a <see cref="ChatId"/> out of an identifier
+    /// Create a <see cref="ChatId"/> using unique identifier for the chat
     /// </summary>
-    /// <param name="identifier">The identifier</param>
+    /// <param name="identifier">Unique identifier for the chat</param>
     public static implicit operator ChatId(long identifier) => new(identifier);
 
     /// <summary>
-    /// Create a <see cref="ChatId"/> out of an user name
+    /// Create a <see cref="ChatId"/> using unique identifier for the chat or username of
+    /// the supergroup or channel (in the format @channelusername)
     /// </summary>
-    /// <param name="username">The user name</param>
+    /// <param name="username">Unique identifier for the chat or username of 
+    /// the supergroup or channel (in the format @channelusername)</param>
     /// <exception cref="ArgumentException">
     /// Thrown when string value isn`t number and doesn't start with @
     /// </exception>
