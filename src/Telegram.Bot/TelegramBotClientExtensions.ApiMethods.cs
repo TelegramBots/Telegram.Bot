@@ -1958,7 +1958,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canPostMessages">Pass <c>true</c>, if the administrator can create channel posts, channels only</param>
     /// <param name="canEditMessages">Pass <c>true</c>, if the administrator can edit messages of other users, channels only</param>
     /// <param name="canDeleteMessages">Pass <c>true</c>, if the administrator can delete messages of other users</param>
-    /// <param name="canManageVoiceChats">Pass <c>true</c>, if the administrator can manage voice chats, supergroups only</param>
+    /// <param name="canManageVideoChats">Pass <c>true</c>, if the administrator can manage voice chats, supergroups only</param>
     /// <param name="canRestrictMembers">Pass <c>true</c>, if the administrator can restrict, ban or unban chat members</param>
     /// <param name="canPromoteMembers">Pass <c>true</c>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
     /// <param name="canChangeInfo">Pass <c>true</c>, if the administrator can change chat title, photo and other settings</param>
@@ -1976,7 +1976,7 @@ public static partial class TelegramBotClientExtensions
         bool? canPostMessages = default,
         bool? canEditMessages = default,
         bool? canDeleteMessages = default,
-        bool? canManageVoiceChats = default,
+        bool? canManageVideoChats = default,
         bool? canRestrictMembers = default,
         bool? canPromoteMembers = default,
         bool? canChangeInfo = default,
@@ -1993,7 +1993,7 @@ public static partial class TelegramBotClientExtensions
                     CanPostMessages = canPostMessages,
                     CanEditMessages = canEditMessages,
                     CanDeleteMessages = canDeleteMessages,
-                    CanManageVideoChat = canManageVoiceChats,
+                    CanManageVideoChat = canManageVideoChats,
                     CanRestrictMembers = canRestrictMembers,
                     CanPromoteMembers = canPromoteMembers,
                     CanChangeInfo = canChangeInfo,
