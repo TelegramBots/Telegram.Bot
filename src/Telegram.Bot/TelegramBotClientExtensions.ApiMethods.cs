@@ -2870,12 +2870,18 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    ///
+    /// Use this method to change the bot`s menu button in a private chat, or the default menu button.
     /// </summary>
-    /// <param name="botClient"></param>
-    /// <param name="chatId"></param>
-    /// <param name="menuButton"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target private chat. If not specified, default bot`s menu button will be changed
+    /// </param>
+    /// <param name="menuButton">
+    /// An object for the new bot`s menu button. Defaults to <see cref="MenuButtonDefault"/>
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
     public static async Task SetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
         long? chatId = default,
@@ -2890,30 +2896,46 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    ///
+    /// Use this method to get the current value of the bot`s menu button in a private chat,
+    /// or the default menu button.
     /// </summary>
-    /// <param name="botClient"></param>
-    /// <param name="chatId"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target private chat. If not specified, default bot`s menu button will be returned
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns><see cref="MenuButton"/> set for the given chat id or a default one</returns>
     public static async Task<MenuButton> GetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
-        long chatId,
+        long? chatId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
             .MakeRequestAsync(
-                request: new GetChatMenuButtonRequest(chatId),
+                request: new GetChatMenuButtonRequest() { ChatId = chatId },
                 cancellationToken
             )
             .ConfigureAwait(false);
 
     /// <summary>
-    ///
+    /// Use this method to change the default administrator rights requested by the bot when it's added as an
+    /// administrator to groups or channels. These rights will be suggested to users, but they are are free to modify
+    /// the list before adding the bot.
     /// </summary>
-    /// <param name="botClient"></param>
-    /// <param name="rights"></param>
-    /// <param name="forChannels"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="rights">
+    /// An object describing new default administrator rights. If not specified, the default administrator rights
+    /// will be cleared.
+    /// </param>
+    /// <param name="forChannels">
+    /// Pass <c>true</c> to change the default administrator rights of the bot in channels. Otherwise, the default
+    /// administrator rights of the bot for groups and supergroups will be changed.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
     public static async Task SetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         ChatAdministratorRights? rights = default,
@@ -2932,11 +2954,17 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    ///
+    /// Use this method to get the current default administrator rights of the bot.
     /// </summary>
-    /// <param name="botClient"></param>
-    /// <param name="forChannels"></param>
-    /// <param name="cancellationToken"></param>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="forChannels">
+    /// Pass <c>true</c> to change the default administrator rights of the bot in channels. Otherwise, the default
+    /// administrator rights of the bot for groups and supergroups will be changed.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>Default or channel <see cref="ChatAdministratorRights"/> </returns>
     public static async Task<ChatAdministratorRights> GetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         bool? forChannels = default,
