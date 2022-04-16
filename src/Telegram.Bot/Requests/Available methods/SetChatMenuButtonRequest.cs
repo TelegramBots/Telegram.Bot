@@ -23,7 +23,7 @@ public class SetChatMenuButtonRequest : RequestBase<bool>
     /// Optional. An object for the new bot`s menu button. Defaults to <see cref="MenuButtonDefault"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public MenuButton? MenuButton { get; }
+    public MenuButton? MenuButton { get; set; }
 
     /// <summary>
     /// Initializes a new request

@@ -180,6 +180,15 @@ public class InlineKeyboardButton : IKeyboardButton
         new(text) { Pay = true };
 
     /// <summary>
+    /// Generate an inline keyboard button to request a web app
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="webAppInfo">Web app information</param>
+    /// <returns></returns>
+    public static InlineKeyboardButton WithWebApp(string text, WebAppInfo webAppInfo) =>
+        new(text) { WebApp = webAppInfo };
+
+    /// <summary>
     /// Performs an implicit conversion from <see cref="string"/> to <see cref="InlineKeyboardButton"/>
     /// with callback data
     /// </summary>

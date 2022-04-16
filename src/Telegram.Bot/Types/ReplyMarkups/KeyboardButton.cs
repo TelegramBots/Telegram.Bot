@@ -92,6 +92,15 @@ public class KeyboardButton : IKeyboardButton
         new(text) { RequestPoll = new() { Type = type }};
 
     /// <summary>
+    /// Generate a keyboard button to request a web app
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="webAppInfo">Web app information</param>
+    /// <returns></returns>
+    public static KeyboardButton WithWebApp(string text, WebAppInfo webAppInfo) =>
+        new(text) { WebApp = webAppInfo };
+
+    /// <summary>
     /// Generate a keyboard button from text
     /// </summary>
     /// <param name="text">Button's text</param>
