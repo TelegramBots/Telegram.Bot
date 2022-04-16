@@ -2869,6 +2869,86 @@ public static partial class TelegramBotClientExtensions
             )
             .ConfigureAwait(false);
 
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="botClient"></param>
+    /// <param name="chatId"></param>
+    /// <param name="menuButton"></param>
+    /// <param name="cancellationToken"></param>
+    public static async Task SetChatMenuButtonAsync(
+        this ITelegramBotClient botClient,
+        long? chatId = default,
+        MenuButton? menuButton = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new SetChatMenuButtonRequest { ChatId = chatId, MenuButton = menuButton },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="botClient"></param>
+    /// <param name="chatId"></param>
+    /// <param name="cancellationToken"></param>
+    public static async Task<MenuButton> GetChatMenuButtonAsync(
+        this ITelegramBotClient botClient,
+        long chatId,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new GetChatMenuButtonRequest(chatId),
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="botClient"></param>
+    /// <param name="rights"></param>
+    /// <param name="forChannels"></param>
+    /// <param name="cancellationToken"></param>
+    public static async Task SetMyDefaultAdministratorRightsAsync(
+        this ITelegramBotClient botClient,
+        ChatAdministratorRights? rights = default,
+        bool? forChannels = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new SetMyDefaultAdministratorRightsRequest()
+                {
+                    Rights = rights,
+                    ForChannels = forChannels,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="botClient"></param>
+    /// <param name="forChannels"></param>
+    /// <param name="cancellationToken"></param>
+    public static async Task<ChatAdministratorRights> GetMyDefaultAdministratorRightsAsync(
+        this ITelegramBotClient botClient,
+        bool? forChannels = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new GetMyDefaultAdministratorRightsRequest { ForChannels = forChannels },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
     #endregion Available methods
 
     #region Updating messages
