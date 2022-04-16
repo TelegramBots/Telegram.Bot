@@ -110,7 +110,7 @@ public class BlockingUpdateReceiverTests
 
         Exception exceptionFromErrorHandler = null!;
 
-        var receiver = new BlockingUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
+        var receiver = new BlockingUpdateReceiver(mockClient, pollingErrorHandler: (ex, ct) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
             throw exceptionFromErrorHandler = new("Oops2");

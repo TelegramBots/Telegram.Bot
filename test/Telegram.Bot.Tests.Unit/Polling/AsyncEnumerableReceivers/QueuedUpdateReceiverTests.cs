@@ -170,7 +170,7 @@ public class QueuedUpdateReceiverTests
         var cts = new CancellationTokenSource();
 
         bool seenException = false;
-        var receiver = new QueuedUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
+        var receiver = new QueuedUpdateReceiver(mockClient, pollingErrorHandler: (ex, ct) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
             seenException = true;
@@ -219,7 +219,7 @@ public class QueuedUpdateReceiverTests
 
         Exception exceptionFromErrorHandler = null!;
 
-        var receiver = new QueuedUpdateReceiver(mockClient, errorHandler: (ex, ct) =>
+        var receiver = new QueuedUpdateReceiver(mockClient, pollingErrorHandler: (ex, ct) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
             throw exceptionFromErrorHandler = new("Oops2");

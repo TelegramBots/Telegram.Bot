@@ -22,7 +22,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 {
     readonly ITelegramBotClient _botClient;
     readonly ReceiverOptions? _receiverOptions;
-    readonly Func<Exception, CancellationToken, Task>? _errorHandler;
+    readonly Func<Exception, CancellationToken, Task>? _pollingErrorHandler;
 
     int _inProcess;
     Enumerator? _enumerator;
@@ -32,17 +32,17 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="receiverOptions"></param>
-    /// <param name="errorHandler">
+    /// <param name="pollingErrorHandler">
     /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
     /// </param>
     public QueuedUpdateReceiver(
         ITelegramBotClient botClient,
         ReceiverOptions? receiverOptions = default,
-        Func<Exception, CancellationToken, Task>? errorHandler = default)
+        Func<Exception, CancellationToken, Task>? pollingErrorHandler = default)
     {
         _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
         _receiverOptions = receiverOptions;
-        _errorHandler = errorHandler;
+        _pollingErrorHandler = pollingErrorHandler;
     }
 
     /// <summary>
@@ -188,7 +188,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                     Debug.Assert(_uncaughtException is null);
 
                     // If there is no errorHandler or the errorHandler throws, stop receiving
-                    if (_receiver._errorHandler is null)
+                    if (_receiver._pollingErrorHandler is null)
                     {
                         _uncaughtException = ex;
                         _cts.Cancel();
@@ -197,7 +197,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                     {
                         try
                         {
-                            await _receiver._errorHandler(ex, _token).ConfigureAwait(false);
+                            await _receiver._pollingErrorHandler(ex, _token).ConfigureAwait(false);
                         }
 #pragma warning disable CA1031
                         catch (Exception errorHandlerException)

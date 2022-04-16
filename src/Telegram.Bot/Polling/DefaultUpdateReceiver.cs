@@ -87,7 +87,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
             {
                 try
                 {
-                    await updateHandler.HandleErrorAsync(
+                    await updateHandler.HandlePollingErrorAsync(
                         botClient: _botClient,
                         exception: exception,
                         cancellationToken: cancellationToken
