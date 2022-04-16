@@ -351,7 +351,7 @@ public class Message
 
     /// <summary>
     /// Optional. Message is an invoice for a
-    /// <see href="https://core.telegram.org/bots/api#payments">payment</see>, information about the invoice
+    /// <a href="https://core.telegram.org/bots/api#payments">payment</a>, information about the invoice
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public Invoice? Invoice { get; set; }
@@ -384,26 +384,60 @@ public class Message
     /// <summary>
     /// Optional. Service message: voice chat scheduled
     /// </summary>
+    [Obsolete("This property will be removed in the next major version, use VideoChatScheduled instead")]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public VoiceChatScheduled? VoiceChatScheduled { get; set; }
 
     /// <summary>
     /// Optional. Service message: voice chat started
     /// </summary>
+    [Obsolete("This property will be removed in the next major version, use VideoChatStarted instead")]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public VoiceChatStarted? VoiceChatStarted { get; set; }
 
     /// <summary>
     /// Optional. Service message: voice chat ended
     /// </summary>
+    [Obsolete("This property will be removed in the next major version, use VideoChatEnded instead")]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public VoiceChatEnded? VoiceChatEnded { get; set; }
 
     /// <summary>
     /// Optional. Service message: new participants invited to a voice chat
     /// </summary>
+    [Obsolete("This property will be removed in the next major version, use VideoChatParticipantsInvited instead")]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public VoiceChatParticipantsInvited? VoiceChatParticipantsInvited { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: video chat scheduled
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public VideoChatScheduled? VideoChatScheduled { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: video chat started
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public VideoChatStarted? VideoChatStarted { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: video chat ended
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public VideoChatEnded? VideoChatEnded { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: new participants invited to a video chat
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public VideoChatParticipantsInvited? VideoChatParticipantsInvited { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: data sent by a Web App
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public WebAppData? WebAppData { get; set; }
 
     /// <summary>
     /// Optional. Inline keyboard attached to the message. <see cref="LoginUrl"/> buttons are represented as
@@ -456,6 +490,11 @@ public class Message
             { VoiceChatStarted: { } }              => MessageType.VoiceChatStarted,
             { VoiceChatEnded: { } }                => MessageType.VoiceChatEnded,
             { VoiceChatParticipantsInvited: { } }  => MessageType.VoiceChatParticipantsInvited,
+            { VideoChatScheduled: { } }            => MessageType.VideoChatScheduled,
+            { VideoChatStarted: { } }              => MessageType.VideoChatStarted,
+            { VideoChatEnded: { } }                => MessageType.VideoChatEnded,
+            { VideoChatParticipantsInvited: { } }  => MessageType.VideoChatParticipantsInvited,
+            { WebAppData: { } }                    => MessageType.WebAppData,
             _                                      => MessageType.Unknown
         };
 }

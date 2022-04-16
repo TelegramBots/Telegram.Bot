@@ -102,10 +102,17 @@ public class ChatMemberAdministrator : ChatMember
     public bool CanDeleteMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can manage voice chats
+    /// <c>true</c>, if the administrator can manage video chats
     /// </summary>
+    [Obsolete("This property be removed in the next major version, use CanManageVideoChat instead")]
     [JsonProperty(Required = Required.Always)]
     public bool CanManageVoiceChats { get; set; }
+
+    /// <summary>
+    /// <c>true</c>, if the administrator can manage video chats
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool CanManageVideoChats { get; set; }
 
     /// <summary>
     /// <c>true</c>, if the administrator can restrict, ban or unban chat members

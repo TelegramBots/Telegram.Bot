@@ -12,7 +12,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// As of <see href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</see>,
+/// As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>,
 /// Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method
 /// to send video messages. On success, the sent <see cref="Message"/> is returned.
 /// </summary>

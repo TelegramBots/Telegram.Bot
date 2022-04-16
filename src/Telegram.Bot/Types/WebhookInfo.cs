@@ -51,6 +51,13 @@ public class WebhookInfo
     public string? LastErrorMessage { get; set; }
 
     /// <summary>
+    /// Optional. Unix time of the most recent error that happened when trying to synchronize available updates
+    /// with Telegram datacenters
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public DateTime? LastSynchronizationErrorDate { get; set; }
+
+    /// <summary>
     /// Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

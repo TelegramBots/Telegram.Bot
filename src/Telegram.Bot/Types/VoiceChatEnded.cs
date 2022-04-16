@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -6,6 +7,7 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents a service message about a voice chat ended in the chat.
 /// </summary>
+[Obsolete("This type will be removed in the next major version, use VoiceChatEnded instead")]
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class VoiceChatEnded
 {

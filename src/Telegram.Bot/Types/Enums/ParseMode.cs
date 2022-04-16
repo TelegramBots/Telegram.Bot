@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types.Enums;
 /// You can use either markdown-style or HTML-style formatting.
 /// </para>
 /// </summary>
-/// <see href="https://core.telegram.org/bots/api#formatting-options"/>
+/// <a href="https://core.telegram.org/bots/api#formatting-options"/>
 [JsonConverter(typeof(ParseModeConverter))]
 public enum ParseMode
 {

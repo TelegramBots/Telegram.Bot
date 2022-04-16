@@ -20,7 +20,7 @@ internal static class Documentation
 
     /// <summary>
     /// Mode for parsing entities in the result caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see>
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a>
     /// for more details.
     /// </summary>
     static object ParseMode;

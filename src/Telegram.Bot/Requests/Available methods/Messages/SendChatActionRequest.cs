@@ -8,12 +8,12 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this request when you need to tell the user that something is happening on the bot's side.
+/// Use this request when you need to tell the user that something is happening on the bot`s side.
 /// The status is set for 5 seconds or less (when a message arrives from your bot, Telegram clients
 /// clear its typing status). Returns <c>true</c> on success.
 /// </summary>
 /// <remarks>
-/// Example: The <see href="https://t.me/imagebot">ImageBot</see> needs some time to process a request
+/// Example: The <a href="https://t.me/imagebot">ImageBot</a> needs some time to process a request
 /// and upload the image. Instead of sending a text message along the lines of “Retrieving image,
 /// please wait…”, the bot may use <see cref="SendChatActionRequest"/> with
 /// <see cref="Action"/> = <see cref="ChatAction.UploadPhoto"/>. The user will see a “sending photo”

@@ -10,7 +10,7 @@ namespace Telegram.Bot.Requests;
 /// again after server restart. The method will return error 429 in the first 10 minutes after the
 /// bot is launched. Returns True on success. Requires no parameters.
 /// </summary>
-/// <see href="https://core.telegram.org/bots/api#close"/>
+/// <a href="https://core.telegram.org/bots/api#close"/>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CloseRequest : ParameterlessRequest<bool>
 {

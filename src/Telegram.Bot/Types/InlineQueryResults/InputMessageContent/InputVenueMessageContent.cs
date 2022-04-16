@@ -56,7 +56,7 @@ public class InputVenueMessageContent : InputMessageContent
 
     /// <summary>
     /// Google Places type of the venue.
-    /// <see href="https://developers.google.com/places/web-service/supported_types"/>
+    /// <a href="https://developers.google.com/places/web-service/supported_types"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? GooglePlaceType { get; set; }

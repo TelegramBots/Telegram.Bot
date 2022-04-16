@@ -22,25 +22,26 @@ public class User
     public bool IsBot { get; set; }
 
     /// <summary>
-    /// User's or bot's first name
+    /// User's or bot`s first name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string FirstName { get; set; } = default!;
 
     /// <summary>
-    /// Optional. User's or bot's last name
+    /// Optional. User's or bot`s last name
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// Optional. User's or bot's username
+    /// Optional. User's or bot`s username
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Username { get; set; }
 
     /// <summary>
-    /// Optional. <see href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</see> of the user's language
+    /// Optional. <a href="https://en.wikipedia.org/wiki/IETF_language_tag">IETF language tag</a> of the
+    /// user's language
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? LanguageCode { get; set; }

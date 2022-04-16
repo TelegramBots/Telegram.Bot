@@ -15,7 +15,7 @@ public class AddAnimatedStickerToSetRequest : AddStickerToSetRequest
 {
     /// <summary>
     /// <b>WEBM</b> video with the sticker, uploaded using multipart/form-data.
-    /// <see href="https://core.telegram.org/stickers#animated-sticker-requirements"/>
+    /// <a href="https://core.telegram.org/stickers#animated-sticker-requirements"/>
     /// for technical requirements
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -24,7 +24,7 @@ public class AddAnimatedStickerToSetRequest : AddStickerToSetRequest
     /// <inheritdoc />
     /// <param name="tgsSticker">
     /// <b>WEBM</b> video with the sticker, uploaded using multipart/form-data.
-    /// <see href="https://core.telegram.org/stickers#animated-sticker-requirements"/>
+    /// <a href="https://core.telegram.org/stickers#animated-sticker-requirements"/>
     /// for technical requirements
     /// </param>
 #pragma warning disable CS1573

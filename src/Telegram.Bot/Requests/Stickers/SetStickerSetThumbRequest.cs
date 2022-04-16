@@ -28,7 +28,7 @@ public class SetStickerSetThumbRequest : FileRequestBase<bool>, IUserTargetable
     /// <summary>
     /// A <b>PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have width
     /// and height exactly 100px, or a <b>TGS</b> animation with the thumbnail up to 32 kilobytes in
-    /// size; see <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+    /// size; see <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
     /// for animated sticker technical requirements. Pass a <see cref="InputTelegramFile.FileId"/>
     /// as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as
     /// a String for Telegram to get a file from the Internet, or upload a new one using

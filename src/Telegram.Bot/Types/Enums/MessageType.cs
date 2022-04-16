@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
@@ -167,20 +168,49 @@ public enum MessageType
     /// <summary>
     /// The <see cref="Message"/> contains <see cref="Message.VoiceChatScheduled"/>
     /// </summary>
+    [Obsolete("This message type will be removed in the next major version, use VideoChatScheduled instead")]
     VoiceChatScheduled,
 
     /// <summary>
     /// The <see cref="Message"/> contains <see cref="Message.VoiceChatStarted"/>
     /// </summary>
+    [Obsolete("This message type will be removed in the next major version, use VoiceChatStarted instead")]
     VoiceChatStarted,
 
     /// <summary>
     /// The <see cref="Message"/> contains <see cref="Message.VoiceChatEnded"/>
     /// </summary>
+    [Obsolete("This message type will be removed in the next major version, use VoiceChatEnded instead")]
     VoiceChatEnded,
 
     /// <summary>
     /// The <see cref="Message"/> contains <see cref="Message.VoiceChatParticipantsInvited"/>
     /// </summary>
+    [Obsolete("This message type will be removed in the next major version, use VoiceChatParticipantsInvited instead")]
     VoiceChatParticipantsInvited,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.WebAppData"/>
+    /// </summary>
+    WebAppData,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatScheduled"/>
+    /// </summary>
+    VideoChatScheduled,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatStarted"/>
+    /// </summary>
+    VideoChatStarted,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatEnded"/>
+    /// </summary>
+    VideoChatEnded,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatParticipantsInvited"/>
+    /// </summary>
+    VideoChatParticipantsInvited,
 }

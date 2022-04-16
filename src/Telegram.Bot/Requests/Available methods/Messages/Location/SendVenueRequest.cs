@@ -62,7 +62,7 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>
     /// Google Places type of the venue.
-    /// (See <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>.)
+    /// (See <a href="https://developers.google.com/places/web-service/supported_types">supported types</a>.)
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? GooglePlaceType { get; set; }

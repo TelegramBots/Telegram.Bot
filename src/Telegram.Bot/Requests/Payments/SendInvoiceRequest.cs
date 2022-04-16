@@ -45,14 +45,14 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     public string Payload { get; }
 
     /// <summary>
-    /// Payments provider token, obtained via <see href="https://t.me/botfather">@Botfather</see>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string ProviderToken { get; }
 
     /// <summary>
     /// Three-letter ISO 4217 currency code, see
-    /// <see href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</see>
+    /// <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string Currency { get; }
@@ -68,7 +68,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// The maximum accepted amount for tips in the smallest units of the currency.
     /// For example, for a maximum tip of <c>US$ 1.45</c> pass <c><see cref="MaxTipAmount"/> = 145</c>.
     /// See the <i>exp</i> parameter in
-    /// <see href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</see>,
+    /// <a href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</a>,
     /// it shows the number of digits past the decimal point for each currency (2 for the majority
     /// of currencies). Defaults to 0
     /// </summary>
@@ -199,11 +199,11 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// <param name="description">Product description, 1-255 characters</param>
     /// <param name="payload">Bot-defined invoice payload, 1-128 bytes</param>
     /// <param name="providerToken">
-    /// Payments provider token, obtained via <see href="https://t.me/botfather">@Botfather</see>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
     /// </param>
     /// <param name="currency">
     /// Three-letter ISO 4217 currency code, see
-    /// <see href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</see>
+    /// <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>
     /// </param>
     /// <param name="prices">
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost,
