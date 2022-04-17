@@ -11,7 +11,7 @@ public class BaseUrlTests
     [InlineData("https://api.telegram.org", "1234:asdfg")]
     public void Should_Set_Custom_Base_Url(string baseUrl, string token)
     {
-        TelegramBotClient botClient = new(token, baseUrl: baseUrl);
+        TelegramBotClient botClient = new TelegramBotClient(token, baseUrl: baseUrl);
 
         Assert.Equal($"{baseUrl}/bot{token}", botClient.BaseRequestUrl);
         Assert.Equal($"{baseUrl}/file/bot{token}", botClient.BaseFileUrl);
@@ -20,7 +20,7 @@ public class BaseUrlTests
     [Fact]
     public void Should_Set_Telegram_Base_Url_When_Custom_Url_Is_Empty_Or_Null()
     {
-        TelegramBotClient botClient = new("123", baseUrl: null);
+        TelegramBotClient botClient = new TelegramBotClient("123", baseUrl: null);
 
         Assert.Equal("https://api.telegram.org/bot123", botClient.BaseRequestUrl);
         Assert.Equal("https://api.telegram.org/file/bot123", botClient.BaseFileUrl);

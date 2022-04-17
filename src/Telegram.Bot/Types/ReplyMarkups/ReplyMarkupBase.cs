@@ -17,13 +17,13 @@ public abstract class ReplyMarkupBase : IReplyMarkup
     /// users that are @mentioned in the <see cref="Message.Text"/> of the <see cref="Message"/> object;
     /// </item>
     /// <item>
-    /// if the bot`s message is a reply (has <see cref="Message.ReplyToMessage"/>), sender of the original
+    /// if the bot’s message is a reply (has <see cref="Message.ReplyToMessage"/>), sender of the original
     /// message.
     /// </item>
     /// </list>
     /// </summary>
     /// <remarks>
-    /// <i>Example:</i> A user requests to change the bot`s language, bot replies to the request with a keyboard
+    /// <i>Example:</i> A user requests to change the bot’s language, bot replies to the request with a keyboard
     /// to select the new language. Other users in the group don't see the keyboard.
     /// </remarks>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -22,19 +22,19 @@ public class User
     public bool IsBot { get; set; }
 
     /// <summary>
-    /// User's or bot`s first name
+    /// User's or bot’s first name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string FirstName { get; set; } = default!;
 
     /// <summary>
-    /// Optional. User's or bot`s last name
+    /// Optional. User's or bot’s last name
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? LastName { get; set; }
 
     /// <summary>
-    /// Optional. User's or bot`s username
+    /// Optional. User's or bot’s username
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Username { get; set; }

@@ -78,7 +78,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)
@@ -136,7 +136,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)
@@ -210,7 +210,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)
@@ -349,7 +349,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)
@@ -402,7 +402,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)
@@ -446,7 +446,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)
@@ -479,7 +479,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)
@@ -558,7 +558,7 @@ public class PaymentTests : IClassFixture<PaymentFixture>, IAsyncLifetime
             .WithProduct(_ => _
                 .WithTitle(title: "Reproduction of \"La nascita di Venere\"")
                 .WithDescription(description:
-                    "Sandro Botticelli`s the Birth of Venus depicts the goddess Venus arriving at the shore" +
+                    "Sandro Botticelli’s the Birth of Venus depicts the goddess Venus arriving at the shore" +
                     " after her birth, when she had emerged from the sea fully-grown ")
                 .WithProductPrice(label: "Price of the painting", amount: 500_000)
                 .WithProductPrice(label: "Wooden frame", amount: 100_000)

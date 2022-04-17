@@ -12,7 +12,7 @@ public class ReceiveAsyncTests
     [Fact]
     public async Task ReceivesUpdatesAndRespectsTheCancellationToken()
     {
-        var bot = new MockTelegramBotClient("start-end", "foo");
+        MockTelegramBotClient bot = new MockTelegramBotClient("start-end", "foo");
 
         CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -28,12 +28,10 @@ public class ReceiveAsyncTests
             }
         }
 
-        var updateHandler = new DefaultUpdateHandler(
-            updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
-        );
+        DefaultUpdateHandler updateHandler = new DefaultUpdateHandler(updateHandler: HandleUpdate,
+            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token));
 
-        var cancellationToken = cancellationTokenSource.Token;
+        CancellationToken cancellationToken = cancellationTokenSource.Token;
         await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
 
         Assert.True(cancellationToken.IsCancellationRequested);
@@ -44,7 +42,7 @@ public class ReceiveAsyncTests
     [Fact]
     public async Task UserExceptionsPropagateToSurface()
     {
-        var bot = new MockTelegramBotClient("foo-bar", "throw");
+        MockTelegramBotClient bot = new MockTelegramBotClient("foo-bar", "throw");
 
         int updateCount = 0;
         async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
@@ -55,10 +53,8 @@ public class ReceiveAsyncTests
                 throw new InvalidOperationException("Oops");
         }
 
-        var updateHandler = new DefaultUpdateHandler(
-            updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
-        );
+        DefaultUpdateHandler updateHandler = new DefaultUpdateHandler(updateHandler: HandleUpdate,
+            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token));
 
         try
         {
@@ -78,15 +74,12 @@ public class ReceiveAsyncTests
     [Fact]
     public async Task ThrowOutPendingUpdates()
     {
-        var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(4));
+        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(4));
 
-        var bot = new MockTelegramBotClient(
-            new MockClientOptions
-            {
-                Messages = new [] {"foo-bar", "baz", "quux"},
-                HandleNegativeOffset = true
-            }
-        );
+        MockTelegramBotClient bot = new MockTelegramBotClient(new MockClientOptions
+        {
+            Messages = new[] { "foo-bar", "baz", "quux" }, HandleNegativeOffset = true
+        });
 
         int handleCount = 0;
 
@@ -99,14 +92,12 @@ public class ReceiveAsyncTests
             return Task.CompletedTask;
         };
 
-        var updateHandler = new DefaultUpdateHandler(
-            updateHandler: HandleUpdate,
-            pollingErrorHandler: (_, _, _) => Task.CompletedTask
-        );
+        DefaultUpdateHandler updateHandler = new DefaultUpdateHandler(updateHandler: HandleUpdate,
+            pollingErrorHandler: (_, _, _) => Task.CompletedTask);
 
         await bot.ReceiveAsync(
             updateHandler,
-            new() { ThrowPendingUpdates = true },
+            new ReceiverOptions { ThrowPendingUpdates = true },
             cancellationTokenSource.Token
         );
 

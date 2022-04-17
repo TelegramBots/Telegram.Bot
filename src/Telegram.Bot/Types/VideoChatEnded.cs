@@ -10,7 +10,7 @@ namespace Telegram.Bot.Types;
 public class VideoChatEnded
 {
     /// <summary>
-    /// Voice chat duration; in seconds
+    /// Video chat duration; in seconds
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public int Duration { get; set; }

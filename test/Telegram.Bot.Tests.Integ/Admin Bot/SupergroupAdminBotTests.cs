@@ -129,7 +129,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
         _classFixture.PinnedMessages.Add(msg4);
     }
 
-    [OrderedFact("Should get chat`s pinned message")]
+    [OrderedFact("Should get chat’s pinned message")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Last_Chat_Pinned_Message()
     {

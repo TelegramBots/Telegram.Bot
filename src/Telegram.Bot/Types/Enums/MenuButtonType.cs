@@ -15,7 +15,7 @@ public enum MenuButtonType
     Default = 1,
 
     /// <summary>
-    /// Represents a menu button, which opens the bot`s list of commands.
+    /// Represents a menu button, which opens the bot’s list of commands.
     /// </summary>
     Commands,
 

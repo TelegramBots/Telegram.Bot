@@ -7,7 +7,7 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object describes the bot`s menu button in a private chat. It should be one of:
+/// This object describes the bot’s menu button in a private chat. It should be one of:
 /// <list type="bullet">
 /// <item>MenuButtonCommands</item>
 /// <item>MenuButtonWebApp</item>
@@ -28,7 +28,7 @@ public abstract class MenuButton
 }
 
 /// <summary>
-/// Represents a menu button, which opens the bot`s list of commands.
+/// Represents a menu button, which opens the bot’s list of commands.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class MenuButtonCommands : MenuButton

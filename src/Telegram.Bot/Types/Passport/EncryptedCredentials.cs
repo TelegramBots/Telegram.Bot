@@ -26,7 +26,7 @@ public class EncryptedCredentials
     public string Hash { get; set; } = default!;
 
     /// <summary>
-    /// Base64-encoded secret, encrypted with the bot`s public RSA key, required for data decryption.
+    /// Base64-encoded secret, encrypted with the bot’s public RSA key, required for data decryption.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string Secret { get; set; } = default!;

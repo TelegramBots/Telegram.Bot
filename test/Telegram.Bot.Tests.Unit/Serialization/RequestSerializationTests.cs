@@ -13,7 +13,7 @@ public class RequestSerializationTests
     [Fact]
     public async Task Should_Serialize_DeleteWebhookRequest_Content()
     {
-        DeleteWebhookRequest deleteWebhookRequest = new() { DropPendingUpdates = true };
+        DeleteWebhookRequest deleteWebhookRequest = new DeleteWebhookRequest { DropPendingUpdates = true };
         HttpContent deleteWebhookContent = deleteWebhookRequest.ToHttpContent()!;
 
         string stringContent = await deleteWebhookContent.ReadAsStringAsync();
@@ -44,7 +44,7 @@ public class RequestSerializationTests
             Offset = 12345
         };
 
-        var settings = new JsonSerializerSettings
+        JsonSerializerSettings settings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Include,
             ContractResolver = new CamelCasePropertyNamesContractResolver
@@ -70,7 +70,7 @@ public class RequestSerializationTests
     public async Task Should_Serialize_CreateChatInviteLink_Request()
     {
         DateTime expireDate = new DateTime(2022, 1, 8, 10, 33, 45, DateTimeKind.Utc);
-        CreateChatInviteLinkRequest createChatInviteLinkRequest = new(chatId: 1_000_000)
+        CreateChatInviteLinkRequest createChatInviteLinkRequest = new CreateChatInviteLinkRequest(chatId: 1_000_000)
         {
             ExpireDate = expireDate,
             CreatesJoinRequest = true,

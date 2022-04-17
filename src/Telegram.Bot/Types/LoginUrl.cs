@@ -42,7 +42,7 @@ public class LoginUrl
     /// <summary>
     /// Optional. Username of a bot, which will be used for user authorization. See
     /// <a href="https://core.telegram.org/widgets/login#setting-up-a-bot">Setting up a bot</a> for more
-    /// details. If not specified, the current bot`s username will be assumed. The url's domain must be the same
+    /// details. If not specified, the current bot’s username will be assumed. The url's domain must be the same
     /// as the domain linked with the bot. See
     /// <a href="https://core.telegram.org/widgets/login#linking-your-domain-to-the-bot">
     /// Linking your domain to the bot</a> for more details.

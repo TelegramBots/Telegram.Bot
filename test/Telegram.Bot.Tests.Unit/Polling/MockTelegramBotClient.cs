@@ -32,16 +32,16 @@ public class MockTelegramBotClient : ITelegramBotClient
 
     public MockTelegramBotClient(MockClientOptions? options = default)
     {
-        Options = options ?? new();
-        _messages = new(
+        Options = options ?? new MockClientOptions();
+        _messages = new Queue<string[]>(
             Options.Messages.Select(message => message.Split('-').ToArray())
         );
     }
 
     public MockTelegramBotClient(params string[] messages)
     {
-        Options = new();
-        _messages = new(messages.Select(message => message.Split('-').ToArray()));
+        Options = new MockClientOptions();
+        _messages = new Queue<string[]>(messages.Select(message => message.Split('-').ToArray()));
     }
 
     public async Task<TResponse> MakeRequestAsync<TResponse>(
@@ -56,8 +56,8 @@ public class MockTelegramBotClient : ITelegramBotClient
 
         if (Options.HandleNegativeOffset && getUpdatesRequest.Offset == -1)
         {
-            var messageCount = _messages.Select(group => @group.Length).Sum() + 1;
-            var lastMessage = _messages.Last().Last();
+            int messageCount = _messages.Select(group => @group.Length).Sum() + 1;
+            string lastMessage = _messages.Last().Last();
 
             _messages.Clear();
 
@@ -65,7 +65,7 @@ public class MockTelegramBotClient : ITelegramBotClient
             {
                 new Update
                 {
-                    Message = new()
+                    Message = new Message
                     {
                         Text = lastMessage
                     },
@@ -74,14 +74,14 @@ public class MockTelegramBotClient : ITelegramBotClient
             };
         }
 
-        if (!_messages.TryDequeue(out var messages))
+        if (!_messages.TryDequeue(out string[]? messages))
         {
             return (TResponse)(object)Array.Empty<Update>();
         }
 
         return (TResponse)(object)messages.Select((_, i) => new Update
         {
-            Message = new()
+            Message = new Message
             {
                 Text = messages[i]
             },

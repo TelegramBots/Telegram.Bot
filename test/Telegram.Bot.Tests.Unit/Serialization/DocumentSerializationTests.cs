@@ -11,7 +11,7 @@ public class DocumentSerializationTests
     [Fact(DisplayName = "Should serialize a document message")]
     public void Should_Serialize_DocumentMessage()
     {
-        var documentMessage = new Message
+        Message documentMessage = new Message
         {
             MessageId = 1234,
             From = new User
@@ -121,7 +121,7 @@ public class DocumentSerializationTests
             }
             ";
 
-        var message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonConvert.DeserializeObject<Message>(json);
 
         Assert.Equal(MessageType.Document, message.Type);
         Assert.Equal("test_file.txt", message.Document?.FileName);

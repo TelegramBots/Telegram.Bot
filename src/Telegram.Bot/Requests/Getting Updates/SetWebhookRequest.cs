@@ -17,7 +17,7 @@ namespace Telegram.Bot.Requests;
 /// <para>
 /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend
 /// using a secret path in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>.
-/// Since nobody else knows your bot`s token, you can be pretty sure it's us.
+/// Since nobody else knows your bot’s token, you can be pretty sure it's us.
 /// </para>
 /// <remarks>
 /// <list type="number">
@@ -62,7 +62,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// <summary>
     /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update
     /// delivery, 1-100. Defaults to <i>40</i>. Use lower values to limit the load on your
-    /// bot`s server, and higher values to increase your bot`s throughput
+    /// bot’s server, and higher values to increase your bot’s throughput
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? MaxConnections { get; set; }

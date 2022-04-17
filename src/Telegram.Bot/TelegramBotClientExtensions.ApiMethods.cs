@@ -91,7 +91,7 @@ public static partial class TelegramBotClientExtensions
     /// reasonable amount of attempts
     /// <para>
     /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path
-    /// in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>. Since nobody else knows your bot`s token,
+    /// in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>. Since nobody else knows your bot’s token,
     /// you can be pretty sure it's us.
     /// </para>
     /// </summary>
@@ -107,8 +107,8 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="maxConnections">
     /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100.
-    /// Defaults to <i>40</i>. Use lower values to limit the load on your bot`s server, and higher values to
-    /// increase your bot`s throughput
+    /// Defaults to <i>40</i>. Use lower values to limit the load on your bot’s server, and higher values to
+    /// increase your bot’s throughput
     /// </param>
     /// <param name="allowedUpdates">
     /// <para>A list of the update types you want your bot to receive. For example, specify
@@ -216,7 +216,7 @@ public static partial class TelegramBotClientExtensions
     #region Available methods
 
     /// <summary>
-    /// A simple method for testing your bot`s auth token.
+    /// A simple method for testing your bot’s auth token.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">
@@ -1653,7 +1653,7 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method when you need to tell the user that something is happening on the bot`s side. The status is
+    /// Use this method when you need to tell the user that something is happening on the bot’s side. The status is
     /// set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
     /// </summary>
     /// <example>
@@ -2764,12 +2764,12 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to change the list of the bot`s commands.
+    /// Use this method to change the list of the bot’s commands.
     /// See <a href="https://core.telegram.org/bots#commands"/> for more details about bot commands
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="commands">
-    /// A list of bot commands to be set as the list of the bot`s commands. At most 100 commands can be specified
+    /// A list of bot commands to be set as the list of the bot’s commands. At most 100 commands can be specified
     /// </param>
     /// <param name="scope">
     /// An object, describing scope of users for which the commands are relevant.
@@ -2801,7 +2801,7 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to delete the list of the bot`s commands for the given <paramref name="scope"/> and
+    /// Use this method to delete the list of the bot’s commands for the given <paramref name="scope"/> and
     /// <paramref name="languageCode">user language</paramref>. After deletion,
     /// <a href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</a>
     /// will be shown to affected users
@@ -2836,7 +2836,7 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to get the current list of the bot`s commands for the given <paramref name="scope"/> and
+    /// Use this method to get the current list of the bot’s commands for the given <paramref name="scope"/> and
     /// <paramref name="languageCode">user language</paramref>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2870,14 +2870,14 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to change the bot`s menu button in a private chat, or the default menu button.
+    /// Use this method to change the bot’s menu button in a private chat, or the default menu button.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
-    /// Unique identifier for the target private chat. If not specified, default bot`s menu button will be changed
+    /// Unique identifier for the target private chat. If not specified, default bot’s menu button will be changed
     /// </param>
     /// <param name="menuButton">
-    /// An object for the new bot`s menu button. Defaults to <see cref="MenuButtonDefault"/>
+    /// An object for the new bot’s menu button. Defaults to <see cref="MenuButtonDefault"/>
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2896,12 +2896,12 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to get the current value of the bot`s menu button in a private chat,
+    /// Use this method to get the current value of the bot’s menu button in a private chat,
     /// or the default menu button.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
-    /// Unique identifier for the target private chat. If not specified, default bot`s menu button will be returned
+    /// Unique identifier for the target private chat. If not specified, default bot’s menu button will be returned
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -3865,7 +3865,7 @@ public static partial class TelegramBotClientExtensions
     /// to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to
     /// return an oauth link. Once done, the bot can offer a
     /// <see cref="InlineKeyboardButton.SwitchInlineQuery"/> button so that the user can
-    /// easily return to the chat where they wanted to use the bot`s inline capabilities
+    /// easily return to the chat where they wanted to use the bot’s inline capabilities
     /// </para>
     /// </param>
     /// <param name="cancellationToken">

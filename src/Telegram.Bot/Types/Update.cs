@@ -91,7 +91,7 @@ public class Update
     public PollAnswer? PollAnswer { get; set; }
 
     /// <summary>
-    /// Optional. The bot`s chat member status was updated in a chat. For private chats, this update is received
+    /// Optional. The bot’s chat member status was updated in a chat. For private chats, this update is received
     /// only when the bot is blocked or unblocked by the user.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

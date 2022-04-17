@@ -43,8 +43,8 @@ public class InlineKeyboardButton : IKeyboardButton
 
     /// <summary>
     /// Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and
-    /// insert the bot`s username and the specified inline query in the input field. Can be empty, in which case just
-    /// the bot`s username will be inserted.
+    /// insert the bot’s username and the specified inline query in the input field. Can be empty, in which case just
+    /// the bot’s username will be inserted.
     /// </summary>
     /// <remarks>
     /// <b>Note</b>: This offers an easy way for users to start using your bot in
@@ -57,8 +57,8 @@ public class InlineKeyboardButton : IKeyboardButton
     public string? SwitchInlineQuery { get; set; }
 
     /// <summary>
-    /// Optional. If set, pressing the button will insert the bot`s username and the specified inline query in the
-    /// current chat`s input field. Can be empty, in which case only the bot`s username will be inserted.
+    /// Optional. If set, pressing the button will insert the bot’s username and the specified inline query in the
+    /// current chat’s input field. Can be empty, in which case only the bot’s username will be inserted.
     /// </summary>
     /// <remarks>
     /// This offers a quick way for the user to open your bot in inline mode in the same chat – good for selecting
@@ -138,26 +138,26 @@ public class InlineKeyboardButton : IKeyboardButton
 
     /// <summary>
     /// Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats,
-    /// open that chat and insert the bot`s username and the specified inline query in the input field.
+    /// open that chat and insert the bot’s username and the specified inline query in the input field.
     /// </summary>
     /// <param name="text">Label text on the button</param>
     /// <param name="query">
     /// If set, pressing the button will prompt the user to select one of their chats, open that chat and insert
-    /// the bot`s username and the specified inline query in the input field. Can be empty, in which case just the
-    /// bot`s username will be inserted.
+    /// the bot’s username and the specified inline query in the input field. Can be empty, in which case just the
+    /// bot’s username will be inserted.
     /// </param>
     /// <returns></returns>
     public static InlineKeyboardButton WithSwitchInlineQuery(string text, string query = "") =>
         new(text) { SwitchInlineQuery = query };
 
     /// <summary>
-    /// Creates an inline keyboard button. Pressing the button will insert the bot`s username and the specified inline
-    /// query in the current chat`s input field.
+    /// Creates an inline keyboard button. Pressing the button will insert the bot’s username and the specified inline
+    /// query in the current chat’s input field.
     /// </summary>
     /// <param name="text">Label text on the button</param>
     /// <param name="query">
-    /// If set, pressing the button will insert the bot`s username and the specified inline query in the current
-    /// chat`s input field. Can be empty, in which case only the bot`s username will be inserted.
+    /// If set, pressing the button will insert the bot’s username and the specified inline query in the current
+    /// chat’s input field. Can be empty, in which case only the bot’s username will be inserted.
     /// </param>
     public static InlineKeyboardButton WithSwitchInlineQueryCurrentChat(string text, string query = "") =>
         new(text) { SwitchInlineQueryCurrentChat = query };
