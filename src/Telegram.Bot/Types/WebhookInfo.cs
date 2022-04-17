@@ -55,6 +55,7 @@ public class WebhookInfo
     /// with Telegram datacenters
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime? LastSynchronizationErrorDate { get; set; }
 
     /// <summary>

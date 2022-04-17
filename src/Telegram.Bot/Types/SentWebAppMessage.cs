@@ -14,6 +14,6 @@ public class SentWebAppMessage
     /// Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached
     /// to the message.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; set; } = default!;
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? InlineMessageId { get; set; }
 }
