@@ -1,4 +1,6 @@
-﻿using Telegram.Bot.Types;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.InlineQueryResults;
 
 // ReSharper disable once CheckNamespace
@@ -9,16 +11,19 @@ namespace Telegram.Bot.Requests;
 /// <a href="https://core.telegram.org/bots/webapps">Web App</a> and send a corresponding message on behalf of the
 /// user to the chat from which the query originated. On success, a <see cref="SentWebAppMessage"/> object is returned.
 /// </summary>
+[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
 {
     /// <summary>
     /// Unique identifier for the query to be answered
     /// </summary>
+    [JsonProperty(Required = Required.Always)]
     public string WebAppQueryId { get; }
 
     /// <summary>
     /// An object describing the message to be sent
     /// </summary>
+    [JsonProperty(Required = Required.Always)]
     public InlineQueryResult Result { get; }
 
     /// <summary>
