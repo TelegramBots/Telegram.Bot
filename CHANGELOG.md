@@ -41,14 +41,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 - Renamed properties `ChatMemberAdministrator.CanManageVoiceChats`, `PromoteChatMemberRequest.CanManageVoiceChats` to 
   `ChatMemberAdministrator.CanManageVideoChats ` and `PromoteChatMemberRequest.CanManageVideoChats`
-- Properties `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded` and `VoiceChatParticipantsInvited`
-  in type `Message`marked as obsolete 
-- Enum members `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded`, and `VoiceChatParticipantsInvited`
-  in type `MessageType` marked as obsolete
 
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
-  corresponding request 
+  corresponding request
+- 
+### Removed
+- Enum members `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded`, and `VoiceChatParticipantsInvited`
+  in type `MessageType`
+- Properties `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded` and `VoiceChatParticipantsInvited`
+  in type `Message`
 
 ## [v18.0.0-alpha.1] - 2022-02-13
 
