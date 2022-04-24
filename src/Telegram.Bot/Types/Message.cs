@@ -382,34 +382,6 @@ public class Message
     public ProximityAlertTriggered? ProximityAlertTriggered { get; set; }
 
     /// <summary>
-    /// Optional. Service message: voice chat scheduled
-    /// </summary>
-    [Obsolete("This property will be removed in the next major version, use VideoChatScheduled instead")]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public VoiceChatScheduled? VoiceChatScheduled { get; set; }
-
-    /// <summary>
-    /// Optional. Service message: voice chat started
-    /// </summary>
-    [Obsolete("This property will be removed in the next major version, use VideoChatStarted instead")]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public VoiceChatStarted? VoiceChatStarted { get; set; }
-
-    /// <summary>
-    /// Optional. Service message: voice chat ended
-    /// </summary>
-    [Obsolete("This property will be removed in the next major version, use VideoChatEnded instead")]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public VoiceChatEnded? VoiceChatEnded { get; set; }
-
-    /// <summary>
-    /// Optional. Service message: new participants invited to a voice chat
-    /// </summary>
-    [Obsolete("This property will be removed in the next major version, use VideoChatParticipantsInvited instead")]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public VoiceChatParticipantsInvited? VoiceChatParticipantsInvited { get; set; }
-
-    /// <summary>
     /// Optional. Service message: video chat scheduled
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -486,10 +458,6 @@ public class Message
             { Dice: { } }                          => MessageType.Dice,
             { MessageAutoDeleteTimerChanged: { } } => MessageType.MessageAutoDeleteTimerChanged,
             { ProximityAlertTriggered: { } }       => MessageType.ProximityAlertTriggered,
-            { VoiceChatScheduled: { } }            => MessageType.VoiceChatScheduled,
-            { VoiceChatStarted: { } }              => MessageType.VoiceChatStarted,
-            { VoiceChatEnded: { } }                => MessageType.VoiceChatEnded,
-            { VoiceChatParticipantsInvited: { } }  => MessageType.VoiceChatParticipantsInvited,
             { VideoChatScheduled: { } }            => MessageType.VideoChatScheduled,
             { VideoChatStarted: { } }              => MessageType.VideoChatStarted,
             { VideoChatEnded: { } }                => MessageType.VideoChatEnded,
