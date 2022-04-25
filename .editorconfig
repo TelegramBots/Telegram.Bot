@@ -11,6 +11,7 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 trim_trailing_whitespace = true
+max_line_length = 120
 
 # C# Files
 [*.cs]
@@ -18,6 +19,7 @@ csharp_align_multiline_parameter = true
 csharp_align_multiline_extends_list = true
 csharp_align_linq_query = true
 csharp_place_attribute_on_same_line = false
+csharp_empty_block_style = together
 
 # Solution Files
 [*.sln]

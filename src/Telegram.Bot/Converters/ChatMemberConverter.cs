@@ -5,49 +5,48 @@ using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Converters
+namespace Telegram.Bot.Converters;
+
+internal class ChatMemberConverter : JsonConverter
 {
-    internal class ChatMemberConverter : JsonConverter
+    static readonly TypeInfo BaseType = typeof(ChatMember).GetTypeInfo();
+
+    public override bool CanWrite => false;
+    public override bool CanRead => true;
+    public override bool CanConvert(Type objectType) =>
+        BaseType.IsAssignableFrom(objectType.GetTypeInfo());
+
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
-        static readonly TypeInfo BaseType = typeof(ChatMember).GetTypeInfo();
+        var jo = JObject.FromObject(value);
+        jo.WriteTo(writer);
+    }
 
-        public override bool CanWrite => false;
-        public override bool CanRead => true;
-        public override bool CanConvert(Type objectType) =>
-            BaseType.IsAssignableFrom(objectType.GetTypeInfo());
+    public override object ReadJson(
+        JsonReader reader,
+        Type objectType,
+        object existingValue,
+        JsonSerializer serializer)
+    {
+        var jo = JObject.Load(reader);
+        var status = jo["status"].ToObject<ChatMemberStatus>();
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        var actualType = status switch
         {
-            var jo = JObject.FromObject(value);
-            jo.WriteTo(writer);
-        }
+            ChatMemberStatus.Creator => typeof(ChatMemberOwner),
+            ChatMemberStatus.Administrator => typeof(ChatMemberAdministrator),
+            ChatMemberStatus.Member => typeof(ChatMemberMember),
+            ChatMemberStatus.Left => typeof(ChatMemberLeft),
+            ChatMemberStatus.Kicked => typeof(ChatMemberBanned),
+            ChatMemberStatus.Restricted => typeof(ChatMemberRestricted),
+            _ => throw new JsonSerializationException($"Unknown chat member status value of '{jo["status"]}'")
+        };
 
-        public override object ReadJson(
-            JsonReader reader,
-            Type objectType,
-            object existingValue,
-            JsonSerializer serializer)
-        {
-            var jo = JObject.Load(reader);
-            var status = jo["status"].ToObject<ChatMemberStatus>();
+        // Remove status because status property only has getter
+        jo.Remove("status");
+        var value = Activator.CreateInstance(actualType);
+        serializer.Populate(jo.CreateReader(), value);
 
-            var actualType = status switch
-            {
-                ChatMemberStatus.Creator => typeof(ChatMemberOwner),
-                ChatMemberStatus.Administrator => typeof(ChatMemberAdministrator),
-                ChatMemberStatus.Member => typeof(ChatMemberMember),
-                ChatMemberStatus.Left => typeof(ChatMemberLeft),
-                ChatMemberStatus.Kicked => typeof(ChatMemberBanned),
-                ChatMemberStatus.Restricted => typeof(ChatMemberRestricted),
-                _ => throw new JsonSerializationException($"Unknown chat member status value of '{jo["status"]}'")
-            };
-
-            // Remove status because status property only has getter
-            jo.Remove("status");
-            var value = Activator.CreateInstance(actualType);
-            serializer.Populate(jo.CreateReader(), value);
-
-            return value!;
-        }
+        return value!;
     }
 }

@@ -21,7 +21,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v18.0.0] - Unrealeased
+## [Unreleased]
+
+### Added
+
+- Package `Telegram.Bot.Extensions.Polling` is merged in the main package
+- Types `WebAppInfo`, `SentWebAppMessage`, `WebAppData`, `MenuButton`, `MenuButtonCommands`, `MenuButtonWebApp`,
+  `MenuButtonDefault`, `ChatAdministratorRights`
+- Requests `AnswerWebAppQueryRequest`, `SetChatMenuButtonRequest`, `GetChatMenuButtonRequest`,
+  `SetMyDefaultAdministratorRightsRequest`, `GetMyDefaultAdministratorRightsRequest`
+- Properties `WebAppInfo KeyboardButton.WebApp`, `WebAppInfo InlineKeyboardButton.WebApp`
+- Property `DateTime? WebHookInfo.LastSynchronizationErrorDate`
+- Static methods `KeyboardButton.WithWebApp`, `InlineKeyboardButton.WithWebApp`
+- Properties `VideoChatScheduled`, `VideoChatStarted`, `VideoChatEnded`, `VideoChatParticipantsInvited` and 
+  `WebAppData` in type `Message`
+- Enum members `VideoChatScheduled`, `VideoChatStarted`, `VideoChatEnded`, and `VideoChatParticipantsInvited` 
+  in type `MessageType`
+
+### Changed
+- Renamed properties `ChatMemberAdministrator.CanManageVoiceChats`, `PromoteChatMemberRequest.CanManageVoiceChats` to 
+  `ChatMemberAdministrator.CanManageVideoChats ` and `PromoteChatMemberRequest.CanManageVideoChats`
+
+### Fixed
+- Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
+  corresponding request
+- 
+### Removed
+- Enum members `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded`, and `VoiceChatParticipantsInvited`
+  in type `MessageType`
+- Properties `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded` and `VoiceChatParticipantsInvited`
+  in type `Message`
+
+## [v18.0.0-alpha.1] - 2022-02-13
 
 > [Bot API 5.7](https://core.telegram.org/bots/api#january-31-2022) (January 31, 2022)
 
