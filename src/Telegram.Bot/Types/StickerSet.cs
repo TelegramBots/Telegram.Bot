@@ -5,7 +5,7 @@ namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a sticker set.
-/// <see href="https://core.telegram.org/bots/api#stickerset"/>
+/// <a href="https://core.telegram.org/bots/api#stickerset"/>
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class StickerSet

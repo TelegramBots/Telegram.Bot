@@ -8,6 +8,7 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents a service message about a voice chat scheduled in the chat.
 /// </summary>
+[Obsolete("This type will be removed in the next major version, use VideoChatScheduled instead")]
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class VoiceChatScheduled
 {

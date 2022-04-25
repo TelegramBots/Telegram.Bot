@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
+using Telegram.Bot.Types;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Polling;
@@ -10,10 +11,10 @@ public class TestMockClient
     [Fact]
     public async Task WorksAsync()
     {
-        var bot = new MockTelegramBotClient("hello-world", "foo-bar-123");
+        MockTelegramBotClient bot = new MockTelegramBotClient("hello-world", "foo-bar-123");
         Assert.Equal(2, bot.MessageGroupsLeft);
 
-        var updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
+        Update[] updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
         Assert.Equal(2, updates.Length);
         Assert.Equal(1, bot.MessageGroupsLeft);
         Assert.Equal("hello", updates[0].Message!.Text);
@@ -34,11 +35,11 @@ public class TestMockClient
     [Fact]
     public async Task ThrowsExceptionIfExceptionToThrownIsSet()
     {
-        var bot = new MockTelegramBotClient("foo")
+        MockTelegramBotClient bot = new MockTelegramBotClient("foo")
         {
             Options =
             {
-                ExceptionToThrow = new("Oops")
+                ExceptionToThrow = new Exception("Oops")
             }
         };
 

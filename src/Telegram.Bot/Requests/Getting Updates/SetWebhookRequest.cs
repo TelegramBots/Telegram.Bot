@@ -17,7 +17,7 @@ namespace Telegram.Bot.Requests;
 /// <para>
 /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend
 /// using a secret path in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>.
-/// Since nobody else knows your bot's token, you can be pretty sure it's us.
+/// Since nobody else knows your bot’s token, you can be pretty sure it's us.
 /// </para>
 /// <remarks>
 /// <list type="number">
@@ -26,14 +26,14 @@ namespace Telegram.Bot.Requests;
 /// webhook is set up.</item>
 /// <item>
 /// To use a self-signed certificate, you need to upload your
-/// <see href="https://core.telegram.org/bots/self-signed">public key certificate</see> using
+/// <a href="https://core.telegram.org/bots/self-signed">public key certificate</a> using
 /// <see cref="Certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending
 /// a String will not work.
 /// </item>
 /// <item>Ports currently supported for Webhooks: <b>443, 80, 88, 8443</b></item>
 /// </list>
 /// If you're having any trouble setting up webhooks, please check out this
-/// <see href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</see>.
+/// <a href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</a>.
 /// </remarks>
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -47,7 +47,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
 
     /// <summary>
     /// Upload your public key certificate so that the root certificate in use can be checked. See
-    /// our <see href="https://core.telegram.org/bots/self-signed">self-signed guide</see> for details
+    /// our <a href="https://core.telegram.org/bots/self-signed">self-signed guide</a> for details
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public InputFileStream? Certificate { get; set; }
@@ -62,7 +62,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// <summary>
     /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update
     /// delivery, 1-100. Defaults to <i>40</i>. Use lower values to limit the load on your
-    /// bot's server, and higher values to increase your bot's throughput
+    /// bot’s server, and higher values to increase your bot’s throughput
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? MaxConnections { get; set; }

@@ -27,8 +27,8 @@ public class ChatMemberSerializationTests
             custom_title = "custom test title"
         };
 
-        var chatMemberJson = JsonConvert.SerializeObject(creator, Formatting.Indented);
-        var chatMember = JsonConvert.DeserializeObject<ChatMember>(chatMemberJson);
+        string? chatMemberJson = JsonConvert.SerializeObject(creator, Formatting.Indented);
+        ChatMember? chatMember = JsonConvert.DeserializeObject<ChatMember>(chatMemberJson);
 
         ChatMemberOwner owner = Assert.IsType<ChatMemberOwner>(chatMember);
 
@@ -47,7 +47,7 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Serialize_Chat_Member_Member()
     {
-        var creator = new ChatMemberOwner
+        ChatMemberOwner creator = new ChatMemberOwner
         {
             User = new User
             {
@@ -62,7 +62,7 @@ public class ChatMemberSerializationTests
             CustomTitle = "Custom test title"
         };
 
-        var chatMemberJson = JsonConvert.SerializeObject(creator);
+        string? chatMemberJson = JsonConvert.SerializeObject(creator);
         Assert.Contains(@"""status"":""creator""", chatMemberJson);
         Assert.Contains(@"""is_anonymous"":true", chatMemberJson);
         Assert.Contains(@"""custom_title"":""Custom test title""", chatMemberJson);
@@ -78,7 +78,7 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Serialize_Chat_Member_Banned()
     {
-        var creator = new ChatMemberBanned()
+        ChatMemberBanned creator = new ChatMemberBanned
         {
             User = new User
             {
@@ -92,7 +92,7 @@ public class ChatMemberSerializationTests
             UntilDate = new DateTime(2021, 4, 2, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        var chatMemberJson = JsonConvert.SerializeObject(creator);
+        string? chatMemberJson = JsonConvert.SerializeObject(creator);
 
         Assert.Contains(@"""until_date"":1617321600", chatMemberJson);
         Assert.Contains(@"""status"":""kicked""", chatMemberJson);
@@ -108,7 +108,7 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Serialize_Chat_Member_Banned_2()
     {
-        var creator = new ChatMemberBanned()
+        ChatMemberBanned creator = new ChatMemberBanned
         {
             User = new User
             {
@@ -121,7 +121,7 @@ public class ChatMemberSerializationTests
             },
         };
 
-        var chatMemberJson = JsonConvert.SerializeObject(creator);
+        string? chatMemberJson = JsonConvert.SerializeObject(creator);
 
         Assert.DoesNotContain(@"""until_date""", chatMemberJson);
         Assert.Contains(@"""status"":""kicked""", chatMemberJson);
@@ -137,21 +137,21 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Deserialize_Chat_Member_Banned()
     {
-        var json = @"
-                {
-                    ""status"": ""kicked"",
-                    ""until_date"": 1617321600,
-                    ""user"": {
-                        ""id"": 12345,
-                        ""is_bot"": true,
-                        ""first_name"": ""First Name"",
-                        ""last_name"": ""Last Name"",
-                        ""username"": ""test_bot"",
-                        ""language_code"": ""en_US""
-                    }
-                }";
+        string json = @"
+        {
+            ""status"": ""kicked"",
+            ""until_date"": 1617321600,
+            ""user"": {
+                ""id"": 12345,
+                ""is_bot"": true,
+                ""first_name"": ""First Name"",
+                ""last_name"": ""Last Name"",
+                ""username"": ""test_bot"",
+                ""language_code"": ""en_US""
+            }
+        }";
 
-        var bannedUser = JsonConvert.DeserializeObject<ChatMemberBanned>(json);
+        ChatMemberBanned? bannedUser = JsonConvert.DeserializeObject<ChatMemberBanned>(json);
 
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
         Assert.Equal(new DateTime(2021, 4, 2, 0, 0, 0, DateTimeKind.Utc), bannedUser.UntilDate);
@@ -167,21 +167,21 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Deserialize_Chat_Member_Banned_2()
     {
-        var json = @"
-                {
-                    ""status"": ""kicked"",
-                    ""until_date"": 0,
-                    ""user"": {
-                        ""id"": 12345,
-                        ""is_bot"": true,
-                        ""first_name"": ""First Name"",
-                        ""last_name"": ""Last Name"",
-                        ""username"": ""test_bot"",
-                        ""language_code"": ""en_US""
-                    }
-                }";
+        string json = @"
+        {
+            ""status"": ""kicked"",
+            ""until_date"": 0,
+            ""user"": {
+                ""id"": 12345,
+                ""is_bot"": true,
+                ""first_name"": ""First Name"",
+                ""last_name"": ""Last Name"",
+                ""username"": ""test_bot"",
+                ""language_code"": ""en_US""
+            }
+        }";
 
-        var bannedUser = JsonConvert.DeserializeObject<ChatMemberBanned>(json);
+        ChatMemberBanned? bannedUser = JsonConvert.DeserializeObject<ChatMemberBanned>(json);
 
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
         Assert.Null(bannedUser.UntilDate);
@@ -197,20 +197,20 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Deserialize_Chat_Member_Banned_3()
     {
-        var json = @"
-                {
-                    ""status"": ""kicked"",
-                    ""user"": {
-                        ""id"": 12345,
-                        ""is_bot"": true,
-                        ""first_name"": ""First Name"",
-                        ""last_name"": ""Last Name"",
-                        ""username"": ""test_bot"",
-                        ""language_code"": ""en_US""
-                    }
-                }";
+        string json = @"
+        {
+            ""status"": ""kicked"",
+            ""user"": {
+                ""id"": 12345,
+                ""is_bot"": true,
+                ""first_name"": ""First Name"",
+                ""last_name"": ""Last Name"",
+                ""username"": ""test_bot"",
+                ""language_code"": ""en_US""
+            }
+        }";
 
-        var bannedUser = JsonConvert.DeserializeObject<ChatMemberBanned>(json);
+        ChatMemberBanned? bannedUser = JsonConvert.DeserializeObject<ChatMemberBanned>(json);
 
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
         Assert.Null(bannedUser.UntilDate);

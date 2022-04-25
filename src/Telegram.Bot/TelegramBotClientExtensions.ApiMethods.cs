@@ -24,7 +24,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to receive incoming updates using long polling
-    /// (<see href="https://en.wikipedia.org/wiki/Push_technology#Long_polling">wiki</see>)
+    /// (<a href="https://en.wikipedia.org/wiki/Push_technology#Long_polling">wiki</a>)
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="offset">
@@ -91,7 +91,7 @@ public static partial class TelegramBotClientExtensions
     /// reasonable amount of attempts
     /// <para>
     /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path
-    /// in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>. Since nobody else knows your bot's token,
+    /// in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>. Since nobody else knows your bot’s token,
     /// you can be pretty sure it's us.
     /// </para>
     /// </summary>
@@ -99,7 +99,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="url">HTTPS url to send updates to. Use an empty string to remove webhook integration</param>
     /// <param name="certificate">
     /// Upload your public key certificate so that the root certificate in use can be checked. See our
-    /// <see href="https://core.telegram.org/bots/self-signed">self-signed guide</see> for details
+    /// <a href="https://core.telegram.org/bots/self-signed">self-signed guide</a> for details
     /// </param>
     /// <param name="ipAddress">
     /// The fixed IP address which will be used to send webhook requests instead of the IP address resolved
@@ -107,8 +107,8 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="maxConnections">
     /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100.
-    /// Defaults to <i>40</i>. Use lower values to limit the load on your bot's server, and higher values to
-    /// increase your bot's throughput
+    /// Defaults to <i>40</i>. Use lower values to limit the load on your bot’s server, and higher values to
+    /// increase your bot’s throughput
     /// </param>
     /// <param name="allowedUpdates">
     /// <para>A list of the update types you want your bot to receive. For example, specify
@@ -135,14 +135,14 @@ public static partial class TelegramBotClientExtensions
     /// </item>
     /// <item>
     /// To use a self-signed certificate, you need to upload your
-    /// <see href="https://core.telegram.org/bots/self-signed">public key certificate</see> using
+    /// <a href="https://core.telegram.org/bots/self-signed">public key certificate</a> using
     /// <paramref name="certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending a
     /// string will not work
     /// </item>
     /// <item>Ports currently supported for Webhooks: <b>443, 80, 88, 8443</b></item>
     /// </list>
     /// If you're having any trouble setting up webhooks, please check out this
-    /// <see href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</see>.
+    /// <a href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</a>.
     /// </remarks>
     public static async Task SetWebhookAsync(
         this ITelegramBotClient botClient,
@@ -216,7 +216,7 @@ public static partial class TelegramBotClientExtensions
     #region Available methods
 
     /// <summary>
-    /// A simple method for testing your bot's auth token.
+    /// A simple method for testing your bot’s auth token.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">
@@ -277,7 +277,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="text">Text of the message to be sent, 1-4096 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for more
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for more
     /// details
     /// </param>
     /// <param name="entities">
@@ -368,7 +368,8 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new ForwardMessageRequest(chatId, fromChatId, messageId)
                 {
-                    DisableNotification = disableNotification
+                    DisableNotification = disableNotification,
+                    ProtectContent = protectContent
                 },
                 cancellationToken
             )
@@ -395,7 +396,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -471,7 +472,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -545,7 +546,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="caption">Audio caption, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -646,7 +647,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -739,7 +740,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -836,7 +837,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -919,7 +920,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="caption">Voice message caption, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -979,7 +980,7 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// As of <see href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</see>, Telegram clients
+    /// As of <a href="https://telegram.org/blog/video-messages-and-telescope">v.4.0</a>, Telegram clients
     /// support rounded square mp4 videos of up to 1 minute long. Use this method to send video messages.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -1364,7 +1365,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="googlePlaceId">Google Places identifier of the venue</param>
     /// <param name="googlePlaceType">
     /// Google Places type of the venue. (See
-    /// <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>)
+    /// <a href="https://developers.google.com/places/web-service/supported_types">supported types</a>)
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
@@ -1384,7 +1385,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
-    /// <see href="https://core.telegram.org/bots/api#sendvenue"/>
+    /// <a href="https://core.telegram.org/bots/api#sendvenue"/>
     public static async Task<Message> SendVenueAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1509,7 +1510,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="explanationParseMode">
     /// Mode for parsing entities in the explanation. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see>
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a>
     /// for more details
     /// </param>
     /// <param name="explanationEntities">
@@ -1652,12 +1653,12 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method when you need to tell the user that something is happening on the bot's side. The status is
+    /// Use this method when you need to tell the user that something is happening on the bot’s side. The status is
     /// set for 5 seconds or less (when a message arrives from your bot, Telegram clients clear its typing status).
     /// </summary>
     /// <example>
     /// <para>
-    /// The <see href="https://t.me/imagebot">ImageBot</see> needs some time to process a request and upload the
+    /// The <a href="https://t.me/imagebot">ImageBot</a> needs some time to process a request and upload the
     /// image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may
     /// use <see cref="SendChatActionAsync"/> with <see cref="Action"/> = <see cref="ChatAction.UploadPhoto"/>.
     /// The user will see a “sending photo” status for the bot.
@@ -1957,7 +1958,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canPostMessages">Pass <c>true</c>, if the administrator can create channel posts, channels only</param>
     /// <param name="canEditMessages">Pass <c>true</c>, if the administrator can edit messages of other users, channels only</param>
     /// <param name="canDeleteMessages">Pass <c>true</c>, if the administrator can delete messages of other users</param>
-    /// <param name="canManageVoiceChats">Pass <c>true</c>, if the administrator can manage voice chats, supergroups only</param>
+    /// <param name="canManageVideoChats">Pass <c>true</c>, if the administrator can manage voice chats, supergroups only</param>
     /// <param name="canRestrictMembers">Pass <c>true</c>, if the administrator can restrict, ban or unban chat members</param>
     /// <param name="canPromoteMembers">Pass <c>true</c>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
     /// <param name="canChangeInfo">Pass <c>true</c>, if the administrator can change chat title, photo and other settings</param>
@@ -1975,7 +1976,7 @@ public static partial class TelegramBotClientExtensions
         bool? canPostMessages = default,
         bool? canEditMessages = default,
         bool? canDeleteMessages = default,
-        bool? canManageVoiceChats = default,
+        bool? canManageVideoChats = default,
         bool? canRestrictMembers = default,
         bool? canPromoteMembers = default,
         bool? canChangeInfo = default,
@@ -1992,7 +1993,7 @@ public static partial class TelegramBotClientExtensions
                     CanPostMessages = canPostMessages,
                     CanEditMessages = canEditMessages,
                     CanDeleteMessages = canDeleteMessages,
-                    CanManageVoiceChat = canManageVoiceChats,
+                    CanManageVideoChat = canManageVideoChats,
                     CanRestrictMembers = canRestrictMembers,
                     CanPromoteMembers = canPromoteMembers,
                     CanChangeInfo = canChangeInfo,
@@ -2700,7 +2701,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="url">
     /// URL that will be opened by the user's client. If you have created a
-    /// <see href="https://core.telegram.org/bots/api#game">Game</see> and accepted the conditions via
+    /// <a href="https://core.telegram.org/bots/api#game">Game</a> and accepted the conditions via
     /// <c>@Botfather</c>, specify the URL that opens your game — note that this will only work if the query
     /// comes from a callback_game button
     /// <para>
@@ -2737,12 +2738,38 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to change the list of the bot's commands.
-    /// See <see href="https://core.telegram.org/bots#commands"/> for more details about bot commands
+    /// Use this method to set the result of an interaction with a Web App and send a corresponding message on
+    /// behalf of the user to the chat from which the query originated. On success, a <see cref="SentWebAppMessage"/>
+    /// object is returned.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
+    /// <param name="result">
+    /// An object describing the message to be sent
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task AnswerWebAppQueryAsync(
+        this ITelegramBotClient botClient,
+        string webAppQueryId,
+        InlineQueryResult result,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new AnswerWebAppQueryRequest(webAppQueryId, result),
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change the list of the bot’s commands.
+    /// See <a href="https://core.telegram.org/bots#commands"/> for more details about bot commands
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="commands">
-    /// A list of bot commands to be set as the list of the bot's commands. At most 100 commands can be specified
+    /// A list of bot commands to be set as the list of the bot’s commands. At most 100 commands can be specified
     /// </param>
     /// <param name="scope">
     /// An object, describing scope of users for which the commands are relevant.
@@ -2774,9 +2801,9 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to delete the list of the bot's commands for the given <paramref name="scope"/> and
+    /// Use this method to delete the list of the bot’s commands for the given <paramref name="scope"/> and
     /// <paramref name="languageCode">user language</paramref>. After deletion,
-    /// <see href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</see>
+    /// <a href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</a>
     /// will be shown to affected users
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2809,7 +2836,7 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to get the current list of the bot's commands for the given <paramref name="scope"/> and
+    /// Use this method to get the current list of the bot’s commands for the given <paramref name="scope"/> and
     /// <paramref name="languageCode">user language</paramref>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2842,6 +2869,114 @@ public static partial class TelegramBotClientExtensions
             )
             .ConfigureAwait(false);
 
+    /// <summary>
+    /// Use this method to change the bot’s menu button in a private chat, or the default menu button.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target private chat. If not specified, default bot’s menu button will be changed
+    /// </param>
+    /// <param name="menuButton">
+    /// An object for the new bot’s menu button. Defaults to <see cref="MenuButtonDefault"/>
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetChatMenuButtonAsync(
+        this ITelegramBotClient botClient,
+        long? chatId = default,
+        MenuButton? menuButton = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new SetChatMenuButtonRequest { ChatId = chatId, MenuButton = menuButton },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to get the current value of the bot’s menu button in a private chat,
+    /// or the default menu button.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target private chat. If not specified, default bot’s menu button will be returned
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns><see cref="MenuButton"/> set for the given chat id or a default one</returns>
+    public static async Task<MenuButton> GetChatMenuButtonAsync(
+        this ITelegramBotClient botClient,
+        long? chatId = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new GetChatMenuButtonRequest() { ChatId = chatId },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change the default administrator rights requested by the bot when it's added as an
+    /// administrator to groups or channels. These rights will be suggested to users, but they are are free to modify
+    /// the list before adding the bot.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="rights">
+    /// An object describing new default administrator rights. If not specified, the default administrator rights
+    /// will be cleared.
+    /// </param>
+    /// <param name="forChannels">
+    /// Pass <c>true</c> to change the default administrator rights of the bot in channels. Otherwise, the default
+    /// administrator rights of the bot for groups and supergroups will be changed.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetMyDefaultAdministratorRightsAsync(
+        this ITelegramBotClient botClient,
+        ChatAdministratorRights? rights = default,
+        bool? forChannels = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new SetMyDefaultAdministratorRightsRequest()
+                {
+                    Rights = rights,
+                    ForChannels = forChannels,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to get the current default administrator rights of the bot.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="forChannels">
+    /// Pass <c>true</c> to change the default administrator rights of the bot in channels. Otherwise, the default
+    /// administrator rights of the bot for groups and supergroups will be changed.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>Default or channel <see cref="ChatAdministratorRights"/> </returns>
+    public static async Task<ChatAdministratorRights> GetMyDefaultAdministratorRightsAsync(
+        this ITelegramBotClient botClient,
+        bool? forChannels = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new GetMyDefaultAdministratorRightsRequest { ForChannels = forChannels },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
     #endregion Available methods
 
     #region Updating messages
@@ -2858,7 +2993,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="entities">
@@ -2908,7 +3043,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="entities">
@@ -2960,7 +3095,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="caption">New caption of the message, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -3008,7 +3143,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="caption">New caption of the message, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see> options for
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for
     /// more details
     /// </param>
     /// <param name="captionEntities">
@@ -3425,7 +3560,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="title">Sticker set title, 1-64 characters</param>
     /// <param name="tgsSticker">
     /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
     /// for technical requirements
     /// </param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
@@ -3471,7 +3606,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="title">Sticker set title, 1-64 characters</param>
     /// <param name="webmSticker">
     /// <b>WEBM</b> video with the sticker, uploaded using multipart/form-data. See
-    /// <see href="https://core.telegram.org/stickers#video-sticker-requirements"/>
+    /// <a href="https://core.telegram.org/stickers#video-sticker-requirements"/>
     /// for technical requirements
     /// </param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
@@ -3554,7 +3689,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="name">Sticker set name</param>
     /// <param name="webmSticker">
     /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
     /// for technical requirements
     /// </param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
@@ -3590,7 +3725,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="name">Sticker set name</param>
     /// <param name="tgsSticker">
     /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
     /// for technical requirements
     /// </param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
@@ -3663,7 +3798,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="thumb">
     /// A <b>PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have width and height
     /// exactly 100px, or a <b>TGS</b> animation with the thumbnail up to 32 kilobytes in size; see
-    /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/> for animated sticker
+    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/> for animated sticker
     /// technical requirements. Pass a <see cref="InputTelegramFile.FileId"/> as a String to send a file that
     /// already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from
     /// the Internet, or upload a new one using multipart/form-data. Animated sticker set thumbnail can't be
@@ -3720,7 +3855,7 @@ public static partial class TelegramBotClientExtensions
     /// with the bot and sends the bot a start message with the parameter <paramref name="switchPmParameter"/>
     /// </param>
     /// <param name="switchPmParameter">
-    /// <see href="https://core.telegram.org/bots#deep-linking">Deep-linking</see> parameter for the <c>/start</c>
+    /// <a href="https://core.telegram.org/bots#deep-linking">Deep-linking</a> parameter for the <c>/start</c>
     /// message sent to the bot when user presses the switch button. 1-64 characters, only <c>A-Z</c>, <c>a-z</c>,
     /// <c>0-9</c>, <c>_</c> and <c>-</c> are allowed
     /// <para>
@@ -3730,7 +3865,7 @@ public static partial class TelegramBotClientExtensions
     /// to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to
     /// return an oauth link. Once done, the bot can offer a
     /// <see cref="InlineKeyboardButton.SwitchInlineQuery"/> button so that the user can
-    /// easily return to the chat where they wanted to use the bot's inline capabilities
+    /// easily return to the chat where they wanted to use the bot’s inline capabilities
     /// </para>
     /// </param>
     /// <param name="cancellationToken">
@@ -3780,11 +3915,11 @@ public static partial class TelegramBotClientExtensions
     /// use for your internal processes
     /// </param>
     /// <param name="providerToken">
-    /// Payments provider token, obtained via <see href="https://t.me/botfather">@Botfather</see>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
     /// </param>
     /// <param name="currency">
     /// Three-letter ISO 4217 currency code, see
-    /// <see href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</see>
+    /// <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>
     /// </param>
     /// <param name="prices">
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax,
@@ -3794,7 +3929,7 @@ public static partial class TelegramBotClientExtensions
     /// The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double).
     /// For example, for a maximum tip of <c>US$ 1.45</c> pass <c><paramref name="maxTipAmount"/> = 145</c>.
     /// See the <i>exp</i> parameter in
-    /// <see href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</see>, it shows the
+    /// <a href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</a>, it shows the
     /// number of digits past the decimal point for each currency (2 for the majority of currencies).
     /// Defaults to 0
     /// </param>
@@ -4037,7 +4172,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat</param>
     /// <param name="gameShortName">
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
-    /// <see href="https://t.me/botfather">@Botfather</see>
+    /// <a href="https://t.me/botfather">@Botfather</a>
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound

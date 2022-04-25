@@ -39,7 +39,7 @@ public class AnswerCallbackQueryRequest : RequestBase<bool>
 
     /// <summary>
     /// URL that will be opened by the user's client. If you have created a
-    /// <see href="https://core.telegram.org/bots/api#game">Game</see> and accepted the conditions
+    /// <a href="https://core.telegram.org/bots/api#game">Game</a> and accepted the conditions
     /// via <c>@Botfather</c>, specify the URL that opens your game — note that this will only work
     /// if the query comes from a callback_game button.
     /// <para>

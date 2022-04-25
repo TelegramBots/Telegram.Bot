@@ -20,7 +20,7 @@ public class InputTextMessageContent : InputMessageContent
 
     /// <summary>
     /// Optional. Mode for
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">parsing entities</see> in the message
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">parsing entities</a> in the message
     /// text. See formatting options for more details.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

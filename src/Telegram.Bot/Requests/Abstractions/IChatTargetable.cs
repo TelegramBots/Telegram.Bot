@@ -7,7 +7,6 @@ namespace Telegram.Bot.Requests.Abstractions;
 /// </summary>
 public interface IChatTargetable
 {
-
     /// <summary>
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format @channelusername)

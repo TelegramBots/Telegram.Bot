@@ -76,7 +76,7 @@ public class ChannelAdminBotTests : IClassFixture<ChannelAdminBotTestFixture>
         _classFixture.PinnedMessage = msg;
     }
 
-    [OrderedFact("Should get chat's pinned message")]
+    [OrderedFact("Should get chat’s pinned message")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Chat_Pinned_Message()
     {

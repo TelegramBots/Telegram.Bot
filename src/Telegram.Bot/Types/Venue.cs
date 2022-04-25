@@ -48,7 +48,7 @@ public class Venue
 
     /// <summary>
     /// Optional. Google Places type of the venue. (See
-    /// <see href="https://developers.google.com/places/web-service/supported_types">supported types</see>.)
+    /// <a href="https://developers.google.com/places/web-service/supported_types">supported types</a>.)
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? GooglePlaceType { get; set; }

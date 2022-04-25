@@ -13,19 +13,19 @@ namespace Telegram.Bot.Polling;
 public class DefaultUpdateHandler : IUpdateHandler
 {
     readonly Func<ITelegramBotClient, Update, CancellationToken, Task> _updateHandler;
-    readonly Func<ITelegramBotClient, Exception, CancellationToken, Task> _errorHandler;
+    readonly Func<ITelegramBotClient, Exception, CancellationToken, Task> _pollingErrorHandler;
 
     /// <summary>
     /// Constructs a new <see cref="DefaultUpdateHandler"/> with the specified callback functions
     /// </summary>
     /// <param name="updateHandler">The function to invoke when an update is received</param>
-    /// <param name="errorHandler">The function to invoke when an error occurs</param>
+    /// <param name="pollingErrorHandler">The function to invoke when an error occurs</param>
     public DefaultUpdateHandler(
         Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
-        Func<ITelegramBotClient, Exception, CancellationToken, Task> errorHandler)
+        Func<ITelegramBotClient, Exception, CancellationToken, Task> pollingErrorHandler)
     {
         _updateHandler = updateHandler ?? throw new ArgumentNullException(nameof(updateHandler));
-        _errorHandler = errorHandler ?? throw new ArgumentNullException(nameof(errorHandler));
+        _pollingErrorHandler = pollingErrorHandler ?? throw new ArgumentNullException(nameof(pollingErrorHandler));
     }
 
     /// <inheritdoc />
@@ -37,10 +37,10 @@ public class DefaultUpdateHandler : IUpdateHandler
         await _updateHandler(botClient, update, cancellationToken).ConfigureAwait(false);
 
     /// <inheritdoc />
-    public async Task HandleErrorAsync(
+    public async Task HandlePollingErrorAsync(
         ITelegramBotClient botClient,
         Exception exception,
         CancellationToken cancellationToken
     ) =>
-        await _errorHandler(botClient, exception, cancellationToken).ConfigureAwait(false);
+        await _pollingErrorHandler(botClient, exception, cancellationToken).ConfigureAwait(false);
 }

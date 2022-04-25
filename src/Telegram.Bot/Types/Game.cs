@@ -3,7 +3,8 @@ using Newtonsoft.Json.Serialization;
 namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object represents a game. Use BotFather to create and edit games, their short names will act as unique identifiers.
+/// This object represents a game. Use BotFather to create and edit games, their short names will act as unique
+/// identifiers.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class Game
@@ -43,7 +44,7 @@ public class Game
 
     /// <summary>
     /// Optional. Animation that will be displayed in the game message in chats. Upload via
-    /// <see href="https://t.me/botfather">@BotFather</see>
+    /// <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public Animation? Animation { get; set; }

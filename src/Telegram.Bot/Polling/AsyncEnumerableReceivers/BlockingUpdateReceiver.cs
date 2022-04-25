@@ -19,7 +19,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
 {
     readonly ReceiverOptions? _receiverOptions;
     readonly ITelegramBotClient _botClient;
-    readonly Func<Exception, CancellationToken, Task>? _errorHandler;
+    readonly Func<Exception, CancellationToken, Task>? _pollingErrorHandler;
 
     int _inProcess;
 
@@ -28,17 +28,17 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="receiverOptions"></param>
-    /// <param name="errorHandler">
+    /// <param name="pollingErrorHandler">
     /// The function used to handle <see cref="Exception"/>s thrown by ReceiveUpdates
     /// </param>
     public BlockingUpdateReceiver(
         ITelegramBotClient botClient,
         ReceiverOptions? receiverOptions = default,
-        Func<Exception, CancellationToken, Task>? errorHandler = default)
+        Func<Exception, CancellationToken, Task>? pollingErrorHandler = default)
     {
         _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
         _receiverOptions = receiverOptions;
-        _errorHandler = errorHandler;
+        _pollingErrorHandler = pollingErrorHandler;
     }
 
     /// <summary>
@@ -140,9 +140,9 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
                 {
                     throw;
                 }
-                catch (Exception ex) when (_receiver._errorHandler is not null)
+                catch (Exception ex) when (_receiver._pollingErrorHandler is not null)
                 {
-                    await _receiver._errorHandler(ex, _token).ConfigureAwait(false);
+                    await _receiver._pollingErrorHandler(ex, _token).ConfigureAwait(false);
                 }
             }
 

@@ -68,7 +68,7 @@ public static partial class TelegramBotClientExtensions
             botClient: botClient,
             updateHandler: new DefaultUpdateHandler(
                 updateHandler: updateHandler,
-                errorHandler: errorHandler
+                pollingErrorHandler: errorHandler
             ),
             receiverOptions: receiverOptions,
             cancellationToken: cancellationToken
@@ -104,7 +104,7 @@ public static partial class TelegramBotClientExtensions
                     updateHandler.Invoke(bot, update, token);
                     return Task.CompletedTask;
                 },
-                errorHandler: (bot, exception, token) =>
+                pollingErrorHandler: (bot, exception, token) =>
                 {
                     errorHandler.Invoke(bot, exception, token);
                     return Task.CompletedTask;
@@ -162,7 +162,7 @@ public static partial class TelegramBotClientExtensions
             {
                 try
                 {
-                    await updateHandler.HandleErrorAsync(
+                    await updateHandler.HandlePollingErrorAsync(
                         botClient: botClient,
                         exception: ex,
                         cancellationToken: cancellationToken
@@ -240,7 +240,7 @@ public static partial class TelegramBotClientExtensions
             botClient: botClient,
             updateHandler: new DefaultUpdateHandler(
                 updateHandler: updateHandler,
-                errorHandler: errorHandler
+                pollingErrorHandler: errorHandler
             ),
             receiverOptions: receiverOptions,
             cancellationToken: cancellationToken
@@ -281,7 +281,7 @@ public static partial class TelegramBotClientExtensions
                     updateHandler.Invoke(bot, update, token);
                     return Task.CompletedTask;
                 },
-                errorHandler: (bot, exception, token) =>
+                pollingErrorHandler: (bot, exception, token) =>
                 {
                     errorHandler.Invoke(bot, exception, token);
                     return Task.CompletedTask;

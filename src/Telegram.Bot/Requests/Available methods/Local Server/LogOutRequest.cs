@@ -8,7 +8,7 @@ namespace Telegram.Bot.Requests;
 /// a local server, but will not be able to log in back to the cloud Bot API server for 10
 /// minutes. Returns <c>true</c> on success. Requires no parameters.
 /// </summary>
-/// <see href="https://core.telegram.org/bots/api#logout"/>
+/// <a href="https://core.telegram.org/bots/api#logout"/>
 public class LogOutRequest : ParameterlessRequest<bool>
 {
     /// <summary>

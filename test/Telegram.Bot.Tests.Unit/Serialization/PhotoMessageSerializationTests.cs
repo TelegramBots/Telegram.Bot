@@ -62,7 +62,7 @@ public class PhotoMessageSerializationTests
                 ]
             }";
 
-        var message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonConvert.DeserializeObject<Message>(json);
 
         Assert.Equal(MessageType.Photo, message.Type);
         Assert.NotNull(message.Photo);
@@ -75,7 +75,7 @@ public class PhotoMessageSerializationTests
     [Fact(DisplayName = "Should serialize a photo message")]
     public void Should_Serialize_PhotoMessage()
     {
-        Message message = new()
+        Message message = new Message
         {
             MessageId = 1234,
             From = new User
@@ -129,7 +129,7 @@ public class PhotoMessageSerializationTests
             }
         };
 
-        var json = JsonConvert.SerializeObject(message);
+        string? json = JsonConvert.SerializeObject(message);
 
         Assert.NotNull(json);
         Assert.True(json.Length > 100);

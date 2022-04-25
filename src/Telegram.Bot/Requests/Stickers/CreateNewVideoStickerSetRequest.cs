@@ -17,7 +17,7 @@ public class CreateNewVideoStickerSetRequest : CreateNewStickerSetRequest
 {
     /// <summary>
     /// <b>WEBM</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
     /// for technical requirements
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -26,7 +26,7 @@ public class CreateNewVideoStickerSetRequest : CreateNewStickerSetRequest
     /// <inheritdoc />
     /// <param name="webmSticker">
     /// <b>WEBM</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <see href="https://core.telegram.org/animated_stickers#technical-requirements"/>
+    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
     /// for technical requirements
     /// </param>
 #pragma warning disable CS1573

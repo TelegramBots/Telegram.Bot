@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
@@ -165,22 +166,27 @@ public enum MessageType
     ProximityAlertTriggered,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VoiceChatScheduled"/>
+    /// The <see cref="Message"/> contains <see cref="Message.WebAppData"/>
     /// </summary>
-    VoiceChatScheduled,
+    WebAppData,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VoiceChatStarted"/>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatScheduled"/>
     /// </summary>
-    VoiceChatStarted,
+    VideoChatScheduled,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VoiceChatEnded"/>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatStarted"/>
     /// </summary>
-    VoiceChatEnded,
+    VideoChatStarted,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VoiceChatParticipantsInvited"/>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatEnded"/>
     /// </summary>
-    VoiceChatParticipantsInvited,
+    VideoChatEnded,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.VideoChatParticipantsInvited"/>
+    /// </summary>
+    VideoChatParticipantsInvited,
 }

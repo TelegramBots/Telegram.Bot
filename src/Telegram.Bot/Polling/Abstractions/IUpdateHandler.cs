@@ -38,5 +38,9 @@ public interface IUpdateHandler
     /// The <see cref="CancellationToken"/> which will notify that method execution should be cancelled
     /// </param>
     /// <returns></returns>
-    Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken);
+    Task HandlePollingErrorAsync(
+        ITelegramBotClient botClient,
+        Exception exception,
+        CancellationToken cancellationToken
+    );
 }

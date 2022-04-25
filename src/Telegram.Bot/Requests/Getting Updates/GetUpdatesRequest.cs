@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to receive incoming updates using long polling
-/// (<see href="https://en.wikipedia.org/wiki/Push_technology#Long_polling">wiki</see>).
+/// (<a href="https://en.wikipedia.org/wiki/Push_technology#Long_polling">wiki</a>).
 /// An Array of <see cref="Update"/> objects is returned.
 /// </summary>
 /// <remarks>

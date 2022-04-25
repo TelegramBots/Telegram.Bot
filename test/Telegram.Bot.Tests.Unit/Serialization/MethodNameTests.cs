@@ -59,7 +59,7 @@ public class MethodNameTests
     [Fact(DisplayName = "Should build a HttpContent in parameterless webhook responses")]
     public void Should_Build_HttpContent_In_Parameterless_Webhook_Response()
     {
-        DeleteWebhookRequest deleteWebhookRequest = new()
+        DeleteWebhookRequest deleteWebhookRequest = new DeleteWebhookRequest
         {
             IsWebhookResponse = true
         };
@@ -71,7 +71,7 @@ public class MethodNameTests
     [Fact(DisplayName = "Should build a StringContent with method name in parameterless webhook responses")]
     public async Task Should_Build_StringContent_With_MethodName_In_Parameterless_Webhook_ResponseAsync()
     {
-        CloseRequest closeRequest = new()
+        CloseRequest closeRequest = new CloseRequest
         {
             IsWebhookResponse = true
         };
@@ -87,7 +87,7 @@ public class MethodNameTests
     [Fact(DisplayName = "Should not build an HttpContent when not a parameterless webhook responses")]
     public void Should_Not_Serialize_MethodName_When_Not_Parameterless_Webhook_Responses()
     {
-        CloseRequest closeRequest = new()
+        CloseRequest closeRequest = new CloseRequest
         {
             IsWebhookResponse = false
         };

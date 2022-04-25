@@ -66,7 +66,7 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>
     /// Mode for parsing entities in the explanation. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see>
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a>
     /// for more details.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

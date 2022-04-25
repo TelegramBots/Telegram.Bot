@@ -24,7 +24,8 @@ public interface IInputMedia
     string? Caption { get; }
 
     /// <summary>
-    /// Optional. Mode for parsing entities in the photo caption. See <see href="https://core.telegram.org/bots/api#formatting-options">formatting options</see> for more details.
+    /// Optional. Mode for parsing entities in the photo caption. See
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting options</a> for more details.
     /// </summary>
     ParseMode? ParseMode { get; }
 

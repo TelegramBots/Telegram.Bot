@@ -19,7 +19,7 @@ public class GetUserProfileTests
         _fixture = fixture;
     }
 
-    [OrderedFact("Should get bot's profile photos")]
+    [OrderedFact("Should get bot’s profile photos")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetUserProfilePhotos)]
     public async Task Should_Get_User_Profile_Photos()
     {

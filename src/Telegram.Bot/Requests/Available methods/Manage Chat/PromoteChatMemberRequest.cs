@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
@@ -58,8 +59,15 @@ public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUse
     /// <summary>
     /// Pass True, if the administrator can manage voice chats
     /// </summary>
+    [Obsolete("This property will be removed in the next major version, use CanManageVideoChat instead")]
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanManageVoiceChat { get; set; }
+
+    /// <summary>
+    /// Pass True, if the administrator can manage video chats
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanManageVideoChat { get; set; }
 
     /// <summary>
     /// Pass True, if the administrator can restrict, ban or unban chat members

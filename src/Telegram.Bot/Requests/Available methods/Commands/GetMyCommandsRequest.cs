@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to get the current list of the bot's commands for the given <see cref="Scope">scope</see>
+/// Use this method to get the current list of the bot’s commands for the given <see cref="Scope">scope</see>
 /// and <see cref="LanguageCode">user language</see>. Returns Array of <see cref="BotCommand"/> on success.
 /// If commands aren't set, an empty list is returned.
 /// </summary>

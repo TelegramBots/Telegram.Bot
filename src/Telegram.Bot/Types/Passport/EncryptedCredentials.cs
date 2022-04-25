@@ -6,8 +6,8 @@ namespace Telegram.Bot.Types.Passport;
 
 /// <summary>
 /// Contains data required for decrypting and authenticating <see cref="EncryptedPassportElement"/>.
-/// See the <see href="https://core.telegram.org/passport#receiving-information">Telegram Passport
-/// Documentation</see> for a complete description of the data decryption and authentication processes.
+/// See the <a href="https://core.telegram.org/passport#receiving-information">Telegram Passport
+/// Documentation</a> for a complete description of the data decryption and authentication processes.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EncryptedCredentials
@@ -26,7 +26,7 @@ public class EncryptedCredentials
     public string Hash { get; set; } = default!;
 
     /// <summary>
-    /// Base64-encoded secret, encrypted with the bot's public RSA key, required for data decryption.
+    /// Base64-encoded secret, encrypted with the bot’s public RSA key, required for data decryption.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string Secret { get; set; } = default!;

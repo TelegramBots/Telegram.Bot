@@ -26,7 +26,7 @@ internal abstract class Documentation
 
     /// <summary>
     /// Mode for parsing entities in the new caption. See
-    /// <see href="https://core.telegram.org/bots/api#formatting-options">formatting</see>
+    /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a>
     /// options for more details.
     /// </summary>
     object ParseMode;
