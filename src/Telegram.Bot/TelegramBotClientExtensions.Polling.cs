@@ -11,6 +11,7 @@ namespace Telegram.Bot;
 /// <summary>
 /// Provides extension methods for <see cref="ITelegramBotClient"/> that allow for <see cref="Update"/> polling
 /// </summary>
+[PublicAPI]
 public static partial class TelegramBotClientExtensions
 {
     /// <summary>
@@ -29,7 +30,6 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// The <see cref="CancellationToken"/> with which you can stop receiving
     /// </param>
-    [PublicAPI]
     public static void StartReceiving<TUpdateHandler>(
         this ITelegramBotClient botClient,
         ReceiverOptions? receiverOptions = default,
@@ -56,7 +56,6 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// The <see cref="CancellationToken"/> with which you can stop receiving
     /// </param>
-    [PublicAPI]
     public static void StartReceiving(
         this ITelegramBotClient botClient,
         Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
@@ -88,7 +87,6 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// The <see cref="CancellationToken"/> with which you can stop receiving
     /// </param>
-    [PublicAPI]
     public static void StartReceiving(
         this ITelegramBotClient botClient,
         Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
@@ -130,7 +128,6 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// The <see cref="CancellationToken"/> with which you can stop receiving
     /// </param>
-    [PublicAPI]
     public static void StartReceiving(
         this ITelegramBotClient botClient,
         IUpdateHandler updateHandler,
@@ -196,7 +193,6 @@ public static partial class TelegramBotClientExtensions
     /// A <see cref="Task"/> that will be completed when cancellation will be requested through
     /// <paramref name="cancellationToken"/>
     /// </returns>
-    [PublicAPI]
     public static async Task ReceiveAsync<TUpdateHandler>(
         this ITelegramBotClient botClient,
         ReceiverOptions? receiverOptions = default,
@@ -228,7 +224,6 @@ public static partial class TelegramBotClientExtensions
     /// A <see cref="Task"/> that will be completed when cancellation will be requested through
     /// <paramref name="cancellationToken"/>
     /// </returns>
-    [PublicAPI]
     public static async Task ReceiveAsync(
         this ITelegramBotClient botClient,
         Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
@@ -265,7 +260,6 @@ public static partial class TelegramBotClientExtensions
     /// A <see cref="Task"/> that will be completed when cancellation will be requested through
     /// <paramref name="cancellationToken"/>
     /// </returns>
-    [PublicAPI]
     public static async Task ReceiveAsync(
         this ITelegramBotClient botClient,
         Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
@@ -311,7 +305,6 @@ public static partial class TelegramBotClientExtensions
     /// A <see cref="Task"/> that will be completed when cancellation will be requested through
     /// <paramref name="cancellationToken"/>
     /// </returns>
-    [PublicAPI]
     public static async Task ReceiveAsync(
         this ITelegramBotClient botClient,
         IUpdateHandler updateHandler,

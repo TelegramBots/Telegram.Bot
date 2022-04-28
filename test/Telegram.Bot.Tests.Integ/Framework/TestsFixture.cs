@@ -165,9 +165,11 @@ public class TestsFixture : IDisposable
 
         BotClient = new RetryTelegramBotClient(
             options: new(
-                RetryCount: Configuration.RetryCount,
-                DefaultTimeout: TimeSpan.FromSeconds(Configuration.DefaultRetryTimeout),
-                Token: apiToken
+                retryCount: Configuration.RetryCount,
+                defaultTimeout: TimeSpan.FromSeconds(Configuration.DefaultRetryTimeout),
+                token: apiToken,
+                useTestEnvironment: false,
+                baseUrl: default
             ),
             diagnosticMessageSink: _diagnosticMessageSink
         );

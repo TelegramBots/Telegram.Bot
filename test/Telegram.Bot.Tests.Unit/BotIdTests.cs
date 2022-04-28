@@ -13,8 +13,8 @@ public class BotIdTests
     [InlineData("-123::::", -123)]
     public void Should_Parse_Bot_Id(string token, long expectedId)
     {
-        ITelegramBotClient botClient = new TelegramBotClient(token);
-        Assert.Equal(expectedId, botClient.BotId);
+        TelegramBotClientOptions options = new(token);
+        Assert.Equal(expectedId, options.BotId);
     }
 
     [Fact]
@@ -33,7 +33,7 @@ public class BotIdTests
     [InlineData("INVALID:4TT8bAc8GHUspu3ERYn-KGcvsvGB9u_n4ddy")]
     public void Should_Throw_On_Invalid_Token(string invalidToken)
     {
-        ITelegramBotClient botClient = new TelegramBotClient(invalidToken);
-        Assert.Null(botClient.BotId);
+        TelegramBotClientOptions options = new(token: invalidToken);
+        Assert.Null(options.BotId);
     }
 }

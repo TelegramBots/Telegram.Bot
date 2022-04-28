@@ -32,7 +32,7 @@ public class GettingUpdatesTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Fail_Test_Api_Token()
     {
-        ITelegramBotClient botClient = new TelegramBotClient("0:1this_is_an-invalid-token_for_tests");
+        ITelegramBotClient botClient = new TelegramBotClient(new("0:1this_is_an-invalid-token_for_tests"));
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             botClient.TestApiAsync()
@@ -47,7 +47,7 @@ public class GettingUpdatesTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMe)]
     public async Task Should_Test_Bad_BotToken()
     {
-        ITelegramBotClient botClient = new TelegramBotClient("123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11");
+        ITelegramBotClient botClient = new TelegramBotClient(new("123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"));
         bool result = await botClient.TestApiAsync();
 
         Assert.False(result);

@@ -19,15 +19,15 @@ namespace Telegram.Bot;
 /// </summary>
 public class TelegramBotClient : ITelegramBotClient
 {
-    const string BaseTelegramUrl = "https://api.telegram.org";
+    readonly TelegramBotClientOptions _options;
 
-    readonly string _baseFileUrl;
-    readonly string _baseRequestUrl;
-    readonly bool _localBotServer;
     readonly HttpClient _httpClient;
 
     /// <inheritdoc/>
-    public long? BotId { get; }
+    public long? BotId => _options.BotId;
+
+    /// <inheritdoc />
+    public bool LocalBotServer => _options.LocalBotServer;
 
     /// <summary>
     /// Timeout for requests
@@ -54,57 +54,14 @@ public class TelegramBotClient : ITelegramBotClient
     /// <summary>
     /// Create a new <see cref="TelegramBotClient"/> instance.
     /// </summary>
-    /// <param name="token">API token</param>
+    /// <param name="options"></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
-    /// <param name="baseUrl">
-    /// Used to change base url to your private bot api server URL. It looks like
-    /// http://localhost:8081. Path, query and fragment will be omitted if present.
-    /// </param>
-    /// <exception cref="ArgumentException">
-    /// Thrown if <paramref name="token"/> format is invalid
-    /// </exception>
-    /// <exception cref="ArgumentException">
-    /// Thrown if <paramref name="baseUrl"/> format is invalid
-    /// </exception>
     public TelegramBotClient(
-        string token,
-        HttpClient? httpClient = null,
-        string? baseUrl = default)
+        TelegramBotClientOptions options,
+        HttpClient? httpClient = null)
     {
-        if (token is null) { throw new ArgumentNullException(nameof(token)); }
-
-        BotId = GetIdFromToken(token);
-
-        _localBotServer = baseUrl is not null;
-        var effectiveBaseUrl = _localBotServer
-            ? ExtractBaseUrl(baseUrl)
-            : BaseTelegramUrl;
-
-        _baseRequestUrl = $"{effectiveBaseUrl}/bot{token}";
-        _baseFileUrl = $"{effectiveBaseUrl}/file/bot{token}";
+        _options = options ?? throw new ArgumentNullException(nameof(options));
         _httpClient = httpClient ?? new HttpClient();
-
-        static long? GetIdFromToken(string token)
-        {
-#if NETCOREAPP3_1_OR_GREATER
-            var span = token.AsSpan();
-            var index = span.IndexOf(':');
-
-            if (index is < 1 or > 16) { return null; }
-
-            var botIdSpan = span[..index];
-            if (!long.TryParse(botIdSpan, out var botId)) { return null; }
-#else
-                var index = token.IndexOf(value: ':');
-
-                if (index is < 1 or > 16) { return null; }
-
-                var botIdSpan = token.Substring(startIndex: 0, length: index);
-                if (!long.TryParse(botIdSpan, out var botId)) { return null; }
-#endif
-
-            return botId;
-        }
     }
 
     /// <inheritdoc />
@@ -114,7 +71,7 @@ public class TelegramBotClient : ITelegramBotClient
     {
         if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
-        var url = $"{_baseRequestUrl}/{request.MethodName}";
+        var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
 
         using var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
@@ -247,7 +204,7 @@ public class TelegramBotClient : ITelegramBotClient
 
         if (destination is null) { throw new ArgumentNullException(nameof(destination)); }
 
-        var fileUri = $"{_baseFileUrl}/{filePath}";
+        var fileUri = $"{_options.BaseFileUrl}/{filePath}";
         using HttpResponseMessage httpResponse = await GetResponseAsync(
             httpClient: _httpClient,
             fileUri: fileUri,
@@ -329,28 +286,10 @@ public class TelegramBotClient : ITelegramBotClient
         }
     }
 
-    static string ExtractBaseUrl(string? baseUrl)
-    {
-        if (baseUrl is null) { throw new ArgumentNullException(paramName: nameof(baseUrl)); }
-
-        if (!Uri.TryCreate(uriString: baseUrl, uriKind: UriKind.Absolute, out var baseUri)
-            || string.IsNullOrEmpty(value: baseUri.Scheme)
-            || string.IsNullOrEmpty(value: baseUri.Authority))
-        {
-            throw new ArgumentException(
-                message: "Invalid format. A valid base url looks \"http://localhost:8081\" ",
-                paramName: nameof(baseUrl)
-            );
-        }
-
-        return $"{baseUri.Scheme}://{baseUri.Authority}";
-    }
-
     #region For testing purposes
 
-    internal string BaseRequestUrl => _baseRequestUrl;
-    internal string BaseFileUrl => _baseFileUrl;
-    internal bool LocalBotServer => _localBotServer;
+    internal string BaseRequestUrl => _options.BaseRequestUrl;
+    internal string BaseFileUrl => _options.BaseFileUrl;
 
     #endregion
 }
