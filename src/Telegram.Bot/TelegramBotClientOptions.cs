@@ -80,12 +80,12 @@ public class TelegramBotClientOptions
             : BaseTelegramUrl;
 
         BaseRequestUrl = useTestEnvironment
-            ? $"{effectiveBaseUrl}/bot{token}"
-            : $"{effectiveBaseUrl}/bot{token}/test";
+            ? $"{effectiveBaseUrl}/bot{token}/test"
+            : $"{effectiveBaseUrl}/bot{token}";
 
         BaseFileUrl = useTestEnvironment
-            ? $"{effectiveBaseUrl}/file/bot{token}"
-            : $"{effectiveBaseUrl}/file/bot{token}/test";
+            ? $"{effectiveBaseUrl}/file/bot{token}/test"
+            : $"{effectiveBaseUrl}/file/bot{token}";
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static long? GetIdFromToken(string token)
