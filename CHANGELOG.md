@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Package `Telegram.Bot.Extensions.Polling` is merged in the main package
+- Type `TelegramBotClientOptions`
 - Types `WebAppInfo`, `SentWebAppMessage`, `WebAppData`, `MenuButton`, `MenuButtonCommands`, `MenuButtonWebApp`,
   `MenuButtonDefault`, `ChatAdministratorRights`
 - Requests `AnswerWebAppQueryRequest`, `SetChatMenuButtonRequest`, `GetChatMenuButtonRequest`,
@@ -37,10 +38,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   `WebAppData` in type `Message`
 - Enum members `VideoChatScheduled`, `VideoChatStarted`, `VideoChatEnded`, and `VideoChatParticipantsInvited` 
   in type `MessageType`
+- Property `bool ITelegramBotClient.LocalBotServer`
 
 ### Changed
 - Renamed properties `ChatMemberAdministrator.CanManageVoiceChats`, `PromoteChatMemberRequest.CanManageVoiceChats` to 
   `ChatMemberAdministrator.CanManageVideoChats ` and `PromoteChatMemberRequest.CanManageVideoChats`
+- `TelegramBotClient` accepts `TelegramBotClientOptions` and `HttpClient`
 
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
@@ -51,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   in type `MessageType`
 - Properties `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded` and `VoiceChatParticipantsInvited`
   in type `Message`
+- Property `PinChatMessageRequest.ProtectedContent`
 
 ## [v18.0.0-alpha.1] - 2022-02-13
 
