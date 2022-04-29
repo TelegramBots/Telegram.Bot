@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace Telegram.Bot;
 
 /// <summary>
-///
+/// This class is used to provide configuration for <see cref="TelegramBotClient"/>
 /// </summary>
 [PublicAPI]
 public class TelegramBotClientOptions
@@ -24,7 +24,7 @@ public class TelegramBotClientOptions
     public string? BaseUrl { get; }
 
     /// <summary>
-    ///
+    /// Indicates that test environment will be used
     /// </summary>
     public bool UseTestEnvironment { get; }
 
@@ -37,22 +37,22 @@ public class TelegramBotClientOptions
     public long? BotId { get; }
 
     /// <summary>
-    ///
+    /// Indicates that local bot server will be used
     /// </summary>
     public bool LocalBotServer { get; }
 
     /// <summary>
-    ///
+    /// Contains base url for downloading files
     /// </summary>
     public string BaseFileUrl { get; }
 
     /// <summary>
-    ///
+    /// Contains base url for making requests
     /// </summary>
     public string BaseRequestUrl { get; }
 
     /// <summary>
-    ///
+    /// Create a new <see cref="TelegramBotClientOptions"/> instance.
     /// </summary>
     /// <param name="token">API token</param>
     /// <param name="baseUrl">
