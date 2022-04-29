@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Telegram.Bot.Args;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions;
@@ -17,6 +18,7 @@ namespace Telegram.Bot;
 /// <summary>
 /// A client to use the Telegram Bot API
 /// </summary>
+[PublicAPI]
 public class TelegramBotClient : ITelegramBotClient
 {
     readonly TelegramBotClientOptions _options;
@@ -54,15 +56,32 @@ public class TelegramBotClient : ITelegramBotClient
     /// <summary>
     /// Create a new <see cref="TelegramBotClient"/> instance.
     /// </summary>
-    /// <param name="options"></param>
+    /// <param name="options">Configuration for <see cref="TelegramBotClient" /></param>
     /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+    /// <exception cref="ArgumentNullException">
+    /// Thrown if <paramref name="options"/> is <c>null</c>
+    /// </exception>
     public TelegramBotClient(
         TelegramBotClientOptions options,
-        HttpClient? httpClient = null)
+        HttpClient? httpClient = default)
     {
         _options = options ?? throw new ArgumentNullException(nameof(options));
         _httpClient = httpClient ?? new HttpClient();
     }
+
+    /// <summary>
+    /// Create a new <see cref="TelegramBotClient"/> instance.
+    /// </summary>
+    /// <param name="token"></param>
+    /// <param name="httpClient">A custom <see cref="HttpClient"/></param>
+    /// <exception cref="ArgumentException">
+    /// Thrown if <paramref name="token"/> format is invalid
+    /// </exception>
+    public TelegramBotClient(
+        string token,
+        HttpClient? httpClient = null) :
+        this(new TelegramBotClientOptions(token), httpClient)
+    { }
 
     /// <inheritdoc />
     public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
@@ -73,10 +92,12 @@ public class TelegramBotClient : ITelegramBotClient
 
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
 
-        using var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
+#pragma warning disable CA2000
+        var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
             Content = request.ToHttpContent()
         };
+#pragma warning restore CA2000
 
         if (OnMakingApiRequest is not null)
         {
@@ -120,9 +141,8 @@ public class TelegramBotClient : ITelegramBotClient
                 .DeserializeContentAsync<ApiResponse>(
                     guard: response =>
                         response.ErrorCode == default ||
-                        // ReSharper disable ConditionIsAlwaysTrueOrFalse
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                         response.Description is null
-                    // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 )
                 .ConfigureAwait(false);
 
@@ -217,9 +237,8 @@ public class TelegramBotClient : ITelegramBotClient
                 .DeserializeContentAsync<ApiResponse>(
                     guard: response =>
                         response.ErrorCode == default ||
-                        // ReSharper disable ConditionIsAlwaysTrueOrFalse
+                        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
                         response.Description is null
-                    // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 )
                 .ConfigureAwait(false);
 

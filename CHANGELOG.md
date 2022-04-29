@@ -39,11 +39,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Enum members `VideoChatScheduled`, `VideoChatStarted`, `VideoChatEnded`, and `VideoChatParticipantsInvited` 
   in type `MessageType`
 - Property `bool ITelegramBotClient.LocalBotServer`
+- `TelegramBotClient` constructor that accepts an instance `TelegramBotClientOptions` and `HttpClient`
 
 ### Changed
 - Renamed properties `ChatMemberAdministrator.CanManageVoiceChats`, `PromoteChatMemberRequest.CanManageVoiceChats` to 
   `ChatMemberAdministrator.CanManageVideoChats ` and `PromoteChatMemberRequest.CanManageVideoChats`
-- `TelegramBotClient` accepts `TelegramBotClientOptions` and `HttpClient`
+- Removed `baseUrl` parameter from constructor in `TelegramBotClient` that accepts a token
 
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
