@@ -2423,7 +2423,6 @@ public static partial class TelegramBotClientExtensions
     /// Pass <c><c>true</c></c>, if it is not necessary to send a notification to all chat members about
     /// the new pinned message. Notifications are always disabled in channels and private chats
     /// </param>
-    /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -2432,7 +2431,6 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         int messageId,
         bool? disableNotification = default,
-        bool? protectContent = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient)).
@@ -2921,7 +2919,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to change the default administrator rights requested by the bot when it's added as an
-    /// administrator to groups or channels. These rights will be suggested to users, but they are are free to modify
+    /// administrator to groups or channels. These rights will be suggested to users, but they are free to modify
     /// the list before adding the bot.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
