@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EnumSerializer": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\ConsoleApp1\\ConsoleApp1.csproj"
+    }
+  }
+}
