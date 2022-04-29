@@ -10,21 +10,33 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework;
 
-internal record TestClientOptions(
-    int RetryCount,
-    TimeSpan DefaultTimeout,
-    string Token
-);
+internal class TestClientOptions : TelegramBotClientOptions
+{
+    public int RetryCount { get; }
+    public TimeSpan DefaultTimeout { get; }
+
+    public TestClientOptions(
+        string token,
+        string? baseUrl,
+        bool useTestEnvironment,
+        int retryCount,
+        TimeSpan defaultTimeout)
+        : base(token, baseUrl, useTestEnvironment)
+    {
+        RetryCount = retryCount;
+        DefaultTimeout = defaultTimeout;
+    }
+};
 
 internal class RetryTelegramBotClient : TelegramBotClient
 {
-    private readonly IMessageSink _diagnosticMessageSink;
-    private readonly TestClientOptions _options;
+    readonly IMessageSink _diagnosticMessageSink;
+    readonly TestClientOptions _options;
 
     public RetryTelegramBotClient(
         IMessageSink diagnosticMessageSink,
         TestClientOptions options)
-        : base(token: options.Token, httpClient: default, baseUrl: default)
+        : base(options)
     {
         _diagnosticMessageSink = diagnosticMessageSink;
         _options = options;
