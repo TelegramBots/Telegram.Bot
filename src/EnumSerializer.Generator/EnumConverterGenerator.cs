@@ -1,6 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -84,6 +85,13 @@ public class EnumConverterGenerator : IIncrementalGenerator
                 sb.Clear();
                 var result = SourceGenerationHelper.GenerateConverterClass(sb, enumToProcess);
                 context.AddSource(enumToProcess.Name + "Converter.g.cs", SourceText.From(result, Encoding.UTF8));
+
+                sb.Clear();
+                result = SourceGenerationHelper.GenerateConverterClass2(sb, enumToProcess);
+                context.AddSource(enumToProcess.Name + "Converter2.g.cs", SourceText.From(result, Encoding.UTF8));
+
+                result = SourceGenerationHelper.GenerateConverterClass3(enumToProcess);
+                context.AddSource(enumToProcess.Name + "Converter3.g.cs", SourceText.From(result, Encoding.UTF8));
             }
         }
     }
@@ -116,7 +124,7 @@ public class EnumConverterGenerator : IIncrementalGenerator
             string fullyQualifiedName = enumSymbol.ToString();
 
             var enumMembers = enumSymbol.GetMembers();
-            var members = new List<KeyValuePair<string, string>>(enumMembers.Length);
+            var members = new List<KeyValuePair<string, EnumMember>>(enumMembers.Length);
 
             foreach (var member in enumMembers)
             {
@@ -126,8 +134,9 @@ public class EnumConverterGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                //var snakeCaseName = snakeCaseStrategy.GetPropertyName(member.Name, false);
-                members.Add(new KeyValuePair<string, string>(member.Name, ToSnakeCase(member.Name)));
+                members.Add(new(
+                    member.Name,
+                    new((int)field.ConstantValue, ToSnakeCase(member.Name))));
 
             }
 
@@ -135,13 +144,14 @@ public class EnumConverterGenerator : IIncrementalGenerator
                 name: name,
                 ns: nameSpace,
                 fullyQualifiedName: fullyQualifiedName,
-                names: members));
+                members: members));
         }
         return enumsToProcess;
     }
 
     private static string ToSnakeCase(string name)
     {
+        IReadOnlyDictionary<string, string> a = new Dictionary<string, string>();
         return string.Concat(name.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
     }
 }
