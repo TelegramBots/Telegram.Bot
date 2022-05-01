@@ -39,10 +39,10 @@ internal class MessageTypeConverter : EnumConverter<MessageType>
             {"dice", MessageType.Dice},
             {"message_auto_delete_timer_changed", MessageType.MessageAutoDeleteTimerChanged},
             {"proximity_alert_triggered", MessageType.ProximityAlertTriggered},
-            {"voice_chat_scheduled", MessageType.VoiceChatScheduled},
-            {"voice_chat_started", MessageType.VoiceChatStarted},
-            {"voice_chat_ended", MessageType.VoiceChatEnded},
-            {"voice_chat_participants_invited", MessageType.VoiceChatParticipantsInvited}
+            {"video_chat_scheduled", MessageType.VideoChatScheduled},
+            {"video_chat_started", MessageType.VideoChatStarted},
+            {"video_chat_ended", MessageType.VideoChatEnded},
+            {"video_chat_participants_invited", MessageType.VideoChatParticipantsInvited}
         };
 
     static readonly IReadOnlyDictionary<MessageType, string> EnumToString =
@@ -79,10 +79,10 @@ internal class MessageTypeConverter : EnumConverter<MessageType>
             {MessageType.Dice, "dice"},
             {MessageType.MessageAutoDeleteTimerChanged, "message_auto_delete_timer_changed"},
             {MessageType.ProximityAlertTriggered, "proximity_alert_triggered"},
-            {MessageType.VoiceChatScheduled, "voice_chat_scheduled"},
-            {MessageType.VoiceChatStarted, "voice_chat_started"},
-            {MessageType.VoiceChatEnded, "voice_chat_ended"},
-            {MessageType.VoiceChatParticipantsInvited, "voice_chat_participants_invited"}
+            {MessageType.VideoChatScheduled, "video_chat_scheduled"},
+            {MessageType.VideoChatStarted, "video_chat_started"},
+            {MessageType.VideoChatEnded, "video_chat_ended"},
+            {MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited"}
         };
 
     protected override MessageType GetEnumValue(string value) =>
