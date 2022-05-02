@@ -1,0 +1,85 @@
+﻿{
+  "BotCommandScopeType": {
+    "MapTo": [
+      "BotCommandScopeDefault.type",
+      "BotCommandScopeAllPrivateChats.type",
+      "BotCommandScopeAllGroupChats.type",
+      "BotCommandScopeAllChatAdministrators.type",
+      "BotCommandScopeChat.type",
+      "BotCommandScopeChatAdministrators.type",
+      "BotCommandScopeChatMember.type"
+    ]
+  },
+  "ChatMemberStatus": {
+    "MapTo": [
+      "ChatMemberOwner.status",
+      "ChatMemberAdministrator.status",
+      "ChatMemberMember.status",
+      "ChatMemberRestricted.status",
+      "ChatMemberLeft.status",
+      "ChatMemberBanned.status",
+      "ChatMemberUpdated.status"
+    ]
+  },
+  "ChatType": {
+    "MapTo": [
+      "Chat.type",
+      "InlineQuery.chat_type"
+    ]
+  },
+  "InputMediaType": {
+    "MapTo": [
+      "InputMediaAnimation.type",
+      "InputMediaDocument.type",
+      "InputMediaAudio.type",
+      "InputMediaPhoto.type",
+      "InputMediaVideo.type"
+    ]
+  },
+  "MaskPositionPoint": {
+    "MapTo": [
+      "MaskPosition.point"
+    ]
+  },
+  "MenuButtonType": {
+    "MapTo": [
+      "MenuButtonCommands.type",
+      "MenuButtonWebApp.type",
+      "MenuButtonDefault.type"
+    ]
+  },
+  "MessageEntityType": {
+    "MapTo": [
+      "MessageEntity.type"
+    ]
+  },
+  "ParseMode": {
+    "MapTo": [
+      "InputMediaPhoto.parse_mode",
+      "InputMediaVideo.parse_mode",
+      "InputMediaAnimation.parse_mode",
+      "InputMediaAudio.parse_mode",
+      "InputMediaDocument.parse_mode",
+      "InputTextMessageContent.parse_mode",
+      "InlineQueryResultCachedAudio.parse_mode",
+      "InlineQueryResultCachedVoice.parse_mode",
+      "InlineQueryResultCachedVideo.parse_mode",
+      "InlineQueryResultCachedDocument.parse_mode",
+      "InlineQueryResultCachedMpeg4Gif.parse_mode",
+      "InlineQueryResultCachedGif.parse_mode",
+      "InlineQueryResultCachedPhoto.parse_mode",
+      "InlineQueryResultDocument.parse_mode",
+      "InlineQueryResultVoice.parse_mode",
+      "InlineQueryResultAudio.parse_mode",
+      "InlineQueryResultVideo.parse_mode",
+      "InlineQueryResultMpeg4Gif.parse_mode",
+      "InlineQueryResultGif.parse_mode",
+      "InlineQueryResultPhoto.parse_mode"
+    ]
+  },
+  "PollType": {
+    "MapTo": [
+      "Poll.type"
+    ]
+  }
+}
