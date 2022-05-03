@@ -9,13 +9,13 @@ public readonly struct EnumInfo
     /// <summary>
     /// Key is the enum name.
     /// </summary>
-    public readonly List<KeyValuePair<string, EnumMember>> Members;
+    public readonly List<KeyValuePair<string, string>> Members;
 
     public EnumInfo(
         string name,
         string ns,
         string fullyQualifiedName,
-        List<KeyValuePair<string, EnumMember>> members)
+        List<KeyValuePair<string, string>> members)
     {
         Name = name;
         Namespace = ns;

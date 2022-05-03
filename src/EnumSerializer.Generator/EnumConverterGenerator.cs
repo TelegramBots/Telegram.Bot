@@ -1,6 +1,7 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
+using Scriban;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
@@ -77,22 +78,16 @@ public class EnumConverterGenerator : IIncrementalGenerator
         IEnumerable<EnumDeclarationSyntax> distinctEnums = enums.Distinct();
 
         List<EnumInfo> enumsToProcess = GetTypesToGenerate(compilation, distinctEnums, context.CancellationToken);
-        if (enumsToProcess.Count > 0)
+        if (enumsToProcess.Count == 0)
         {
-            StringBuilder sb = new();
-            foreach (var enumToProcess in enumsToProcess)
-            {
-                sb.Clear();
-                var result = SourceGenerationHelper.GenerateConverterClass(sb, enumToProcess);
-                context.AddSource(enumToProcess.Name + "Converter.g.cs", SourceText.From(result, Encoding.UTF8));
+            return;
+        }
 
-                sb.Clear();
-                result = SourceGenerationHelper.GenerateConverterClass2(sb, enumToProcess);
-                context.AddSource(enumToProcess.Name + "Converter2.g.cs", SourceText.From(result, Encoding.UTF8));
-
-                result = SourceGenerationHelper.GenerateConverterClass3(enumToProcess);
-                context.AddSource(enumToProcess.Name + "Converter3.g.cs", SourceText.From(result, Encoding.UTF8));
-            }
+        Template template = Template.Parse(SourceGenerationHelper.converterTemplate);
+        foreach (var enumToProcess in enumsToProcess)
+        {
+            var result = SourceGenerationHelper.GenerateConverterClass(template, enumToProcess);
+            context.AddSource(enumToProcess.Name + "Converter3.g.cs", SourceText.From(result, Encoding.UTF8));
         }
     }
 
@@ -124,7 +119,7 @@ public class EnumConverterGenerator : IIncrementalGenerator
             string fullyQualifiedName = enumSymbol.ToString();
 
             var enumMembers = enumSymbol.GetMembers();
-            var members = new List<KeyValuePair<string, EnumMember>>(enumMembers.Length);
+            var members = new List<KeyValuePair<string, string>>(enumMembers.Length);
 
             foreach (var member in enumMembers)
             {
@@ -134,10 +129,28 @@ public class EnumConverterGenerator : IIncrementalGenerator
                     continue;
                 }
 
+                string? displayName = null;
+                foreach (var attribute in member.GetAttributes())
+                {
+                    if (attribute.AttributeClass is null
+                        || attribute.AttributeClass.Name != "DisplayAttribute")
+                    {
+                        continue;
+                    }
+
+                    foreach (var namedArgument in attribute.NamedArguments)
+                    {
+                        if (namedArgument.Key == "Name" && namedArgument.Value.Value?.ToString() is { } dn)
+                        {
+                            displayName = dn;
+                            break;
+                        }
+                    }
+                }
+
                 members.Add(new(
                     member.Name,
-                    new((int)field.ConstantValue, ToSnakeCase(member.Name))));
-
+                    displayName ?? ToSnakeCase(member.Name)));
             }
 
             enumsToProcess.Add(new EnumInfo(
@@ -151,7 +164,6 @@ public class EnumConverterGenerator : IIncrementalGenerator
 
     private static string ToSnakeCase(string name)
     {
-        IReadOnlyDictionary<string, string> a = new Dictionary<string, string>();
         return string.Concat(name.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
     }
 }
