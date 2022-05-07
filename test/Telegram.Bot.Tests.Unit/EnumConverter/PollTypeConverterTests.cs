@@ -6,12 +6,12 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_PollTypeConverter
+public class PollTypeConverterTests
 {
     [Theory]
     [InlineData(PollType.Regular, "regular")]
     [InlineData(PollType.Quiz, "quiz")]
-    public void Sould_Convert_ChatType_To_String(PollType pollType, string value)
+    public void Should_Convert_ChatType_To_String(PollType pollType, string value)
     {
         Poll poll = new Poll() { Type = pollType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -24,7 +24,7 @@ public class Test_PollTypeConverter
     [Theory]
     [InlineData(PollType.Regular, "regular")]
     [InlineData(PollType.Quiz, "quiz")]
-    public void Sould_Convert_String_To_PollType(PollType pollType, string value)
+    public void Should_Convert_String_To_PollType(PollType pollType, string value)
     {
         Poll expectedResult = new Poll() { Type = pollType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -35,7 +35,7 @@ public class Test_PollTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_PollType()
+    public void Should_Return_Zero_For_Incorrect_PollType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -45,7 +45,7 @@ public class Test_PollTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_PollType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_PollType()
     {
         Poll poll = new Poll() { Type = (PollType)int.MaxValue };
 
@@ -59,7 +59,7 @@ public class Test_PollTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class Poll
+    class Poll
     {
         [JsonProperty(Required = Required.Always)]
         public PollType Type { get; init; }

@@ -6,14 +6,14 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_MaskPositionPointConverter
+public class MaskPositionPointConverterTests
 {
     [Theory]
     [InlineData(MaskPositionPoint.Forehead, "forehead")]
     [InlineData(MaskPositionPoint.Eyes, "eyes")]
     [InlineData(MaskPositionPoint.Mouth, "mouth")]
     [InlineData(MaskPositionPoint.Chin, "chin")]
-    public void Sould_Convert_MaskPositionPoint_To_String(MaskPositionPoint maskPositionPoint, string value)
+    public void Should_Convert_MaskPositionPoint_To_String(MaskPositionPoint maskPositionPoint, string value)
     {
         MaskPosition maskPosition = new MaskPosition() { Point = maskPositionPoint };
         string expectedResult = @$"{{""point"":""{value}""}}";
@@ -28,7 +28,7 @@ public class Test_MaskPositionPointConverter
     [InlineData(MaskPositionPoint.Eyes, "eyes")]
     [InlineData(MaskPositionPoint.Mouth, "mouth")]
     [InlineData(MaskPositionPoint.Chin, "chin")]
-    public void Sould_Convert_String_To_MaskPositionPoint(MaskPositionPoint maskPositionPoint, string value)
+    public void Should_Convert_String_To_MaskPositionPoint(MaskPositionPoint maskPositionPoint, string value)
     {
         MaskPosition expectedResult = new MaskPosition() { Point = maskPositionPoint };
         string jsonData = @$"{{""point"":""{value}""}}";
@@ -39,7 +39,7 @@ public class Test_MaskPositionPointConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_MaskPositionPoint()
+    public void Should_Return_Zero_For_Incorrect_MaskPositionPoint()
     {
         string jsonData = @$"{{""point"":""{int.MaxValue}""}}";
 
@@ -49,7 +49,7 @@ public class Test_MaskPositionPointConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_MaskPositionPoint()
+    public void Should_Throw_NotSupportedException_For_Incorrect_MaskPositionPoint()
     {
         MaskPosition maskPosition = new MaskPosition() { Point = (MaskPositionPoint)int.MaxValue };
 
@@ -63,7 +63,7 @@ public class Test_MaskPositionPointConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class MaskPosition
+    class MaskPosition
     {
         [JsonProperty(Required = Required.Always)]
         public MaskPositionPoint Point { get; init; }

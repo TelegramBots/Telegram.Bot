@@ -172,6 +172,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                         ChannelWriter<Update> writer = _channel.Writer;
                         foreach (Update update in updateArray)
                         {
+                            // ReSharper disable once RedundantAssignment
                             var success = writer.TryWrite(update);
                             Debug.Assert(success, "TryWrite should succeed as we are using an unbounded channel");
                         }

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_EncryptedPassportElementTypeConverter
+public class EncryptedPassportElementTypeConverterTests
 {
     [Theory]
     [InlineData(EncryptedPassportElementType.PersonalDetails, "personal_details")]
@@ -22,7 +22,7 @@ public class Test_EncryptedPassportElementTypeConverter
     [InlineData(EncryptedPassportElementType.TemporaryRegistration, "temporary_registration")]
     [InlineData(EncryptedPassportElementType.PhoneNumber, "phone_number")]
     [InlineData(EncryptedPassportElementType.Email, "email")]
-    public void Sould_Convert_EncryptedPassportElementType_To_String(EncryptedPassportElementType encryptedPassportElementType, string value)
+    public void Should_Convert_EncryptedPassportElementType_To_String(EncryptedPassportElementType encryptedPassportElementType, string value)
     {
         EncryptedPassportElement encryptedPassportElement = new EncryptedPassportElement() { Type = encryptedPassportElementType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -46,7 +46,7 @@ public class Test_EncryptedPassportElementTypeConverter
     [InlineData(EncryptedPassportElementType.TemporaryRegistration, "temporary_registration")]
     [InlineData(EncryptedPassportElementType.PhoneNumber, "phone_number")]
     [InlineData(EncryptedPassportElementType.Email, "email")]
-    public void Sould_Convert_String_To_EncryptedPassportElementType(EncryptedPassportElementType encryptedPassportElementType, string value)
+    public void Should_Convert_String_To_EncryptedPassportElementType(EncryptedPassportElementType encryptedPassportElementType, string value)
     {
         EncryptedPassportElement expectedResult = new EncryptedPassportElement() { Type = encryptedPassportElementType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -57,7 +57,7 @@ public class Test_EncryptedPassportElementTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_EncryptedPassportElementType()
+    public void Should_Return_Zero_For_Incorrect_EncryptedPassportElementType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -67,7 +67,7 @@ public class Test_EncryptedPassportElementTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_EncryptedPassportElementType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_EncryptedPassportElementType()
     {
         EncryptedPassportElement encryptedPassportElement = new EncryptedPassportElement() { Type = (EncryptedPassportElementType)int.MaxValue };
 
@@ -81,7 +81,7 @@ public class Test_EncryptedPassportElementTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class EncryptedPassportElement
+    class EncryptedPassportElement
     {
         [JsonProperty(Required = Required.Always)]
         public EncryptedPassportElementType Type { get; init; }

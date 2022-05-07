@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InlineQueryResults;
@@ -5,10 +6,10 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_InlineQueryResultTypeConverter
+public class InlineQueryResultTypeConverterTests
 {
     [Theory]
-    [InlineData(InlineQueryResultType.Unknown, "unknown")]
+    [InlineData((InlineQueryResultType)0, "unknown")]
     [InlineData(InlineQueryResultType.Article, "article")]
     [InlineData(InlineQueryResultType.Photo, "photo")]
     [InlineData(InlineQueryResultType.Gif, "gif")]
@@ -22,7 +23,7 @@ public class Test_InlineQueryResultTypeConverter
     [InlineData(InlineQueryResultType.Voice, "voice")]
     [InlineData(InlineQueryResultType.Game, "game")]
     [InlineData(InlineQueryResultType.Sticker, "sticker")]
-    public void Sould_Convert_InlineQueryResultType_To_String(InlineQueryResultType inlineQueryResultType, string value)
+    public void Should_Convert_InlineQueryResultType_To_String(InlineQueryResultType inlineQueryResultType, string value)
     {
         InlineQueryResult inlineQuery = new InlineQueryResult() { Type = inlineQueryResultType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -33,7 +34,7 @@ public class Test_InlineQueryResultTypeConverter
     }
 
     [Theory]
-    [InlineData(InlineQueryResultType.Unknown, "unknown")]
+    [InlineData((InlineQueryResultType)0, "unknown")]
     [InlineData(InlineQueryResultType.Article, "article")]
     [InlineData(InlineQueryResultType.Photo, "photo")]
     [InlineData(InlineQueryResultType.Gif, "gif")]
@@ -47,7 +48,7 @@ public class Test_InlineQueryResultTypeConverter
     [InlineData(InlineQueryResultType.Voice, "voice")]
     [InlineData(InlineQueryResultType.Game, "game")]
     [InlineData(InlineQueryResultType.Sticker, "sticker")]
-    public void Sould_Convert_String_To_InlineQueryResultType(InlineQueryResultType inlineQueryResultType, string value)
+    public void Should_Convert_String_To_InlineQueryResultType(InlineQueryResultType inlineQueryResultType, string value)
     {
         InlineQueryResult expectedResult = new InlineQueryResult() { Type = inlineQueryResultType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -58,7 +59,7 @@ public class Test_InlineQueryResultTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_InlineQueryResultType()
+    public void Should_Return_Zero_For_Incorrect_InlineQueryResultType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -68,18 +69,15 @@ public class Test_InlineQueryResultTypeConverter
     }
 
     [Fact]
-    public void Sould_Convert_To_Unknown_For_Incorrect_InlineQueryResultType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_InlineQueryResultType()
     {
         InlineQueryResult inlineQueryResult = new InlineQueryResult() { Type = (InlineQueryResultType)int.MaxValue };
-        const string expectedResult = @"{""type"":""unknown""}";
 
-        string result = JsonConvert.SerializeObject(inlineQueryResult);
-
-        Assert.Equal(expectedResult, result);
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(inlineQueryResult));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class InlineQueryResult
+    class InlineQueryResult
     {
         [JsonProperty(Required = Required.Always)]
         public InlineQueryResultType Type { get; init; }

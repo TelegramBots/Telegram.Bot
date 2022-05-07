@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_InputMediaTypeConverter
+public class InputMediaTypeConverterTests
 {
     [Theory]
     [InlineData(InputMediaType.Photo, "photo")]
@@ -14,7 +14,7 @@ public class Test_InputMediaTypeConverter
     [InlineData(InputMediaType.Animation, "animation")]
     [InlineData(InputMediaType.Audio, "audio")]
     [InlineData(InputMediaType.Document, "document")]
-    public void Sould_Convert_InputMediaType_To_String(InputMediaType inputMediaType, string value)
+    public void Should_Convert_InputMediaType_To_String(InputMediaType inputMediaType, string value)
     {
         InputMedia inputMedia = new InputMedia() { Type = inputMediaType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -30,7 +30,7 @@ public class Test_InputMediaTypeConverter
     [InlineData(InputMediaType.Animation, "animation")]
     [InlineData(InputMediaType.Audio, "audio")]
     [InlineData(InputMediaType.Document, "document")]
-    public void Sould_Convert_String_To_InputMediaType(InputMediaType inputMediaType, string value)
+    public void Should_Convert_String_To_InputMediaType(InputMediaType inputMediaType, string value)
     {
         InputMedia expectedResult = new InputMedia() { Type = inputMediaType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -41,7 +41,7 @@ public class Test_InputMediaTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_InputMediaType()
+    public void Should_Return_Zero_For_Incorrect_InputMediaType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -51,7 +51,7 @@ public class Test_InputMediaTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_InputMediaType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_InputMediaType()
     {
         InputMedia inputMedia = new InputMedia() { Type = (InputMediaType)int.MaxValue };
 
@@ -65,7 +65,7 @@ public class Test_InputMediaTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class InputMedia
+    class InputMedia
     {
         [JsonProperty(Required = Required.Always)]
         public InputMediaType Type { get; init; }

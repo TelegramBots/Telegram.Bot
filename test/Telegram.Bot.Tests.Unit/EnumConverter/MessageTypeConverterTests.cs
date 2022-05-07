@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
@@ -5,7 +6,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_MessageTypeConverter
+public class MessageTypeConverterTests
 {
     [Theory]
     [InlineData(MessageType.Unknown, "unknown")]
@@ -43,7 +44,7 @@ public class Test_MessageTypeConverter
     [InlineData(MessageType.VideoChatStarted, "video_chat_started")]
     [InlineData(MessageType.VideoChatEnded, "video_chat_ended")]
     [InlineData(MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited")]
-    public void Sould_Convert_UpdateType_To_String(MessageType messageType, string value)
+    public void Should_Convert_UpdateType_To_String(MessageType messageType, string value)
     {
         Message message = new Message() { Type = messageType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -89,7 +90,7 @@ public class Test_MessageTypeConverter
     [InlineData(MessageType.VideoChatStarted, "video_chat_started")]
     [InlineData(MessageType.VideoChatEnded, "video_chat_ended")]
     [InlineData(MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited")]
-    public void Sould_Convert_String_To_UpdateType(MessageType messageType, string value)
+    public void Should_Convert_String_To_UpdateType(MessageType messageType, string value)
     {
         Message expectedResult = new Message() { Type = messageType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -100,7 +101,7 @@ public class Test_MessageTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Unknown_For_Incorrect_UpdateType()
+    public void Should_Return_Unknown_For_Incorrect_UpdateType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -110,18 +111,15 @@ public class Test_MessageTypeConverter
     }
 
     [Fact]
-    public void Sould_Convert_To_Unknown_For_Incorrect_MessageType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_MessageType()
     {
         Message message = new Message() { Type = (MessageType)int.MaxValue };
-        const string expectedResult = @"{""type"":""unknown""}";
 
-        string result = JsonConvert.SerializeObject(message);
-
-        Assert.Equal(expectedResult, result);
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(message));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class Message
+    class Message
     {
         [JsonProperty(Required = Required.Always)]
         public MessageType Type { get; init; }
