@@ -10,14 +10,9 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 public enum InlineQueryResultType
 {
     /// <summary>
-    /// Unknown <see cref="InlineQueryResultType"/>
-    /// </summary>
-    Unknown = 0,
-
-    /// <summary>
     /// <see cref="InlineQueryResultArticle"/>
     /// </summary>
-    Article,
+    Article = 1,
 
     /// <summary>
     /// <see cref="InlineQueryResultPhoto"/>
