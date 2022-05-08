@@ -2,7 +2,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Scriban;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Text;
 
@@ -11,14 +10,10 @@ namespace EnumSerializer.Generator;
 [Generator]
 public class EnumConverterGenerator : IIncrementalGenerator
 {
-    private const string JsonConverterAttribute = "Newtonsoft.Json.JsonConverterAttribute";
+    const string JsonConverterAttribute = "Newtonsoft.Json.JsonConverterAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        context.RegisterPostInitializationOutput(ctx =>
-            ctx.AddSource("EnumConverter.g.cs",
-                          SourceText.From(SourceGenerationHelper.EnumConverter, Encoding.UTF8)));
-
         IncrementalValuesProvider<EnumDeclarationSyntax> enumDeclarations = context.SyntaxProvider
            .CreateSyntaxProvider(
                predicate: static (s, _) => IsSyntaxTargetForGeneration(s),
@@ -33,7 +28,7 @@ public class EnumConverterGenerator : IIncrementalGenerator
     }
 
     static bool IsSyntaxTargetForGeneration(SyntaxNode node)
-        => node is EnumDeclarationSyntax m && m.AttributeLists.Count > 0;
+        => node is EnumDeclarationSyntax { AttributeLists.Count: > 0 };
 
     static EnumDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
     {
@@ -45,7 +40,8 @@ public class EnumConverterGenerator : IIncrementalGenerator
         {
             foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
             {
-                if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol is not IMethodSymbol attributeSymbol)
+                if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol
+                    is not IMethodSymbol attributeSymbol)
                 {
                     // weird, we couldn't get the symbol, ignore it
                     continue;
@@ -67,7 +63,10 @@ public class EnumConverterGenerator : IIncrementalGenerator
         return null;
     }
 
-    static void Execute(Compilation compilation, ImmutableArray<EnumDeclarationSyntax> enums, SourceProductionContext context)
+    static void Execute(
+        Compilation compilation,
+        ImmutableArray<EnumDeclarationSyntax> enums,
+        SourceProductionContext context)
     {
         if (enums.IsDefaultOrEmpty)
         {
@@ -83,19 +82,24 @@ public class EnumConverterGenerator : IIncrementalGenerator
             return;
         }
 
-        Template template = Template.Parse(SourceGenerationHelper.converterTemplate);
+        Template template = Template.Parse(SourceGenerationHelper.ConverterTemplate);
         foreach (var enumToProcess in enumsToProcess)
         {
             var result = SourceGenerationHelper.GenerateConverterClass(template, enumToProcess);
-            context.AddSource(enumToProcess.Name + "Converter3.g.cs", SourceText.From(result, Encoding.UTF8));
+            context.AddSource(
+                hintName: $"{enumToProcess.Name}Converter.g.cs",
+                sourceText: SourceText.From(result, Encoding.UTF8)
+            );
         }
     }
 
-    static List<EnumInfo> GetTypesToGenerate(Compilation compilation, IEnumerable<EnumDeclarationSyntax> enums, CancellationToken ct)
+    static List<EnumInfo> GetTypesToGenerate(
+        Compilation compilation,
+        IEnumerable<EnumDeclarationSyntax> enums, CancellationToken ct)
     {
         var enumsToProcess = new List<EnumInfo>();
         INamedTypeSymbol? enumAttribute = compilation.GetTypeByMetadataName(JsonConverterAttribute);
-        if (enumAttribute == null)
+        if (enumAttribute is null)
         {
             // nothing to do if this type isn't available
             return enumsToProcess;
@@ -107,14 +111,17 @@ public class EnumConverterGenerator : IIncrementalGenerator
             ct.ThrowIfCancellationRequested();
 
             SemanticModel semanticModel = compilation.GetSemanticModel(enumDeclarationSyntax.SyntaxTree);
-            if (semanticModel.GetDeclaredSymbol(enumDeclarationSyntax, cancellationToken: ct) is not INamedTypeSymbol enumSymbol)
+            if (semanticModel.GetDeclaredSymbol(enumDeclarationSyntax, cancellationToken: ct)
+                is not INamedTypeSymbol enumSymbol)
             {
                 // report diagnostic, something went wrong
                 continue;
             }
 
             string name = enumSymbol.Name;
-            string nameSpace = enumSymbol.ContainingNamespace.IsGlobalNamespace ? string.Empty : enumSymbol.ContainingNamespace.ToString();
+            string nameSpace = enumSymbol.ContainingNamespace.IsGlobalNamespace
+                ? string.Empty
+                : enumSymbol.ContainingNamespace.ToString();
 
             string fullyQualifiedName = enumSymbol.ToString();
 
@@ -150,20 +157,23 @@ public class EnumConverterGenerator : IIncrementalGenerator
 
                 members.Add(new(
                     member.Name,
-                    displayName ?? ToSnakeCase(member.Name)));
+                    displayName ?? ToSnakeCase(member.Name)
+                ));
             }
 
-            enumsToProcess.Add(new EnumInfo(
+            enumsToProcess.Add(new(
                 name: name,
                 ns: nameSpace,
                 fullyQualifiedName: fullyQualifiedName,
-                members: members));
+                members: members
+            ));
         }
         return enumsToProcess;
     }
 
-    private static string ToSnakeCase(string name)
-    {
-        return string.Concat(name.Select((x, i) => i > 0 && char.IsUpper(x) ? "_" + x.ToString() : x.ToString())).ToLower();
-    }
+    static string ToSnakeCase(string name) =>
+        string.Concat(name.Select((x, i) => i > 0 && char.IsUpper(x)
+            ? $"_{x}"
+            : x.ToString())
+        ).ToLower();
 }

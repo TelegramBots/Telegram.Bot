@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_EmojiConverter
+public class EmojiConverterTests
 {
     [Theory]
     [InlineData(Emoji.Dice, "🎲")]
@@ -15,7 +15,7 @@ public class Test_EmojiConverter
     [InlineData(Emoji.Football, "⚽")]
     [InlineData(Emoji.SlotMachine, "🎰")]
     [InlineData(Emoji.Bowling, "🎳")]
-    public void Sould_Convert_Emoji_To_String(Emoji emoji, string value)
+    public void Should_Convert_Emoji_To_String(Emoji emoji, string value)
     {
         Dice dice = new Dice() { Emoji = emoji };
         string expectedResult = @$"{{""emoji"":""{value}""}}";
@@ -32,7 +32,7 @@ public class Test_EmojiConverter
     [InlineData(Emoji.Football, "⚽")]
     [InlineData(Emoji.SlotMachine, "🎰")]
     [InlineData(Emoji.Bowling, "🎳")]
-    public void Sould_Convert_String_To_Emoji(Emoji emoji, string value)
+    public void Should_Convert_String_To_Emoji(Emoji emoji, string value)
     {
         Dice expectedResult = new Dice() { Emoji = emoji };
         string jsonData = @$"{{""emoji"":""{value}""}}";
@@ -43,7 +43,7 @@ public class Test_EmojiConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_Emoji()
+    public void Should_Return_Zero_For_Incorrect_Emoji()
     {
         string jsonData = @$"{{""emoji"":""{int.MaxValue}""}}";
 
@@ -53,7 +53,7 @@ public class Test_EmojiConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_Emoji()
+    public void Should_Throw_NotSupportedException_For_Incorrect_Emoji()
     {
         Dice dice = new Dice() { Emoji = (Emoji)int.MaxValue };
 
@@ -67,7 +67,7 @@ public class Test_EmojiConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class Dice
+    class Dice
     {
         [JsonProperty(Required = Required.Always)]
         public Emoji Emoji { get; init; }

@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_ChatTypeConverter
+public class ChatTypeConverterTests
 {
     [Theory]
     [InlineData(ChatType.Private, "private")]
@@ -14,7 +14,7 @@ public class Test_ChatTypeConverter
     [InlineData(ChatType.Channel, "channel")]
     [InlineData(ChatType.Supergroup, "supergroup")]
     [InlineData(ChatType.Sender, "sender")]
-    public void Sould_Convert_ChatType_To_String(ChatType chatType, string value)
+    public void Should_Convert_ChatType_To_String(ChatType chatType, string value)
     {
         InlineQuery inlineQuery = new InlineQuery() { Type = chatType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -30,7 +30,7 @@ public class Test_ChatTypeConverter
     [InlineData(ChatType.Channel, "channel")]
     [InlineData(ChatType.Supergroup, "supergroup")]
     [InlineData(ChatType.Sender, "sender")]
-    public void Sould_Convert_String_To_ChatType(ChatType chatType, string value)
+    public void Should_Convert_String_To_ChatType(ChatType chatType, string value)
     {
         InlineQuery expectedResult = new InlineQuery() { Type = chatType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -41,7 +41,7 @@ public class Test_ChatTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_ChatType()
+    public void Should_Return_Zero_For_Incorrect_ChatType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -51,7 +51,7 @@ public class Test_ChatTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_ChatType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_ChatType()
     {
         InlineQuery inlineQuery = new InlineQuery() { Type = (ChatType)int.MaxValue };
 
@@ -65,7 +65,7 @@ public class Test_ChatTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class InlineQuery
+    class InlineQuery
     {
         [JsonProperty(Required = Required.Always)]
         public ChatType Type { get; init; }

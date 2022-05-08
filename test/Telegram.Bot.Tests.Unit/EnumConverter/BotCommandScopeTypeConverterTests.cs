@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_BotCommandScopeTypeConverter
+public class BotCommandScopeTypeConverterTests
 {
     [Theory]
     [InlineData(BotCommandScopeType.Default, "default")]
@@ -16,7 +16,7 @@ public class Test_BotCommandScopeTypeConverter
     [InlineData(BotCommandScopeType.Chat, "chat")]
     [InlineData(BotCommandScopeType.ChatAdministrators, "chat_administrators")]
     [InlineData(BotCommandScopeType.ChatMember, "chat_member")]
-    public void Sould_Convert_BotCommandScopeType_To_String(BotCommandScopeType botCommandScopeType, string value)
+    public void Should_Convert_BotCommandScopeType_To_String(BotCommandScopeType botCommandScopeType, string value)
     {
         BotCommandScope botCommandScope = new BotCommandScope(){ Type = botCommandScopeType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -34,7 +34,7 @@ public class Test_BotCommandScopeTypeConverter
     [InlineData(BotCommandScopeType.Chat, "chat")]
     [InlineData(BotCommandScopeType.ChatAdministrators, "chat_administrators")]
     [InlineData(BotCommandScopeType.ChatMember, "chat_member")]
-    public void Sould_Convert_String_To_BotCommandScopeType(BotCommandScopeType botCommandScopeType, string value)
+    public void Should_Convert_String_To_BotCommandScopeType(BotCommandScopeType botCommandScopeType, string value)
     {
         BotCommandScope expectedResult = new BotCommandScope() { Type = botCommandScopeType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -45,7 +45,7 @@ public class Test_BotCommandScopeTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_BotCommandScopeType()
+    public void Should_Return_Zero_For_Incorrect_BotCommandScopeType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -55,7 +55,7 @@ public class Test_BotCommandScopeTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_BotCommandScopeType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_BotCommandScopeType()
     {
         BotCommandScope botCommandScope = new BotCommandScope() { Type = (BotCommandScopeType)int.MaxValue };
 
@@ -64,7 +64,7 @@ public class Test_BotCommandScopeTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class BotCommandScope
+    class BotCommandScope
     {
         [JsonProperty(Required = Required.Always)]
         public BotCommandScopeType Type { get; init; }

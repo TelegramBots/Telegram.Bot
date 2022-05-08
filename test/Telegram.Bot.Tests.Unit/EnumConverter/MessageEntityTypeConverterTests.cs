@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_MessageEntityTypeConverter
+public class MessageEntityTypeConverterTests
 {
     [Theory]
     [InlineData(MessageEntityType.Mention, "mention" )]
@@ -25,7 +25,7 @@ public class Test_MessageEntityTypeConverter
     [InlineData(MessageEntityType.Underline, "underline" )]
     [InlineData(MessageEntityType.Strikethrough, "strikethrough" )]
     [InlineData(MessageEntityType.Spoiler, "spoiler" )]
-    public void Sould_Convert_MessageEntityType_To_String(MessageEntityType messageEntityType, string value)
+    public void Should_Convert_MessageEntityType_To_String(MessageEntityType messageEntityType, string value)
     {
         MessageEntity messageEntity = new MessageEntity() { Type = messageEntityType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -52,7 +52,7 @@ public class Test_MessageEntityTypeConverter
     [InlineData(MessageEntityType.Underline, "underline")]
     [InlineData(MessageEntityType.Strikethrough, "strikethrough")]
     [InlineData(MessageEntityType.Spoiler, "spoiler")]
-    public void Sould_Convert_String_To_MessageEntityType(MessageEntityType messageEntityType, string value)
+    public void Should_Convert_String_To_MessageEntityType(MessageEntityType messageEntityType, string value)
     {
         MessageEntity expectedResult = new MessageEntity() { Type = messageEntityType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -63,7 +63,7 @@ public class Test_MessageEntityTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_MessageEntityType()
+    public void Should_Return_Zero_For_Incorrect_MessageEntityType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -73,7 +73,7 @@ public class Test_MessageEntityTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_MessageEntityType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_MessageEntityType()
     {
         MessageEntity messageEntity = new MessageEntity() { Type = (MessageEntityType)int.MaxValue };
 
@@ -87,7 +87,7 @@ public class Test_MessageEntityTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class MessageEntity
+    class MessageEntity
     {
         [JsonProperty(Required = Required.Always)]
         public MessageEntityType Type { get; init; }

@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_MenuButtonTypeConverter
+public class MenuButtonTypeConverterTests
 {
     [Theory]
     [InlineData(MenuButtonType.Default, "default")]
     [InlineData(MenuButtonType.Commands, "commands")]
     [InlineData(MenuButtonType.WebApp, "web_app")]
-    public void Sould_Convert_MenuButtonType_To_String(MenuButtonType menuButtonType, string value)
+    public void Should_Convert_MenuButtonType_To_String(MenuButtonType menuButtonType, string value)
     {
         MenuButton menuButton = new MenuButton() { Type = menuButtonType };
         string expectedResult = @$"{{""type"":""{value}""}}";
@@ -26,7 +26,7 @@ public class Test_MenuButtonTypeConverter
     [InlineData(MenuButtonType.Default, "default")]
     [InlineData(MenuButtonType.Commands, "commands")]
     [InlineData(MenuButtonType.WebApp, "web_app")]
-    public void Sould_Convert_String_To_MenuButtonType(MenuButtonType menuButtonType, string value)
+    public void Should_Convert_String_To_MenuButtonType(MenuButtonType menuButtonType, string value)
     {
         MenuButton expectedResult = new MenuButton() { Type = menuButtonType };
         string jsonData = @$"{{""type"":""{value}""}}";
@@ -37,7 +37,7 @@ public class Test_MenuButtonTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_MenuButtonType()
+    public void Should_Return_Zero_For_Incorrect_MenuButtonType()
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
@@ -47,7 +47,7 @@ public class Test_MenuButtonTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_MenuButtonType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_MenuButtonType()
     {
         MenuButton menuButton = new MenuButton() { Type = (MenuButtonType)int.MaxValue };
 
@@ -61,7 +61,7 @@ public class Test_MenuButtonTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class MenuButton
+    class MenuButton
     {
         [JsonProperty(Required = Required.Always)]
         public MenuButtonType Type { get; init; }

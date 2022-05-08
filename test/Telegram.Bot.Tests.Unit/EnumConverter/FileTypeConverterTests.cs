@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
-public class Test_FileTypeConverter
+public class FileTypeConverterTests
 {
     [Theory]
     [InlineData(FileType.Stream, "stream")]
     [InlineData(FileType.Id, "id")]
     [InlineData(FileType.Url, "url")]
-    public void Sould_Convert_FileType_To_String(FileType fileType, string value)
+    public void Should_Convert_FileType_To_String(FileType fileType, string value)
     {
         OnlineFile onlineFile = new OnlineFile() { FileType = fileType };
         string expectedResult = @$"{{""file_type"":""{value}""}}";
@@ -26,7 +26,7 @@ public class Test_FileTypeConverter
     [InlineData(FileType.Stream, "stream")]
     [InlineData(FileType.Id, "id")]
     [InlineData(FileType.Url, "url")]
-    public void Sould_Convert_String_To_FileType(FileType fileType, string value)
+    public void Should_Convert_String_To_FileType(FileType fileType, string value)
     {
         OnlineFile expectedResult = new OnlineFile() { FileType = fileType };
         string jsonData = @$"{{""file_type"":""{value}""}}";
@@ -37,7 +37,7 @@ public class Test_FileTypeConverter
     }
 
     [Fact]
-    public void Sould_Return_Zero_For_Incorrect_FileType()
+    public void Should_Return_Zero_For_Incorrect_FileType()
     {
         string jsonData = @$"{{""file_type"":""{int.MaxValue}""}}";
 
@@ -47,7 +47,7 @@ public class Test_FileTypeConverter
     }
 
     [Fact]
-    public void Sould_Throw_NotSupportedException_For_Incorrect_FileType()
+    public void Should_Throw_NotSupportedException_For_Incorrect_FileType()
     {
         OnlineFile onlineFile = new OnlineFile() { FileType = (FileType)int.MaxValue };
 
@@ -61,7 +61,7 @@ public class Test_FileTypeConverter
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    private class OnlineFile
+    class OnlineFile
     {
         [JsonProperty(Required = Required.Always)]
         public FileType FileType { get; init; }
