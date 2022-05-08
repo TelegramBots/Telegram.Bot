@@ -1,6 +1,4 @@
-using System;
 using Newtonsoft.Json;
-using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types.Enums;
 
