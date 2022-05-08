@@ -8,7 +8,6 @@ internal class InlineQueryResultTypeConverter : EnumConverter<InlineQueryResultT
     static readonly IReadOnlyDictionary<string, InlineQueryResultType> StringToEnum =
         new Dictionary<string, InlineQueryResultType>
         {
-            {"unknown", InlineQueryResultType.Unknown},
             {"article", InlineQueryResultType.Article},
             {"photo", InlineQueryResultType.Photo},
             {"gif", InlineQueryResultType.Gif},
@@ -27,7 +26,6 @@ internal class InlineQueryResultTypeConverter : EnumConverter<InlineQueryResultT
     static readonly IReadOnlyDictionary<InlineQueryResultType, string> EnumToString =
         new Dictionary<InlineQueryResultType, string>
         {
-            {InlineQueryResultType.Unknown, "unknown"},
             {InlineQueryResultType.Article, "article"},
             {InlineQueryResultType.Photo, "photo"},
             {InlineQueryResultType.Gif, "gif"},

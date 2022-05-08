@@ -1,8 +1,45 @@
-namespace Telegram.Bot.Generators;
+namespace Telegram.Bot.Generators.Extensions;
 
-internal static class SnakeCaseConverter
+internal static class NameExtensions
 {
-    internal static string ToSnakeCase(this string input)
+    public static string ToPascalCase(this string snakeCaseName)
+    {
+        ReadOnlySpan<char> snakeCaseNameSpan = snakeCaseName.AsSpan();
+
+        var amountOfUnderscores = 0;
+        foreach (char c in snakeCaseNameSpan)
+            if (c == '_')
+                amountOfUnderscores++;
+
+        Span<char> result = stackalloc char[snakeCaseNameSpan.Length - amountOfUnderscores];
+        var isUpper = true;
+        var index = 0;
+
+        foreach (char c in snakeCaseNameSpan)
+        {
+            if (c == '_')
+            {
+                isUpper = true;
+                continue;
+            }
+
+            if (isUpper)
+            {
+                isUpper = false;
+                result[index] = char.ToUpperInvariant(c);
+            }
+            else
+            {
+                result[index] = c;
+            }
+
+            index++;
+        }
+
+        return result.ToString();
+    }
+
+    public static string ToSnakeCase(this string input)
     {
         var countOfWordsInPropertyName = 0;
         ReadOnlySpan<char> nameSpan = input.AsSpan();
@@ -28,7 +65,7 @@ internal static class SnakeCaseConverter
 
     private static void ConvertToSeparatedCase(Span<char> destination, ReadOnlySpan<char> nameSpan, char separator)
     {
-        int position = 0;
+        var position = 0;
 
         foreach (char nameChar in nameSpan)
         {

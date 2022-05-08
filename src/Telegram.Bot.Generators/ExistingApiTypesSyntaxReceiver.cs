@@ -3,9 +3,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Telegram.Bot.Generators;
 
-public sealed class JsonAttributesSyntaxReceiver : ISyntaxReceiver
+public sealed class ExistingApiTypesSyntaxReceiver : ISyntaxReceiver
 {
-    public List<TypeDeclarationSyntax> Candidates { get; } = new();
+    public List<TypeDeclarationSyntax> ExistingApiTypes { get; } = new();
 
     public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
     {
@@ -18,10 +18,9 @@ public sealed class JsonAttributesSyntaxReceiver : ISyntaxReceiver
             typeDeclarationSyntax.Modifiers.Any(m => m.Text == "public") &&
             typeDeclarationSyntax.Modifiers.All(m => m.Text != "static") &&
             typeDeclarationSyntax.Parent is BaseNamespaceDeclarationSyntax namespaceDeclarationSyntax &&
-            (namespaceDeclarationSyntax.Name.ToString().Contains("Types") ||
-            namespaceDeclarationSyntax.Name.ToString().Contains("Requests")))
+            namespaceDeclarationSyntax.Name.ToString().Contains("Types"))
         {
-            Candidates.Add(typeDeclarationSyntax);
+            ExistingApiTypes.Add(typeDeclarationSyntax);
         }
     }
 }
