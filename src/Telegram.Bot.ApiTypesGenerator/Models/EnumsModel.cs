@@ -44,4 +44,27 @@ public sealed class EnumsModel
 
         return false;
     }
+
+    internal bool TryMapEnum(ref BotApiMethodParameter apiMethodParameter)
+    {
+        if (apiMethodParameter.ParameterTypeName is not "string")
+            return false;
+
+        var expectedMappingName = $"{apiMethodParameter.Parent.MethodName}.{apiMethodParameter.ParameterName}";
+
+        foreach ((string enumName, EnumModel enumModel) in Enums)
+        {
+            if (enumModel.MapTo.Contains(expectedMappingName))
+            {
+                apiMethodParameter = apiMethodParameter with
+                {
+                    ParameterTypeName = enumName,
+                    IsEnum = true
+                };
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
