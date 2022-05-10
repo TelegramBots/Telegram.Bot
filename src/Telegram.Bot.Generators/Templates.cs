@@ -46,7 +46,7 @@ public partial class {{ type_name }}
       end
 
       pascal_case_name = parameter.parameter_name | to_pascal_case
-      is_required = parameter.parameter_description | string.starts_with ""Optional""
+      is_required = parameter.parameter_description | !string.starts_with ""Optional""
       parameter_type_name = parameter.parameter_type_name | get_parameter_type_name
     }}
     /// <summary>
