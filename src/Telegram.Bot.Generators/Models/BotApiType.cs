@@ -1,4 +1,4 @@
-namespace Telegram.Bot.Generators;
+namespace Telegram.Bot.Generators.Models;
 
 internal sealed class BotApiType
 {
