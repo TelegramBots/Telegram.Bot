@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Telegram.Bot.ApiTypesGenerator;
+namespace Telegram.Bot.ApiParser;
 
 internal static class TelegramBotDocWriter
 {

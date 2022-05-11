@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Telegram.Bot.ApiTypesGenerator.Models;
+namespace Telegram.Bot.ApiParser.Models;
 
 public sealed class EnumsModel
 {

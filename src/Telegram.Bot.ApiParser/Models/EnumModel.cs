@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Telegram.Bot.ApiTypesGenerator.Models;
+namespace Telegram.Bot.ApiParser.Models;
 
 public sealed record EnumModel(
     string Description,

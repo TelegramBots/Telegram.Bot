@@ -48,7 +48,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumSerializer.Generator", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.Generators", "src\Telegram.Bot.Generators\Telegram.Bot.Generators.csproj", "{B4B8F957-3AE7-4A06-B559-FAD38B86A44B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.ApiTypesGenerator", "src\Telegram.Bot.ApiTypesGenerator\Telegram.Bot.ApiTypesGenerator.csproj", "{D1F90A5B-1AF2-4A88-9AD8-331A501D4603}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.ApiParser", "src\Telegram.Bot.ApiParser\Telegram.Bot.ApiParser.csproj", "{D1F90A5B-1AF2-4A88-9AD8-331A501D4603}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

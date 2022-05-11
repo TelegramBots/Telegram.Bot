@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Telegram.Bot.ApiTypesGenerator;
+namespace Telegram.Bot.ApiParser;
 
 public sealed record BotApiMethodParameter(
     string ParameterName,

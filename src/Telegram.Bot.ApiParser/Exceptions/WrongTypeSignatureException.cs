@@ -1,6 +1,6 @@
 using System;
 
-namespace Telegram.Bot.ApiTypesGenerator.Exceptions;
+namespace Telegram.Bot.ApiParser.Exceptions;
 
 internal sealed class WrongTypeSignatureException : Exception
 {

@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.ApiTypesGenerator;
+﻿using Telegram.Bot.ApiParser;
 
 TelegramBotDocParser parser = new();
 await parser.LoadBotApiPageAsync();

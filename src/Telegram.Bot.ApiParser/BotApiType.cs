@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Telegram.Bot.ApiTypesGenerator;
+namespace Telegram.Bot.ApiParser;
 
 internal sealed record BotApiType(
     string TypeName,

@@ -39,6 +39,10 @@ public sealed class ApiTypesGenerator : ISourceGenerator
 
         foreach (BotApiType botApiType in types)
         {
+            botApiType.TypeName = Templates.Types.Mapping.TryGetValue(botApiType.TypeName, out string? newTypeName)
+                ? newTypeName
+                : botApiType.TypeName;
+
             if (existingApiTypes.FirstOrDefault(t =>
                 {
                     SemanticModel model = context.Compilation.GetSemanticModel(t.SyntaxTree);

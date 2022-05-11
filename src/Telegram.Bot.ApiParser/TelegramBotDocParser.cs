@@ -9,10 +9,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using HtmlAgilityPack;
-using Telegram.Bot.ApiTypesGenerator.Exceptions;
-using Telegram.Bot.ApiTypesGenerator.Models;
+using Telegram.Bot.ApiParser.Exceptions;
+using Telegram.Bot.ApiParser.Models;
 
-namespace Telegram.Bot.ApiTypesGenerator;
+namespace Telegram.Bot.ApiParser;
 
 internal sealed class TelegramBotDocParser
 {
