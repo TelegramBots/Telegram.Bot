@@ -26,19 +26,19 @@ namespace {{ request_namespace }};
 /// {{ method_description_line }}
 {{~ end ~}}
 /// </summary>
-{{
-  class_name = {{ method_name | string.capitalize }} | string.append ""Request""
+{{-
+  class_name = method_name | string.capitalize | string.append ""Request""
 }}
 public partial class {{ class_name }} : {{
   case parameters.size
     when 0
-      ""ParameterlessRequest<"" + request_return_type + "">""
+      ""ParameterlessRequest<"" + method_return_type + "">""
     else
-      ""RequestBase<"" + request_return_type + "">""
+      ""RequestBase<"" + method_return_type + "">""
   end
 }}
 {
-    {{~ for parameter in parameters ~}}
+    {{- for parameter in parameters ~}}
     {{
       func to_pascal_case(input)
         $separated = input | string.split ""_"" | array.each do
