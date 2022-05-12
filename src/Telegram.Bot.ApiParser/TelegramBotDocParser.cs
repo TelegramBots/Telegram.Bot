@@ -11,6 +11,7 @@ using System.Web;
 using HtmlAgilityPack;
 using Telegram.Bot.ApiParser.Exceptions;
 using Telegram.Bot.ApiParser.Models;
+using Telegram.Bot.ApiParser.Models.Enums;
 
 namespace Telegram.Bot.ApiParser;
 
@@ -43,8 +44,9 @@ internal sealed class TelegramBotDocParser
             HtmlNode typeDescriptionNode = GetNextSibling(typeNameNode);
             var botApiType = new BotApiType(
                 typeNameNode.GetDirectInnerText(),
-                DecodeDescription(typeDescriptionNode.InnerText),
-                new List<BotApiTypeParameter>());
+                ConstructDescription(typeDescriptionNode),
+                "group",
+                new List<BotApiParameter>());
             try
             {
                 MapParametersForType(botApiType, typeDescriptionNode);
@@ -55,8 +57,9 @@ internal sealed class TelegramBotDocParser
             {
                 var botApiMethod = new BotApiMethod(
                     botApiType.TypeName,
-                    DecodeDescription(botApiType.TypeDescription),
-                    new List<BotApiMethodParameter>());
+                    botApiType.TypeDescription,
+                    "group",
+                    new List<BotApiParameter>());
 
                 MapParametersForMethod(botApiMethod, typeDescriptionNode);
 
@@ -98,14 +101,13 @@ internal sealed class TelegramBotDocParser
             HtmlNode parameterType = tds[1];
             HtmlNode parameterDescription = tds[2];
 
-            var botApiTypeParameter = new BotApiTypeParameter(
+            var botApiTypeParameter = new BotApiParameter(
                 parameterName.InnerText,
-                DecodeDescription(parameterDescription.InnerText),
                 GetDotNetTypeName(parameterType.InnerText),
-                false,
-                apiType);
+                ConstructDescription(parameterDescription),
+                !parameterDescription.InnerText.StartsWith("Optional"));
 
-            _enums.TryMapEnum(ref botApiTypeParameter);
+            _enums.TryMapEnum(ref botApiTypeParameter, apiType);
 
             apiType.Parameters.Add(botApiTypeParameter);
         }
@@ -130,15 +132,13 @@ internal sealed class TelegramBotDocParser
             HtmlNode parameterRequired = tds[2];
             HtmlNode parameterDescription = tds[3];
 
-            var botApiMethodParameter = new BotApiMethodParameter(
+            var botApiMethodParameter = new BotApiParameter(
                 parameterName.InnerText,
-                DecodeDescription(parameterDescription.InnerText),
                 GetDotNetTypeName(parameterType.InnerText),
-                false,
-                parameterRequired.InnerText == "Yes",
-                apiMethod);
+                ConstructDescription(parameterDescription),
+                parameterRequired.InnerText == "Yes");
 
-            _enums.TryMapEnum(ref botApiMethodParameter);
+            _enums.TryMapEnum(ref botApiMethodParameter, apiMethod);
 
             apiMethod.Parameters.Add(botApiMethodParameter);
         }
@@ -172,10 +172,34 @@ internal sealed class TelegramBotDocParser
         return sibling;
     }
 
-    private static string DecodeDescription(string description)
+    private static BotApiDescription ConstructDescription(HtmlNode descriptionNode)
     {
-        string decoded = HttpUtility.HtmlDecode(description);
+        static IEnumerable<DescriptionEntity> MapEntities(HtmlNodeCollection childNodes)
+        {
+            foreach (HtmlNode childNode in childNodes.Where(n => n.Name == "a"))
+            {
+                string targetHref = childNode.GetAttributeValue("href", string.Empty);
+                if (targetHref == string.Empty || !targetHref.StartsWith('#'))
+                    continue;
+
+                string text = targetHref[1..];
+                yield return new DescriptionEntity(
+                    EntityText: text,
+                    EntityKind: GetEntityKind(text));
+            }
+        }
+
+        var entities = MapEntities(descriptionNode.ChildNodes).ToList();
+        string decoded = HttpUtility.HtmlDecode(descriptionNode.InnerText);
         string withNewLines = Regex.Replace(decoded, "\\.([A-Z0-9])", ".\n$1");
-        return withNewLines;
+
+        return new BotApiDescription(
+            DescriptionText: withNewLines,
+            Entities: entities);
+    }
+
+    private static DescriptionEntityKind GetEntityKind(string entityText)
+    {
+        return DescriptionEntityKind.Method;
     }
 }

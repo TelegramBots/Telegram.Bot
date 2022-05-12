@@ -22,12 +22,12 @@ public sealed class EnumsModel
         }
     }
 
-    internal bool TryMapEnum(ref BotApiTypeParameter apiTypeParameter)
+    internal bool TryMapEnum(ref BotApiParameter apiTypeParameter, BotApiType type)
     {
         if (apiTypeParameter.ParameterTypeName is not "string")
             return false;
 
-        var expectedMappingName = $"{apiTypeParameter.Parent.TypeName}.{apiTypeParameter.ParameterName}";
+        var expectedMappingName = $"{type.TypeName}.{apiTypeParameter.ParameterName}";
 
         foreach ((string enumName, EnumModel enumModel) in Enums)
         {
@@ -35,8 +35,7 @@ public sealed class EnumsModel
             {
                 apiTypeParameter = apiTypeParameter with
                 {
-                    ParameterTypeName = enumName,
-                    IsEnum = true
+                    ParameterTypeName = "Telegram.Bot.Types.Enums." + enumName
                 };
                 return true;
             }
@@ -45,12 +44,12 @@ public sealed class EnumsModel
         return false;
     }
 
-    internal bool TryMapEnum(ref BotApiMethodParameter apiMethodParameter)
+    internal bool TryMapEnum(ref BotApiParameter apiMethodParameter, BotApiMethod method)
     {
         if (apiMethodParameter.ParameterTypeName is not "string")
             return false;
 
-        var expectedMappingName = $"{apiMethodParameter.Parent.MethodName}.{apiMethodParameter.ParameterName}";
+        var expectedMappingName = $"{method.MethodName}.{apiMethodParameter.ParameterName}";
 
         foreach ((string enumName, EnumModel enumModel) in Enums)
         {
@@ -58,8 +57,7 @@ public sealed class EnumsModel
             {
                 apiMethodParameter = apiMethodParameter with
                 {
-                    ParameterTypeName = enumName,
-                    IsEnum = true
+                    ParameterTypeName = "Telegram.Bot.Types.Enums." + enumName
                 };
                 return true;
             }

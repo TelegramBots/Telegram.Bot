@@ -1,0 +1,186 @@
+﻿{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "telegram-bot-api-parser-output",
+  "title": "Telegram Bot API parser data",
+  "description": "Represents an object that contains the data parsed from official Telegram Bots API",
+  "type": "object",
+  "properties": {
+    "info": {
+      "$ref": "#/definitions/info"
+    },
+    "methods": {
+      "type": "array",
+      "title": "Array of Bot API methods",
+      "items": {
+        "$ref": "#/definitions/method"
+      }
+    },
+    "types": {
+      "type": "array",
+      "title": "Array of Bot API types",
+      "items": {
+        "$ref": "#/definitions/type"
+      }
+    }
+  },
+  "definitions": {
+    "info": {
+      "type": "object",
+      "title": "Bot API information",
+      "description": "Represents an object containing the actual information about parsed API, such as API version",
+      "properties": {
+        "apiVersion": {
+          "type": "string",
+          "pattern": "^\\d\\.\\d$",
+          "title": "Bot API version",
+          "description": "Represents a Bot API version parsed from site, such as '6.0'"
+        }
+      },
+      "required": [
+        "apiVersion"
+      ]
+    },
+    "method": {
+      "type": "object",
+      "title": "Bot API method",
+      "description": "Represents a method parsed from official Telegram Bots API. It will be later mapped into request classes",
+      "properties": {
+        "methodName": {
+          "type": "string",
+          "title": "Unique method name",
+          "description": "Represents a method name parsed from site, such as 'sendLocation' or 'answerInlineQuery'"
+        },
+        "methodDescription": {
+          "$ref": "#/definitions/description"
+        },
+        "methodGroup": {
+          "type": "string",
+          "title": "Group of method",
+          "description": "Represents a group (section) name parsed from site, such as 'Updating messages' or 'Inline mode'"
+        },
+        "parameters": {
+          "type": "array",
+          "title": "Array of method parameters",
+          "items": {
+            "$ref": "#/definitions/parameter"
+          }
+        }
+      },
+      "required": [
+        "methodName",
+        "methodDescription",
+        "methodGroup",
+        "parameters"
+      ]
+    },
+    "type": {
+      "type": "object",
+      "title": "Bot API type",
+      "description": "Represents a type parsed from official Telegram Bots API. It will be later mapped into type classes",
+      "properties": {
+        "typeName": {
+          "type": "string",
+          "title": "Unique type name",
+          "description": "Represents a type name parsed from site, such as 'Update' or 'InlineQueryResultGif'"
+        },
+        "typeDescription": {
+          "$ref": "#/definitions/description"
+        },
+        "typeGroup": {
+          "type": "string",
+          "title": "Group of type",
+          "description": "Represents a group (section) name parsed from site, such as 'Getting updates' or 'Inline mode'"
+        },
+        "parameters": {
+          "type": "array",
+          "title": "Array of type parameters",
+          "items": {
+            "$ref": "#/definitions/parameter"
+          }
+        }
+      },
+      "required": [
+        "typeName",
+        "typeDescription",
+        "typeGroup",
+        "parameters"
+      ]
+    },
+    "parameter": {
+      "type": "object",
+      "title": "Parameter of either Bot API method or type",
+      "properties": {
+        "parameterName": {
+          "type": "string",
+          "title": "Parameter name",
+          "description": "Represents unique parameter name in snake_case format"
+        },
+        "parameterTypeName": {
+          "type": "string",
+          "title": "Parameter type name",
+          "description": "Represents .NET fully qualified name of type or its short alias for this parameter"
+        },
+        "parameterDescription": {
+          "$ref": "#/definitions/description"
+        },
+        "isRequired": {
+          "type": "boolean",
+          "title": "Parameter requirement",
+          "description": "Determines whether this parameter is required or not"
+        }
+      },
+      "required": [
+        "parameterName",
+        "parameterTypeName",
+        "parameterDescription",
+        "isRequired"
+      ]
+    },
+    "description": {
+      "type": "object",
+      "title": "Description of Bot API parameter",
+      "properties": {
+        "descriptionText": {
+          "type": "string",
+          "title": "Description escaped text"
+        },
+        "entities": {
+          "type": "array",
+          "title": "Array of description entities",
+          "items": {
+            "$ref": "#/definitions/descriptionEntity"
+          }
+        }
+      },
+      "required": [
+        "descriptionText",
+        "entities"
+      ]
+    },
+    "descriptionEntity": {
+      "type": "object",
+      "title": "Entity of Bot API description",
+      "description": "Represents an information about URLs or code formatting of description, if any",
+      "properties": {
+        "entityText": {
+          "type": "string",
+          "title": "Description entity text",
+          "description": "Name of method or type this entity is referring to"
+        },
+        "entityKind": {
+          "type": "string",
+          "enum": [
+            "method",
+            "type"
+          ],
+          "title": "Description entity kind",
+          "description": "Kind of element this entity is referring to (either 'method' or 'type')"
+        }
+      },
+      "required": [
+        "entityText",
+        "entityKind"
+      ]
+    }
+  }
+}
