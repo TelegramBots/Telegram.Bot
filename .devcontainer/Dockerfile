@@ -1,5 +1,5 @@
 ARG DOTNET_VERSION=6.0
-FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-buster-slim
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-bullseye-slim
 ARG USERNAME=vscode
 ARG USER_UID=1000
 ARG USER_GID=${USER_UID}
