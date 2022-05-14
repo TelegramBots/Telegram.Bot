@@ -89,38 +89,6 @@ public sealed class TelegramBotDocParser
                 siblingNode = GetNextSibling(siblingNode);
             }
         }
-
-        // HtmlNodeCollection types = doc.DocumentNode.SelectNodes("//h4");
-        // foreach (HtmlNode typeNameNode in types)
-        // {
-        //     HtmlNode typeDescriptionNode = GetNextSibling(typeNameNode);
-        //     var botApiType = new BotApiType(
-        //         typeNameNode.GetDirectInnerText(),
-        //         ConstructDescription(typeDescriptionNode),
-        //         "group",
-        //         new List<BotApiParameter>());
-        //     try
-        //     {
-        //         MapParametersForType(botApiType, typeDescriptionNode);
-        //
-        //         _types.Add(botApiType);
-        //     }
-        //     catch (WrongTypeSignatureException)
-        //     {
-        //         var botApiMethod = new BotApiMethod(
-        //             botApiType.TypeName,
-        //             botApiType.TypeDescription,
-        //             "group",
-        //             new List<BotApiParameter>());
-        //
-        //         MapParametersForMethod(botApiMethod, typeDescriptionNode);
-        //
-        //         _methods.Add(botApiMethod);
-        //     }
-        //     catch (NullReferenceException)
-        //     {
-        //     }
-        // }
     }
 
     public async Task ParseEnumsAsync()
