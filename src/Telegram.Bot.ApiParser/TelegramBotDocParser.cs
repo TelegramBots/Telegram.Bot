@@ -15,17 +15,16 @@ using Telegram.Bot.ApiParser.Models.Enums;
 
 namespace Telegram.Bot.ApiParser;
 
-internal sealed class TelegramBotDocParser
+public sealed class TelegramBotDocParser
 {
     private const string BotApiUrl = "https://core.telegram.org/bots/api";
 
     private string? _html;
     private EnumsModel? _enums;
-    private readonly List<BotApiType> _types = new();
-    private readonly List<BotApiMethod> _methods = new();
 
-    public IReadOnlyCollection<BotApiType> Types => _types.ToImmutableArray();
-    public IReadOnlyCollection<BotApiMethod> Methods => _methods.ToImmutableArray();
+    public List<BotApiType> Types { get; } = new();
+    public List<BotApiMethod> Methods { get; } = new();
+    public string Version { get; private set; } = string.Empty;
 
     public async Task LoadBotApiPageAsync()
     {
@@ -38,37 +37,90 @@ internal sealed class TelegramBotDocParser
         var doc = new HtmlDocument();
         doc.LoadHtml(_html);
 
-        HtmlNodeCollection types = doc.DocumentNode.SelectNodes("//h4");
-        foreach (HtmlNode typeNameNode in types)
+        // Parsing version
+        HtmlNode versionNode = doc.DocumentNode.SelectSingleNode("//div[@id='dev_page_content']/p");
+        Version = versionNode.InnerText.Split(' ')[2];
+
+        // Parsing types and methods
+        HtmlNodeCollection sections = doc.DocumentNode.SelectNodes("//h3");
+        foreach (HtmlNode section in sections)
         {
-            HtmlNode typeDescriptionNode = GetNextSibling(typeNameNode);
-            var botApiType = new BotApiType(
-                typeNameNode.GetDirectInnerText(),
-                ConstructDescription(typeDescriptionNode),
-                "group",
-                new List<BotApiParameter>());
-            try
-            {
-                MapParametersForType(botApiType, typeDescriptionNode);
+            string sectionName = section.InnerText;
 
-                _types.Add(botApiType);
-            }
-            catch (WrongTypeSignatureException)
+            HtmlNode? siblingNode = GetNextSibling(section);
+            while (siblingNode is { Name: not "h3" })
             {
-                var botApiMethod = new BotApiMethod(
-                    botApiType.TypeName,
-                    botApiType.TypeDescription,
-                    "group",
-                    new List<BotApiParameter>());
+                if (siblingNode is { Name: "h4" } typeNameNode)
+                {
+                    HtmlNode? typeDescriptionNode = GetNextSibling(typeNameNode);
+                    if (typeDescriptionNode == null)
+                        break;
 
-                MapParametersForMethod(botApiMethod, typeDescriptionNode);
+                    var botApiType = new BotApiType(
+                        typeNameNode.GetDirectInnerText(),
+                        ConstructDescription(typeDescriptionNode),
+                        sectionName,
+                        new List<BotApiParameter>(),
+                        typeNameNode.FirstChild.GetAttributeValue("name", ""));
+                    try
+                    {
+                        MapParametersForType(botApiType, typeDescriptionNode);
 
-                _methods.Add(botApiMethod);
-            }
-            catch (NullReferenceException)
-            {
+                        Types.Add(botApiType);
+                    }
+                    catch (WrongTypeSignatureException)
+                    {
+                        var botApiMethod = new BotApiMethod(
+                            botApiType.TypeName,
+                            botApiType.TypeDescription,
+                            sectionName,
+                            new List<BotApiParameter>(),
+                            typeNameNode.FirstChild.GetAttributeValue("name", ""));
+
+                        MapParametersForMethod(botApiMethod, typeDescriptionNode);
+
+                        Methods.Add(botApiMethod);
+                    }
+                    catch (NullReferenceException)
+                    {
+                    }
+                }
+
+                siblingNode = GetNextSibling(siblingNode);
             }
         }
+
+        // HtmlNodeCollection types = doc.DocumentNode.SelectNodes("//h4");
+        // foreach (HtmlNode typeNameNode in types)
+        // {
+        //     HtmlNode typeDescriptionNode = GetNextSibling(typeNameNode);
+        //     var botApiType = new BotApiType(
+        //         typeNameNode.GetDirectInnerText(),
+        //         ConstructDescription(typeDescriptionNode),
+        //         "group",
+        //         new List<BotApiParameter>());
+        //     try
+        //     {
+        //         MapParametersForType(botApiType, typeDescriptionNode);
+        //
+        //         _types.Add(botApiType);
+        //     }
+        //     catch (WrongTypeSignatureException)
+        //     {
+        //         var botApiMethod = new BotApiMethod(
+        //             botApiType.TypeName,
+        //             botApiType.TypeDescription,
+        //             "group",
+        //             new List<BotApiParameter>());
+        //
+        //         MapParametersForMethod(botApiMethod, typeDescriptionNode);
+        //
+        //         _methods.Add(botApiMethod);
+        //     }
+        //     catch (NullReferenceException)
+        //     {
+        //     }
+        // }
     }
 
     public async Task ParseEnumsAsync()
@@ -85,9 +137,10 @@ internal sealed class TelegramBotDocParser
         if (_enums == null)
             throw new ArgumentException("Enums object is null. Consider calling the ParseEnumsAsync method.");
 
-        HtmlNode parametersTableNode = GetNextSibling(typeDescriptionNode);
+        HtmlNode? parametersTableNode = GetNextSibling(typeDescriptionNode);
 
-        foreach (HtmlNode tr in parametersTableNode.SelectSingleNode("./tbody").ChildNodes.Where(n => n.InnerText != "\n"))
+        // Throwing NullReferenceException is okay here, we suppress the warning
+        foreach (HtmlNode tr in parametersTableNode!.SelectSingleNode("./tbody").ChildNodes.Where(n => n.InnerText != "\n"))
         {
             var tds = tr.ChildNodes.Where(n => n.InnerText != "\n").ToArray();
 
@@ -118,9 +171,10 @@ internal sealed class TelegramBotDocParser
         if (_enums == null)
             throw new ArgumentException("Enums object is null. Consider calling the ParseEnumsAsync method.");
 
-        HtmlNode parametersTableNode = GetNextSibling(typeDescriptionNode);
+        HtmlNode? parametersTableNode = GetNextSibling(typeDescriptionNode);
 
-        foreach (HtmlNode tr in parametersTableNode.SelectSingleNode("./tbody").ChildNodes.Where(n => n.InnerText != "\n"))
+        // Throwing NullReferenceException is okay here, we suppress the warning
+        foreach (HtmlNode tr in parametersTableNode!.SelectSingleNode("./tbody").ChildNodes.Where(n => n.InnerText != "\n"))
         {
             var tds = tr.ChildNodes.Where(n => n.InnerText != "\n").ToArray();
 
@@ -161,10 +215,10 @@ internal sealed class TelegramBotDocParser
         };
     }
 
-    private static HtmlNode GetNextSibling(HtmlNode node)
+    private static HtmlNode? GetNextSibling(HtmlNode node)
     {
-        HtmlNode sibling = node.NextSibling;
-        while (sibling.OuterHtml == "\n")
+        HtmlNode? sibling = node.NextSibling;
+        while (sibling is { OuterHtml: "\n" })
         {
             sibling = sibling.NextSibling;
         }
@@ -179,13 +233,14 @@ internal sealed class TelegramBotDocParser
             foreach (HtmlNode childNode in childNodes.Where(n => n.Name == "a"))
             {
                 string targetHref = childNode.GetAttributeValue("href", string.Empty);
-                if (targetHref == string.Empty || !targetHref.StartsWith('#'))
+                if (string.IsNullOrEmpty(targetHref))
                     continue;
 
-                string text = targetHref[1..];
                 yield return new DescriptionEntity(
-                    EntityText: text,
-                    EntityKind: GetEntityKind(text));
+                    EntityText: childNode.InnerText,
+                    EntityValue: targetHref,
+                    EntityKind: null,
+                    EntityKindFactory: GetEntityKindFactory(targetHref));
             }
         }
 
@@ -198,8 +253,22 @@ internal sealed class TelegramBotDocParser
             Entities: entities);
     }
 
-    private static DescriptionEntityKind GetEntityKind(string entityText)
+    private static Func<TelegramBotDocParser, DescriptionEntityKind> GetEntityKindFactory(string entityText)
     {
-        return DescriptionEntityKind.Method;
+        return parser =>
+        {
+            if (entityText.StartsWith("http"))
+                return DescriptionEntityKind.Url;
+
+            foreach (BotApiType apiType in parser.Types)
+                if (entityText.EndsWith(apiType.SiteIdentifier))
+                    return DescriptionEntityKind.Type;
+
+            foreach (BotApiMethod apiMethod in parser.Methods)
+                if (entityText.EndsWith(apiMethod.SiteIdentifier))
+                    return DescriptionEntityKind.Method;
+
+            return DescriptionEntityKind.Url;
+        };
     }
 }

@@ -165,16 +165,22 @@
         "entityText": {
           "type": "string",
           "title": "Description entity text",
-          "description": "Name of method or type this entity is referring to"
+          "description": "Name of method or type this entity is referring to, or text to be replaced with entity value"
+        },
+        "entityValue": {
+          "type": "string",
+          "title": "Description entity value",
+          "description": "Value of 'href' attribute"
         },
         "entityKind": {
           "type": "string",
           "enum": [
-            "method",
-            "type"
+            "Method",
+            "Type",
+            "Url"
           ],
           "title": "Description entity kind",
-          "description": "Kind of element this entity is referring to (either 'method' or 'type')"
+          "description": "Kind of element this entity is referring to (either 'Method', 'Type' or 'Url')"
         }
       },
       "required": [

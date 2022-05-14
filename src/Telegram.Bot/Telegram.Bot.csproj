@@ -80,12 +80,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Types\types.json" />
-    <AdditionalFiles Include="Types\types.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
-    <None Remove="Requests\methods.json" />
-    <AdditionalFiles Include="Requests\methods.json">
+    <AdditionalFiles Include="data.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </AdditionalFiles>
   </ItemGroup>

@@ -11,4 +11,6 @@ public sealed record BotApiType(
     [property: JsonPropertyName("typeGroup")]
     string TypeGroup,
     [property: JsonPropertyName("parameters")]
-    List<BotApiParameter> Parameters);
+    List<BotApiParameter> Parameters,
+    [property: JsonIgnore]
+    string SiteIdentifier);

@@ -8,18 +8,11 @@ namespace Telegram.Bot.ApiParser;
 
 internal static class TelegramBotDocWriter
 {
-    public static async Task WriteTypesAsync(IReadOnlyCollection<BotApiType> types)
+    public static async Task WriteBotApiDataAsync(BotApiData data)
     {
-        string fileName = Path.Combine(GetMainLibraryPath(), "Types", "types.json");
+        string fileName = Path.Combine(GetMainLibraryPath(), "data.json");
         await using FileStream file = File.Create(fileName);
-        await JsonSerializer.SerializeAsync(file, types);
-    }
-
-    public static async Task WriteMethodsAsync(IReadOnlyCollection<BotApiMethod> methods)
-    {
-        string fileName = Path.Combine(GetMainLibraryPath(), "Requests", "methods.json");
-        await using FileStream file = File.Create(fileName);
-        await JsonSerializer.SerializeAsync(file, methods);
+        await JsonSerializer.SerializeAsync(file, data);
     }
 
     private static string GetMainLibraryPath()
