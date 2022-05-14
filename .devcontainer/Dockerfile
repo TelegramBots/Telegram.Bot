@@ -1,4 +1,4 @@
-ARG DOTNET_VERSION=5.0
+ARG DOTNET_VERSION=6.0
 FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_VERSION}-buster-slim
 ARG USERNAME=vscode
 ARG USER_UID=1000
