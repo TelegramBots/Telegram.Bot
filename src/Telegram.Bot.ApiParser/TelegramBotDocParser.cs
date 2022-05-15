@@ -75,7 +75,7 @@ public sealed class TelegramBotDocParser
                             botApiType.TypeDescription,
                             sectionName,
                             new List<BotApiParameter>(),
-                            typeNameNode.FirstChild.GetAttributeValue("name", ""));
+                            botApiType.SiteIdentifier);
 
                         MapParametersForMethod(botApiMethod, typeDescriptionNode);
 
