@@ -301,7 +301,7 @@
           {
             "entityText": "forwardMessage",
             "entityValue": "#forwardmessage",
-            "entityKind": "Type"
+            "entityKind": "Method"
           },
           {
             "entityText": "MessageId",
@@ -1623,7 +1623,7 @@
           {
             "entityText": "stopMessageLiveLocation",
             "entityValue": "#stopmessagelivelocation",
-            "entityKind": "Type"
+            "entityKind": "Method"
           },
           {
             "entityText": "Message",
@@ -2752,7 +2752,7 @@
           {
             "entityText": "unbanned",
             "entityValue": "#unbanchatsenderchat",
-            "entityKind": "Type"
+            "entityKind": "Method"
           }
         ]
       },
@@ -2861,7 +2861,7 @@
           {
             "entityText": "revokeChatInviteLink",
             "entityValue": "#revokechatinvitelink",
-            "entityKind": "Type"
+            "entityKind": "Method"
           },
           {
             "entityText": "ChatInviteLink",
@@ -3396,7 +3396,7 @@
           {
             "entityText": "getChat",
             "entityValue": "#getchat",
-            "entityKind": "Type"
+            "entityKind": "Method"
           }
         ]
       },
@@ -3430,7 +3430,7 @@
           {
             "entityText": "getChat",
             "entityValue": "#getchat",
-            "entityKind": "Type"
+            "entityKind": "Method"
           }
         ]
       },
@@ -5739,7 +5739,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5754,7 +5754,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5769,7 +5769,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5784,7 +5784,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5799,7 +5799,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5814,7 +5814,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5829,7 +5829,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5844,7 +5844,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5859,7 +5859,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5874,7 +5874,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5889,7 +5889,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5904,7 +5904,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5919,7 +5919,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -5934,7 +5934,7 @@
               {
                 "entityText": "getChat",
                 "entityValue": "#getchat",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
@@ -8111,7 +8111,7 @@
               {
                 "entityText": "switch_pm\u2026",
                 "entityValue": "#answerinlinequery",
-                "entityKind": "Type"
+                "entityKind": "Method"
               }
             ]
           },
