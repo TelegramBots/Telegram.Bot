@@ -12,7 +12,10 @@ internal static class TelegramBotDocWriter
     {
         string fileName = Path.Combine(GetMainLibraryPath(), "data.json");
         await using FileStream file = File.Create(fileName);
-        await JsonSerializer.SerializeAsync(file, data);
+        await JsonSerializer.SerializeAsync(file, data, new JsonSerializerOptions(JsonSerializerDefaults.General)
+        {
+            WriteIndented = true
+        });
     }
 
     private static string GetMainLibraryPath()
