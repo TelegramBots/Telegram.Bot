@@ -64,13 +64,19 @@
           "items": {
             "$ref": "#/definitions/parameter"
           }
+        },
+        "methodReturnType": {
+          "type": "string",
+          "title": ".NET return type of this method",
+          "description": "This type is parsed from method description"
         }
       },
       "required": [
         "methodName",
         "methodDescription",
         "methodGroup",
-        "parameters"
+        "parameters",
+        "methodReturnType"
       ]
     },
     "type": {
@@ -97,6 +103,11 @@
           "items": {
             "$ref": "#/definitions/parameter"
           }
+        },
+        "isCompositeType": {
+          "type": "boolean",
+          "title": "Determines whether type is composite",
+          "description": "Composite type is the one that has multiple inherited implementations, such as ChatMember that can be ChatMemberOwner, ChatMemberAdministrator, etc."
         }
       },
       "required": [
