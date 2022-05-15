@@ -228,11 +228,6 @@ public sealed class TelegramBotDocParser
             if (entityText.StartsWith("http"))
                 return DescriptionEntityKind.Url;
 
-            if (entityText.Contains("forwardmessage"))
-            {
-                bool a = true;
-            }
-
             ReadOnlySpan<char> matchName = entityText.AsSpan(1);
 
             foreach (BotApiType apiType in parser.Types)
