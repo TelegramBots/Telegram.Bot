@@ -70,7 +70,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "System.Collections.Generic.List\u003CTelegram.Bot.Types.Update\u003E"
     },
     {
       "methodName": "deleteWebhook",
@@ -95,7 +96,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "sendMessage",
@@ -224,7 +226,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "forwardMessage",
@@ -291,7 +294,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "copyMessage",
@@ -434,7 +438,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.MessageId"
     },
     {
       "methodName": "sendPhoto",
@@ -569,7 +574,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendDocument",
@@ -728,7 +734,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendVideo",
@@ -919,7 +926,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendAnimation",
@@ -1096,7 +1104,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendVoice",
@@ -1250,7 +1259,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendVideoNote",
@@ -1390,7 +1400,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendMediaGroup",
@@ -1466,7 +1477,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "System.Collections.Generic.List\u003CTelegram.Bot.Types.Message\u003E"
     },
     {
       "methodName": "sendLocation",
@@ -1613,7 +1625,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "editMessageLiveLocation",
@@ -1721,7 +1734,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "stopMessageLiveLocation",
@@ -1779,7 +1793,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "sendVenue",
@@ -1944,7 +1959,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendContact",
@@ -2073,7 +2089,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendPoll",
@@ -2274,7 +2291,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "sendDice",
@@ -2370,7 +2388,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "getUserProfilePhotos",
@@ -2413,7 +2432,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.UserProfilePhotos"
     },
     {
       "methodName": "getFile",
@@ -2423,7 +2443,7 @@
           {
             "entityText": "File",
             "entityValue": "#file",
-            "entityKind": "Url"
+            "entityKind": "Type"
           },
           {
             "entityText": "getFile",
@@ -2443,7 +2463,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.File"
     },
     {
       "methodName": "banChatMember",
@@ -2495,7 +2516,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "unbanChatMember",
@@ -2532,7 +2554,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "restrictChatMember",
@@ -2578,7 +2601,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "promoteChatMember",
@@ -2705,7 +2729,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setChatAdministratorCustomTitle",
@@ -2742,7 +2767,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "banChatSenderChat",
@@ -2776,7 +2802,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "unbanChatSenderChat",
@@ -2804,7 +2831,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setChatPermissions",
@@ -2832,7 +2860,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "exportChatInviteLink",
@@ -2851,7 +2880,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "createChatInviteLink",
@@ -2917,7 +2947,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.ChatInviteLink"
     },
     {
       "methodName": "editChatInviteLink",
@@ -2987,7 +3018,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.ChatInviteLink"
     },
     {
       "methodName": "revokeChatInviteLink",
@@ -3021,7 +3053,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.ChatInviteLink"
     },
     {
       "methodName": "approveChatJoinRequest",
@@ -3049,7 +3082,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "declineChatJoinRequest",
@@ -3077,7 +3111,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setChatPhoto",
@@ -3105,7 +3140,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "deleteChatPhoto",
@@ -3124,7 +3160,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setChatTitle",
@@ -3152,7 +3189,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setChatDescription",
@@ -3180,7 +3218,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "pinChatMessage",
@@ -3217,7 +3256,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "unpinChatMessage",
@@ -3245,7 +3285,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "unpinAllChatMessages",
@@ -3264,7 +3305,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "leaveChat",
@@ -3283,7 +3325,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "getChat",
@@ -3308,7 +3351,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Chat"
     },
     {
       "methodName": "getChatAdministrators",
@@ -3318,7 +3362,7 @@
           {
             "entityText": "ChatMember",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -3333,7 +3377,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "System.Collections.Generic.List\u003CTelegram.Bot.Types.ChatMember\u003E"
     },
     {
       "methodName": "getChatMemberCount",
@@ -3352,7 +3397,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "getChatMember",
@@ -3362,7 +3408,7 @@
           {
             "entityText": "ChatMember",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -3386,7 +3432,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.ChatMember"
     },
     {
       "methodName": "setChatStickerSet",
@@ -3420,7 +3467,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "deleteChatStickerSet",
@@ -3445,7 +3493,86 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
+    },
+    {
+      "methodName": "answerCallbackQuery",
+      "methodDescription": {
+        "descriptionText": "Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.",
+        "entities": [
+          {
+            "entityText": "inline keyboards",
+            "entityValue": "/bots#inline-keyboards-and-on-the-fly-updating",
+            "entityKind": "Url"
+          }
+        ]
+      },
+      "methodGroup": "Available methods",
+      "parameters": [
+        {
+          "parameterName": "callback_query_id",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Unique identifier for the query to be answered",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "text",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "show_alert",
+          "parameterTypeName": "bool",
+          "parameterDescription": {
+            "descriptionText": "If True, an alert will be shown by the client instead of a notification at the top of the chat screen. Defaults to false.",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "url",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "URL that will be opened by the user\u0027s client. If you have created a Game and accepted the conditions via @Botfather, specify the URL that opens your game \u2014 note that this will only work if the query comes from a callback_game button.\nOtherwise, you may use links like t.me/your_bot?start=XXXX that open your bot with a parameter.",
+            "entities": [
+              {
+                "entityText": "Game",
+                "entityValue": "#game",
+                "entityKind": "Type"
+              },
+              {
+                "entityText": "@Botfather",
+                "entityValue": "https://t.me/botfather",
+                "entityKind": "Url"
+              },
+              {
+                "entityText": "callback_game",
+                "entityValue": "#inlinekeyboardbutton",
+                "entityKind": "Type"
+              }
+            ]
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "cache_time",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "The maximum amount of time in seconds that the result of the callback query may be cached client-side. Telegram apps will support caching starting in version 3.\n14. Defaults to 0.",
+            "entities": []
+          },
+          "isRequired": false
+        }
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setMyCommands",
@@ -3499,7 +3626,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "deleteMyCommands",
@@ -3539,7 +3667,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "getMyCommands",
@@ -3579,7 +3708,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "System.Collections.Generic.List\u003CTelegram.Bot.Types.BotCommand\u003E"
     },
     {
       "methodName": "setChatMenuButton",
@@ -3613,7 +3743,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "getChatMenuButton",
@@ -3623,7 +3754,7 @@
           {
             "entityText": "MenuButton",
             "entityValue": "#menubutton",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -3638,7 +3769,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.MenuButton"
     },
     {
       "methodName": "setMyDefaultAdministratorRights",
@@ -3666,7 +3798,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "getMyDefaultAdministratorRights",
@@ -3691,7 +3824,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.ChatAdministratorRights"
     },
     {
       "methodName": "editMessageText",
@@ -3796,7 +3930,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "editMessageCaption",
@@ -3887,7 +4022,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "editMessageMedia",
@@ -3954,7 +4090,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "editMessageReplyMarkup",
@@ -4012,7 +4149,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "stopPoll",
@@ -4061,7 +4199,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Poll"
     },
     {
       "methodName": "deleteMessage",
@@ -4089,7 +4228,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "sendSticker",
@@ -4201,7 +4341,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "getStickerSet",
@@ -4226,7 +4367,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.StickerSet"
     },
     {
       "methodName": "uploadStickerFile",
@@ -4236,7 +4378,7 @@
           {
             "entityText": "File",
             "entityValue": "#file",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -4266,7 +4408,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.File"
     },
     {
       "methodName": "createNewStickerSet",
@@ -4385,7 +4528,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "addStickerToSet",
@@ -4486,7 +4630,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setStickerPositionInSet",
@@ -4514,7 +4659,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "deleteStickerFromSet",
@@ -4533,7 +4679,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "setStickerSetThumb",
@@ -4596,7 +4743,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "answerInlineQuery",
@@ -4680,7 +4828,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "answerWebAppQuery",
@@ -4719,7 +4868,8 @@
           },
           "isRequired": true
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.SentWebAppMessage"
     },
     {
       "methodName": "sendInvoice",
@@ -5008,7 +5158,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "answerShippingQuery",
@@ -5060,7 +5211,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "answerPreCheckoutQuery",
@@ -5103,7 +5255,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
     },
     {
       "methodName": "sendGame",
@@ -5200,7 +5353,8 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "Telegram.Bot.Types.Message"
     },
     {
       "methodName": "setGameScore",
@@ -5279,10 +5433,104 @@
           },
           "isRequired": false
         }
-      ]
+      ],
+      "methodReturnType": "bool"
+    },
+    {
+      "methodName": "getGameHighScores",
+      "methodDescription": {
+        "descriptionText": "Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. On success, returns an Array of GameHighScore objects.",
+        "entities": [
+          {
+            "entityText": "GameHighScore",
+            "entityValue": "#gamehighscore",
+            "entityKind": "Type"
+          }
+        ]
+      },
+      "methodGroup": "Games",
+      "parameters": [
+        {
+          "parameterName": "user_id",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "Target user id",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "chat_id",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "Required if inline_message_id is not specified. Unique identifier for the target chat",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "message_id",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "Required if inline_message_id is not specified. Identifier of the sent message",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "inline_message_id",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Required if chat_id and message_id are not specified. Identifier of the inline message",
+            "entities": []
+          },
+          "isRequired": false
+        }
+      ],
+      "methodReturnType": "System.Collections.Generic.List\u003CTelegram.Bot.Types.GameHighScore\u003E"
     }
   ],
   "types": [
+    {
+      "typeName": "April 16, 2022",
+      "typeDescription": {
+        "descriptionText": "Bot API 6.\n0",
+        "entities": []
+      },
+      "typeGroup": "Recent changes",
+      "parameters": [],
+      "isCompositeType": true
+    },
+    {
+      "typeName": "January 31, 2022",
+      "typeDescription": {
+        "descriptionText": "Bot API 5.\n7",
+        "entities": []
+      },
+      "typeGroup": "Recent changes",
+      "parameters": [],
+      "isCompositeType": true
+    },
+    {
+      "typeName": "December 30, 2021",
+      "typeDescription": {
+        "descriptionText": "Bot API 5.\n6",
+        "entities": []
+      },
+      "typeGroup": "Recent changes",
+      "parameters": [],
+      "isCompositeType": true
+    },
+    {
+      "typeName": "December 7, 2021",
+      "typeDescription": {
+        "descriptionText": "Bot API 5.\n5",
+        "entities": []
+      },
+      "typeGroup": "Recent changes",
+      "parameters": [],
+      "isCompositeType": true
+    },
     {
       "typeName": "Update",
       "typeDescription": {
@@ -7756,6 +8004,58 @@
       ]
     },
     {
+      "typeName": "File",
+      "typeDescription": {
+        "descriptionText": "This object represents a file ready to be downloaded. The file can be downloaded via the link https://api.telegram.org/file/bot\u003Ctoken\u003E/\u003Cfile_path\u003E. It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested by calling getFile.",
+        "entities": [
+          {
+            "entityText": "getFile",
+            "entityValue": "#getfile",
+            "entityKind": "Method"
+          }
+        ]
+      },
+      "typeGroup": "Available types",
+      "parameters": [
+        {
+          "parameterName": "file_id",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Identifier for this file, which can be used to download or reuse the file",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "file_unique_id",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Unique identifier for this file, which is supposed to be the same over time and for different bots. Can\u0027t be used to download or reuse the file.",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "file_size",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "Optional. File size in bytes, if known",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "file_path",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Optional. File path. Use https://api.telegram.org/file/bot\u003Ctoken\u003E/\u003Cfile_path\u003E to get the file.",
+            "entities": []
+          },
+          "isRequired": false
+        }
+      ]
+    },
+    {
       "typeName": "WebAppInfo",
       "typeDescription": {
         "descriptionText": "Contains information about a Web App.",
@@ -8544,6 +8844,16 @@
       ]
     },
     {
+      "typeName": "ChatMember",
+      "typeDescription": {
+        "descriptionText": "This object contains information about one member of a chat. Currently, the following 6 types of chat members are supported:",
+        "entities": []
+      },
+      "typeGroup": "Available types",
+      "parameters": [],
+      "isCompositeType": true
+    },
+    {
       "typeName": "ChatMemberOwner",
       "typeDescription": {
         "descriptionText": "Represents a chat member that owns the chat and has all administrator privileges.",
@@ -8551,7 +8861,7 @@
           {
             "entityText": "chat member",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -8603,7 +8913,7 @@
           {
             "entityText": "chat member",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -8754,7 +9064,7 @@
           {
             "entityText": "chat member",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -8788,7 +9098,7 @@
           {
             "entityText": "chat member",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -8912,7 +9222,7 @@
           {
             "entityText": "chat member",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -8946,7 +9256,7 @@
           {
             "entityText": "chat member",
             "entityValue": "#chatmember",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -9239,6 +9549,16 @@
       ]
     },
     {
+      "typeName": "BotCommandScope",
+      "typeDescription": {
+        "descriptionText": "This object represents the scope to which bot commands are applied. Currently, the following 7 scopes are supported:",
+        "entities": []
+      },
+      "typeGroup": "Available types",
+      "parameters": [],
+      "isCompositeType": true
+    },
+    {
       "typeName": "BotCommandScopeDefault",
       "typeDescription": {
         "descriptionText": "Represents the default scope of bot commands. Default commands are used if no commands with a narrower scope are specified for the user.",
@@ -9246,7 +9566,7 @@
           {
             "entityText": "scope",
             "entityValue": "#botcommandscope",
-            "entityKind": "Url"
+            "entityKind": "Type"
           },
           {
             "entityText": "narrower scope",
@@ -9276,7 +9596,7 @@
           {
             "entityText": "scope",
             "entityValue": "#botcommandscope",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -9301,7 +9621,7 @@
           {
             "entityText": "scope",
             "entityValue": "#botcommandscope",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -9326,7 +9646,7 @@
           {
             "entityText": "scope",
             "entityValue": "#botcommandscope",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -9351,7 +9671,7 @@
           {
             "entityText": "scope",
             "entityValue": "#botcommandscope",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -9385,7 +9705,7 @@
           {
             "entityText": "scope",
             "entityValue": "#botcommandscope",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -9419,7 +9739,7 @@
           {
             "entityText": "scope",
             "entityValue": "#botcommandscope",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -9453,6 +9773,16 @@
           "isRequired": true
         }
       ]
+    },
+    {
+      "typeName": "MenuButton",
+      "typeDescription": {
+        "descriptionText": "This object describes the bot\u0027s menu button in a private chat. It should be one of",
+        "entities": []
+      },
+      "typeGroup": "Available types",
+      "parameters": [],
+      "isCompositeType": true
     },
     {
       "typeName": "MenuButtonCommands",
@@ -9568,6 +9898,16 @@
           "isRequired": false
         }
       ]
+    },
+    {
+      "typeName": "InputMedia",
+      "typeDescription": {
+        "descriptionText": "This object represents the content of a media message to be sent. It should be one of",
+        "entities": []
+      },
+      "typeGroup": "Available types",
+      "parameters": [],
+      "isCompositeType": true
     },
     {
       "typeName": "InputMediaPhoto",
@@ -10380,6 +10720,16 @@
       ]
     },
     {
+      "typeName": "InlineQueryResult",
+      "typeDescription": {
+        "descriptionText": "This object represents one result of an inline query. Telegram clients currently support results of the following 20 types:",
+        "entities": []
+      },
+      "typeGroup": "Inline mode",
+      "parameters": [],
+      "isCompositeType": true
+    },
+    {
       "typeName": "InlineQueryResultArticle",
       "typeDescription": {
         "descriptionText": "Represents a link to an article or web page.",
@@ -10923,6 +11273,163 @@
           "parameterTypeName": "Telegram.Bot.Types.InputMessageContent",
           "parameterDescription": {
             "descriptionText": "Optional. Content of the message to be sent instead of the video animation",
+            "entities": []
+          },
+          "isRequired": false
+        }
+      ]
+    },
+    {
+      "typeName": "InlineQueryResultVideo",
+      "typeDescription": {
+        "descriptionText": "Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use input_message_content to send a message with the specified content instead of the video.",
+        "entities": []
+      },
+      "typeGroup": "Inline mode",
+      "parameters": [
+        {
+          "parameterName": "type",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Type of the result, must be video",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "id",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Unique identifier for this result, 1-64 bytes",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "video_url",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "A valid URL for the embedded video player or video file",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "mime_type",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Mime type of the content of video url, \u201Ctext/html\u201D or \u201Cvideo/mp4\u201D",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "thumb_url",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "URL of the thumbnail (JPEG only) for the video",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "title",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Title for the result",
+            "entities": []
+          },
+          "isRequired": true
+        },
+        {
+          "parameterName": "caption",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Optional. Caption of the video to be sent, 0-1024 characters after entities parsing",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "parse_mode",
+          "parameterTypeName": "Telegram.Bot.Types.Enums.ParseMode",
+          "parameterDescription": {
+            "descriptionText": "Optional. Mode for parsing entities in the video caption. See formatting options for more details.",
+            "entities": [
+              {
+                "entityText": "formatting options",
+                "entityValue": "#formatting-options",
+                "entityKind": "Url"
+              }
+            ]
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "caption_entities",
+          "parameterTypeName": "System.Collections.Generic.List\u003CTelegram.Bot.Types.MessageEntity\u003E",
+          "parameterDescription": {
+            "descriptionText": "Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "video_width",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "Optional. Video width",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "video_height",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "Optional. Video height",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "video_duration",
+          "parameterTypeName": "int",
+          "parameterDescription": {
+            "descriptionText": "Optional. Video duration in seconds",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "description",
+          "parameterTypeName": "string",
+          "parameterDescription": {
+            "descriptionText": "Optional. Short description of the result",
+            "entities": []
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "reply_markup",
+          "parameterTypeName": "Telegram.Bot.Types.InlineKeyboardMarkup",
+          "parameterDescription": {
+            "descriptionText": "Optional. Inline keyboard attached to the message",
+            "entities": [
+              {
+                "entityText": "Inline keyboard",
+                "entityValue": "/bots#inline-keyboards-and-on-the-fly-updating",
+                "entityKind": "Url"
+              }
+            ]
+          },
+          "isRequired": false
+        },
+        {
+          "parameterName": "input_message_content",
+          "parameterTypeName": "Telegram.Bot.Types.InputMessageContent",
+          "parameterDescription": {
+            "descriptionText": "Optional. Content of the message to be sent instead of the video. This field is required if InlineQueryResultVideo is used to send an HTML-page as a result (e.g., a YouTube video).",
             "entities": []
           },
           "isRequired": false
@@ -12583,6 +13090,16 @@
       ]
     },
     {
+      "typeName": "InputMessageContent",
+      "typeDescription": {
+        "descriptionText": "This object represents the content of a message to be sent as a result of an inline query. Telegram clients currently support the following 5 types:",
+        "entities": []
+      },
+      "typeGroup": "Inline mode",
+      "parameters": [],
+      "isCompositeType": true
+    },
+    {
       "typeName": "InputTextMessageContent",
       "typeDescription": {
         "descriptionText": "Represents the content of a text message to be sent as the result of an inline query.",
@@ -12590,7 +13107,7 @@
           {
             "entityText": "content",
             "entityValue": "#inputmessagecontent",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -12648,7 +13165,7 @@
           {
             "entityText": "content",
             "entityValue": "#inputmessagecontent",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -12718,7 +13235,7 @@
           {
             "entityText": "content",
             "entityValue": "#inputmessagecontent",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -12812,7 +13329,7 @@
           {
             "entityText": "content",
             "entityValue": "#inputmessagecontent",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -12870,7 +13387,7 @@
           {
             "entityText": "content",
             "entityValue": "#inputmessagecontent",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -13084,7 +13601,7 @@
           {
             "entityText": "result",
             "entityValue": "#inlinequeryresult",
-            "entityKind": "Url"
+            "entityKind": "Type"
           }
         ]
       },
@@ -13922,6 +14439,16 @@
           "isRequired": true
         }
       ]
+    },
+    {
+      "typeName": "PassportElementError",
+      "typeDescription": {
+        "descriptionText": "This object represents an error in the Telegram Passport element which was submitted that should be resolved by the user. It should be one of:",
+        "entities": []
+      },
+      "typeGroup": "Telegram Passport",
+      "parameters": [],
+      "isCompositeType": true
     },
     {
       "typeName": "PassportElementErrorDataField",

@@ -12,5 +12,7 @@ public sealed record BotApiMethod(
     string MethodGroup,
     [property: JsonPropertyName("parameters")]
     List<BotApiParameter> Parameters,
+    [property: JsonPropertyName("methodReturnType")]
+    string MethodReturnType,
     [property: JsonIgnore]
     string SiteIdentifier);

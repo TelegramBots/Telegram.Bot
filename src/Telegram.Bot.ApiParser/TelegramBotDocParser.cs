@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -21,6 +21,7 @@ public sealed class TelegramBotDocParser
 
     private string? _html;
     private EnumsModel? _enums;
+    private readonly Queue<BotApiMethod> _delayedMethodData = new();
 
     public List<BotApiType> Types { get; } = new();
     public List<BotApiMethod> Methods { get; } = new();
@@ -61,10 +62,12 @@ public sealed class TelegramBotDocParser
                         ConstructDescription(typeDescriptionNode),
                         sectionName,
                         new List<BotApiParameter>(),
+                        false,
                         typeNameNode.FirstChild.GetAttributeValue("name", ""));
+
                     try
                     {
-                        MapParametersForType(botApiType, typeDescriptionNode);
+                        MapParametersForType(ref botApiType, typeDescriptionNode);
 
                         Types.Add(botApiType);
                     }
@@ -75,11 +78,12 @@ public sealed class TelegramBotDocParser
                             botApiType.TypeDescription,
                             sectionName,
                             new List<BotApiParameter>(),
+                            string.Empty,
                             botApiType.SiteIdentifier);
 
                         MapParametersForMethod(botApiMethod, typeDescriptionNode);
 
-                        Methods.Add(botApiMethod);
+                        _delayedMethodData.Enqueue(botApiMethod);
                     }
                     catch (NullReferenceException)
                     {
@@ -87,6 +91,20 @@ public sealed class TelegramBotDocParser
                 }
 
                 siblingNode = GetNextSibling(siblingNode);
+            }
+        }
+
+        while (_delayedMethodData.TryDequeue(out BotApiMethod? botApiMethod))
+        {
+            try
+            {
+                Methods.Add(botApiMethod with
+                {
+                    MethodReturnType = GetMethodReturnType(botApiMethod.MethodDescription)
+                });
+            }
+            catch (NullReferenceException)
+            {
             }
         }
     }
@@ -100,12 +118,22 @@ public sealed class TelegramBotDocParser
         _ = _enums!.Enums;
     }
 
-    private void MapParametersForType(BotApiType apiType, HtmlNode typeDescriptionNode)
+    private void MapParametersForType(ref BotApiType apiType, HtmlNode typeDescriptionNode)
     {
         if (_enums == null)
             throw new ArgumentException("Enums object is null. Consider calling the ParseEnumsAsync method.");
 
         HtmlNode? parametersTableNode = GetNextSibling(typeDescriptionNode);
+
+        if (parametersTableNode is { Name: "ul" })
+        {
+            // This is a composite type such as 'ChatMember'
+            apiType = apiType with
+            {
+                IsCompositeType = true
+            };
+            return;
+        }
 
         // Throwing NullReferenceException is okay here, we suppress the warning
         foreach (HtmlNode tr in parametersTableNode!.SelectSingleNode("./tbody").ChildNodes.Where(n => n.InnerText != "\n"))
@@ -186,7 +214,7 @@ public sealed class TelegramBotDocParser
     private static HtmlNode? GetNextSibling(HtmlNode node)
     {
         HtmlNode? sibling = node.NextSibling;
-        while (sibling is { OuterHtml: "\n" })
+        while (sibling is { OuterHtml: "\n" } or { Name: "blockquote" })
         {
             sibling = sibling.NextSibling;
         }
@@ -240,5 +268,66 @@ public sealed class TelegramBotDocParser
 
             return DescriptionEntityKind.Url;
         };
+    }
+
+    private string GetMethodReturnType(BotApiDescription description)
+    {
+        string[] sentences = description.DescriptionText.Split('.');
+
+        foreach (string sentence in sentences)
+        {
+            if (!sentence.Contains("returns", StringComparison.OrdinalIgnoreCase) &&
+                !sentence.Contains("is returned", StringComparison.OrdinalIgnoreCase))
+            {
+                continue;
+            }
+
+            if (sentence.Contains("True"))
+                return "bool";
+
+            bool TryGetTypeFromEntity([MaybeNullWhen(false)] out string dotnetType, string? entityText = null)
+            {
+                DescriptionEntity? entity;
+                if (entityText == null)
+                {
+                    entity = description.Entities.FirstOrDefault(e =>
+                        char.IsUpper(e.EntityText.AsSpan()[0]) && sentence.Contains(e.EntityText));
+                }
+                else
+                {
+                    entity = description.Entities.FirstOrDefault(e =>
+                        e.EntityText == entityText);
+                }
+
+                if (entity == null)
+                {
+                    dotnetType = null;
+                    return false;
+                }
+
+                dotnetType = Types.First(t => t.SiteIdentifier == entity.EntityValue[1..]).TypeName;
+                return true;
+            }
+
+            int arrayOfIndex = sentence.IndexOf("array of", StringComparison.OrdinalIgnoreCase);
+            if (arrayOfIndex != -1)
+            {
+                string substring = sentence[(arrayOfIndex + 9)..];
+                substring = substring[..substring.IndexOf(' ')];
+
+                return GetDotNetTypeName(TryGetTypeFromEntity(out string? dotnetType, entityText: substring)
+                    ? $"Array of {dotnetType}"
+                    : $"Array of {substring}");
+            }
+
+            {
+                if (TryGetTypeFromEntity(out string? dotnetType))
+                {
+                    return GetDotNetTypeName(dotnetType);
+                }
+            }
+        }
+
+        return "bool";
     }
 }

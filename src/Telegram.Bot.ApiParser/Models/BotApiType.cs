@@ -12,5 +12,7 @@ public sealed record BotApiType(
     string TypeGroup,
     [property: JsonPropertyName("parameters")]
     List<BotApiParameter> Parameters,
+    [property: JsonPropertyName("isCompositeType"), JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    bool IsCompositeType,
     [property: JsonIgnore]
     string SiteIdentifier);
