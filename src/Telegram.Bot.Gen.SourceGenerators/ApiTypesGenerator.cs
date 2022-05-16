@@ -36,7 +36,7 @@ public sealed class ApiTypesGenerator : ISourceGenerator
         using FileStream apiDataFile = File.OpenRead(apiDataFileInfo.Path);
         var apiData = JsonSerializer.Deserialize<BotApiData>(apiDataFile)!;
 
-        foreach (BotApiType botApiType in apiData.Types)
+        foreach (BotApiType botApiType in apiData.Types.Where(t => !t.IsCompositeType))
         {
             botApiType.TypeName = Templates.Types.Mapping.TryGetValue(botApiType.TypeName, out string? newTypeName)
                 ? newTypeName

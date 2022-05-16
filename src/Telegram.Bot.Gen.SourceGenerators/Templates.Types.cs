@@ -24,47 +24,68 @@ internal static partial class Templates
 
 #nullable enable
 
+{{-
+  func get_url(value)
+    if value | string.starts_with ""#""
+      ret ""https://core.telegram.org/bots/api"" | string.append value
+    else
+      ret value
+    end
+  end
+
+  func get_replacement_value(entity)
+    case entity.entity_kind
+      when 0
+        ret ""<a cref=\"""" + (entity.entity_value | get_url) + ""\"">"" + entity.entity_text + ""</a>""
+      when 1
+        ret ""<see cref=\"""" + type_namespace + ""."" + entity.entity_value + ""\"">"" + entity.entity_text + ""</see>""
+      else
+        ret ""<a cref=\"""" + (entity.entity_value | get_url) + ""\"">"" + entity.entity_text + ""</a>""
+    end
+  end
+
+  func replace_entities(input, entities)
+    for i in 0..(entities.size - 1)
+      $entity = entities[i]
+      $replacement_value = $entity | get_replacement_value
+      $pattern = ""\\b"" + $entity.entity_text + ""\\b""
+      input = input | regex.replace $pattern $replacement_value
+    end
+    ret input
+  end
+
+  func to_pascal_case(input)
+    $separated = input | string.split ""_"" | array.each do
+      ret $0 | string.capitalize
+    end
+    ret $separated | array.join """"
+  end
+}}
+
 namespace {{ type_namespace }};
 
 /// <summary>
-{{~ for type_description_line in type_description | string.split '\n' ~}}
-/// {{ type_description_line }}
+{{~ for type_description_line in type_description.description_text | string.split '\n' ~}}
+/// {{ type_description_line | replace_entities type_description.entities }}
 {{~ end ~}}
 /// </summary>
 public partial class {{ type_name }}
 {
     {{~ for parameter in parameters ~}}
     {{
-      func to_pascal_case(input)
-        $separated = input | string.split ""_"" | array.each do
-          ret $0 | string.capitalize
-        end
-        ret $separated | array.join """"
-      end
-
-      func get_parameter_type_name(input)
-        if parameter.is_enum
-          ret ""Telegram.Bot.Types.Enums."" | string.append input
-        else
-          ret input
-        end
-      end
-
       pascal_case_name = parameter.parameter_name | to_pascal_case
-      is_required = parameter.parameter_description | !string.starts_with ""Optional""
-      parameter_type_name = parameter.parameter_type_name | get_parameter_type_name
     }}
     /// <summary>
-    {{~ for parameter_description_line in parameter.parameter_description | string.split '\n' ~}}
-    /// {{ parameter_description_line }}
+    {{~ for parameter_description_line in parameter.parameter_description.description_text | string.split '\n' ~}}
+    /// {{ parameter_description_line | replace_entities parameter.parameter_description.entities }}
     {{~ end ~}}
     /// </summary>
     [System.Text.Json.Serialization.JsonPropertyName(""{{ parameter.parameter_name }}"")]
-    {{~ if !is_required ~}}
+    {{~ if !parameter.is_required ~}}
     [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]
     {{~ end ~}}
-    [Newtonsoft.Json.JsonProperty(""{{ parameter.parameter_name }}"", {{ if is_required ~}}Required = Newtonsoft.Json.Required.Always{{~ else ~}}DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore{{~ end ~}})]
-    public {{ parameter_type_name + "" "" + pascal_case_name }} { get; set; }
+    [Newtonsoft.Json.JsonProperty(""{{ parameter.parameter_name }}"", {{ if parameter.is_required ~}}Required = Newtonsoft.Json.Required.Always{{~ else ~}}DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore{{~ end ~}})]
+    public {{ parameter.parameter_type_name + "" "" + pascal_case_name }} { get; set; }
     {{~ end ~}}
 }";
     }
