@@ -46,9 +46,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumSerializer.Generator", "src\EnumSerializer.Generator\EnumSerializer.Generator.csproj", "{C246B54F-018B-4589-B26D-C38D7846FFF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.Generators", "src\Telegram.Bot.Generators\Telegram.Bot.Generators.csproj", "{B4B8F957-3AE7-4A06-B559-FAD38B86A44B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.Gen.SourceGenerators", "src\Telegram.Bot.Gen.SourceGenerators\Telegram.Bot.Gen.SourceGenerators.csproj", "{B4B8F957-3AE7-4A06-B559-FAD38B86A44B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.ApiParser", "src\Telegram.Bot.ApiParser\Telegram.Bot.ApiParser.csproj", "{D1F90A5B-1AF2-4A88-9AD8-331A501D4603}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.Gen.ApiParser", "src\Telegram.Bot.Gen.ApiParser\Telegram.Bot.Gen.ApiParser.csproj", "{D1F90A5B-1AF2-4A88-9AD8-331A501D4603}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "gen", "gen", "{8448F888-8880-43E4-9ECB-BB47E1864CCD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.Gen.Shared", "src\Telegram.Bot.Gen.Shared\Telegram.Bot.Gen.Shared.csproj", "{1C9F9F84-E420-4FC7-8E97-9368C6A4636E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,6 +84,10 @@ Global
 		{D1F90A5B-1AF2-4A88-9AD8-331A501D4603}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1F90A5B-1AF2-4A88-9AD8-331A501D4603}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D1F90A5B-1AF2-4A88-9AD8-331A501D4603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C9F9F84-E420-4FC7-8E97-9368C6A4636E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C9F9F84-E420-4FC7-8E97-9368C6A4636E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C9F9F84-E420-4FC7-8E97-9368C6A4636E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C9F9F84-E420-4FC7-8E97-9368C6A4636E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,8 +100,10 @@ Global
 		{C20A563E-603B-49E8-A954-DB90D4F351DE} = {71662597-40F2-4192-AC4D-5FB9A1F12642}
 		{4897F36C-2F57-48A7-B425-D8F695E0AC0D} = {C45387C6-C93F-4FD2-84A8-A69CCE93B7EE}
 		{C246B54F-018B-4589-B26D-C38D7846FFF2} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
-		{B4B8F957-3AE7-4A06-B559-FAD38B86A44B} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
-		{D1F90A5B-1AF2-4A88-9AD8-331A501D4603} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
+		{8448F888-8880-43E4-9ECB-BB47E1864CCD} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
+		{B4B8F957-3AE7-4A06-B559-FAD38B86A44B} = {8448F888-8880-43E4-9ECB-BB47E1864CCD}
+		{D1F90A5B-1AF2-4A88-9AD8-331A501D4603} = {8448F888-8880-43E4-9ECB-BB47E1864CCD}
+		{1C9F9F84-E420-4FC7-8E97-9368C6A4636E} = {8448F888-8880-43E4-9ECB-BB47E1864CCD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6A9C4CA-DF26-4772-9119-627935D70E7C}
