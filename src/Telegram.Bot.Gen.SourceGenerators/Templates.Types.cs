@@ -45,10 +45,9 @@ internal static partial class Templates
   end
 
   func replace_entities(input, entities)
-    for i in 0..(entities.size - 1)
-      $entity = entities[i]
-      $replacement_value = $entity | get_replacement_value
-      $pattern = ""\\b"" + $entity.entity_text + ""\\b""
+    for entity in entities
+      $replacement_value = entity | get_replacement_value
+      $pattern = ""\\b"" + entity.entity_text + ""\\b""
       input = input | regex.replace $pattern $replacement_value
     end
     ret input

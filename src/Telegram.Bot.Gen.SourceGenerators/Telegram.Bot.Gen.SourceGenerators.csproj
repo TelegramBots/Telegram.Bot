@@ -19,7 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Telegram.Bot.Gen.Shared\Telegram.Bot.Gen.Shared.csproj" />
+    <ProjectReference Include="..\Telegram.Bot.Gen.Shared\Telegram.Bot.Gen.Shared.csproj">
+      <PrivateAssets>all</PrivateAssets>
+      <GeneratePathProperty>true</GeneratePathProperty>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>
