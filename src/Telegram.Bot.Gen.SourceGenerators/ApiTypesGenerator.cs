@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using Microsoft.CodeAnalysis;
 using Telegram.Bot.Gen.Shared;
@@ -38,6 +39,9 @@ public sealed class ApiTypesGenerator : ISourceGenerator
 
         foreach (BotApiType botApiType in apiData.Types.Where(t => !t.IsCompositeType))
         {
+            if (Templates.Types.IgnoreTypes.Contains(botApiType.TypeName))
+                continue;
+
             botApiType.TypeName = Templates.Types.Mapping.TryGetValue(botApiType.TypeName, out string? newTypeName)
                 ? newTypeName
                 : botApiType.TypeName;
@@ -60,7 +64,7 @@ public sealed class ApiTypesGenerator : ISourceGenerator
             var namespaceName = "Telegram.Bot.Types";
             string data = GetPlaceholder(botApiType, namespaceName);
 
-            context.AddSource($"{botApiType.TypeName}.generated.cs", data);
+            context.AddSource(Path.Combine(botApiType.TypeGroup, $"{botApiType.TypeName}.generated.cs"), data);
         }
     }
 

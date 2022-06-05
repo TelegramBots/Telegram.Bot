@@ -6,6 +6,16 @@ internal static partial class Templates
 {
     internal static class Requests
     {
+        public static readonly Dictionary<string, string> Mapping = new()
+        {
+            ["ApproveChatJoinRequestRequest"] = "ApproveChatJoinRequest",
+            ["DeclineChatJoinRequestRequest"] = "DeclineChatJoinRequest"
+        };
+
+        public static readonly List<string> IgnoreRequests = new()
+        {
+        };
+
         public static readonly Template Template = Template.Parse(TemplateText);
 
         private const string TemplateText = @"//------------------------------------------------------------------------------

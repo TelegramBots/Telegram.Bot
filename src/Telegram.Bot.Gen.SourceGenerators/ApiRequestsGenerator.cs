@@ -14,10 +14,10 @@ public sealed class ApiRequestsGenerator : ISourceGenerator
 
     public void Execute(GeneratorExecutionContext context)
     {
-        if (context.SyntaxReceiver is not ExistingApiRequestsSyntaxReceiver existingApiTypesSyntaxReceiver)
+        if (context.SyntaxReceiver is not ExistingApiRequestsSyntaxReceiver existingApiRequestsSyntaxReceiver)
             return;
 
-        var existingApiTypes = existingApiTypesSyntaxReceiver.ExistingApiRequests;
+        var existingApiRequests = existingApiRequestsSyntaxReceiver.ExistingApiRequests;
 
         // For debugging in Visual Studio
         //Debugger.Launch();
@@ -41,7 +41,7 @@ public sealed class ApiRequestsGenerator : ISourceGenerator
             string requestName = char.ToUpperInvariant(botApiMethod.MethodName[0]) + botApiMethod.MethodName[1..]
                 + "Request";
 
-            if (existingApiTypes.FirstOrDefault(t =>
+            if (existingApiRequests.FirstOrDefault(t =>
                 {
                     SemanticModel model = context.Compilation.GetSemanticModel(t.SyntaxTree);
                     var type = (ITypeSymbol)model.GetDeclaredSymbol(t)!;

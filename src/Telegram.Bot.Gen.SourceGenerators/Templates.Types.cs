@@ -11,6 +11,19 @@ internal static partial class Templates
             ["ForceReply"] = "ForceReplyMarkup"
         };
 
+        public static readonly List<string> IgnoreTypes = new()
+        {
+            "PassportElementErrorDataField",
+            "PassportElementErrorFile",
+            "PassportElementErrorFiles",
+            "PassportElementErrorFrontSide",
+            "PassportElementErrorReverseSide",
+            "PassportElementErrorSelfie",
+            "PassportElementErrorTranslationFile",
+            "PassportElementErrorTranslationFiles",
+            "PassportElementErrorUnspecified"
+        };
+
         public static readonly Template Template = Template.Parse(TemplateText);
 
         private const string TemplateText = @"//------------------------------------------------------------------------------
@@ -73,6 +86,9 @@ public partial class {{ type_name }}
     {{~ for parameter in parameters ~}}
     {{
       pascal_case_name = parameter.parameter_name | to_pascal_case
+      parameter_type_name = parameter.parameter_type_name
+      if !parameter.is_required
+        parameter_type_name = parameter_type_name | string.append ""?""
     }}
     /// <summary>
     {{~ for parameter_description_line in parameter.parameter_description.description_text | string.split '\n' ~}}
@@ -84,7 +100,7 @@ public partial class {{ type_name }}
     [System.Text.Json.Serialization.JsonIgnore(Condition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault)]
     {{~ end ~}}
     [Newtonsoft.Json.JsonProperty(""{{ parameter.parameter_name }}"", {{ if parameter.is_required ~}}Required = Newtonsoft.Json.Required.Always{{~ else ~}}DefaultValueHandling = Newtonsoft.Json.DefaultValueHandling.Ignore{{~ end ~}})]
-    public {{ parameter.parameter_type_name + "" "" + pascal_case_name }} { get; set; }
+    public {{ parameter_type_name + "" "" + pascal_case_name }} { get; set; }
     {{~ end ~}}
 }";
     }
