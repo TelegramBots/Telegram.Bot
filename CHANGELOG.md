@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+> [Bot API 6.0](https://core.telegram.org/bots/api#april-16-2022) (April 16, 2022)
+
 ### Added
 
 - Package `Telegram.Bot.Extensions.Polling` is merged in the main package
@@ -45,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Renamed properties `ChatMemberAdministrator.CanManageVoiceChats`, `PromoteChatMemberRequest.CanManageVoiceChats` to 
   `ChatMemberAdministrator.CanManageVideoChats ` and `PromoteChatMemberRequest.CanManageVideoChats`
 - Removed `baseUrl` parameter from constructor in `TelegramBotClient` that accepts a token
+- Type of property `FileBase.FileSize` changed from `int?` to `long?`
 
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
