@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Renamed properties `ChatMemberAdministrator.CanManageVoiceChats`, `PromoteChatMemberRequest.CanManageVoiceChats` to 
   `ChatMemberAdministrator.CanManageVideoChats ` and `PromoteChatMemberRequest.CanManageVideoChats`
 - Removed `baseUrl` parameter from constructor in `TelegramBotClient` that accepts a token
+- Type of property `FileBase.FileSize` changed from `int?` to `long?`
 
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
