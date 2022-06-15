@@ -60,6 +60,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [v18.0.0-alpha.1] - 2022-02-13
 
+> [Bot API 6.0](https://core.telegram.org/bots/api#april-16-2022) (April 16, 2022)
+
 > [Bot API 5.7](https://core.telegram.org/bots/api#january-31-2022) (January 31, 2022)
 
 > [Bot API 5.6](https://core.telegram.org/bots/api#december-30-2021) (December 30, 2021)
