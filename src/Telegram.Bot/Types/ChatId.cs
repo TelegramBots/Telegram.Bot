@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Newtonsoft.Json;
 using Telegram.Bot.Converters;
@@ -114,8 +115,8 @@ public class ChatId : IEquatable<ChatId>
     /// Convert a Chat Object to a <see cref="ChatId"/>
     /// </summary>
     /// <param name="chat"></param>
-    public static implicit operator ChatId?(Chat? chat) =>
-        chat is null ? null : new(chat.Id);
+    [return: NotNullIfNotNull("chat")]
+    public static implicit operator ChatId?(Chat? chat) => chat is null ? null : new(chat.Id);
 
     /// <summary>
     /// Compares two ChatId objects

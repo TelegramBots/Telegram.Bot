@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Telegram.Bot.Converters;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 
 namespace Telegram.Bot.Types.Enums;
 
@@ -23,15 +23,18 @@ public enum ParseMode
     /// <remarks>
     /// This is a legacy mode, retained for backward compatibility
     /// </remarks>
+    [Display(Name = "Markdown")]
     Markdown = 1,
 
     /// <summary>
     /// HTML-formatted <see cref="Message.Text"/>
     /// </summary>
+    [Display(Name = "Html")]
     Html,
 
     /// <summary>
     /// MarkdownV2-formatted <see cref="Message.Text"/>
     /// </summary>
+    [Display(Name = "MarkdownV2")]
     MarkdownV2,
 }
