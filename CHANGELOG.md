@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [v18.0.0] - 2022-06-16
+
 > [Bot API 6.0](https://core.telegram.org/bots/api#april-16-2022) (April 16, 2022)
 
 ### Added
@@ -52,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
   corresponding request
-- 
+
 ### Removed
 - Enum members `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded`, and `VoiceChatParticipantsInvited`
   in type `MessageType`
