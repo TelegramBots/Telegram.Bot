@@ -71,6 +71,20 @@ public class Chat
     public bool? HasPrivateForwards { get; set; }
 
     /// <summary>
+    /// Optional. <c>true</c>, if users need to join the supergroup before they can send messages.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? JoinToSendMessages { get; set; }
+
+    /// <summary>
+    /// Optional. <c>true</c>, if all users directly joining the supergroup need to be approved by supergroup administrators.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? JoinByRequest { get; set; }
+
+    /// <summary>
     /// Optional. Description, for groups, supergroups and channel chats.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
