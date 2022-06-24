@@ -1,9 +1,9 @@
 variables:
   - group: Integration Tests Variables
   - name: versionPrefix
-    value: 18.0.0
+    value: 18.1.0
   - name: versionSuffix
-    value: ''
+    value: 'alpha.1'
   - name: ciVersionSuffix
     value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
   - name: isPreRelease
