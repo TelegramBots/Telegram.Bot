@@ -85,18 +85,19 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is
-    /// an update for the bot, we will send an HTTPS POST request to the specified url, containing a
-    /// JSON-serialized <see cref="Update"/>. In case of an unsuccessful request, we will give up after a
-    /// reasonable amount of attempts
+    /// Use this method to specify a URL and receive incoming updates via an outgoing webhook.
+    /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
+    /// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
+    /// an unsuccessful request, we will give up after a reasonable amount of attempts.
+    /// Returns <c>true</c> on success.
     /// <para>
-    /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path
-    /// in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>. Since nobody else knows your bot’s token,
-    /// you can be pretty sure it's us.
+    /// If you'd like to make sure that the webhook was set by you, you can specify secret data
+    /// in the parameter <see cref="SetWebhookRequest.SecretToken"/> . If specified, the request
+    /// will contain a header "X-Telegram-Bot-Api-Secret-Token" with the secret token as content.
     /// </para>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="url">HTTPS url to send updates to. Use an empty string to remove webhook integration</param>
+    /// <param name="url">HTTPS URL to send updates to. Use an empty string to remove webhook integration</param>
     /// <param name="certificate">
     /// Upload your public key certificate so that the root certificate in use can be checked. See our
     /// <a href="https://core.telegram.org/bots/self-signed">self-signed guide</a> for details
@@ -106,9 +107,9 @@ public static partial class TelegramBotClientExtensions
     /// through DNS
     /// </param>
     /// <param name="maxConnections">
-    /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100.
-    /// Defaults to <i>40</i>. Use lower values to limit the load on your bot’s server, and higher values to
-    /// increase your bot’s throughput
+    /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update
+    /// delivery, 1-100. Defaults to <i>40</i>. Use lower values to limit the load on your
+    /// bot's server, and higher values to increase your bot's throughput.
     /// </param>
     /// <param name="allowedUpdates">
     /// <para>A list of the update types you want your bot to receive. For example, specify
@@ -124,6 +125,11 @@ public static partial class TelegramBotClientExtensions
     /// </para>
     /// </param>
     /// <param name="dropPendingUpdates">Pass <c>true</c> to drop all pending updates</param>
+    /// <param name="secretToken">
+    /// A secret token to be sent in a header "<c>X-Telegram-Bot-Api-Secret-Token</c>" in every webhook request,
+    /// 1-256 characters. Only characters <c>A-Z</c>, <c>a-z</c>, <c>0-9</c>, <c>_</c> and <c>-</c>
+    /// are allowed. The header is useful to ensure that the request comes from a webhook set by you.
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -139,7 +145,7 @@ public static partial class TelegramBotClientExtensions
     /// <paramref name="certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending a
     /// string will not work
     /// </item>
-    /// <item>Ports currently supported for Webhooks: <b>443, 80, 88, 8443</b></item>
+    /// <item>Ports currently supported for webhooks: <b>443, 80, 88, 8443</b></item>
     /// </list>
     /// If you're having any trouble setting up webhooks, please check out this
     /// <a href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</a>.
@@ -152,6 +158,7 @@ public static partial class TelegramBotClientExtensions
         int? maxConnections = default,
         IEnumerable<UpdateType>? allowedUpdates = default,
         bool? dropPendingUpdates = default,
+        string? secretToken = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -162,7 +169,8 @@ public static partial class TelegramBotClientExtensions
                     IpAddress = ipAddress,
                     MaxConnections = maxConnections,
                     AllowedUpdates = allowedUpdates,
-                    DropPendingUpdates = dropPendingUpdates
+                    DropPendingUpdates = dropPendingUpdates,
+                    SecretToken = secretToken
                 },
                 cancellationToken
             )
