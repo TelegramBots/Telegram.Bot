@@ -53,6 +53,12 @@ public class Sticker : FileBase
     public string? SetName { get; set; }
 
     /// <summary>
+    /// Optional. Premium animation for the sticker, if the sticker is premium
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public File? PremiumAnimation { get; set; }
+
+    /// <summary>
     /// Optional. For mask stickers, the position where the mask should be placed
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
