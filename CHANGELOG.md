@@ -21,7 +21,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [v19.0.0-alpha.1] - Unreleased
+
+> [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
+
+# Added
+
+- Properties `JoinToSendMessages`, `JoinByRequest` to `Chat`
+- Properties `IsPremium`, `AddedToAttachmentMenu` to `User`
+- Property `PremiumAnimation` to `Sticker`
+- Property `SecretToken` to `SetWebhookRequest`
+- Parameter `secretToken` to `SetWebhookAsync`
+- Request `CreateInvoiceLinkRequest`
+- Method `CreateInvoiceLinkAsync`
 
 ## [v18.0.0] - 2022-06-16
 

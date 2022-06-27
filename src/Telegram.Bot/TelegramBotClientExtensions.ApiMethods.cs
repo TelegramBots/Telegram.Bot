@@ -85,18 +85,19 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to specify a url and receive incoming updates via an outgoing webhook. Whenever there is
-    /// an update for the bot, we will send an HTTPS POST request to the specified url, containing a
-    /// JSON-serialized <see cref="Update"/>. In case of an unsuccessful request, we will give up after a
-    /// reasonable amount of attempts
+    /// Use this method to specify a URL and receive incoming updates via an outgoing webhook.
+    /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
+    /// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
+    /// an unsuccessful request, we will give up after a reasonable amount of attempts.
+    /// Returns <c>true</c> on success.
     /// <para>
-    /// If you'd like to make sure that the Webhook request comes from Telegram, we recommend using a secret path
-    /// in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>. Since nobody else knows your bot’s token,
-    /// you can be pretty sure it's us.
+    /// If you'd like to make sure that the webhook was set by you, you can specify secret data
+    /// in the parameter <see cref="SetWebhookRequest.SecretToken"/> . If specified, the request
+    /// will contain a header "X-Telegram-Bot-Api-Secret-Token" with the secret token as content.
     /// </para>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="url">HTTPS url to send updates to. Use an empty string to remove webhook integration</param>
+    /// <param name="url">HTTPS URL to send updates to. Use an empty string to remove webhook integration</param>
     /// <param name="certificate">
     /// Upload your public key certificate so that the root certificate in use can be checked. See our
     /// <a href="https://core.telegram.org/bots/self-signed">self-signed guide</a> for details
@@ -106,9 +107,9 @@ public static partial class TelegramBotClientExtensions
     /// through DNS
     /// </param>
     /// <param name="maxConnections">
-    /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100.
-    /// Defaults to <i>40</i>. Use lower values to limit the load on your bot’s server, and higher values to
-    /// increase your bot’s throughput
+    /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update
+    /// delivery, 1-100. Defaults to <i>40</i>. Use lower values to limit the load on your
+    /// bot's server, and higher values to increase your bot's throughput.
     /// </param>
     /// <param name="allowedUpdates">
     /// <para>A list of the update types you want your bot to receive. For example, specify
@@ -124,6 +125,11 @@ public static partial class TelegramBotClientExtensions
     /// </para>
     /// </param>
     /// <param name="dropPendingUpdates">Pass <c>true</c> to drop all pending updates</param>
+    /// <param name="secretToken">
+    /// A secret token to be sent in a header "<c>X-Telegram-Bot-Api-Secret-Token</c>" in every webhook request,
+    /// 1-256 characters. Only characters <c>A-Z</c>, <c>a-z</c>, <c>0-9</c>, <c>_</c> and <c>-</c>
+    /// are allowed. The header is useful to ensure that the request comes from a webhook set by you.
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -139,7 +145,7 @@ public static partial class TelegramBotClientExtensions
     /// <paramref name="certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending a
     /// string will not work
     /// </item>
-    /// <item>Ports currently supported for Webhooks: <b>443, 80, 88, 8443</b></item>
+    /// <item>Ports currently supported for webhooks: <b>443, 80, 88, 8443</b></item>
     /// </list>
     /// If you're having any trouble setting up webhooks, please check out this
     /// <a href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</a>.
@@ -152,6 +158,7 @@ public static partial class TelegramBotClientExtensions
         int? maxConnections = default,
         IEnumerable<UpdateType>? allowedUpdates = default,
         bool? dropPendingUpdates = default,
+        string? secretToken = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -162,7 +169,8 @@ public static partial class TelegramBotClientExtensions
                     IpAddress = ipAddress,
                     MaxConnections = maxConnections,
                     AllowedUpdates = allowedUpdates,
-                    DropPendingUpdates = dropPendingUpdates
+                    DropPendingUpdates = dropPendingUpdates,
+                    SecretToken = secretToken
                 },
                 cancellationToken
             )
@@ -4049,6 +4057,123 @@ public static partial class TelegramBotClientExtensions
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to create a link for an invoice.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="title">Product name, 1-32 characters</param>
+    /// <param name="description">Product description, 1-255 characters</param>
+    /// <param name="payload">
+    /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user,
+    /// use for your internal processes
+    /// </param>
+    /// <param name="providerToken">
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// </param>
+    /// <param name="currency">
+    /// Three-letter ISO 4217 currency code, see
+    /// <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>
+    /// </param>
+    /// <param name="prices">
+    /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax,
+    /// bonus, etc.)
+    /// </param>
+    /// <param name="maxTipAmount">
+    /// The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double).
+    /// For example, for a maximum tip of <c>US$ 1.45</c> pass <c><paramref name="maxTipAmount"/> = 145</c>.
+    /// See the <i>exp</i> parameter in
+    /// <a href="https://core.telegram.org/bots/payments/currencies.json">currencies.json</a>, it shows the
+    /// number of digits past the decimal point for each currency (2 for the majority of currencies).
+    /// Defaults to 0
+    /// </param>
+    /// <param name="suggestedTipAmounts">
+    /// An array of suggested amounts of tips in the <i>smallest units</i> of the currency (integer,
+    /// <b>not</b> float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must
+    /// be positive, passed in a strictly increased order and must not exceed <paramref name="maxTipAmount"/>
+    /// </param>
+    /// <param name="providerData">
+    /// JSON-serialized data about the invoice, which will be shared with the payment provider. A detailed
+    /// description of required fields should be provided by the payment provide
+    /// </param>
+    /// <param name="photoUrl">
+    /// URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a service.
+    /// </param>
+    /// <param name="photoSize">Photo size</param>
+    /// <param name="photoWidth">Photo width</param>
+    /// <param name="photoHeight">Photo height</param>
+    /// <param name="needName">Pass <c>true</c>, if you require the user's full name to complete the order</param>
+    /// <param name="needPhoneNumber">
+    /// Pass <c>true</c>, if you require the user's phone number to complete the order
+    /// </param>
+    /// <param name="needEmail">Pass <c>true</c>, if you require the user's email to complete the order</param>
+    /// <param name="needShippingAddress">
+    /// Pass <c>true</c>, if you require the user's shipping address to complete the order
+    /// </param>
+    /// <param name="sendPhoneNumberToProvider">
+    /// Pass <c>true</c>, if user's phone number should be sent to provider
+    /// </param>
+    /// <param name="sendEmailToProvider">
+    /// Pass <c>true</c>, if user's email address should be sent to provider
+    /// </param>
+    /// <param name="isFlexible">Pass <c>true</c>, if the final price depends on the shipping method</param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    public static async Task<string> CreateInvoiceLinkAsync(
+        this ITelegramBotClient botClient,
+        string title,
+        string description,
+        string payload,
+        string providerToken,
+        string currency,
+        IEnumerable<LabeledPrice> prices,
+        int? maxTipAmount = default,
+        IEnumerable<int>? suggestedTipAmounts = default,
+        string? providerData = default,
+        string? photoUrl = default,
+        int? photoSize = default,
+        int? photoWidth = default,
+        int? photoHeight = default,
+        bool? needName = default,
+        bool? needPhoneNumber = default,
+        bool? needEmail = default,
+        bool? needShippingAddress = default,
+        bool? sendPhoneNumberToProvider = default,
+        bool? sendEmailToProvider = default,
+        bool? isFlexible = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new CreateInvoiceLinkRequest(
+                    title,
+                    description,
+                    payload,
+                    providerToken,
+                    currency,
+                    // ReSharper disable once PossibleMultipleEnumeration
+                    prices)
+                {
+                    MaxTipAmount = maxTipAmount,
+                    SuggestedTipAmounts = suggestedTipAmounts,
+                    ProviderData = providerData,
+                    PhotoUrl = photoUrl,
+                    PhotoSize = photoSize,
+                    PhotoWidth = photoWidth,
+                    PhotoHeight = photoHeight,
+                    NeedName = needName,
+                    NeedPhoneNumber = needPhoneNumber,
+                    NeedEmail = needEmail,
+                    NeedShippingAddress = needShippingAddress,
+                    SendPhoneNumberToProvider = sendPhoneNumberToProvider,
+                    SendEmailToProvider = sendEmailToProvider,
+                    IsFlexible = isFlexible
                 },
                 cancellationToken
             )
