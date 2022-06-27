@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v18.1.0-alpha.1] - Unreleased
+## [v19.0.0-alpha.1] - Unreleased
 
 > [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
 
