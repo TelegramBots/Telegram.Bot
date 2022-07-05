@@ -58,6 +58,13 @@ public class AnswerCallbackQueryRequest : RequestBase<bool>
     public int? CacheTime { get; set; }
 
     /// <summary>
+    /// Specifies whether to open game URLs in a WebView or in native UI.
+    /// To see more check <a href="https://core.telegram.org/api/bots/buttons#callback-queries" ></a>
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore, PropertyName = "native_ui")]
+    public bool? UseNativeUI { get; set; }
+
+    /// <summary>
     /// Initializes a new request with callbackQueryId
     /// </summary>
     /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>

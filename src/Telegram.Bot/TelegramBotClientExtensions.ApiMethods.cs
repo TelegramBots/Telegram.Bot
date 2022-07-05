@@ -2718,6 +2718,9 @@ public static partial class TelegramBotClientExtensions
     /// The maximum amount of time in seconds that the result of the callback query may be cached client-side.
     /// Telegram apps will support caching starting in version 3.14
     /// </param>
+    /// <param name="useNativeUI">
+    /// Specifies whether to open game URLs in a WebView or in native UI.
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -2728,6 +2731,7 @@ public static partial class TelegramBotClientExtensions
         bool? showAlert = default,
         string? url = default,
         int? cacheTime = default,
+        bool? useNativeUI =default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -2737,7 +2741,8 @@ public static partial class TelegramBotClientExtensions
                     Text = text,
                     ShowAlert = showAlert,
                     Url = url,
-                    CacheTime = cacheTime
+                    CacheTime = cacheTime,
+                    UseNativeUI= useNativeUI
                 },
                 cancellationToken
             )
