@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -34,26 +35,33 @@ internal static class HttpContentExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void AddContentIfInputFileStream(
+    internal static void AddContentIfInputFile(
         this MultipartFormDataContent multipartContent,
-        params IInputMedia[] inputMedia)
+        IEnumerable<InputMedia> inputMedia)
     {
         foreach (var input in inputMedia)
         {
-            if (input.Media.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: input.Media.Content!,
-                    name: input.Media.FileName!
-                );
-            }
+            multipartContent.AddContentIfInputFile(input);
+        }
+    }
 
-            if (input is IInputMediaThumb mediaThumb &&
-                mediaThumb.Thumb?.FileType == FileType.Stream)
+    internal static void AddContentIfInputFile(this MultipartFormDataContent multipartContent, InputMedia inputMedia)
+    {
+        if (inputMedia.Media is InputFile media)
+        {
+            multipartContent.AddStreamContent(
+                            content: media.Content,
+                            name: media.FileName
+                        );
+        }
+        else
+        {
+            if (inputMedia is IInputMediaThumb mediaThumb
+                            && mediaThumb.Thumb is InputFile thumb)
             {
                 multipartContent.AddStreamContent(
-                    content: mediaThumb.Thumb.Content!,
-                    name: mediaThumb.Thumb.FileName!
+                    content: thumb.Content,
+                    name: thumb.FileName
                 );
             }
         }

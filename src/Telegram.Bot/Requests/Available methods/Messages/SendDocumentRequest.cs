@@ -1,12 +1,11 @@
-using System.Collections.Generic;
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
+using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -25,16 +24,16 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// File to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that
+    /// File to send. Pass a <see cref="InputFileId"/> as String to send a file that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Document { get; }
+    public IInputFile Document { get; }
 
     /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <summary>
     /// Document caption (may also be used when resending documents by file_id), 0-1024 characters
@@ -84,11 +83,11 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="document">
-    /// File to send. Pass a <see cref="InputTelegramFile.FileId"/> as string to send a file that
+    /// File to send. Pass a <see cref="InputFileId"/> as string to send a file that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendDocumentRequest(ChatId chatId, InputOnlineFile document)
+    public SendDocumentRequest(ChatId chatId, IInputFile document)
         : base("sendDocument")
     {
         ChatId = chatId;
@@ -102,21 +101,21 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
         if (Document.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
         {
             var multipartContent = GenerateMultipartFormDataContent("document", "thumb");
-            if (Document.FileType == FileType.Stream)
+            if (Document is InputFile document)
             {
                 multipartContent.AddStreamContent(
-                    content: Document.Content!,
+                    content: document.Content,
                     name: "document",
-                    fileName: Document.FileName
+                    fileName: document.FileName
                 );
             }
 
-            if (Thumb?.FileType == FileType.Stream)
+            if (Thumb is InputFile thumb)
             {
                 multipartContent.AddStreamContent(
-                    content: Thumb.Content!,
+                    content: thumb.Content,
                     name: "thumb",
-                    fileName: Thumb.FileName
+                    fileName: thumb.FileName
                 );
             }
 

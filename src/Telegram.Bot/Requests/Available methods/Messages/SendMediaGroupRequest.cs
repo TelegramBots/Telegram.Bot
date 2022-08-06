@@ -63,7 +63,7 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     public override HttpContent ToHttpContent()
     {
         var httpContent = GenerateMultipartFormDataContent();
-        httpContent.AddContentIfInputFileStream(Media.Cast<IInputMedia>().ToArray());
+        httpContent.AddContentIfInputFile(Media.Cast<InputMedia>());
         return httpContent;
     }
 }

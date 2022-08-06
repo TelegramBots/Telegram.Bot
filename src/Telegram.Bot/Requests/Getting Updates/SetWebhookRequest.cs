@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
+using System.Net.Http;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -27,7 +27,7 @@ namespace Telegram.Bot.Requests;
 /// <item>
 /// To use a self-signed certificate, you need to upload your
 /// <a href="https://core.telegram.org/bots/self-signed">public key certificate</a> using
-/// <see cref="Certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending
+/// <see cref="Certificate"/> parameter. Please upload as <see cref="InputFile"/>, sending
 /// a String will not work.
 /// </item>
 /// <item>Ports currently supported for webhooks: <b>443, 80, 88, 8443</b></item>
@@ -50,7 +50,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// our <a href="https://core.telegram.org/bots/self-signed">self-signed guide</a> for details
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputFileStream? Certificate { get; set; }
+    public InputFile? Certificate { get; set; }
 
     /// <summary>
     /// The fixed IP address which will be used to send webhook requests instead of the
@@ -111,7 +111,9 @@ public class SetWebhookRequest : FileRequestBase<bool>
 
     /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
     public override HttpContent? ToHttpContent() =>
-        Certificate is null
-            ? base.ToHttpContent()
-            : ToMultipartFormDataContent("certificate", Certificate);
+        Certificate switch
+        {
+            { } => ToMultipartFormDataContent("certificate", Certificate),
+            _   => base.ToHttpContent()
+        };
 }

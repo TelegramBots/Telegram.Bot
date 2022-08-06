@@ -13,7 +13,7 @@ namespace Telegram.Bot.Requests;
 /// Use this method to edit animation, audio, document, photo, or video messages. If a message is part
 /// of a message album, then it can be edited only to an audio for audio albums, only to a
 /// document for document albums and to a photo or a video otherwise. Use a previously uploaded
-/// file via its <see cref="Types.InputFiles.InputTelegramFile.FileId"/> or specify a URL.
+/// file via its <see cref="InputFileId"/> or specify a URL.
 /// On success the edited <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -33,7 +33,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     /// A new media content of the message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputMediaBase Media { get; }
+    public InputMedia Media { get; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -48,7 +48,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="media">A new media content of the message</param>
-    public EditMessageMediaRequest(ChatId chatId, int messageId, InputMediaBase media)
+    public EditMessageMediaRequest(ChatId chatId, int messageId, InputMedia media)
         : base("editMessageMedia")
     {
         ChatId = chatId;
@@ -61,7 +61,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent ToHttpContent()
     {
         var httpContent = GenerateMultipartFormDataContent();
-        httpContent.AddContentIfInputFileStream(Media);
+        httpContent.AddContentIfInputFile(Media);
         return httpContent;
     }
 }

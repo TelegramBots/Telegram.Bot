@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Linq;
+using System.Net.Http;
 using Telegram.Bot.Extensions;
-using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Requests;
 
@@ -41,7 +41,7 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// <returns></returns>
     protected MultipartFormDataContent ToMultipartFormDataContent(
         string fileParameterName,
-        InputFileStream inputFile)
+        InputFile inputFile)
     {
         if (inputFile is null or { Content: null })
         {

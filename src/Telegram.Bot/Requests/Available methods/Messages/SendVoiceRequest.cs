@@ -1,11 +1,10 @@
-using System.Collections.Generic;
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
+using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -26,12 +25,12 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send a file that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get
     /// a file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Voice { get; }
+    public IInputFile Voice { get; }
 
     /// <summary>
     /// Voice message caption, 0-1024 characters after entities parsing
@@ -80,11 +79,11 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="voice">
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send a file
     /// that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendVoiceRequest(ChatId chatId, InputOnlineFile voice)
+    public SendVoiceRequest(ChatId chatId, IInputFile voice)
         : base("sendVoice")
     {
         ChatId = chatId;
@@ -93,9 +92,9 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
-        Voice.FileType switch
+        Voice switch
         {
-            FileType.Stream => ToMultipartFormDataContent(fileParameterName: "voice", inputFile: Voice),
+            InputFile voice => ToMultipartFormDataContent(fileParameterName: "voice", inputFile: voice),
             _               => base.ToHttpContent()
         };
 }
