@@ -4,7 +4,6 @@ using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
@@ -65,9 +64,9 @@ public class EditMessageMediaTests
         // either an URL or the file_id of a previously uploaded media.
         await BotClient.EditMessageMediaAsync(
             inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
-            media: new InputMediaAudio(
+            media: new InputMediaAudio(new InputUrlFile(
                 "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/" +
-                "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3")
+                "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3"))
             {
                 Caption = "**Audio** in `.mp3` format",
                 ParseMode = ParseMode.Markdown,
@@ -85,7 +84,7 @@ public class EditMessageMediaTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth);
         Message gifMessage = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: new InputOnlineFile(stream, "Earth.gif"),
+            document: new InputFile(stream, "Earth.gif"),
             caption: "`file_id` of this GIF will be used",
             parseMode: ParseMode.Markdown,
             replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton
@@ -126,7 +125,7 @@ public class EditMessageMediaTests
         // Also, animation thumbnail cannot be uploaded for an inline message.
         await BotClient.EditMessageMediaAsync(
             inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
-            media: new InputMediaAnimation(animationFileId)
+            media: new InputMediaAnimation(new InputFileId(animationFileId))
         );
     }
 }
