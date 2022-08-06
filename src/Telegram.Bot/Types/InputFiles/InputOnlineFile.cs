@@ -72,12 +72,7 @@ public class InputOnlineFile : InputTelegramFile
 
     static FileType DetectFileType(string value, out bool isUrl)
     {
-        if (Uri.TryCreate(value, UriKind.Absolute, out _))
-        {
-            isUrl = true;
-            return FileType.Url;
-        }
-        isUrl = false;
-        return FileType.Id;
+        isUrl = Uri.TryCreate(value, UriKind.Absolute, out _);
+        return isUrl ? FileType.Url : FileType.Id;
     }
 }
