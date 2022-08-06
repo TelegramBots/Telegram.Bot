@@ -12,7 +12,6 @@ namespace Telegram.Bot.Types;
 /// the usual way that files are uploaded via the browser
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-[JsonConverter(typeof(InputFileConverter))]
 public class InputFile : IInputFile
 {
     /// <inheritdoc/>
