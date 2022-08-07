@@ -41,10 +41,10 @@ public class InputFileSerializationTests
     public void Should_Serialize_InputUrlFile()
     {
         const string url = "http://github.org/TelgramBots";
-        InputUrlFile inputUrlFile = new(url);
+        InputFileUrl inputFileUrl = new(url);
 
-        string json = JsonConvert.SerializeObject(inputUrlFile);
-        InputUrlFile obj = JsonConvert.DeserializeObject<InputUrlFile>(json);
+        string json = JsonConvert.SerializeObject(inputFileUrl);
+        InputFileUrl obj = JsonConvert.DeserializeObject<InputFileUrl>(json);
 
         Assert.Equal(@$"""{url}""", json);
         Assert.Equal(url, obj.value);

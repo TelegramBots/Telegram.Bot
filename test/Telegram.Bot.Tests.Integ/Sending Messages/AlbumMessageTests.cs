@@ -101,8 +101,8 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
             chatId: _fixture.SupergroupChat.Id,
             media: new IAlbumInputMedia[]
             {
-                new InputMediaPhoto(new InputUrlFile("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")),
-                new InputMediaPhoto(new InputUrlFile("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
+                new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")),
+                new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
             },
             replyToMessageId: replyToMessageId
         );
@@ -234,7 +234,7 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
                 Thumb = new InputFile(stream2, "thumbnail.jpg"),
                 SupportsStreaming = true,
             },
-            new InputMediaPhoto(new InputUrlFile("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
+            new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
         };
 
         Message[] messages = await BotClient.SendMediaGroupAsync(

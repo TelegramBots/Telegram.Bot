@@ -17,9 +17,9 @@ internal class InputFileConverter : JsonConverter
         writer.WriteValue(value switch
         {
             InputFileId file       => file.value,
-            InputUrlFile file => file.value,
-            InputFile file    => $"attach://{file.FileName}",
-            _                 => throw new NotSupportedException("File Type not supported")
+            InputFileUrl file      => file.value,
+            InputFile file         => $"attach://{file.FileName}",
+            _                      => throw new NotSupportedException("File Type not supported")
         });
     }
 
@@ -37,8 +37,9 @@ internal class InputFileConverter : JsonConverter
         {
             return new InputFile(Stream.Null, value.Substring(9));
         }
-        else return Uri.TryCreate(value, UriKind.Absolute, out _)
-            ? new InputUrlFile(value)
+
+        return Uri.TryCreate(value, UriKind.Absolute, out _)
+            ? new InputFileUrl(value)
             : new InputFileId(value);
     }
 }

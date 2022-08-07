@@ -5,23 +5,23 @@ using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Converters;
 
-internal class InputUrlFileConverter : JsonConverter<InputUrlFile>
+internal class InputFileUrlConverter : JsonConverter<InputFileUrl>
 {
-    public override void WriteJson(JsonWriter writer, InputUrlFile inputUrlFile, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, InputFileUrl inputFileUrl, JsonSerializer serializer)
     {
-        writer.WriteValue(inputUrlFile.value);
+        writer.WriteValue(inputFileUrl.value);
     }
 
-    public override InputUrlFile ReadJson(
+    public override InputFileUrl ReadJson(
         JsonReader reader,
         Type objectType,
-        InputUrlFile existingValue,
+        InputFileUrl existingValue,
         bool hasExistingValue,
         JsonSerializer serializer)
     {
         var value = JToken.ReadFrom(reader).Value<string>();
         if (value is not { }) throw new JsonSerializationException();
 
-        return new InputUrlFile(value);
+        return new InputFileUrl(value);
     }
 }

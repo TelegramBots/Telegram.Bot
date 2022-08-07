@@ -416,7 +416,7 @@ public class InlineQueryTests
         // Video from https://pixabay.com/en/videos/fireworks-rocket-new-year-s-eve-7122/
         Message videoMessage = await BotClient.SendVideoAsync(
             chatId: _fixture.SupergroupChat,
-            video: new InputUrlFile("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
+            video: new InputFileUrl("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start inline query")
         );
@@ -776,7 +776,7 @@ public class InlineQueryTests
     {
         Message gifMessage = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: new InputUrlFile("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
+            document: new InputFileUrl("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start inline query"));
 
@@ -858,7 +858,7 @@ public class InlineQueryTests
     {
         Message gifMessage = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: new InputUrlFile("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
+            document: new InputFileUrl("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start inline query"));
 

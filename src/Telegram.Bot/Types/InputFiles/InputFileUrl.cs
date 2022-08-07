@@ -9,10 +9,10 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// A file identifier
 /// </summary>
-[JsonConverter(typeof(InputUrlFileConverter))]
+[JsonConverter(typeof(InputFileUrlConverter))]
 
-public struct InputUrlFile : IInputFile,
-    IEquatable<InputUrlFile>
+public struct InputFileUrl : IInputFile,
+    IEquatable<InputFileUrl>
 {
     /// <inheritdoc/>
     public FileType FileType => FileType.Url;
@@ -26,23 +26,23 @@ public struct InputUrlFile : IInputFile,
     ///  A file identifier
     /// </summary>
     /// <param name="url"></param>
-    public InputUrlFile(string url)
+    public InputFileUrl(string url)
     {
         value = url;
     }
 
     /// <inheritdoc/>
-    public bool Equals(InputUrlFile other) => value.Equals(other.value, StringComparison.Ordinal);
+    public bool Equals(InputFileUrl other) => value.Equals(other.value, StringComparison.Ordinal);
 
     /// <inheritdoc/>
-    public override bool Equals(object obj) => this == (InputUrlFile)obj;
+    public override bool Equals(object obj) => this == (InputFileUrl)obj;
 
     /// <inheritdoc/>
     public override int GetHashCode() => value.GetHashCode();
 
     /// <inheritdoc/>
-    public static bool operator ==(InputUrlFile left, InputUrlFile right) => left.Equals(right);
+    public static bool operator ==(InputFileUrl left, InputFileUrl right) => left.Equals(right);
 
     /// <inheritdoc/>
-    public static bool operator !=(InputUrlFile left, InputUrlFile right) => !(left == right);
+    public static bool operator !=(InputFileUrl left, InputFileUrl right) => !(left == right);
 }

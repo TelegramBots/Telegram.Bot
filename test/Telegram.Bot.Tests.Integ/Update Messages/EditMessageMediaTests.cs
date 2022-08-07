@@ -64,7 +64,7 @@ public class EditMessageMediaTests
         // either an URL or the file_id of a previously uploaded media.
         await BotClient.EditMessageMediaAsync(
             inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
-            media: new InputMediaAudio(new InputUrlFile(
+            media: new InputMediaAudio(new InputFileUrl(
                 "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/" +
                 "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3"))
             {
