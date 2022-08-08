@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.IO;
-using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -11,7 +8,6 @@ namespace Telegram.Bot.Types;
 /// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in
 /// the usual way that files are uploaded via the browser
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InputFile : IInputFile
 {
     /// <inheritdoc/>

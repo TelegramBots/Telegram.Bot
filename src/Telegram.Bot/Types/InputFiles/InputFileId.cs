@@ -1,6 +1,4 @@
-using Newtonsoft.Json;
 using System;
-using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -9,7 +7,6 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// A file identifier
 /// </summary>
-[JsonConverter(typeof(FileIdConverter))]
 public struct InputFileId : IInputFile,
     IEquatable<InputFileId>
 {
