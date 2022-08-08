@@ -16,10 +16,10 @@ internal class InputFileConverter : JsonConverter
     {
         writer.WriteValue(value switch
         {
-            InputFileId file       => file.value,
-            InputFileUrl file      => file.value,
-            InputFile file         => $"attach://{file.FileName}",
-            _                      => throw new NotSupportedException("File Type not supported")
+            InputFileId file  => file.Value,
+            InputFileUrl file => file.Value,
+            InputFile file    => $"attach://{file.FileName}",
+            _                 => throw new NotSupportedException("File Type not supported")
         });
     }
 

@@ -33,21 +33,21 @@ public class InputFileSerializationTests
         InputFileId obj = JsonConvert.DeserializeObject<InputFileId>(json);
 
         Assert.Equal(@$"""{fileId}""", json);
-        Assert.Equal(fileId, obj.value);
+        Assert.Equal(fileId, obj.Value);
         Assert.Equal(FileType.Id, obj.FileType);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input file with URL")]
     public void Should_Serialize_InputUrlFile()
     {
-        const string url = "http://github.org/TelgramBots";
+        const string url = "http://github.org/TelegramBots";
         InputFileUrl inputFileUrl = new(url);
 
         string json = JsonConvert.SerializeObject(inputFileUrl);
         InputFileUrl obj = JsonConvert.DeserializeObject<InputFileUrl>(json);
 
         Assert.Equal(@$"""{url}""", json);
-        Assert.Equal(url, obj.value);
+        Assert.Equal(url, obj.Value);
         Assert.Equal(FileType.Url, obj.FileType);
     }
 }
