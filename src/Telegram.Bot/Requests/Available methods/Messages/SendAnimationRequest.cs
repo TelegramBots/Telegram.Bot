@@ -110,28 +110,12 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (Animation.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+
+        if (Animation is InputFile || Thumb is InputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent("animation", "thumb");
-            if (Animation is InputFile animation)
-            {
-                multipartContent.AddStreamContent(
-                    content: animation.Content,
-                    name: "animation",
-                    fileName: animation.FileName
-                );
-            }
-
-            if (Thumb is InputFile thumb)
-            {
-                multipartContent.AddStreamContent(
-                    content: thumb.Content,
-                    name: "thumb",
-                    fileName: thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = GenerateMultipartFormDataContent("animation", "thumb")
+                .AddContentIfInputFile(media: Animation, name: "animation")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {

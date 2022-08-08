@@ -98,28 +98,12 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (Document.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+
+        if (Document is InputFile || Thumb is InputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent("document", "thumb");
-            if (Document is InputFile document)
-            {
-                multipartContent.AddStreamContent(
-                    content: document.Content,
-                    name: "document",
-                    fileName: document.FileName
-                );
-            }
-
-            if (Thumb is InputFile thumb)
-            {
-                multipartContent.AddStreamContent(
-                    content: thumb.Content,
-                    name: "thumb",
-                    fileName: thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = GenerateMultipartFormDataContent("document", "thumb")
+                .AddContentIfInputFile(media: Document, name: "document")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {

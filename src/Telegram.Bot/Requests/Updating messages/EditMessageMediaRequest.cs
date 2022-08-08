@@ -1,6 +1,6 @@
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -58,10 +58,15 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
 
     // ToDo: If there is no file stream in the request, request content should be string
     /// <inheritdoc />
-    public override HttpContent ToHttpContent()
+    public override HttpContent? ToHttpContent()
     {
-        var httpContent = GenerateMultipartFormDataContent();
-        httpContent.AddContentIfInputFile(Media);
-        return httpContent;
+        var multipartContent = GenerateMultipartFormDataContent();
+
+        if (Media.Media is InputFile file)
+            multipartContent.AddContentIfInputFile(file, file.FileName!);
+        if (Media is IInputMediaThumb thumbMedia && thumbMedia.Thumb is InputFile thumb)
+            multipartContent.AddContentIfInputFile(thumb, thumb.FileName!);
+
+        return multipartContent;
     }
 }

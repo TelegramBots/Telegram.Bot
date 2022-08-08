@@ -48,16 +48,8 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
             throw new ArgumentNullException(nameof(inputFile), $"{nameof(inputFile)} or it's content is null");
         }
 
-        var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
-
-        multipartContent.AddStreamContent(
-            // Probably is a compiler bug, inputFile is already checked at this point
-#pragma warning disable CA1062
-            content: inputFile.Content,
-#pragma warning restore CA1062
-            name: fileParameterName,
-            fileName: inputFile.FileName
-        );
+        MultipartFormDataContent? multipartContent = GenerateMultipartFormDataContent(fileParameterName)
+            .AddContentIfInputFile(media: inputFile, name: fileParameterName);
 
         return multipartContent;
     }

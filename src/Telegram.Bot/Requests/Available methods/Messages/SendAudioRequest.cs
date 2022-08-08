@@ -110,28 +110,12 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (Audio.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+
+        if (Audio is InputFile || Thumb is InputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent("audio", "thumb");
-            if (Audio is InputFile audio)
-            {
-                multipartContent.AddStreamContent(
-                    content: audio.Content,
-                    name: "audio",
-                    fileName: audio.FileName
-                );
-            }
-
-            if (Thumb is InputFile thumb)
-            {
-                multipartContent.AddStreamContent(
-                    content: thumb.Content,
-                    name: "thumb",
-                    fileName: thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = GenerateMultipartFormDataContent("audio", "thumb")
+                .AddContentIfInputFile(media: Audio, name: "audio")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {

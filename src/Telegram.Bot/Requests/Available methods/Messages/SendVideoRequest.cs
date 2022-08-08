@@ -117,32 +117,15 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     {
         HttpContent? httpContent;
 
-        if (Video is not InputFile && Thumb is not InputFile)
+        if (Video is InputFile || Thumb is InputFile)
         {
-            httpContent = base.ToHttpContent();
+            httpContent = GenerateMultipartFormDataContent("video", "thumb")
+                .AddContentIfInputFile(media: Video, name: "video")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {
-            var multipartContent = GenerateMultipartFormDataContent("video", "thumb");
-            if (Video is InputFile video)
-            {
-                multipartContent.AddStreamContent(
-                    content: video.Content,
-                    name: "video",
-                    fileName: video.FileName
-                );
-            }
-
-            if (Thumb is InputFile thumb)
-            {
-                multipartContent.AddStreamContent(
-                    content: thumb.Content,
-                    name: "thumb", fileName:
-                    thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = base.ToHttpContent();
         }
 
         return httpContent;

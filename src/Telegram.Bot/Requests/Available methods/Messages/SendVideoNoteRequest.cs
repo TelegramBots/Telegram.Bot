@@ -87,32 +87,16 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (VideoNote is not InputFile && Thumb is not InputFile)
+
+        if (VideoNote is InputFile || Thumb is InputFile)
         {
-            httpContent = base.ToHttpContent();
+            httpContent = GenerateMultipartFormDataContent("video_note", "thumb")
+                .AddContentIfInputFile(media: VideoNote, name: "video_note")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {
-            var multipartContent = GenerateMultipartFormDataContent("video_note", "thumb");
-            if (VideoNote is InputFile videoNote)
-            {
-                multipartContent.AddStreamContent(
-                    content: videoNote.Content,
-                    name: "video_note",
-                    fileName: videoNote.FileName
-                );
-            }
-
-            if (Thumb is InputFile thumb)
-            {
-                multipartContent.AddStreamContent(
-                    content: thumb.Content,
-                    name: "thumb",
-                    fileName: thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = base.ToHttpContent();
         }
 
         return httpContent;
