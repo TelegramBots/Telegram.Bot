@@ -187,4 +187,9 @@ public enum MessageType
     /// The <see cref="Message"/> contains <see cref="Message.VideoChatParticipantsInvited"/>
     /// </summary>
     VideoChatParticipantsInvited,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.Animation"/>
+    /// </summary>
+    Animation,
 }

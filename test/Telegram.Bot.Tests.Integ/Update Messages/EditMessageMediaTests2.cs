@@ -102,7 +102,7 @@ public class EditMessageMediaTests2
 
         // For backward compatibility, when this field is set, the document field will also be set.
         // In that case, message type is still considered as Document.
-        Assert.Equal(MessageType.Document, editedMessage.Type);
+        Assert.Equal(MessageType.Animation, editedMessage.Type);
         Assert.NotNull(editedMessage.Document);
         Assert.NotNull(editedMessage.Animation);
 

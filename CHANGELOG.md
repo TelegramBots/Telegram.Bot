@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 > [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
 
-# Added
+### Added
 
 - Properties `JoinToSendMessages`, `JoinByRequest` to `Chat`
 - Properties `IsPremium`, `AddedToAttachmentMenu` to `User`
@@ -34,6 +34,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Parameter `secretToken` to `SetWebhookAsync`
 - Request `CreateInvoiceLinkRequest`
 - Method `CreateInvoiceLinkAsync`
+- Enum member `MessageType.Animation`
+
+### Fixed
+
+- Property 'Message.Type' returns `MessageType.Animation` when a `message` contains `Animation` 
 
 ## [v18.0.0] - 2022-06-16
 

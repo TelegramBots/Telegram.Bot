@@ -15,6 +15,7 @@ public class MessageTypeConverterTests
     [InlineData(MessageType.Audio, "audio")]
     [InlineData(MessageType.Video, "video")]
     [InlineData(MessageType.Voice, "voice")]
+    [InlineData(MessageType.Animation, "animation")]
     [InlineData(MessageType.Document, "document")]
     [InlineData(MessageType.Sticker, "sticker")]
     [InlineData(MessageType.Location, "location")]
@@ -61,6 +62,7 @@ public class MessageTypeConverterTests
     [InlineData(MessageType.Audio, "audio")]
     [InlineData(MessageType.Video, "video")]
     [InlineData(MessageType.Voice, "voice")]
+    [InlineData(MessageType.Animation, "animation")]
     [InlineData(MessageType.Document, "document")]
     [InlineData(MessageType.Sticker, "sticker")]
     [InlineData(MessageType.Location, "location")]
@@ -95,7 +97,7 @@ public class MessageTypeConverterTests
         Message expectedResult = new Message() { Type = messageType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Message result = JsonConvert.DeserializeObject<Message>(jsonData);
+        Message result = JsonConvert.DeserializeObject<Message>(jsonData)!;
 
         Assert.Equal(expectedResult.Type, result.Type);
     }
@@ -105,7 +107,7 @@ public class MessageTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Message result = JsonConvert.DeserializeObject<Message>(jsonData);
+        Message result = JsonConvert.DeserializeObject<Message>(jsonData)!;
 
         Assert.Equal(MessageType.Unknown, result.Type);
     }
