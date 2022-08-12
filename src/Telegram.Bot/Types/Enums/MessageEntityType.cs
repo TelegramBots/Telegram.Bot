@@ -87,4 +87,9 @@ public enum MessageEntityType
     /// Spoiler message
     /// </summary>
     Spoiler,
+
+    /// <summary>
+    /// Inline custom emoji stickers
+    /// </summary>
+    CustomEmoji,
 }
