@@ -3477,6 +3477,28 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to get information about custom emoji stickers by their identifiers.
+    /// Returns an Array of <see cref="Sticker"/> objects.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="customEmojiIds">List of custom emoji identifiers. At most 200 custom emoji
+    /// identifiers can be specified.</param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>On success, a <see cref="StickerSet"/> object is returned.</returns>
+    public static async Task<Sticker[]> GetCustomEmojiStickersAsync(
+        this ITelegramBotClient botClient,
+        IEnumerable<string> customEmojiIds,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull(nameof(botClient))
+            .MakeRequestAsync(
+                request: new GetCustomEmojiStickersRequest(customEmojiIds),
+                cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to upload a .PNG file with a sticker for later use in
     /// <see cref="CreateNewStaticStickerSetAsync"/>, <see cref="CreateNewAnimatedStickerSetAsync"/>,
     /// <see cref="CreateNewVideoStickerSetAsync"/>, <see cref="AddStaticStickerToSetAsync"/>,
