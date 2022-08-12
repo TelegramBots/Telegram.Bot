@@ -21,11 +21,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+## [v19.0.0-alpha.2] - Unreleased
+
+> [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)
+
+### Added
+
+- Enum member `CustomEmoji` to `MessageEntityType`
+- Property `CustomEmojiId`  to `MessageEntity`
+- Extension method `GetCustomEmojiStickersAsync`
+- Request `GetCustomEmojiStickersRequest`
+- Enum `StickerType`
+- Properties `Type` and `CustomEmojiId` to `Sticker`
+- Property `StickerType` to `StickerSet`
+- Property `StickerType` to `CreateNewStickerSetRequest`
+- Parameter `stickerType` to `CreateNew*StickerSetAsync` extension methods
+- Property `HasRestrictedVoiceAndVideoMessages` to `Chat`
+
+### Removed
+
+- Property `ContainsMasks` from `StickerSet`
+- Property `ContainsMasks` from `CreateNewStickerSetRequest`
+- Parameter `containsMasks` from `CreateNew*StickerSetAsync` extension methods
+
 ## [v19.0.0-alpha.1] - Unreleased
 
 > [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
 
-# Added
+### Added
 
 - Properties `JoinToSendMessages`, `JoinByRequest` to `Chat`
 - Properties `IsPremium`, `AddedToAttachmentMenu` to `User`
