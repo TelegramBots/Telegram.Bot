@@ -35,7 +35,8 @@ public class CreateNewVideoStickerSetRequest : CreateNewStickerSetRequest
         string name,
         string title,
         InputFileStream webmSticker,
-        string emojis) : base(userId, name, title, emojis)
+        string emojis)
+        : base(userId, name, title, emojis)
     {
         WebmSticker = webmSticker ?? throw new ArgumentNullException(nameof(webmSticker), "Sticker is null");
     }

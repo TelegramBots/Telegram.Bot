@@ -39,7 +39,8 @@ public class CreateNewStaticStickerSetRequest : CreateNewStickerSetRequest
         string name,
         string title,
         InputOnlineFile pngSticker,
-        string emojis) : base(userId, name, title, emojis)
+        string emojis)
+        : base(userId, name, title, emojis)
     {
         PngSticker = pngSticker ?? throw new ArgumentNullException(nameof(pngSticker), "Sticker is null");
     }

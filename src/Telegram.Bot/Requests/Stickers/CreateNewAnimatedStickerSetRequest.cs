@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.InputFiles;
@@ -33,7 +33,8 @@ public class CreateNewAnimatedStickerSetRequest : CreateNewStickerSetRequest
         string name,
         string title,
         InputFileStream tgsSticker,
-        string emojis) : base(userId, name, title, emojis)
+        string emojis)
+        : base(userId, name, title, emojis)
     {
         TgsSticker = tgsSticker;
     }
