@@ -16,14 +16,12 @@ public class MessageEntityTypeConverterTests
     {
         List<string> messageEntityTypeMembers = Enum
             .GetNames<MessageEntityType>()
-            .OrderBy(x=>x)
+            .OrderBy(x => x)
             .ToList();
         List<string> messageEntityDataMembers = new MessageEntityData()
-            .Select(x => Enum.GetName(typeof(MessageEntityType),x[0]))
-            .OrderBy(x=>x)
+            .Select(x => Enum.GetName(typeof(MessageEntityType), x[0]))
+            .OrderBy(x => x)
             .ToList()!;
-
-        //messageEntityTypeMembers.sort
 
         Assert.Equal(messageEntityTypeMembers.Count, messageEntityDataMembers.Count);
         Assert.Equal(messageEntityDataMembers, messageEntityTypeMembers);
@@ -79,7 +77,7 @@ public class MessageEntityTypeConverterTests
         public MessageEntityType Type { get; init; }
     }
 
-    internal class MessageEntityData : IEnumerable<object[]>
+    private class MessageEntityData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
