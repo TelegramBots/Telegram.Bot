@@ -27,7 +27,7 @@ public class StickerSet
     /// Type of stickers in the set
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public StickerType Type { get; set; } = default!;
+    public StickerType StickerType { get; set; } = default!;
 
     /// <summary>
     /// True, if the sticker set contains animated stickers
