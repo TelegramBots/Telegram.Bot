@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
 
@@ -10,6 +11,13 @@ namespace Telegram.Bot.Types;
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class Sticker : FileBase
 {
+    /// <summary>
+    /// Type of the sticker. The type of the sticker is independent from its format,
+    /// which is determined by the fields <see cref="IsAnimated"/> and <see cref="IsVideo"/>.
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public StickerType Type { get; set; }
+
     /// <summary>
     /// Sticker width
     /// </summary>
@@ -63,4 +71,10 @@ public class Sticker : FileBase
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public MaskPosition? MaskPosition { get; set; }
+
+    /// <summary>
+    /// Optional. For custom emoji stickers, unique identifier of the custom emoji
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? CustomEmojiId { get; set; }
 }
