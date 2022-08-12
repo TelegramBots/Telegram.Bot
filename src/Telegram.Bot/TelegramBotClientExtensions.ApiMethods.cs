@@ -3546,7 +3546,9 @@ public static partial class TelegramBotClientExtensions
     /// or upload a new one using multipart/form-data
     /// </param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="containsMasks">Pass <c>true</c>, if a set of mask stickers should be created</param>
+    /// <param name="stickerType">Type of stickers in the set, pass <see cref="StickerType.Regular"/> or <see cref="StickerType.Mask"/>.
+    /// Custom emoji sticker sets can't be created via the Bot API at the moment.
+    /// By default, a regular sticker set is created.</param>
     /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -3558,7 +3560,7 @@ public static partial class TelegramBotClientExtensions
         string title,
         InputOnlineFile pngSticker,
         string emojis,
-        bool? containsMasks = default,
+        StickerType? stickerType = default,
         MaskPosition? maskPosition = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3566,7 +3568,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new CreateNewStaticStickerSetRequest(userId, name, title, pngSticker, emojis)
                 {
-                    ContainsMasks = containsMasks,
+                    StickerType = stickerType,
                     MaskPosition = maskPosition
                 },
                 cancellationToken
@@ -3592,7 +3594,9 @@ public static partial class TelegramBotClientExtensions
     /// for technical requirements
     /// </param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="containsMasks">Pass <c>true</c>, if a set of mask stickers should be created</param>
+    /// <param name="stickerType">Type of stickers in the set, pass <see cref="StickerType.Regular"/> or <see cref="StickerType.Mask"/>.
+    /// Custom emoji sticker sets can't be created via the Bot API at the moment.
+    /// By default, a regular sticker set is created.</param>
     /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -3604,7 +3608,7 @@ public static partial class TelegramBotClientExtensions
         string title,
         InputFileStream tgsSticker,
         string emojis,
-        bool? containsMasks = default,
+        StickerType? stickerType = default,
         MaskPosition? maskPosition = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3612,7 +3616,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new CreateNewAnimatedStickerSetRequest(userId, name, title, tgsSticker, emojis)
                 {
-                    ContainsMasks = containsMasks,
+                    StickerType = stickerType,
                     MaskPosition = maskPosition
                 },
                 cancellationToken
@@ -3638,7 +3642,9 @@ public static partial class TelegramBotClientExtensions
     /// for technical requirements
     /// </param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="containsMasks">Pass <c>true</c>, if a set of mask stickers should be created</param>
+    /// <param name="stickerType">Type of stickers in the set, pass <see cref="StickerType.Regular"/> or <see cref="StickerType.Mask"/>.
+    /// Custom emoji sticker sets can't be created via the Bot API at the moment.
+    /// By default, a regular sticker set is created.</param>
     /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -3650,7 +3656,7 @@ public static partial class TelegramBotClientExtensions
         string title,
         InputFileStream webmSticker,
         string emojis,
-        bool? containsMasks = default,
+        StickerType? stickerType = default,
         MaskPosition? maskPosition = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3663,7 +3669,7 @@ public static partial class TelegramBotClientExtensions
                     webmSticker: webmSticker,
                     emojis: emojis)
                 {
-                    ContainsMasks = containsMasks,
+                    StickerType = stickerType,
                     MaskPosition = maskPosition
                 },
                 cancellationToken
