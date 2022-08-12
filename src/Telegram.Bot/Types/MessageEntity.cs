@@ -29,7 +29,7 @@ public class MessageEntity
     public int Length { get; set; }
 
     /// <summary>
-    /// Optional. For <see cref="MessageEntityType.TextLink"/> only, url that will be opened after user taps on the text
+    /// Optional. For <see cref="MessageEntityType.TextLink"/> only, URL that will be opened after user taps on the text
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Url { get; set; }
@@ -45,4 +45,11 @@ public class MessageEntity
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Language { get; set; }
+
+    /// <summary>
+    /// Optional. For <see cref="MessageEntityType.CustomEmoji"/> only, unique identifier of the custom emoji.
+    /// Use <see cref="Requests.GetCustomEmojiStickersRequest"/> to get full information about the sticker
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? CustomEmojiId { get; set; }
 }
