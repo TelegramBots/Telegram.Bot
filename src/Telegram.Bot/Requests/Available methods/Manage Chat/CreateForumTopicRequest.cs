@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Converters;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 
@@ -29,6 +30,7 @@ public class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTargetable
     /// 0x8EEE98, 0xFF93B2, or 0xFB6F5F
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonConverter(typeof(NullableColorConverter))]
     public Color? IconColor { get; set; }
 
     /// <summary>
