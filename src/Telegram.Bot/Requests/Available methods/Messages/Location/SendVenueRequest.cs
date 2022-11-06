@@ -18,6 +18,12 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Latitude of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]

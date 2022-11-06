@@ -27,6 +27,12 @@ public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Unique identifier for the chat where the original message was sent
     /// (or channel username in the format <c>@channelusername</c>)
     /// </summary>

@@ -22,6 +22,12 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Poll question, 1-300 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]

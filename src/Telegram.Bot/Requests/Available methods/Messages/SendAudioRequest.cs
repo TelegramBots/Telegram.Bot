@@ -26,6 +26,12 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an audio
     /// file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data

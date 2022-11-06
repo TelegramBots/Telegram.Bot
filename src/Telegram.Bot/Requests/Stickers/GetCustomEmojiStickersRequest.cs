@@ -11,7 +11,6 @@ namespace Telegram.Bot.Requests;
 /// Returns an Array of <see cref="Sticker"/> objects.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-
 public class GetCustomEmojiStickersRequest : RequestBase<Sticker[]>
 {
     /// <summary>

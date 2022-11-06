@@ -26,6 +26,12 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     ChatId IChatTargetable.ChatId => ChatId;
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Product name, 1-32 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]

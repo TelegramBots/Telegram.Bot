@@ -24,6 +24,12 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Video note to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a video
     /// note that exists on the Telegram servers (recommended) or upload a new video using
     /// multipart/form-data. Sending video notes by a URL is currently unsupported

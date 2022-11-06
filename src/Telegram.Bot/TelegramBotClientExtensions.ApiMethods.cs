@@ -307,6 +307,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to <see cref="ForceReplyMarkup">force a
     /// reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -323,6 +326,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -336,7 +340,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -359,6 +364,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -370,6 +378,7 @@ public static partial class TelegramBotClientExtensions
         int messageId,
         bool? disableNotification = default,
         bool? protectContent = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -377,7 +386,8 @@ public static partial class TelegramBotClientExtensions
                 request: new ForwardMessageRequest(chatId, fromChatId, messageId)
                 {
                     DisableNotification = disableNotification,
-                    ProtectContent = protectContent
+                    ProtectContent = protectContent,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -425,6 +435,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -442,7 +455,9 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        CancellationToken cancellationToken = default) =>
+        int? messageThreadId = default,
+        CancellationToken cancellationToken = default
+    ) =>
         await botClient.ThrowIfNull(nameof(botClient))
             .MakeRequestAsync(
                 request: new CopyMessageRequest(chatId, fromChatId, messageId)
@@ -454,7 +469,8 @@ public static partial class TelegramBotClientExtensions
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -501,6 +517,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -517,6 +536,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient)).
@@ -530,7 +550,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -585,6 +606,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -605,6 +629,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -622,7 +647,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -679,6 +705,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -697,6 +726,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -712,7 +742,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -770,6 +801,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -791,6 +825,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -809,7 +844,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -866,6 +902,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -886,6 +925,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -904,6 +944,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -950,6 +991,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -967,6 +1011,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -981,7 +1026,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1024,6 +1070,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1040,6 +1089,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1053,7 +1103,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1077,6 +1128,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="allowSendingWithoutReply">
     /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1089,6 +1143,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1099,6 +1154,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1139,6 +1195,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1156,6 +1215,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1170,6 +1230,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1389,6 +1450,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1410,6 +1474,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1424,7 +1489,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1456,6 +1522,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1472,6 +1541,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1484,7 +1554,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1550,6 +1621,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1574,6 +1648,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1594,7 +1669,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1630,6 +1706,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1643,6 +1722,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1655,6 +1735,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1990,6 +2071,7 @@ public static partial class TelegramBotClientExtensions
         bool? canChangeInfo = default,
         bool? canInviteUsers = default,
         bool? canPinMessages = default,
+        bool? canManageTopic = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -2007,6 +2089,7 @@ public static partial class TelegramBotClientExtensions
                     CanChangeInfo = canChangeInfo,
                     CanInviteUsers = canInviteUsers,
                     CanPinMessages = canPinMessages,
+                    CanManageTopics = canManageTopic,
                 },
                 cancellationToken
             )
@@ -3442,6 +3525,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -3452,7 +3536,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -4018,6 +4103,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -4051,6 +4139,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -4084,7 +4173,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -4339,6 +4429,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -4352,6 +4445,7 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -4362,7 +4456,8 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
                     AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
+                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )

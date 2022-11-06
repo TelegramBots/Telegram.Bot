@@ -23,6 +23,12 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// An array describing messages to be sent, must include 2-10 items
     /// </summary>
     [JsonProperty(Required = Required.Always)]

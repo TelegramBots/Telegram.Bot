@@ -51,10 +51,30 @@ public class Chat
     public string? LastName { get; set; }
 
     /// <summary>
+    /// Optional. True, if the supergroup chat is a forum (has topics enabled)
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? IsForum { get; set; }
+
+    /// <summary>
     /// Optional. Chat photo. Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatPhoto? Photo { get; set; }
+
+    /// <summary>
+    /// Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string[]? ActiveUsernames { get; set; }
+
+    /// <summary>
+    /// Optional. Custom emoji identifier of emoji status of the other party in a private chat.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? EmojiStatusCustomEmojiId { get; set; }
 
     /// <summary>
     /// Optional. Bio of the other party in a private chat. Returned only in <see cref="Requests.GetChatRequest"/>.

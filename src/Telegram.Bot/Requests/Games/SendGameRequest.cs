@@ -23,6 +23,12 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
     ChatId IChatTargetable.ChatId => ChatId;
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Short name of the game, serves as the unique identifier for the game. Set up your games
     /// via <a href="https://t.me/botfather">@Botfather</a>
     /// </summary>

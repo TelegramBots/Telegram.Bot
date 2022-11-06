@@ -22,6 +22,12 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Photo to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a photo that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to
     /// get a photo from the Internet, or upload a new photo using multipart/form-data. The photo

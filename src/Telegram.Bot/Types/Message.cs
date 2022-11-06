@@ -24,6 +24,12 @@ public class Message
     public int MessageId { get; set; }
 
     /// <summary>
+    /// Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Optional. Sender, empty for messages sent to channels
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -55,6 +61,12 @@ public class Message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public User? ForwardFrom { get; set; }
+
+    /// <summary>
+    /// Optional. <c>true</c>, if the message is sent to a forum topic
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? IsTopicMessage { get; set; }
 
     /// <summary>
     /// Optional. For messages forwarded from channels or from anonymous administrators, information about the
@@ -380,6 +392,24 @@ public class Message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ProximityAlertTriggered? ProximityAlertTriggered { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: forum topic created
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ForumTopicCreated? ForumTopicCreated { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: forum topic closed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ForumTopicClosed? ForumTopicClosed { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: forum topic reopened
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ForumTopicReopened? ForumTopicReopened { get; set; }
 
     /// <summary>
     /// Optional. Service message: video chat scheduled
