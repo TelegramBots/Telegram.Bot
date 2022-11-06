@@ -493,6 +493,9 @@ public class Message
             { VideoChatEnded: { } }                => MessageType.VideoChatEnded,
             { VideoChatParticipantsInvited: { } }  => MessageType.VideoChatParticipantsInvited,
             { WebAppData: { } }                    => MessageType.WebAppData,
+            { ForumTopicCreated: { } }             => MessageType.ForumTopicCreated,
+            { ForumTopicClosed: { } }             => MessageType.ForumTopicClosed,
+            { ForumTopicReopened: { } }             => MessageType.ForumTopicReopened,
             _                                      => MessageType.Unknown
         };
 }
