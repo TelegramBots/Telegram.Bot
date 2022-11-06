@@ -54,7 +54,7 @@ public class Chat
     /// Optional. True, if the supergroup chat is a forum (has topics enabled)
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? IsForum { get; set; }
+    public bool? IsForum { get; set; }
 
     /// <summary>
     /// Optional. Chat photo. Returned only in <see cref="Requests.GetChatRequest"/>.
