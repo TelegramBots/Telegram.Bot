@@ -21,7 +21,7 @@ variables:
   - name: buildConfiguration
     value: Release
   - name: vmImage
-    value: ubuntu-20.04
+    value: ubuntu-22.04
   - name: projectPath
     value: src/Telegram.Bot/Telegram.Bot.csproj
   - name: internalFeedName

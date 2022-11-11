@@ -13,8 +13,8 @@ stages:
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
           strategies:
-            - Ubuntu: ubuntu-20.04
-            - macOS: macOS-11
+            - Ubuntu: ubuntu-22.04
+            - macOS: macOS-12
             - Windows: windows-2022
   - stage: FullIntegrationTests
     displayName: 🧪 Full set of integration tests

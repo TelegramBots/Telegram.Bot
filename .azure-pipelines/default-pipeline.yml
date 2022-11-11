@@ -26,7 +26,7 @@ stages:
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
           strategies:
-            - Ubuntu: ubuntu-20.04
+            - Ubuntu: $(vmImage)
   - stage: IntegrationTests
     displayName: 🧪 Integreation tests
     jobs:

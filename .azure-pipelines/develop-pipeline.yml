@@ -25,8 +25,8 @@ stages:
           projects: $(unitTestsProject)
           strategies:
             - Windows: windows-2022
-            - Ubuntu: ubuntu-20.04
-            - macOS: macOS-11
+            - Ubuntu: ubuntu-22.04
+            - macOS: macOS-12
   - stage: IntegrationTests
     displayName: 🧪 Integration tests
     jobs:
