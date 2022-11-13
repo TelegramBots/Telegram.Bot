@@ -73,7 +73,7 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
 
         var stringContents = JObject.FromObject(this)
             .Properties()
-            .Where(prop => exceptPropertyNames.Contains(prop.Name) == false)
+            .Where(prop => exceptPropertyNames.Contains(prop.Name) is false)
             .Select(prop => new
             {
                 prop.Name,

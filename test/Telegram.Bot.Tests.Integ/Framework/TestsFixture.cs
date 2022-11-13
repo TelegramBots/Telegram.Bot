@@ -138,10 +138,15 @@ public class TestsFixture : IDisposable
 
     public async Task<Chat> GetChatFromAdminAsync()
     {
-        static bool IsMatch(Update u) =>
-            u.Message?.Type == MessageType.Contact ||
-            u.Message?.ForwardFrom?.Id is not null ||
-            u.Message?.NewChatMembers?.Length > 0;
+        static bool IsMatch(Update u) => u is
+        {
+            Message:
+            {
+                Type: MessageType.Contact,
+                ForwardFrom: not null,
+                NewChatMembers.Length: > 0,
+            }
+        };
 
         var update = await UpdateReceiver.GetUpdateAsync(IsMatch, updateTypes: UpdateType.Message);
 
@@ -150,7 +155,7 @@ public class TestsFixture : IDisposable
         var userId = update.Message switch
         {
             { Contact.UserId: {} id } => id,
-            { ForwardFrom.Id: {} id } => id,
+            { ForwardFrom.Id: var id } => id,
             { NewChatMembers: { Length: 1 } members } => members[0].Id,
             _ => throw new InvalidOperationException()
         };
@@ -328,10 +333,12 @@ public class TestsFixture : IDisposable
         public const string InstructionsMessageFormat = "👉 _Instructions_: 👈\n{0}";
 
         public const string TestExecutionResultMessageFormat =
-            "```\nTest execution is finished.\n```" +
-            "Total: {0} tests\n" +
-            "✅ `{1} passed`\n" +
-            "⚠ `{2} skipped`\n" +
-            "❎ `{3} failed`";
+            """
+            Test execution is finished.
+            Total: {0} tests
+            ✅ `{1} passed`
+            ⚠ `{2} skipped`
+            ❎ `{3} failed`
+            """;
     }
 }

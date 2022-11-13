@@ -40,7 +40,7 @@ internal static class HttpContentExtensions
     {
         foreach (var input in inputMedia)
         {
-            if (input.Media.FileType == FileType.Stream)
+            if (input.Media.FileType is FileType.Stream)
             {
                 multipartContent.AddStreamContent(
                     content: input.Media.Content!,
@@ -48,8 +48,7 @@ internal static class HttpContentExtensions
                 );
             }
 
-            if (input is IInputMediaThumb mediaThumb &&
-                mediaThumb.Thumb?.FileType == FileType.Stream)
+            if (input is IInputMediaThumb { Thumb.FileType: FileType.Stream } mediaThumb)
             {
                 multipartContent.AddStreamContent(
                     content: mediaThumb.Thumb.Content!,

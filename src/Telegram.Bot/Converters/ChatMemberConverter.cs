@@ -16,20 +16,29 @@ internal class ChatMemberConverter : JsonConverter
     public override bool CanConvert(Type objectType) =>
         BaseType.IsAssignableFrom(objectType.GetTypeInfo());
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        var jo = JObject.FromObject(value);
-        jo.WriteTo(writer);
+        if (value is null)
+        {
+            writer.WriteNull();
+        }
+        else
+        {
+            var jo = JObject.FromObject(value);
+            jo.WriteTo(writer);
+        }
     }
 
-    public override object ReadJson(
+    public override object? ReadJson(
         JsonReader reader,
         Type objectType,
-        object existingValue,
+        object? existingValue,
         JsonSerializer serializer)
     {
         var jo = JObject.Load(reader);
-        var status = jo["status"].ToObject<ChatMemberStatus>();
+        var status = jo["status"]?.ToObject<ChatMemberStatus>();
+
+        if (status is null) { return null; }
 
         var actualType = status switch
         {
@@ -44,7 +53,7 @@ internal class ChatMemberConverter : JsonConverter
 
         // Remove status because status property only has getter
         jo.Remove("status");
-        var value = Activator.CreateInstance(actualType);
+        var value = Activator.CreateInstance(actualType)!;
         serializer.Populate(jo.CreateReader(), value);
 
         return value!;

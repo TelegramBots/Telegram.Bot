@@ -21,7 +21,7 @@ public class ChatIdTests
     [InlineData(123123412123341234L)]
     public void Should_Create_ChatId_From_Value(long identifier)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.Null(chatId.Username);
         Assert.Equal(identifier, chatId.Identifier);
@@ -32,7 +32,7 @@ public class ChatIdTests
     [InlineData("123123412123341234", 123123412123341234L)]
     public void Should_Create_ChatId_From_String_Value(string identifier, long identifierValue)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.Null(chatId.Username);
         Assert.Equal(identifierValue, chatId.Identifier);
@@ -42,7 +42,7 @@ public class ChatIdTests
     [InlineData("@valid_username")]
     public void Should_Create_ChatId_From_String(string identifier)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.Equal(identifier, chatId.Username);
         Assert.Null(chatId.Identifier);
@@ -54,7 +54,7 @@ public class ChatIdTests
     [InlineData("@valid_username")]
     public void Should_Convert_ChatId_With_String_Value_ToString(string identifier)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.Equal(identifier, chatId.ToString());
     }
@@ -64,7 +64,7 @@ public class ChatIdTests
     [InlineData(123123412123341234L, "123123412123341234")]
     public void Should_Convert_ChatId_ToString(long identifier, string identifierValue)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.Equal(identifierValue, chatId.ToString());
     }
@@ -74,7 +74,7 @@ public class ChatIdTests
     [InlineData(123123412123341234L)]
     public void Should_Be_Equal_ChatId_Identifier_To_Long_Value(long identifier)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.True(chatId.Equals(identifier));
         // ReSharper disable once SuspiciousTypeConversion.Global
@@ -88,7 +88,7 @@ public class ChatIdTests
     [InlineData("123123412123341234", 123123412123341234L)]
     public void Should_Be_Equal_ChatId_Identifier_To_Value(string identifier, long identifierValue)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.True(chatId.Equals(identifierValue));
         // ReSharper disable once SuspiciousTypeConversion.Global
@@ -101,7 +101,7 @@ public class ChatIdTests
     [InlineData("@valid_username")]
     public void Should_Be_Equal_ChatId_Username_To_Identifier(string identifier)
     {
-        ChatId chatId = new ChatId(identifier);
+        ChatId chatId = new(identifier);
 
         Assert.True(chatId.Equals(identifier));
         Assert.True(identifier.Equals(chatId));

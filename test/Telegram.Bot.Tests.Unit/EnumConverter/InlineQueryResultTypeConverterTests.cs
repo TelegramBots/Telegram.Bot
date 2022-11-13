@@ -25,7 +25,7 @@ public class InlineQueryResultTypeConverterTests
     [InlineData(InlineQueryResultType.Sticker, "sticker")]
     public void Should_Convert_InlineQueryResultType_To_String(InlineQueryResultType inlineQueryResultType, string value)
     {
-        InlineQueryResult inlineQuery = new InlineQueryResult() { Type = inlineQueryResultType };
+        InlineQueryResult inlineQuery = new() { Type = inlineQueryResultType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(inlineQuery);
@@ -50,11 +50,12 @@ public class InlineQueryResultTypeConverterTests
     [InlineData(InlineQueryResultType.Sticker, "sticker")]
     public void Should_Convert_String_To_InlineQueryResultType(InlineQueryResultType inlineQueryResultType, string value)
     {
-        InlineQueryResult expectedResult = new InlineQueryResult() { Type = inlineQueryResultType };
+        InlineQueryResult expectedResult = new() { Type = inlineQueryResultType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        InlineQueryResult result = JsonConvert.DeserializeObject<InlineQueryResult>(jsonData);
+        InlineQueryResult? result = JsonConvert.DeserializeObject<InlineQueryResult>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
@@ -63,15 +64,16 @@ public class InlineQueryResultTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        InlineQueryResult result = JsonConvert.DeserializeObject<InlineQueryResult>(jsonData);
+        InlineQueryResult? result = JsonConvert.DeserializeObject<InlineQueryResult>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((InlineQueryResultType)0, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_InlineQueryResultType()
     {
-        InlineQueryResult inlineQueryResult = new InlineQueryResult() { Type = (InlineQueryResultType)int.MaxValue };
+        InlineQueryResult inlineQueryResult = new() { Type = (InlineQueryResultType)int.MaxValue };
 
         Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(inlineQueryResult));
     }

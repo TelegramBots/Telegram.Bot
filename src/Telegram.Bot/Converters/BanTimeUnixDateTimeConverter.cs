@@ -6,12 +6,18 @@ namespace Telegram.Bot.Converters;
 
 internal class BanTimeUnixDateTimeConverter : UnixDateTimeConverter
 {
-    public override object? ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override object? ReadJson(
+        JsonReader reader,
+         Type objectType,
+         object? existingValue,
+         JsonSerializer serializer)
     {
         var nonNullable = Nullable.GetUnderlyingType(objectType) is null;
 
-        return reader.TokenType == JsonToken.Integer && reader.Value is 0L
-            ? nonNullable ? default : null
+        return reader.TokenType is JsonToken.Integer && reader.Value is 0L
+            ? nonNullable
+                ? default
+                : null
             : base.ReadJson(reader, objectType, existingValue, serializer);
     }
 

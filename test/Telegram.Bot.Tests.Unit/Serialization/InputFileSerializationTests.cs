@@ -14,8 +14,9 @@ public class InputFileSerializationTests
         InputFileStream inputFile = new MemoryStream();
 
         string json = JsonConvert.SerializeObject(inputFile);
-        InputFileStream obj = JsonConvert.DeserializeObject<InputFileStream>(json);
+        InputFileStream? obj = JsonConvert.DeserializeObject<InputFileStream>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal("null", json);
         Assert.Equal(Stream.Null, obj.Content);
         Assert.Equal(FileType.Stream, obj.FileType);
@@ -29,8 +30,9 @@ public class InputFileSerializationTests
         InputTelegramFile inputFile = fileId;
 
         string json = JsonConvert.SerializeObject(inputFile);
-        InputTelegramFile obj = JsonConvert.DeserializeObject<InputTelegramFile>(json);
+        InputTelegramFile? obj = JsonConvert.DeserializeObject<InputTelegramFile>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal($@"""{fileId}""", json);
         Assert.Equal(fileId, obj.FileId);
         Assert.Equal(FileType.Id, obj.FileType);
@@ -45,8 +47,9 @@ public class InputFileSerializationTests
         InputOnlineFile inputFile = url;
 
         string json = JsonConvert.SerializeObject(inputFile);
-        InputOnlineFile obj = JsonConvert.DeserializeObject<InputOnlineFile>(json);
+        InputOnlineFile? obj = JsonConvert.DeserializeObject<InputOnlineFile>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal($@"""{url}""", json);
         Assert.Equal(url, obj.Url);
         Assert.Equal(FileType.Url, obj.FileType);

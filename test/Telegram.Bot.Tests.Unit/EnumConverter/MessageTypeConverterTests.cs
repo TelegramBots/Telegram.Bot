@@ -46,7 +46,7 @@ public class MessageTypeConverterTests
     [InlineData(MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited")]
     public void Should_Convert_UpdateType_To_String(MessageType messageType, string value)
     {
-        Message message = new Message() { Type = messageType };
+        Message message = new() { Type = messageType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(message);
@@ -92,11 +92,12 @@ public class MessageTypeConverterTests
     [InlineData(MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited")]
     public void Should_Convert_String_To_UpdateType(MessageType messageType, string value)
     {
-        Message expectedResult = new Message() { Type = messageType };
+        Message expectedResult = new() { Type = messageType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Message result = JsonConvert.DeserializeObject<Message>(jsonData);
+        Message? result = JsonConvert.DeserializeObject<Message>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
@@ -105,15 +106,16 @@ public class MessageTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Message result = JsonConvert.DeserializeObject<Message>(jsonData);
+        Message? result = JsonConvert.DeserializeObject<Message>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(MessageType.Unknown, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_MessageType()
     {
-        Message message = new Message() { Type = (MessageType)int.MaxValue };
+        Message message = new() { Type = (MessageType)int.MaxValue };
 
         Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(message));
     }

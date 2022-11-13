@@ -31,7 +31,7 @@ public class MessageEntityTypeConverterTests
     [ClassData(typeof(MessageEntityData))]
     public void Should_Convert_MessageEntityType_To_String(MessageEntityType messageEntityType, string value)
     {
-        MessageEntity messageEntity = new MessageEntity() { Type = messageEntityType };
+        MessageEntity messageEntity = new() { Type = messageEntityType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(messageEntity);
@@ -43,7 +43,7 @@ public class MessageEntityTypeConverterTests
     [ClassData(typeof(MessageEntityData))]
     public void Should_Convert_String_To_MessageEntityType(MessageEntityType messageEntityType, string value)
     {
-        MessageEntity expectedResult = new MessageEntity() { Type = messageEntityType };
+        MessageEntity expectedResult = new() { Type = messageEntityType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
         MessageEntity result = JsonConvert.DeserializeObject<MessageEntity>(jsonData)!;
@@ -64,10 +64,9 @@ public class MessageEntityTypeConverterTests
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_MessageEntityType()
     {
-        MessageEntity messageEntity = new MessageEntity() { Type = (MessageEntityType)int.MaxValue };
+        MessageEntity messageEntity = new() { Type = (MessageEntityType)int.MaxValue };
 
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(messageEntity));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(messageEntity));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

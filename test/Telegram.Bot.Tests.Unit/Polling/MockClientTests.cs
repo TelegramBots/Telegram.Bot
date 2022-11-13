@@ -11,7 +11,7 @@ public class TestMockClient
     [Fact]
     public async Task WorksAsync()
     {
-        MockTelegramBotClient bot = new MockTelegramBotClient("hello-world", "foo-bar-123");
+        MockTelegramBotClient bot = new("hello-world", "foo-bar-123");
         Assert.Equal(2, bot.MessageGroupsLeft);
 
         Update[] updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
@@ -35,13 +35,7 @@ public class TestMockClient
     [Fact]
     public async Task ThrowsExceptionIfExceptionToThrownIsSet()
     {
-        MockTelegramBotClient bot = new MockTelegramBotClient("foo")
-        {
-            Options =
-            {
-                ExceptionToThrow = new Exception("Oops")
-            }
-        };
+        MockTelegramBotClient bot = new("foo") { Options = { ExceptionToThrow = new("Oops") } };
 
         Exception ex = await Assert.ThrowsAsync<Exception>(
             async () => await bot.MakeRequestAsync(new GetUpdatesRequest())

@@ -11,8 +11,14 @@ internal class InputMediaConverter : InputFileConverter
 {
     public override bool CanConvert(Type objectType) => typeof(InputMedia) == objectType;
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
+        if (value is null)
+        {
+            writer.WriteNull();
+            return;
+        }
+
         var inputMediaType = (InputMedia)value;
         switch (inputMediaType.FileType)
         {
@@ -31,10 +37,10 @@ internal class InputMediaConverter : InputFileConverter
     public override object ReadJson(
         JsonReader reader,
         Type objectType,
-        object existingValue,
+        object? existingValue,
         JsonSerializer serializer)
     {
-        var value = JToken.ReadFrom(reader).Value<string>();
+        var value = JToken.ReadFrom(reader).Value<string?>();
 
         if (value is null) { return null!; }
 

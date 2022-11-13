@@ -34,21 +34,19 @@ public abstract class RequestBase<TResponse> : IRequest<TResponse>
     /// </summary>
     /// <param name="methodName">Bot API method</param>
     /// <param name="method">HTTP method to use</param>
-    protected RequestBase(string methodName, HttpMethod method)
-    {
-        MethodName = methodName;
-        Method = method;
-    }
+    protected RequestBase(string methodName, HttpMethod method) =>
+        (MethodName, Method) = (methodName, method);
 
     /// <summary>
     /// Generate content of HTTP message
     /// </summary>
     /// <returns>Content of HTTP request</returns>
-    public virtual HttpContent? ToHttpContent()
-    {
-        string payload = JsonConvert.SerializeObject(this);
-        return new StringContent(content: payload, encoding: Encoding.UTF8, mediaType: "application/json");
-    }
+    public virtual HttpContent? ToHttpContent() =>
+        new StringContent(
+            content: JsonConvert.SerializeObject(this),
+            encoding: Encoding.UTF8,
+            mediaType: "application/json"
+        );
 
     /// <inheritdoc />
     [JsonIgnore]

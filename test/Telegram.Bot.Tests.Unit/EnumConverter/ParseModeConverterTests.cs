@@ -15,7 +15,7 @@ public class ParseModeConverterTests
     [InlineData((ParseMode)0, "unknown")]
     public void Should_Convert_ParseMode_To_String(ParseMode parseMode, string value)
     {
-        SendMessageRequest sendMessageRequest = new SendMessageRequest() { ParseMode = parseMode };
+        SendMessageRequest sendMessageRequest = new() { ParseMode = parseMode };
         string expectedResult = @$"{{""parse_mode"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(sendMessageRequest);
@@ -30,11 +30,12 @@ public class ParseModeConverterTests
     [InlineData((ParseMode)0, "unknown")]
     public void Should_Convert_String_To_ParseMode(ParseMode parseMode, string value)
     {
-        SendMessageRequest expectedResult = new SendMessageRequest() { ParseMode = parseMode };
+        SendMessageRequest expectedResult = new() { ParseMode = parseMode };
         string jsonData = @$"{{""parse_mode"":""{value}""}}";
 
-        SendMessageRequest result = JsonConvert.DeserializeObject<SendMessageRequest>(jsonData);
+        SendMessageRequest? result = JsonConvert.DeserializeObject<SendMessageRequest>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.ParseMode, result.ParseMode);
     }
 
@@ -43,8 +44,9 @@ public class ParseModeConverterTests
     {
         string jsonData = @$"{{""parse_mode"":""{int.MaxValue}""}}";
 
-        SendMessageRequest result = JsonConvert.DeserializeObject<SendMessageRequest>(jsonData);
+        SendMessageRequest? result = JsonConvert.DeserializeObject<SendMessageRequest>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((ParseMode)0, result.ParseMode);
     }
 

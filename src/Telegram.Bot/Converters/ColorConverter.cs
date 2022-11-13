@@ -31,10 +31,8 @@ internal class NullableColorConverter : JsonConverter<Color?>
 
 internal class ColorConverter : JsonConverter<Color>
 {
-    public override void WriteJson(JsonWriter writer, Color value, JsonSerializer serializer)
-    {
+    public override void WriteJson(JsonWriter writer, Color value, JsonSerializer serializer) =>
         writer.WriteValue(value.ToInt());
-    }
 
     public override Color ReadJson(
         JsonReader reader,

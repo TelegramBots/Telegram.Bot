@@ -12,11 +12,12 @@ public class InputMediaSerializationTests
     public void Should_Serialize_Input_Media_Stream()
     {
         const string fileName = "myFile";
-        InputMedia inputMedia = new InputMedia(new MemoryStream(), fileName);
+        InputMedia inputMedia = new(new MemoryStream(), fileName);
 
         string json = JsonConvert.SerializeObject(inputMedia);
-        InputMedia obj = JsonConvert.DeserializeObject<InputMedia>(json);
+        InputMedia? obj = JsonConvert.DeserializeObject<InputMedia>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal($@"""attach://{fileName}""", json);
         Assert.Equal(Stream.Null, obj.Content);
         Assert.Equal(fileName, obj.FileName);
@@ -32,8 +33,9 @@ public class InputMediaSerializationTests
         InputMedia inputMedia = fileId;
 
         string json = JsonConvert.SerializeObject(inputMedia);
-        InputMedia obj = JsonConvert.DeserializeObject<InputMedia>(json);
+        InputMedia? obj = JsonConvert.DeserializeObject<InputMedia>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal($@"""{fileId}""", json);
         Assert.Equal(fileId, obj.FileId);
         Assert.Equal(FileType.Id, obj.FileType);
@@ -49,8 +51,9 @@ public class InputMediaSerializationTests
         InputMedia inputMedia = url;
 
         string json = JsonConvert.SerializeObject(inputMedia);
-        InputMedia obj = JsonConvert.DeserializeObject<InputMedia>(json);
+        InputMedia? obj = JsonConvert.DeserializeObject<InputMedia>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal($@"""{url}""", json);
         Assert.Equal(url, obj.Url);
         Assert.Equal(FileType.Url, obj.FileType);

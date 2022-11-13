@@ -2053,6 +2053,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canChangeInfo">Pass <c>true</c>, if the administrator can change chat title, photo and other settings</param>
     /// <param name="canInviteUsers">Pass <c>true</c>, if the administrator can invite new users to the chat</param>
     /// <param name="canPinMessages">Pass <c>true</c>, if the administrator can pin messages, supergroups only</param>
+    /// <param name="canManageTopic"></param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -3511,6 +3512,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
+    /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation

@@ -14,8 +14,14 @@ internal class InputFileConverter : JsonConverter
     public override bool CanConvert(Type objectType) =>
         objectType.GetTypeInfo().IsSubclassOf(typeof(InputFileStream));
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
+        if (value is null)
+        {
+            writer.WriteNull();
+            return;
+        }
+
         var input = (IInputFile)value;
         switch (input.FileType)
         {
@@ -36,10 +42,10 @@ internal class InputFileConverter : JsonConverter
     public override object ReadJson(
         JsonReader reader,
         Type objectType,
-        object existingValue,
+        object? existingValue,
         JsonSerializer serializer)
     {
-        var value = JToken.ReadFrom(reader).Value<string>();
+        var value = JToken.ReadFrom(reader).Value<string?>();
         if (value is null) { return new InputFileStream(Stream.Null); }
 
         return Uri.TryCreate(value, UriKind.Absolute, out _)

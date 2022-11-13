@@ -32,7 +32,7 @@ public class StickerTypeConverterTests
     [ClassData(typeof(StickerTypeData))]
     public void Should_Convert_StickerType_To_String(StickerType stickerType, string value)
     {
-        Sticker sticker = new Sticker() { Type = stickerType };
+        Sticker sticker = new() { Type = stickerType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(sticker);
@@ -44,7 +44,7 @@ public class StickerTypeConverterTests
     [ClassData(typeof(StickerTypeData))]
     public void Should_Convert_String_To_StickerType(StickerType stickerType, string value)
     {
-        Sticker expectedResult = new Sticker() { Type = stickerType };
+        Sticker expectedResult = new() { Type = stickerType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
         Sticker result = JsonConvert.DeserializeObject<Sticker>(jsonData)!;
@@ -65,10 +65,9 @@ public class StickerTypeConverterTests
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_StickerType()
     {
-        Sticker sticker = new Sticker() { Type = (StickerType)int.MaxValue };
+        Sticker sticker = new() { Type = (StickerType)int.MaxValue };
 
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(sticker));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(sticker));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

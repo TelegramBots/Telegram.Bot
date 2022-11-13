@@ -96,6 +96,7 @@ public readonly record struct Color
         Blue = unchecked((int)color >> BlueShift);
     }
 
+    /// <inheritdoc />
     public override string ToString() => $"#{ToInt():X24}";
 
     /// <summary>
@@ -136,32 +137,32 @@ public readonly record struct Color
     /// <summary>
     /// Blue color
     /// </summary>
-    public static Color BlueColor = new(0x6FB9F0);
+    public static readonly Color BlueColor = new(0x6FB9F0);
 
     /// <summary>
     /// Yellow color
     /// </summary>
-    public static Color YellowColor = new(0xFFD67E);
+    public static readonly Color YellowColor = new(0xFFD67E);
 
     /// <summary>
     /// Violet color
     /// </summary>
-    public static Color VioletColor = new(0xCB86DB);
+    public static readonly Color VioletColor = new(0xCB86DB);
 
     /// <summary>
     /// Green color
     /// </summary>
-    public static Color GreenColor = new(0x8EEE98);
+    public static readonly Color GreenColor = new(0x8EEE98);
 
     /// <summary>
     /// Pink color
     /// </summary>
-    public static Color PinkColor = new(0xFF93B2);
+    public static readonly Color PinkColor = new(0xFF93B2);
 
     /// <summary>
     /// Red color
     /// </summary>
-    public static Color RedColor = new(0xFB6F5F);
+    public static readonly Color RedColor = new(0xFB6F5F);
 
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown if <paramref name="value"/> is out of byte range

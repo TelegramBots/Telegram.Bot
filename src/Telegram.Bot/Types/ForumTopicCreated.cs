@@ -13,7 +13,7 @@ public class ForumTopicCreated
     /// Name of the topic
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     /// <summary>
     /// Color of the topic icon in RGB format
