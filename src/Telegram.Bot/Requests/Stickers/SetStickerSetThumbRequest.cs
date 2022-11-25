@@ -1,9 +1,8 @@
-﻿using System.Net.Http;
- using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
- using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -29,13 +28,13 @@ public class SetStickerSetThumbRequest : FileRequestBase<bool>, IUserTargetable
     /// A <b>PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have width
     /// and height exactly 100px, or a <b>TGS</b> animation with the thumbnail up to 32 kilobytes in
     /// size; see <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
-    /// for animated sticker technical requirements. Pass a <see cref="InputTelegramFile.FileId"/>
+    /// for animated sticker technical requirements. Pass a <see cref="InputFileId"/>
     /// as a String to send a file that already exists on the Telegram servers, pass an HTTP URL as
     /// a String for Telegram to get a file from the Internet, or upload a new one using
     /// multipart/form-data. Animated sticker set thumbnail can't be uploaded via HTTP URL
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputOnlineFile? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <summary>
     /// Initializes a new request with sticker and position
@@ -51,8 +50,8 @@ public class SetStickerSetThumbRequest : FileRequestBase<bool>, IUserTargetable
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
-        Thumb?.FileType switch {
-            FileType.Stream => ToMultipartFormDataContent(fileParameterName: "thumb", inputFile: Thumb),
+        Thumb switch {
+            InputFile thumb => ToMultipartFormDataContent(fileParameterName: "thumb", inputFile: thumb),
             _               => base.ToHttpContent()
         };
 }

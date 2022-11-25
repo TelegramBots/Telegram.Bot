@@ -9,7 +9,8 @@ namespace Telegram.Bot.Types;
 /// Represents a general file to be sent
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class InputMediaDocument : InputMediaBase,
+public class InputMediaDocument :
+    InputMedia,
     IInputMediaThumb,
     IAlbumInputMedia
 {
@@ -19,7 +20,7 @@ public class InputMediaDocument : InputMediaBase,
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <summary>
     /// Optional. Disables automatic server-side content type detection for files uploaded using
@@ -32,7 +33,7 @@ public class InputMediaDocument : InputMediaBase,
     /// Initializes a new document media to send with an <see cref="InputMedia"/>
     /// </summary>
     /// <param name="media">File to send</param>
-    public InputMediaDocument(InputMedia media)
+    public InputMediaDocument(IInputFile media)
         : base(media)
     { }
 }

@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Collections.Generic;
+using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
@@ -62,8 +61,21 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     /// <inheritdoc />
     public override HttpContent ToHttpContent()
     {
-        var httpContent = GenerateMultipartFormDataContent();
-        httpContent.AddContentIfInputFileStream(Media.Cast<IInputMedia>().ToArray());
-        return httpContent;
+        var multipartContent = GenerateMultipartFormDataContent();
+
+        foreach (var mediaItem in Media)
+        {
+            if (mediaItem is InputMedia { Media: InputFile file })
+            {
+                multipartContent.AddContentIfInputFile(file, file.FileName!);
+            }
+
+            if (mediaItem is IInputMediaThumb { Thumb: InputFile thumb })
+            {
+                multipartContent.AddContentIfInputFile(thumb, thumb.FileName!);
+            }
+        }
+
+        return multipartContent;
     }
 }

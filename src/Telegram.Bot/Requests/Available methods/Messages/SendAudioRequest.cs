@@ -6,7 +6,6 @@ using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -26,12 +25,12 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an audio
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send an audio
     /// file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Audio { get; }
+    public IInputFile Audio { get; }
 
     /// <summary>
     /// Audio caption, 0-1024 characters after entities parsing
@@ -67,7 +66,7 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
 
     /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -96,11 +95,11 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="audio">
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an audio
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send an audio
     /// file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendAudioRequest(ChatId chatId, InputOnlineFile audio)
+    public SendAudioRequest(ChatId chatId, IInputFile audio)
         : base("sendAudio")
     {
         ChatId = chatId;
@@ -111,28 +110,12 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (Audio.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+
+        if (Audio is InputFile || Thumb is InputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent("audio", "thumb");
-            if (Audio.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Audio.Content!,
-                    name: "audio",
-                    fileName: Audio.FileName
-                );
-            }
-
-            if (Thumb?.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Thumb.Content!,
-                    name: "thumb",
-                    fileName: Thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = GenerateMultipartFormDataContent("audio", "thumb")
+                .AddContentIfInputFile(media: Audio, name: "audio")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {

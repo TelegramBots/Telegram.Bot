@@ -1,10 +1,8 @@
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -22,12 +20,12 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Sticker to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that
+    /// Sticker to send. Pass a <see cref="InputFileId"/> as String to send a file that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get
     /// a .WEBP file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Sticker { get; }
+    public IInputFile Sticker { get; }
 
     /// <inheritdoc cref="Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -57,11 +55,11 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="sticker">
-    /// Sticker to send. Pass a <see cref="InputTelegramFile.FileId"/> as string to send a file
+    /// Sticker to send. Pass a <see cref="InputFileId"/> as string to send a file
     /// that exists on the Telegram servers (recommended), pass an HTTP URL as a string for
     /// Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendStickerRequest(ChatId chatId, InputOnlineFile sticker)
+    public SendStickerRequest(ChatId chatId, IInputFile sticker)
         : base("sendSticker")
     {
         ChatId = chatId;
@@ -70,7 +68,9 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
-        Sticker.FileType == FileType.Stream
-            ? ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: Sticker)
-            : base.ToHttpContent();
+        Sticker switch
+        {
+            InputFile sticker => ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: sticker),
+            _                 => base.ToHttpContent()
+        };
 }

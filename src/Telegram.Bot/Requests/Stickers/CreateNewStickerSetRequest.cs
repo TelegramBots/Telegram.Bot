@@ -6,7 +6,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// 
+/// Use this method to create a new sticker set owned by a user.
 /// </summary>
 public abstract class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
 {
@@ -63,7 +63,8 @@ public abstract class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserT
         long userId,
         string name,
         string title,
-        string emojis) : base("createNewStickerSet")
+        string emojis
+    ) : base("createNewStickerSet")
     {
         UserId = userId;
         Name = name;
