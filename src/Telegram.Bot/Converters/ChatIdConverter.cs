@@ -7,9 +7,13 @@ namespace Telegram.Bot.Converters;
 
 internal class ChatIdConverter : JsonConverter<ChatId>
 {
-    public override void WriteJson(JsonWriter writer, ChatId value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, ChatId? value, JsonSerializer serializer)
     {
-        if (value.Username != null)
+        if (value is null)
+        {
+            writer.WriteNull();
+        }
+        else if (value.Username is not null)
         {
             writer.WriteValue(value.Username);
         }
@@ -19,14 +23,14 @@ internal class ChatIdConverter : JsonConverter<ChatId>
         }
     }
 
-    public override ChatId ReadJson(
+    public override ChatId? ReadJson(
         JsonReader reader,
         Type objectType,
-        ChatId existingValue,
+        ChatId? existingValue,
         bool hasExistingValue,
         JsonSerializer serializer)
     {
         var value = JToken.ReadFrom(reader).Value<string>();
-        return new ChatId(value);
+        return value is null ? null : new(value);
     }
 }

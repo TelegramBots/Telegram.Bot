@@ -1,10 +1,8 @@
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -25,7 +23,7 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     /// New chat photo, uploaded using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileStream Photo { get; }
+    public InputFile Photo { get; }
 
     /// <summary>
     /// Initializes a new request with chatId and photo
@@ -34,7 +32,7 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="photo">New chat photo, uploaded using multipart/form-data</param>
-    public SetChatPhotoRequest(ChatId chatId, InputFileStream photo)
+    public SetChatPhotoRequest(ChatId chatId, InputFile photo)
         : base("setChatPhoto")
     {
         ChatId = chatId;
@@ -42,10 +40,6 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     }
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent() =>
-        Photo.FileType switch
-        {
-            FileType.Stream => ToMultipartFormDataContent("photo", Photo),
-            _               => base.ToHttpContent()
-        };
+    public override HttpContent? ToHttpContent()
+        => ToMultipartFormDataContent("photo", Photo);
 }

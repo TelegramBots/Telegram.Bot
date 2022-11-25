@@ -1,8 +1,7 @@
-﻿using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
+using System.Net.Http;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -20,35 +19,37 @@ public class AddStaticStickerToSetRequest : AddStickerToSetRequest
     /// not exceed 512px, and either width or height must be exactly 512px.
     /// </para>
     /// <para>
-    /// Pass a <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that already
+    /// Pass a <see cref="Types.InputFileId"/> as a String to send a file that already
     /// exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
     /// or upload a new one using multipart/form-data
     /// </para>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile PngSticker { get; }
-        
+    public IInputFile PngSticker { get; }
+
     /// <inheritdoc />
     /// <param name="pngSticker">
     /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not
     /// exceed 512px, and either width or height must be exactly 512px. Pass a
-    /// <see cref="Types.InputFiles.InputTelegramFile.FileId"/> as a String to send a file that
+    /// <see cref="Types.InputFileId"/> as a String to send a file that
     /// already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get
     /// a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
 #pragma warning disable CS1573
-    public AddStaticStickerToSetRequest(
-        long userId,
-        string name,
-        InputOnlineFile pngSticker,
-        string emojis)
-        : base(userId, name, emojis) =>
+    public AddStaticStickerToSetRequest(long userId,
+                                        string name,
+                                        IInputFile pngSticker,
+                                        string emojis)
+        : base(userId, name, emojis)
+    {
         PngSticker = pngSticker;
+    }
 #pragma warning restore CS1573
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
-        PngSticker.FileType == FileType.Stream
-            ? ToMultipartFormDataContent(fileParameterName: "png_sticker", inputFile: PngSticker)
-            : base.ToHttpContent();
+        PngSticker switch {
+            InputFile pngSticker => ToMultipartFormDataContent(fileParameterName: "png_sticker", inputFile: pngSticker),
+            _                    => base.ToHttpContent()
+        };
 }

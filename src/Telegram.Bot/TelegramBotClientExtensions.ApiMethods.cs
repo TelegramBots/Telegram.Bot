@@ -8,7 +8,6 @@ using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
 using File = Telegram.Bot.Types.File;
@@ -142,7 +141,7 @@ public static partial class TelegramBotClientExtensions
     /// <item>
     /// To use a self-signed certificate, you need to upload your
     /// <a href="https://core.telegram.org/bots/self-signed">public key certificate</a> using
-    /// <paramref name="certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending a
+    /// <paramref name="certificate"/> parameter. Please upload as <see cref="InputFile"/>, sending a
     /// string will not work
     /// </item>
     /// <item>Ports currently supported for webhooks: <b>443, 80, 88, 8443</b></item>
@@ -153,7 +152,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task SetWebhookAsync(
         this ITelegramBotClient botClient,
         string url,
-        InputFileStream? certificate = default,
+        InputFile? certificate = default,
         string? ipAddress = default,
         int? maxConnections = default,
         IEnumerable<UpdateType>? allowedUpdates = default,
@@ -469,13 +468,13 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="photo">
-    /// Photo to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a photo that exists on
+    /// Photo to send. Pass a <see cref="InputFileId"/> as String to send a photo that exists on
     /// the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a photo from
     /// the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size.
     /// The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20
     /// </param>
     /// <param name="caption">
-    /// Photo caption (may also be used when resending photos by <see cref="InputTelegramFile.FileId"/>),
+    /// Photo caption (may also be used when resending photos by <see cref="InputFileId"/>),
     /// 0-1024 characters after entities parsing
     /// </param>
     /// <param name="parseMode">
@@ -508,7 +507,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputOnlineFile photo,
+        IInputFile photo,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -547,7 +546,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="audio">
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an audio file that
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send an audio file that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio
     /// file from the Internet, or upload a new one using multipart/form-data
     /// </param>
@@ -592,14 +591,14 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendAudioAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputOnlineFile audio,
+        IInputFile audio,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
         int? duration = default,
         string? performer = default,
         string? title = default,
-        InputMedia? thumb = default,
+        IInputFile? thumb = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -638,7 +637,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="document">
-    /// File to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that exists on the
+    /// File to send. Pass a <see cref="InputFileId"/> as String to send a file that exists on the
     /// Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet,
     /// or upload a new one using multipart/form-data
     /// </param>
@@ -686,8 +685,8 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendDocumentAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputOnlineFile document,
-        InputMedia? thumb = default,
+        IInputFile document,
+        IInputFile? thumb = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -729,7 +728,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="video">
-    /// Video to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a video that exists on
+    /// Video to send. Pass a <see cref="InputFileId"/> as String to send a video that exists on
     /// the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the
     /// Internet, or upload a new video using multipart/form-data
     /// </param>
@@ -777,11 +776,11 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendVideoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputOnlineFile video,
+        IInputFile video,
         int? duration = default,
         int? width = default,
         int? height = default,
-        InputMedia? thumb = default,
+        IInputFile? thumb = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -825,7 +824,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="animation">
-    /// Animation to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an animation that
+    /// Animation to send. Pass a <see cref="InputFileId"/> as String to send an animation that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an
     /// animation from the Internet, or upload a new animation using multipart/form-data
     /// </param>
@@ -840,7 +839,7 @@ public static partial class TelegramBotClientExtensions
     /// thumbnail was uploaded using multipart/form-data under &lt;file_attach_name&gt;
     /// </param>
     /// <param name="caption">
-    /// Animation caption (may also be used when resending animation by <see cref="InputTelegramFile.FileId"/>),
+    /// Animation caption (may also be used when resending animation by <see cref="InputFileId"/>),
     /// 0-1024 characters after entities parsing
     /// </param>
     /// <param name="parseMode">
@@ -873,11 +872,11 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendAnimationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputOnlineFile animation,
+        IInputFile animation,
         int? duration = default,
         int? width = default,
         int? height = default,
-        InputMedia? thumb = default,
+        IInputFile? thumb = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -921,7 +920,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="voice">
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that exists
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send a file that exists
     /// on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from
     /// the Internet, or upload a new one using multipart/form-data
     /// </param>
@@ -957,7 +956,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendVoiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputOnlineFile voice,
+        IInputFile voice,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -997,7 +996,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="videoNote">
-    /// Video note to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a video note that
+    /// Video note to send. Pass a <see cref="InputFileId"/> as String to send a video note that
     /// exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. Sending
     /// video notes by a URL is currently unsupported
     /// </param>
@@ -1031,10 +1030,10 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendVideoNoteAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputTelegramFile videoNote,
+        IInputFile videoNote,
         int? duration = default,
         int? length = default,
-        InputMedia? thumb = default,
+        IInputFile? thumb = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -2336,11 +2335,13 @@ public static partial class TelegramBotClientExtensions
     public static async Task SetChatPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputFileStream photo,
+        InputFile photo,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
-            .MakeRequestAsync(request: new SetChatPhotoRequest(chatId, photo), cancellationToken)
+            .MakeRequestAsync(
+                request: new SetChatPhotoRequest(chatId, photo),
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3191,7 +3192,7 @@ public static partial class TelegramBotClientExtensions
     /// Use this method to edit animation, audio, document, photo, or video messages. If a message is part of
     /// a message album, then it can be edited only to an audio for audio albums, only to a document for document
     /// albums and to a photo or a video otherwise. Use a previously uploaded file via its
-    /// <see cref="InputTelegramFile.FileId"/> or specify a URL
+    /// <see cref="InputFileId"/> or specify a URL
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -3214,7 +3215,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         int messageId,
-        InputMediaBase media,
+        InputMedia media,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3232,7 +3233,7 @@ public static partial class TelegramBotClientExtensions
     /// Use this method to edit animation, audio, document, photo, or video messages. If a message is part of
     /// a message album, then it can be edited only to an audio for audio albums, only to a document for document
     /// albums and to a photo or a video otherwise. Use a previously uploaded file via its
-    /// <see cref="InputTelegramFile.FileId"/> or specify a URL
+    /// <see cref="InputFileId"/> or specify a URL
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
@@ -3249,7 +3250,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task EditMessageMediaAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
-        InputMediaBase media,
+        InputMedia media,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3411,7 +3412,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="sticker">
-    /// Sticker to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that exists on
+    /// Sticker to send. Pass a <see cref="InputFileId"/> as String to send a file that exists on
     /// the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from
     /// the Internet, or upload a new one using multipart/form-data
     /// </param>
@@ -3436,7 +3437,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendStickerAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputOnlineFile sticker,
+        IInputFile sticker,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -3496,11 +3497,13 @@ public static partial class TelegramBotClientExtensions
     public static async Task<File> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         long userId,
-        InputFileStream pngSticker,
+        InputFile pngSticker,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
-            .MakeRequestAsync(request: new UploadStickerFileRequest(userId, pngSticker), cancellationToken)
+            .MakeRequestAsync(
+                request: new UploadStickerFileRequest(userId, pngSticker),
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3519,7 +3522,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="pngSticker">
     /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
     /// and either width or height must be exactly 512px. Pass a
-    /// <see cref="InputTelegramFile.FileId"/> as a String to send a file that already exists
+    /// <see cref="InputFileId"/> as a String to send a file that already exists
     /// on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
     /// or upload a new one using multipart/form-data
     /// </param>
@@ -3534,7 +3537,7 @@ public static partial class TelegramBotClientExtensions
         long userId,
         string name,
         string title,
-        InputOnlineFile pngSticker,
+        IInputFile pngSticker,
         string emojis,
         bool? containsMasks = default,
         MaskPosition? maskPosition = default,
@@ -3580,7 +3583,7 @@ public static partial class TelegramBotClientExtensions
         long userId,
         string name,
         string title,
-        InputFileStream tgsSticker,
+        InputFile tgsSticker,
         string emojis,
         bool? containsMasks = default,
         MaskPosition? maskPosition = default,
@@ -3626,7 +3629,7 @@ public static partial class TelegramBotClientExtensions
         long userId,
         string name,
         string title,
-        InputFileStream webmSticker,
+        InputFile webmSticker,
         string emojis,
         bool? containsMasks = default,
         MaskPosition? maskPosition = default,
@@ -3658,7 +3661,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="pngSticker">
     /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
     /// and either width or height must be exactly 512px. Pass a
-    /// <see cref="InputTelegramFile.FileId"/> as a String to send a file that already exists
+    /// <see cref="InputFileId"/> as a String to send a file that already exists
     /// on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
     /// or upload a new one using multipart/form-data
     /// </param>
@@ -3671,7 +3674,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         long userId,
         string name,
-        InputOnlineFile pngSticker,
+        IInputFile pngSticker,
         string emojis,
         MaskPosition? maskPosition = default,
         CancellationToken cancellationToken = default
@@ -3707,7 +3710,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         long userId,
         string name,
-        InputFileStream webmSticker,
+        InputFile webmSticker,
         string emojis,
         MaskPosition? maskPosition = default,
         CancellationToken cancellationToken = default
@@ -3743,7 +3746,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         long userId,
         string name,
-        InputFileStream tgsSticker,
+        InputFile tgsSticker,
         string emojis,
         MaskPosition? maskPosition = default,
         CancellationToken cancellationToken = default
@@ -3805,7 +3808,7 @@ public static partial class TelegramBotClientExtensions
     /// A <b>PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have width and height
     /// exactly 100px, or a <b>TGS</b> animation with the thumbnail up to 32 kilobytes in size; see
     /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/> for animated sticker
-    /// technical requirements. Pass a <see cref="InputTelegramFile.FileId"/> as a String to send a file that
+    /// technical requirements. Pass a <see cref="InputFileId"/> as a String to send a file that
     /// already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from
     /// the Internet, or upload a new one using multipart/form-data. Animated sticker set thumbnail can't be
     /// uploaded via HTTP URL
@@ -3817,7 +3820,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         string name,
         long userId,
-        InputOnlineFile? thumb = default,
+        IInputFile? thumb = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))

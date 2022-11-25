@@ -73,7 +73,7 @@ public class WebhookTests : IDisposable
         {
             await BotClient.SetWebhookAsync(
                 url: "https://www.telegram.org/",
-                certificate: stream,
+                certificate: new InputFile(stream),
                 maxConnections: 3,
                 allowedUpdates: Array.Empty<UpdateType>() // send all types of updates
             );

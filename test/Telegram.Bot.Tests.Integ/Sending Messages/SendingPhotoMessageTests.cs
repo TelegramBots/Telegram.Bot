@@ -34,7 +34,7 @@ public class SendingPhotoMessageTests : IClassFixture<EntityFixture<Message>>
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Bot);
         Message message = await BotClient.SendPhotoAsync(
             chatId: _fixture.SupergroupChat.Id,
-            photo: stream,
+            photo: new InputFile(stream),
             caption: "👆 This is a\nTelegram Bot"
         );
 
@@ -58,7 +58,7 @@ public class SendingPhotoMessageTests : IClassFixture<EntityFixture<Message>>
 
         Message message = await BotClient.SendPhotoAsync(
             chatId: _fixture.SupergroupChat.Id,
-            photo: fileId
+            photo: new InputFileId(fileId)
         );
 
         // Apparently file ids of photos no longer remain the same when sending them
@@ -87,7 +87,7 @@ public class SendingPhotoMessageTests : IClassFixture<EntityFixture<Message>>
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
         Message message = await BotClient.SendPhotoAsync(
             chatId: _fixture.SupergroupChat.Id,
-            photo: stream,
+            photo: new InputFile(stream),
             caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))
         );
 
@@ -113,7 +113,7 @@ public class SendingPhotoMessageTests : IClassFixture<EntityFixture<Message>>
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
         Message message = await BotClient.SendPhotoAsync(
             chatId: _fixture.SupergroupChat.Id,
-            photo: stream,
+            photo: new InputFile(stream),
             caption: string.Join("\n", entityValueMappings.Select(tuple => tuple.EncodedEntity)),
             parseMode: ParseMode.Markdown
         );

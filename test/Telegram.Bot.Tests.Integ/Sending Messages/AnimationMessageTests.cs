@@ -30,7 +30,7 @@ public class AnimationMessageTests
         {
             message = await BotClient.SendAnimationAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                animation: stream,
+                animation: new InputFile(stream),
                 duration: 4,
                 width: 400,
                 height: 400,
@@ -77,8 +77,8 @@ public class AnimationMessageTests
         {
             message = await BotClient.SendAnimationAsync(
                 chatId: _fixture.SupergroupChat,
-                animation: new InputMedia(stream1, "earth.gif"),
-                thumb: new InputMedia(stream2, "thumb.jpg")
+                animation: new InputFile(stream1, "earth.gif"),
+                thumb: new InputFile(stream2, "thumb.jpg")
             );
         }
 
