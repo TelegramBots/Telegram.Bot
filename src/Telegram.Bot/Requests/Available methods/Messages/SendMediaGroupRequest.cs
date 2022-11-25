@@ -65,10 +65,15 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
 
         foreach (var mediaItem in Media)
         {
-            if (mediaItem is InputMedia inputMedia && inputMedia.Media is InputFile file)
+            if (mediaItem is InputMedia { Media: InputFile file })
+            {
                 multipartContent.AddContentIfInputFile(file, file.FileName!);
-            if (mediaItem is IInputMediaThumb thumbMedia && thumbMedia.Thumb is InputFile thumb)
+            }
+
+            if (mediaItem is IInputMediaThumb { Thumb: InputFile thumb })
+            {
                 multipartContent.AddContentIfInputFile(thumb, thumb.FileName!);
+            }
         }
 
         return multipartContent;
