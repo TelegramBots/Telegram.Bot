@@ -16,14 +16,14 @@ internal class InputFileConverter : JsonConverter
     {
         writer.WriteValue(value switch
         {
-            InputFileId file  => file.Value,
-            InputFileUrl file => file.Value,
+            InputFileId file  => file.Id,
+            InputFileUrl file => file.Url,
             InputFile file    => $"attach://{file.FileName}",
             _                 => throw new NotSupportedException("File Type not supported")
         });
     }
 
-    public override object? ReadJson(
+    public override object ReadJson(
         JsonReader reader,
         Type objectType,
         object? existingValue,
@@ -38,7 +38,7 @@ internal class InputFileConverter : JsonConverter
             return new InputFile(Stream.Null, value.Substring(9));
         }
 
-        return Uri.TryCreate(value, UriKind.Absolute, out _)
+        return Uri.IsWellFormedUriString(value, UriKind.Absolute)
             ? new InputFileUrl(value)
             : new InputFileId(value);
     }

@@ -29,9 +29,5 @@ public class InputFile : IInputFile
     /// </summary>
     /// <param name="content">File content to upload</param>
     /// <param name="fileName">Name of a file to upload using multipart/form-data</param>
-    public InputFile(Stream content, string? fileName = default)
-    {
-        Content = content;
-        FileName = fileName;
-    }
+    public InputFile(Stream content, string? fileName = default) => (Content, FileName) = (content, fileName);
 }

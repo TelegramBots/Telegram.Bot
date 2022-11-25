@@ -30,10 +30,11 @@ public class InputFileSerializationTests
         InputFileId inputFileId = new(fileId);
 
         string json = JsonConvert.SerializeObject(inputFileId);
-        InputFileId obj = JsonConvert.DeserializeObject<InputFileId>(json);
+        InputFileId? obj = JsonConvert.DeserializeObject<InputFileId>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal(@$"""{fileId}""", json);
-        Assert.Equal(fileId, obj.Value);
+        Assert.Equal(fileId, obj.Id);
         Assert.Equal(FileType.Id, obj.FileType);
     }
 
@@ -44,10 +45,11 @@ public class InputFileSerializationTests
         InputFileUrl inputFileUrl = new(url);
 
         string json = JsonConvert.SerializeObject(inputFileUrl);
-        InputFileUrl obj = JsonConvert.DeserializeObject<InputFileUrl>(json);
+        InputFileUrl? obj = JsonConvert.DeserializeObject<InputFileUrl>(json);
 
+        Assert.NotNull(obj);
         Assert.Equal(@$"""{url}""", json);
-        Assert.Equal(url, obj.Value);
+        Assert.Equal(url, obj.Url);
         Assert.Equal(FileType.Url, obj.FileType);
     }
 }
