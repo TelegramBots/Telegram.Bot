@@ -29,11 +29,12 @@ public class CreateNewVideoStickerSetRequest : CreateNewStickerSetRequest
     /// for technical requirements
     /// </param>
 #pragma warning disable CS1573
-    public CreateNewVideoStickerSetRequest(long userId,
-                                           string name,
-                                           string title,
-                                           InputFile webmSticker,
-                                           string emojis)
+    public CreateNewVideoStickerSetRequest(
+        long userId,
+        string name,
+        string title,
+        InputFile webmSticker,
+        string emojis)
         : base(userId, name, title, emojis)
     {
         WebmSticker = webmSticker ?? throw new ArgumentNullException(nameof(webmSticker), "Sticker is null");
@@ -41,6 +42,6 @@ public class CreateNewVideoStickerSetRequest : CreateNewStickerSetRequest
 #pragma warning restore CS1573
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
+    public override HttpContent ToHttpContent()
         => ToMultipartFormDataContent(fileParameterName: "webm_sticker", inputFile: WebmSticker);
 }

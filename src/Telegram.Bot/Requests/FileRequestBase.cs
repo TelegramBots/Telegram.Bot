@@ -48,10 +48,8 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
             throw new ArgumentNullException(nameof(inputFile), $"{nameof(inputFile)} or it's content is null");
         }
 
-        MultipartFormDataContent? multipartContent = GenerateMultipartFormDataContent(fileParameterName)
+        return GenerateMultipartFormDataContent(fileParameterName)
             .AddContentIfInputFile(media: inputFile, name: fileParameterName);
-
-        return multipartContent;
     }
 
     /// <summary>
