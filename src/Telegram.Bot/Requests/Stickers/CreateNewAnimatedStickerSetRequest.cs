@@ -1,7 +1,7 @@
-using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InputFiles;
+using System.Net.Http;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -19,7 +19,7 @@ public class CreateNewAnimatedStickerSetRequest : CreateNewStickerSetRequest
     /// for technical requirements
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileStream TgsSticker { get; }
+    public InputFile TgsSticker { get; }
 
     /// <inheritdoc />
     /// <param name="tgsSticker">
@@ -32,7 +32,7 @@ public class CreateNewAnimatedStickerSetRequest : CreateNewStickerSetRequest
         long userId,
         string name,
         string title,
-        InputFileStream tgsSticker,
+        InputFile tgsSticker,
         string emojis)
         : base(userId, name, title, emojis)
     {
@@ -41,8 +41,6 @@ public class CreateNewAnimatedStickerSetRequest : CreateNewStickerSetRequest
 #pragma warning restore CS1573
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent() =>
-        TgsSticker.Content is not null
-            ? ToMultipartFormDataContent(fileParameterName: "tgs_sticker", inputFile: TgsSticker)
-            : base.ToHttpContent();
+    public override HttpContent? ToHttpContent()
+        => ToMultipartFormDataContent(fileParameterName: "tgs_sticker", inputFile: TgsSticker);
 }

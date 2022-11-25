@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -34,7 +34,7 @@ public class AudioMessageTests
         {
             message = await BotClient.SendAudioAsync(
                 chatId: _fixture.SupergroupChat,
-                audio: new InputMedia(stream, "Jackson F Smith - Cantina Rag.mp3"),
+                audio: new InputFile(stream, "Jackson F Smith - Cantina Rag.mp3"),
                 title: title,
                 performer: performer,
                 caption: caption,
@@ -67,9 +67,9 @@ public class AudioMessageTests
                     )
         {
             message = await BotClient.SendAudioAsync(
-                /* chatId: */ _fixture.SupergroupChat,
-                /* audio: */ new InputMedia(stream1, "Ask Again - A State of Despair.mp3"),
-                thumb: new InputMedia(stream2, "thumb.jpg")
+                chatId: _fixture.SupergroupChat,
+                audio: new InputFile(stream1, "Ask Again - A State of Despair.mp3"),
+                thumb: new InputFile(stream2, "thumb.jpg")
             );
         }
 
@@ -94,7 +94,7 @@ public class AudioMessageTests
         {
             message = await BotClient.SendVoiceAsync(
                 chatId: _fixture.SupergroupChat,
-                voice: stream,
+                voice: new InputFile(stream),
                 caption: caption,
                 duration: duration
             );

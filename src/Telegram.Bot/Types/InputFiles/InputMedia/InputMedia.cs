@@ -9,7 +9,7 @@ namespace Telegram.Bot.Types;
 /// This object represents the content of a media message to be sent
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public abstract class InputMediaBase : IInputMedia
+public abstract class InputMedia
 {
     /// <summary>
     /// Type of the media
@@ -18,10 +18,12 @@ public abstract class InputMediaBase : IInputMedia
     public abstract InputMediaType Type { get; }
 
     /// <summary>
-    /// File to send
+    /// File to send. Pass a file_id to send a file that exists on the Telegram servers (recommended),
+    /// pass an HTTP URL for Telegram to get a file from the Internet, or pass "attach://&lt;file_attach_name&gt;"
+    /// to upload a new one using multipart/form-data under &lt;file_attach_name%gt; name.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputMedia Media { get; }
+    public IInputFile Media { get; }
 
     /// <summary>
     /// Optional. Caption of the photo to be sent, 0-1024 characters
@@ -46,5 +48,5 @@ public abstract class InputMediaBase : IInputMedia
     /// Initialize an object
     /// </summary>
     /// <param name="media">File to send</param>
-    protected InputMediaBase(InputMedia media) => Media = media;
+    protected InputMedia(IInputFile media) => Media = media;
 }
