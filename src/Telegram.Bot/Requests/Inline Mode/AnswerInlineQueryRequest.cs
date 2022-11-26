@@ -7,7 +7,7 @@ using Telegram.Bot.Types.InlineQueryResults;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to send answers to an inline query. On success, <c>true</c> is returned.
+/// Use this method to send answers to an inline query. On success, <see langword="true"/> is returned.
 /// </summary>
 /// <remarks>
 /// No more than <b>50</b> results per query are allowed.
@@ -35,7 +35,7 @@ public class AnswerInlineQueryRequest : RequestBase<bool>
     public int? CacheTime { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if results may be cached on the server side only for the user that sent
+    /// Pass <see langword="true"/>, if results may be cached on the server side only for the user that sent
     /// the query. By default, results may be returned to any user who sends the same query
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

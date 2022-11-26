@@ -36,7 +36,7 @@ public class StickerSet
     public bool IsAnimated { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the sticker set contains video stickers
+    /// <see langword="true"/>, if the sticker set contains video stickers
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsVideo { get; set; }

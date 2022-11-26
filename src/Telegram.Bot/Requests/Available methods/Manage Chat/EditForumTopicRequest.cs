@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this request to edit name and icon of a topic in a forum supergroup chat. The bot must be an administrator
 /// in the chat for this to work and must have <see cref="ChatAdministratorRights.CanManageTopics"/> administrator
-/// rights, unless it is the creator of the topic. Returns <c>true</c> on success.
+/// rights, unless it is the creator of the topic. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable

@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this request to clear the list of pinned messages in a forum topic. The bot must be an administrator in the chat
 /// for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/> administrator rights,
-/// unless it is the creator of the topic. Returns <c>true</c> on success.
+/// unless it is the creator of the topic. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class UnpinAllForumTopicMessagesRequest : RequestBase<bool>, IChatTargetable

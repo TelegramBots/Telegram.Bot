@@ -58,7 +58,7 @@ public class ChatMemberAdministrator : ChatMember
     public override ChatMemberStatus Status => ChatMemberStatus.Administrator;
 
     /// <summary>
-    /// <c>true</c>, if the bot is allowed to edit administrator privileges of that user
+    /// <see langword="true"/>, if the bot is allowed to edit administrator privileges of that user
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanBeEdited { get; set; }
@@ -70,13 +70,13 @@ public class ChatMemberAdministrator : ChatMember
     public string? CustomTitle { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user's presence in the chat is hidden
+    /// <see langword="true"/>, if the user's presence in the chat is hidden
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsAnonymous { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can access the chat event log, chat statistics, message statistics
+    /// <see langword="true"/>, if the administrator can access the chat event log, chat statistics, message statistics
     /// in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode.
     /// Implied by any other administrator privilege
     /// </summary>
@@ -84,44 +84,44 @@ public class ChatMemberAdministrator : ChatMember
     public bool CanManageChat { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can post in the channel, channels only
+    /// <see langword="true"/>, if the administrator can post in the channel, channels only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanPostMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can edit messages of other users, channels only
+    /// <see langword="true"/>, if the administrator can edit messages of other users, channels only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanEditMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can delete messages of other users
+    /// <see langword="true"/>, if the administrator can delete messages of other users
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanDeleteMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can manage video chats
+    /// <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
     [Obsolete("This property will be removed in the next major version, use CanManageVideoChat instead")]
     [JsonProperty(Required = Required.Always)]
     public bool CanManageVoiceChats { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can manage video chats
+    /// <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanManageVideoChats { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can restrict, ban or unban chat members
+    /// <see langword="true"/>, if the administrator can restrict, ban or unban chat members
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanRestrictMembers { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can add new administrators with a subset of his own privileges or
+    /// <see langword="true"/>, if the administrator can add new administrators with a subset of his own privileges or
     /// demote administrators that he has promoted, directly or indirectly (promoted by administrators that
     /// were appointed by the user)
     /// </summary>
@@ -129,25 +129,25 @@ public class ChatMemberAdministrator : ChatMember
     public bool CanPromoteMembers { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can change the chat title, photo and other settings
+    /// <see langword="true"/>, if the administrator can change the chat title, photo and other settings
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanChangeInfo { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can invite new users to the chat
+    /// <see langword="true"/>, if the administrator can invite new users to the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanInviteUsers { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the administrator can pin messages, supergroups only
+    /// <see langword="true"/>, if the administrator can pin messages, supergroups only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanPinMessages { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if the user is allowed to create, rename, close, and reopen forum topics;
+    /// Optional. <see langword="true"/>, if the user is allowed to create, rename, close, and reopen forum topics;
     /// supergroups only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -174,57 +174,57 @@ public class ChatMemberRestricted : ChatMember
     public override ChatMemberStatus Status => ChatMemberStatus.Restricted;
 
     /// <summary>
-    /// <c>true</c>, if the user is a member of the chat at the moment of the request
+    /// <see langword="true"/>, if the user is a member of the chat at the moment of the request
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsMember { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user can change the chat title, photo and other settings
+    /// <see langword="true"/>, if the user can change the chat title, photo and other settings
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanChangeInfo { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user can invite new users to the chat
+    /// <see langword="true"/>, if the user can invite new users to the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanInviteUsers { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user can pin messages, supergroups only
+    /// <see langword="true"/>, if the user can pin messages, supergroups only
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanPinMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user can send text messages, contacts, locations and venues
+    /// <see langword="true"/>, if the user can send text messages, contacts, locations and venues
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanSendMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user can send audios, documents, photos, videos, video notes and voice notes,
+    /// <see langword="true"/>, if the user can send audios, documents, photos, videos, video notes and voice notes,
     /// implies <see cref="CanSendMessages"/>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanSendMediaMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user is allowed to send polls
+    /// <see langword="true"/>, if the user is allowed to send polls
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanSendPolls { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the user can send animations, games, stickers and use inline bots,
+    /// <see langword="true"/>, if the user can send animations, games, stickers and use inline bots,
     /// implies <see cref="CanSendMediaMessages"/>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanSendOtherMessages { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if user may add web page previews to his messages,
+    /// <see langword="true"/>, if user may add web page previews to his messages,
     /// implies <see cref="CanSendMediaMessages"/>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -238,7 +238,7 @@ public class ChatMemberRestricted : ChatMember
     public DateTime? UntilDate { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if the user is allowed to create forum topics
+    /// Optional. <see langword="true"/>, if the user is allowed to create forum topics
     /// supergroups only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

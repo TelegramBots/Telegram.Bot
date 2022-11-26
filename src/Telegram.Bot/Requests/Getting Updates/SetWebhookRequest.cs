@@ -13,7 +13,7 @@ namespace Telegram.Bot.Requests;
 /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
 /// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
 /// an unsuccessful request, we will give up after a reasonable amount of attempts.
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// <para>
 /// If you'd like to make sure that the webhook was set by you, you can specify secret data
 /// in the parameter <see cref="SecretToken"/> . If specified, the request
@@ -84,7 +84,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
     public IEnumerable<UpdateType>? AllowedUpdates { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c> to drop all pending updates
+    /// Pass <see langword="true"/> to drop all pending updates
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? DropPendingUpdates { get; set; }

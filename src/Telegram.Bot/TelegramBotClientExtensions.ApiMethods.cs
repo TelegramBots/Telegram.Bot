@@ -88,7 +88,7 @@ public static partial class TelegramBotClientExtensions
     /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
     /// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
     /// an unsuccessful request, we will give up after a reasonable amount of attempts.
-    /// Returns <c>true</c> on success.
+    /// Returns <see langword="true"/> on success.
     /// <para>
     /// If you'd like to make sure that the webhook was set by you, you can specify secret data
     /// in the parameter <see cref="SetWebhookRequest.SecretToken"/> . If specified, the request
@@ -123,7 +123,7 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="SetWebhookAsync"/>, so unwanted updates may be received for a short period of time.
     /// </para>
     /// </param>
-    /// <param name="dropPendingUpdates">Pass <c>true</c> to drop all pending updates</param>
+    /// <param name="dropPendingUpdates">Pass <see langword="true"/> to drop all pending updates</param>
     /// <param name="secretToken">
     /// A secret token to be sent in a header "<c>X-Telegram-Bot-Api-Secret-Token</c>" in every webhook request,
     /// 1-256 characters. Only characters <c>A-Z</c>, <c>a-z</c>, <c>0-9</c>, <c>_</c> and <c>-</c>
@@ -179,7 +179,7 @@ public static partial class TelegramBotClientExtensions
     /// Use this method to remove webhook integration if you decide to switch back to <see cref="GetUpdatesAsync"/>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="dropPendingUpdates">Pass <c>true</c> to drop all pending updates</param>
+    /// <param name="dropPendingUpdates">Pass <see langword="true"/> to drop all pending updates</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -298,7 +298,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -426,7 +426,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -508,7 +508,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -597,7 +597,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -696,7 +696,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -785,14 +785,14 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
-    /// <param name="supportsStreaming">Pass <c>true</c>, if the uploaded video is suitable for streaming</param>
+    /// <param name="supportsStreaming">Pass <see langword="true"/>, if the uploaded video is suitable for streaming</param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -893,7 +893,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -982,7 +982,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1061,7 +1061,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1125,7 +1125,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -1186,7 +1186,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1441,7 +1441,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1513,7 +1513,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1570,14 +1570,14 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="question">Poll question, 1-300 characters</param>
     /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
-    /// <param name="isAnonymous"><c>true</c>, if the poll needs to be anonymous, defaults to <c>true</c></param>
+    /// <param name="isAnonymous"><see langword="true"/>, if the poll needs to be anonymous, defaults to <see langword="true"/></param>
     /// <param name="type">
     /// Poll type, <see cref="PollType.Quiz"/> or <see cref="PollType.Regular"/>,
     /// defaults to <see cref="PollType.Regular"/>
     /// </param>
     /// <param name="allowsMultipleAnswers">
-    /// <c>true</c>, if the poll allows multiple answers, ignored for polls in quiz mode,
-    /// defaults to <c>false</c>
+    /// <see langword="true"/>, if the poll allows multiple answers, ignored for polls in quiz mode,
+    /// defaults to <see langword="false"/>
     /// </param>
     /// <param name="correctOptionId">
     /// 0-based identifier of the correct answer option, required for polls in quiz mode
@@ -1604,7 +1604,7 @@ public static partial class TelegramBotClientExtensions
     /// in the future. Can't be used together with <paramref name="openPeriod"/>
     /// </param>
     /// <param name="isClosed">
-    /// Pass <c>true</c>, if the poll needs to be immediately closed. This can be useful for poll preview
+    /// Pass <see langword="true"/>, if the poll needs to be immediately closed. This can be useful for poll preview
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
@@ -1612,7 +1612,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1697,7 +1697,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1893,9 +1893,9 @@ public static partial class TelegramBotClientExtensions
     /// from the current time they are considered to be banned forever. Applied for supergroups and channels only
     /// </param>
     /// <param name="revokeMessages">
-    /// Pass <c>true</c> to delete all messages from the chat for the user that is being removed.
-    /// If <c>false</c>, the user will be able to see messages in the group that were sent before the user was
-    /// removed. Always <c>true</c> for supergroups and channels
+    /// Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed.
+    /// If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was
+    /// removed. Always <see langword="true"/> for supergroups and channels
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1938,9 +1938,9 @@ public static partial class TelegramBotClientExtensions
     /// from the current time they are considered to be banned forever. Applied for supergroups and channels only
     /// </param>
     /// <param name="revokeMessages">
-    /// Pass <c>true</c> to delete all messages from the chat for the user that is being removed.
-    /// If <c>false</c>, the user will be able to see messages in the group that were sent before the user was
-    /// removed. Always <c>true</c> for supergroups and channels
+    /// Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed.
+    /// If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was
+    /// removed. Always <see langword="true"/> for supergroups and channels
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2000,7 +2000,7 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the supergroup
-    /// for this to work and must have the appropriate admin rights. Pass <c>true</c> for all permissions to
+    /// for this to work and must have the appropriate admin rights. Pass <see langword="true"/> for all permissions to
     /// lift restrictions from a user.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2033,7 +2033,7 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass <c><c>false</c></c> for all boolean parameters to demote a user.
+    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass <c><see langword="false"/></c> for all boolean parameters to demote a user.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2041,17 +2041,17 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="isAnonymous">Pass <c>true</c>, if the administrator's presence in the chat is hidden</param>
-    /// <param name="canManageChat">Pass <c>true</c>, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege</param>
-    /// <param name="canPostMessages">Pass <c>true</c>, if the administrator can create channel posts, channels only</param>
-    /// <param name="canEditMessages">Pass <c>true</c>, if the administrator can edit messages of other users, channels only</param>
-    /// <param name="canDeleteMessages">Pass <c>true</c>, if the administrator can delete messages of other users</param>
-    /// <param name="canManageVideoChats">Pass <c>true</c>, if the administrator can manage voice chats, supergroups only</param>
-    /// <param name="canRestrictMembers">Pass <c>true</c>, if the administrator can restrict, ban or unban chat members</param>
-    /// <param name="canPromoteMembers">Pass <c>true</c>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
-    /// <param name="canChangeInfo">Pass <c>true</c>, if the administrator can change chat title, photo and other settings</param>
-    /// <param name="canInviteUsers">Pass <c>true</c>, if the administrator can invite new users to the chat</param>
-    /// <param name="canPinMessages">Pass <c>true</c>, if the administrator can pin messages, supergroups only</param>
+    /// <param name="isAnonymous">Pass <see langword="true"/>, if the administrator's presence in the chat is hidden</param>
+    /// <param name="canManageChat">Pass <see langword="true"/>, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege</param>
+    /// <param name="canPostMessages">Pass <see langword="true"/>, if the administrator can create channel posts, channels only</param>
+    /// <param name="canEditMessages">Pass <see langword="true"/>, if the administrator can edit messages of other users, channels only</param>
+    /// <param name="canDeleteMessages">Pass <see langword="true"/>, if the administrator can delete messages of other users</param>
+    /// <param name="canManageVideoChats">Pass <see langword="true"/>, if the administrator can manage voice chats, supergroups only</param>
+    /// <param name="canRestrictMembers">Pass <see langword="true"/>, if the administrator can restrict, ban or unban chat members</param>
+    /// <param name="canPromoteMembers">Pass <see langword="true"/>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
+    /// <param name="canChangeInfo">Pass <see langword="true"/>, if the administrator can change chat title, photo and other settings</param>
+    /// <param name="canInviteUsers">Pass <see langword="true"/>, if the administrator can invite new users to the chat</param>
+    /// <param name="canPinMessages">Pass <see langword="true"/>, if the administrator can pin messages, supergroups only</param>
     /// <param name="canManageTopic"></param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2128,7 +2128,7 @@ public static partial class TelegramBotClientExtensions
     /// Use this method to ban a channel chat in a supergroup or a channel. The owner of the chat will not be
     /// able to send messages and join live streams on behalf of the chat, unless it is unbanned first. The bot
     /// must be an administrator in the supergroup or channel for this to work and must have the appropriate
-    /// administrator rights. Returns <c>true</c> on success.
+    /// administrator rights. Returns <see langword="true"/> on success.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2154,7 +2154,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be
     /// an administrator for this to work and must have the appropriate administrator rights.
-    /// Returns <c>true</c> on success.
+    /// Returns <see langword="true"/> on success.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2245,8 +2245,8 @@ public static partial class TelegramBotClientExtensions
     /// via this invite link; 1-99999
     /// </param>
     /// <param name="createsJoinRequest">
-    /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
-    /// If <c>true</c>, <paramref name="memberLimit"/> can't be specified
+    /// Set to <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators.
+    /// If <see langword="true"/>, <paramref name="memberLimit"/> can't be specified
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2291,8 +2291,8 @@ public static partial class TelegramBotClientExtensions
     /// via this invite link; 1-99999
     /// </param>
     /// <param name="createsJoinRequest">
-    /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
-    /// If <c>true</c>, <paramref name="memberLimit"/> can't be specified
+    /// Set to <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators.
+    /// If <see langword="true"/>, <paramref name="memberLimit"/> can't be specified
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2352,7 +2352,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to approve a chat join request. The bot must be an administrator in the chat for this to
     /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
-    /// Returns <c>true</c> on success.
+    /// Returns <see langword="true"/> on success.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2379,7 +2379,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to decline a chat join request. The bot must be an administrator in the chat for this to
     /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
-    /// Returns <c>true</c> on success.
+    /// Returns <see langword="true"/> on success.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2513,7 +2513,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="messageId">Identifier of a message to pin</param>
     /// <param name="disableNotification">
-    /// Pass <c><c>true</c></c>, if it is not necessary to send a notification to all chat members about
+    /// Pass <c><see langword="true"/></c>, if it is not necessary to send a notification to all chat members about
     /// the new pinned message. Notifications are always disabled in channels and private chats
     /// </param>
     /// <param name="cancellationToken">
@@ -2787,8 +2787,8 @@ public static partial class TelegramBotClientExtensions
     /// Text of the notification. If not specified, nothing will be shown to the user, 0-200 characters
     /// </param>
     /// <param name="showAlert">
-    /// If <c>true</c>, an alert will be shown by the client instead of a notification at the top of the chat
-    /// screen. Defaults to <c>false</c>
+    /// If <see langword="true"/>, an alert will be shown by the client instead of a notification at the top of the chat
+    /// screen. Defaults to <see langword="false"/>
     /// </param>
     /// <param name="url">
     /// URL that will be opened by the user's client. If you have created a
@@ -3021,7 +3021,7 @@ public static partial class TelegramBotClientExtensions
     /// will be cleared.
     /// </param>
     /// <param name="forChannels">
-    /// Pass <c>true</c> to change the default administrator rights of the bot in channels. Otherwise, the default
+    /// Pass <see langword="true"/> to change the default administrator rights of the bot in channels. Otherwise, the default
     /// administrator rights of the bot for groups and supergroups will be changed.
     /// </param>
     /// <param name="cancellationToken">
@@ -3049,7 +3049,7 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="forChannels">
-    /// Pass <c>true</c> to change the default administrator rights of the bot in channels. Otherwise, the default
+    /// Pass <see langword="true"/> to change the default administrator rights of the bot in channels. Otherwise, the default
     /// administrator rights of the bot for groups and supergroups will be changed.
     /// </param>
     /// <param name="cancellationToken">
@@ -3506,7 +3506,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -3968,7 +3968,7 @@ public static partial class TelegramBotClientExtensions
     /// Defaults to 300
     /// </param>
     /// <param name="isPersonal">
-    /// Pass <c>true</c>, if results may be cached on the server side only for the user that sent the query.
+    /// Pass <see langword="true"/>, if results may be cached on the server side only for the user that sent the query.
     /// By default, results may be returned to any user who sends the same query
     /// </param>
     /// <param name="nextOffset">
@@ -4081,28 +4081,28 @@ public static partial class TelegramBotClientExtensions
     /// <param name="photoSize">Photo size</param>
     /// <param name="photoWidth">Photo width</param>
     /// <param name="photoHeight">Photo height</param>
-    /// <param name="needName">Pass <c>true</c>, if you require the user's full name to complete the order</param>
+    /// <param name="needName">Pass <see langword="true"/>, if you require the user's full name to complete the order</param>
     /// <param name="needPhoneNumber">
-    /// Pass <c>true</c>, if you require the user's phone number to complete the order
+    /// Pass <see langword="true"/>, if you require the user's phone number to complete the order
     /// </param>
-    /// <param name="needEmail">Pass <c>true</c>, if you require the user's email to complete the order</param>
+    /// <param name="needEmail">Pass <see langword="true"/>, if you require the user's email to complete the order</param>
     /// <param name="needShippingAddress">
-    /// Pass <c>true</c>, if you require the user's shipping address to complete the order
+    /// Pass <see langword="true"/>, if you require the user's shipping address to complete the order
     /// </param>
     /// <param name="sendPhoneNumberToProvider">
-    /// Pass <c>true</c>, if user's phone number should be sent to provider
+    /// Pass <see langword="true"/>, if user's phone number should be sent to provider
     /// </param>
     /// <param name="sendEmailToProvider">
-    /// Pass <c>true</c>, if user's email address should be sent to provider
+    /// Pass <see langword="true"/>, if user's email address should be sent to provider
     /// </param>
-    /// <param name="isFlexible">Pass <c>true</c>, if the final price depends on the shipping method</param>
+    /// <param name="isFlexible">Pass <see langword="true"/>, if the final price depends on the shipping method</param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -4231,21 +4231,21 @@ public static partial class TelegramBotClientExtensions
     /// <param name="photoSize">Photo size</param>
     /// <param name="photoWidth">Photo width</param>
     /// <param name="photoHeight">Photo height</param>
-    /// <param name="needName">Pass <c>true</c>, if you require the user's full name to complete the order</param>
+    /// <param name="needName">Pass <see langword="true"/>, if you require the user's full name to complete the order</param>
     /// <param name="needPhoneNumber">
-    /// Pass <c>true</c>, if you require the user's phone number to complete the order
+    /// Pass <see langword="true"/>, if you require the user's phone number to complete the order
     /// </param>
-    /// <param name="needEmail">Pass <c>true</c>, if you require the user's email to complete the order</param>
+    /// <param name="needEmail">Pass <see langword="true"/>, if you require the user's email to complete the order</param>
     /// <param name="needShippingAddress">
-    /// Pass <c>true</c>, if you require the user's shipping address to complete the order
+    /// Pass <see langword="true"/>, if you require the user's shipping address to complete the order
     /// </param>
     /// <param name="sendPhoneNumberToProvider">
-    /// Pass <c>true</c>, if user's phone number should be sent to provider
+    /// Pass <see langword="true"/>, if user's phone number should be sent to provider
     /// </param>
     /// <param name="sendEmailToProvider">
-    /// Pass <c>true</c>, if user's email address should be sent to provider
+    /// Pass <see langword="true"/>, if user's email address should be sent to provider
     /// </param>
-    /// <param name="isFlexible">Pass <c>true</c>, if the final price depends on the shipping method</param>
+    /// <param name="isFlexible">Pass <see langword="true"/>, if the final price depends on the shipping method</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -4312,7 +4312,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
     /// <param name="shippingOptions">
-    /// Required if ok is <c>true</c>. An array of available shipping options
+    /// Required if ok is <see langword="true"/>. An array of available shipping options
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -4338,7 +4338,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
     /// <param name="errorMessage">
-    /// Required if <see cref="AnswerShippingQueryRequest.Ok"/> is <c>false</c>. Error message in
+    /// Required if <see cref="AnswerShippingQueryRequest.Ok"/> is <see langword="false"/>. Error message in
     /// human readable form that explains why it is impossible to complete the order (e.g. "Sorry, delivery to
     /// your desired address is unavailable'). Telegram will display this message to the user
     /// </param>
@@ -4388,7 +4388,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
     /// <param name="errorMessage">
-    /// Required if <see cref="AnswerPreCheckoutQueryRequest.Ok"/> is <c>false</c>. Error message in
+    /// Required if <see cref="AnswerPreCheckoutQueryRequest.Ok"/> is <see langword="false"/>. Error message in
     /// human readable form that explains the reason for failure to proceed with the checkout (e.g. "Sorry,
     /// somebody just bought the last of our amazing black T-shirts while you were busy filling out your payment
     /// details. Please choose a different color or garment!"). Telegram will display this message to the user
@@ -4428,7 +4428,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -4479,18 +4479,18 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatId">Unique identifier for the target chat</param>
     /// <param name="messageId">Identifier of the sent message</param>
     /// <param name="force">
-    /// Pass <c>true</c>, if the high score is allowed to decrease. This can be useful when fixing mistakes
+    /// Pass <see langword="true"/>, if the high score is allowed to decrease. This can be useful when fixing mistakes
     /// or banning cheaters
     /// </param>
     /// <param name="disableEditMessage">
-    /// Pass <c>true</c>, if the game message should not be automatically edited to include the current scoreboard
+    /// Pass <see langword="true"/>, if the game message should not be automatically edited to include the current scoreboard
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>
     /// On success returns the edited <see cref="Message"/>. Returns an error, if the new score is not greater
-    /// than the user's current score in the chat and <paramref name="force"/> is <c>false</c>
+    /// than the user's current score in the chat and <paramref name="force"/> is <see langword="false"/>
     /// </returns>
     public static async Task<Message> SetGameScoreAsync(
         this ITelegramBotClient botClient,
@@ -4521,18 +4521,18 @@ public static partial class TelegramBotClientExtensions
     /// <param name="score">New score, must be non-negative</param>
     /// <param name="inlineMessageId">Identifier of the inline message.</param>
     /// <param name="force">
-    /// Pass <c>true</c>, if the high score is allowed to decrease. This can be useful when fixing mistakes
+    /// Pass <see langword="true"/>, if the high score is allowed to decrease. This can be useful when fixing mistakes
     /// or banning cheaters
     /// </param>
     /// <param name="disableEditMessage">
-    /// Pass <c>true</c>, if the game message should not be automatically edited to include the current scoreboard
+    /// Pass <see langword="true"/>, if the game message should not be automatically edited to include the current scoreboard
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>
     /// Returns an error, if the new score is not greater than the user's current score in the chat and
-    /// <paramref name="force"/> is <c>false</c>
+    /// <paramref name="force"/> is <see langword="false"/>
     /// </returns>
     public static async Task SetGameScoreAsync(
         this ITelegramBotClient botClient,

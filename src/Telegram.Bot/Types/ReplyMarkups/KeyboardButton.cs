@@ -29,14 +29,14 @@ public class KeyboardButton : IKeyboardButton
     public string Text { get; set; }
 
     /// <summary>
-    /// Optional. If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed.
+    /// Optional. If <see langword="true"/>, the user's phone number will be sent as a contact when the button is pressed.
     /// Available in private chats only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? RequestContact { get; set; }
 
     /// <summary>
-    /// Optional. If <c>true</c>, the user's current location will be sent when the button is pressed.
+    /// Optional. If <see langword="true"/>, the user's current location will be sent when the button is pressed.
     /// Available in private chats only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

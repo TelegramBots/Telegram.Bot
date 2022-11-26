@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this request to delete an open topic in a forum supergroup chat. The bot must be an administrator in the chat
 /// for this to work and must have the <see cref="ChatAdministratorRights.CanDeleteMessages"/> administrator rights,
-/// unless it is the creator of the topic. Returns <c>true</c> on success.
+/// unless it is the creator of the topic. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteForumTopicRequest : RequestBase<bool>, IChatTargetable

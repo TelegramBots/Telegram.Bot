@@ -25,19 +25,19 @@ public class ChatInviteLink
     public User Creator { get; set; } = default!;
 
     /// <summary>
-    /// <c>true</c>, if users joining the chat via the link need to be approved by chat administrators
+    /// <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CreatesJoinRequest { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the link is primary
+    /// <see langword="true"/>, if the link is primary
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsPrimary { get; set; }
 
     /// <summary>
-    /// <c>true</c>, if the link is revoked
+    /// <see langword="true"/>, if the link is revoked
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsRevoked { get; set; }

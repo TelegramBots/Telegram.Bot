@@ -10,8 +10,8 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the
-/// supergroup for this to work and must have the appropriate admin rights. Pass <c>true</c>
-/// for all permissions to lift restrictions from a user. Returns <c>true</c> on success.
+/// supergroup for this to work and must have the appropriate admin rights. Pass <see langword="true"/>
+/// for all permissions to lift restrictions from a user. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable

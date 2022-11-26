@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for
-/// animated sticker sets only. Returns <c>true</c> on success.
+/// animated sticker sets only. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetStickerSetThumbRequest : FileRequestBase<bool>, IUserTargetable

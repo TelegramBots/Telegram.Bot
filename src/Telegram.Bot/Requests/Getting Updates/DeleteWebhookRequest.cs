@@ -7,7 +7,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to remove webhook integration if you decide to switch back to
-/// <see cref="GetUpdatesRequest"/>. Returns <c>true</c> on success.
+/// <see cref="GetUpdatesRequest"/>. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteWebhookRequest : RequestBase<bool>

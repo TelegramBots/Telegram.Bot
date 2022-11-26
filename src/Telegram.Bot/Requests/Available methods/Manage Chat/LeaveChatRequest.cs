@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method for your bot to leave a group, supergroup or channel. Returns <c>true</c> on success.
+/// Use this method for your bot to leave a group, supergroup or channel. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class LeaveChatRequest : RequestBase<bool>, IChatTargetable

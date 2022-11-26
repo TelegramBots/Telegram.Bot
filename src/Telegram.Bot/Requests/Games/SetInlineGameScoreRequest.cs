@@ -6,9 +6,9 @@ using Telegram.Bot.Requests.Abstractions;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to set the score of the specified user in a game. On success returns <c>true</c>.
+/// Use this method to set the score of the specified user in a game. On success returns <see langword="true"/>.
 /// Returns an error, if the new score is not greater than the user's current score in the chat and
-/// <see cref="Force"/> is <c>false</c>.
+/// <see cref="Force"/> is <see langword="false"/>.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargetable

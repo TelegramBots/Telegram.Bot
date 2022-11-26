@@ -35,7 +35,7 @@ public class InlineQueryResultArticle : InlineQueryResult
     public string? Url { get; set; }
 
     /// <summary>
-    /// Optional. Pass <c>true</c>, if you don't want the URL to be shown in the message.
+    /// Optional. Pass <see langword="true"/>, if you don't want the URL to be shown in the message.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? HideUrl { get; set; }

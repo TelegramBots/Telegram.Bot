@@ -63,7 +63,7 @@ public class Message
     public User? ForwardFrom { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if the message is sent to a forum topic
+    /// Optional. <see langword="true"/>, if the message is sent to a forum topic
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? IsTopicMessage { get; set; }
@@ -102,7 +102,7 @@ public class Message
     public DateTime? ForwardDate { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if the message is a channel post that was automatically forwarded to the connected
+    /// Optional. <see langword="true"/>, if the message is a channel post that was automatically forwarded to the connected
     /// discussion group
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -129,7 +129,7 @@ public class Message
     public DateTime? EditDate { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if messages from the chat can't be forwarded to other chats.
+    /// Optional. <see langword="true"/>, if messages from the chat can't be forwarded to other chats.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

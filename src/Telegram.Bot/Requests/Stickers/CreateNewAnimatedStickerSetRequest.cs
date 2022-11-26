@@ -8,7 +8,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to create a new animated sticker set owned by a user. The bot will be able to
-/// edit the sticker set thus created. Returns <c>true</c> on success.
+/// edit the sticker set thus created. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CreateNewAnimatedStickerSetRequest : CreateNewStickerSetRequest

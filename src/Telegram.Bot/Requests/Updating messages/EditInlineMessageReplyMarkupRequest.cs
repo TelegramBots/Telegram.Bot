@@ -7,7 +7,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit only the reply markup of messages. On success <c>true</c> is returned.
+/// Use this method to edit only the reply markup of messages. On success <see langword="true"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>

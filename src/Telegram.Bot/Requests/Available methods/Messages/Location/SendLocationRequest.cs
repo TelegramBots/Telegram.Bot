@@ -72,7 +72,7 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     public int? ReplyToMessageId { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? AllowSendingWithoutReply { get; set; }

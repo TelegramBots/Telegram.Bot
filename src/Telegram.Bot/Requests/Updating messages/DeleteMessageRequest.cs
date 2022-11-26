@@ -20,7 +20,7 @@ namespace Telegram.Bot.Requests;
 /// it can delete any message there
 /// </item>
 /// </list>
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteMessageRequest : RequestBase<bool>, IChatTargetable

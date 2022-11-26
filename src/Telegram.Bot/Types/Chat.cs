@@ -83,7 +83,7 @@ public class Chat
     public string? Bio { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if privacy settings of the other party in the private chat allows to use
+    /// Optional. <see langword="true"/>, if privacy settings of the other party in the private chat allows to use
     /// <c>tg://user?id=&lt;user_id&gt;</c> links only in chats with the user.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
@@ -91,7 +91,7 @@ public class Chat
     public bool? HasPrivateForwards { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if the privacy settings of the other party restrict sending voice
+    /// Optional. <see langword="true"/>, if the privacy settings of the other party restrict sending voice
     /// and video note messages in the private chat.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
@@ -99,14 +99,14 @@ public class Chat
     public bool? HasRestrictedVoiceAndVideoMessages { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if users need to join the supergroup before they can send messages.
+    /// Optional. <see langword="true"/>, if users need to join the supergroup before they can send messages.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? JoinToSendMessages { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if all users directly joining the supergroup need to be approved by supergroup administrators.
+    /// Optional. <see langword="true"/>, if all users directly joining the supergroup need to be approved by supergroup administrators.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -155,7 +155,7 @@ public class Chat
     public int? MessageAutoDeleteTime { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if messages from the chat can't be forwarded to other chats.
+    /// Optional. <see langword="true"/>, if messages from the chat can't be forwarded to other chats.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

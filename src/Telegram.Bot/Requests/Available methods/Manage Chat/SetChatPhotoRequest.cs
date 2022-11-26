@@ -10,7 +10,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to set a new profile photo for the chat. Photos can't be changed for private
 /// chats. The bot must be an administrator in the chat for this to work and must have the appropriate
-/// admin rights. Returns <c>true</c> on success.
+/// admin rights. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable

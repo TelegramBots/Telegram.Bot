@@ -12,7 +12,7 @@ namespace Telegram.Bot.Requests;
 /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and
 /// channels, the user will not be able to return to the chat on their own using invite links, etc.,
 /// unless <see cref="UnbanChatMemberRequest">unbanned</see> first. The bot must be an administrator
-/// in the chat for this to work and must have the appropriate admin rights. Returns <c>true</c> on success.
+/// in the chat for this to work and must have the appropriate admin rights. Returns <see langword="true"/> on success.
 /// </summary>
 [Obsolete("Use BanChatMemberRequest instead")]
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -37,7 +37,7 @@ public class KickChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTa
 
     /// <summary>
     /// Pass True to delete all messages from the chat for the user that is being removed. If
-    /// <c>false</c>, the user will be able to see messages in the group that were sent before
+    /// <see langword="false"/>, the user will be able to see messages in the group that were sent before
     /// the user was removed. Always True for supergroups and channels.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

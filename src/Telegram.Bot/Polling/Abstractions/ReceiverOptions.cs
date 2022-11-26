@@ -16,7 +16,7 @@ public sealed class ReceiverOptions
 
     /// <summary>
     /// Identifier of the first update to be returned. Will be ignored if
-    /// <see cref="ThrowPendingUpdates"/> is set to <c>true</c>.
+    /// <see cref="ThrowPendingUpdates"/> is set to <see langword="true"/>.
     /// </summary>
     public int? Offset { get; set; }
 
@@ -52,7 +52,7 @@ public sealed class ReceiverOptions
 
     /// <summary>
     /// Indicates if all pending <see cref="Update"/>s should be thrown out before start
-    /// polling. If set to <c>true</c> <see cref="AllowedUpdates"/> should be set to not
+    /// polling. If set to <see langword="true"/> <see cref="AllowedUpdates"/> should be set to not
     /// <c>null</c>, otherwise <see cref="AllowedUpdates"/> will effectively be set to
     /// receive all <see cref="Update"/>s.
     /// </summary>

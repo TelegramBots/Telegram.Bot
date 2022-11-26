@@ -42,8 +42,8 @@ public class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
     public int? MemberLimit { get; set; }
 
     /// <summary>
-    /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
-    /// If <c>true</c>, <see cref="MemberLimit"/> can't be specified
+    /// Set to <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators.
+    /// If <see langword="true"/>, <see cref="MemberLimit"/> can't be specified
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CreatesJoinRequest { get; set; }

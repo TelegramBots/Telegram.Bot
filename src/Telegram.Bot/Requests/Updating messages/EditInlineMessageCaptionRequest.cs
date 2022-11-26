@@ -10,7 +10,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to edit captions of messages. On success <c>true</c> is returned.
+/// Use this method to edit captions of messages. On success <see langword="true"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EditInlineMessageCaptionRequest : RequestBase<bool>

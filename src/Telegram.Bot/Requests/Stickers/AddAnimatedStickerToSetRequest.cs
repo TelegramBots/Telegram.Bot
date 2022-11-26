@@ -8,7 +8,7 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this request to add a new animated sticker to a set created by the bot. Static sticker sets
-/// can have up to 120 stickers. Returns <c>true</c> on success.
+/// can have up to 120 stickers. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class AddAnimatedStickerToSetRequest : AddStickerToSetRequest

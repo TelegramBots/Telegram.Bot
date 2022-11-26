@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this request to approve a chat join request. The bot must be an administrator in the chat for this to
 /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
