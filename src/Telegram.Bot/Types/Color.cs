@@ -98,13 +98,13 @@ public readonly record struct Color
     public override string ToString() => $"#{ToInt():X6}";
 
     /// <summary>
-    ///
+    /// Converts current <see cref="Color"/> instance to it's numeric representation
     /// </summary>
     /// <returns>Numeric representation of current color</returns>
     public int ToInt() => (Red << RedShift) | (Green << GreenShift) | Blue;
 
     /// <summary>
-    ///
+    /// Converts current <see cref="Color"/> instance to it's <see cref="T:byte[]"/> representation
     /// </summary>
     /// <returns></returns>
     public byte[] ToBytes() => BitConverter.GetBytes(ToInt());
@@ -118,17 +118,17 @@ public readonly record struct Color
     public void Deconstruct(out int red, out int green, out int blue) => (red, green, blue) = (Red, Green, Blue);
 
     /// <summary>
-    ///
+    /// Converts current <see cref="Color"/> instance to it's numeric representation
     /// </summary>
     /// <param name="color"></param>
-    /// <returns></returns>
+    /// <returns>Numeric representation of the current <see cref="Color"/></returns>
     public static explicit operator int(Color color) => color.ToInt();
 
     /// <summary>
-    ///
+    /// Converts current <see cref="Color"/> instance to it's <see cref="T:byte[]"/> representation
     /// </summary>
     /// <param name="color"></param>
-    /// <returns></returns>
+    /// <returns><see cref="T:byte[]"/> representation of the current <see cref="color"/></returns>
     public static explicit operator byte[](Color color) => color.ToBytes();
 
     /// <summary>
