@@ -119,4 +119,84 @@ public class ColorTests
         );
         Assert.Equal(componentName, exception.ParamName);
     }
+
+    [Theory]
+    [InlineData(0x646464, "#646464")] // 6579300
+    [InlineData(0x6FB9F0, "#6FB9F0")] // 7322096
+    [InlineData(0xFFD67E, "#FFD67E")] // 16766590
+    [InlineData(0xCB86DB, "#CB86DB")] // 13338331
+    [InlineData(0x8EEE98, "#8EEE98")] // 9367192
+    [InlineData(0xFF93B2, "#FF93B2")] // 16749490
+    [InlineData(0xFB6F5F, "#FB6F5F")] // 16478047
+    [InlineData(0xFFFFFF, "#FFFFFF")] // 16777215
+    [InlineData(0x0, "#000000")]      // 0
+    public void Should_Create_Hex_String_Representation(int color, string expectedString)
+    {
+        Color c = new(color);
+        Assert.Equal(expectedString, c.ToString());
+    }
+
+    [Theory]
+    [InlineData(0x646464)] // 6579300
+    [InlineData(0x6FB9F0)] // 7322096
+    [InlineData(0xFFD67E)] // 16766590
+    [InlineData(0xCB86DB)] // 13338331
+    [InlineData(0x8EEE98)] // 9367192
+    [InlineData(0xFF93B2)] // 16749490
+    [InlineData(0xFB6F5F)] // 16478047
+    [InlineData(0xFFFFFF)] // 16777215
+    [InlineData(0x0)]      // 0
+    public void Should_Convert_Color_To_Int_Numeric_Representation(int color)
+    {
+        Color c = new(color);
+        Assert.Equal(color, c.ToInt());
+    }
+
+    [Theory]
+    [InlineData(0x646464)] // 6579300
+    [InlineData(0x6FB9F0)] // 7322096
+    [InlineData(0xFFD67E)] // 16766590
+    [InlineData(0xCB86DB)] // 13338331
+    [InlineData(0x8EEE98)] // 9367192
+    [InlineData(0xFF93B2)] // 16749490
+    [InlineData(0xFB6F5F)] // 16478047
+    [InlineData(0xFFFFFF)] // 16777215
+    [InlineData(0x0)]      // 0
+    public void Should_Convert_Color_To_Uint_Numeric_Representation(uint color)
+    {
+        Color c = new(color);
+        Assert.Equal(color, c.ToUint());
+    }
+
+    [Theory]
+    [InlineData(0x646464, new byte[] { 100, 100, 100, 0 })] // 6579300
+    [InlineData(0x6FB9F0, new byte[] { 240, 185, 111, 0 })] // 7322096
+    [InlineData(0xFFD67E, new byte[] { 126, 214, 255, 0 })] // 16766590
+    [InlineData(0xCB86DB, new byte[] { 219, 134, 203, 0 })] // 13338331
+    [InlineData(0x8EEE98, new byte[] { 152, 238, 142, 0 })] // 9367192
+    [InlineData(0xFF93B2, new byte[] { 178, 147, 255, 0 })] // 16749490
+    [InlineData(0xFB6F5F, new byte[] { 95, 111, 251, 0 })]  // 16478047
+    [InlineData(0xFFFFFF, new byte[] { 255, 255, 255, 0 })] // 16777215
+    [InlineData(0x0, new byte[] { 0, 0, 0, 0 })]            // 0
+    public void Should_Convert_Int_Color_To_Byte_Array_Representation(int color, byte[] expectedArray)
+    {
+        Color c = new(color);
+        Assert.Equal(expectedArray, c.ToBytes());
+    }
+
+    [Theory]
+    [InlineData(0x646464, new byte[] { 100, 100, 100, 0 })] // 6579300
+    [InlineData(0x6FB9F0, new byte[] { 240, 185, 111, 0 })] // 7322096
+    [InlineData(0xFFD67E, new byte[] { 126, 214, 255, 0 })] // 16766590
+    [InlineData(0xCB86DB, new byte[] { 219, 134, 203, 0 })] // 13338331
+    [InlineData(0x8EEE98, new byte[] { 152, 238, 142, 0 })] // 9367192
+    [InlineData(0xFF93B2, new byte[] { 178, 147, 255, 0 })] // 16749490
+    [InlineData(0xFB6F5F, new byte[] { 95, 111, 251, 0 })]  // 16478047
+    [InlineData(0xFFFFFF, new byte[] { 255, 255, 255, 0 })] // 16777215
+    [InlineData(0x0, new byte[] { 0, 0, 0, 0 })]            // 0
+    public void Should_Convert_Uint_Color_To_Byte_Array_Representation(uint color, byte[] expectedArray)
+    {
+        Color c = new(color);
+        Assert.Equal(expectedArray, c.ToBytes());
+    }
 }
