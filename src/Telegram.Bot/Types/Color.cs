@@ -116,7 +116,7 @@ public readonly record struct Color
     public byte[] ToBytes() => BitConverter.GetBytes(ToInt());
 
     /// <summary>
-    ///
+    /// Deconstructs current instance of <see cref="Color"/> into it's RGB components
     /// </summary>
     /// <param name="red"></param>
     /// <param name="green"></param>
