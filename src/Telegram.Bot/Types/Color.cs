@@ -104,6 +104,12 @@ public readonly record struct Color
     public int ToInt() => (Red << RedShift) | (Green << GreenShift) | Blue;
 
     /// <summary>
+    /// Converts current <see cref="Color"/> instance to it's numeric representation
+    /// </summary>
+    /// <returns>Numeric representation of current color</returns>
+    public uint ToUint() => (uint)ToInt();
+
+    /// <summary>
     /// Converts current <see cref="Color"/> instance to it's <see cref="T:byte[]"/> representation
     /// </summary>
     /// <returns></returns>
@@ -123,6 +129,13 @@ public readonly record struct Color
     /// <param name="color"></param>
     /// <returns>Numeric representation of the current <see cref="Color"/></returns>
     public static explicit operator int(Color color) => color.ToInt();
+
+    /// <summary>
+    /// Converts current <see cref="Color"/> instance to it's numeric representation
+    /// </summary>
+    /// <param name="color"></param>
+    /// <returns>Numeric representation of the current <see cref="color"/></returns>
+    public static explicit operator uint(Color color) => color.ToUint();
 
     /// <summary>
     /// Converts current <see cref="Color"/> instance to it's <see cref="T:byte[]"/> representation
