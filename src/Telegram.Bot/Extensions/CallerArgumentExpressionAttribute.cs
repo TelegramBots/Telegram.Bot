@@ -4,6 +4,8 @@
 
 #if !NETCOREAPP3_1_OR_GREATER
 
+#pragma warning disable CS1591
+// ReSharper disable CheckNamespace
 namespace System.Runtime.CompilerServices
 {
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
@@ -14,6 +16,7 @@ namespace System.Runtime.CompilerServices
             ParameterName = parameterName;
         }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public string ParameterName { get; }
     }
 }

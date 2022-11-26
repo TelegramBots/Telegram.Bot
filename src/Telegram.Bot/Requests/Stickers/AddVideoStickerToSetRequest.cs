@@ -1,7 +1,7 @@
 using System.Net.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -19,7 +19,7 @@ public class AddVideoStickerToSetRequest : AddStickerToSetRequest
     /// for technical requirements
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileStream WebmSticker { get; }
+    public InputFile WebmSticker { get; }
 
     /// <inheritdoc />
     /// <param name="webmSticker">
@@ -31,15 +31,13 @@ public class AddVideoStickerToSetRequest : AddStickerToSetRequest
     public AddVideoStickerToSetRequest(
         long userId,
         string name,
-        InputFileStream webmSticker,
-        string emojis)
-        : base(userId, name, emojis) =>
-        WebmSticker = webmSticker;
+        InputFile webmSticker,
+        string emojis
+    ) : base(userId, name, emojis)
+        => WebmSticker = webmSticker;
 #pragma warning restore CS1573
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent() =>
-        WebmSticker.Content is not null
-            ? ToMultipartFormDataContent(fileParameterName: "webm_sticker", inputFile: WebmSticker)
-            : base.ToHttpContent();
+    public override HttpContent? ToHttpContent()
+        => ToMultipartFormDataContent(fileParameterName: "webm_sticker", inputFile: WebmSticker);
 }

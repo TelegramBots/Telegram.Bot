@@ -29,7 +29,7 @@ public class SendingVideoMessageTests
         {
             message = await BotClient.SendVideoAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                video: new InputMedia(stream, "moon-landing.mp4"),
+                video: new InputFile(stream, "moon-landing.mp4"),
                 duration: 104,
                 width: 320,
                 height: 240,
@@ -66,7 +66,7 @@ public class SendingVideoMessageTests
         {
             message = await BotClient.SendVideoNoteAsync(
                 chatId:  _fixture.SupergroupChat.Id,
-                videoNote:  stream,
+                videoNote: new InputFile(stream),
                 duration:  28,
                 length:  240
             );
@@ -99,8 +99,8 @@ public class SendingVideoMessageTests
         {
             message = await BotClient.SendVideoAsync(
                 chatId: _fixture.SupergroupChat,
-                video: stream1,
-                thumb: new InputMedia(stream2, "thumb.jpg")
+                video: new InputFile(stream1),
+                thumb: new InputFile(stream2, "thumb.jpg")
             );
         }
 
@@ -126,8 +126,8 @@ public class SendingVideoMessageTests
         {
             message = await BotClient.SendVideoNoteAsync(
                 chatId:  _fixture.SupergroupChat.Id,
-                videoNote:  stream1,
-                thumb: new InputMedia(stream2, "thumbnail.jpg")
+                videoNote: new InputFile(stream1),
+                thumb: new InputFile(stream2, "thumbnail.jpg")
             );
         }
 

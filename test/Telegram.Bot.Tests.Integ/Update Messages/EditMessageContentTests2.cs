@@ -101,7 +101,7 @@ public class EditMessageContentTests2
         {
             originalMessage = await BotClient.SendPhotoAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                photo: stream,
+                photo: new InputFile(stream),
                 caption: "Message caption will be updated shortly"
             );
         }

@@ -4,39 +4,23 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 
 namespace Telegram.Bot.Converters;
 
 internal class InputFileConverter : JsonConverter
 {
     public override bool CanConvert(Type objectType) =>
-        objectType.GetTypeInfo().IsSubclassOf(typeof(InputFileStream));
+        objectType.GetTypeInfo().IsSubclassOf(typeof(IInputFile));
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        if (value is null)
+        writer.WriteValue(value switch
         {
-            writer.WriteNull();
-            return;
-        }
-
-        var input = (IInputFile)value;
-        switch (input.FileType)
-        {
-            case FileType.Stream:
-                writer.WriteValue(null as object);
-                break;
-            case FileType.Id when value is InputTelegramFile file:
-                writer.WriteValue(file.FileId);
-                break;
-            case FileType.Url when value is InputOnlineFile file:
-                writer.WriteValue(file.Url);
-                break;
-            default:
-                throw new NotSupportedException("File Type is not supported");
-        }
+            InputFileId file  => file.Id,
+            InputFileUrl file => file.Url,
+            InputFile file    => $"attach://{file.FileName}",
+            _                 => throw new NotSupportedException("File Type not supported")
+        });
     }
 
     public override object ReadJson(
@@ -45,11 +29,16 @@ internal class InputFileConverter : JsonConverter
         object? existingValue,
         JsonSerializer serializer)
     {
-        var value = JToken.ReadFrom(reader).Value<string?>();
-        if (value is null) { return new InputFileStream(Stream.Null); }
+        var value = JToken.ReadFrom(reader).Value<string>();
 
-        return Uri.TryCreate(value, UriKind.Absolute, out _)
-            ? new InputOnlineFile(value)
-            : new InputTelegramFile(value);
+        if (value is null) { return null!; }
+        if (value.StartsWith("attach://", StringComparison.InvariantCulture))
+        {
+            return new InputFile(Stream.Null, value.Substring(9));
+        }
+
+        return Uri.IsWellFormedUriString(value, UriKind.Absolute)
+            ? new InputFileUrl(value)
+            : new InputFileId(value);
     }
 }

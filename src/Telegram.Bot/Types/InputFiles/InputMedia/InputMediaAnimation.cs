@@ -6,44 +6,44 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Types;
 
 /// <summary>
-/// Represents an audio file to be treated as music to be sent.
+/// Represents an animation file (GIF or H.264/MPEG-4 AVC video without sound) to be sent.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class InputMediaAudio : InputMediaBase,
-    IInputMediaThumb,
-    IAlbumInputMedia
+public class InputMediaAnimation :
+    InputMedia,
+    IInputMediaThumb
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public override InputMediaType Type => InputMediaType.Audio;
+    public override InputMediaType Type => InputMediaType.Animation;
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <summary>
-    /// Optional. Duration of the audio in seconds
+    /// Optional. Animation width
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? Width { get; set; }
+
+    /// <summary>
+    /// Optional. Animation height
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? Height { get; set; }
+
+    /// <summary>
+    /// Optional. Animation duration
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? Duration { get; set; }
 
     /// <summary>
-    /// Optional. Performer of the audio
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? Performer { get; set; }
-
-    /// <summary>
-    /// Optional. Title of the audio
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? Title { get; set; }
-
-    /// <summary>
-    /// Initializes a new audio media to send with an <see cref="InputMedia"/>
+    /// Initializes a new animation media to send with an <see cref="IInputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>
-    public InputMediaAudio(InputMedia media)
+    public InputMediaAnimation(IInputFile media)
         : base(media)
     { }
 }

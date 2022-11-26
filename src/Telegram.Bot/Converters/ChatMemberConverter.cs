@@ -38,7 +38,10 @@ internal class ChatMemberConverter : JsonConverter
         var jo = JObject.Load(reader);
         var status = jo["status"]?.ToObject<ChatMemberStatus>();
 
-        if (status is null) { return null; }
+        if (status is null)
+        {
+            return null;
+        }
 
         var actualType = status switch
         {
@@ -53,9 +56,9 @@ internal class ChatMemberConverter : JsonConverter
 
         // Remove status because status property only has getter
         jo.Remove("status");
-        var value = Activator.CreateInstance(actualType)!;
+        var value = (ChatMember)Activator.CreateInstance(actualType)!;
         serializer.Populate(jo.CreateReader(), value);
 
-        return value!;
+        return value;
     }
 }

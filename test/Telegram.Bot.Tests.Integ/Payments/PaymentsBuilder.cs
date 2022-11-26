@@ -144,7 +144,7 @@ public class PaymentsBuilder
 
     public PaymentsBuilder WithSuggestedTips(params int[] suggestedTipAmounts)
     {
-        if (suggestedTipAmounts.Length == 0)
+        if (suggestedTipAmounts.Length is 0)
         {
             throw new ArgumentException("Suggested tips must not be empty");
         }
