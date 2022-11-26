@@ -95,7 +95,7 @@ public readonly record struct Color
     }
 
     /// <inheritdoc />
-    public override string ToString() => $"#{ToInt():X24}";
+    public override string ToString() => $"#{ToInt():X6}";
 
     /// <summary>
     ///
