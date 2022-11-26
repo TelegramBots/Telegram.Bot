@@ -26,10 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".azure-pipelines", ".azure-
 	ProjectSection(SolutionItems) = preProject
 		.azure-pipelines\ci.yml = .azure-pipelines\ci.yml
 		.azure-pipelines\default-pipeline.yml = .azure-pipelines\default-pipeline.yml
-		.azure-pipelines\develop-pipeline.yml = .azure-pipelines\develop-pipeline.yml
-		.azure-pipelines\manual-pipeline.yml = .azure-pipelines\manual-pipeline.yml
 		.azure-pipelines\release-pipeline.yml = .azure-pipelines\release-pipeline.yml
 		.azure-pipelines\variables.yml = .azure-pipelines\variables.yml
+		.azure-pipelines\full-integration-tests.yml = .azure-pipelines\full-integration-tests.yml
+		.azure-pipelines\non-interactive-integration-tests.yml = .azure-pipelines\non-interactive-integration-tests.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jobs", "jobs", "{C20A563E-603B-49E8-A954-DB90D4F351DE}"
