@@ -12,9 +12,11 @@ namespace Telegram.Bot.Types;
 public readonly record struct Color
 {
     const int MaxRgbValue = 16777215;
-    const int BlueShift = 4;
-    const int GreenShift = BlueShift * 2;
-    const int RedShift = GreenShift * 2;
+    const int GreenShift = 8;
+    const int RedShift = 16;
+    const int BlueMask = 0xFF;
+    const int GreenMask = 0xFF00;
+    const int RedMask = 0xFF0000;
 
     /// <summary>
     /// Red component
@@ -74,9 +76,7 @@ public readonly record struct Color
             throw new ArgumentOutOfRangeException(nameof(color), color, "Color is out of range");
         }
 
-        Red = color >> RedShift;
-        Green = color >> GreenShift;
-        Blue = color >> BlueShift;
+        (Red, Green, Blue) = Convert(color);
     }
 
     /// <summary>
@@ -91,9 +91,7 @@ public readonly record struct Color
             throw new ArgumentOutOfRangeException(nameof(color), color, "Color is out of range");
         }
 
-        Red = unchecked((int)color >> RedShift);
-        Green = unchecked((int)color >> GreenShift);
-        Blue = unchecked((int)color >> BlueShift);
+        (Red, Green, Blue) = Convert((int)color);
     }
 
     /// <inheritdoc />
@@ -103,22 +101,21 @@ public readonly record struct Color
     ///
     /// </summary>
     /// <returns>Numeric representation of current color</returns>
-    public int ToInt()
-    {
-#if NETCOREAPP3_1_OR_GREATER
-        ReadOnlySpan<byte> components = stackalloc [] { (byte)Red,(byte)Green, (byte)Blue };
-        return BitConverter.ToInt32(components);
-#else
-        byte[] components = { (byte)Red,(byte)Green, (byte)Blue };
-        return BitConverter.ToInt32(components, 0);
-#endif
-    }
+    public int ToInt() => (Red << RedShift) | (Green << GreenShift) | Blue;
 
     /// <summary>
     ///
     /// </summary>
     /// <returns></returns>
     public byte[] ToBytes() => BitConverter.GetBytes(ToInt());
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="red"></param>
+    /// <param name="green"></param>
+    /// <param name="blue"></param>
+    public void Deconstruct(out int red, out int green, out int blue) => (red, green, blue) = (Red, Green, Blue);
 
     /// <summary>
     ///
@@ -137,32 +134,32 @@ public readonly record struct Color
     /// <summary>
     /// Blue color
     /// </summary>
-    public static readonly Color BlueColor = new(0x6FB9F0);
+    public static readonly Color BlueColor = new(0x6FB9F0); // 111, 185, 240
 
     /// <summary>
     /// Yellow color
     /// </summary>
-    public static readonly Color YellowColor = new(0xFFD67E);
+    public static readonly Color YellowColor = new(0xFFD67E); // 255, 214, 126
 
     /// <summary>
     /// Violet color
     /// </summary>
-    public static readonly Color VioletColor = new(0xCB86DB);
+    public static readonly Color VioletColor = new(0xCB86DB); // 203, 134, 219
 
     /// <summary>
     /// Green color
     /// </summary>
-    public static readonly Color GreenColor = new(0x8EEE98);
+    public static readonly Color GreenColor = new(0x8EEE98); // 142, 238, 152
 
     /// <summary>
     /// Pink color
     /// </summary>
-    public static readonly Color PinkColor = new(0xFF93B2);
+    public static readonly Color PinkColor = new(0xFF93B2); // 255, 147, 178
 
     /// <summary>
     /// Red color
     /// </summary>
-    public static readonly Color RedColor = new(0xFB6F5F);
+    public static readonly Color RedColor = new(0xFB6F5F); // 251, 111, 95
 
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown if <paramref name="value"/> is out of byte range
@@ -177,4 +174,8 @@ public readonly record struct Color
                 message: $"{componentName} component is out of range"
             );
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    static (int red, int green, int blue) Convert(int color) =>
+        ((color & RedMask) >> RedShift, (color & GreenMask) >> GreenShift, color & BlueMask);
 }
