@@ -6,7 +6,7 @@ variables:
 
 stages:
   - stage: IntegrationTests
-    displayName: 🧪 Non-interactive integration tests
+    displayName: 🧪 Full set of integration tests
     jobs:
       - template: jobs/run-integration-tests.yml
         parameters:

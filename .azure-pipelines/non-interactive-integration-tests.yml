@@ -6,7 +6,7 @@ variables:
 
 stages:
   - stage: IntegrationTests
-    displayName: 🧪 Full set of integration tests
+    displayName: 🧪 Non-interactive integration tests
     jobs:
       - template: jobs/run-integration-tests.yml
         parameters:
@@ -14,3 +14,4 @@ stages:
           buildConfiguration: $(buildConfiguration)
           projects: $(integrationTestsProject)
           netSdkVersion: $(netSdkVersion)
+          arguments: --filter "Category!=Interactive"
