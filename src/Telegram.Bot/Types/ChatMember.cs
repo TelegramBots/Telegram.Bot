@@ -42,7 +42,7 @@ public class ChatMemberOwner : ChatMember
     public string? CustomTitle { get; set; }
 
     /// <summary>
-    /// True, if the user's presence in the chat is hidden
+    /// <see langword="true"/>, if the user's presence in the chat is hidden
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsAnonymous { get; set; }

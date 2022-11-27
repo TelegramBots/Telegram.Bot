@@ -51,7 +51,7 @@ public class Chat
     public string? LastName { get; set; }
 
     /// <summary>
-    /// Optional. True, if the supergroup chat is a forum (has topics enabled)
+    /// Optional. <see langword="true"/>, if the supergroup chat is a forum (has topics enabled)
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? IsForum { get; set; }
