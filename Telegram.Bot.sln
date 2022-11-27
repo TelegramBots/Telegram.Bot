@@ -25,7 +25,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".azure-pipelines", ".azure-pipelines", "{71662597-40F2-4192-AC4D-5FB9A1F12642}"
 	ProjectSection(SolutionItems) = preProject
 		.azure-pipelines\ci.yml = .azure-pipelines\ci.yml
-		.azure-pipelines\default-pipeline.yml = .azure-pipelines\default-pipeline.yml
 		.azure-pipelines\release-pipeline.yml = .azure-pipelines\release-pipeline.yml
 		.azure-pipelines\variables.yml = .azure-pipelines\variables.yml
 		.azure-pipelines\full-integration-tests.yml = .azure-pipelines\full-integration-tests.yml
