@@ -19,7 +19,7 @@ public class WebhookInfo
     public string Url { get; set; } = default!;
 
     /// <summary>
-    /// True, if a custom certificate was provided for webhook certificate checks
+    /// <see langword="true"/>, if a custom certificate was provided for webhook certificate checks
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool HasCustomCertificate { get; set; }

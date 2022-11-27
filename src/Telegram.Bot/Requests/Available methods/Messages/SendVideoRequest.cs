@@ -75,7 +75,7 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
     /// <summary>
-    /// Pass True, if the uploaded video is suitable for streaming
+    /// Pass <see langword="true"/>, if the uploaded video is suitable for streaming
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SupportsStreaming { get; set; }

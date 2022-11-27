@@ -30,7 +30,7 @@ public class StickerSet
     public StickerType StickerType { get; set; } = default!;
 
     /// <summary>
-    /// True, if the sticker set contains animated stickers
+    /// <see langword="true"/>, if the sticker set contains animated stickers
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsAnimated { get; set; }

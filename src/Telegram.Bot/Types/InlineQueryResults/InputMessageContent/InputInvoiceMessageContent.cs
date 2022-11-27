@@ -106,43 +106,43 @@ public class InputInvoiceMessageContent : InputMessageContent
     public int? PhotoHeight { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if you require the user's full name to complete the order
+    /// Optional. Pass <see langword="true"/>, if you require the user's full name to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedName { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if you require the user's phone number to complete the order
+    /// Optional. Pass <see langword="true"/>, if you require the user's phone number to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedPhoneNumber { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if you require the user's email address to complete the order
+    /// Optional. Pass <see langword="true"/>, if you require the user's email address to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedEmail { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if you require the user's shipping address to complete the order
+    /// Optional. Pass <see langword="true"/>, if you require the user's shipping address to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedShippingAddress { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if user's phone number should be sent to provider
+    /// Optional. Pass <see langword="true"/>, if user's phone number should be sent to provider
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SendPhoneNumberToProvider { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if user's email address should be sent to provider
+    /// Optional. Pass <see langword="true"/>, if user's email address should be sent to provider
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SendEmailToProvider { get; set; }
 
     /// <summary>
-    /// Optional. Pass True, if the final price depends on the shipping method
+    /// Optional. Pass <see langword="true"/>, if the final price depends on the shipping method
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? IsFlexible { get; set; }

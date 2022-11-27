@@ -23,14 +23,14 @@ public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     public string PreCheckoutQueryId { get; }
 
     /// <summary>
-    /// Specify True if everything is alright (goods are available, etc.) and the
-    /// bot is ready to proceed with the order. Use False if there are any problems.
+    /// Specify <see langword="true"/> if everything is alright (goods are available, etc.) and the
+    /// bot is ready to proceed with the order. Use <see langword="false"/> if there are any problems.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool Ok { get; }
 
     /// <summary>
-    /// Required if <see cref="Ok"/> is False. Error message in human readable form that explains
+    /// Required if <see cref="Ok"/> is <see langword="false"/>. Error message in human readable form that explains
     /// the reason for failure to proceed with the checkout (e.g. "Sorry, somebody just bought
     /// the last of our amazing black T-shirts while you were busy filling out your payment details.
     /// Please choose a different color or garment!"). Telegram will display this message to the user.

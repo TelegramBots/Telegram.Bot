@@ -25,7 +25,7 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
     public int Score { get; }
 
     /// <summary>
-    /// Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes
+    /// Pass <see langword="true"/>, if the high score is allowed to decrease. This can be useful when fixing mistakes
     /// or banning cheaters.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

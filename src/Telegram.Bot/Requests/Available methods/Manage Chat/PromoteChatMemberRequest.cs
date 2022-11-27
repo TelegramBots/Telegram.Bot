@@ -64,7 +64,7 @@ public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUse
     public bool? CanManageVoiceChat { get; set; }
 
     /// <summary>
-    /// Pass True, if the administrator can manage video chats
+    /// Pass <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanManageVideoChat { get; set; }

@@ -29,13 +29,13 @@ public class AnswerShippingQueryRequest : RequestBase<bool>
     public bool Ok { get; }
 
     /// <summary>
-    /// Required if <see cref="Ok"/> is True. An array of available shipping options.
+    /// Required if <see cref="Ok"/> is <see langword="true"/>. An array of available shipping options.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IEnumerable<ShippingOption>? ShippingOptions { get; }
 
     /// <summary>
-    /// Required if <see cref="Ok"/> is False. Error message in human readable form that explains
+    /// Required if <see cref="Ok"/> is <see langword="false"/>. Error message in human readable form that explains
     /// why it is impossible to complete the order (e.g. "Sorry, delivery to your desired address
     /// is unavailable'). Telegram will display this message to the user.
     /// </summary>

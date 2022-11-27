@@ -24,14 +24,15 @@ public class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargetable
     public int Score { get; }
 
     /// <summary>
-    /// Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes
+    /// Pass <see langword="true"/>, if the high score is allowed to decrease. This can be useful when fixing mistakes
     /// or banning cheaters.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Pass True, if the game message should not be automatically edited to include the current scoreboard
+    /// Pass <see langword="true"/>, if the game message should not be automatically edited to include the current
+    /// scoreboard
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? DisableEditMessage { get; set; }

@@ -6,7 +6,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to stop updating a live location message before <see cref="Types.Location.LivePeriod"/> expires. On success True is returned.
+/// Use this method to stop updating a live location message before <see cref="Types.Location.LivePeriod"/> expires.
+/// On success <see langword="true"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class StopInlineMessageLiveLocationRequest : RequestBase<bool>

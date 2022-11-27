@@ -13,7 +13,7 @@ namespace Telegram.Bot.Requests;
 public class DeleteWebhookRequest : RequestBase<bool>
 {
     /// <summary>
-    /// Pass True to drop all pending updates
+    /// Pass <see langword="true"/> to drop all pending updates
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? DropPendingUpdates { get; set; }

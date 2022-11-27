@@ -51,7 +51,7 @@ public class LoginUrl
     public string? BotUsername { get; set; }
 
     /// <summary>
-    /// Optional. Pass True to request the permission for your bot to send messages to the user
+    /// Optional. Pass <see langword="true"/> to request the permission for your bot to send messages to the user
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? RequestWriteAccess { get; set; }
