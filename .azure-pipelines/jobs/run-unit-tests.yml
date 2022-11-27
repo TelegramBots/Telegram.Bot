@@ -2,6 +2,7 @@ parameters:
   buildConfiguration: ''
   projects: ''
   strategies: []
+  netSdkVersion: ''
 
 jobs:
   - job: UnitTest
@@ -19,7 +20,7 @@ jobs:
         displayName: Install .NET SDK
         inputs:
           packageType: sdk
-          version: 7.0.x
+          version: ${{ parameters.netSdkVersion }}
       - pwsh: >
           dotnet test
           --verbosity normal

@@ -13,3 +13,4 @@ stages:
           vmImage: $(vmImage)
           buildConfiguration: $(buildConfiguration)
           projects: $(integrationTestsProject)
+          netSdkVersion: $(netSdkVersion)

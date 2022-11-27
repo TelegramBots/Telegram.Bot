@@ -29,7 +29,7 @@ stages:
             displayName: Install .NET SDK
             inputs:
               packageType: sdk
-              version: 7.0.x
+              version: $(netSdkVersion)
           - pwsh: >
               dotnet build
               --configuration $(buildConfiguration)
@@ -74,7 +74,7 @@ stages:
             displayName: Install .NET sdk
             inputs:
               packageType: sdk
-              version: 7.0.x
+              version: $(netSdkVersion)
           - task: NuGetAuthenticate@0
             displayName: 'NuGet Authenticate'
           - task: NuGetCommand@2

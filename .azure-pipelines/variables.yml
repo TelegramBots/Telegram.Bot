@@ -18,6 +18,8 @@ variables:
       value: $(versionPrefix)-$(versionSuffix).$(ciVersionSuffix)
     ${{ else }}:
       value: $(versionPrefix)-$(ciVersionSuffix)
+  - name: netSdkVersion
+    value: 7.0.x
   - name: buildConfiguration
     value: Release
   - name: vmImage

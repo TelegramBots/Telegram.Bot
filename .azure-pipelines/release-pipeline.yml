@@ -24,7 +24,7 @@ steps:
     displayName: Install .NET sdk
     inputs:
       packageType: sdk
-      version: 7.0.x
+      version: $(netSdkVersion)
   - pwsh: >
       dotnet build
       --configuration $(buildConfiguration)
