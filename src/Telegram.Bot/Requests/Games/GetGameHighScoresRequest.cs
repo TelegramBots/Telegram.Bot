@@ -30,7 +30,7 @@ public class GetGameHighScoresRequest : RequestBase<GameHighScore[]>, IUserTarge
     public long ChatId { get; }
 
     /// <inheritdoc />
-    ChatId IChatTargetable.ChatId => new(ChatId);
+    ChatId IChatTargetable.ChatId => ChatId;
 
     /// <summary>
     /// Identifier of the sent message
