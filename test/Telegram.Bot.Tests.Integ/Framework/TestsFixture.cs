@@ -53,15 +53,15 @@ public class TestsFixture : IDisposable
             var passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Failed;
 
             await BotClient.SendTextMessageAsync(
-                SupergroupChat.Id,
-                string.Format(
+                chatId: SupergroupChat.Id,
+                text: string.Format(
                     Constants.TestExecutionResultMessageFormat,
                     RunSummary.Total,
                     passed,
                     RunSummary.Skipped,
                     RunSummary.Failed
                 ),
-                ParseMode.Markdown,
+                parseMode: ParseMode.Markdown,
                 cancellationToken: token
             );
         }).GetAwaiter().GetResult();
@@ -81,9 +81,9 @@ public class TestsFixture : IDisposable
 
         return await Ex.WithCancellation(async token =>
             await BotClient.SendTextMessageAsync(
-                chatId,
-                text,
-                ParseMode.Markdown,
+                chatId: chatId,
+                text: text,
+                parseMode: ParseMode.Markdown,
                 replyMarkup: replyMarkup,
                 cancellationToken: token
             )
@@ -193,11 +193,17 @@ public class TestsFixture : IDisposable
         UpdateReceiver = new(BotClient, allowedUserNames);
 
         await Ex.WithCancellation(async token => await BotClient.SendTextMessageAsync(
-            SupergroupChat.Id,
-            "```\nTest execution is starting...\n```\n" +
-            "#testers\n" +
-            "These users are allowed to interact with the bot:\n\n" + UpdateReceiver.GetTesters(),
-            ParseMode.Markdown,
+            chatId: SupergroupChat.Id,
+            text: $"""
+                  ```
+                  Test execution is starting...
+                  ```
+                  #testers
+                  These users are allowed to interact with the bot:
+
+                  {UpdateReceiver.GetTesters()}
+                  """,
+            parseMode: ParseMode.Markdown,
             disableNotification: true,
             cancellationToken: token
         ));
