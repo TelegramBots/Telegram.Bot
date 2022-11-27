@@ -317,6 +317,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         string text,
+        int? messageThreadId = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
         bool? disableWebPagePreview = default,
@@ -325,7 +326,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -375,9 +375,9 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         ChatId fromChatId,
         int messageId,
+        int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -446,6 +446,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         ChatId fromChatId,
         int messageId,
+        int? messageThreadId = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -454,7 +455,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -527,6 +527,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile photo,
+        int? messageThreadId = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -535,7 +536,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient)).
@@ -616,6 +616,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile audio,
+        int? messageThreadId = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -628,7 +629,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -715,6 +715,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile document,
+        int? messageThreadId = default,
         IInputFile? thumb = default,
         string? caption = default,
         ParseMode? parseMode = default,
@@ -725,7 +726,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -811,6 +811,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile video,
+        int? messageThreadId = default,
         int? duration = default,
         int? width = default,
         int? height = default,
@@ -824,7 +825,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -912,6 +912,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile animation,
+        int? messageThreadId = default,
         int? duration = default,
         int? width = default,
         int? height = default,
@@ -924,7 +925,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1001,6 +1001,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile voice,
+        int? messageThreadId = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -1010,7 +1011,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1080,6 +1080,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile videoNote,
+        int? messageThreadId = default,
         int? duration = default,
         int? length = default,
         IInputFile? thumb = default,
@@ -1088,7 +1089,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1138,11 +1138,11 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IEnumerable<IAlbumInputMedia> media,
+        int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1206,6 +1206,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         double latitude,
         double longitude,
+        int? messageThreadId = default,
         int? livePeriod = default,
         int? heading = default,
         int? proximityAlertRadius = default,
@@ -1214,7 +1215,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1464,6 +1464,7 @@ public static partial class TelegramBotClientExtensions
         double longitude,
         string title,
         string address,
+        int? messageThreadId = default,
         string? foursquareId = default,
         string? foursquareType = default,
         string? googlePlaceId = default,
@@ -1473,7 +1474,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1533,6 +1533,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         string phoneNumber,
         string firstName,
+        int? messageThreadId = default,
         string? lastName = default,
         string? vCard = default,
         bool? disableNotification = default,
@@ -1540,7 +1541,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1632,6 +1632,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         string question,
         IEnumerable<string> options,
+        int? messageThreadId = default,
         bool? isAnonymous = default,
         PollType? type = default,
         bool? allowsMultipleAnswers = default,
@@ -1647,7 +1648,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -1715,13 +1715,13 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendDiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
+        int? messageThreadId = default,
         Emoji? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -3525,12 +3525,12 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile sticker,
+        int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         IReplyMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -4126,6 +4126,7 @@ public static partial class TelegramBotClientExtensions
         string providerToken,
         string currency,
         IEnumerable<LabeledPrice> prices,
+        int? messageThreadId = default,
         int? maxTipAmount = default,
         IEnumerable<int>? suggestedTipAmounts = default,
         string? startParameter = default,
@@ -4146,7 +4147,6 @@ public static partial class TelegramBotClientExtensions
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         InlineKeyboardMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
@@ -4447,12 +4447,12 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         long chatId,
         string gameShortName,
+        int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
         bool? allowSendingWithoutReply = default,
         InlineKeyboardMarkup? replyMarkup = default,
-        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull(nameof(botClient))
