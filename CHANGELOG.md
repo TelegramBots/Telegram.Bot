@@ -21,6 +21,100 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+## [v19.0.0-alpha.3] - Unreleased
+
+### Added
+
+- Following topic releated types:
+  - `Color` to represent color of topics
+  - `ForumTopic`
+  - `ForumTopicClosed`
+  - `ForumTopicCreated`
+  - `ForumTopicReopened`
+- New requests for managing topics:
+  - `CloseForumTopicRequest`
+  - `CreateForumTopicRequest`
+  - `DeleteForumTopicRequest`
+  - `EditForumTopicRequest`
+  - `ReopenForumTopicRequest`
+  - `UnpinAllForumTopicMessagesRequest`
+- Property `MessageThreadId` to following requests
+  - `SendMessageRequest`
+  - `SendPhotoRequest` 
+  - `SendVideoRequest` 
+  - `SendAnimationRequest`
+  - `SendAudioRequest`
+  - `SendDocumentRequest`
+  - `SendStickerRequest`
+  - `SendVideoNoteRequest`
+  - `SendVoiceRequest`
+  - `SendLocationRequest`
+  - `SendVenueRequest`
+  - `SendContactRequest`
+  - `SendPollRequest`
+  - `SendDiceRequest`
+  - `SendInvoiceRequest`
+  - `SendGameRequest`
+  - `SendMediaGroupRequest`
+  - `CopyMessageRequest`
+  - `ForwardMessageRequest`
+- Following properties to type `Chat`:
+  - `bool? IsForum`
+  - `string[]? ActiveUsernames`
+  - `string? EmojiStatusCustomEmojiId`
+  - `bool? HasRestrictedVoiceAndVideoMessages`
+- Property `bool? CanManageTopics` to following types:
+  - `ChatAdministratorRights`
+  - `ChatPermissions`
+  - `ChatMemberOwner`
+  - `ChatMemberRestricted`
+  - `PromoteChatMemberRequest`
+- Following enum members to `MessageType`:
+  - `ForumTopicCreated`
+  - `ForumTopicClosed`
+  - `ForumTopicReopened`
+- Following properties to type `Message`:
+  - `int? MessageThreadId`
+  - `bool? IsTopicMessage`
+  - `ForumTopicCreated? ForumTopicCreated`
+  - `ForumTopicClosed? ForumTopicClosed`
+  - `ForumTopicClosed? ForumTopicClosed`
+
+### Changed
+
+- Constructors in following requests accept `IInputFile` or inheritors instead of
+  - `AddAnimatedStickerToSetRequest`
+  - `AddStaticStickerToSetRequest`
+  - `AddVideoStickerToSetRequest`
+  - `CreateNewAnimatedStickerSetRequest`
+  - `CreateNewStaticStickerSetRequest`
+  - `CreateNewVideoStickerSetRequest`
+- Added optional parameter `int? messageThreadId` to following methods:
+  - `ITelegramBotClient.SendTextMessageAsync`
+  - `ITelegramBotClient.SendPhotoAsync`
+  - `ITelegramBotClient.SendVideoAsync`
+  - `ITelegramBotClient.SendAnimationAsync`
+  - `ITelegramBotClient.SendAudioAsync`
+  - `ITelegramBotClient.SendDocumentAsync`
+  - `ITelegramBotClient.SendStickerAsync`
+  - `ITelegramBotClient.SendVideoNoteAsync`
+  - `ITelegramBotClient.SendVoiceAsync`
+  - `ITelegramBotClient.SendLocationAsync`
+  - `ITelegramBotClient.SendVenueAsync`
+  - `ITelegramBotClient.SendContactAsync`
+  - `ITelegramBotClient.SendPollAsync`
+  - `ITelegramBotClient.SendDiceAsync`
+  - `ITelegramBotClient.SendInvoiceAsync`
+  - `ITelegramBotClient.SendGameAsync`
+  - `ITelegramBotClient.SendMediaGroupAsync`
+  - `ITelegramBotClient.CopyMessageAsync`
+  - `ITelegramBotClient.ForwardMessageAsync`
+- Added optional parameter `bool? canManageTopic` to method `ITelegramBotClient.PromoteChatMemberAsync`
+
+### Removed
+
+- Implicit conversion from `ChatId` to `string`
+
 ## [v19.0.0-alpha.2] - Unreleased
 
 > [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)
