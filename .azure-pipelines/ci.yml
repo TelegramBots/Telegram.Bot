@@ -65,7 +65,7 @@ stages:
       - job: PublishArtifacts
         displayName: Publish artifacts
         pool:
-          vmImage: $(vmImage)
+          vmImage: ubuntu-22.04
         steps:
           - checkout: none
           - download: current
