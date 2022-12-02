@@ -57,7 +57,7 @@ stages:
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
           strategies:
-            - Ubuntu: $(vmImage)
+            - Ubuntu: ubuntu-22.04
   - stage: PublishArtifacts
     dependsOn: Build
     displayName: 📤 Publish artifacts
