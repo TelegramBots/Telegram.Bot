@@ -134,14 +134,14 @@ public readonly record struct Color
     /// Converts current <see cref="Color"/> instance to it's numeric representation
     /// </summary>
     /// <param name="color"></param>
-    /// <returns>Numeric representation of the current <see cref="color"/></returns>
+    /// <returns>Numeric representation of the current <see cref="Color"/></returns>
     public static explicit operator uint(Color color) => color.ToUint();
 
     /// <summary>
     /// Converts current <see cref="Color"/> instance to it's <see cref="T:byte[]"/> representation
     /// </summary>
     /// <param name="color"></param>
-    /// <returns><see cref="T:byte[]"/> representation of the current <see cref="color"/></returns>
+    /// <returns><see cref="T:byte[]"/> representation of the current <see cref="Color"/></returns>
     public static explicit operator byte[](Color color) => color.ToBytes();
 
     /// <summary>
