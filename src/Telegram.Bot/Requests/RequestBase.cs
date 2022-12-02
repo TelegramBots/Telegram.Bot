@@ -1,7 +1,5 @@
 ﻿using System.Net.Http;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
 
 namespace Telegram.Bot.Requests;

@@ -1,4 +1,3 @@
-using Newtonsoft.Json;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace

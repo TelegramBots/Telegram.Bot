@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Telegram.Bot.Types.Enums;
+﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
 /// The part of the face relative to which the mask should be placed.

@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 

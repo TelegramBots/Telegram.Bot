@@ -1,11 +1,7 @@
-using System;
 using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
-using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Requests;
 

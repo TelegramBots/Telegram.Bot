@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using static Telegram.Bot.Types.Enums.Emoji;
 
 namespace Telegram.Bot.Types;

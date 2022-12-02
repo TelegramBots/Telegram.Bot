@@ -1,7 +1,4 @@
-using System;
 using System.Runtime.CompilerServices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types;
 

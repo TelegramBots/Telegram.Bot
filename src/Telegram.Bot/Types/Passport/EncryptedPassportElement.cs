@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using static Telegram.Bot.Types.Passport.EncryptedPassportElementType;
 
 // ReSharper disable once CheckNamespace

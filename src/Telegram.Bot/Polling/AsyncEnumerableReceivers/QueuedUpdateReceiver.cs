@@ -1,5 +1,4 @@
 ﻿#if NETCOREAPP3_1_OR_GREATER
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -7,7 +6,6 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace

@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -11,7 +10,6 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 namespace Telegram.Bot;
 

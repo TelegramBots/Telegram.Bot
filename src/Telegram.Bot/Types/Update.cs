@@ -1,7 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Payments;
+
 namespace Telegram.Bot.Types;
 
 /// <summary>
