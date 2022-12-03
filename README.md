@@ -35,7 +35,7 @@ Please check ➡️ [the Quickstart guide].
 
 ## 🚧 Supported Platforms
 
-Project targets **.NET Standard 2.0** and **.NET Core 3.1** at minimum.
+Project targets **.NET Standard 2.0** and **.NET 6** at minimum.
 
 ## 📦 Extension Packages
 

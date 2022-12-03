@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- .NET 6 to targeted frameworks
 - Following topic releated types:
   - `Color` to represent color of topics
   - `ForumTopic`
@@ -134,6 +135,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 
+- .NET Core 3.1 from targeted frameworks 
 - Property `ContainsMasks` from `StickerSet`
 - Property `ContainsMasks` from `CreateNewStickerSetRequest`
 - Parameter `containsMasks` from `CreateNew*StickerSetAsync` extension methods
