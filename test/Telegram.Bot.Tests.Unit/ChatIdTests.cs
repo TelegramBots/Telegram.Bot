@@ -104,7 +104,6 @@ public class ChatIdTests
         ChatId chatId = new(identifier);
 
         Assert.True(chatId.Equals(identifier));
-        Assert.True(identifier.Equals(chatId));
         Assert.True(chatId == identifier);
         Assert.True(identifier == chatId);
     }

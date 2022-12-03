@@ -27,7 +27,10 @@ public class UpdateTypeConverterTests
     public void Should_Convert_UpdateType_To_String(UpdateType updateType, string value)
     {
         Update update = new(updateType);
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string expectedResult =
+            $$"""
+            {"type":"{{value}}"}
+            """;
 
         string result = JsonConvert.SerializeObject(update);
 
@@ -39,7 +42,10 @@ public class UpdateTypeConverterTests
     public void Should_Convert_String_To_UpdateType(UpdateType updateType, string value)
     {
         Update expectedResult = new(updateType);
-        string jsonData = @$"{{""type"":""{value}""}}";
+        string jsonData =
+            $$"""
+            {"type":"{{value}}"}
+            """;
 
         Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
 
@@ -50,7 +56,10 @@ public class UpdateTypeConverterTests
     [Fact]
     public void Should_Return_Unknown_For_Incorrect_UpdateType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
+        string jsonData =
+            $$"""
+            {"type":"{{int.MaxValue}}"}
+            """;
 
         Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
 
@@ -67,5 +76,5 @@ public class UpdateTypeConverterTests
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    record Update([JsonProperty(Required = Required.Always)] UpdateType Type);
+    record Update([property: JsonProperty(Required = Required.Always)] UpdateType Type);
 }
