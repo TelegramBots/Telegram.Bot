@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Sending_Messages;
@@ -28,7 +27,7 @@ public class SendingDocumentMessageTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat.Id,
-            document: new InputOnlineFile(content: stream, fileName: "HAMLET.pdf"),
+            document: new InputFile(content: stream, fileName: "HAMLET.pdf"),
             caption: "The Tragedy of Hamlet,\nPrince of Denmark"
         );
 
@@ -52,7 +51,7 @@ public class SendingDocumentMessageTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat.Id,
-            document: new InputOnlineFile(content: stream, fileName: "هملت.pdf"),
+            document: new InputFile(content: stream, fileName: "هملت.pdf"),
             caption: "تراژدی هملت\nشاهزاده دانمارک"
         );
 
@@ -77,8 +76,8 @@ public class SendingDocumentMessageTests
 
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: new InputMedia(content: documentStream, fileName: "Hamlet.pdf"),
-            thumb: new InputMedia(content: thumbStream, fileName: "thumb.jpg")
+            document: new InputFile(content: documentStream, fileName: "Hamlet.pdf"),
+            thumb: new InputFile(content: thumbStream, fileName: "thumb.jpg")
         );
 
         Assert.NotNull(message.Document);

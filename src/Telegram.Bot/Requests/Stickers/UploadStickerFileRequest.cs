@@ -1,9 +1,5 @@
-﻿using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using File = Telegram.Bot.Types.File;
 
 // ReSharper disable once CheckNamespace
@@ -27,7 +23,7 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// exceed 512px, and either width or height must be exactly 512px
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileStream PngSticker { get; }
+    public InputFile PngSticker { get; }
 
     /// <summary>
     /// Initializes a new request with userId and pngSticker
@@ -37,7 +33,7 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not
     /// exceed 512px, and either width or height must be exactly 512px
     /// </param>
-    public UploadStickerFileRequest(long userId, InputFileStream pngSticker)
+    public UploadStickerFileRequest(long userId, InputFile pngSticker)
         : base("uploadStickerFile")
     {
         UserId = userId;
@@ -45,10 +41,6 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     }
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent() =>
-        PngSticker.FileType switch
-        {
-            FileType.Stream => ToMultipartFormDataContent(fileParameterName: "png_sticker", inputFile: PngSticker),
-            _               => base.ToHttpContent()
-        };
+    public override HttpContent? ToHttpContent()
+        => ToMultipartFormDataContent(fileParameterName: "png_sticker", inputFile: PngSticker);
 }

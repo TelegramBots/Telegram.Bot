@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -9,7 +6,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to set the score of the specified user in a game. On success returns the edited
 /// <see cref="Message"/>. Returns an error, if the new score is not greater than the user's current
-/// score in the chat and <see cref="Force"/> is <c>false</c>.
+/// score in the chat and <see cref="Force"/> is <see langword="false"/>.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatTargetable
@@ -25,14 +22,14 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
     public int Score { get; }
 
     /// <summary>
-    /// Pass True, if the high score is allowed to decrease. This can be useful when fixing mistakes
+    /// Pass <see langword="true"/>, if the high score is allowed to decrease. This can be useful when fixing mistakes
     /// or banning cheaters.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? Force { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if the game message should not be automatically edited to include
+    /// Pass <see langword="true"/>, if the game message should not be automatically edited to include
     /// the current scoreboard
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

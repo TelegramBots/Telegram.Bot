@@ -3,6 +3,7 @@ parameters:
   buildConfiguration: ''
   projects: ''
   arguments: ''
+  netSdkVersion: ''
 
 jobs:
   - job: IntegrationTests
@@ -14,7 +15,7 @@ jobs:
         displayName: Install .NET SDK
         inputs:
           packageType: sdk
-          version: 6.0.x
+          version: ${{ parameters.netSdkVersion }}
       - pwsh: >
           dotnet test
           --verbosity normal
@@ -26,6 +27,6 @@ jobs:
       - task: PublishTestResults@2
         displayName: Publish test results
         inputs:
-        testResultsFormat: VSTest
-        testResultsFiles: testresults.trx
-        configuration: ${{ parameters.buildConfiguration }}
+          testResultsFormat: VSTest
+          testResultsFiles: testresults.trx
+          configuration: ${{ parameters.buildConfiguration }}

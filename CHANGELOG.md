@@ -21,7 +21,145 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [v19.0.0-preview.1] - Unreleased
+
+### Added
+
+- .NET 6 to targeted frameworks
+- Following topic releated types:
+  - `Color` to represent color of topics
+  - `ForumTopic`
+  - `ForumTopicClosed`
+  - `ForumTopicCreated`
+  - `ForumTopicReopened`
+- New requests for managing topics:
+  - `CloseForumTopicRequest`
+  - `CreateForumTopicRequest`
+  - `DeleteForumTopicRequest`
+  - `EditForumTopicRequest`
+  - `ReopenForumTopicRequest`
+  - `UnpinAllForumTopicMessagesRequest`
+- Property `MessageThreadId` to following requests
+  - `SendMessageRequest`
+  - `SendPhotoRequest` 
+  - `SendVideoRequest` 
+  - `SendAnimationRequest`
+  - `SendAudioRequest`
+  - `SendDocumentRequest`
+  - `SendStickerRequest`
+  - `SendVideoNoteRequest`
+  - `SendVoiceRequest`
+  - `SendLocationRequest`
+  - `SendVenueRequest`
+  - `SendContactRequest`
+  - `SendPollRequest`
+  - `SendDiceRequest`
+  - `SendInvoiceRequest`
+  - `SendGameRequest`
+  - `SendMediaGroupRequest`
+  - `CopyMessageRequest`
+  - `ForwardMessageRequest`
+- Following properties to type `Chat`:
+  - `bool? IsForum`
+  - `string[]? ActiveUsernames`
+  - `string? EmojiStatusCustomEmojiId`
+  - `bool? HasRestrictedVoiceAndVideoMessages`
+- Property `bool? CanManageTopics` to following types:
+  - `ChatAdministratorRights`
+  - `ChatPermissions`
+  - `ChatMemberOwner`
+  - `ChatMemberRestricted`
+  - `PromoteChatMemberRequest`
+- Following enum members to `MessageType`:
+  - `ForumTopicCreated`
+  - `ForumTopicClosed`
+  - `ForumTopicReopened`
+  - `Animation`
+- Following properties to type `Message`:
+  - `int? MessageThreadId`
+  - `bool? IsTopicMessage`
+  - `ForumTopicCreated? ForumTopicCreated`
+  - `ForumTopicClosed? ForumTopicClosed`
+  - `ForumTopicClosed? ForumTopicClosed`
+
+### Changed
+
+- Constructors in following requests accept `IInputFile` or inheritors instead of
+  - `AddAnimatedStickerToSetRequest`
+  - `AddStaticStickerToSetRequest`
+  - `AddVideoStickerToSetRequest`
+  - `CreateNewAnimatedStickerSetRequest`
+  - `CreateNewStaticStickerSetRequest`
+  - `CreateNewVideoStickerSetRequest`
+- Added optional parameter `int? messageThreadId` to following methods:
+  - `ITelegramBotClient.SendTextMessageAsync`
+  - `ITelegramBotClient.SendPhotoAsync`
+  - `ITelegramBotClient.SendVideoAsync`
+  - `ITelegramBotClient.SendAnimationAsync`
+  - `ITelegramBotClient.SendAudioAsync`
+  - `ITelegramBotClient.SendDocumentAsync`
+  - `ITelegramBotClient.SendStickerAsync`
+  - `ITelegramBotClient.SendVideoNoteAsync`
+  - `ITelegramBotClient.SendVoiceAsync`
+  - `ITelegramBotClient.SendLocationAsync`
+  - `ITelegramBotClient.SendVenueAsync`
+  - `ITelegramBotClient.SendContactAsync`
+  - `ITelegramBotClient.SendPollAsync`
+  - `ITelegramBotClient.SendDiceAsync`
+  - `ITelegramBotClient.SendInvoiceAsync`
+  - `ITelegramBotClient.SendGameAsync`
+  - `ITelegramBotClient.SendMediaGroupAsync`
+  - `ITelegramBotClient.CopyMessageAsync`
+  - `ITelegramBotClient.ForwardMessageAsync`
+- Added optional parameter `bool? canManageTopic` to method `ITelegramBotClient.PromoteChatMemberAsync`
+
+### Fixed
+
+- Property 'Message.Type' returns `MessageType.Animation` when a `message` contains `Animation` 
+
+### Removed
+
+- Implicit conversion from `ChatId` to `string`
+
+## [v19.0.0-alpha.2] - Unreleased
+
+> [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)
+
+### Added
+
+- Enum member `CustomEmoji` to `MessageEntityType`
+- Property `CustomEmojiId`  to `MessageEntity`
+- Extension method `GetCustomEmojiStickersAsync`
+- Request `GetCustomEmojiStickersRequest`
+- Enum `StickerType`
+- Properties `Type` and `CustomEmojiId` to `Sticker`
+- Property `StickerType` to `StickerSet`
+- Property `StickerType` to `CreateNewStickerSetRequest`
+- Parameter `stickerType` to `CreateNew*StickerSetAsync` extension methods
+- Property `HasRestrictedVoiceAndVideoMessages` to `Chat`
+
+### Removed
+
+- .NET Core 3.1 from targeted frameworks 
+- Property `ContainsMasks` from `StickerSet`
+- Property `ContainsMasks` from `CreateNewStickerSetRequest`
+- Parameter `containsMasks` from `CreateNew*StickerSetAsync` extension methods
+
+## [v19.0.0-alpha.1] - Unreleased
+
+> [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
+
+### Added
+
+- Properties `JoinToSendMessages`, `JoinByRequest` to `Chat`
+- Properties `IsPremium`, `AddedToAttachmentMenu` to `User`
+- Property `PremiumAnimation` to `Sticker`
+- Property `SecretToken` to `SetWebhookRequest`
+- Parameter `secretToken` to `SetWebhookAsync`
+- Request `CreateInvoiceLinkRequest`
+- Method `CreateInvoiceLinkAsync`
+
+## [v18.0.0] - 2022-06-16
 
 > [Bot API 6.0](https://core.telegram.org/bots/api#april-16-2022) (April 16, 2022)
 
@@ -52,7 +190,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
   corresponding request
-- 
+
 ### Removed
 - Enum members `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded`, and `VoiceChatParticipantsInvited`
   in type `MessageType`

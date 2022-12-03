@@ -1,14 +1,11 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this request to unban a previously banned channel chat in a supergroup or channel. The bot must be an
-/// administrator for this to work and must have the appropriate administrator rights. Returns <c>true</c>
+/// administrator for this to work and must have the appropriate administrator rights. Returns <see langword="true"/>
 /// on success
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using static Telegram.Bot.Types.Enums.ChatType;
 

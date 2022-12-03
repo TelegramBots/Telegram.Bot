@@ -1,12 +1,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -25,12 +21,18 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Video to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a video that
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
+    /// Video to send. Pass a <see cref="InputFileId"/> as String to send a video that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to
     /// get a video from the Internet, or upload a new video using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Video { get; }
+    public IInputFile Video { get; }
 
     /// <summary>
     /// Duration of sent video in seconds
@@ -52,7 +54,7 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
 
     /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <summary>
     /// Video caption (may also be used when resending videos by file_id),
@@ -70,7 +72,7 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
     /// <summary>
-    /// Pass True, if the uploaded video is suitable for streaming
+    /// Pass <see langword="true"/>, if the uploaded video is suitable for streaming
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SupportsStreaming { get; set; }
@@ -102,11 +104,11 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="video">
-    /// Video to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a video that
+    /// Video to send. Pass a <see cref="InputFileId"/> as String to send a video that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to
     /// get a video from the Internet, or upload a new video using multipart/form-data
     /// </param>
-    public SendVideoRequest(ChatId chatId, InputOnlineFile video)
+    public SendVideoRequest(ChatId chatId, IInputFile video)
         : base("sendVideo")
     {
         ChatId = chatId;
@@ -117,28 +119,12 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (Video.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+
+        if (Video is InputFile || Thumb is InputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent("video", "thumb");
-            if (Video.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Video.Content!,
-                    name: "video",
-                    fileName: Video.FileName
-                );
-            }
-
-            if (Thumb?.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Thumb.Content!,
-                    name: "thumb", fileName:
-                    Thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = GenerateMultipartFormDataContent("video", "thumb")
+                .AddContentIfInputFile(media: Video, name: "video")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {

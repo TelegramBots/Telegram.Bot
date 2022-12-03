@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.Passport;
 using Telegram.Bot.Types.Payments;
@@ -22,6 +19,12 @@ public class Message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public int MessageId { get; set; }
+
+    /// <summary>
+    /// Optional. Unique identifier of a message thread to which the message belongs; for supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Optional. Sender, empty for messages sent to channels
@@ -57,6 +60,12 @@ public class Message
     public User? ForwardFrom { get; set; }
 
     /// <summary>
+    /// Optional. <see langword="true"/>, if the message is sent to a forum topic
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? IsTopicMessage { get; set; }
+
+    /// <summary>
     /// Optional. For messages forwarded from channels or from anonymous administrators, information about the
     /// original sender chat
     /// </summary>
@@ -90,7 +99,7 @@ public class Message
     public DateTime? ForwardDate { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if the message is a channel post that was automatically forwarded to the connected
+    /// Optional. <see langword="true"/>, if the message is a channel post that was automatically forwarded to the connected
     /// discussion group
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -117,7 +126,7 @@ public class Message
     public DateTime? EditDate { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if messages from the chat can't be forwarded to other chats.
+    /// Optional. <see langword="true"/>, if messages from the chat can't be forwarded to other chats.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -382,6 +391,24 @@ public class Message
     public ProximityAlertTriggered? ProximityAlertTriggered { get; set; }
 
     /// <summary>
+    /// Optional. Service message: forum topic created
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ForumTopicCreated? ForumTopicCreated { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: forum topic closed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ForumTopicClosed? ForumTopicClosed { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: forum topic reopened
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ForumTopicReopened? ForumTopicReopened { get; set; }
+
+    /// <summary>
     /// Optional. Service message: video chat scheduled
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -432,6 +459,7 @@ public class Message
             { Audio: { } }                         => MessageType.Audio,
             { Video: { } }                         => MessageType.Video,
             { Voice: { } }                         => MessageType.Voice,
+            { Animation: { } }                     => MessageType.Animation,
             { Document: { } }                      => MessageType.Document,
             { Sticker: { } }                       => MessageType.Sticker,
             // Venue also contains Location
@@ -463,6 +491,9 @@ public class Message
             { VideoChatEnded: { } }                => MessageType.VideoChatEnded,
             { VideoChatParticipantsInvited: { } }  => MessageType.VideoChatParticipantsInvited,
             { WebAppData: { } }                    => MessageType.WebAppData,
+            { ForumTopicCreated: { } }             => MessageType.ForumTopicCreated,
+            { ForumTopicClosed: { } }             => MessageType.ForumTopicClosed,
+            { ForumTopicReopened: { } }             => MessageType.ForumTopicReopened,
             _                                      => MessageType.Unknown
         };
 }

@@ -1,9 +1,5 @@
-using System;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -47,8 +43,8 @@ public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTarge
     public int? MemberLimit { get; set; }
 
     /// <summary>
-    /// Set to <c>true</c>, if users joining the chat via the link need to be approved by chat administrators.
-    /// If <c>true</c>, <see cref="MemberLimit"/> can't be specified
+    /// Set to <see langword="true"/>, if users joining the chat via the link need to be approved by chat administrators.
+    /// If <see langword="true"/>, <see cref="MemberLimit"/> can't be specified
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CreatesJoinRequest { get; set; }

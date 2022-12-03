@@ -22,7 +22,7 @@ public class ChatActionConverterTests
     [InlineData(ChatAction.UploadVideoNote, "upload_video_note")]
     public void Should_Convert_ChatAction_To_String(ChatAction chatAction, string value)
     {
-        SendChatActionRequest sendChatActionRequest = new SendChatActionRequest() { Type = chatAction };
+        SendChatActionRequest sendChatActionRequest = new() { Type = chatAction };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(sendChatActionRequest);
@@ -44,11 +44,12 @@ public class ChatActionConverterTests
     [InlineData(ChatAction.UploadVideoNote, "upload_video_note")]
     public void Should_Convert_String_ToChatAction(ChatAction chatAction, string value)
     {
-        SendChatActionRequest expectedResult = new SendChatActionRequest() { Type = chatAction };
+        SendChatActionRequest expectedResult = new() { Type = chatAction };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        SendChatActionRequest result = JsonConvert.DeserializeObject<SendChatActionRequest>(jsonData);
+        SendChatActionRequest? result = JsonConvert.DeserializeObject<SendChatActionRequest>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
@@ -57,18 +58,18 @@ public class ChatActionConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        SendChatActionRequest result = JsonConvert.DeserializeObject<SendChatActionRequest>(jsonData);
+        SendChatActionRequest? result = JsonConvert.DeserializeObject<SendChatActionRequest>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((ChatAction)0, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_ChatAction()
     {
-        SendChatActionRequest sendChatActionRequest = new SendChatActionRequest() { Type = (ChatAction)int.MaxValue };
+        SendChatActionRequest sendChatActionRequest = new() { Type = (ChatAction)int.MaxValue };
 
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(sendChatActionRequest));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(sendChatActionRequest));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

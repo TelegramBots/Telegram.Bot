@@ -1,7 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types;
-
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
@@ -9,7 +5,7 @@ namespace Telegram.Bot.Requests;
 /// Use this method to delete the list of the bot’s commands for the given
 /// <see cref="Scope">scope</see> and <see cref="LanguageCode">user language</see>.  After deletion,
 /// <a href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</a>
-/// will be shown to affected users. Returns <c>true</c> on success.
+/// will be shown to affected users. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteMyCommandsRequest : RequestBase<bool>

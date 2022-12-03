@@ -94,13 +94,12 @@ public class RetryTestCase : XunitTestCase
             runCount += 1;
 
             var testRunHasUnexpectedErrors = aggregator.HasExceptions ||
-                                             summary.Failed == 0;
+                                             summary.Failed is 0;
 
             var retryExceeded = runCount > _maxRetries;
 
-            var testRunHasExpectedException = summary.Failed == 1 &&
-                                              !delayedMessageBus
-                                                  .ContainsException(_exceptionTypeFullName);
+            var testRunHasExpectedException = summary.Failed is 1 &&
+                                              !delayedMessageBus.ContainsException(_exceptionTypeFullName);
 
             var testCaseRunShouldReturn = testRunHasUnexpectedErrors ||
                                           retryExceeded ||
@@ -113,7 +112,7 @@ public class RetryTestCase : XunitTestCase
             }
 
             diagnosticMessageSink.OnMessage(new DiagnosticMessage(
-                "Execution of '{0}' failed (attempt #{1}), retrying in {2} seconds...",
+                format: "Execution of '{0}' failed (attempt #{1}), retrying in {2} seconds...",
                 DisplayName,
                 runCount,
                 _delaySeconds

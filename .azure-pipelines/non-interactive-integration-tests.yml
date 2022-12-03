@@ -1,0 +1,17 @@
+trigger: none
+pr: none
+
+variables:
+  - template: variables.yml
+
+stages:
+  - stage: IntegrationTests
+    displayName: 🧪 Non-interactive integration tests
+    jobs:
+      - template: jobs/run-integration-tests.yml
+        parameters:
+          vmImage: $(vmImage)
+          buildConfiguration: $(buildConfiguration)
+          projects: $(integrationTestsProject)
+          netSdkVersion: $(netSdkVersion)
+          arguments: --filter "Category!=Interactive"

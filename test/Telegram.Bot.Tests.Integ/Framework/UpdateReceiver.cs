@@ -46,7 +46,7 @@ public class UpdateReceiver
             while (!cancellationToken.IsCancellationRequested)
             {
                 var updates = await _botClient.GetUpdatesAsync(
-                    offset,
+                    offset: offset,
                     allowedUpdates: Array.Empty<UpdateType>(),
                     cancellationToken: cancellationToken
                 );
@@ -143,16 +143,15 @@ public class UpdateReceiver
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
         var updates = await GetUpdatesAsync(
-            predicate: u => (messageId == default || u.CallbackQuery?.Message?.MessageId == messageId) &&
-                            (data == default || u.CallbackQuery?.Data == data),
+            predicate: u => (messageId is null || u.CallbackQuery?.Message?.MessageId == messageId) &&
+                            (data is null || u.CallbackQuery?.Data == data),
             updateTypes: new [] { UpdateType.CallbackQuery },
             cancellationToken: cancellationToken
         );
 
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
-        var update = updates.First();
-        return update;
+        return updates.First();
     }
 
     public async Task<Update> GetInlineQueryUpdateAsync(
@@ -168,8 +167,7 @@ public class UpdateReceiver
 
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
-        var update = updates.First();
-        return update;
+        return updates.First();
     }
 
     /// <summary>
@@ -192,8 +190,9 @@ public class UpdateReceiver
         {
             await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             var updates = await GetUpdatesAsync(
-                predicate: u => (u.Message is { Chat: { Id: var id }, Type: var type } && id == chatId && type == messageType) ||
-                                (u.ChosenInlineResult is not null),
+                predicate: u => (u.Message is { Chat.Id: var id, Type: var type } &&
+                                 id == chatId && type == messageType) ||
+                                u.ChosenInlineResult is not null,
                 cancellationToken: cancellationToken,
                 updateTypes: new[] { UpdateType.Message, UpdateType.ChosenInlineResult }
             );
@@ -206,7 +205,10 @@ public class UpdateReceiver
 
         return (messageUpdate!, chosenResultUpdate!);
 
-        static bool ShouldContinue(CancellationToken cancellationToken, (Update? update1, Update? update2) updates) =>
+        static bool ShouldContinue(
+            CancellationToken cancellationToken,
+            (Update? update1, Update? update2) updates
+        ) =>
             !cancellationToken.IsCancellationRequested && updates is not ({}, {});
     }
 
@@ -246,7 +248,9 @@ public class UpdateReceiver
                     StringComparer.OrdinalIgnoreCase
                 ),
             UpdateType.Poll => true,
-            UpdateType.EditedMessage or UpdateType.ChannelPost or UpdateType.EditedChannelPost => false,
+            UpdateType.EditedMessage
+                or UpdateType.ChannelPost
+                or UpdateType.EditedChannelPost => false,
             _ => throw new ArgumentOutOfRangeException(
                 paramName: nameof(update.Type),
                 actualValue: update.Type,

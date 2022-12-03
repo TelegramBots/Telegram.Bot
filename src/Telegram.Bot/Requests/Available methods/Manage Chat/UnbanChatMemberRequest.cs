@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -12,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// etc. The bot must be an administrator for this to work. By default, this method guarantees
 /// that after the call the user is not a member of the chat, but will be able to join it.
 /// So if the user is a member of the chat they will also be <b>removed</b> from the chat.
-/// If you don't want this, use the parameter <see cref="OnlyIfBanned"/>. Returns <c>true</c> on success.
+/// If you don't want this, use the parameter <see cref="OnlyIfBanned"/>. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable

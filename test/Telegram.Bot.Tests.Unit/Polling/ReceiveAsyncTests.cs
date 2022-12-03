@@ -12,24 +12,27 @@ public class ReceiveAsyncTests
     [Fact]
     public async Task ReceivesUpdatesAndRespectsTheCancellationToken()
     {
-        MockTelegramBotClient bot = new MockTelegramBotClient("start-end", "foo");
+        MockTelegramBotClient bot = new("start-end", "foo");
 
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        CancellationTokenSource cancellationTokenSource = new();
 
         int updateCount = 0;
         async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken token)
         {
             updateCount++;
-            Assert.Contains(update.Message!.Text, "start end");
+            Assert.NotNull(update.Message?.Text);
+            Assert.Contains(update.Message.Text, "start end");
             await Task.Delay(10, cancellationTokenSource.Token);
-            if (update.Message.Text == "end")
+            if (update.Message.Text is "end")
             {
                 cancellationTokenSource.Cancel();
             }
         }
 
-        DefaultUpdateHandler updateHandler = new DefaultUpdateHandler(updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token));
+        DefaultUpdateHandler updateHandler = new(
+            updateHandler: HandleUpdate,
+            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
+        );
 
         CancellationToken cancellationToken = cancellationTokenSource.Token;
         await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
@@ -42,19 +45,23 @@ public class ReceiveAsyncTests
     [Fact]
     public async Task UserExceptionsPropagateToSurface()
     {
-        MockTelegramBotClient bot = new MockTelegramBotClient("foo-bar", "throw");
+        MockTelegramBotClient bot = new("foo-bar", "throw");
 
         int updateCount = 0;
         async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             updateCount++;
             await Task.Delay(10, cancellationToken);
-            if (update.Message!.Text == "throw")
+            if (update.Message?.Text is "throw")
+            {
                 throw new InvalidOperationException("Oops");
+            }
         }
 
-        DefaultUpdateHandler updateHandler = new DefaultUpdateHandler(updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token));
+        DefaultUpdateHandler updateHandler = new(
+            updateHandler: HandleUpdate,
+            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
+        );
 
         try
         {
@@ -74,11 +81,12 @@ public class ReceiveAsyncTests
     [Fact]
     public async Task ThrowOutPendingUpdates()
     {
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(4));
+        CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(4));
 
-        MockTelegramBotClient bot = new MockTelegramBotClient(new MockClientOptions
+        MockTelegramBotClient bot = new(new MockClientOptions
         {
-            Messages = new[] { "foo-bar", "baz", "quux" }, HandleNegativeOffset = true
+            Messages = new[] { "foo-bar", "baz", "quux" },
+            HandleNegativeOffset = true
         });
 
         int handleCount = 0;
@@ -92,12 +100,14 @@ public class ReceiveAsyncTests
             return Task.CompletedTask;
         };
 
-        DefaultUpdateHandler updateHandler = new DefaultUpdateHandler(updateHandler: HandleUpdate,
-            pollingErrorHandler: (_, _, _) => Task.CompletedTask);
+        DefaultUpdateHandler updateHandler = new(
+            updateHandler: HandleUpdate,
+            pollingErrorHandler: (_, _, _) => Task.CompletedTask
+        );
 
         await bot.ReceiveAsync(
             updateHandler,
-            new ReceiverOptions { ThrowPendingUpdates = true },
+            new() { ThrowPendingUpdates = true },
             cancellationTokenSource.Token
         );
 

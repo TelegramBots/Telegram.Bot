@@ -55,7 +55,7 @@ public class XunitTestCollectionRunnerWithAssemblyFixture : XunitTestCollectionR
             _diagnosticMessageSink,
             MessageBus,
             TestCaseOrderer,
-            new ExceptionAggregator(Aggregator),
+            new(Aggregator),
             CancellationTokenSource,
             combinedFixtures
         );

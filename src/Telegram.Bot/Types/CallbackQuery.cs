@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram.Bot.Types;

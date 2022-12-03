@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace Telegram.Bot.Tests.Integ.Framework;
 
-public class ConfigurationProvider : IDisposable
+public sealed class ConfigurationProvider : IDisposable
 {
     private readonly IServiceProvider _services;
 

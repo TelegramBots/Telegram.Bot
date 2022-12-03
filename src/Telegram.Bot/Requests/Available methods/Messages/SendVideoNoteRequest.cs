@@ -1,11 +1,6 @@
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -24,12 +19,18 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Video note to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a video
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
+    /// Video note to send. Pass a <see cref="InputFileId"/> as String to send a video
     /// note that exists on the Telegram servers (recommended) or upload a new video using
     /// multipart/form-data. Sending video notes by a URL is currently unsupported
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputTelegramFile VideoNote { get; }
+    public IInputFile VideoNote { get; }
 
     /// <summary>
     /// Duration of sent video in seconds
@@ -45,7 +46,7 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
 
     /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -74,11 +75,11 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="videoNote">
-    /// Video note to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a video
+    /// Video note to send. Pass a <see cref="InputFileId"/> as String to send a video
     /// note that exists on the Telegram servers (recommended) or upload a new video using
     /// multipart/form-data. Sending video notes by a URL is currently unsupported
     /// </param>
-    public SendVideoNoteRequest(ChatId chatId, InputTelegramFile videoNote)
+    public SendVideoNoteRequest(ChatId chatId, IInputFile videoNote)
         : base("sendVideoNote")
     {
         ChatId = chatId;
@@ -89,28 +90,12 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (VideoNote.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+
+        if (VideoNote is InputFile || Thumb is InputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent("video_note", "thumb");
-            if (VideoNote.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: VideoNote.Content!,
-                    name: "video_note",
-                    fileName: VideoNote.FileName
-                );
-            }
-
-            if (Thumb?.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Thumb.Content!,
-                    name: "thumb",
-                    fileName: Thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = GenerateMultipartFormDataContent("video_note", "thumb")
+                .AddContentIfInputFile(media: VideoNote, name: "video_note")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {

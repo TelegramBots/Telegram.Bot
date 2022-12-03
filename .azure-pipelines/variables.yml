@@ -1,9 +1,9 @@
 variables:
   - group: Integration Tests Variables
   - name: versionPrefix
-    value: 18.0.0
+    value: 19.0.0
   - name: versionSuffix
-    value: ''
+    value: 'preview.1'
   - name: ciVersionSuffix
     value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
   - name: isPreRelease
@@ -18,10 +18,12 @@ variables:
       value: $(versionPrefix)-$(versionSuffix).$(ciVersionSuffix)
     ${{ else }}:
       value: $(versionPrefix)-$(ciVersionSuffix)
+  - name: netSdkVersion
+    value: 7.0.x
   - name: buildConfiguration
     value: Release
   - name: vmImage
-    value: ubuntu-20.04
+    value: ubuntu-22.04
   - name: projectPath
     value: src/Telegram.Bot/Telegram.Bot.csproj
   - name: internalFeedName

@@ -1,7 +1,5 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types;
@@ -33,7 +31,7 @@ public class ChatId : IEquatable<ChatId>
     /// Create a <see cref="ChatId"/> using unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)
     /// </summary>
-    /// <param name="username">Unique identifier for the chat or username of 
+    /// <param name="username">Unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)</param>
     /// <exception cref="ArgumentException">
     /// Thrown when string value isn`t number and doesn't start with @
@@ -97,19 +95,13 @@ public class ChatId : IEquatable<ChatId>
     /// Create a <see cref="ChatId"/> using unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)
     /// </summary>
-    /// <param name="username">Unique identifier for the chat or username of 
+    /// <param name="username">Unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)</param>
     /// <exception cref="ArgumentException">
     /// Thrown when string value isn`t number and doesn't start with @
     /// </exception>
     /// <exception cref="ArgumentNullException">Thrown when string value is <c>null</c></exception>
     public static implicit operator ChatId(string username) => new(username);
-
-    /// <summary>
-    /// Create a <c>string</c> out of a <see cref="ChatId"/>
-    /// </summary>
-    /// <param name="chatId">The <see cref="ChatId"/>The ChatId</param>
-    public static implicit operator string?(ChatId? chatId) => chatId?.ToString();
 
     /// <summary>
     /// Convert a Chat Object to a <see cref="ChatId"/>

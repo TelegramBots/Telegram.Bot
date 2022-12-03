@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
 
@@ -23,22 +22,22 @@ public class StickerSet
     public string Title { get; set; } = default!;
 
     /// <summary>
-    /// True, if the sticker set contains animated stickers
+    /// Type of stickers in the set
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public StickerType StickerType { get; set; } = default!;
+
+    /// <summary>
+    /// <see langword="true"/>, if the sticker set contains animated stickers
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsAnimated { get; set; }
-        
+
     /// <summary>
-    /// <c>true</c>, if the sticker set contains video stickers
+    /// <see langword="true"/>, if the sticker set contains video stickers
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsVideo { get; set; }
-
-    /// <summary>
-    /// True, if the sticker set contains masks
-    /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public bool ContainsMasks { get; set; }
 
     /// <summary>
     /// List of all set stickers

@@ -1,11 +1,7 @@
-using System;
 using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
-using Telegram.Bot.Types.InputFiles;
 
 namespace Telegram.Bot.Requests;
 
@@ -41,25 +37,15 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// <returns></returns>
     protected MultipartFormDataContent ToMultipartFormDataContent(
         string fileParameterName,
-        InputFileStream inputFile)
+        InputFile inputFile)
     {
         if (inputFile is null or { Content: null })
         {
             throw new ArgumentNullException(nameof(inputFile), $"{nameof(inputFile)} or it's content is null");
         }
 
-        var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
-
-        multipartContent.AddStreamContent(
-            // Probably is a compiler bug, inputFile is already checked at this point
-#pragma warning disable CA1062
-            content: inputFile.Content,
-#pragma warning restore CA1062
-            name: fileParameterName,
-            fileName: inputFile.FileName
-        );
-
-        return multipartContent;
+        return GenerateMultipartFormDataContent(fileParameterName)
+            .AddContentIfInputFile(media: inputFile, name: fileParameterName);
     }
 
     /// <summary>
@@ -73,7 +59,7 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
 
         var stringContents = JObject.FromObject(this)
             .Properties()
-            .Where(prop => exceptPropertyNames.Contains(prop.Name) == false)
+            .Where(prop => exceptPropertyNames.Contains(prop.Name) is false)
             .Select(prop => new
             {
                 prop.Name,

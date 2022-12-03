@@ -1,12 +1,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -25,12 +21,18 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Animation to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an animation
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
+    /// Animation to send. Pass a <see cref="InputFileId"/> as String to send an animation
     /// that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get an animation from the Internet, or upload a new animation using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Animation { get; }
+    public IInputFile Animation { get; }
 
     /// <summary>
     /// Duration of sent animation in seconds
@@ -52,11 +54,11 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
 
     /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public IInputFile? Thumb { get; set; }
 
     /// <summary>
     /// Animation caption (may also be used when resending animation by
-    /// <see cref="InputTelegramFile.FileId"/>), 0-1024 characters after entities parsing
+    /// <see cref="InputFileId"/>), 0-1024 characters after entities parsing
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Caption { get; set; }
@@ -96,11 +98,11 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="animation">
-    /// Animation to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an animation
+    /// Animation to send. Pass a <see cref="InputFileId"/> as String to send an animation
     /// that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to
     /// get an animation from the Internet, or upload a new animation using multipart/form-data
     /// </param>
-    public SendAnimationRequest(ChatId chatId, InputOnlineFile animation)
+    public SendAnimationRequest(ChatId chatId, IInputFile animation)
         : base("sendAnimation")
     {
         ChatId = chatId;
@@ -111,28 +113,12 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         HttpContent? httpContent;
-        if (Animation.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
+
+        if (Animation is InputFile || Thumb is InputFile)
         {
-            var multipartContent = GenerateMultipartFormDataContent("animation", "thumb");
-            if (Animation.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Animation.Content!,
-                    name: "animation",
-                    fileName: Animation.FileName
-                );
-            }
-
-            if (Thumb?.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Thumb.Content!,
-                    name: "thumb",
-                    fileName: Thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
+            httpContent = GenerateMultipartFormDataContent("animation", "thumb")
+                .AddContentIfInputFile(media: Animation, name: "animation")
+                .AddContentIfInputFile(media: Thumb, name: "thumb");
         }
         else
         {

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Telegram.Bot.Types.Passport;
 
 /// <summary>

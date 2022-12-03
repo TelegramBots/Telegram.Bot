@@ -14,13 +14,10 @@ public class MenuButtonSerializationTests
         {
             type = MenuButtonType.WebApp,
             text = "Test text",
-            web_app = new
-            {
-                url = "https://example.com/link/to/web/app"
-            }
+            web_app = new { url = "https://example.com/link/to/web/app" }
         };
 
-        string? menuButtonJson = JsonConvert.SerializeObject(button, Formatting.Indented);
+        string menuButtonJson = JsonConvert.SerializeObject(button, Formatting.Indented);
         MenuButton? menuButton = JsonConvert.DeserializeObject<MenuButton>(menuButtonJson);
 
         MenuButtonWebApp webAppButton = Assert.IsType<MenuButtonWebApp>(menuButton);
@@ -36,16 +33,13 @@ public class MenuButtonSerializationTests
     [Fact]
     public void Should_Serialize_Menu_Button_Web_App()
     {
-        MenuButtonWebApp webAppButton = new MenuButtonWebApp()
+        MenuButtonWebApp webAppButton = new()
         {
-            WebApp = new WebAppInfo()
-            {
-                Url = "https://example.com/link/to/web/app"
-            },
+            WebApp = new() { Url = "https://example.com/link/to/web/app" },
             Text = "Test text"
         };
 
-        string? webAppButtonJson = JsonConvert.SerializeObject(webAppButton);
+        string webAppButtonJson = JsonConvert.SerializeObject(webAppButton);
         Assert.Contains(@"""type"":""web_app""", webAppButtonJson);
         Assert.Contains(@"""text"":""Test text""", webAppButtonJson);
         Assert.Contains(@"""web_app"":{", webAppButtonJson);
@@ -57,9 +51,10 @@ public class MenuButtonSerializationTests
     {
         var button = new { type = MenuButtonType.Default, };
 
-        string? menuButtonJson = JsonConvert.SerializeObject(button, Formatting.Indented);
+        string menuButtonJson = JsonConvert.SerializeObject(button, Formatting.Indented);
         MenuButton? menuButton = JsonConvert.DeserializeObject<MenuButton>(menuButtonJson);
 
+        Assert.NotNull(menuButton);
         Assert.Equal(MenuButtonType.Default, menuButton.Type);
         Assert.IsType<MenuButtonDefault>(menuButton);
     }
@@ -67,9 +62,9 @@ public class MenuButtonSerializationTests
     [Fact]
     public void Should_Serialize_Menu_Button_Default()
     {
-        MenuButtonDefault menuButton = new MenuButtonDefault();
+        MenuButtonDefault menuButton = new();
 
-        string? menuButtonJson = JsonConvert.SerializeObject(menuButton);
+        string menuButtonJson = JsonConvert.SerializeObject(menuButton);
         Assert.Contains(@"""type"":""default""", menuButtonJson);
     }
 
@@ -78,9 +73,10 @@ public class MenuButtonSerializationTests
     {
         var button = new { type = MenuButtonType.Commands, };
 
-        string? menuButtonJson = JsonConvert.SerializeObject(button, Formatting.Indented);
+        string menuButtonJson = JsonConvert.SerializeObject(button, Formatting.Indented);
         MenuButton? menuButton = JsonConvert.DeserializeObject<MenuButton>(menuButtonJson);
 
+        Assert.NotNull(menuButton);
         Assert.Equal(MenuButtonType.Commands, menuButton.Type);
         Assert.IsType<MenuButtonCommands>(menuButton);
     }
@@ -88,9 +84,9 @@ public class MenuButtonSerializationTests
     [Fact]
     public void Should_Serialize_Menu_Button_Commands()
     {
-        MenuButtonCommands menuButton = new MenuButtonCommands();
+        MenuButtonCommands menuButton = new();
 
-        string? menuButtonJson = JsonConvert.SerializeObject(menuButton);
+        string menuButtonJson = JsonConvert.SerializeObject(menuButton);
         Assert.Contains(@"""type"":""commands""", menuButtonJson);
     }
 }

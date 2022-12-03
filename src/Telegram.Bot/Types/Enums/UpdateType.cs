@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Telegram.Bot.Types.Enums;
+﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
 /// The type of an <see cref="Update"/>

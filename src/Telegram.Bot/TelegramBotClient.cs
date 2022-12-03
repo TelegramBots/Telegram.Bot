@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -11,7 +10,6 @@ using Telegram.Bot.Exceptions;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 namespace Telegram.Bot;
 
@@ -195,7 +193,7 @@ public class TelegramBotClient : ITelegramBotClient
     /// <summary>
     /// Test the API token
     /// </summary>
-    /// <returns><c>true</c> if token is valid</returns>
+    /// <returns><see langword="true"/> if token is valid</returns>
     public async Task<bool> TestApiAsync(CancellationToken cancellationToken = default)
     {
         try

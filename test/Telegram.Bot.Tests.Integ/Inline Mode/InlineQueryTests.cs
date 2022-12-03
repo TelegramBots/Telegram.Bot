@@ -281,7 +281,7 @@ public class InlineQueryTests
         {
             photoMessage = await BotClient.SendPhotoAsync(
                 chatId: _fixture.SupergroupChat,
-                photo: stream,
+                photo: new InputFile(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
             );
@@ -416,7 +416,7 @@ public class InlineQueryTests
         // Video from https://pixabay.com/en/videos/fireworks-rocket-new-year-s-eve-7122/
         Message videoMessage = await BotClient.SendVideoAsync(
             chatId: _fixture.SupergroupChat,
-            video: "https://pixabay.com/en/videos/download/video-7122_medium.mp4",
+            video: new InputFileUrl("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start inline query")
         );
@@ -506,7 +506,7 @@ public class InlineQueryTests
         {
             audioMessage = await BotClient.SendAudioAsync(
                 chatId: _fixture.SupergroupChat,
-                audio: stream,
+                audio: new InputFile(stream),
                 performer: "Jackson F. Smith",
                 duration: 201,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -596,7 +596,7 @@ public class InlineQueryTests
         {
             voiceMessage = await BotClient.SendVoiceAsync(
                 chatId: _fixture.SupergroupChat,
-                voice: stream,
+                voice: new InputFile(stream),
                 duration: 24,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
@@ -685,7 +685,7 @@ public class InlineQueryTests
         {
             documentMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
-                document: stream,
+                document: new InputFile(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
             );
@@ -761,11 +761,11 @@ public class InlineQueryTests
         (Update messageUpdate, Update chosenResultUpdate) =
             await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
                 chatId: _fixture.SupergroupChat.Id,
-                messageType: MessageType.Document
+                messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
 
-        Assert.Equal(MessageType.Document, messageUpdate.Message!.Type);
+        Assert.Equal(MessageType.Animation, messageUpdate.Message!.Type);
         Assert.Equal(resultId, resultUpdate.ChosenInlineResult!.ResultId);
         Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
     }
@@ -776,7 +776,7 @@ public class InlineQueryTests
     {
         Message gifMessage = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+            document: new InputFileUrl("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start inline query"));
 
@@ -802,11 +802,11 @@ public class InlineQueryTests
         (Update messageUpdate, Update chosenResultUpdate) =
             await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
                 chatId: _fixture.SupergroupChat.Id,
-                messageType: MessageType.Document
+                messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
 
-        Assert.Equal(MessageType.Document, messageUpdate.Message!.Type);
+        Assert.Equal(MessageType.Animation, messageUpdate.Message!.Type);
         Assert.Equal(resultId, resultUpdate.ChosenInlineResult!.ResultId);
         Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
     }
@@ -858,7 +858,7 @@ public class InlineQueryTests
     {
         Message gifMessage = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+            document: new InputFileUrl("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start inline query"));
 
@@ -884,11 +884,11 @@ public class InlineQueryTests
         (Update messageUpdate, Update chosenResultUpdate) =
             await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
                 chatId: _fixture.SupergroupChat.Id,
-                messageType: MessageType.Document
+                messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
 
-        Assert.Equal(MessageType.Document, messageUpdate.Message!.Type);
+        Assert.Equal(MessageType.Animation, messageUpdate.Message!.Type);
         Assert.Equal(resultId, resultUpdate.ChosenInlineResult!.ResultId);
         Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
     }
