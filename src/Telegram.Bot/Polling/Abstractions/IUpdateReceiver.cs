@@ -1,7 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Polling;

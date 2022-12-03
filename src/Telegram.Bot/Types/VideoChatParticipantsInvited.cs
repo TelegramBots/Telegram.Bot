@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a service message about new members invited to a video chat.

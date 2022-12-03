@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
@@ -87,4 +85,9 @@ public enum MessageEntityType
     /// Spoiler message
     /// </summary>
     Spoiler,
+
+    /// <summary>
+    /// Inline custom emoji stickers
+    /// </summary>
+    CustomEmoji,
 }

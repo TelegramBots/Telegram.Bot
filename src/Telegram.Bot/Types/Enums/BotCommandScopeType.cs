@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace Telegram.Bot.Types.Enums;
+﻿namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
 /// Scope type

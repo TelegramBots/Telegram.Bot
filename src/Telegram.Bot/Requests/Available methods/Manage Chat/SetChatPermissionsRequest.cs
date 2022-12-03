@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -9,7 +6,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to set default chat permissions for all members. The bot must be an administrator
 /// in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable

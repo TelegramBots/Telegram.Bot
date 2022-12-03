@@ -1,10 +1,7 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -22,6 +19,12 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public ChatId ChatId { get; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Animation to send. Pass a <see cref="InputFileId"/> as String to send an animation

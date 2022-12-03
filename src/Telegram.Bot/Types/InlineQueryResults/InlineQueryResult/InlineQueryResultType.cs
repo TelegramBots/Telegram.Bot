@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;

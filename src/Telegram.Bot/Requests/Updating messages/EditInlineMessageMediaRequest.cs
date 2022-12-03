@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -12,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// part of a message album, then it can be edited only to an audio for audio albums, only to a
 /// document for document albums and to a photo or a video otherwise. Use a previously uploaded file
 /// via its <see cref="InputFileId"/> or specify a URL. On success
-/// <c>true</c> is returned.
+/// <see langword="true"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EditInlineMessageMediaRequest : RequestBase<bool>

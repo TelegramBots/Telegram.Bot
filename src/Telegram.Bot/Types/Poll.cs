@@ -1,7 +1,4 @@
-using System;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 
 namespace Telegram.Bot.Types;
 
@@ -36,13 +33,13 @@ public class Poll
     public int TotalVoterCount { get; set; }
 
     /// <summary>
-    /// True, if the poll is closed
+    /// <see langword="true"/>, if the poll is closed
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsClosed { get; set; }
 
     /// <summary>
-    /// True, if the poll is anonymous
+    /// <see langword="true"/>, if the poll is anonymous
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsAnonymous { get; set; }
@@ -54,7 +51,7 @@ public class Poll
     public string Type { get; set; } = default!;
 
     /// <summary>
-    /// True, if the poll allows multiple answers
+    /// <see langword="true"/>, if the poll allows multiple answers
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool AllowsMultipleAnswers { get; set; }

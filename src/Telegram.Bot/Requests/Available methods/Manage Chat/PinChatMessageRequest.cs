@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -11,7 +8,7 @@ namespace Telegram.Bot.Requests;
 /// private chat, the bot must be an administrator in the chat for this to work and must have the
 /// '<see cref="ChatPermissions.CanPinMessages"/>' admin right in a supergroup or
 /// '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel.
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class PinChatMessageRequest : RequestBase<bool>, IChatTargetable

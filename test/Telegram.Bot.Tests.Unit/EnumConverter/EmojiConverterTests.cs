@@ -17,7 +17,7 @@ public class EmojiConverterTests
     [InlineData(Emoji.Bowling, "🎳")]
     public void Should_Convert_Emoji_To_String(Emoji emoji, string value)
     {
-        Dice dice = new Dice() { Emoji = emoji };
+        Dice dice = new() { Emoji = emoji };
         string expectedResult = @$"{{""emoji"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(dice);
@@ -34,11 +34,12 @@ public class EmojiConverterTests
     [InlineData(Emoji.Bowling, "🎳")]
     public void Should_Convert_String_To_Emoji(Emoji emoji, string value)
     {
-        Dice expectedResult = new Dice() { Emoji = emoji };
+        Dice expectedResult = new() { Emoji = emoji };
         string jsonData = @$"{{""emoji"":""{value}""}}";
 
-        Dice result = JsonConvert.DeserializeObject<Dice>(jsonData);
+        Dice? result = JsonConvert.DeserializeObject<Dice>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Emoji, result.Emoji);
     }
 
@@ -47,23 +48,23 @@ public class EmojiConverterTests
     {
         string jsonData = @$"{{""emoji"":""{int.MaxValue}""}}";
 
-        Dice result = JsonConvert.DeserializeObject<Dice>(jsonData);
+        Dice? result = JsonConvert.DeserializeObject<Dice>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((Emoji)0, result.Emoji);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_Emoji()
     {
-        Dice dice = new Dice() { Emoji = (Emoji)int.MaxValue };
+        Dice dice = new() { Emoji = (Emoji)int.MaxValue };
 
         // ToDo: add Emoji.Unknown ?
         //    protected override string GetStringValue(Emoji value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(dice));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(dice));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

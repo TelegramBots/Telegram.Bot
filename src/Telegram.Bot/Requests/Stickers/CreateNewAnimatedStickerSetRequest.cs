@@ -1,14 +1,11 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Net.Http;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to create a new animated sticker set owned by a user. The bot will be able to
-/// edit the sticker set thus created. Returns <c>true</c> on success.
+/// edit the sticker set thus created. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CreateNewAnimatedStickerSetRequest : CreateNewStickerSetRequest
@@ -28,15 +25,14 @@ public class CreateNewAnimatedStickerSetRequest : CreateNewStickerSetRequest
     /// for technical requirements
     /// </param>
 #pragma warning disable CS1573
-    public CreateNewAnimatedStickerSetRequest(long userId,
-                                              string name,
-                                              string title,
-                                              InputFile tgsSticker,
-                                              string emojis)
-        : base(userId, name, title, emojis)
-    {
-        TgsSticker = tgsSticker;
-    }
+    public CreateNewAnimatedStickerSetRequest(
+        long userId,
+        string name,
+        string title,
+        InputFile tgsSticker,
+        string emojis
+    ) : base(userId, name, title, emojis)
+        => TgsSticker = tgsSticker;
 #pragma warning restore CS1573
 
     /// <inheritdoc />

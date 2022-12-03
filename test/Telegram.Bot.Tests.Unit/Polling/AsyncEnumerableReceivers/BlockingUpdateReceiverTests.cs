@@ -13,8 +13,8 @@ public class BlockingUpdateReceiverTests
     [Fact]
     public void CallingGetEnumeratorTwiceThrows()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient();
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new();
+        BlockingUpdateReceiver receiver = new(mockClient);
 
         _ = receiver.GetAsyncEnumerator();
 
@@ -24,14 +24,14 @@ public class BlockingUpdateReceiverTests
     [Fact]
     public async Task DoesntReceiveWhileProcessing()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo", "bar");
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new("foo", "bar");
+        BlockingUpdateReceiver receiver = new(mockClient);
 
         Assert.Equal(2, mockClient.MessageGroupsLeft);
 
         await foreach (Update update in receiver)
         {
-            Assert.Equal("foo", update.Message!.Text);
+            Assert.Equal("foo", update.Message?.Text);
             await Task.Delay(100);
             Assert.Equal(1, mockClient.MessageGroupsLeft);
             break;
@@ -43,8 +43,8 @@ public class BlockingUpdateReceiverTests
     [Fact]
     public async Task ReceivesOnlyOnMoveNextAsync()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo", "bar");
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new("foo", "bar");
+        BlockingUpdateReceiver receiver = new(mockClient);
 
         Assert.Equal(2, mockClient.MessageGroupsLeft);
 
@@ -53,12 +53,12 @@ public class BlockingUpdateReceiverTests
         Assert.Equal(2, mockClient.MessageGroupsLeft);
 
         Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal("foo", enumerator.Current.Message!.Text);
+        Assert.Equal("foo", enumerator.Current.Message?.Text);
 
         Assert.Equal(1, mockClient.MessageGroupsLeft);
 
         Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal("bar", enumerator.Current.Message!.Text);
+        Assert.Equal("bar", enumerator.Current.Message?.Text);
 
         Assert.Equal(0, mockClient.MessageGroupsLeft);
     }
@@ -66,15 +66,14 @@ public class BlockingUpdateReceiverTests
     [Fact]
     public async Task ThrowsOnMoveNextIfCancelled()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo", "bar");
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(mockClient);
-
-        CancellationTokenSource cts = new CancellationTokenSource();
+        MockTelegramBotClient mockClient = new("foo", "bar");
+        BlockingUpdateReceiver receiver = new(mockClient);
+        CancellationTokenSource cts = new();
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator(cts.Token);
 
         Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal("foo", enumerator.Current.Message!.Text);
+        Assert.Equal("foo", enumerator.Current.Message?.Text);
 
         mockClient.Options.RequestDelay = 1000;
         cts.CancelAfter(200);
@@ -85,36 +84,26 @@ public class BlockingUpdateReceiverTests
     [Fact]
     public async Task MoveNextThrowsIfEnumeratorIsDisposed()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo");
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new("foo");
+        BlockingUpdateReceiver receiver = new(mockClient);
 
         IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator();
         await enumerator.MoveNextAsync();
-
         await enumerator.DisposeAsync();
 
-        await Assert.ThrowsAnyAsync<OperationCanceledException>(
-            async () => await enumerator.MoveNextAsync()
-        );
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
     }
 
     [Fact]
     public async Task ExceptionIsCaughtByErrorHandler()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient
-        {
-            Options =
-            {
-                ExceptionToThrow = new Exception("Oops")
-            }
-        };
+        MockTelegramBotClient mockClient = new() { Options = { ExceptionToThrow = new("Oops") } };
+        Exception? exceptionFromErrorHandler = null;
 
-        Exception exceptionFromErrorHandler = null!;
-
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(mockClient, pollingErrorHandler: (ex, ct) =>
+        BlockingUpdateReceiver receiver = new(mockClient, pollingErrorHandler: (ex, _) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
-            throw exceptionFromErrorHandler = new Exception("Oops2");
+            throw exceptionFromErrorHandler = new("Oops2");
         });
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator();
@@ -126,15 +115,8 @@ public class BlockingUpdateReceiverTests
     [Fact]
     public async Task ExceptionIsNotCaughtIfThereIsNoErrorHandler()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient
-        {
-            Options =
-            {
-                ExceptionToThrow = new Exception("Oops")
-            }
-        };
-
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new() { Options = { ExceptionToThrow = new("Oops") } };
+        BlockingUpdateReceiver receiver = new(mockClient);
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator();
 
@@ -145,14 +127,14 @@ public class BlockingUpdateReceiverTests
     [Fact]
     public async Task ThrowOutPendingUpdates()
     {
-        CancellationTokenSource cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(4));
-
-        MockTelegramBotClient bot = new MockTelegramBotClient(new MockClientOptions
+        CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(4));
+        MockTelegramBotClient bot = new(new MockClientOptions
         {
-            Messages = new[] { "foo-bar", "baz", "quux" }, HandleNegativeOffset = true,
+            Messages = new[] { "foo-bar", "baz", "quux" },
+            HandleNegativeOffset = true,
         });
 
-        BlockingUpdateReceiver receiver = new BlockingUpdateReceiver(bot, new ReceiverOptions { ThrowPendingUpdates = true });
+        BlockingUpdateReceiver receiver = new(bot, new() { ThrowPendingUpdates = true });
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator(cancellationTokenSource.Token);
 

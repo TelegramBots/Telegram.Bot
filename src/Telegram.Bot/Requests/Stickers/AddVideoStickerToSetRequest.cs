@@ -1,14 +1,11 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Net.Http;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this request to add a new video sticker to a set created by the bot. Static sticker sets
-/// can have up to 120 stickers. Returns <c>true</c> on success.
+/// can have up to 120 stickers. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class AddVideoStickerToSetRequest : AddStickerToSetRequest
@@ -28,14 +25,13 @@ public class AddVideoStickerToSetRequest : AddStickerToSetRequest
     /// for technical requirements
     /// </param>
 #pragma warning disable CS1573
-    public AddVideoStickerToSetRequest(long userId,
-                                       string name,
-                                       InputFile webmSticker,
-                                       string emojis)
-        : base(userId, name, emojis)
-    {
-        WebmSticker = webmSticker;
-    }
+    public AddVideoStickerToSetRequest(
+        long userId,
+        string name,
+        InputFile webmSticker,
+        string emojis
+    ) : base(userId, name, emojis)
+        => WebmSticker = webmSticker;
 #pragma warning restore CS1573
 
     /// <inheritdoc />

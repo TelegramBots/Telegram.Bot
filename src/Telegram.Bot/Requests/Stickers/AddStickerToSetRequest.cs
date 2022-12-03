@@ -1,14 +1,11 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this request to add a new sticker to a set created by the bot. Static sticker sets
-/// can have up to 120 stickers. Returns <c>true</c> on success.
+/// can have up to 120 stickers. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public abstract class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
@@ -37,14 +34,15 @@ public abstract class AddStickerToSetRequest : FileRequestBase<bool>, IUserTarge
 
     /// <summary>
     /// Use this request to add a new sticker to a set created by the bot. Static sticker sets
-    /// can have up to 120 stickers. Returns <c>true</c> on success.
+    /// can have up to 120 stickers. Returns <see langword="true"/> on success.
     /// </summary>
     /// <param name="userId">User identifier</param>
     /// <param name="name">Sticker set name</param>
     /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    protected AddStickerToSetRequest(long userId,
-                                     string name,
-                                     string emojis)
+    protected AddStickerToSetRequest(
+        long userId,
+        string name,
+        string emojis)
         : base("addStickerToSet")
     {
         UserId = userId;

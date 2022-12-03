@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <LangVersion>10</LangVersion>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -74,8 +74,6 @@
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" PrivateAssets="All" />
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
-    <ProjectReference Include="..\EnumSerializer.Generator\EnumSerializer.Generator.csproj"
-                      OutputItemType="Analyzer"
-                      ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\EnumSerializer.Generator\EnumSerializer.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 </Project>

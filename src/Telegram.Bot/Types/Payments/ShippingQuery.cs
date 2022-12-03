@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-namespace Telegram.Bot.Types.Payments;
+﻿namespace Telegram.Bot.Types.Payments;
 
 /// <summary>
 /// This object contains information about an incoming shipping query.

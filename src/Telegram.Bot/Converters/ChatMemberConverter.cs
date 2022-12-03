@@ -1,8 +1,5 @@
-﻿using System;
-using System.Reflection;
-using Newtonsoft.Json;
+﻿using System.Reflection;
 using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters;
@@ -56,7 +53,7 @@ internal class ChatMemberConverter : JsonConverter
 
         // Remove status because status property only has getter
         jo.Remove("status");
-        var value = (ChatMember)Activator.CreateInstance(actualType);
+        var value = Activator.CreateInstance(actualType)!;
         serializer.Populate(jo.CreateReader(), value);
 
         return value;

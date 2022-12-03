@@ -14,7 +14,7 @@ public class MenuButtonTypeConverterTests
     [InlineData(MenuButtonType.WebApp, "web_app")]
     public void Should_Convert_MenuButtonType_To_String(MenuButtonType menuButtonType, string value)
     {
-        MenuButton menuButton = new MenuButton() { Type = menuButtonType };
+        MenuButton menuButton = new() { Type = menuButtonType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(menuButton);
@@ -28,11 +28,12 @@ public class MenuButtonTypeConverterTests
     [InlineData(MenuButtonType.WebApp, "web_app")]
     public void Should_Convert_String_To_MenuButtonType(MenuButtonType menuButtonType, string value)
     {
-        MenuButton expectedResult = new MenuButton() { Type = menuButtonType };
+        MenuButton expectedResult = new() { Type = menuButtonType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        MenuButton result = JsonConvert.DeserializeObject<MenuButton>(jsonData);
+        MenuButton? result = JsonConvert.DeserializeObject<MenuButton>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
@@ -41,23 +42,23 @@ public class MenuButtonTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        MenuButton result = JsonConvert.DeserializeObject<MenuButton>(jsonData);
+        MenuButton? result = JsonConvert.DeserializeObject<MenuButton>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((MenuButtonType)0, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_MenuButtonType()
     {
-        MenuButton menuButton = new MenuButton() { Type = (MenuButtonType)int.MaxValue };
+        MenuButton menuButton = new() { Type = (MenuButtonType)int.MaxValue };
 
         // ToDo: add InputMediaType.Unknown ?
         //    protected override string GetStringValue(InputMediaType value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(menuButton));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(menuButton));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

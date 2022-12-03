@@ -13,16 +13,16 @@ public static class Constants
     public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
     public const string TestCaseOrderer =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(Framework.TestCaseOrderer);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(Framework.TestCaseOrderer)}";
 
     public const string TestCaseDiscoverer =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(RetryFactDiscoverer);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(XunitExtensions)}.{nameof(RetryFactDiscoverer)}";
 
     public const string TestCollectionOrderer =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(TestCollectionOrderer);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(TestCollectionOrderer)}";
 
     public const string TestFramework =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(XunitTestFrameworkWithAssemblyFixture);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(XunitExtensions)}.{nameof(XunitTestFrameworkWithAssemblyFixture)}";
 
     public static class TestCollections
     {
@@ -117,71 +117,71 @@ public static class Constants
 
         public static class Documents
         {
-            const string DocumentDir = FilesDir + "Document/";
+            const string DocumentDir = $"{FilesDir}Document/";
 
-            public const string Hamlet = DocumentDir + "hamlet.pdf";
+            public const string Hamlet = $"{DocumentDir}hamlet.pdf";
         }
 
         public static class Photos
         {
-            const string PhotoDir = FilesDir + "Photo/";
+            const string PhotoDir = $"{FilesDir}Photo/";
 
-            public const string Bot = PhotoDir + "bot.gif";
+            public const string Bot = $"{PhotoDir}bot.gif";
 
-            public const string Logo = PhotoDir + "logo.png";
+            public const string Logo = $"{PhotoDir}logo.png";
 
-            public const string Gnu = PhotoDir + "gnu.png";
+            public const string Gnu = $"{PhotoDir}gnu.png";
 
-            public const string Tux = PhotoDir + "tux.png";
+            public const string Tux = $"{PhotoDir}tux.png";
 
-            public const string Vlc = PhotoDir + "vlc.png";
+            public const string Vlc = $"{PhotoDir}vlc.png";
 
-            public const string Ruby = PhotoDir + "ruby.png";
+            public const string Ruby = $"{PhotoDir}ruby.png";
 
-            public const string Apes = PhotoDir + "apes.jpg";
+            public const string Apes = $"{PhotoDir}apes.jpg";
         }
 
         public static class Videos
         {
-            const string VideoDir = FilesDir + "Video/";
+            const string VideoDir = $"{FilesDir}Video/";
 
-            public const string GoldenRatio = VideoDir + "golden-ratio-240px.mp4";
+            public const string GoldenRatio = $"{VideoDir}golden-ratio-240px.mp4";
 
-            public const string MoonLanding = VideoDir + "moon-landing.mp4";
+            public const string MoonLanding = $"{VideoDir}moon-landing.mp4";
         }
 
         public static class Audio
         {
-            const string AudioDir = FilesDir + "Audio/";
+            const string AudioDir = $"{FilesDir}Audio/";
 
-            public const string AStateOfDespairMp3 = AudioDir + "Ask Again - A State of Despair.mp3";
+            public const string AStateOfDespairMp3 = $"{AudioDir}Ask Again - A State of Despair.mp3";
 
-            public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
+            public const string CantinaRagMp3 = $"{AudioDir}Jackson F Smith - Cantina Rag.mp3";
 
-            public const string TestOgg = AudioDir + "Test.ogg";
+            public const string TestOgg = $"{AudioDir}Test.ogg";
         }
 
         public static class Certificate
         {
-            const string CertificateDir = FilesDir + "Certificate/";
+            const string CertificateDir = $"{FilesDir}Certificate/";
 
-            public const string PublicKey = CertificateDir + "public-key.pem";
+            public const string PublicKey = $"{CertificateDir}public-key.pem";
         }
 
         public static class Animation
         {
-            const string Dir = FilesDir + "Animation/";
+            const string Dir = $"{FilesDir}Animation/";
 
-            public const string Earth = Dir + "earth.gif";
+            public const string Earth = $"{Dir}earth.gif";
         }
 
         public static class Thumbnail
         {
-            const string Dir = FilesDir + "Thumbnail/";
+            const string Dir = $"{FilesDir}Thumbnail/";
 
-            public const string Video = Dir + "video.jpg";
+            public const string Video = $"{Dir}video.jpg";
 
-            public const string TheAbilityToBreak = Dir + "The Ability to Break.jpg";
+            public const string TheAbilityToBreak = $"{Dir}The Ability to Break.jpg";
         }
     }
 

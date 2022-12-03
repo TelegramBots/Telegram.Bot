@@ -1,14 +1,11 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to set a custom title for an administrator in a supergroup promoted by the bot.
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTargetable, IUserTargetable

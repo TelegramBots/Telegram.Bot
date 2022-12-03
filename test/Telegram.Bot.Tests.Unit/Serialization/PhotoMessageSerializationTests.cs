@@ -12,86 +12,89 @@ public class PhotoMessageSerializationTests
     [Fact(DisplayName = "Should deserialize a photo message")]
     public void Should_Deserialize_PhotoMessage()
     {
-        const string json = @"{
-                ""message_id"": 1234,
-                ""from"": {
-                    ""id"": 1234567,
-                    ""is_bot"": false,
-                    ""first_name"": ""Telegram_Bots"",
-                    ""last_name"": null,
-                    ""username"": ""TelegramBots"",
-                    ""language_code"": null
+        const string json = """
+        {
+            "message_id": 1234,
+            "from": {
+                "id": 1234567,
+                "is_bot": false,
+                "first_name": "Telegram_Bots",
+                "last_name": null,
+                "username": "TelegramBots",
+                "language_code": null
+            },
+            "chat": {
+                "id": 1234567,
+                "first_name": "Telegram_Bots",
+                "last_name": null,
+                "username": "TelegramBots",
+                "type": "private"
+            },
+            "date": 1526315997,
+            "photo": [
+                {
+                    "file_id": "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABN7x5HqnrHW_wp4BAAEC",
+                    "file_unique_id": "AgADcOsAAhUdZAc",
+                    "file_size": 3134,
+                    "width": 90,
+                    "height": 90
                 },
-                ""chat"": {
-                    ""id"": 1234567,
-                    ""first_name"": ""Telegram_Bots"",
-                    ""last_name"": null,
-                    ""username"": ""TelegramBots"",
-                    ""type"": ""private""
+                {
+                    "file_id": "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIrxzSBLXOQYw54BAAEC",
+                    "file_unique_id": "AgADcOsAAhUdZAc",
+                    "file_size": 52433,
+                    "width": 320,
+                    "height": 320
                 },
-                ""date"": 1526315997,
-                ""photo"": [
-                    {
-                        ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABN7x5HqnrHW_wp4BAAEC"",
-                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
-                        ""file_size"": 3134,
-                        ""width"": 90,
-                        ""height"": 90
-                    },
-                    {
-                        ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIrxzSBLXOQYw54BAAEC"",
-                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
-                        ""file_size"": 52433,
-                        ""width"": 320,
-                        ""height"": 320
-                    },
-                    {
-                        ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIJONRZpTJFnxJ4BAAEC"",
-                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
-                        ""file_size"": 231019,
-                        ""width"": 800,
-                        ""height"": 800
-                    },
-                    {
-                        ""file_id"": ""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABP6uRLtwe8Z8wZ4BAAEC"",
-                        ""file_unique_id"": ""AgADcOsAAhUdZAc"",
-                        ""file_size"": 489108,
-                        ""width"": 1280,
-                        ""height"": 1280
-                    }
-                ]
-            }";
+                {
+                    "file_id": "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIJONRZpTJFnxJ4BAAEC",
+                    "file_unique_id": "AgADcOsAAhUdZAc",
+                    "file_size": 231019,
+                    "width": 800,
+                    "height": 800
+                },
+                {
+                    "file_id": "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABP6uRLtwe8Z8wZ4BAAEC",
+                    "file_unique_id": "AgADcOsAAhUdZAc",
+                    "file_size": 489108,
+                    "width": 1280,
+                    "height": 1280
+                }
+            ]
+        }
+        """;
 
         Message? message = JsonConvert.DeserializeObject<Message>(json);
 
+        Assert.NotNull(message);
         Assert.Equal(MessageType.Photo, message.Type);
         Assert.NotNull(message.Photo);
         Assert.NotEmpty(message.Photo!);
-        Assert.All(message.Photo!.Select(ps => ps.FileId), Assert.NotEmpty);
-        Assert.All(message.Photo!.Select(ps => ps.Width), w => Assert.NotEqual(default, w));
-        Assert.All(message.Photo!.Select(ps => ps.Height), h => Assert.NotEqual(default, h));
+        Assert.All(message.Photo.Select(ps => ps.FileId), Assert.NotEmpty);
+        Assert.All(message.Photo.Select(ps => ps.Width), w => Assert.NotEqual(default, w));
+        Assert.All(message.Photo.Select(ps => ps.Height), h => Assert.NotEqual(default, h));
     }
 
     [Fact(DisplayName = "Should serialize a photo message")]
     public void Should_Serialize_PhotoMessage()
     {
-        Message message = new Message
+        Message message = new()
         {
             MessageId = 1234,
-            From = new User
+            From = new()
             {
                 Id = 1234567,
                 FirstName = "Telegram_Bots",
                 Username = "TelegramBots",
             },
-            Chat = new Chat
+            Chat = new()
             {
                 Id = 1234567,
                 FirstName = "Telegram_Bots",
                 Username = "TelegramBots",
                 Type = ChatType.Private
             },
-            Date = new DateTime(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc),
+            Date = new(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc),
             Photo = new[]
             {
                 new PhotoSize

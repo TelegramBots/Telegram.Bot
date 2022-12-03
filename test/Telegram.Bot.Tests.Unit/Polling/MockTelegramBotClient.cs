@@ -33,15 +33,15 @@ public class MockTelegramBotClient : ITelegramBotClient
     public MockTelegramBotClient(MockClientOptions? options = default)
     {
         Options = options ?? new MockClientOptions();
-        _messages = new Queue<string[]>(
+        _messages = new(
             Options.Messages.Select(message => message.Split('-').ToArray())
         );
     }
 
     public MockTelegramBotClient(params string[] messages)
     {
-        Options = new MockClientOptions();
-        _messages = new Queue<string[]>(messages.Select(message => message.Split('-').ToArray()));
+        Options = new();
+        _messages = new(messages.Select(message => message.Split('-').ToArray()));
     }
 
     public async Task<TResponse> MakeRequestAsync<TResponse>(
@@ -65,7 +65,7 @@ public class MockTelegramBotClient : ITelegramBotClient
             {
                 new Update
                 {
-                    Message = new Message
+                    Message = new()
                     {
                         Text = lastMessage
                     },
@@ -81,7 +81,7 @@ public class MockTelegramBotClient : ITelegramBotClient
 
         return (TResponse)(object)messages.Select((_, i) => new Update
         {
-            Message = new Message
+            Message = new()
             {
                 Text = messages[i]
             },

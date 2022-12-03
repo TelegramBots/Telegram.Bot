@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types;
-
-// ReSharper disable once CheckNamespace
+﻿// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -13,7 +9,7 @@ namespace Telegram.Bot.Requests;
 public class GetMyDefaultAdministratorRightsRequest : RequestBase<ChatAdministratorRights>
 {
     /// <summary>
-    /// Pass <c>true</c> to get default administrator rights of the bot in channels. Otherwise, default administrator
+    /// Pass <see langword="true"/> to get default administrator rights of the bot in channels. Otherwise, default administrator
     /// rights of the bot for groups and supergroups will be returned.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
