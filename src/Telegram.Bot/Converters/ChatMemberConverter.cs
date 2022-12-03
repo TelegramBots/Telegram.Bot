@@ -53,7 +53,7 @@ internal class ChatMemberConverter : JsonConverter
 
         // Remove status because status property only has getter
         jo.Remove("status");
-        var value = (ChatMember)Activator.CreateInstance(actualType)!;
+        var value = Activator.CreateInstance(actualType)!;
         serializer.Populate(jo.CreateReader(), value);
 
         return value;
