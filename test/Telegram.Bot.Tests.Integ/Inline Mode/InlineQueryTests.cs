@@ -761,11 +761,11 @@ public class InlineQueryTests
         (Update messageUpdate, Update chosenResultUpdate) =
             await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
                 chatId: _fixture.SupergroupChat.Id,
-                messageType: MessageType.Document
+                messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
 
-        Assert.Equal(MessageType.Document, messageUpdate.Message!.Type);
+        Assert.Equal(MessageType.Animation, messageUpdate.Message!.Type);
         Assert.Equal(resultId, resultUpdate.ChosenInlineResult!.ResultId);
         Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
     }
@@ -802,11 +802,11 @@ public class InlineQueryTests
         (Update messageUpdate, Update chosenResultUpdate) =
             await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
                 chatId: _fixture.SupergroupChat.Id,
-                messageType: MessageType.Document
+                messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
 
-        Assert.Equal(MessageType.Document, messageUpdate.Message!.Type);
+        Assert.Equal(MessageType.Animation, messageUpdate.Message!.Type);
         Assert.Equal(resultId, resultUpdate.ChosenInlineResult!.ResultId);
         Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
     }
@@ -884,11 +884,11 @@ public class InlineQueryTests
         (Update messageUpdate, Update chosenResultUpdate) =
             await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
                 chatId: _fixture.SupergroupChat.Id,
-                messageType: MessageType.Document
+                messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
 
-        Assert.Equal(MessageType.Document, messageUpdate.Message!.Type);
+        Assert.Equal(MessageType.Animation, messageUpdate.Message!.Type);
         Assert.Equal(resultId, resultUpdate.ChosenInlineResult!.ResultId);
         Assert.Equal(iqUpdate.InlineQuery.Query, resultUpdate.ChosenInlineResult.Query);
     }

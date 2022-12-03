@@ -459,6 +459,7 @@ public class Message
             { Audio: { } }                         => MessageType.Audio,
             { Video: { } }                         => MessageType.Video,
             { Voice: { } }                         => MessageType.Voice,
+            { Animation: { } }                     => MessageType.Animation,
             { Document: { } }                      => MessageType.Document,
             { Sticker: { } }                       => MessageType.Sticker,
             // Venue also contains Location

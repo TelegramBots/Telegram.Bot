@@ -41,7 +41,7 @@ public class AnimationMessageTests
         }
 
         // For backwards compatibility, message type is set to Document
-        Assert.Equal(MessageType.Document, message.Type);
+        Assert.Equal(MessageType.Animation, message.Type);
         Assert.NotNull(message.Document);
         Assert.NotNull(message.Animation);
 

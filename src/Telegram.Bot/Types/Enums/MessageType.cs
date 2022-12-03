@@ -187,6 +187,10 @@ public enum MessageType
     VideoChatParticipantsInvited,
 
     /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.Animation"/>
+    /// </summary>
+    Animation,
+
     /// The <see cref="Message"/> contains <see cref="Message.ForumTopicCreated"/>
     /// </summary>
     ForumTopicCreated,

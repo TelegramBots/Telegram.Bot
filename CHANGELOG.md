@@ -74,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `ForumTopicCreated`
   - `ForumTopicClosed`
   - `ForumTopicReopened`
+  - `Animation`
 - Following properties to type `Message`:
   - `int? MessageThreadId`
   - `bool? IsTopicMessage`
@@ -111,6 +112,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `ITelegramBotClient.CopyMessageAsync`
   - `ITelegramBotClient.ForwardMessageAsync`
 - Added optional parameter `bool? canManageTopic` to method `ITelegramBotClient.PromoteChatMemberAsync`
+
+### Fixed
+
+- Property 'Message.Type' returns `MessageType.Animation` when a `message` contains `Animation` 
 
 ### Removed
 
