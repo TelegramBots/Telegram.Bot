@@ -112,6 +112,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `ITelegramBotClient.ForwardMessageAsync`
 - Added optional parameter `bool? canManageTopic` to method `ITelegramBotClient.PromoteChatMemberAsync`
 
+### Fixed
+
+- Property 'Message.Type' returns `MessageType.Animation` when a `message` contains `Animation` 
+
 ### Removed
 
 - Implicit conversion from `ChatId` to `string`
@@ -154,10 +158,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Request `CreateInvoiceLinkRequest`
 - Method `CreateInvoiceLinkAsync`
 - Enum member `MessageType.Animation`
-
-### Fixed
-
-- Property 'Message.Type' returns `MessageType.Animation` when a `message` contains `Animation` 
 
 ## [v18.0.0] - 2022-06-16
 
