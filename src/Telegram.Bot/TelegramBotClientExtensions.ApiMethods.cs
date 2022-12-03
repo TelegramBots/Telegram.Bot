@@ -2050,7 +2050,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canChangeInfo">Pass <see langword="true"/>, if the administrator can change chat title, photo and other settings</param>
     /// <param name="canInviteUsers">Pass <see langword="true"/>, if the administrator can invite new users to the chat</param>
     /// <param name="canPinMessages">Pass <see langword="true"/>, if the administrator can pin messages, supergroups only</param>
-    /// <param name="canManageTopic"></param>
+    /// <param name="canManageTopic">Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics, supergroups only</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
