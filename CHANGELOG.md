@@ -74,6 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `ForumTopicCreated`
   - `ForumTopicClosed`
   - `ForumTopicReopened`
+  - `Animation`
 - Following properties to type `Message`:
   - `int? MessageThreadId`
   - `bool? IsTopicMessage`
@@ -157,7 +158,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Parameter `secretToken` to `SetWebhookAsync`
 - Request `CreateInvoiceLinkRequest`
 - Method `CreateInvoiceLinkAsync`
-- Enum member `MessageType.Animation`
 
 ## [v18.0.0] - 2022-06-16
 
