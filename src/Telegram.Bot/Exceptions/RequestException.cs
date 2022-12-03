@@ -1,4 +1,3 @@
-using System;
 using System.Net;
 
 namespace Telegram.Bot.Exceptions;

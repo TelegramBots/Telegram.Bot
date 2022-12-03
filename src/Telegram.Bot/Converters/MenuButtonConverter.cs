@@ -1,20 +1,17 @@
-﻿using System;
-using System.Reflection;
-using Newtonsoft.Json;
+﻿using System.Reflection;
 using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters;
 
 internal class MenuButtonConverter : JsonConverter
 {
-    static readonly TypeInfo BaseType = typeof(MenuButton).GetTypeInfo();
+    static readonly TypeInfo BaseType = typeof(ChatMember).GetTypeInfo();
 
     public override bool CanWrite => false;
     public override bool CanRead => true;
-    public override bool CanConvert(Type objectType) =>
-        BaseType.IsAssignableFrom(objectType.GetTypeInfo());
+
+    public override bool CanConvert(Type objectType) => BaseType.IsAssignableFrom(objectType.GetTypeInfo());
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
@@ -54,7 +51,7 @@ internal class MenuButtonConverter : JsonConverter
 
         // Remove status because status property only has getter
         jo.Remove("type");
-        var value = (MenuButton)Activator.CreateInstance(actualType);
+        var value = Activator.CreateInstance(actualType)!;
         serializer.Populate(jo.CreateReader(), value);
 
         return value;

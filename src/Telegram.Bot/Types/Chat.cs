@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
@@ -51,10 +49,30 @@ public class Chat
     public string? LastName { get; set; }
 
     /// <summary>
+    /// Optional. <see langword="true"/>, if the supergroup chat is a forum (has topics enabled)
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? IsForum { get; set; }
+
+    /// <summary>
     /// Optional. Chat photo. Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatPhoto? Photo { get; set; }
+
+    /// <summary>
+    /// Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string[]? ActiveUsernames { get; set; }
+
+    /// <summary>
+    /// Optional. Custom emoji identifier of emoji status of the other party in a private chat.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? EmojiStatusCustomEmojiId { get; set; }
 
     /// <summary>
     /// Optional. Bio of the other party in a private chat. Returned only in <see cref="Requests.GetChatRequest"/>.
@@ -63,7 +81,7 @@ public class Chat
     public string? Bio { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if privacy settings of the other party in the private chat allows to use
+    /// Optional. <see langword="true"/>, if privacy settings of the other party in the private chat allows to use
     /// <c>tg://user?id=&lt;user_id&gt;</c> links only in chats with the user.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
@@ -71,14 +89,22 @@ public class Chat
     public bool? HasPrivateForwards { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if users need to join the supergroup before they can send messages.
+    /// Optional. <see langword="true"/>, if the privacy settings of the other party restrict sending voice
+    /// and video note messages in the private chat.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasRestrictedVoiceAndVideoMessages { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if users need to join the supergroup before they can send messages.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? JoinToSendMessages { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if all users directly joining the supergroup need to be approved by supergroup administrators.
+    /// Optional. <see langword="true"/>, if all users directly joining the supergroup need to be approved by supergroup administrators.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -127,7 +153,7 @@ public class Chat
     public int? MessageAutoDeleteTime { get; set; }
 
     /// <summary>
-    /// Optional. <c>true</c>, if messages from the chat can't be forwarded to other chats.
+    /// Optional. <see langword="true"/>, if messages from the chat can't be forwarded to other chats.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

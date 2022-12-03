@@ -14,7 +14,7 @@ public class FileTypeConverterTests
     [InlineData(FileType.Url, "url")]
     public void Should_Convert_FileType_To_String(FileType fileType, string value)
     {
-        OnlineFile onlineFile = new OnlineFile() { FileType = fileType };
+        OnlineFile onlineFile = new() { FileType = fileType };
         string expectedResult = @$"{{""file_type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(onlineFile);
@@ -28,11 +28,12 @@ public class FileTypeConverterTests
     [InlineData(FileType.Url, "url")]
     public void Should_Convert_String_To_FileType(FileType fileType, string value)
     {
-        OnlineFile expectedResult = new OnlineFile() { FileType = fileType };
+        OnlineFile expectedResult = new() { FileType = fileType };
         string jsonData = @$"{{""file_type"":""{value}""}}";
 
-        OnlineFile result = JsonConvert.DeserializeObject<OnlineFile>(jsonData);
+        OnlineFile? result = JsonConvert.DeserializeObject<OnlineFile>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.FileType, result.FileType);
     }
 
@@ -41,23 +42,23 @@ public class FileTypeConverterTests
     {
         string jsonData = @$"{{""file_type"":""{int.MaxValue}""}}";
 
-        OnlineFile result = JsonConvert.DeserializeObject<OnlineFile>(jsonData);
+        OnlineFile? result = JsonConvert.DeserializeObject<OnlineFile>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((FileType)0, result.FileType);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_FileType()
     {
-        OnlineFile onlineFile = new OnlineFile() { FileType = (FileType)int.MaxValue };
+        OnlineFile onlineFile = new() { FileType = (FileType)int.MaxValue };
 
         // ToDo: add FileType.Unknown ?
         //    protected override string GetStringValue(FileType value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(onlineFile));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(onlineFile));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

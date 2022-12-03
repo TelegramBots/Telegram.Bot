@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
@@ -187,4 +185,19 @@ public enum MessageType
     /// The <see cref="Message"/> contains <see cref="Message.VideoChatParticipantsInvited"/>
     /// </summary>
     VideoChatParticipantsInvited,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicCreated"/>
+    /// </summary>
+    ForumTopicCreated,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicClosed"/>
+    /// </summary>
+    ForumTopicClosed,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicReopened"/>
+    /// </summary>
+    ForumTopicReopened,
 }

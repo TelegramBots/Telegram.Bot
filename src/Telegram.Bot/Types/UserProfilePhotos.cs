@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represent a user's profile pictures.

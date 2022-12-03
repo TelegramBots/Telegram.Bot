@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
@@ -8,7 +5,7 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send answers to callback queries sent from
 /// <see cref="Types.ReplyMarkups.InlineKeyboardMarkup">inline keyboards</see>. The answer will be
 /// displayed to the user as a notification at the top of the chat screen or as an alert. On success,
-/// <c>true</c> is returned.
+/// <see langword="true"/> is returned.
 /// </summary>
 /// <remarks>
 /// Alternatively, the user can be redirected to the specified Game URL.For this option to work, you
@@ -32,7 +29,7 @@ public class AnswerCallbackQueryRequest : RequestBase<bool>
 
     /// <summary>
     /// If true, an alert will be shown by the client instead of a notification at the top of
-    /// the chat screen. Defaults to <c>false</c>
+    /// the chat screen. Defaults to <see langword="false"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ShowAlert { get; set; }

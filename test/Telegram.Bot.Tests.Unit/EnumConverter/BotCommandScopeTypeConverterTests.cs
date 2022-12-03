@@ -18,7 +18,7 @@ public class BotCommandScopeTypeConverterTests
     [InlineData(BotCommandScopeType.ChatMember, "chat_member")]
     public void Should_Convert_BotCommandScopeType_To_String(BotCommandScopeType botCommandScopeType, string value)
     {
-        BotCommandScope botCommandScope = new BotCommandScope(){ Type = botCommandScopeType };
+        BotCommandScope botCommandScope = new(){ Type = botCommandScopeType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(botCommandScope);
@@ -36,11 +36,12 @@ public class BotCommandScopeTypeConverterTests
     [InlineData(BotCommandScopeType.ChatMember, "chat_member")]
     public void Should_Convert_String_To_BotCommandScopeType(BotCommandScopeType botCommandScopeType, string value)
     {
-        BotCommandScope expectedResult = new BotCommandScope() { Type = botCommandScopeType };
+        BotCommandScope expectedResult = new() { Type = botCommandScopeType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        BotCommandScope result = JsonConvert.DeserializeObject<BotCommandScope>(jsonData);
+        BotCommandScope? result = JsonConvert.DeserializeObject<BotCommandScope>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
@@ -49,18 +50,17 @@ public class BotCommandScopeTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        BotCommandScope result = JsonConvert.DeserializeObject<BotCommandScope>(jsonData);
-
+        BotCommandScope? result = JsonConvert.DeserializeObject<BotCommandScope>(jsonData);
+        Assert.NotNull(result);
         Assert.Equal((BotCommandScopeType)0, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_BotCommandScopeType()
     {
-        BotCommandScope botCommandScope = new BotCommandScope() { Type = (BotCommandScopeType)int.MaxValue };
+        BotCommandScope botCommandScope = new() { Type = (BotCommandScopeType)int.MaxValue };
 
-        NotSupportedException ex =  Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(botCommandScope));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(botCommandScope));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

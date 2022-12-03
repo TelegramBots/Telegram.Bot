@@ -1,11 +1,9 @@
 ﻿#if NETCOREAPP3_1_OR_GREATER
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -49,7 +47,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
     /// </param>
     public IAsyncEnumerator<Update> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
-        if (Interlocked.CompareExchange(ref _inProcess, 1, 0) == 1)
+        if (Interlocked.CompareExchange(ref _inProcess, 1, 0) is 1)
         {
             throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
         }
@@ -119,7 +117,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
             _updateArray = Array.Empty<Update>();
             _updateIndex = 0;
 
-            while (_updateArray.Length == 0)
+            while (_updateArray.Length is 0)
             {
                 try
                 {

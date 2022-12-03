@@ -29,12 +29,12 @@ stages:
             displayName: Install .NET SDK
             inputs:
               packageType: sdk
-              version: 6.0.x
+              version: $(netSdkVersion)
           - pwsh: >
-              dotnet build 
+              dotnet build
               --configuration $(buildConfiguration)
               -p:Version=$(ciVersion)
-              -p:CI_EMBED_SYMBOLS=true 
+              -p:CI_EMBED_SYMBOLS=true
               $(projectPath)
             displayName: Build project with CI version
           - pwsh: >
@@ -57,7 +57,7 @@ stages:
           buildConfiguration: $(buildConfiguration)
           projects: $(unitTestsProject)
           strategies:
-            - Ubuntu: ubuntu-20.04
+            - Ubuntu: ubuntu-22.04
   - stage: PublishArtifacts
     dependsOn: Build
     displayName: 📤 Publish artifacts
@@ -65,7 +65,7 @@ stages:
       - job: PublishArtifacts
         displayName: Publish artifacts
         pool:
-          vmImage: $(vmImage)
+          vmImage: ubuntu-22.04
         steps:
           - checkout: none
           - download: current
@@ -74,7 +74,7 @@ stages:
             displayName: Install .NET sdk
             inputs:
               packageType: sdk
-              version: 6.0.x
+              version: $(netSdkVersion)
           - task: NuGetAuthenticate@0
             displayName: 'NuGet Authenticate'
           - task: NuGetCommand@2

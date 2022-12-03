@@ -1,8 +1,5 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using File = Telegram.Bot.Types.File;
 
 // ReSharper disable once CheckNamespace

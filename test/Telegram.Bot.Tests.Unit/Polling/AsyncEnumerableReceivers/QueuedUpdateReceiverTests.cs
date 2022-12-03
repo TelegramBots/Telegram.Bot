@@ -13,8 +13,8 @@ public class QueuedUpdateReceiverTests
     [Fact]
     public void CallingGetEnumeratorTwiceThrows()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient();
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new();
+        QueuedUpdateReceiver receiver = new(mockClient);
 
         _ = receiver.GetAsyncEnumerator();
 
@@ -24,8 +24,8 @@ public class QueuedUpdateReceiverTests
     [Fact]
     public async Task ReceivesUpdatesInTheBackground()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("1", "2", "3");
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new("1", "2", "3");
+        QueuedUpdateReceiver receiver = new(mockClient);
 
         Assert.Equal(3, mockClient.MessageGroupsLeft);
 
@@ -43,9 +43,8 @@ public class QueuedUpdateReceiverTests
     [Fact]
     public async Task ReturnsReceivedPendingUpdates()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo-bar", "123", "one-two-three", "456");
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient);
-
+        MockTelegramBotClient mockClient = new("foo-bar", "123", "one-two-three", "456");
+        QueuedUpdateReceiver receiver = new(mockClient);
         mockClient.Options.RequestDelay = 250;
 
         Assert.Equal(4, mockClient.MessageGroupsLeft);
@@ -99,15 +98,14 @@ public class QueuedUpdateReceiverTests
     [Fact]
     public async Task ThrowsOnMoveNextIfCancelled()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo", "bar");
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient);
-
-        CancellationTokenSource cts = new CancellationTokenSource();
+        MockTelegramBotClient mockClient = new("foo", "bar");
+        QueuedUpdateReceiver receiver = new(mockClient);
+        CancellationTokenSource cts = new();
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator(cts.Token);
 
         Assert.True(await enumerator.MoveNextAsync());
-        Assert.Equal("foo", enumerator.Current.Message!.Text);
+        Assert.Equal("foo", enumerator.Current.Message?.Text);
 
         cts.Cancel();
         await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
@@ -116,23 +114,24 @@ public class QueuedUpdateReceiverTests
     [Fact]
     public async Task DoesntReceiveAfterCancellation()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo", "bar", "foo");
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new("foo", "bar", "foo");
+        QueuedUpdateReceiver receiver = new(mockClient);
 
         mockClient.Options.RequestDelay = 200;
 
-        CancellationTokenSource cts = new CancellationTokenSource();
+        CancellationTokenSource cts = new();
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator(cts.Token);
 
         Assert.True(await enumerator.MoveNextAsync());
         Assert.Equal(2, mockClient.MessageGroupsLeft);
-        Assert.Equal("foo", enumerator.Current.Message!.Text);
+        Assert.Equal("foo", enumerator.Current.Message?.Text);
 
         cts.CancelAfter(50);
 
         await Assert.ThrowsAnyAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
 
+        // ReSharper disable once MethodSupportsCancellation
         await Task.Delay(500);
 
         Assert.Equal(2, mockClient.MessageGroupsLeft);
@@ -147,8 +146,8 @@ public class QueuedUpdateReceiverTests
     [Fact]
     public async Task MoveNextThrowsIfEnumeratorIsDisposed()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient("foo");
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new("foo");
+        QueuedUpdateReceiver receiver = new(mockClient);
 
         IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator();
 
@@ -161,18 +160,11 @@ public class QueuedUpdateReceiverTests
     [Fact]
     public async Task ExceptionIsCaughtByErrorHandler()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient
-        {
-            Options =
-            {
-                ExceptionToThrow = new Exception("Oops")
-            }
-        };
-
-        CancellationTokenSource cts = new CancellationTokenSource();
-
+        MockTelegramBotClient mockClient = new() { Options = { ExceptionToThrow = new("Oops") } };
+        CancellationTokenSource cts = new();
         bool seenException = false;
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient, pollingErrorHandler: (ex, ct) =>
+
+        QueuedUpdateReceiver receiver = new(mockClient, pollingErrorHandler: (ex, _) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
             seenException = true;
@@ -183,60 +175,45 @@ public class QueuedUpdateReceiverTests
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator(cts.Token);
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
-
         Assert.True(seenException);
     }
 
     [Fact]
     public async Task ReceivingIsCanceledOnExceptionIfThereIsNoErrorHandler()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient
-        {
-            Options =
-            {
-                ExceptionToThrow = new Exception("Oops")
-            }
-        };
-
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient);
+        MockTelegramBotClient mockClient = new() { Options = { ExceptionToThrow = new("Oops") } };
+        QueuedUpdateReceiver receiver = new(mockClient);
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
 
-        Exception ex = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
-        Assert.Same(mockClient.Options.ExceptionToThrow, ex.InnerException);
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
+        Assert.Same(mockClient.Options.ExceptionToThrow, exception.InnerException);
     }
 
     [Fact]
     public async Task UncaughtExceptionIsStoredIfErrorHandlerThrows()
     {
-        MockTelegramBotClient mockClient = new MockTelegramBotClient
-        {
-            Options =
-            {
-                ExceptionToThrow = new Exception("Oops")
-            }
-        };
+        MockTelegramBotClient mockClient = new() { Options = { ExceptionToThrow = new("Oops") } };
+        Exception? exceptionFromErrorHandler = null;
 
-        Exception exceptionFromErrorHandler = null!;
-
-        QueuedUpdateReceiver receiver = new QueuedUpdateReceiver(mockClient, pollingErrorHandler: (ex, ct) =>
+        QueuedUpdateReceiver receiver = new(mockClient, pollingErrorHandler: (ex, _) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
-            throw exceptionFromErrorHandler = new Exception("Oops2");
+            throw exceptionFromErrorHandler = new("Oops2");
         });
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator();
 
         await Assert.ThrowsAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
 
-        Exception ex = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
+        Exception exception = await Assert.ThrowsAsync<Exception>(async () => await enumerator.MoveNextAsync());
+        AggregateException aggregateException = Assert.IsType<AggregateException>(exception.InnerException);
 
-        AggregateException? aggregateEx = ex.InnerException as AggregateException;
-        Assert.NotNull(aggregateEx);
-        Assert.Equal(2, aggregateEx!.InnerExceptions.Count);
-        Assert.Same(mockClient.Options.ExceptionToThrow, aggregateEx.InnerExceptions[0]);
-        Assert.Same(exceptionFromErrorHandler, aggregateEx.InnerExceptions[1]);
+        Assert.NotNull(aggregateException);
+        Assert.Equal(2, aggregateException.InnerExceptions.Count);
+        Assert.Same(mockClient.Options.ExceptionToThrow, aggregateException.InnerExceptions[0]);
+        Assert.Same(exceptionFromErrorHandler, aggregateException.InnerExceptions[1]);
     }
 }

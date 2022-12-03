@@ -1,9 +1,7 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -56,16 +54,25 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
         Media = media;
     }
 
-    // ToDo: If there is no file stream in the request, request content should be string
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()
     {
+        if (Media.Media.FileType is not FileType.Stream &&
+            Media is not IInputMediaThumb { Thumb.FileType: FileType.Stream })
+        {
+            return base.ToHttpContent();
+        }
+
         var multipartContent = GenerateMultipartFormDataContent();
 
         if (Media.Media is InputFile file)
+        {
             multipartContent.AddContentIfInputFile(file, file.FileName!);
-        if (Media is IInputMediaThumb thumbMedia && thumbMedia.Thumb is InputFile thumb)
+        }
+        if (Media is IInputMediaThumb { Thumb: InputFile thumb })
+        {
             multipartContent.AddContentIfInputFile(thumb, thumb.FileName!);
+        }
 
         return multipartContent;
     }

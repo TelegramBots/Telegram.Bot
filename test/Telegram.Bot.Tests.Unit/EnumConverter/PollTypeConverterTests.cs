@@ -13,7 +13,7 @@ public class PollTypeConverterTests
     [InlineData(PollType.Quiz, "quiz")]
     public void Should_Convert_ChatType_To_String(PollType pollType, string value)
     {
-        Poll poll = new Poll() { Type = pollType };
+        Poll poll = new() { Type = pollType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(poll);
@@ -26,11 +26,12 @@ public class PollTypeConverterTests
     [InlineData(PollType.Quiz, "quiz")]
     public void Should_Convert_String_To_PollType(PollType pollType, string value)
     {
-        Poll expectedResult = new Poll() { Type = pollType };
+        Poll expectedResult = new() { Type = pollType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Poll result = JsonConvert.DeserializeObject<Poll>(jsonData);
+        Poll? result = JsonConvert.DeserializeObject<Poll>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
@@ -39,23 +40,23 @@ public class PollTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Poll result = JsonConvert.DeserializeObject<Poll>(jsonData);
+        Poll? result = JsonConvert.DeserializeObject<Poll>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((PollType)0, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_PollType()
     {
-        Poll poll = new Poll() { Type = (PollType)int.MaxValue };
+        Poll poll = new() { Type = (PollType)int.MaxValue };
 
         // ToDo: add PollType.Unknown ?
         //    protected override string GetStringValue(PollType value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(poll));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(poll));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]

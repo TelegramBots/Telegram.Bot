@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
@@ -77,7 +74,7 @@ public class InlineKeyboardButton : IKeyboardButton
     public CallbackGame? CallbackGame { get; set; }
 
     /// <summary>
-    /// Optional. Specify True, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>.
+    /// Optional. Specify <see langword="true"/>, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>.
     /// </summary>
     /// <remarks>
     /// <b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.

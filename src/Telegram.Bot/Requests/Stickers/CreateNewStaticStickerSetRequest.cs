@@ -1,15 +1,11 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using System.Net.Http;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to create a new static sticker set owned by a user. The bot will be able to edit
-/// the sticker set thus created. Returns <c>true</c> on success.
+/// the sticker set thus created. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CreateNewStaticStickerSetRequest : CreateNewStickerSetRequest
@@ -33,15 +29,14 @@ public class CreateNewStaticStickerSetRequest : CreateNewStickerSetRequest
     /// get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
 #pragma warning disable CS1573
-    public CreateNewStaticStickerSetRequest(long userId,
-                                            string name,
-                                            string title,
-                                            IInputFile pngSticker,
-                                            string emojis)
-        : base(userId, name, title, emojis)
-    {
-        PngSticker = pngSticker ?? throw new ArgumentNullException(nameof(pngSticker), "Sticker is null");
-    }
+    public CreateNewStaticStickerSetRequest(
+        long userId,
+        string name,
+        string title,
+        IInputFile pngSticker,
+        string emojis
+    ) : base(userId, name, title, emojis)
+        => PngSticker = pngSticker ?? throw new ArgumentNullException(nameof(pngSticker), "Sticker is null");
 #pragma warning restore CS1573
 
     /// <inheritdoc />

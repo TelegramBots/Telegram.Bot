@@ -1,9 +1,5 @@
-using System;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -13,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// and channels, the user will not be able to return to the chat on their own using invite links,
 /// etc., unless <see cref="UnbanChatMemberRequest">unbanned</see> first. The bot must be an
 /// administrator in the chat for this to work and must have the appropriate admin rights.
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
@@ -36,9 +32,9 @@ public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTar
     public DateTime? UntilDate { get; set; }
 
     /// <summary>
-    /// Pass True to delete all messages from the chat for the user that is being removed. If
-    /// <c>false</c>, the user will be able to see messages in the group that were sent before
-    /// the user was removed. Always True for supergroups and channels.
+    /// Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed. If
+    /// <see langword="false"/>, the user will be able to see messages in the group that were sent before
+    /// the user was removed. Always <see langword="true"/> for supergroups and channels.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? RevokeMessages { get; set; }

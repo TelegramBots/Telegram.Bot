@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace Telegram.Bot;
@@ -99,12 +98,12 @@ public class TelegramBotClientOptions
             var botIdSpan = span[..index];
             if (!long.TryParse(botIdSpan, out var botId)) { return null; }
 #else
-                var index = token.IndexOf(value: ':');
+            var index = token.IndexOf(value: ':');
 
-                if (index is < 1 or > 16) { return null; }
+            if (index is < 1 or > 16) { return null; }
 
-                var botIdSpan = token.Substring(startIndex: 0, length: index);
-                if (!long.TryParse(botIdSpan, out var botId)) { return null; }
+            var botIdSpan = token.Substring(startIndex: 0, length: index);
+            if (!long.TryParse(botIdSpan, out var botId)) { return null; }
 #endif
 
             return botId;

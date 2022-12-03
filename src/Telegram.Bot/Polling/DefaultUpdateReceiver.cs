@@ -1,9 +1,7 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Polling;
 

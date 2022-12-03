@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Collections.Generic;
 using Telegram.Bot.Types.Payments;
 
@@ -103,43 +101,43 @@ public class CreateInvoiceLinkRequest : RequestBase<string>
     public int? PhotoHeight { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if you require the user's full name to complete the order
+    /// Pass <see langword="true"/>, if you require the user's full name to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedName { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if you require the user's phone number to complete the order
+    /// Pass <see langword="true"/>, if you require the user's phone number to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedPhoneNumber { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if you require the user's email to complete the order
+    /// Pass <see langword="true"/>, if you require the user's email to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedEmail { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if you require the user's shipping address to complete the order
+    /// Pass <see langword="true"/>, if you require the user's shipping address to complete the order
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? NeedShippingAddress { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if user's phone number should be sent to provider
+    /// Pass <see langword="true"/>, if user's phone number should be sent to provider
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SendPhoneNumberToProvider { get; set; }
 
     /// <summary>
-    ///Pass <c>true</c>, if user's email address should be sent to provider
+    ///Pass <see langword="true"/>, if user's email address should be sent to provider
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SendEmailToProvider { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if the final price depends on the shipping method
+    /// Pass <see langword="true"/>, if the final price depends on the shipping method
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? IsFlexible { get; set; }

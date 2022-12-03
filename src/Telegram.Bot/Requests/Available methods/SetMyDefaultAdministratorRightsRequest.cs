@@ -1,15 +1,10 @@
-﻿
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Types;
-
-// ReSharper disable once CheckNamespace
+﻿// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to change the default administrator rights requested by the bot when it's added as an
 /// administrator to groups or channels. These rights will be suggested to users, but they are are free to
-/// modify the list before adding the bot. Returns <c>true</c> on success.
+/// modify the list before adding the bot. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetMyDefaultAdministratorRightsRequest : RequestBase<bool>
@@ -23,7 +18,7 @@ public class SetMyDefaultAdministratorRightsRequest : RequestBase<bool>
     public ChatAdministratorRights? Rights { get; set; }
 
     /// <summary>
-    /// Optional. Pass <c>true</c> to change the default administrator rights of the bot in channels. Otherwise,
+    /// Optional. Pass <see langword="true"/> to change the default administrator rights of the bot in channels. Otherwise,
     /// the default administrator rights of the bot for groups and supergroups will be changed.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
