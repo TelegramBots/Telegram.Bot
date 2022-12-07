@@ -4,7 +4,7 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Types;
 
 /// <summary>
-/// A file identifier
+/// This object represents an HTTP URL for the file to be sent
 /// </summary>
 public class InputFileUrl : IInputFile
 {
@@ -12,14 +12,14 @@ public class InputFileUrl : IInputFile
     public FileType FileType => FileType.Url;
 
     /// <summary>
-    ///
+    /// HTTP URL for the file to be sent
     /// </summary>
     public string Url { get; }
 
     /// <summary>
-    ///
+    /// This object represents an HTTP URL for the file to be sent
     /// </summary>
-    /// <param name="url"></param>
+    /// <param name="url">HTTP URL for the file to be sent</param>
     public InputFileUrl(string url) => Url = url;
 
     /// <summary>
