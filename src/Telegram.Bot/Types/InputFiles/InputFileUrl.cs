@@ -21,4 +21,11 @@ public class InputFileUrl : IInputFile
     /// </summary>
     /// <param name="url"></param>
     public InputFileUrl(string url) => Url = url;
+
+    /// <summary>
+    /// This object represents an HTTP URL for the file to be sent
+    /// </summary>
+    /// <param name="uri">HTTP URL for the file to be sent</param>
+    public InputFileUrl(Uri uri) =>
+        Url = uri?.AbsoluteUri ?? throw new ArgumentNullException(nameof(uri));
 }
