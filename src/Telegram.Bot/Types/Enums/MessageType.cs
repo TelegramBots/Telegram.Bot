@@ -191,6 +191,7 @@ public enum MessageType
     /// </summary>
     Animation,
 
+    /// <summary>
     /// The <see cref="Message"/> contains <see cref="Message.ForumTopicCreated"/>
     /// </summary>
     ForumTopicCreated,
