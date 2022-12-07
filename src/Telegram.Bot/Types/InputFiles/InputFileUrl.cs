@@ -14,18 +14,17 @@ public class InputFileUrl : IInputFile
     /// <summary>
     /// HTTP URL for the file to be sent
     /// </summary>
-    public string Url { get; }
+    public Uri Url { get; }
 
     /// <summary>
     /// This object represents an HTTP URL for the file to be sent
     /// </summary>
     /// <param name="url">HTTP URL for the file to be sent</param>
-    public InputFileUrl(string url) => Url = url;
+    public InputFileUrl(string url) => Url = new(url);
 
     /// <summary>
     /// This object represents an HTTP URL for the file to be sent
     /// </summary>
     /// <param name="uri">HTTP URL for the file to be sent</param>
-    public InputFileUrl(Uri uri) =>
-        Url = uri?.AbsoluteUri ?? throw new ArgumentNullException(nameof(uri));
+    public InputFileUrl(Uri uri) => Url = uri;
 }
