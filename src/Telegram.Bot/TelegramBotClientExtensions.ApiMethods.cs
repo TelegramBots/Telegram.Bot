@@ -280,6 +280,9 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="text">Text of the message to be sent, 1-4096 characters after entities parsing</param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
     /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a> options for more
@@ -303,9 +306,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to <see cref="ForceReplyMarkup">force a
     /// reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -357,13 +357,13 @@ public static partial class TelegramBotClientExtensions
     /// (or channel username in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageId">Message identifier in the chat specified in <paramref name="fromChatId"/></param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -405,6 +405,9 @@ public static partial class TelegramBotClientExtensions
     /// (or channel username in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageId">Message identifier in the chat specified in <paramref name="fromChatId"/></param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="caption">
     /// New caption for media, 0-1024 characters after entities parsing. If not specified, the original caption
     /// is kept
@@ -431,9 +434,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -487,6 +487,9 @@ public static partial class TelegramBotClientExtensions
     /// the Internet, or upload a new photo using multipart/form-data. The photo must be at most 10 MB in size.
     /// The photo's width and height must not exceed 10000 in total. Width and height ratio must be at most 20
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="caption">
     /// Photo caption (may also be used when resending photos by <see cref="InputFileId"/>),
     /// 0-1024 characters after entities parsing
@@ -513,9 +516,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -569,6 +569,9 @@ public static partial class TelegramBotClientExtensions
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an audio
     /// file from the Internet, or upload a new one using multipart/form-data
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="caption">Audio caption, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
@@ -602,9 +605,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -665,6 +665,9 @@ public static partial class TelegramBotClientExtensions
     /// Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from the Internet,
     /// or upload a new one using multipart/form-data
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="thumb">
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
     /// The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should
@@ -701,9 +704,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -761,6 +761,9 @@ public static partial class TelegramBotClientExtensions
     /// the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a video from the
     /// Internet, or upload a new video using multipart/form-data
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="duration">Duration of sent video in seconds</param>
     /// <param name="width">Video width</param>
     /// <param name="height">Video height</param>
@@ -797,9 +800,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -862,6 +862,9 @@ public static partial class TelegramBotClientExtensions
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get an
     /// animation from the Internet, or upload a new animation using multipart/form-data
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="duration">Duration of sent animation in seconds</param>
     /// <param name="width">Animation width</param>
     /// <param name="height">Animation height</param>
@@ -898,9 +901,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -959,6 +959,9 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="voice">
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send a file that exists
     /// on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from
     /// the Internet, or upload a new one using multipart/form-data
@@ -987,9 +990,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1044,6 +1044,9 @@ public static partial class TelegramBotClientExtensions
     /// exists on the Telegram servers (recommended) or upload a new video using multipart/form-data. Sending
     /// video notes by a URL is currently unsupported
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="duration">Duration of sent video in seconds</param>
     /// <param name="length">Video width and height, i.e. diameter of the video message</param>
     /// <param name="thumb">
@@ -1066,9 +1069,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1117,6 +1117,9 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="media">An array describing messages to be sent, must include 2-10 items</param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
@@ -1124,9 +1127,6 @@ public static partial class TelegramBotClientExtensions
     /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
     /// <param name="allowSendingWithoutReply">
     /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1167,6 +1167,9 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="latitude">Latitude of location</param>
     /// <param name="longitude">Longitude of location</param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="livePeriod">
     /// Period in seconds for which the location will be updated, should be between 60 and 86400
     /// </param>
@@ -1191,9 +1194,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1423,6 +1423,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="longitude">Longitude of the venue</param>
     /// <param name="title">Name of the venue</param>
     /// <param name="address">Address of the venue</param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="foursquareId">Foursquare identifier of the venue</param>
     /// <param name="foursquareType">
     /// Foursquare type of the venue, if known. (For example, “arts_entertainment/default”,
@@ -1446,9 +1449,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1503,6 +1503,9 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="lastName">Contact's last name</param>
     /// <param name="vCard">Additional data about the contact in the form of a vCard, 0-2048 bytes</param>
     /// <param name="disableNotification">
@@ -1518,9 +1521,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1568,6 +1568,9 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="question">Poll question, 1-300 characters</param>
     /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="isAnonymous"><see langword="true"/>, if the poll needs to be anonymous, defaults to <see langword="true"/></param>
     /// <param name="type">
     /// Poll type, <see cref="PollType.Quiz"/> or <see cref="PollType.Regular"/>,
@@ -1617,9 +1620,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -1681,6 +1681,9 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="emoji">
     /// Emoji on which the dice throw animation is based. Currently, must be one of <see cref="Emoji.Dice"/>,
     /// <see cref="Emoji.Darts"/>, <see cref="Emoji.Basketball"/>, <see cref="Emoji.Football"/>,
@@ -1702,9 +1705,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -3686,6 +3686,9 @@ public static partial class TelegramBotClientExtensions
     /// the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from
     /// the Internet, or upload a new one using multipart/form-data
     /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
@@ -3699,9 +3702,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -4208,7 +4208,7 @@ public static partial class TelegramBotClientExtensions
             )
             .ConfigureAwait(false);
 
-    # endregion Inline mode
+    #endregion Inline mode
 
     #region Payments
 
@@ -4236,6 +4236,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="prices">
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost, delivery tax,
     /// bonus, etc.)
+    /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="maxTipAmount">
     /// The maximum accepted amount for tips in the smallest units of the currency (integer, not float/double).
@@ -4295,9 +4298,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -4605,6 +4605,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat</param>
     /// <param name="gameShortName">
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
     /// <a href="https://t.me/botfather">@Botfather</a>
     /// </param>
@@ -4621,9 +4624,6 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
-    /// </param>
-    /// <param name="messageThreadId">
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
