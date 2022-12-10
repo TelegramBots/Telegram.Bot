@@ -15,9 +15,9 @@ public class EnumConverterGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         IncrementalValuesProvider<EnumDeclarationSyntax> enumDeclarations = context.SyntaxProvider
-           .CreateSyntaxProvider(
-               predicate: static (s, _) => IsSyntaxTargetForGeneration(s),
-               transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx))
+            .ForAttributeWithMetadataName(JsonConverterAttribute,
+               predicate: static (node, _) => node is EnumDeclarationSyntax { AttributeLists.Count: > 0 },
+               transform: static (context, _) => (EnumDeclarationSyntax)context.TargetNode)
            .Where(static m => m is not null)!;
 
         IncrementalValueProvider<(Compilation, ImmutableArray<EnumDeclarationSyntax>)> compilationAndEnums
@@ -25,42 +25,6 @@ public class EnumConverterGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(compilationAndEnums,
             static (spc, source) => Execute(source.Item1, source.Item2, spc));
-    }
-
-    static bool IsSyntaxTargetForGeneration(SyntaxNode node)
-        => node is EnumDeclarationSyntax { AttributeLists.Count: > 0 };
-
-    static EnumDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
-    {
-        // we know the node is a EnumDeclarationSyntax thanks to IsSyntaxTargetForGeneration
-        var enumDeclarationSyntax = (EnumDeclarationSyntax)context.Node;
-
-        // loop through all the attributes on the method
-        foreach (AttributeListSyntax attributeListSyntax in enumDeclarationSyntax.AttributeLists)
-        {
-            foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
-            {
-                if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol
-                    is not IMethodSymbol attributeSymbol)
-                {
-                    // weird, we couldn't get the symbol, ignore it
-                    continue;
-                }
-
-                INamedTypeSymbol attributeContainingTypeSymbol = attributeSymbol.ContainingType;
-                string fullName = attributeContainingTypeSymbol.ToDisplayString();
-
-                // Is the attribute the [JsonConverterAttribute] attribute?
-                if (fullName == JsonConverterAttribute)
-                {
-                    // return the enum
-                    return enumDeclarationSyntax;
-                }
-            }
-        }
-
-        // we didn't find the attribute we were looking for
-        return null;
     }
 
     static void Execute(
