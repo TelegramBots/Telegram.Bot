@@ -17,3 +17,6 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "develop"
+    ignore:
+      - dependency-name: "Microsoft.*"
+        update-types: ["version-update:semver-major"]
