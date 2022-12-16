@@ -87,8 +87,6 @@ public class EnumConverterGenerator : IIncrementalGenerator
                 ? string.Empty
                 : enumSymbol.ContainingNamespace.ToString();
 
-            string fullyQualifiedName = enumSymbol.ToString();
-
             var enumMembers = enumSymbol.GetMembers();
             var members = new List<KeyValuePair<string, string>>(enumMembers.Length);
 
@@ -128,7 +126,6 @@ public class EnumConverterGenerator : IIncrementalGenerator
             enumsToProcess.Add(new(
                 name: name,
                 ns: nameSpace,
-                fullyQualifiedName: fullyQualifiedName,
                 members: members
             ));
         }
