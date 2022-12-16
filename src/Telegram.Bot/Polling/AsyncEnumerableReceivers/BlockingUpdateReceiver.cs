@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_1_OR_GREATER
+﻿#if NET6_0_OR_GREATER
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
