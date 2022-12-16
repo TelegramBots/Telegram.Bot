@@ -2,7 +2,7 @@ using Scriban;
 
 namespace EnumSerializer.Generator;
 
-public static class SourceGenerationHelper
+internal static class SourceGenerationHelper
 {
     internal const string ConverterTemplate =
         """
@@ -63,7 +63,7 @@ public static class SourceGenerationHelper
         }
         """;
 
-    public static string GenerateConverterClass(Template template, EnumInfo enumToGenerate)
+    internal static string GenerateConverterClass(Template template, EnumInfo enumToGenerate)
     {
         var hasUnknownMember = enumToGenerate.Members.Any(
             e => string.Equals(e.Value, "Unknown", StringComparison.OrdinalIgnoreCase)
@@ -74,7 +74,7 @@ public static class SourceGenerationHelper
             EnumNamespace = enumToGenerate.Namespace,
             EnumName = enumToGenerate.Name,
             EnumMembers = enumToGenerate.Members,
-            HasUnknownMember = hasUnknownMember
+            HasUnknownMember = hasUnknownMember,
         });
 
         return result;
