@@ -29,7 +29,7 @@ internal static class TelegramBotClientExtensions
         var updates = await botClient.MakeRequestAsync(request: request, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
 
-#if NETCOREAPP3_1_OR_GREATER
+#if NET6_0_OR_GREATER
         if (updates.Length > 0) { return updates[^1].Id + 1; }
 #else
         if (updates.Length > 0) { return updates[updates.Length - 1].Id + 1; }

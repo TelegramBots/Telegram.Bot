@@ -89,7 +89,7 @@ public class TelegramBotClientOptions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static long? GetIdFromToken(string token)
         {
-#if NETCOREAPP3_1_OR_GREATER
+#if NET6_0_OR_GREATER
             var span = token.AsSpan();
             var index = span.IndexOf(':');
 
