@@ -4,6 +4,14 @@
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
+    <WarningLevel>7</WarningLevel>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -23,10 +31,9 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>
       $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
     </AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Label="Warnings">
     <NoWarn>$(NoWarn);CA1003</NoWarn> <!-- Change the event name to replace the type with a generic EventHandler,
                                            for example EventHandler<T>, where T is a valid EventArgs -->
     <NoWarn>$(NoWarn);CA1819</NoWarn> <!-- Properties should not return arrays-->
@@ -45,6 +52,7 @@
                                            'HttpClient.GetAsync(Uri, HttpCompletionOption, CancellationToken)' instead
                                            of 'HttpClient.GetAsync(string, HttpCompletionOption, CancellationToken)' -->
     <NoWarn>$(NoWarn);CA1031</NoWarn> <!-- Catch a more specific allowed exception type, or rethrow the exception -->
+    <NoWarn>$(NoWarn);MA0046;MA0048</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -71,6 +79,10 @@
   </ItemGroup>
 
   <ItemGroup Label="Dev">
+    <PackageReference Include="Meziantou.Analyzer" Version="1.0.757">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
     <PackageReference Include="JetBrains.Annotations" Version="2022.1.0" PrivateAssets="All" />
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
