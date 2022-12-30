@@ -15,6 +15,12 @@ public class InputMediaPhoto :
     public override InputMediaType Type => InputMediaType.Photo;
 
     /// <summary>
+    /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasSpoiler { get; set; }
+
+    /// <summary>
     /// Initializes a new photo media to send with an <see cref="IInputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>

@@ -45,6 +45,12 @@ public class InputMediaVideo :
     public bool? SupportsStreaming { get; set; }
 
     /// <summary>
+    /// Pass <see langword="true"/> if the video needs to be covered with a spoiler animation
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasSpoiler { get; set; }
+
+    /// <summary>
     /// Initializes a new video media to send with an <see cref="IInputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>

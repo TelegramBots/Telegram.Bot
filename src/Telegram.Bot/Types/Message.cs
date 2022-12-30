@@ -243,6 +243,12 @@ public class Message
             : CaptionEntities?.Select(entity => Caption.Substring(entity.Offset, entity.Length));
 
     /// <summary>
+    /// Optional. <see langword="true"/>, if the message media is covered by a spoiler animation
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasMediaSpoiler { get; set; }
+
+    /// <summary>
     /// Optional. Message is a shared contact, information about the contact
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -378,6 +384,12 @@ public class Message
     public string? ConnectedWebsite { get; set; }
 
     /// <summary>
+    /// Optional. Service message: the user allowed the bot added to the attachment menu to write messages
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public WriteAccessAllowed? WriteAccessAllowed { get; set; }
+
+    /// <summary>
     /// Optional. Telegram Passport data
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -397,6 +409,12 @@ public class Message
     public ForumTopicCreated? ForumTopicCreated { get; set; }
 
     /// <summary>
+    /// Optional. Service message: forum topic edited
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ForumTopicEdited? ForumTopicEdited { get; set; }
+
+    /// <summary>
     /// Optional. Service message: forum topic closed
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -407,6 +425,18 @@ public class Message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ForumTopicReopened? ForumTopicReopened { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: the 'General' forum topic hidden
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GeneralForumTopicHidden? GeneralForumTopicHidden { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: the 'General' forum topic unhidden
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GeneralForumTopicUnhidden? GeneralForumTopicUnhidden { get; set; }
 
     /// <summary>
     /// Optional. Service message: video chat scheduled
@@ -492,8 +522,12 @@ public class Message
             { VideoChatParticipantsInvited: { } }  => MessageType.VideoChatParticipantsInvited,
             { WebAppData: { } }                    => MessageType.WebAppData,
             { ForumTopicCreated: { } }             => MessageType.ForumTopicCreated,
-            { ForumTopicClosed: { } }             => MessageType.ForumTopicClosed,
-            { ForumTopicReopened: { } }             => MessageType.ForumTopicReopened,
+            { ForumTopicEdited: { } }              => MessageType.ForumTopicEdited,
+            { ForumTopicClosed: { } }              => MessageType.ForumTopicClosed,
+            { ForumTopicReopened: { } }            => MessageType.ForumTopicReopened,
+            { GeneralForumTopicHidden: { } }       => MessageType.GeneralForumTopicHidden,
+            { GeneralForumTopicUnhidden: { } }     => MessageType.GeneralForumTopicUnhidden,
+            { WriteAccessAllowed: { } }            => MessageType.WriteAccessAllowed,
             _                                      => MessageType.Unknown
         };
 }

@@ -24,14 +24,14 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <summary>
     /// Topic name, 1-128 characters
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? Name { get; set; }
 
     /// <summary>
     /// Unique identifier of the custom emoji shown as the topic icon.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public string IconCustomEmojiId { get; }
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? IconCustomEmojiId { get; set; }
 
     /// <summary>
     /// Initializes a new request
@@ -40,7 +40,11 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     /// <param name="name">Topic name</param>
     /// <param name="iconCustomEmojiId">Unique identifier of the custom emoji shown as the topic icon</param>
-    public EditForumTopicRequest(ChatId chatId, int messageThreadId, string name, string iconCustomEmojiId)
+    public EditForumTopicRequest(
+        ChatId chatId,
+        int messageThreadId,
+        string? name = default,
+        string? iconCustomEmojiId = default)
         : base("editForumTopic")
     {
         ChatId = chatId;
