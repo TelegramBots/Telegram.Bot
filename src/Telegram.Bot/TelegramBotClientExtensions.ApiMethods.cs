@@ -2856,10 +2856,13 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
-    /// <param name="name">Topic name, 1-128 characters</param>
+    /// <param name="name">
+    /// New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
+    /// </param>
     /// <param name="iconCustomEmojiId">
     /// New unique identifier of the custom emoji shown as the topic icon. Use
-    /// <see cref="GetForumTopicIconStickersAsync"/> to get all allowed custom emoji identifiers
+    /// <see cref="GetForumTopicIconStickersRequest"/> to get all allowed custom emoji identifiers. Pass an empty
+    /// string to remove the icon. If not specified, the current icon will be kept
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
