@@ -16,7 +16,7 @@ public class EditGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    ///
+    /// New topic name, 1-128 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string Name { get; }

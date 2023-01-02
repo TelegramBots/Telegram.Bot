@@ -45,7 +45,7 @@ public class InputMediaVideo :
     public bool? SupportsStreaming { get; set; }
 
     /// <summary>
-    /// Pass <see langword="true"/> if the video needs to be covered with a spoiler animation
+    /// Optional. Pass <see langword="true"/> if the video needs to be covered with a spoiler animation
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? HasSpoiler { get; set; }

@@ -15,7 +15,7 @@ public class InputMediaPhoto :
     public override InputMediaType Type => InputMediaType.Photo;
 
     /// <summary>
-    /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
+    /// Optional. Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? HasSpoiler { get; set; }

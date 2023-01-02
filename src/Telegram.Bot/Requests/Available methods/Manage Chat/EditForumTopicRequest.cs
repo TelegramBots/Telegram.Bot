@@ -22,13 +22,15 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     public int MessageThreadId { get; }
 
     /// <summary>
-    /// Topic name, 1-128 characters
+    /// New topic name, 0-128 characters. If not specififed or empty, the current name of the topic will be kept
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Name { get; set; }
 
     /// <summary>
-    /// Unique identifier of the custom emoji shown as the topic icon.
+    /// New unique identifier of the custom emoji shown as the topic icon. Use 
+    /// <see cref="GetForumTopicIconStickersRequest"/> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. 
+    /// If not specified, the current icon will be kept
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? IconCustomEmojiId { get; set; }
@@ -43,8 +45,6 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     public EditForumTopicRequest(
         ChatId chatId,
         int messageThreadId,
-        string? name = default,
-        string? iconCustomEmojiId = default)
         : base("editForumTopic")
     {
         ChatId = chatId;

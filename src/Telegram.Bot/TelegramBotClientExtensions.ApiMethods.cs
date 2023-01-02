@@ -2986,7 +2986,7 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
-    /// <param name="name"></param>
+    /// <param name="name">New topic name, 1-128 characters</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>

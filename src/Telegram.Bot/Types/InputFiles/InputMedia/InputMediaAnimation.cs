@@ -38,7 +38,7 @@ public class InputMediaAnimation :
     public int? Duration { get; set; }
 
     /// <summary>
-    /// Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
+    /// Optional. Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? HasSpoiler { get; set; }
