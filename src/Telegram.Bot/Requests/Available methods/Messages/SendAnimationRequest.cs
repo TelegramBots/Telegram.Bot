@@ -71,6 +71,12 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
+    /// <summary>
+    /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasSpoiler { get; set; }
+
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? DisableNotification { get; set; }

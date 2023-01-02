@@ -40,17 +40,21 @@ public class ChatId : IEquatable<ChatId>
     public ChatId(string username)
     {
         if (username is null) { throw new ArgumentNullException(nameof(username)); }
-        if (username.Length > 1 && username.StartsWith("@", StringComparison.InvariantCulture))
+        if (username.Length > 1 && username[0] == '@')
         {
             Username = username;
         }
-        else if (long.TryParse(username, out var identifier))
+        else if (long.TryParse(
+            s: username,
+            style: NumberStyles.Integer,
+            provider: CultureInfo.InvariantCulture,
+            result: out var identifier))
         {
             Identifier = identifier;
         }
         else
         {
-            throw new ArgumentException("Username value should be Identifier or Username that starts with @");
+            throw new ArgumentException("Username value should be Identifier or Username that starts with @", nameof(username));
         }
     }
 
@@ -73,11 +77,7 @@ public class ChatId : IEquatable<ChatId>
     /// Gets the hash code of this object
     /// </summary>
     /// <returns>A hash code for the current object.</returns>
-#if NETCOREAPP3_1_OR_GREATER
-    public override int GetHashCode() => ToString().GetHashCode(StringComparison.InvariantCulture);
-#else
-    public override int GetHashCode() => ToString().GetHashCode();
-#endif
+    public override int GetHashCode() => StringComparer.InvariantCulture.GetHashCode(ToString());
 
     /// <summary>
     /// Create a <c>string</c> out of a <see cref="ChatId"/>
@@ -124,7 +124,7 @@ public class ChatId : IEquatable<ChatId>
 
         if (obj1.Username is not null && obj2.Username is not null)
         {
-            return obj1.Username == obj2.Username;
+            return string.Equals(obj1.Username, obj2.Username, StringComparison.InvariantCulture);
         }
 
         return false;

@@ -22,16 +22,18 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     public int MessageThreadId { get; }
 
     /// <summary>
-    /// Topic name, 1-128 characters
+    /// New topic name, 0-128 characters. If not specififed or empty, the current name of the topic will be kept
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? Name { get; set; }
 
     /// <summary>
-    /// Unique identifier of the custom emoji shown as the topic icon.
+    /// New unique identifier of the custom emoji shown as the topic icon. Use
+    /// <see cref="GetForumTopicIconStickersRequest"/> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon.
+    /// If not specified, the current icon will be kept
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public string IconCustomEmojiId { get; }
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? IconCustomEmojiId { get; set; }
 
     /// <summary>
     /// Initializes a new request
@@ -40,12 +42,7 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     /// <param name="name">Topic name</param>
     /// <param name="iconCustomEmojiId">Unique identifier of the custom emoji shown as the topic icon</param>
-    public EditForumTopicRequest(ChatId chatId, int messageThreadId, string name, string iconCustomEmojiId)
-        : base("editForumTopic")
-    {
-        ChatId = chatId;
-        MessageThreadId = messageThreadId;
-        Name = name;
-        IconCustomEmojiId = iconCustomEmojiId;
-    }
+    public EditForumTopicRequest(ChatId chatId, int messageThreadId)
+        : base("editForumTopic") =>
+        (ChatId, MessageThreadId) = (chatId, messageThreadId);
 }
