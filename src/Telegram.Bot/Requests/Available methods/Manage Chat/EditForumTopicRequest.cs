@@ -28,8 +28,8 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     public string? Name { get; set; }
 
     /// <summary>
-    /// New unique identifier of the custom emoji shown as the topic icon. Use 
-    /// <see cref="GetForumTopicIconStickersRequest"/> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon. 
+    /// New unique identifier of the custom emoji shown as the topic icon. Use
+    /// <see cref="GetForumTopicIconStickersRequest"/> to get all allowed custom emoji identifiers. Pass an empty string to remove the icon.
     /// If not specified, the current icon will be kept
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -42,14 +42,7 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     /// <param name="name">Topic name</param>
     /// <param name="iconCustomEmojiId">Unique identifier of the custom emoji shown as the topic icon</param>
-    public EditForumTopicRequest(
-        ChatId chatId,
-        int messageThreadId,
-        : base("editForumTopic")
-    {
-        ChatId = chatId;
-        MessageThreadId = messageThreadId;
-        Name = name;
-        IconCustomEmojiId = iconCustomEmojiId;
-    }
+    public EditForumTopicRequest(ChatId chatId, int messageThreadId)
+        : base("editForumTopic") =>
+        (ChatId, MessageThreadId) = (chatId, messageThreadId);
 }

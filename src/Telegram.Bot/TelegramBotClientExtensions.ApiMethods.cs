@@ -2874,7 +2874,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new EditForumTopicRequest(chatId, messageThreadId, name, iconCustomEmojiId),
+                new EditForumTopicRequest(chatId, messageThreadId)
+                {
+                    Name = name,
+                    IconCustomEmojiId = iconCustomEmojiId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
