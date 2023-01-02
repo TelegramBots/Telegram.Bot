@@ -38,6 +38,12 @@ public class InputMediaAnimation :
     public int? Duration { get; set; }
 
     /// <summary>
+    /// Optional. Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasSpoiler { get; set; }
+
+    /// <summary>
     /// Initializes a new animation media to send with an <see cref="IInputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>

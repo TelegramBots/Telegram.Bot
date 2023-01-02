@@ -503,6 +503,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="hasSpoiler">
+    /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
+    /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
@@ -529,6 +532,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? hasSpoiler = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -543,6 +547,7 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
@@ -786,6 +791,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="hasSpoiler">
+    /// Pass <see langword="true"/> if the video needs to be covered with a spoiler animation
+    /// </param>
     /// <param name="supportsStreaming">Pass <see langword="true"/>, if the uploaded video is suitable for streaming</param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
@@ -817,6 +825,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? hasSpoiler = default,
         bool? supportsStreaming = default,
         bool? disableNotification = default,
         bool? protectContent = default,
@@ -836,6 +845,7 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    HasSpoiler = hasSpoiler,
                     SupportsStreaming = supportsStreaming,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
@@ -888,6 +898,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="hasSpoiler">
+    /// Pass <see langword="true"/> if the animatopn needs to be covered with a spoiler animation
+    /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
@@ -918,6 +931,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? hasSpoiler = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -936,6 +950,7 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
@@ -1771,6 +1786,7 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ChatAction.RecordVideoNote"/> or <see cref="ChatAction.UploadVideoNote"/> for
     /// <see cref="SendVideoNoteAsync">video notes</see>
     /// </param>
+    /// <param name="messageThreadId">Unique identifier for the target message thread; supergroups only</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1778,10 +1794,13 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         ChatAction chatAction,
+        int? messageThreadId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new SendChatActionRequest(chatId, chatAction), cancellationToken)
+            .MakeRequestAsync(
+                new SendChatActionRequest(chatId, chatAction) { MessageThreadId = messageThreadId },
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2837,10 +2856,13 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
-    /// <param name="name">Topic name, 1-128 characters</param>
+    /// <param name="name">
+    /// New topic name, 0-128 characters. If not specified or empty, the current name of the topic will be kept
+    /// </param>
     /// <param name="iconCustomEmojiId">
     /// New unique identifier of the custom emoji shown as the topic icon. Use
-    /// <see cref="GetForumTopicIconStickersAsync"/> to get all allowed custom emoji identifiers
+    /// <see cref="GetForumTopicIconStickersRequest"/> to get all allowed custom emoji identifiers. Pass an empty
+    /// string to remove the icon. If not specified, the current icon will be kept
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2849,13 +2871,17 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         int messageThreadId,
-        string name,
-        string iconCustomEmojiId,
+        string? name = default,
+        string? iconCustomEmojiId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new EditForumTopicRequest(chatId, messageThreadId, name, iconCustomEmojiId),
+                new EditForumTopicRequest(chatId, messageThreadId)
+                {
+                    Name = name,
+                    IconCustomEmojiId = iconCustomEmojiId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2955,6 +2981,119 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(new UnpinAllForumTopicMessagesRequest(chatId, messageThreadId), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to edit the name of the 'General' topic in a forum supergroup chat. The bot must be an
+    /// administrator in the chat for this to work and must have <see cref="ChatAdministratorRights.CanManageTopics"/>
+    /// administrator rights. Returns <see langword="true"/> on success.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="name">New topic name, 1-128 characters</param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task EditGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        string name,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(new EditGeneralForumTopicRequest(chatId, name), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to close an open 'General' topic in a forum supergroup chat. The bot must be an administrator
+    /// in the chat for this to work and must have the <see cref="ChatAdministratorRights.CanManageTopics"/>
+    /// administrator rights. Returns <see langword="true"/> on success.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task CloseGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(new CloseGeneralForumTopicRequest(chatId), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to reopen a closed 'General' topic in a forum supergroup chat. The bot must be an
+    /// administrator in the chat for this to work and must have the
+    /// <see cref="ChatAdministratorRights.CanManageTopics"/> administrator rights. The topic will be automatically
+    /// unhidden if it was hidden. Returns <see langword="true"/> on success.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task ReopenGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(new ReopenGeneralForumTopicRequest(chatId), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the
+    /// chat for this to work and must have the <see cref="ChatAdministratorRights.CanManageTopics"/> administrator
+    /// rights. The topic will be automatically closed if it was open. Returns <see langword="true"/> on success.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task HideGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(new HideGeneralForumTopicRequest(chatId), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to uhhide the 'General' topic in a forum supergroup chat. The bot must be an administrator
+    /// in the chat for this to work and must have the <see cref="ChatAdministratorRights.CanManageTopics"/>
+    /// administrator rights. Returns <see langword="true"/> on success.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task UnhideGeneralForumTopicAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(new UnhideGeneralForumTopicRequest(chatId), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>

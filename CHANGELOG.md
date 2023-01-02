@@ -21,7 +21,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v19.0.0-preview.1] - Unreleased
+## [v19.0.0-preview.2] - Unreleased
+
+> [Bot API 6.4](https://core.telegram.org/bots/api#december-30-2022) (December 30, 2022)
+
+### Added
+
+- New requests related to topics:
+  - `CloseGeneralForumTopicRequest`
+  - `EditGeneralForumTopicRequest`
+  - `ReopenGeneralForumTopicRequest`
+  - `HideGeneralForumTopicRequest`
+  - `UnhideGeneralForumTopicRequest`
+- New methods related to topics:
+  - `ITelegramBotClient.CloseGeneralForumTopicAsync`
+  - `ITelegramBotClient.EditGeneralForumTopicAsync`
+  - `ITelegramBotClient.ReopenGeneralForumTopicAsync`
+  - `ITelegramBotClient.HideGeneralForumTopicAsync`
+  - `ITelegramBotClient.UnhideGeneralForumTopicAsync`
+- Optional property `HasSpoiler`
+- Added property `bool? HasSpoiler` to the following classes:
+  - `SendAnimationRequest`
+  - `SendVideoRequest`
+  - `SendPhotoRequest`
+  - `InputMediaAnimation`
+  - `InputMediaPhoto`
+  - `InputMediaVideo`
+- Added following properties to class `Message`:
+  - `HasMediaSpoiler`
+  - `WriteAccessAllowed`
+  - `ForumTopicEdited`
+  - `GeneralForumTopicHidden`
+  - `GeneralForumTopicUnhidden`
+- Property `IsPersistent` to class `ReplyKeyboardMarkup`
+- Types `ForumTopicEdited`, `GeneralForumTopicHidden`, `GeneralForumTopicUnhidden`, `WriteAccessAllowed`
+- Property `int? MessageThreadId` to class `SendChatActionRequest`
+- Properties `HasAggressiveAntiSpamEnabled` and `HasHiddenMembers` to class `Chat`
+- Enum members `ForumTopicEdited`, `GeneralForumTopicHidden`, `GeneralForumTopicUnhidden`, `WriteAccessAllowed` to enum `MessageType`,
+
+### Changed
+- Properties `EditForumTopicRequest.Name` and `EditForumTopicRequest.IconCustomEmojiId` are made nullable
+- Added setters to properties `EditForumTopicRequest.Name` and `EditForumTopicRequest.IconCustomEmojiId`
+- Parameters `name` and `iconCustomEmojiId` and ctor of `EditForumTopicRequest` are made nullable and optional
+- Added optional parameter `bool? hasSpoiler` to the following methods
+  - `ITelegramBotClient.SendAnimationAsync`
+  - `ITelegramBotClient.SendVideoAsync`
+  - `ITelegramBotClient.SendPhotoAsync`
+- Added optional parameter `int? messageThreadId` to method `ITelegramBotClient.SendAnimationRequest`
+- Parameters `name` and `iconCustomEmojiId` in method `ITelegramBotClient.EditForumTopicAsync` are made nullable and optional
+
+## [v19.0.0-preview.1] - 2022-12-03
+
+> [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
+
+> [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)
+
+> [Bot API 6.3](https://core.telegram.org/bots/api#november-5-2022) (November 5, 2022)
 
 ### Added
 
@@ -81,6 +136,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `ForumTopicCreated? ForumTopicCreated`
   - `ForumTopicClosed? ForumTopicClosed`
   - `ForumTopicClosed? ForumTopicClosed`
+- Enum member `CustomEmoji` to `MessageEntityType`
+- Property `CustomEmojiId`  to `MessageEntity`
+- Extension method `GetCustomEmojiStickersAsync`
+- Request `GetCustomEmojiStickersRequest`
+- Enum `StickerType`
+- Properties `Type` and `CustomEmojiId` to `Sticker`
+- Property `StickerType` to `StickerSet`
+- Property `StickerType` to `CreateNewStickerSetRequest`
+- Parameter `stickerType` to `CreateNew*StickerSetAsync` extension methods
+- Property `HasRestrictedVoiceAndVideoMessages` to `Chat`
+- Properties `JoinToSendMessages`, `JoinByRequest` to `Chat`
+- Properties `IsPremium`, `AddedToAttachmentMenu` to `User`
+- Property `PremiumAnimation` to `Sticker`
+- Property `SecretToken` to `SetWebhookRequest`
+- Parameter `secretToken` to `SetWebhookAsync`
+- Request `CreateInvoiceLinkRequest`
+- Method `CreateInvoiceLinkAsync`
 
 ### Changed
 
@@ -120,44 +192,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 - Implicit conversion from `ChatId` to `string`
-
-## [v19.0.0-alpha.2] - Unreleased
-
-> [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)
-
-### Added
-
-- Enum member `CustomEmoji` to `MessageEntityType`
-- Property `CustomEmojiId`  to `MessageEntity`
-- Extension method `GetCustomEmojiStickersAsync`
-- Request `GetCustomEmojiStickersRequest`
-- Enum `StickerType`
-- Properties `Type` and `CustomEmojiId` to `Sticker`
-- Property `StickerType` to `StickerSet`
-- Property `StickerType` to `CreateNewStickerSetRequest`
-- Parameter `stickerType` to `CreateNew*StickerSetAsync` extension methods
-- Property `HasRestrictedVoiceAndVideoMessages` to `Chat`
-
-### Removed
-
-- .NET Core 3.1 from targeted frameworks 
+- .NET Core 3.1 from targeted frameworks
 - Property `ContainsMasks` from `StickerSet`
 - Property `ContainsMasks` from `CreateNewStickerSetRequest`
 - Parameter `containsMasks` from `CreateNew*StickerSetAsync` extension methods
-
-## [v19.0.0-alpha.1] - Unreleased
-
-> [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
-
-### Added
-
-- Properties `JoinToSendMessages`, `JoinByRequest` to `Chat`
-- Properties `IsPremium`, `AddedToAttachmentMenu` to `User`
-- Property `PremiumAnimation` to `Sticker`
-- Property `SecretToken` to `SetWebhookRequest`
-- Parameter `secretToken` to `SetWebhookAsync`
-- Request `CreateInvoiceLinkRequest`
-- Method `CreateInvoiceLinkAsync`
 
 ## [v18.0.0] - 2022-06-16
 

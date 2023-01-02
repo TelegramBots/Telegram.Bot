@@ -72,6 +72,12 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
     /// <summary>
+    /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasSpoiler { get; set; }
+
+    /// <summary>
     /// Pass <see langword="true"/>, if the uploaded video is suitable for streaming
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
