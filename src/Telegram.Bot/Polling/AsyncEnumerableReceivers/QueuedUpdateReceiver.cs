@@ -112,28 +112,30 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 
         public ValueTask<bool> MoveNextAsync()
         {
-            _semaphore.Wait();
-
-            if (_uncaughtException is not null) { throw _uncaughtException; }
-
-            _semaphore.Release();
+            ThrowIfUncaughtException();
 
             _token.ThrowIfCancellationRequested();
 
             if (_channel.Reader.TryRead(out _current))
             {
                 Interlocked.Decrement(ref _pendingUpdates);
-                return new(true);
+                return ValueTask.FromResult(true);
+            }
+            return new(ReadAsync());
+
+            void ThrowIfUncaughtException()
+            {
+                _semaphore.Wait();
+                if (_uncaughtException is not null) { _semaphore.Release(); throw _uncaughtException; }
+                _semaphore.Release();
             }
 
-            return new(ReadAsync());
-        }
-
-        async Task<bool> ReadAsync()
-        {
-            _current = await _channel.Reader.ReadAsync(_token).ConfigureAwait(false);
-            Interlocked.Decrement(ref _pendingUpdates);
-            return true;
+            async Task<bool> ReadAsync()
+            {
+                _current = await _channel.Reader.ReadAsync(_token).ConfigureAwait(false);
+                Interlocked.Decrement(ref _pendingUpdates);
+                return true;
+            }
         }
 
         async Task ReceiveUpdatesAsync()
@@ -192,44 +194,45 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                 catch (Exception ex)
 #pragma warning restore CA1031
                 {
-                    await _semaphore.WaitAsync().ConfigureAwait(false);
                     Debug.Assert(_uncaughtException is null);
 
                     // If there is no errorHandler or the errorHandler throws, stop receiving
                     if (_receiver._pollingErrorHandler is null)
                     {
-                        _uncaughtException = ex;
-                        _cts.Cancel();
-                    }
-                    else
-                    {
-                        try
-                        {
-                            await _receiver._pollingErrorHandler(ex, _token).ConfigureAwait(false);
-                        }
-#pragma warning disable CA1031
-                        catch (Exception errorHandlerException)
-#pragma warning restore CA1031
-                        {
-                            _uncaughtException = new AggregateException(
-                                message: "Exception was not caught by the errorHandler.",
-                                ex,
-                                errorHandlerException
-                            );
-                            _cts.Cancel();
-                        }
-                    }
+                        await _semaphore.WaitAsync().ConfigureAwait(false);
 
-                    if (_uncaughtException is not null)
-                    {
-#pragma warning disable CA2201
                         _uncaughtException = new(
                             message: "Exception was not caught by the errorHandler.",
-                            innerException: _uncaughtException
+                            innerException: ex
                         );
-#pragma warning restore CA2201
+                        _semaphore.Release();
+
+                        _cts.Cancel();
+                        return;
                     }
-                    _semaphore.Release();
+
+                    try
+                    {
+                        await _receiver._pollingErrorHandler(ex, _token).ConfigureAwait(false);
+                    }
+#pragma warning disable CA1031
+                    catch (Exception errorHandlerException)
+#pragma warning restore CA1031
+                    {
+                        await _semaphore.WaitAsync().ConfigureAwait(false);
+                        var aggregateException = new AggregateException(
+                            message: "Exception was not caught by the errorHandler.",
+                            ex,
+                            errorHandlerException
+                        );
+                        _uncaughtException = new(
+                            message: "Exception was not caught by the errorHandler.",
+                            innerException: aggregateException
+                        );
+                        _semaphore.Release();
+
+                        _cts.Cancel();
+                    }
                 }
             }
         }
