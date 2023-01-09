@@ -1,4 +1,4 @@
-﻿#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -70,6 +70,8 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 
     class Enumerator : IAsyncEnumerator<Update>
     {
+        static readonly SemaphoreSlim _semaphore = new(1, 1);
+
         readonly QueuedUpdateReceiver _receiver;
         readonly CancellationTokenSource _cts;
         readonly CancellationToken _token;
@@ -109,7 +111,11 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 
         public ValueTask<bool> MoveNextAsync()
         {
+            _semaphore.Wait();
+
             if (_uncaughtException is not null) { throw _uncaughtException; }
+
+            _semaphore.Release();
 
             _token.ThrowIfCancellationRequested();
 
@@ -181,6 +187,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                 catch (Exception ex)
 #pragma warning restore CA1031
                 {
+                    await _semaphore.WaitAsync().ConfigureAwait(false);
                     Debug.Assert(_uncaughtException is null);
 
                     // If there is no errorHandler or the errorHandler throws, stop receiving
@@ -217,6 +224,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                         );
 #pragma warning restore CA2201
                     }
+                    _semaphore.Release();
                 }
             }
         }
