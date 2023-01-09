@@ -83,9 +83,10 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
         readonly Channel<Update> _channel;
         Update? _current;
 
+        int _pendingUpdates;
         int _messageOffset;
 
-        public int PendingUpdates => _channel.Reader.Count;
+        public int PendingUpdates => _pendingUpdates;
 
         public Enumerator(QueuedUpdateReceiver receiver, CancellationToken cancellationToken)
         {
@@ -121,7 +122,8 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 
             if (_channel.Reader.TryRead(out _current))
             {
-                return new(result: true);
+                Interlocked.Decrement(ref _pendingUpdates);
+                return new(true);
             }
 
             return new(ReadAsync());
@@ -130,6 +132,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
         async Task<bool> ReadAsync()
         {
             _current = await _channel.Reader.ReadAsync(_token).ConfigureAwait(false);
+            Interlocked.Decrement(ref _pendingUpdates);
             return true;
         }
 
@@ -169,6 +172,8 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                     if (updateArray.Length > 0)
                     {
                         _messageOffset = updateArray[^1].Id + 1;
+
+                        Interlocked.Add(ref _pendingUpdates, updateArray.Length);
 
                         ChannelWriter<Update> writer = _channel.Writer;
                         foreach (Update update in updateArray)
