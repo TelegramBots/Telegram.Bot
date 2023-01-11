@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace Telegram.Bot;
@@ -55,7 +56,7 @@ public class TelegramBotClientOptions
     /// </summary>
     /// <param name="token">API token</param>
     /// <param name="baseUrl">
-    /// Used to change base url to your private bot api server URL. It looks like
+    /// Used to change base URL to your private Bot API server URL. It looks like
     /// http://localhost:8081. Path, query and fragment will be omitted if present.
     /// </param>
     /// <param name="useTestEnvironment"></param>
@@ -89,21 +90,21 @@ public class TelegramBotClientOptions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static long? GetIdFromToken(string token)
         {
-#if NETCOREAPP3_1_OR_GREATER
+#if NET6_0_OR_GREATER
             var span = token.AsSpan();
             var index = span.IndexOf(':');
 
             if (index is < 1 or > 16) { return null; }
 
             var botIdSpan = span[..index];
-            if (!long.TryParse(botIdSpan, out var botId)) { return null; }
+            if (!long.TryParse(botIdSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var botId)) { return null; }
 #else
             var index = token.IndexOf(value: ':');
 
             if (index is < 1 or > 16) { return null; }
 
             var botIdSpan = token.Substring(startIndex: 0, length: index);
-            if (!long.TryParse(botIdSpan, out var botId)) { return null; }
+            if (!long.TryParse(botIdSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var botId)) { return null; }
 #endif
 
             return botId;
@@ -120,7 +121,7 @@ public class TelegramBotClientOptions
             || string.IsNullOrEmpty(value: baseUri.Authority))
         {
             throw new ArgumentException(
-                message: "Invalid format. A valid base url looks \"http://localhost:8081\" ",
+                message: """Invalid format. A valid base URL should look like "http://localhost:8081" """,
                 paramName: nameof(baseUrl)
             );
         }

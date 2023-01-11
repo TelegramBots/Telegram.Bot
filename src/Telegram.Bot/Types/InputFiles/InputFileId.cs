@@ -4,7 +4,7 @@ using Telegram.Bot.Types.Enums;
 namespace Telegram.Bot.Types;
 
 /// <summary>
-/// A file identifier
+/// This object represents a file that is already stored somewhere on the Telegram servers
 /// </summary>
 public class InputFileId : IInputFile
 {
@@ -12,13 +12,13 @@ public class InputFileId : IInputFile
     public FileType FileType => FileType.Id;
 
     /// <summary>
-    ///
+    /// A file identifier
     /// </summary>
     public string Id { get; }
 
     /// <summary>
-    ///
+    /// This object represents a file that is already stored somewhere on the Telegram servers
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">A file identifier</param>
     public InputFileId(string id) => Id = id;
 }

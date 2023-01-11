@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Newtonsoft.Json;
 using Telegram.Bot.Types;
@@ -12,7 +13,7 @@ public class InputFileSerializationTests
     public void Should_Serialize_InputFile()
     {
         const string fileName = "myFile";
-        InputFile inputFile = new InputFile(new MemoryStream(), fileName);
+        InputFile inputFile = new(new MemoryStream(), fileName);
 
         string json = JsonConvert.SerializeObject(inputFile);
         InputFile obj = JsonConvert.DeserializeObject<InputFile>(json)!;
@@ -41,7 +42,7 @@ public class InputFileSerializationTests
     [Fact(DisplayName = "Should serialize & deserialize input file with URL")]
     public void Should_Serialize_InputUrlFile()
     {
-        const string url = "http://github.org/TelegramBots";
+        Uri url = new("http://github.org/TelegramBots");
         InputFileUrl inputFileUrl = new(url);
 
         string json = JsonConvert.SerializeObject(inputFileUrl);

@@ -205,4 +205,24 @@ public enum MessageType
     /// The <see cref="Message"/> contains <see cref="Message.ForumTopicReopened"/>
     /// </summary>
     ForumTopicReopened,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicEdited"/>
+    /// </summary>
+    ForumTopicEdited,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.GeneralForumTopicHidden"/>
+    /// </summary>
+    GeneralForumTopicHidden,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.GeneralForumTopicUnhidden"/>
+    /// </summary>
+    GeneralForumTopicUnhidden,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.WriteAccessAllowed"/>
+    /// </summary>
+    WriteAccessAllowed,
 }

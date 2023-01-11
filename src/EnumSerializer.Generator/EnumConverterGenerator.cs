@@ -10,6 +10,7 @@ public partial class EnumConverterGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+
         IncrementalValuesProvider<EnumInfo> enumDeclarations = context.SyntaxProvider
             .ForAttributeWithMetadataName(JsonConverterAttribute,
                predicate: static (node, _) => node is EnumDeclarationSyntax { AttributeLists.Count: > 0 },

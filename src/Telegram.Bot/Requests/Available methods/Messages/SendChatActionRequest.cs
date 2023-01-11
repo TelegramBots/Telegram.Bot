@@ -28,6 +28,12 @@ public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread; supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive:
     /// <see cref="ChatAction.Typing"/> for <see cref="SendMessageRequest">text messages</see>,
     /// <see cref="ChatAction.UploadPhoto"/> for <see cref="SendPhotoRequest">photos</see>,

@@ -11,7 +11,7 @@ public sealed class EnumInfo
     public EnumInfo(
         string name,
         string ns,
-        List<KeyValuePair<string, string>> members)
+        IReadOnlyList<KeyValuePair<string, string>> members)
     {
         Name = name;
         Namespace = ns;
