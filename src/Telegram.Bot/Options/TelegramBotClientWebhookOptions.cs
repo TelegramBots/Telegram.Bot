@@ -1,7 +1,7 @@
 ﻿namespace Telegram.Bot.Options;
 
-public record TelegramBotClientWebhookOptions(string SecretToken)
+public class TelegramBotClientWebhookOptions
 {
     public const string SectionName = "SecretToken";
-    public string SecretToken { get; } = SecretToken;
+    public string SecretToken { get; set; }
 }
