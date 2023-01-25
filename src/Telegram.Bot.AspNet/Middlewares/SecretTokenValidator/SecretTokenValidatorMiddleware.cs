@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Options;
+using Telegram.Bot.AspNet.Exceptions;
+using Telegram.Bot.AspNet.Options;
 
-namespace Telegram.Bot.Middlewares.SecretTokenValidator;
+namespace Telegram.Bot.AspNet.Middlewares.SecretTokenValidator;
 
 public class SecretTokenValidatorMiddleware : IMiddleware
 {

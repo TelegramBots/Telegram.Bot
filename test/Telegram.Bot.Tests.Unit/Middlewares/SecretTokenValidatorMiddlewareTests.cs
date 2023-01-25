@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Telegram.Bot.Exceptions;
-using Telegram.Bot.Middlewares.SecretTokenValidator;
-using Telegram.Bot.Options;
+using Telegram.Bot.AspNet.Exceptions;
+using Telegram.Bot.AspNet.Middlewares.SecretTokenValidator;
+using Telegram.Bot.AspNet.Options;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Middlewares;

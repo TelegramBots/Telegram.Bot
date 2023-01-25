@@ -1,4 +1,6 @@
-﻿namespace Telegram.Bot.Exceptions;
+﻿using System;
+
+namespace Telegram.Bot.AspNet.Exceptions;
 
 public class InvalidSecretTokenException : Exception
 {

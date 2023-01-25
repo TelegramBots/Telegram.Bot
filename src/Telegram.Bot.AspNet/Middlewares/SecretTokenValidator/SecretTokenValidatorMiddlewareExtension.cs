@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace Telegram.Bot.Middlewares.SecretTokenValidator;
+namespace Telegram.Bot.AspNet.Middlewares.SecretTokenValidator;
 
 public static class SecretTokenValidatorMiddlewareExtension
 {

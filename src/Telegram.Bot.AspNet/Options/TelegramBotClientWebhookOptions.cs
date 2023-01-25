@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Options;
+﻿namespace Telegram.Bot.AspNet.Options;
 
 public class TelegramBotClientWebhookOptions
 {
