@@ -2027,6 +2027,16 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
     /// <param name="permissions">New user permissions</param>
+    /// <param name="useIndependentChatPermissions">
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
+    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
+    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
+    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
+    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
+    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
+    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
+    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// </param>
     /// <param name="untilDate">Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever.</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2036,6 +2046,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         long userId,
         ChatPermissions permissions,
+        bool? useIndependentChatPermissions = default,
         DateTime? untilDate = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -2043,7 +2054,8 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new RestrictChatMemberRequest(chatId, userId, permissions)
                 {
-                    UntilDate = untilDate
+                    UntilDate = untilDate,
+                    UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
                 cancellationToken
             )
@@ -2204,6 +2216,16 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@supergroupusername</c>)
     /// </param>
     /// <param name="permissions">New default chat permissions</param>
+    /// <param name="useIndependentChatPermissions">
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
+    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
+    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
+    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
+    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
+    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
+    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
+    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -2211,11 +2233,15 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         ChatPermissions permissions,
+        bool? useIndependentChatPermissions = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatPermissionsRequest(chatId, permissions),
+                request: new SetChatPermissionsRequest(chatId, permissions)
+                {
+                    UseIndependentChatPermissions = useIndependentChatPermissions,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);

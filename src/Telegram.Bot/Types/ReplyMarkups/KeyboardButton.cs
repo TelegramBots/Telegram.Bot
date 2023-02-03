@@ -26,8 +26,22 @@ public class KeyboardButton : IKeyboardButton
     public string Text { get; set; }
 
     /// <summary>
-    /// Optional. If <see langword="true"/>, the user's phone number will be sent as a contact when the button is pressed.
-    /// Available in private chats only
+    /// Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send
+    /// their identifier to the bot in a “user_shared” service message. Available in private chats only.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public KeyboardButtonRequestUser? RequestUser { get; set; }
+
+    /// <summary>
+    /// Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
+    /// its identifier to the bot in a “chat_shared” service message. Available in private chats only.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public KeyboardButtonRequestChat? RequestChat { get; set; }
+
+    /// <summary>
+    /// Optional. If <see langword="true"/>, the user's phone number will be sent as a contact when the button
+    /// is pressed. Available in private chats only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? RequestContact { get; set; }
@@ -58,10 +72,7 @@ public class KeyboardButton : IKeyboardButton
     /// </summary>
     /// <param name="text">Label text on the button</param>
     [JsonConstructor]
-    public KeyboardButton(string text)
-    {
-        Text = text;
-    }
+    public KeyboardButton(string text) => Text = text;
 
     /// <summary>
     /// Generate a keyboard button to request for contact
