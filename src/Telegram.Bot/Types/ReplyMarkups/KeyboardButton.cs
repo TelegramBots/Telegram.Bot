@@ -109,6 +109,24 @@ public class KeyboardButton : IKeyboardButton
         new(text) { WebApp = webAppInfo };
 
     /// <summary>
+    /// Generate a keyboard button to request user info
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestUser">Criteria used to request a suitable user</param>
+    /// <returns></returns>
+    public static KeyboardButton WithRequestUser(string text, KeyboardButtonRequestUser requestUser) =>
+        new(text) { RequestUser = requestUser };
+
+    /// <summary>
+    /// Generate a keyboard button to request chat info
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestChat">Criteria used to request a suitable chat</param>
+    /// <returns></returns>
+    public static KeyboardButton WithRequestChat(string text, KeyboardButtonRequestChat requestChat) =>
+        new(text) { RequestChat = requestChat };
+
+    /// <summary>
     /// Generate a keyboard button from text
     /// </summary>
     /// <param name="text">Button's text</param>
