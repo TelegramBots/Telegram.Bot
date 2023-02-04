@@ -11,18 +11,21 @@ public class KeyboardButtonRequestChat
     /// <summary>
     /// Signed 32-bit identifier of the request
     /// </summary>
+    [JsonProperty(Required = Required.Always)]
     public int RequestId { get; set; }
 
     /// <summary>
     /// Pass <see langword="true" /> to request a channel chat, pass <see langword="false" /> to request a group
     /// or a supergroup chat.
     /// </summary>
-    public bool? ChatIsChannel { get; set; }
+    [JsonProperty(Required = Required.Always)]
+    public bool ChatIsChannel { get; set; }
 
     /// <summary>
     /// Optional. Pass <see langword="true" /> to request a forum supergroup, pass <see langword="false" /> to
     /// request a non-forum chat. If not specified, no additional restrictions are applied.
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ChatIsForum { get; set; }
 
     /// <summary>
@@ -30,18 +33,21 @@ public class KeyboardButtonRequestChat
     /// pass <see langword="false" /> to request a chat without a username. If not specified, no additional
     /// restrictions are applied.
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ChatHasUsername { get; set; }
 
     /// <summary>
     /// Optional. Pass <see langword="true" /> to request a chat owned by the user. Otherwise, no additional
     /// restrictions are applied.
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ChatIsCreated { get; set; }
 
     /// <summary>
     /// Optional. A JSON-serialized object listing the required administrator rights of the user in the chat.
     /// If not specified, no additional restrictions are applied.
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatAdministratorRights? UserAdministratorRights { get; set; }
 
     /// <summary>
@@ -49,10 +55,12 @@ public class KeyboardButtonRequestChat
     /// The rights must be a subset of user_administrator_rights. If not specified, no additional
     /// restrictions are applied.
     /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatAdministratorRights? BotAdministratorRights { get; set; }
 
     /// Optional. Pass <see langword="true" /> to request a chat with the bot as a member. Otherwise, no additional
     /// restrictions are applied.
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool BotIsMember { get; set; }
 
 }

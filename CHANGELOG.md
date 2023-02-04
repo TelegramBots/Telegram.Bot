@@ -28,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - Types `KeyboardButtonRequestUser` and `KeyboardButtonRequestChat`
-- Properties `RequestUser` and `RequestUser` to the type `KeyboardButton`
+- Properties `RequestUser` and `RequestChat` to the type `KeyboardButton`
 - Types `UserShared` and `ChatShared`
 - Properties `UserShared` and `ChatShared` to the type `Message`
 - Members `UserShared` and `ChatShared` to the enum `MessageType`

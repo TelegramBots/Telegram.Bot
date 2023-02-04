@@ -14,14 +14,14 @@ public class KeyboardButtonRequestUser
     public int RequestId { get; set; }
 
     /// <summary>
-    /// Optional. Pass True to request a bot, pass False to request a regular user. If not specified, no additional
+    /// Optional. Pass <see langword="true" /> to request a bot, pass <see langword="false" /> to request a regular user. If not specified, no additional
     /// restrictions are applied.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? UserIsBot { get; set; }
 
     /// <summary>
-    /// Optional. Pass True to request a premium user, pass False to request a non-premium user. If not specified,
+    /// Optional. Pass <see langword="true" /> to request a premium user, pass <see langword="false" /> to request a non-premium user. If not specified,
     /// no additional restrictions are applied.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

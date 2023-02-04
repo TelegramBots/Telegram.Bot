@@ -381,13 +381,13 @@ public class Message
     /// Optional. Service message: a user was shared with the bot
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public UserShared UserShared { get; set; }
+    public UserShared? UserShared { get; set; }
 
     /// <summary>
     /// Optional. Service message: a chat was shared with the bot
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public ChatShared ChatShared { get; set; }
+    public ChatShared? ChatShared { get; set; }
 
     /// <summary>
     /// Optional. The domain name of the website on which the user has logged in
