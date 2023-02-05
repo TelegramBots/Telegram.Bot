@@ -21,7 +21,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v19.0.0-preview.2] - Unreleased
+## [v19.0.0-preview.3] - Unreleased
+
+> [Bot API 6.5](https://core.telegram.org/bots/api#february-3-2023) (February 3, 2023)
+
+### Added
+
+- Types `KeyboardButtonRequestUser` and `KeyboardButtonRequestChat`
+- Properties `RequestUser` and `RequestChat` to the type `KeyboardButton`
+- Types `UserShared` and `ChatShared`
+- Properties `UserShared` and `ChatShared` to the type `Message`
+- Members `UserShared` and `ChatShared` to the enum `MessageType`
+- Following properties to the types `ChatMemberRestricted` and `ChatPermissions`:
+  - `CanSendAudios`
+  - `CanSendDocuments`
+  - `CanSendPhotos`
+  - `CanSendVideos`
+  - `CanSendVideoNotes`
+  - `CanSendVoiceNotes`
+- Property `UseIndependentChatPermissions` to the types `RestrictChatMemberRequest` and `SetChatPermissionsRequest`
+- Optional parameter `useIndependentChatPermissions` to the methods `ITelegramBotClient.RestrictChatMemberAsync` and `ITelegramBotClient.SetChatPermissionsAsync`
+- Property `UserChatId` to the type `ChatJoinRequest`
+
+### Removed
+
+- Properties `CanSendMediaMessages` from the types `ChatMemberRestricted` and `ChatPermissions`
+
+## [v19.0.0-preview.2] - 2023-01-02
 
 > [Bot API 6.4](https://core.telegram.org/bots/api#december-30-2022) (December 30, 2022)
 
