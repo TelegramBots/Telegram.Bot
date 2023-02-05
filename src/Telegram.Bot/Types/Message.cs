@@ -378,6 +378,18 @@ public class Message
     public SuccessfulPayment? SuccessfulPayment { get; set; }
 
     /// <summary>
+    /// Optional. Service message: a user was shared with the bot
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public UserShared? UserShared { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: a chat was shared with the bot
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ChatShared? ChatShared { get; set; }
+
+    /// <summary>
     /// Optional. The domain name of the website on which the user has logged in
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -528,6 +540,8 @@ public class Message
             { GeneralForumTopicHidden: { } }       => MessageType.GeneralForumTopicHidden,
             { GeneralForumTopicUnhidden: { } }     => MessageType.GeneralForumTopicUnhidden,
             { WriteAccessAllowed: { } }            => MessageType.WriteAccessAllowed,
+            { UserShared: { } }                    => MessageType.UserShared,
+            { ChatShared: { } }                    => MessageType.ChatShared,
             _                                      => MessageType.Unknown
         };
 }

@@ -325,7 +325,6 @@ public class ChatMemberAdministrationTests : IClassFixture<ChatMemberAdministrat
             permissions: new ChatPermissions
             {
                 CanSendMessages = true,
-                CanSendMediaMessages = true,
                 CanSendOtherMessages = false
             }
         );

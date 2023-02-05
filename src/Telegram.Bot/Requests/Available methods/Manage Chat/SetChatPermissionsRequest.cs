@@ -22,6 +22,19 @@ public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
     public ChatPermissions Permissions { get; }
 
     /// <summary>
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
+    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
+    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
+    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
+    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
+    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
+    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
+    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? UseIndependentChatPermissions { get; set; }
+
+    /// <summary>
     /// Initializes a new request with chatId and new default permissions
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel

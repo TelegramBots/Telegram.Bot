@@ -225,4 +225,14 @@ public enum MessageType
     /// The <see cref="Message"/> contains <see cref="Message.WriteAccessAllowed"/>
     /// </summary>
     WriteAccessAllowed,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.UserShared"/>
+    /// </summary>
+    UserShared,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ChatShared"/>
+    /// </summary>
+    ChatShared,
 }
