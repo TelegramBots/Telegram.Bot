@@ -13,11 +13,40 @@ public class ChatPermissions
     public bool? CanSendMessages { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the user is allowed to send audios, documents, photos, videos, video notes and
-    /// voice notes, implies <see cref="CanSendMessages"/>
+    /// Optional. <see langword="true" />, if the user is allowed to send audios
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? CanSendMediaMessages { get; set; }
+    [JsonProperty(Required = Required.Always)]
+    public bool? CanSendAudios { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true" />, if the user is allowed to send documents
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool? CanSendDocuments { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true" />, if the user is allowed to send photos
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool? CanSendPhotos { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true" />, if the user is allowed to send videos
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool? CanSendVideos { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true" />, if the user is allowed to send video notes
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool? CanSendVideoNotes { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true" />, if the user is allowed to send voice notes
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool? CanSendVoiceNotes { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the user is allowed to send polls, implies <see cref="CanSendMessages"/>
@@ -26,15 +55,14 @@ public class ChatPermissions
     public bool? CanSendPolls { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the user is allowed to send animations, games, stickers and use inline bots,
-    /// implies <see cref="CanSendMediaMessages"/>
+    /// Optional. <see langword="true"/>, if the user is allowed to send animations, games, stickers and use inline
+    /// bots
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSendOtherMessages { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the user is allowed to add web page previews to their messages,
-    /// implies <see cref="CanSendMediaMessages"/>
+    /// Optional. <see langword="true"/>, if the user is allowed to add web page previews to their messages
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanAddWebPagePreviews { get; set; }
