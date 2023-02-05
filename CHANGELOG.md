@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - Types `KeyboardButtonRequestUser` and `KeyboardButtonRequestChat`
 - Properties `RequestUser` and `RequestChat` to the type `KeyboardButton`
+- Static methods `KeyboardButton.WithRequestUser` and `KeyboardButton.WithRequestChat`
 - Types `UserShared` and `ChatShared`
 - Properties `UserShared` and `ChatShared` to the type `Message`
 - Members `UserShared` and `ChatShared` to the enum `MessageType`
