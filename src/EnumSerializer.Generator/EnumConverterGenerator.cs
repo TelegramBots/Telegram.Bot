@@ -98,28 +98,11 @@ public class EnumConverterGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                string? displayName = null;
-                foreach (var attribute in member.GetAttributes())
-                {
-                    if (attribute.AttributeClass is null
-                        || attribute.AttributeClass.Name != "DisplayAttribute")
-                    {
-                        continue;
-                    }
-
-                    foreach (var namedArgument in attribute.NamedArguments)
-                    {
-                        if (namedArgument.Key == "Name" && namedArgument.Value.Value?.ToString() is { } dn)
-                        {
-                            displayName = dn;
-                            break;
-                        }
-                    }
-                }
+                string? displayName = GetDisplayName(member) ?? ToSnakeCase(member.Name);
 
                 members.Add(new(
                     member.Name,
-                    displayName ?? ToSnakeCase(member.Name)
+                    displayName
                 ));
             }
 
@@ -132,9 +115,66 @@ public class EnumConverterGenerator : IIncrementalGenerator
         return enumsToProcess;
     }
 
-    static string ToSnakeCase(string name) =>
-        string.Concat(name.Select((x, i) => i > 0 && char.IsUpper(x)
-            ? $"_{x}"
-            : x.ToString())
-        ).ToLower();
+    static string? GetDisplayName(ISymbol member)
+    {
+        foreach (var attribute in member.GetAttributes())
+        {
+            if (attribute.AttributeClass is null
+                || !string.Equals(attribute.AttributeClass.Name, "DisplayAttribute", StringComparison.InvariantCulture))
+            {
+                continue;
+            }
+
+            foreach (var namedArgument in attribute.NamedArguments)
+            {
+                if (string.Equals(namedArgument.Key, "Name", StringComparison.InvariantCulture)
+                    && namedArgument.Value.Value?.ToString() is { } displayName)
+                {
+                    return displayName;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    static string ToSnakeCase(string name)
+    {
+        StringBuilder sb = new();
+
+        State previous = default;
+
+        for (var index = 0; index < name.Length; index++)
+        {
+            char c = name[index];
+            State current = new(c, char.IsUpper(c));
+
+            if (current.IsUpper)
+            {
+                c = char.ToLowerInvariant(current.Character);
+
+                if (index > 0
+                    && previous.Character != '_'
+                    && !previous.IsUpper)
+                {
+                    sb.Append('_');
+                }
+            }
+
+            sb.Append(c);
+            previous = current;
+        }
+        return sb.ToString();
+    }
+
+    private readonly struct State
+    {
+        public readonly char Character;
+        public readonly bool IsUpper;
+        public State(char character, bool isUpper)
+        {
+            Character = character;
+            IsUpper = isUpper;
+        }
+    }
 }

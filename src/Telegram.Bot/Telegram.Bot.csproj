@@ -52,7 +52,7 @@
                                            'HttpClient.GetAsync(Uri, HttpCompletionOption, CancellationToken)' instead
                                            of 'HttpClient.GetAsync(string, HttpCompletionOption, CancellationToken)' -->
     <NoWarn>$(NoWarn);CA1031</NoWarn> <!-- Catch a more specific allowed exception type, or rethrow the exception -->
-    <NoWarn>$(NoWarn);MA0046;MA0048</NoWarn>
+    <NoWarn>$(NoWarn);MA0046;MA0048;MA0051</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

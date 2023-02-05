@@ -40,8 +40,6 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
-    /// <param name="name">Topic name</param>
-    /// <param name="iconCustomEmojiId">Unique identifier of the custom emoji shown as the topic icon</param>
     public EditForumTopicRequest(ChatId chatId, int messageThreadId)
         : base("editForumTopic") =>
         (ChatId, MessageThreadId) = (chatId, messageThreadId);
