@@ -3,7 +3,8 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user.
-/// Requires no parameters. Returns an Array of <see cref="Sticker"/> objects.
+/// Requires no parameters.
+/// Returns an Array of <see cref="Sticker"/> objects.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class GetForumTopicIconStickersRequest : RequestBase<Sticker[]>
