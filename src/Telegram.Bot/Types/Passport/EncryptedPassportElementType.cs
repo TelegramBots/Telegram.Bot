@@ -1,7 +1,7 @@
 namespace Telegram.Bot.Types.Passport;
 
 /// <summary>
-///
+/// <see cref="EncryptedPassportElement"/> element type
 /// </summary>
 [JsonConverter(typeof(EncryptedPassportElementTypeConverter))]
 public enum EncryptedPassportElementType
