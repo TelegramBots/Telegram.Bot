@@ -6,7 +6,6 @@ namespace Telegram.Bot.Types;
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class Animation : FileBase
 {
-
     /// <summary>
     /// Video width as defined by sender
     /// </summary>
