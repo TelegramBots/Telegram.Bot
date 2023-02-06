@@ -1901,51 +1901,6 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="untilDate">
-    /// Date when the user will be unbanned. If user is banned for more than 366 days or less than 30 seconds
-    /// from the current time they are considered to be banned forever. Applied for supergroups and channels only
-    /// </param>
-    /// <param name="revokeMessages">
-    /// Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed.
-    /// If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was
-    /// removed. Always <see langword="true"/> for supergroups and channels
-    /// </param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    [Obsolete("Use BanChatMemberAsync instead")]
-    public static async Task KickChatMemberAsync(
-        this ITelegramBotClient botClient,
-        ChatId chatId,
-        long userId,
-        DateTime? untilDate = default,
-        bool? revokeMessages = default,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new KickChatMemberRequest(chatId, userId)
-                {
-                    UntilDate = untilDate,
-                    RevokeMessages = revokeMessages
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and
-    /// channels, the user will not be able to return to the chat on their own using invite links, etc., unless
-    /// <see cref="UnbanChatMemberAsync(ITelegramBotClient, ChatId, long, bool?, CancellationToken)">unbanned</see>
-    /// first. The bot must be an administrator in the chat for this to work and must have the appropriate
-    /// admin rights.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">
     /// Unique identifier for the target group or username of the target supergroup or channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
@@ -2698,28 +2653,6 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(request: new GetChatAdministratorsRequest(chatId), cancellationToken)
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to get the number of members in a chat.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target supergroup or channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    /// <returns>Returns <see cref="int"/> on success..</returns>
-    [Obsolete("Use GetChatMemberCountAsync")]
-    public static async Task<int> GetChatMembersCountAsync(
-        this ITelegramBotClient botClient,
-        ChatId chatId,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatMembersCountRequest(chatId), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>

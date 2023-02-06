@@ -53,13 +53,6 @@ public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUse
     public bool? CanDeleteMessages { get; set; }
 
     /// <summary>
-    /// Pass <see langword="true"/>, if the administrator can manage voice chats
-    /// </summary>
-    [Obsolete("This property will be removed in the next major version, use CanManageVideoChat instead")]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? CanManageVoiceChat { get; set; }
-
-    /// <summary>
     /// Pass <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
