@@ -7,7 +7,6 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class KeyboardButtonRequestChat
 {
-
     /// <summary>
     /// Signed 32-bit identifier of the request
     /// </summary>
@@ -58,9 +57,10 @@ public class KeyboardButtonRequestChat
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatAdministratorRights? BotAdministratorRights { get; set; }
 
+    /// <summary>
     /// Optional. Pass <see langword="true" /> to request a chat with the bot as a member. Otherwise, no additional
     /// restrictions are applied.
+    /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool BotIsMember { get; set; }
-
 }
