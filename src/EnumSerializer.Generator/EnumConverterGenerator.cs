@@ -3,11 +3,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Scriban;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace EnumSerializer.Generator;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public class EnumConverterGenerator : IIncrementalGenerator
 {
     const string JsonConverterAttribute = "Newtonsoft.Json.JsonConverterAttribute";
@@ -167,6 +168,7 @@ public class EnumConverterGenerator : IIncrementalGenerator
         return sb.ToString();
     }
 
+    [StructLayout(LayoutKind.Auto)]
     private readonly struct State
     {
         public readonly char Character;

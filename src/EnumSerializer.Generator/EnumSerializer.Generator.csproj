@@ -9,6 +9,7 @@
     <IsRoslynComponent>true</IsRoslynComponent>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
   </PropertyGroup>
 
   <!-- The following libraries include the source generator interfaces and types we need -->
