@@ -2852,7 +2852,10 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task CreateForumTopicAsync(
+    /// <returns>
+    /// Returns information about the created topic as a <see cref="ForumTopic"/> object.
+    /// </returns>
+    public static async Task<ForumTopic> CreateForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         string name,
