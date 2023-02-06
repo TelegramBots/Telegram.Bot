@@ -101,13 +101,6 @@ public class ChatMemberAdministrator : ChatMember
     /// <summary>
     /// <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
-    [Obsolete("This property will be removed in the next major version, use CanManageVideoChat instead")]
-    [JsonProperty(Required = Required.Always)]
-    public bool CanManageVoiceChats { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the administrator can manage video chats
-    /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanManageVideoChats { get; set; }
 
