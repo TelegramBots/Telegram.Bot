@@ -2816,13 +2816,13 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user.
-    /// Requires no parameters. Returns an <see cref="T:Sticker[]"/>.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task GetForumTopicIconStickersAsync(
+    /// <returns>Returns an Array of <see cref="Sticker"/> objects.</returns>
+    public static async Task<Sticker[]> GetForumTopicIconStickersAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
     ) =>
