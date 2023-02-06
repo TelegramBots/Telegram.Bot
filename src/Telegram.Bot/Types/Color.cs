@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Telegram.Bot.Types;
 
@@ -6,6 +7,7 @@ namespace Telegram.Bot.Types;
 /// Represent a color in RGB space
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+[StructLayout(LayoutKind.Sequential)]
 public readonly record struct Color
 {
     const int MaxRgbValue = 16777215;
@@ -34,7 +36,7 @@ public readonly record struct Color
     public int Blue { get; }
 
     /// <summary>
-    ///
+    /// Instantiate a new color value
     /// </summary>
     /// <param name="red">Red component</param>
     /// <param name="green">Green component</param>
@@ -95,25 +97,25 @@ public readonly record struct Color
     public override string ToString() => $"#{ToInt():X6}";
 
     /// <summary>
-    /// Converts current <see cref="Color"/> instance to it's numeric representation
+    /// Convert current <see cref="Color"/> instance to its numeric representation
     /// </summary>
     /// <returns>Numeric representation of current color</returns>
     public int ToInt() => (Red << RedShift) | (Green << GreenShift) | Blue;
 
     /// <summary>
-    /// Converts current <see cref="Color"/> instance to it's numeric representation
+    /// Convert current <see cref="Color"/> instance to its numeric representation
     /// </summary>
     /// <returns>Numeric representation of current color</returns>
     public uint ToUint() => (uint)ToInt();
 
     /// <summary>
-    /// Converts current <see cref="Color"/> instance to it's <see cref="T:byte[]"/> representation
+    /// Convert current <see cref="Color"/> instance to its <see cref="T:byte[]"/> representation
     /// </summary>
     /// <returns></returns>
     public byte[] ToBytes() => BitConverter.GetBytes(ToInt());
 
     /// <summary>
-    /// Deconstructs current instance of <see cref="Color"/> into it's RGB components
+    /// Deconstruct current instance of <see cref="Color"/> into its RGB components
     /// </summary>
     /// <param name="red"></param>
     /// <param name="green"></param>
@@ -121,21 +123,21 @@ public readonly record struct Color
     public void Deconstruct(out int red, out int green, out int blue) => (red, green, blue) = (Red, Green, Blue);
 
     /// <summary>
-    /// Converts current <see cref="Color"/> instance to it's numeric representation
+    /// Convert current <see cref="Color"/> instance to its numeric representation
     /// </summary>
     /// <param name="color"></param>
     /// <returns>Numeric representation of the current <see cref="Color"/></returns>
     public static explicit operator int(Color color) => color.ToInt();
 
     /// <summary>
-    /// Converts current <see cref="Color"/> instance to it's numeric representation
+    /// Convert current <see cref="Color"/> instance to its numeric representation
     /// </summary>
     /// <param name="color"></param>
     /// <returns>Numeric representation of the current <see cref="Color"/></returns>
     public static explicit operator uint(Color color) => color.ToUint();
 
     /// <summary>
-    /// Converts current <see cref="Color"/> instance to it's <see cref="T:byte[]"/> representation
+    /// Convert current <see cref="Color"/> instance to its <see cref="T:byte[]"/> representation
     /// </summary>
     /// <param name="color"></param>
     /// <returns><see cref="T:byte[]"/> representation of the current <see cref="Color"/></returns>
@@ -171,11 +173,13 @@ public readonly record struct Color
     /// </summary>
     public static readonly Color RedColor = new(0xFB6F5F); // 251, 111, 95
 
+    /// <summary>
     /// <exception cref="ArgumentOutOfRangeException">
     /// Thrown if <paramref name="value"/> is out of byte range
     /// </exception>
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static void CheckByte(long value, [CallerArgumentExpression("value")] string? componentName = default)
+    static void CheckByte(long value, [CallerArgumentExpression(nameof(value))] string? componentName = default)
     {
         if (value is > byte.MaxValue or < byte.MinValue)
             throw new ArgumentOutOfRangeException(

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
 /// Type of a <see cref="IInputFile"/>
@@ -17,7 +17,7 @@ public enum FileType
     Id,
 
     /// <summary>
-    /// File Url
+    /// File URL
     /// </summary>
     Url
 }

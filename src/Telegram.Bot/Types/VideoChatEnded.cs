@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a service message about a video chat ended in the chat.
@@ -7,7 +7,7 @@
 public class VideoChatEnded
 {
     /// <summary>
-    /// Video chat duration; in seconds
+    /// Video chat duration in seconds
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public int Duration { get; set; }

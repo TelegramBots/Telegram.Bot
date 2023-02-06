@@ -1,4 +1,4 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 
 namespace Telegram.Bot.Args;
@@ -19,7 +19,7 @@ public class ApiRequestEventArgs : EventArgs
     public HttpRequestMessage? HttpRequestMessage { get; }
 
     /// <summary>
-    ///
+    /// Initialize an <see cref="ApiRequestEventArgs"/> object
     /// </summary>
     /// <param name="request"></param>
     /// <param name="httpRequestMessage"></param>

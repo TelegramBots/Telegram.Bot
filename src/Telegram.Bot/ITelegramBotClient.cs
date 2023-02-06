@@ -15,7 +15,7 @@ namespace Telegram.Bot;
 public interface ITelegramBotClient
 {
     /// <summary>
-    ///
+    /// <see langword="true"/> when the bot is using local Bot API server
     /// </summary>
     bool LocalBotServer { get; }
 
