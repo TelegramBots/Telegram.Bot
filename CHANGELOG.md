@@ -47,6 +47,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Removed
 
 - Properties `CanSendMediaMessages` from the types `ChatMemberRestricted` and `ChatPermissions`
+- Obsolete types `GetChatMembersCountRequest`, `KickChatMemberRequest`, `VoiceChatEnded`, `VoiceChatParticipantsInvited`,
+`VoiceChatScheduled`, `VoiceChatStarted`.
+- Obsolete methods `ITelegramBotClient.KickChatMemberAsync`, `ITelegramBotClient.GetChatMembersCountAsync`.
+- Obsolete properties `CanManageVoiceChat` from `PromoteChatMemberRequest`, `CanManageVoiceChats` from `ChatMember`. 
 
 ## [v19.0.0-preview.2] - 2023-01-02
 
