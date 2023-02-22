@@ -47,6 +47,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".devcontainer", ".devcontai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumSerializer.Generator", "src\EnumSerializer.Generator\EnumSerializer.Generator.csproj", "{C246B54F-018B-4589-B26D-C38D7846FFF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telegram.Bot.AspNet", "src\Telegram.Bot.AspNet\Telegram.Bot.AspNet.csproj", "{93755AE6-F438-4D86-9C36-A54A32549F6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{C246B54F-018B-4589-B26D-C38D7846FFF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C246B54F-018B-4589-B26D-C38D7846FFF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C246B54F-018B-4589-B26D-C38D7846FFF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93755AE6-F438-4D86-9C36-A54A32549F6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93755AE6-F438-4D86-9C36-A54A32549F6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93755AE6-F438-4D86-9C36-A54A32549F6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93755AE6-F438-4D86-9C36-A54A32549F6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +87,7 @@ Global
 		{C20A563E-603B-49E8-A954-DB90D4F351DE} = {71662597-40F2-4192-AC4D-5FB9A1F12642}
 		{4897F36C-2F57-48A7-B425-D8F695E0AC0D} = {C45387C6-C93F-4FD2-84A8-A69CCE93B7EE}
 		{C246B54F-018B-4589-B26D-C38D7846FFF2} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
+		{93755AE6-F438-4D86-9C36-A54A32549F6D} = {838231A4-B081-44B0-AC16-DC4C2FABAE86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F6A9C4CA-DF26-4772-9119-627935D70E7C}
