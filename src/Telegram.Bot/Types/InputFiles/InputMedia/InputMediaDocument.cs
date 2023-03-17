@@ -18,7 +18,7 @@ public class InputMediaDocument :
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Disables automatic server-side content type detection for files uploaded using

@@ -29,13 +29,13 @@ public class Sticker : FileBase
     public int Height { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the sticker is animated
+    /// <see langword="true"/>, if the sticker is <see cref="StickerFormat.Animated">animated</see>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsAnimated { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the sticker is a video sticker
+    /// <see langword="true"/>, if the sticker is a <see cref="StickerFormat.Video">video sticker</see>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsVideo { get; set; }
@@ -44,7 +44,7 @@ public class Sticker : FileBase
     /// Optional. Sticker thumbnail in the .WEBP or .JPG format
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Emoji associated with the sticker
@@ -59,20 +59,32 @@ public class Sticker : FileBase
     public string? SetName { get; set; }
 
     /// <summary>
-    /// Optional. Premium animation for the sticker, if the sticker is premium
+    /// Optional. For premium <see cref="StickerType.Regular">regular</see> stickers,
+    /// premium animation for the sticker
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public File? PremiumAnimation { get; set; }
 
     /// <summary>
-    /// Optional. For mask stickers, the position where the mask should be placed
+    /// Optional. For <see cref="StickerType.Mask">mask</see> stickers,
+    /// the position where the mask should be placed
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public MaskPosition? MaskPosition { get; set; }
 
     /// <summary>
-    /// Optional. For custom emoji stickers, unique identifier of the custom emoji
+    /// Optional. For <see cref="StickerType.CustomEmoji">custom emoji</see> stickers,
+    /// unique identifier of the custom emoji
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? CustomEmojiId { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the sticker must be repainted to a text color
+    /// in <see cref="Message">messages</see>, the color of the Telegram Premium badge in emoji
+    /// status, white color on <see cref="ChatPhoto">chat photos</see>, or another appropriate
+    /// color in other places
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? NeedsRepainting { get; set; }
 }

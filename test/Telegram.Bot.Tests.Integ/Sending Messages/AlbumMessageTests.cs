@@ -231,7 +231,7 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
         {
             new InputMediaVideo(new InputFile(stream1, "GoldenRatio.mp4"))
             {
-                Thumb = new InputFile(stream2, "thumbnail.jpg"),
+                Thumbnail = new InputFile(stream2, "thumbnail.jpg"),
                 SupportsStreaming = true,
             },
             new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
@@ -244,6 +244,6 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         Assert.Equal(MessageType.Video, messages[0].Type);
         Assert.NotNull(messages[0].Video);
-        Assert.NotNull(messages[0].Video.Thumb);
+        Assert.NotNull(messages[0].Video.Thumbnail);
     }
 }

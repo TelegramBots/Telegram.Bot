@@ -28,7 +28,7 @@ public class Animation : FileBase
     /// Optional. Animation thumbnail as defined by sender
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Original animation filename as defined by sender

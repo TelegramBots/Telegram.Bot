@@ -34,9 +34,9 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(Required = Required.Always)]
     public IInputFile Document { get; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
+    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Document caption (may also be used when resending documents by file_id), 0-1024 characters
@@ -102,11 +102,11 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     {
         HttpContent? httpContent;
 
-        if (Document is InputFile || Thumb is InputFile)
+        if (Document is InputFile || Thumbnail is InputFile)
         {
             httpContent = GenerateMultipartFormDataContent("document", "thumb")
                 .AddContentIfInputFile(media: Document, name: "document")
-                .AddContentIfInputFile(media: Thumb, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumb");
         }
         else
         {

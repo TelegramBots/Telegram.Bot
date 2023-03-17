@@ -52,9 +52,9 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? Height { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
+    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Animation caption (may also be used when resending animation by
@@ -120,11 +120,11 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     {
         HttpContent? httpContent;
 
-        if (Animation is InputFile || Thumb is InputFile)
+        if (Animation is InputFile || Thumbnail is InputFile)
         {
             httpContent = GenerateMultipartFormDataContent("animation", "thumb")
                 .AddContentIfInputFile(media: Animation, name: "animation")
-                .AddContentIfInputFile(media: Thumb, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumb");
         }
         else
         {

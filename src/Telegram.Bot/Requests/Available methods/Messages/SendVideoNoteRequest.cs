@@ -44,9 +44,9 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? Length { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
+    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -91,11 +91,11 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     {
         HttpContent? httpContent;
 
-        if (VideoNote is InputFile || Thumb is InputFile)
+        if (VideoNote is InputFile || Thumbnail is InputFile)
         {
             httpContent = GenerateMultipartFormDataContent("video_note", "thumb")
                 .AddContentIfInputFile(media: VideoNote, name: "video_note")
-                .AddContentIfInputFile(media: Thumb, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumb");
         }
         else
         {
