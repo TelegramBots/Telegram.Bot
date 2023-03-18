@@ -476,7 +476,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker thirdSticker = stickerSet.Stickers[2];
 
         await BotClient.SetStickerPositionInSetAsync(
-            sticker: thirdSticker.FileId,
+            sticker: new InputFileId(thirdSticker.FileId),
             position: 0
         );
 
@@ -505,7 +505,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker thirdSticker = stickerSet.Stickers[2];
 
         await BotClient.DeleteStickerFromSetAsync(
-            sticker: thirdSticker.FileId
+            sticker: new InputFileId(thirdSticker.FileId)
         );
 
         await Task.Delay(1_000);
@@ -535,7 +535,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(thirdEmojisString, firstSticker.Emoji);
 
         await BotClient.SetStickerEmojiListAsync(
-            sticker: firstSticker.FileId,
+            sticker: new InputFileId(firstSticker.FileId),
             emojiList: _stickersTestsFixture.FirstEmojis
         );
 
@@ -568,14 +568,14 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker firstSticker = stickerSet.Stickers.First();
 
         await BotClient.SetStickerKeywordsAsync(
-            sticker: firstSticker.FileId,
+            sticker: new InputFileId(firstSticker.FileId),
             keywords: keywords
         );
 
         await Task.Delay(1_000);
 
         await BotClient.SetStickerKeywordsAsync(
-            sticker: firstSticker.FileId,
+            sticker: new InputFileId(firstSticker.FileId),
             keywords: null
         );
     }
@@ -802,12 +802,12 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker lastSticker = stickerSet.Stickers.Last();
 
         await BotClient.DeleteStickerFromSetAsync(
-            sticker: lastSticker.FileId
+            sticker: new InputFileId(lastSticker.FileId)
         );
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.DeleteStickerFromSetAsync(
-                sticker: lastSticker.FileId
+                sticker: new InputFileId(lastSticker.FileId)
             )
         );
 
@@ -962,7 +962,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker sticker = stickerSet.Stickers.First();
 
         await BotClient.SetStickerMaskPositionAsync(
-            sticker: sticker.FileId,
+            sticker: new InputFileId(sticker.FileId),
             maskPosition: newMaskPosition
         );
 

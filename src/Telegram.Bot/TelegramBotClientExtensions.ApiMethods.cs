@@ -4161,14 +4161,16 @@ public static partial class TelegramBotClientExtensions
     /// Use this method to move a sticker in a set created by the bot to a specific position.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="sticker">File identifier of the sticker</param>
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
     /// <param name="position">New sticker position in the set, zero-based</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     public static async Task SetStickerPositionInSetAsync(
         this ITelegramBotClient botClient,
-        string sticker,
+        InputFileId sticker,
         int position,
         CancellationToken cancellationToken = default
     ) =>
@@ -4183,13 +4185,15 @@ public static partial class TelegramBotClientExtensions
     /// Use this method to delete a sticker from a set created by the bot.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="sticker">File identifier of the sticker</param>
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     public static async Task DeleteStickerFromSetAsync(
         this ITelegramBotClient botClient,
-        string sticker,
+        InputFileId sticker,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -4207,7 +4211,7 @@ public static partial class TelegramBotClientExtensions
     /// An instance of <see cref="ITelegramBotClient"/>
     /// </param>
     /// <param name="sticker">
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
     /// <param name="emojiList">
     /// A JSON-serialized list of 1-20 emoji associated with the sticker
@@ -4217,7 +4221,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task SetStickerEmojiListAsync(
         this ITelegramBotClient botClient,
-        string sticker,
+        InputFileId sticker,
         IEnumerable<string> emojiList,
         CancellationToken cancellationToken = default
     ) =>
@@ -4236,7 +4240,7 @@ public static partial class TelegramBotClientExtensions
     /// An instance of <see cref="ITelegramBotClient"/>
     /// </param>
     /// <param name="sticker">
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
     /// <param name="keywords">
     /// Optional. A JSON-serialized list of 0-20 search keywords for the sticker
@@ -4247,7 +4251,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task SetStickerKeywordsAsync(
         this ITelegramBotClient botClient,
-        string sticker,
+        InputFileId sticker,
         IEnumerable<string>? keywords = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -4269,7 +4273,7 @@ public static partial class TelegramBotClientExtensions
     /// An instance of <see cref="ITelegramBotClient"/>
     /// </param>
     /// <param name="sticker">
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
     /// <param name="maskPosition">
     /// A JSON-serialized object with the position where the mask should be placed on faces.
@@ -4280,7 +4284,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task SetStickerMaskPositionAsync(
         this ITelegramBotClient botClient,
-        string sticker,
+        InputFileId sticker,
         MaskPosition? maskPosition = default,
         CancellationToken cancellationToken = default
     ) =>

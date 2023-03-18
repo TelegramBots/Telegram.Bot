@@ -10,10 +10,10 @@ public class SetStickerMaskPositionRequest : RequestBase<bool>
 {
     //
     /// <summary>
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Sticker { get; }
+    public InputFileId Sticker { get; }
 
     /// <summary>
     /// A JSON-serialized object with the position where the mask should be placed on faces.
@@ -26,9 +26,9 @@ public class SetStickerMaskPositionRequest : RequestBase<bool>
     /// Initializes a new request with sticker
     /// </summary>
     /// <param name="sticker">
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
-    public SetStickerMaskPositionRequest(string sticker)
+    public SetStickerMaskPositionRequest(InputFileId sticker)
         : base("setStickerMaskPosition")
     {
         Sticker = sticker;

@@ -11,10 +11,10 @@ namespace Telegram.Bot.Requests;
 public class SetStickerEmojiListRequest : RequestBase<bool>
 {
     /// <summary>
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Sticker { get; }
+    public InputFileId Sticker { get; }
 
     /// <summary>
     /// A JSON-serialized list of 1-20 emoji associated with the sticker
@@ -26,12 +26,12 @@ public class SetStickerEmojiListRequest : RequestBase<bool>
     /// Initializes a new request with sticker and emojiList
     /// </summary>
     /// <param name="sticker">
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
     /// <param name="emojiList">
     /// A JSON-serialized list of 1-20 emoji associated with the sticker
     /// </param>
-    public SetStickerEmojiListRequest(string sticker, IEnumerable<string> emojiList)
+    public SetStickerEmojiListRequest(InputFileId sticker, IEnumerable<string> emojiList)
         : base("setStickerEmojiList")
     {
         Sticker = sticker;

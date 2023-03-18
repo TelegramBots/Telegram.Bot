@@ -1,4 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -8,16 +8,18 @@ namespace Telegram.Bot.Requests;
 public class DeleteStickerFromSetRequest : RequestBase<bool>
 {
     /// <summary>
-    /// File identifier of the sticker
+    /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Sticker { get; }
+    public InputFileId Sticker { get; }
 
     /// <summary>
     /// Initializes a new request with sticker
     /// </summary>
-    /// <param name="sticker">File identifier of the sticker</param>
-    public DeleteStickerFromSetRequest(string sticker)
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
+    public DeleteStickerFromSetRequest(InputFileId sticker)
         : base("deleteStickerFromSet")
     {
         Sticker = sticker;
