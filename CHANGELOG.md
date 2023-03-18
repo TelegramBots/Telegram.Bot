@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [v19.0.0-preview.4] - Unreleased
 
 > [Bot API 6.6](https://core.telegram.org/bots/api#march-9-2023) (March 9, 2023)
 
@@ -108,6 +108,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Renamed properties `ThumbUrl`, `ThumbMimeType` to `ThumbnailUrl`, `ThumbnailMimeType` in the following Types:
   - `InlineQueryResultGif`
   - `InlineQueryResultMpeg4Gif`
+- Type of property `Sticker` changed from `string` to `InputFileId` in the following classes:
+  - `SetStickerPositionInSetRequest`
+  - `DeleteStickerFromSetRequest`
 
 ### Fixed
 
