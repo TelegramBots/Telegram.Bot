@@ -104,9 +104,9 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
 
         if (Document is InputFile || Thumbnail is InputFile)
         {
-            httpContent = GenerateMultipartFormDataContent("document", "thumb")
+            httpContent = GenerateMultipartFormDataContent("document", "thumbnail")
                 .AddContentIfInputFile(media: Document, name: "document")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail");
         }
         else
         {

@@ -4,6 +4,7 @@ namespace Telegram.Bot.Requests;
 /// Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty.
 /// Returns <see langword="true"/> on success.
 /// </summary>
+[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetMyDescriptionRequest : RequestBase<bool>
 {
     /// <summary>

@@ -5,6 +5,7 @@ namespace Telegram.Bot.Requests;
 /// the bot's profile page and is sent together with the link when users share the bot.
 /// Returns <see langword="true"/> on success.
 /// </summary>
+[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetMyShortDescriptionRequest : RequestBase<bool>
 {
     /// <summary>

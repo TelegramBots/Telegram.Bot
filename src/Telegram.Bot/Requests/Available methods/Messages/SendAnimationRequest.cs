@@ -122,9 +122,9 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
 
         if (Animation is InputFile || Thumbnail is InputFile)
         {
-            httpContent = GenerateMultipartFormDataContent("animation", "thumb")
+            httpContent = GenerateMultipartFormDataContent("animation", "thumbnail")
                 .AddContentIfInputFile(media: Animation, name: "animation")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail");
         }
         else
         {

@@ -93,9 +93,9 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
 
         if (VideoNote is InputFile || Thumbnail is InputFile)
         {
-            httpContent = GenerateMultipartFormDataContent("video_note", "thumb")
+            httpContent = GenerateMultipartFormDataContent("video_note", "thumbnail")
                 .AddContentIfInputFile(media: VideoNote, name: "video_note")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail");
         }
         else
         {

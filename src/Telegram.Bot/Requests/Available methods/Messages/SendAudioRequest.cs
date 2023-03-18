@@ -116,9 +116,9 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
 
         if (Audio is InputFile || Thumbnail is InputFile)
         {
-            httpContent = GenerateMultipartFormDataContent("audio", "thumb")
+            httpContent = GenerateMultipartFormDataContent("audio", "thumbnail")
                 .AddContentIfInputFile(media: Audio, name: "audio")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail");
         }
         else
         {
