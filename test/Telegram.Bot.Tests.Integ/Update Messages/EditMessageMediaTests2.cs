@@ -92,7 +92,7 @@ public class EditMessageMediaTests2
             messageId: originalMessage.MessageId,
             media: new InputMediaAnimation(new InputFileId(gifMessage.Document.FileId))
             {
-                Thumb = new InputFile(thumbStream, "thumb.jpg"),
+                Thumbnail = new InputFile(thumbStream, "thumb.jpg"),
                 Duration = 4,
                 Height = 320,
                 Width = 320,
@@ -117,8 +117,8 @@ public class EditMessageMediaTests2
         Assert.NotNull(editedMessage.Animation.MimeType);
         Assert.NotEmpty(editedMessage.Animation.MimeType);
 
-        Assert.NotNull(editedMessage.Animation.Thumb);
-        Assert.NotEmpty(editedMessage.Animation.Thumb.FileId);
-        Asserts.JsonEquals(editedMessage.Animation.Thumb, editedMessage.Document.Thumb);
+        Assert.NotNull(editedMessage.Animation.Thumbnail);
+        Assert.NotEmpty(editedMessage.Animation.Thumbnail.FileId);
+        Asserts.JsonEquals(editedMessage.Animation.Thumbnail, editedMessage.Document.Thumbnail);
     }
 }

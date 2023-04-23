@@ -18,7 +18,7 @@ public class InputMediaAudio :
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Duration of the audio in seconds

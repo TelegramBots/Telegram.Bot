@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>
 /// This object represents a <a href="https://telegram.org/blog/video-messages-and-telescope">video message</a>
@@ -24,5 +24,5 @@ public class VideoNote : FileBase
     /// Optional. Video thumbnail
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 }

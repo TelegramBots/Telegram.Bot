@@ -77,17 +77,17 @@ public class SendingDocumentMessageTests
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
             document: new InputFile(content: documentStream, fileName: "Hamlet.pdf"),
-            thumb: new InputFile(content: thumbStream, fileName: "thumb.jpg")
+            thumbnail: new InputFile(content: thumbStream, fileName: "thumb.jpg")
         );
 
         Assert.NotNull(message.Document);
-        Assert.NotNull(message.Document.Thumb);
-        Assert.NotEmpty(message.Document.Thumb.FileId);
-        Assert.NotEmpty(message.Document.Thumb.FileUniqueId);
-        Assert.Equal(90, message.Document.Thumb.Height);
-        Assert.Equal(90, message.Document.Thumb.Width);
-        Assert.NotNull(message.Document.Thumb.FileSize);
-        Assert.InRange((int)message.Document.Thumb.FileSize, 11_000, 12_000);
+        Assert.NotNull(message.Document.Thumbnail);
+        Assert.NotEmpty(message.Document.Thumbnail.FileId);
+        Assert.NotEmpty(message.Document.Thumbnail.FileUniqueId);
+        Assert.Equal(90, message.Document.Thumbnail.Height);
+        Assert.Equal(90, message.Document.Thumbnail.Width);
+        Assert.NotNull(message.Document.Thumbnail.FileSize);
+        Assert.InRange((int)message.Document.Thumbnail.FileSize, 11_000, 12_000);
 
         Assert.Equal(MessageType.Document, message.Type);
         Assert.Equal("Hamlet.pdf", message.Document.FileName);

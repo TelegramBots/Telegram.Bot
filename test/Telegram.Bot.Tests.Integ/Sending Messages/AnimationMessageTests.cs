@@ -34,7 +34,7 @@ public class AnimationMessageTests
                 duration: 4,
                 width: 400,
                 height: 400,
-                thumb: null,
+                thumbnail: null,
                 caption: "<b>Rotating</b> <i>Earth</i>",
                 parseMode: ParseMode.Html
             );
@@ -78,16 +78,16 @@ public class AnimationMessageTests
             message = await BotClient.SendAnimationAsync(
                 chatId: _fixture.SupergroupChat,
                 animation: new InputFile(stream1, "earth.gif"),
-                thumb: new InputFile(stream2, "thumb.jpg")
+                thumbnail: new InputFile(stream2, "thumb.jpg")
             );
         }
 
         Assert.NotNull(message.Animation);
-        Assert.NotNull(message.Animation.Thumb);
-        Assert.NotEmpty(message.Animation.Thumb.FileId);
-        Assert.NotEmpty(message.Animation.Thumb.FileUniqueId);
-        Assert.Equal(320, message.Animation.Thumb.Height);
-        Assert.Equal(320, message.Animation.Thumb.Width);
-        Assert.True(message.Animation.Thumb.FileSize > 10_000);
+        Assert.NotNull(message.Animation.Thumbnail);
+        Assert.NotEmpty(message.Animation.Thumbnail.FileId);
+        Assert.NotEmpty(message.Animation.Thumbnail.FileUniqueId);
+        Assert.Equal(320, message.Animation.Thumbnail.Height);
+        Assert.Equal(320, message.Animation.Thumbnail.Width);
+        Assert.True(message.Animation.Thumbnail.FileSize > 10_000);
     }
 }

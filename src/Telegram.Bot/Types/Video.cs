@@ -28,7 +28,7 @@ public class Video : FileBase
     /// Optional. Video thumbnail
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Original filename as defined by sender

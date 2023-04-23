@@ -69,17 +69,17 @@ public class AudioMessageTests
             message = await BotClient.SendAudioAsync(
                 chatId: _fixture.SupergroupChat,
                 audio: new InputFile(stream1, "Ask Again - A State of Despair.mp3"),
-                thumb: new InputFile(stream2, "thumb.jpg")
+                thumbnail: new InputFile(stream2, "thumb.jpg")
             );
         }
 
         Assert.NotNull(message.Audio);
-        Assert.NotNull(message.Audio.Thumb);
-        Assert.NotEmpty(message.Audio.Thumb.FileId);
-        Assert.NotEmpty(message.Audio.Thumb.FileUniqueId);
-        Assert.Equal(90, message.Audio.Thumb.Height);
-        Assert.Equal(90, message.Audio.Thumb.Width);
-        Assert.True(message.Audio.Thumb.FileSize > 10_000);
+        Assert.NotNull(message.Audio.Thumbnail);
+        Assert.NotEmpty(message.Audio.Thumbnail.FileId);
+        Assert.NotEmpty(message.Audio.Thumbnail.FileUniqueId);
+        Assert.Equal(90, message.Audio.Thumbnail.Height);
+        Assert.Equal(90, message.Audio.Thumbnail.Width);
+        Assert.True(message.Audio.Thumbnail.FileSize > 10_000);
     }
 
     [OrderedFact("Should send a voice with caption")]

@@ -44,15 +44,15 @@ internal static class Documentation
     /// <summary>
     /// Thumbnail width
     /// </summary>
-    static readonly object ThumbWidth;
+    static readonly object ThumbnailWidth;
 
     /// <summary>
     /// Thumbnail height
     /// </summary>
-    static readonly object ThumbHeight;
+    static readonly object ThumbnailHeight;
 
     /// <summary>
     /// Url of the thumbnail for the result
     /// </summary>
-    static readonly object ThumbUrl;
+    static readonly object ThumbnailUrl;
 }

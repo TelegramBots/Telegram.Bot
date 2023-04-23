@@ -1,4 +1,4 @@
-﻿using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
 
@@ -15,13 +15,15 @@ public class MaskPosition
     public MaskPositionPoint Point { get; set; }
 
     /// <summary>
-    /// Shift by X-axis measured in widths of the mask scaled to the face size, from left to right. For example, choosing -1.0 will place mask just to the left of the default mask position.
+    /// Shift by X-axis measured in widths of the mask scaled to the face size, from left to right.
+    /// For example, choosing -1.0 will place mask just to the left of the default mask position.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public float XShift { get; set; }
 
     /// <summary>
-    /// Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom. For example, 1.0 will place the mask just below the default mask position.
+    /// Shift by Y-axis measured in heights of the mask scaled to the face size, from top to bottom.
+    /// For example, 1.0 will place the mask just below the default mask position.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public float YShift { get; set; }

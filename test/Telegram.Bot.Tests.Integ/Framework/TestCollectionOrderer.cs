@@ -29,6 +29,8 @@ public class TestCollectionOrderer : ITestCollectionOrderer
         // Tests without the need for user interaction:
         Constants.TestCollections.GettingUpdates,
         Constants.TestCollections.BotCommands,
+        Constants.TestCollections.BotDescription,
+        Constants.TestCollections.BotShortDescription,
         Constants.TestCollections.Dice,
         Constants.TestCollections.Webhook,
         Constants.TestCollections.SendTextMessage,
