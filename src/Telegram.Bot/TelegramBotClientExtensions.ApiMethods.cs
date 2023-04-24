@@ -4501,23 +4501,8 @@ public static partial class TelegramBotClientExtensions
     /// Pass an empty string if there are no more results or if you don't support pagination.
     /// Offset length can't exceed 64 bytes
     /// </param>
-    /// <param name="switchPmText">
-    /// If passed, clients will display a button with specified text that switches the user to a private chat
-    /// with the bot and sends the bot a start message with the parameter <paramref name="switchPmParameter"/>
-    /// </param>
-    /// <param name="switchPmParameter">
-    /// <a href="https://core.telegram.org/bots#deep-linking">Deep-linking</a> parameter for the <c>/start</c>
-    /// message sent to the bot when user presses the switch button. 1-64 characters, only <c>A-Z</c>, <c>a-z</c>,
-    /// <c>0-9</c>, <c>_</c> and <c>-</c> are allowed
-    /// <para>
-    /// <i>Example</i>: An inline bot that sends YouTube videos can ask the user to connect the bot to their
-    /// YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube
-    /// account' button above the results, or even before showing any. The user presses the button, switches
-    /// to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to
-    /// return an oauth link. Once done, the bot can offer a
-    /// <see cref="InlineKeyboardButton.SwitchInlineQuery"/> button so that the user can
-    /// easily return to the chat where they wanted to use the bot’s inline capabilities
-    /// </para>
+    /// <param name="button">
+    /// A JSON-serialized object describing a button to be shown above inline query results
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -4529,8 +4514,7 @@ public static partial class TelegramBotClientExtensions
         int? cacheTime = default,
         bool? isPersonal = default,
         string? nextOffset = default,
-        string? switchPmText = default,
-        string? switchPmParameter = default,
+        InlineQueryResultsButton? button = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -4540,8 +4524,7 @@ public static partial class TelegramBotClientExtensions
                     CacheTime = cacheTime,
                     IsPersonal = isPersonal,
                     NextOffset = nextOffset,
-                    SwitchPmText = switchPmText,
-                    SwitchPmParameter = switchPmParameter
+                    Button = button,
                 },
                 cancellationToken
             )
