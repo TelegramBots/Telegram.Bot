@@ -3248,6 +3248,58 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to change the bot's name.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="name">
+    /// New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
+    /// </param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language
+    /// there is no dedicated name.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? name = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetMyNameRequest { Name = name, LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to get the current bot name for the given user language.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code or an empty string
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>
+    /// Returns <see cref="BotName"/> on success.
+    /// </returns>
+    public static async Task<BotName> GetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new GetMyNameRequest { LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to change the bot's description, which is shown in the chat
     /// with the bot if the chat is empty.
     /// </summary>
