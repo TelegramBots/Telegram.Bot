@@ -3379,9 +3379,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyShortDescriptionRequest {
+                request: new SetMyShortDescriptionRequest
+                {
                     ShortDescription = shortDescription,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
