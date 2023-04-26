@@ -18,23 +18,23 @@ public class SwitchInlineQueryChosenChat
     /// Optional. <see langword="true"/>, if private chats with users can be chosen
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool AllowUserChats { get; set; }
+    public bool? AllowUserChats { get; set; }
 
     /// <summary>
     /// Optional. <see langword = "true" />, if private chats with bots can be chosen
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool AllowBotChats { get; set; }
+    public bool? AllowBotChats { get; set; }
 
     /// <summary>
     /// Optional. <see langword = "true" />, if group and supergroup chats can be chosen
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool AllowGroupChats { get; set; }
+    public bool? AllowGroupChats { get; set; }
 
     /// <summary>
     /// Optional. <see langword = "true" />, if channel chats can be chosen
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool AllowChannelChats { get; set; }
+    public bool? AllowChannelChats { get; set; }
 }
