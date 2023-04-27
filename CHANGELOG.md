@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [v19.0.0-preview.4] - Unreleased
 
 > [Bot API 6.7](https://core.telegram.org/bots/api#april-21-2023) (April 21, 2023)
+> [Bot API 6.6](https://core.telegram.org/bots/api#march-9-2023) (March 9, 2023)
 
 ### Added
 
@@ -40,18 +41,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Methods related to bot's name:
   - `ITelegramBotClient.SetMyNameAsync`
   - `ITelegramBotClient.GetMyNameAsync`
-
-### Changed
-
-- Replace the parameters `switchPmText` and `switchPmParameter` of the method `AnswerInlineQueryAsync` with the parameter `button` of type `InlineQueryResultsButton`.
-- Replace the properties `SwitchPmText` and `SwitchPmParameter` of the class `AnswerInlineQueryRequest` with the property `Button` of type `InlineQueryResultsButton`.
-
-## [v19.0.0-preview.4] - Unreleased
-
-> [Bot API 6.6](https://core.telegram.org/bots/api#march-9-2023) (March 9, 2023)
-
-### Added
-
 - New requests related to description:
   - `GetMyDescriptionRequest`
   - `SetMyDescriptionRequest`
@@ -94,6 +83,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Replace the parameters `switchPmText` and `switchPmParameter` of the method `AnswerInlineQueryAsync` with the parameter `button` of type `InlineQueryResultsButton`.
+- Replace the properties `SwitchPmText` and `SwitchPmParameter` of the class `AnswerInlineQueryRequest` with the property `Button` of type `InlineQueryResultsButton`.
 - Class `SetStickerSetThumbRequest` renamed to `SetStickerSetThumbnailRequest`
 - Class `CreateNewStickerSetRequest` is no longer abstract
 - Class `AddStickerToSetRequest` is no longer abstract
