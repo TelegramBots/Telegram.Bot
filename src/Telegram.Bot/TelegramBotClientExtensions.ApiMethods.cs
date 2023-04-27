@@ -3248,6 +3248,58 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to change the bot's name.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="name">
+    /// New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
+    /// </param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language
+    /// there is no dedicated name.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? name = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetMyNameRequest { Name = name, LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to get the current bot name for the given user language.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code or an empty string
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>
+    /// Returns <see cref="BotName"/> on success.
+    /// </returns>
+    public static async Task<BotName> GetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new GetMyNameRequest { LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to change the bot's description, which is shown in the chat
     /// with the bot if the chat is empty.
     /// </summary>
@@ -3327,9 +3379,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyShortDescriptionRequest {
+                request: new SetMyShortDescriptionRequest
+                {
                     ShortDescription = shortDescription,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
@@ -4449,23 +4502,8 @@ public static partial class TelegramBotClientExtensions
     /// Pass an empty string if there are no more results or if you don't support pagination.
     /// Offset length can't exceed 64 bytes
     /// </param>
-    /// <param name="switchPmText">
-    /// If passed, clients will display a button with specified text that switches the user to a private chat
-    /// with the bot and sends the bot a start message with the parameter <paramref name="switchPmParameter"/>
-    /// </param>
-    /// <param name="switchPmParameter">
-    /// <a href="https://core.telegram.org/bots#deep-linking">Deep-linking</a> parameter for the <c>/start</c>
-    /// message sent to the bot when user presses the switch button. 1-64 characters, only <c>A-Z</c>, <c>a-z</c>,
-    /// <c>0-9</c>, <c>_</c> and <c>-</c> are allowed
-    /// <para>
-    /// <i>Example</i>: An inline bot that sends YouTube videos can ask the user to connect the bot to their
-    /// YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube
-    /// account' button above the results, or even before showing any. The user presses the button, switches
-    /// to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to
-    /// return an oauth link. Once done, the bot can offer a
-    /// <see cref="InlineKeyboardButton.SwitchInlineQuery"/> button so that the user can
-    /// easily return to the chat where they wanted to use the bot’s inline capabilities
-    /// </para>
+    /// <param name="button">
+    /// A JSON-serialized object describing a button to be shown above inline query results
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -4477,8 +4515,7 @@ public static partial class TelegramBotClientExtensions
         int? cacheTime = default,
         bool? isPersonal = default,
         string? nextOffset = default,
-        string? switchPmText = default,
-        string? switchPmParameter = default,
+        InlineQueryResultsButton? button = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -4488,8 +4525,7 @@ public static partial class TelegramBotClientExtensions
                     CacheTime = cacheTime,
                     IsPersonal = isPersonal,
                     NextOffset = nextOffset,
-                    SwitchPmText = switchPmText,
-                    SwitchPmParameter = switchPmParameter
+                    Button = button,
                 },
                 cancellationToken
             )

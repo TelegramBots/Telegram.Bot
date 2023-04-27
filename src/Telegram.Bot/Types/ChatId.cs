@@ -124,7 +124,7 @@ public class ChatId : IEquatable<ChatId>
 
         if (obj1.Username is not null && obj2.Username is not null)
         {
-            return string.Equals(obj1.Username, obj2.Username, StringComparison.InvariantCulture);
+            return string.Equals(obj1.Username, obj2.Username, StringComparison.Ordinal);
         }
 
         return false;

@@ -45,4 +45,10 @@ public class ChatMemberUpdated
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatInviteLink? InviteLink { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the user joined the chat via a chat folder invite link
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? ViaChatFolderInviteLink { get; set; }
 }
