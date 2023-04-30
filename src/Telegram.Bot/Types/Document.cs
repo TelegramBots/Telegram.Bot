@@ -10,7 +10,7 @@ public class Document : FileBase
     /// Optional. Document thumbnail as defined by sender
     /// </summary>
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Original filename as defined by sender

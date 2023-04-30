@@ -107,7 +107,7 @@ public class ChatId : IEquatable<ChatId>
     /// Convert a Chat Object to a <see cref="ChatId"/>
     /// </summary>
     /// <param name="chat"></param>
-    [return: NotNullIfNotNull("chat")]
+    [return: NotNullIfNotNull(nameof(chat))]
     public static implicit operator ChatId?(Chat? chat) => chat is null ? null : new(chat.Id);
 
     /// <summary>
@@ -124,7 +124,7 @@ public class ChatId : IEquatable<ChatId>
 
         if (obj1.Username is not null && obj2.Username is not null)
         {
-            return string.Equals(obj1.Username, obj2.Username, StringComparison.InvariantCulture);
+            return string.Equals(obj1.Username, obj2.Username, StringComparison.Ordinal);
         }
 
         return false;

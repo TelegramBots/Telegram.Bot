@@ -67,9 +67,9 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
+    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -114,11 +114,11 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     {
         HttpContent? httpContent;
 
-        if (Audio is InputFile || Thumb is InputFile)
+        if (Audio is InputFile || Thumbnail is InputFile)
         {
-            httpContent = GenerateMultipartFormDataContent("audio", "thumb")
+            httpContent = GenerateMultipartFormDataContent("audio", "thumbnail")
                 .AddContentIfInputFile(media: Audio, name: "audio")
-                .AddContentIfInputFile(media: Thumb, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail");
         }
         else
         {

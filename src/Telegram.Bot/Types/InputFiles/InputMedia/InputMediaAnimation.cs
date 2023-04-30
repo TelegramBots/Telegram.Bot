@@ -17,7 +17,7 @@ public class InputMediaAnimation :
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Animation width

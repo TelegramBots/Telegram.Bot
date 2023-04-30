@@ -43,7 +43,7 @@ public class EditMessageMediaTests
             new InlineQueryResultPhoto(
                 id: "photo:rainbow-girl",
                 photoUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
-                thumbUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")
+                thumbnailUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")
             {
                 Caption = "Rainbow Girl",
                 ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to edit"),

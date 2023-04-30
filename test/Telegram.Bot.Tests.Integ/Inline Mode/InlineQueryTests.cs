@@ -247,7 +247,7 @@ public class InlineQueryTests
         const string caption = "Rainbow Girl";
         InlineQueryResult[] results =
         {
-            new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbUrl: url)
+            new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbnailUrl: url)
             {
                 Caption = caption
             }
@@ -337,7 +337,7 @@ public class InlineQueryTests
             new InlineQueryResultVideo(
                 id: resultId,
                 videoUrl: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
-                thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg",
+                thumbnailUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg",
                 title: "Sunset Landscape")
             {
                 Description = "A beautiful scene"
@@ -381,7 +381,7 @@ public class InlineQueryTests
             new InlineQueryResultVideo(
                 id: resultId,
                 videoUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
-                thumbUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
+                thumbnailUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
                 title: "Rocket Launch",
                 inputMessageContent:
                 new InputTextMessageContent("[Rocket Launch](https://www.youtube.com/watch?v=1S0CTtY8Qa0)")
@@ -741,14 +741,14 @@ public class InlineQueryTests
             new InlineQueryResultGif(
                 id: resultId,
                 gifUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
-                thumbUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")
+                thumbnailUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")
             {
                 Caption = "Rotating Earth",
                 GifDuration = 4,
                 GifHeight = 400,
                 GifWidth = 400,
                 Title = "Rotating Earth",
-                ThumbMimeType = "image/gif",
+                ThumbnailMimeType = "image/gif",
             }
         };
 
@@ -828,7 +828,7 @@ public class InlineQueryTests
             new InlineQueryResultMpeg4Gif(
                 id: resultId,
                 mpeg4Url: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
-                thumbUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg")
+                thumbnailUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg")
             {
                 Caption = "A beautiful scene",
             },
@@ -947,7 +947,7 @@ public class InlineQueryTests
         const string photoCaption = "Rainbow Girl";
         InlineQueryResult[] results =
         {
-            new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbUrl: url)
+            new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbnailUrl: url)
             {
                 Caption = $"*{photoCaption}*",
                 ParseMode = ParseMode.Markdown

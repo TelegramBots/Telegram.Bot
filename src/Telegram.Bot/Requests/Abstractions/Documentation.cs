@@ -74,7 +74,7 @@ internal static class Documentation
     /// you can pass "attach://&lt;file_attach_name&gt;" if the thumbnail was uploaded using
     /// multipart/form-data under &lt;file_attach_name&gt;
     /// </summary>
-    static readonly object Thumb;
+    static readonly object Thumbnail;
 
     /// <summary>
     /// Protects the contents of sent messages from forwarding and saving

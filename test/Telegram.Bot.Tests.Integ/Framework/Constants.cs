@@ -66,6 +66,10 @@ public static class Constants
 
         public const string BotCommands = "Bot Commands";
 
+        public const string BotDescription = "Bot Description";
+
+        public const string BotShortDescription = "Bot Short Description";
+
         public const string Dice = "Dice";
 
         public const string CallbackQuery = "Callback Query";
@@ -183,6 +187,47 @@ public static class Constants
 
             public const string TheAbilityToBreak = $"{Dir}The Ability to Break.jpg";
         }
+
+        public static class Sticker
+        {
+            const string StickerDir = $"{FilesDir}Sticker/";
+
+            public static class Regular
+            {
+                const string Dir = $"{StickerDir}Regular/";
+
+                public const string StaticThumbnail = $"{Dir}StaticThumbnail.webp";
+
+                public const string StaticFirst = $"{Dir}Static1.webp";
+
+                public const string StaticSecond = $"{Dir}Static2.webp";
+
+                public const string StaticThird = $"{Dir}Static3.png";
+
+
+                public const string AnimatedFirst = $"{Dir}Animated1.tgs";
+
+                public const string AnimatedSecond = $"{Dir}Animated2.tgs";
+
+                public const string AnimatedThird = $"{Dir}Animated3.tgs";
+
+
+                public const string VideoFirst = $"{Dir}Video1.webm";
+
+                public const string VideoSecond = $"{Dir}Video2.webm";
+
+                public const string VideoThird = $"{Dir}Video3.webm";
+            }
+
+            public static class CustomEmoji
+            {
+                const string Dir = $"{StickerDir}CustomEmoji/";
+
+                public const string StaticFirst = $"{Dir}Static1.png";
+
+                public const string StaticSecond = $"{Dir}Static2.png";
+            }
+        }
     }
 
     public static class TelegramBotApiMethods
@@ -255,8 +300,6 @@ public static class Constants
 
         public const string PromoteChatMember = "promoteChatMember";
 
-        public const string GetStickerSet = "getStickerSet";
-
         public const string SendPhoto = "sendPhoto";
 
         public const string SendVideo = "sendVideo";
@@ -293,9 +336,13 @@ public static class Constants
 
         public const string SetChatStickerSet = "setChatStickerSet";
 
+        public const string SendMediaGroup = "sendMediaGroup";
+
         public const string SendSticker = "sendSticker";
 
-        public const string SendMediaGroup = "sendMediaGroup";
+        public const string GetStickerSet = "getStickerSet";
+
+        public const string GetCustomEmojiStickers = "getCustomEmojiStickers";
 
         public const string UploadStickerFile = "uploadStickerFile";
 
@@ -306,6 +353,20 @@ public static class Constants
         public const string SetStickerPositionInSet = "setStickerPositionInSet";
 
         public const string DeleteStickerFromSet = "deleteStickerFromSet";
+
+        public const string SetStickerEmojiList = "setStickerEmojiList";
+
+        public const string SetStickerKeywords = "setStickerKeywords";
+
+        public const string SetStickerMaskPosition = "setStickerMaskPosition";
+
+        public const string SetStickerSetTitle = "setStickerSetTitle";
+
+        public const string SetStickerSetThumbnail = "setStickerSetThumbnail";
+
+        public const string SetCustomEmojiStickerSetThumbnail = "setCustomEmojiStickerSetThumbnail";
+
+        public const string DeleteStickerSet = "deleteStickerSet";
 
         public const string SendGame = "sendGame";
 
@@ -328,6 +389,14 @@ public static class Constants
         public const string GetMyCommands = "getMyCommands";
 
         public const string DeleteMyCommands = "deleteMyCommands";
+
+        public const string SetMyDescription = "setMyDescription";
+
+        public const string GetMyDescription = "getMyDescription";
+
+        public const string SetMyShortDescription = "setMyShortDescription";
+
+        public const string GetMyShortDescription = "getMyShortDescription";
 
         public const string SendDice = "sendDice";
 

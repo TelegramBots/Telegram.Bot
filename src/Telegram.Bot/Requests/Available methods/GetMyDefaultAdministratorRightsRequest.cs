@@ -1,4 +1,4 @@
-﻿// ReSharper disable once CheckNamespace
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -16,7 +16,7 @@ public class GetMyDefaultAdministratorRightsRequest : RequestBase<ChatAdministra
     public bool? ForChannels { get; set; }
 
     /// <summary>
-    ///
+    /// Initializes a new request
     /// </summary>
     public GetMyDefaultAdministratorRightsRequest()
         : base("getMyDefaultAdministratorRights")

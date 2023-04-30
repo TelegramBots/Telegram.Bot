@@ -58,7 +58,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent()
     {
         if (Media.Media.FileType is not FileType.Stream &&
-            Media is not IInputMediaThumb { Thumb.FileType: FileType.Stream })
+            Media is not IInputMediaThumb { Thumbnail.FileType: FileType.Stream })
         {
             return base.ToHttpContent();
         }
@@ -69,9 +69,9 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
         {
             multipartContent.AddContentIfInputFile(file, file.FileName!);
         }
-        if (Media is IInputMediaThumb { Thumb: InputFile thumb })
+        if (Media is IInputMediaThumb { Thumbnail: InputFile thumbnail })
         {
-            multipartContent.AddContentIfInputFile(thumb, thumb.FileName!);
+            multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
         }
 
         return multipartContent;

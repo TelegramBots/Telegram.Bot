@@ -52,9 +52,9 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? Height { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
+    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumb { get; set; }
+    public IInputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Video caption (may also be used when resending videos by file_id),
@@ -126,11 +126,11 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     {
         HttpContent? httpContent;
 
-        if (Video is InputFile || Thumb is InputFile)
+        if (Video is InputFile || Thumbnail is InputFile)
         {
-            httpContent = GenerateMultipartFormDataContent("video", "thumb")
+            httpContent = GenerateMultipartFormDataContent("video", "thumbnail")
                 .AddContentIfInputFile(media: Video, name: "video")
-                .AddContentIfInputFile(media: Thumb, name: "thumb");
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail");
         }
         else
         {

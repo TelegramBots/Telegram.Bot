@@ -101,13 +101,6 @@ public class ChatMemberAdministrator : ChatMember
     /// <summary>
     /// <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
-    [Obsolete("This property will be removed in the next major version, use CanManageVideoChat instead")]
-    [JsonProperty(Required = Required.Always)]
-    public bool CanManageVoiceChats { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the administrator can manage video chats
-    /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanManageVideoChats { get; set; }
 
@@ -201,11 +194,40 @@ public class ChatMemberRestricted : ChatMember
     public bool CanSendMessages { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the user can send audios, documents, photos, videos, video notes and voice notes,
-    /// implies <see cref="CanSendMessages"/>
+    /// <see langword="true" />, if the user is allowed to send audios
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public bool CanSendMediaMessages { get; set; }
+    public bool CanSendAudios { get; set; }
+
+    /// <summary>
+    /// <see langword="true" />, if the user is allowed to send documents
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool CanSendDocuments { get; set; }
+
+    /// <summary>
+    /// <see langword="true" />, if the user is allowed to send photos
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool CanSendPhotos { get; set; }
+
+    /// <summary>
+    /// <see langword="true" />, if the user is allowed to send videos
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool CanSendVideos { get; set; }
+
+    /// <summary>
+    /// <see langword="true" />, if the user is allowed to send video notes
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool CanSendVideoNotes { get; set; }
+
+    /// <summary>
+    /// <see langword="true" />, if the user is allowed to send voice notes
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public bool CanSendVoiceNotes { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the user is allowed to send polls
@@ -214,15 +236,13 @@ public class ChatMemberRestricted : ChatMember
     public bool CanSendPolls { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the user can send animations, games, stickers and use inline bots,
-    /// implies <see cref="CanSendMediaMessages"/>
+    /// <see langword="true"/>, if the user is allowed to send animations, games, stickers and use inline bots
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanSendOtherMessages { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if user may add web page previews to his messages,
-    /// implies <see cref="CanSendMediaMessages"/>
+    /// <see langword="true"/>, if the user is allowed to add web page previews to their messages
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanAddWebPagePreviews { get; set; }

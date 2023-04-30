@@ -13,7 +13,6 @@ namespace Telegram.Bot.Types;
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class LoginUrl
 {
-
     /// <summary>
     /// An HTTP URL to be opened with user authorization data added to the query string when the button is pressed.
     /// If the user refuses to provide authorization data, the original URL without information about the user will

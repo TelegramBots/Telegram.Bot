@@ -13,7 +13,7 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 public class InlineQueryResultGif : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be gif
+    /// Type of the result, must be GIF
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public override InlineQueryResultType Type => InlineQueryResultType.Gif;
@@ -46,14 +46,14 @@ public class InlineQueryResultGif : InlineQueryResult
     /// URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string ThumbUrl { get; }
+    public string ThumbnailUrl { get; }
 
     /// <summary>
     /// Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”,
     /// or “video/mp4”. Defaults to “image/jpeg”
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ThumbMimeType { get; set; }
+    public string? ThumbnailMimeType { get; set; }
 
     /// <summary>
     /// Optional. Title for the result
@@ -82,11 +82,11 @@ public class InlineQueryResultGif : InlineQueryResult
     /// </summary>
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="gifUrl">Width of the GIF</param>
-    /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
-    public InlineQueryResultGif(string id, string gifUrl, string thumbUrl)
+    /// <param name="thumbnailUrl">Url of the thumbnail for the result.</param>
+    public InlineQueryResultGif(string id, string gifUrl, string thumbnailUrl)
         : base(id)
     {
         GifUrl = gifUrl;
-        ThumbUrl = thumbUrl;
+        ThumbnailUrl = thumbnailUrl;
     }
 }

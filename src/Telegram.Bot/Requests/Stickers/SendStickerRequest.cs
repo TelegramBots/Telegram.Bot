@@ -6,8 +6,8 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to send static .WEBP or animated .TGS stickers. On success, the sent
-/// <see cref="Message"/> is returned.
+/// Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers.
+/// On success, the sent <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
@@ -17,18 +17,27 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// Optional. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Sticker to send. Pass a <see cref="InputFileId"/> as String to send a file that
-    /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get
-    /// a .WEBP file from the Internet, or upload a new one using multipart/form-data
+    /// exists on the Telegram servers (recommended), pass an HTTP URL as a String
+    /// for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP
+    /// or .TGS sticker using multipart/form-data.
+    /// Video stickers can only be sent by a <see cref="InputFileId"/>.
+    /// Animated stickers can't be sent via an HTTP URL.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public IInputFile Sticker { get; }
+
+    /// <summary>
+    /// Optional. Emoji associated with the sticker; only for just uploaded stickers
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? Emoji { get; set; }
 
     /// <inheritdoc cref="Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -58,9 +67,12 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="sticker">
-    /// Sticker to send. Pass a <see cref="InputFileId"/> as string to send a file
-    /// that exists on the Telegram servers (recommended), pass an HTTP URL as a string for
-    /// Telegram to get a .WEBP file from the Internet, or upload a new one using multipart/form-data
+    /// Sticker to send. Pass a <see cref="InputFileId"/> as String to send a file that
+    /// exists on the Telegram servers (recommended), pass an HTTP URL as a String
+    /// for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP
+    /// or .TGS sticker using multipart/form-data.
+    /// Video stickers can only be sent by a <see cref="InputFileId"/>.
+    /// Animated stickers can't be sent via an HTTP URL.
     /// </param>
     public SendStickerRequest(ChatId chatId, IInputFile sticker)
         : base("sendSticker")

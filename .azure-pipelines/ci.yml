@@ -5,13 +5,11 @@ trigger:
       - gh-pages
   paths:
     exclude:
-      - ".github/"
-      - docs/
+      - '.github'
+      - docs
       - README.md
       - CHANGELOG.md
       - CONTRIBUTING.md
-
-pr: none
 
 variables:
   - template: variables.yml
@@ -75,7 +73,7 @@ stages:
             inputs:
               packageType: sdk
               version: $(netSdkVersion)
-          - task: NuGetAuthenticate@0
+          - task: NuGetAuthenticate@1
             displayName: 'NuGet Authenticate'
           - task: NuGetCommand@2
             displayName: Publish CI package to Azure artifacts

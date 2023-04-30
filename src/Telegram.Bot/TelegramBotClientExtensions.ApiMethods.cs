@@ -590,7 +590,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="duration">Duration of the audio in seconds</param>
     /// <param name="performer">Performer</param>
     /// <param name="title">Track name</param>
-    /// <param name="thumb">
+    /// <param name="thumbnail">
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
     /// The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height
     /// should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be
@@ -626,7 +626,7 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         string? performer = default,
         string? title = default,
-        IInputFile? thumb = default,
+        IInputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -644,7 +644,7 @@ public static partial class TelegramBotClientExtensions
                     Duration = duration,
                     Performer = performer,
                     Title = title,
-                    Thumb = thumb,
+                    Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
@@ -673,7 +673,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
-    /// <param name="thumb">
+    /// <param name="thumbnail">
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
     /// The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should
     /// not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused
@@ -719,7 +719,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         IInputFile document,
         int? messageThreadId = default,
-        IInputFile? thumb = default,
+        IInputFile? thumbnail = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -735,7 +735,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendDocumentRequest(chatId, document)
                 {
-                    Thumb = thumb,
+                    Thumbnail = thumbnail,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
@@ -772,7 +772,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="duration">Duration of sent video in seconds</param>
     /// <param name="width">Video width</param>
     /// <param name="height">Video height</param>
-    /// <param name="thumb">
+    /// <param name="thumbnail">
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
     /// The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should
     /// not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused
@@ -821,7 +821,7 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         int? width = default,
         int? height = default,
-        IInputFile? thumb = default,
+        IInputFile? thumbnail = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -841,7 +841,7 @@ public static partial class TelegramBotClientExtensions
                     Duration = duration,
                     Width = width,
                     Height = height,
-                    Thumb = thumb,
+                    Thumbnail = thumbnail,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
@@ -878,7 +878,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="duration">Duration of sent animation in seconds</param>
     /// <param name="width">Animation width</param>
     /// <param name="height">Animation height</param>
-    /// <param name="thumb">
+    /// <param name="thumbnail">
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
     /// The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should
     /// not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused
@@ -927,7 +927,7 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         int? width = default,
         int? height = default,
-        IInputFile? thumb = default,
+        IInputFile? thumbnail = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -946,7 +946,7 @@ public static partial class TelegramBotClientExtensions
                     Duration = duration,
                     Width = width,
                     Height = height,
-                    Thumb = thumb,
+                    Thumbnail = thumbnail,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
@@ -1064,7 +1064,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="duration">Duration of sent video in seconds</param>
     /// <param name="length">Video width and height, i.e. diameter of the video message</param>
-    /// <param name="thumb">
+    /// <param name="thumbnail">
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported server-side.
     /// The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and height should
     /// not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't be reused
@@ -1096,7 +1096,7 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         int? duration = default,
         int? length = default,
-        IInputFile? thumb = default,
+        IInputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -1110,7 +1110,7 @@ public static partial class TelegramBotClientExtensions
                 {
                     Duration = duration,
                     Length = length,
-                    Thumb = thumb,
+                    Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     ReplyToMessageId = replyToMessageId,
@@ -1901,51 +1901,6 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="untilDate">
-    /// Date when the user will be unbanned. If user is banned for more than 366 days or less than 30 seconds
-    /// from the current time they are considered to be banned forever. Applied for supergroups and channels only
-    /// </param>
-    /// <param name="revokeMessages">
-    /// Pass <see langword="true"/> to delete all messages from the chat for the user that is being removed.
-    /// If <see langword="false"/>, the user will be able to see messages in the group that were sent before the user was
-    /// removed. Always <see langword="true"/> for supergroups and channels
-    /// </param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    [Obsolete("Use BanChatMemberAsync instead")]
-    public static async Task KickChatMemberAsync(
-        this ITelegramBotClient botClient,
-        ChatId chatId,
-        long userId,
-        DateTime? untilDate = default,
-        bool? revokeMessages = default,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new KickChatMemberRequest(chatId, userId)
-                {
-                    UntilDate = untilDate,
-                    RevokeMessages = revokeMessages
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and
-    /// channels, the user will not be able to return to the chat on their own using invite links, etc., unless
-    /// <see cref="UnbanChatMemberAsync(ITelegramBotClient, ChatId, long, bool?, CancellationToken)">unbanned</see>
-    /// first. The bot must be an administrator in the chat for this to work and must have the appropriate
-    /// admin rights.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">
     /// Unique identifier for the target group or username of the target supergroup or channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
@@ -2027,6 +1982,16 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
     /// <param name="permissions">New user permissions</param>
+    /// <param name="useIndependentChatPermissions">
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
+    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
+    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
+    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
+    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
+    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
+    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
+    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// </param>
     /// <param name="untilDate">Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever.</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -2036,6 +2001,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         long userId,
         ChatPermissions permissions,
+        bool? useIndependentChatPermissions = default,
         DateTime? untilDate = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -2043,7 +2009,8 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new RestrictChatMemberRequest(chatId, userId, permissions)
                 {
-                    UntilDate = untilDate
+                    UntilDate = untilDate,
+                    UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
                 cancellationToken
             )
@@ -2204,6 +2171,16 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@supergroupusername</c>)
     /// </param>
     /// <param name="permissions">New default chat permissions</param>
+    /// <param name="useIndependentChatPermissions">
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
+    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
+    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
+    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
+    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
+    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
+    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
+    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -2211,11 +2188,15 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         ChatPermissions permissions,
+        bool? useIndependentChatPermissions = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatPermissionsRequest(chatId, permissions),
+                request: new SetChatPermissionsRequest(chatId, permissions)
+                {
+                    UseIndependentChatPermissions = useIndependentChatPermissions,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2686,28 +2667,6 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns <see cref="int"/> on success..</returns>
-    [Obsolete("Use GetChatMemberCountAsync")]
-    public static async Task<int> GetChatMembersCountAsync(
-        this ITelegramBotClient botClient,
-        ChatId chatId,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatMembersCountRequest(chatId), cancellationToken)
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to get the number of members in a chat.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="chatId">
-    /// Unique identifier for the target chat or username of the target supergroup or channel
-    /// (in the format <c>@channelusername</c>)
-    /// </param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    /// <returns>Returns <see cref="int"/> on success..</returns>
     public static async Task<int> GetChatMemberCountAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2790,13 +2749,13 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to get custom emoji stickers, which can be used as a forum topic icon by any user.
-    /// Requires no parameters. Returns an <see cref="T:Sticker[]"/>.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task GetForumTopicIconStickersAsync(
+    /// <returns>Returns an Array of <see cref="Sticker"/> objects.</returns>
+    public static async Task<Sticker[]> GetForumTopicIconStickersAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
     ) =>
@@ -2826,7 +2785,10 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task CreateForumTopicAsync(
+    /// <returns>
+    /// Returns information about the created topic as a <see cref="ForumTopic"/> object.
+    /// </returns>
+    public static async Task<ForumTopic> CreateForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         string name,
@@ -3281,6 +3243,173 @@ public static partial class TelegramBotClientExtensions
                     Scope = scope,
                     LanguageCode = languageCode
                 },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change the bot's name.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="name">
+    /// New bot name; 0-64 characters. Pass an empty string to remove the dedicated name for the given language.
+    /// </param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code. If empty, the name will be shown to all users for whose language
+    /// there is no dedicated name.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? name = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetMyNameRequest { Name = name, LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to get the current bot name for the given user language.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code or an empty string
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>
+    /// Returns <see cref="BotName"/> on success.
+    /// </returns>
+    public static async Task<BotName> GetMyNameAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new GetMyNameRequest { LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change the bot's description, which is shown in the chat
+    /// with the bot if the chat is empty.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="description">
+    /// New bot description; 0-512 characters. Pass an empty string to remove the
+    /// dedicated description for the given language.
+    /// </param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code. If empty, the description will be applied
+    /// to all users for whose language there is no dedicated description.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetMyDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? description = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetMyDescriptionRequest { Description = description, LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to get the current <see cref="BotDescription">bot description</see>
+    /// for the given <paramref name="languageCode">user language</paramref>.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code or an empty string
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>
+    /// Returns <see cref="BotDescription"/> on success.
+    /// </returns>
+    public static async Task<BotDescription> GetMyDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new GetMyDescriptionRequest { LanguageCode = languageCode },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change the bot's short description,which is shown on
+    /// the bot's profile page and is sent together with the link when users share the bot.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="shortDescription">
+    /// New short description for the bot; 0-120 characters.
+    /// Pass an empty string to remove the dedicated short description for the given language.
+    /// </param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code. If empty, the short description will be
+    /// applied to all users for whose language there is no dedicated short description.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns></returns>
+    public static async Task SetMyShortDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? shortDescription = default,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetMyShortDescriptionRequest
+                {
+                    ShortDescription = shortDescription,
+                    LanguageCode = languageCode,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to get the current bot <see cref="BotShortDescription">short description</see>
+    /// for the given <paramref name="languageCode">user language</paramref>.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="languageCode">
+    /// A two-letter ISO 639-1 language code or an empty string
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>
+    /// Returns <see cref="BotShortDescription"/> on success.
+    /// </returns>
+    public static async Task<BotShortDescription> GetMyShortDescriptionAsync(
+        this ITelegramBotClient botClient,
+        string? languageCode = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new GetMyShortDescriptionRequest { LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3813,28 +3942,41 @@ public static partial class TelegramBotClientExtensions
     #region Stickers
 
     /// <summary>
-    /// Use this method to send static .WEBP or animated .TGS stickers.
+    /// Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers.
     /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
     /// <param name="chatId">
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="sticker">
-    /// Sticker to send. Pass a <see cref="InputFileId"/> as String to send a file that exists on
-    /// the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a .WEBP file from
-    /// the Internet, or upload a new one using multipart/form-data
+    /// Sticker to send. Pass a <see cref="InputFileId"/> as String to send a file that
+    /// exists on the Telegram servers (recommended), pass an HTTP URL as a String
+    /// for Telegram to get a .WEBP sticker from the Internet, or upload a new .WEBP
+    /// or .TGS sticker using multipart/form-data.
+    /// Video stickers can only be sent by a <see cref="InputFileId"/>.
+    /// Animated stickers can't be sent via an HTTP URL.
     /// </param>
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
+    /// <param name="emoji">
+    /// Emoji associated with the sticker; only for just uploaded stickers
+    /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
-    /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
+    /// <param name="protectContent">
+    /// Protects the contents of sent messages from forwarding and saving
+    /// </param>
+    /// <param name="replyToMessageId">
+    /// If the message is a reply, ID of the original message
+    /// </param>
     /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified
+    /// replied-to message is not found
     /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -3845,12 +3987,15 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    /// <returns>
+    /// On success, the sent <see cref="Message"/> is returned.
+    /// </returns>
     public static async Task<Message> SendStickerAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         IInputFile sticker,
         int? messageThreadId = default,
+        string? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -3868,27 +4013,37 @@ public static partial class TelegramBotClientExtensions
                     AllowSendingWithoutReply = allowSendingWithoutReply,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
+                    Emoji = emoji,
                 },
-                cancellationToken
+                cancellationToken: cancellationToken
             )
             .ConfigureAwait(false);
 
     /// <summary>
     /// Use this method to get a sticker set.
     /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="name">Name of the sticker set</param>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="name">
+    /// Name of the sticker set
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    /// <returns>On success, a <see cref="StickerSet"/> object is returned.</returns>
+    /// <returns>
+    /// On success, a <see cref="StickerSet"/> object is returned.
+    /// </returns>
     public static async Task<StickerSet> GetStickerSetAsync(
         this ITelegramBotClient botClient,
         string name,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetStickerSetRequest(name), cancellationToken)
+            .MakeRequestAsync(
+                request: new GetStickerSetRequest(name),
+                cancellationToken: cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3910,296 +4065,148 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 request: new GetCustomEmojiStickersRequest(customEmojiIds),
-                cancellationToken)
+                cancellationToken: cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to upload a .PNG file with a sticker for later use in
-    /// <see cref="CreateNewStaticStickerSetAsync"/>, <see cref="CreateNewAnimatedStickerSetAsync"/>,
-    /// <see cref="CreateNewVideoStickerSetAsync"/>, <see cref="AddStaticStickerToSetAsync"/>,
-    /// <see cref="AddAnimatedStickerToSetAsync"/> and <see cref="AddVideoStickerToSetAsync"/> methods
-    /// (can be used multiple times).
+    /// Use this method to upload a file with a sticker for later use in the
+    /// <see cref="CreateNewStickerSetRequest"/> and <see cref="AddStickerToSetRequest"/>
+    /// methods (the file can be used multiple times).
     /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="userId">User identifier of sticker file owner</param>
-    /// <param name="pngSticker">
-    /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
-    /// and either width or height must be exactly 512px
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="userId">
+    /// User identifier of sticker file owner
+    /// </param>
+    /// <param name="sticker">
+    /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
+    /// </param>
+    /// <param name="stickerFormat">
+    /// Format of the sticker
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    /// <returns>Returns the uploaded <see cref="File"/> on success.</returns>
+    /// <returns>
+    /// Returns the uploaded <see cref="File"/> on success.
+    /// </returns>
     public static async Task<File> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         long userId,
-        InputFile pngSticker,
+        InputFile sticker,
+        StickerFormat stickerFormat,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new UploadStickerFileRequest(userId, pngSticker),
-                cancellationToken)
+                request: new UploadStickerFileRequest(userId, sticker, stickerFormat),
+                cancellationToken: cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to create a new static sticker set owned by a user. The bot will be able to edit the
-    /// sticker set thus created.
+    /// Use this method to create a new sticker set owned by a user.
     /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="userId">User identifier of created sticker set owner</param>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="userId">
+    /// User identifier of created sticker set owner
+    /// </param>
     /// <param name="name">
     /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>). Can contain
     /// only english letters, digits and underscores. Must begin with a letter, can't contain consecutive
     /// underscores and must end in <i>"_by_&lt;bot username&gt;"</i>. <i>&lt;bot_username&gt;</i> is case
     /// insensitive. 1-64 characters
     /// </param>
-    /// <param name="title">Sticker set title, 1-64 characters</param>
-    /// <param name="pngSticker">
-    /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
-    /// and either width or height must be exactly 512px. Pass a
-    /// <see cref="InputFileId"/> as a String to send a file that already exists
-    /// on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
-    /// or upload a new one using multipart/form-data
+    /// <param name="title">
+    /// Sticker set title, 1-64 characters
     /// </param>
-    /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="stickerType">Type of stickers in the set, pass <see cref="StickerType.Regular"/> or <see cref="StickerType.Mask"/>.
-    /// Custom emoji sticker sets can't be created via the Bot API at the moment.
-    /// By default, a regular sticker set is created.</param>
-    /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
+    /// <param name="stickers">
+    /// A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
+    /// </param>
+    /// <param name="stickerFormat">
+    /// Format of stickers in the set.
+    /// </param>
+    /// <param name="stickerType">
+    /// Type of stickers in the set.
+    /// By default, a regular sticker set is created.
+    /// </param>
+    /// <param name="needsRepainting">
+    /// Pass <see langword="true"/> if stickers in the sticker set must be repainted to the
+    /// color of text when used in messages, the accent color if used as emoji status, white
+    /// on chat photos, or another appropriate color based on context;
+    /// for <see cref="StickerType.CustomEmoji">custom emoji</see> sticker sets only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task CreateNewStaticStickerSetAsync(
+    public static async Task CreateNewStickerSetAsync(
         this ITelegramBotClient botClient,
         long userId,
         string name,
         string title,
-        IInputFile pngSticker,
-        string emojis,
+        IEnumerable<InputSticker> stickers,
+        StickerFormat stickerFormat,
         StickerType? stickerType = default,
-        MaskPosition? maskPosition = default,
+        bool? needsRepainting = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateNewStaticStickerSetRequest(userId, name, title, pngSticker, emojis)
+                request: new CreateNewStickerSetRequest(userId, name, title, stickers, stickerFormat)
                 {
+                    NeedsRepainting = needsRepainting,
                     StickerType = stickerType,
-                    MaskPosition = maskPosition
                 },
-                cancellationToken
+                cancellationToken: cancellationToken
             )
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to create a new animated sticker set owned by a user. The bot will be able to edit
-    /// the sticker set thus created.
+    /// Use this method to add a new sticker to a set created by the bot.
+    /// The format of the added sticker must match the format of the other stickers in the set.
+    /// <list type="bullet">
+    /// <item>
+    /// Emoji sticker sets can have up to 200 stickers.
+    /// </item>
+    /// <item>
+    /// Animated and video sticker sets can have up to 50 stickers.
+    /// </item>
+    /// <item>
+    /// Static sticker sets can have up to 120 stickers.
+    /// </item>
+    /// </list>
     /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="userId">User identifier of created sticker set owner</param>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="userId">
+    /// User identifier of sticker set owner
+    /// </param>
     /// <param name="name">
-    /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>).
-    /// Can contain only english letters, digits and underscores. Must begin with a letter, can't contain
-    /// consecutive underscores and must end in <i>"_by_&lt;bot username&gt;"</i>. <i>&lt;bot_username&gt;</i>
-    /// is case insensitive. 1-64 characters
+    /// Sticker set name
     /// </param>
-    /// <param name="title">Sticker set title, 1-64 characters</param>
-    /// <param name="tgsSticker">
-    /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
-    /// for technical requirements
+    /// <param name="sticker">
+    /// A JSON-serialized object with information about the added sticker.
+    /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </param>
-    /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="stickerType">Type of stickers in the set, pass <see cref="StickerType.Regular"/> or <see cref="StickerType.Mask"/>.
-    /// Custom emoji sticker sets can't be created via the Bot API at the moment.
-    /// By default, a regular sticker set is created.</param>
-    /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task CreateNewAnimatedStickerSetAsync(
+    public static async Task AddStickerToSetAsync(
         this ITelegramBotClient botClient,
         long userId,
         string name,
-        string title,
-        InputFile tgsSticker,
-        string emojis,
-        StickerType? stickerType = default,
-        MaskPosition? maskPosition = default,
+        InputSticker sticker,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateNewAnimatedStickerSetRequest(userId, name, title, tgsSticker, emojis)
-                {
-                    StickerType = stickerType,
-                    MaskPosition = maskPosition
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to create a new animated sticker set owned by a user. The bot will be able to edit
-    /// the sticker set thus created.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="userId">User identifier of created sticker set owner</param>
-    /// <param name="name">
-    /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>).
-    /// Can contain only english letters, digits and underscores. Must begin with a letter, can't contain
-    /// consecutive underscores and must end in <i>"_by_&lt;bot username&gt;"</i>. <i>&lt;bot_username&gt;</i>
-    /// is case insensitive. 1-64 characters
-    /// </param>
-    /// <param name="title">Sticker set title, 1-64 characters</param>
-    /// <param name="webmSticker">
-    /// <b>WEBM</b> video with the sticker, uploaded using multipart/form-data. See
-    /// <a href="https://core.telegram.org/stickers#video-sticker-requirements"/>
-    /// for technical requirements
-    /// </param>
-    /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="stickerType">Type of stickers in the set, pass <see cref="StickerType.Regular"/> or <see cref="StickerType.Mask"/>.
-    /// Custom emoji sticker sets can't be created via the Bot API at the moment.
-    /// By default, a regular sticker set is created.</param>
-    /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    public static async Task CreateNewVideoStickerSetAsync(
-        this ITelegramBotClient botClient,
-        long userId,
-        string name,
-        string title,
-        InputFile webmSticker,
-        string emojis,
-        StickerType? stickerType = default,
-        MaskPosition? maskPosition = default,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new CreateNewVideoStickerSetRequest(
-                    userId: userId,
-                    name: name,
-                    title: title,
-                    webmSticker: webmSticker,
-                    emojis: emojis)
-                {
-                    StickerType = stickerType,
-                    MaskPosition = maskPosition
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to add a new static sticker to a set created by the bot. Static sticker sets can have up
-    /// to 120 stickers.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="userId">User identifier of sticker set owner</param>
-    /// <param name="name">Sticker set name</param>
-    /// <param name="pngSticker">
-    /// <b>PNG</b> image with the sticker, must be up to 512 kilobytes in size, dimensions must not exceed 512px,
-    /// and either width or height must be exactly 512px. Pass a
-    /// <see cref="InputFileId"/> as a String to send a file that already exists
-    /// on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet,
-    /// or upload a new one using multipart/form-data
-    /// </param>
-    /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    public static async Task AddStaticStickerToSetAsync(
-        this ITelegramBotClient botClient,
-        long userId,
-        string name,
-        IInputFile pngSticker,
-        string emojis,
-        MaskPosition? maskPosition = default,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new AddStaticStickerToSetRequest(userId, name, pngSticker, emojis)
-                {
-                    MaskPosition = maskPosition
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to add a new video sticker to a set created by the bot. Video stickers can be added to
-    /// video sticker sets and only to them. Video sticker sets can have up to 50 stickers
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="userId">User identifier of sticker set owner</param>
-    /// <param name="name">Sticker set name</param>
-    /// <param name="webmSticker">
-    /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
-    /// for technical requirements
-    /// </param>
-    /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    public static async Task AddVideoStickerToSetAsync(
-        this ITelegramBotClient botClient,
-        long userId,
-        string name,
-        InputFile webmSticker,
-        string emojis,
-        MaskPosition? maskPosition = default,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new AddVideoStickerToSetRequest(userId, name, webmSticker, emojis)
-                {
-                    MaskPosition = maskPosition
-                },
-                cancellationToken
-            )
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to add a new animated sticker to a set created by the bot. Animated stickers can be added to
-    /// animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="userId">User identifier of sticker set owner</param>
-    /// <param name="name">Sticker set name</param>
-    /// <param name="tgsSticker">
-    /// <b>TGS</b> animation with the sticker, uploaded using multipart/form-data. See
-    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/>
-    /// for technical requirements
-    /// </param>
-    /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    /// <param name="maskPosition">An object for position where the mask should be placed on faces</param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    public static async Task AddAnimatedStickerToSetAsync(
-        this ITelegramBotClient botClient,
-        long userId,
-        string name,
-        InputFile tgsSticker,
-        string emojis,
-        MaskPosition? maskPosition = default,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new AddAnimatedStickerToSetRequest(userId, name, tgsSticker, emojis)
-                {
-                    MaskPosition = maskPosition
-                },
-                cancellationToken
+                request: new AddStickerToSetRequest(userId, name, sticker),
+                cancellationToken: cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4207,74 +4214,268 @@ public static partial class TelegramBotClientExtensions
     /// Use this method to move a sticker in a set created by the bot to a specific position.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="sticker">File identifier of the sticker</param>
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
     /// <param name="position">New sticker position in the set, zero-based</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     public static async Task SetStickerPositionInSetAsync(
         this ITelegramBotClient botClient,
-        string sticker,
+        InputFileId sticker,
         int position,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new SetStickerPositionInSetRequest(sticker, position), cancellationToken)
+            .MakeRequestAsync(
+                request: new SetStickerPositionInSetRequest(sticker, position),
+                cancellationToken: cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
     /// Use this method to delete a sticker from a set created by the bot.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="sticker">File identifier of the sticker</param>
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     public static async Task DeleteStickerFromSetAsync(
         this ITelegramBotClient botClient,
-        string sticker,
-        CancellationToken cancellationToken = default
-    ) =>
-        await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new DeleteStickerFromSetRequest(sticker), cancellationToken)
-            .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to set the thumbnail of a sticker set. Animated thumbnails can be set for animated
-    /// sticker sets only.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="name">Sticker set name</param>
-    /// <param name="userId">User identifier of the sticker set owner</param>
-    /// <param name="thumb">
-    /// A <b>PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have width and height
-    /// exactly 100px, or a <b>TGS</b> animation with the thumbnail up to 32 kilobytes in size; see
-    /// <a href="https://core.telegram.org/animated_stickers#technical-requirements"/> for animated sticker
-    /// technical requirements. Pass a <see cref="InputFileId"/> as a String to send a file that
-    /// already exists on the Telegram servers, pass an HTTP URL as a String for Telegram to get a file from
-    /// the Internet, or upload a new one using multipart/form-data. Animated sticker set thumbnail can't be
-    /// uploaded via HTTP URL
-    /// </param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    public static async Task SetStickerSetThumbAsync(
-        this ITelegramBotClient botClient,
-        string name,
-        long userId,
-        IInputFile? thumb = default,
+        InputFileId sticker,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerSetThumbRequest(name, userId)
-                {
-                    Thumb = thumb
-                },
-                cancellationToken
+                request: new DeleteStickerFromSetRequest(sticker),
+                cancellationToken: cancellationToken
             )
             .ConfigureAwait(false);
 
+    /// <summary>
+    /// Use this method to change the list of emoji assigned to a regular or custom emoji sticker.
+    /// The sticker must belong to a sticker set created by the bot.
+    /// </summary>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
+    /// <param name="emojiList">
+    /// A JSON-serialized list of 1-20 emoji associated with the sticker
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetStickerEmojiListAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        IEnumerable<string> emojiList,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetStickerEmojiListRequest(sticker, emojiList),
+                cancellationToken: cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change search keywords assigned to a regular or custom emoji sticker.
+    /// The sticker must belong to a sticker set created by the bot.
+    /// </summary>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
+    /// <param name="keywords">
+    /// Optional. A JSON-serialized list of 0-20 search keywords for the sticker
+    /// with total length of up to 64 characters
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetStickerKeywordsAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        IEnumerable<string>? keywords = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetStickerKeywordsRequest(sticker)
+                {
+                    Keywords = keywords,
+                },
+                cancellationToken: cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change the mask position of a mask sticker.
+    /// The sticker must belong to a sticker set that was created by the bot.
+    /// </summary>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="sticker">
+    /// <see cref="InputFileId">File identifier</see> of the sticker
+    /// </param>
+    /// <param name="maskPosition">
+    /// A JSON-serialized object with the position where the mask should be placed on faces.
+    /// <see cref="Nullable">Omit</see> the parameter to remove the mask position.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetStickerMaskPositionAsync(
+        this ITelegramBotClient botClient,
+        InputFileId sticker,
+        MaskPosition? maskPosition = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetStickerMaskPositionRequest(sticker) { MaskPosition = maskPosition },
+                cancellationToken: cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to set the title of a created sticker set.
+    /// </summary>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="name">
+    /// Sticker set name
+    /// </param>
+    /// <param name="title">
+    /// Sticker set title, 1-64 characters
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetStickerSetTitleAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        string title,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetStickerSetTitleRequest(name, title),
+                cancellationToken: cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to set the thumbnail of a regular or mask sticker set.
+    /// The format of the thumbnail file must match the format of the stickers in the set.
+    /// Returns <see langword="true"/> on success.
+    /// </summary>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="name">
+    /// Sticker set name
+    /// </param>
+    /// <param name="userId">
+    /// User identifier of the sticker set owner
+    /// </param>
+    /// <param name="thumbnail">
+    /// A <b>.WEBP</b> or <b>.PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have
+    /// a width and height of exactly 100px, or a <b>.TGS</b> animation with a thumbnail up to 32 kilobytes in
+    /// size (see <a href="https://core.telegram.org/animated_stickers#technical-requirements"/> for animated
+    /// sticker technical requirements), or a <b>WEBM</b> video with the thumbnail up to 32 kilobytes in size; see
+    /// <a href="https://core.telegram.org/stickers#video-sticker-requirements"/> for video sticker technical
+    /// requirements. Pass a <see cref="InputFileId"/> as a String to send a file that already exists on the
+    /// Telegram servers, pass an HTTP URL as a String for Telegram to get a file from the Internet, or
+    /// upload a new one using multipart/form-data. Animated and video sticker set thumbnails can't be uploaded
+    /// via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetStickerSetThumbnailAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        long userId,
+        IInputFile? thumbnail = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetStickerSetThumbnailRequest(name, userId)
+                {
+                    Thumbnail = thumbnail,
+                },
+                cancellationToken: cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to set the thumbnail of a custom emoji sticker set.
+    /// </summary>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="name">
+    /// Sticker set name
+    /// </param>
+    /// <param name="customEmojiId">
+    /// Custom emoji identifier of a <see cref="Sticker"/> from the <see cref="StickerSet"/>;
+    /// pass an <see langword="null"/> to drop the thumbnail and use the first sticker as the thumbnail.
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetCustomEmojiStickerSetThumbnailAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        string? customEmojiId = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new SetCustomEmojiStickerSetThumbnailRequest(name)
+                {
+                    CustomEmojiId = customEmojiId,
+                },
+                cancellationToken: cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to delete a sticker set that was created by the bot.
+    /// </summary>
+    /// <param name="botClient">
+    /// An instance of <see cref="ITelegramBotClient"/>
+    /// </param>
+    /// <param name="name">
+    /// Sticker set name
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task DeleteStickerSetAsync(
+        this ITelegramBotClient botClient,
+        string name,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new DeleteStickerSetRequest(name),
+                cancellationToken: cancellationToken
+            )
+            .ConfigureAwait(false);
     #endregion
 
     #region Inline mode
@@ -4301,23 +4502,8 @@ public static partial class TelegramBotClientExtensions
     /// Pass an empty string if there are no more results or if you don't support pagination.
     /// Offset length can't exceed 64 bytes
     /// </param>
-    /// <param name="switchPmText">
-    /// If passed, clients will display a button with specified text that switches the user to a private chat
-    /// with the bot and sends the bot a start message with the parameter <paramref name="switchPmParameter"/>
-    /// </param>
-    /// <param name="switchPmParameter">
-    /// <a href="https://core.telegram.org/bots#deep-linking">Deep-linking</a> parameter for the <c>/start</c>
-    /// message sent to the bot when user presses the switch button. 1-64 characters, only <c>A-Z</c>, <c>a-z</c>,
-    /// <c>0-9</c>, <c>_</c> and <c>-</c> are allowed
-    /// <para>
-    /// <i>Example</i>: An inline bot that sends YouTube videos can ask the user to connect the bot to their
-    /// YouTube account to adapt search results accordingly. To do this, it displays a 'Connect your YouTube
-    /// account' button above the results, or even before showing any. The user presses the button, switches
-    /// to a private chat with the bot and, in doing so, passes a start parameter that instructs the bot to
-    /// return an oauth link. Once done, the bot can offer a
-    /// <see cref="InlineKeyboardButton.SwitchInlineQuery"/> button so that the user can
-    /// easily return to the chat where they wanted to use the bot’s inline capabilities
-    /// </para>
+    /// <param name="button">
+    /// A JSON-serialized object describing a button to be shown above inline query results
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
@@ -4329,8 +4515,7 @@ public static partial class TelegramBotClientExtensions
         int? cacheTime = default,
         bool? isPersonal = default,
         string? nextOffset = default,
-        string? switchPmText = default,
-        string? switchPmParameter = default,
+        InlineQueryResultsButton? button = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -4340,8 +4525,7 @@ public static partial class TelegramBotClientExtensions
                     CacheTime = cacheTime,
                     IsPersonal = isPersonal,
                     NextOffset = nextOffset,
-                    SwitchPmText = switchPmText,
-                    SwitchPmParameter = switchPmParameter
+                    Button = button,
                 },
                 cancellationToken
             )

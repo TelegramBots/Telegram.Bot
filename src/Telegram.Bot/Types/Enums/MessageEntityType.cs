@@ -22,7 +22,7 @@ public enum MessageEntityType
     BotCommand,
 
     /// <summary>
-    /// An url
+    /// An URL
     /// </summary>
     Url,
 
@@ -52,7 +52,7 @@ public enum MessageEntityType
     Pre,
 
     /// <summary>
-    /// Clickable text urls
+    /// Clickable text URLs
     /// </summary>
     TextLink,
 
