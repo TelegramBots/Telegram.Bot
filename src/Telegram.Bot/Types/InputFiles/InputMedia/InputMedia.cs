@@ -21,7 +21,7 @@ public abstract class InputMedia
     /// to upload a new one using multipart/form-data under &lt;file_attach_name%gt; name.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IInputFile Media { get; }
+    public InputFile Media { get; }
 
     /// <summary>
     /// Optional. Caption of the photo to be sent, 0-1024 characters
@@ -46,5 +46,5 @@ public abstract class InputMedia
     /// Initialize an object
     /// </summary>
     /// <param name="media">File to send</param>
-    protected InputMedia(IInputFile media) => Media = media;
+    protected InputMedia(InputFile media) => Media = media;
 }

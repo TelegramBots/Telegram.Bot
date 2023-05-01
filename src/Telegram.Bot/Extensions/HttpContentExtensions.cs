@@ -8,11 +8,13 @@ internal static class HttpContentExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static MultipartFormDataContent AddContentIfInputFile(
         this MultipartFormDataContent multipartContent,
-        IInputFile? media,
+        InputFile? media,
         string name)
     {
-        if (media is not InputFile inputFile) // || inputFile is not { })
+        if (media is not InputFileStream inputFile) // || inputFile is not { })
+        {
             return multipartContent;
+        }
 
         string fileName = inputFile.FileName ?? name;
         string contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
@@ -24,8 +26,8 @@ internal static class HttpContentExtensions
             Headers =
             {
                 {"Content-Type", "application/octet-stream"},
-                {"Content-Disposition", contentDisposition}
-            }
+                {"Content-Disposition", contentDisposition},
+            },
         };
 #pragma warning restore CA2000
 

@@ -31,7 +31,7 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     /// Width and height ratio must be at most 20
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IInputFile Photo { get; }
+    public InputFile Photo { get; }
 
     /// <summary>
     /// Photo caption (may also be used when resending photos by <see cref="InputFileId"/>),
@@ -86,7 +86,7 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     /// get a photo from the Internet, or upload a new photo using multipart/form-data. The photo
     /// must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total.
     /// Width and height ratio must be at most 20</param>
-    public SendPhotoRequest(ChatId chatId, IInputFile photo)
+    public SendPhotoRequest(ChatId chatId, InputFile photo)
         : base("sendPhoto")
     {
         ChatId = chatId;
@@ -97,7 +97,7 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent() =>
         Photo switch
         {
-            InputFile photo => ToMultipartFormDataContent(fileParameterName: "photo", inputFile: photo),
+            InputFileStream photo => ToMultipartFormDataContent(fileParameterName: "photo", inputFile: photo),
             _               => base.ToHttpContent()
         };
 }

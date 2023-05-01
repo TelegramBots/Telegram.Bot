@@ -1,34 +1,75 @@
 using System.IO;
+using JetBrains.Annotations;
+using Telegram.Bot.Converters;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in
-/// the usual way that files are uploaded via the browser
+/// A file to send
 /// </summary>
-public class InputFile : IInputFile
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
+public abstract class InputFile
 {
-    /// <inheritdoc/>
-    public FileType FileType => FileType.Stream;
+    /// <summary>
+    /// Type of file to send
+/// </summary>
+    public abstract FileType FileType { get; }
 
     /// <summary>
-    /// File content to upload
+    /// Creates a correct <see cref="InputFile"/> object
     /// </summary>
-    public Stream Content { get; }
+    /// <param name="urlOrFileId">A URL or a file id</param>
+    /// <returns></returns>
+    public static InputFile FromString(string urlOrFileId) =>
+        Uri.TryCreate(urlOrFileId, UriKind.Absolute, out var url)
+            ? new InputFileUrl(url)
+            : new InputFileId(urlOrFileId);
 
     /// <summary>
-    /// Name of a file to upload using multipart/form-data
+    ///
     /// </summary>
-    public string? FileName { get; }
+    /// <param name="stream"></param>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
+    public static InputFileStream FromStream(Stream stream, string? fileName = default) =>
+        new(stream.ThrowIfNull(), fileName);
 
     /// <summary>
-    /// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data
-    /// in the usual way that files are uploaded via the browser.
+    ///
     /// </summary>
-    /// <param name="content">File content to upload</param>
-    /// <param name="fileName">Name of a file to upload using multipart/form-data</param>
-    public InputFile(Stream content, string? fileName = default) =>
-        (Content, FileName) = (content, fileName);
+    /// <param name="url"></param>
+    /// <returns></returns>
+    public static InputFileUrl FromUri(Uri url) => new(url.ThrowIfNull());
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="fileId"></param>
+    /// <returns></returns>
+    public static InputFileId FromFileId(string fileId) => new(fileId.ThrowIfNull());
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <returns></returns>
+    public static explicit operator InputFile(Stream stream) => FromStream(stream);
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    public static explicit operator InputFile(Uri url) => FromUri(url);
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="urlOrFileId"></param>
+    /// <returns></returns>
+    public static explicit operator InputFile(string urlOrFileId) => FromString(urlOrFileId);
 }

@@ -32,7 +32,7 @@ public class EditMessageMediaTests2
         {
             originalMessage = await BotClient.SendVideoAsync(
                 chatId: _fixture.SupergroupChat,
-                video: new InputFile(stream),
+                video: new InputFileStream(stream),
                 caption: "This message will be edited shortly"
             );
         }
@@ -46,7 +46,7 @@ public class EditMessageMediaTests2
             editedMessage = await BotClient.EditMessageMediaAsync(
                 chatId: originalMessage.Chat,
                 messageId: originalMessage.MessageId,
-                media: new InputMediaDocument(new InputFile(stream, "public-key.pem.txt"))
+                media: new InputMediaDocument(new InputFileStream(stream, "public-key.pem.txt"))
                 {
                     Caption = "**Public** key in `.pem` format",
                     ParseMode = ParseMode.Markdown,
@@ -92,7 +92,7 @@ public class EditMessageMediaTests2
             messageId: originalMessage.MessageId,
             media: new InputMediaAnimation(new InputFileId(gifMessage.Document.FileId))
             {
-                Thumbnail = new InputFile(thumbStream, "thumb.jpg"),
+                Thumbnail = new InputFileStream(thumbStream, "thumb.jpg"),
                 Duration = 4,
                 Height = 320,
                 Width = 320,

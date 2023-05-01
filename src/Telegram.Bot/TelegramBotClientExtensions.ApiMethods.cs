@@ -139,7 +139,7 @@ public static partial class TelegramBotClientExtensions
     /// <item>
     /// To use a self-signed certificate, you need to upload your
     /// <a href="https://core.telegram.org/bots/self-signed">public key certificate</a> using
-    /// <paramref name="certificate"/> parameter. Please upload as <see cref="InputFile"/>, sending a
+    /// <paramref name="certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending a
     /// string will not work
     /// </item>
     /// <item>Ports currently supported for webhooks: <b>443, 80, 88, 8443</b></item>
@@ -150,7 +150,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task SetWebhookAsync(
         this ITelegramBotClient botClient,
         string url,
-        InputFile? certificate = default,
+        InputFileStream? certificate = default,
         string? ipAddress = default,
         int? maxConnections = default,
         IEnumerable<UpdateType>? allowedUpdates = default,
@@ -167,11 +167,12 @@ public static partial class TelegramBotClientExtensions
                     MaxConnections = maxConnections,
                     AllowedUpdates = allowedUpdates,
                     DropPendingUpdates = dropPendingUpdates,
-                    SecretToken = secretToken
+                    SecretToken = secretToken,
                 },
                 cancellationToken
             )
             .ConfigureAwait(false);
+
 
     /// <summary>
     /// Use this method to remove webhook integration if you decide to switch back to <see cref="GetUpdatesAsync"/>
@@ -527,7 +528,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile photo,
+        InputFile photo,
         int? messageThreadId = default,
         string? caption = default,
         ParseMode? parseMode = default,
@@ -618,7 +619,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendAudioAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile audio,
+        InputFile audio,
         int? messageThreadId = default,
         string? caption = default,
         ParseMode? parseMode = default,
@@ -626,7 +627,7 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         string? performer = default,
         string? title = default,
-        IInputFile? thumbnail = default,
+        InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -717,9 +718,9 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendDocumentAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile document,
+        InputFile document,
         int? messageThreadId = default,
-        IInputFile? thumbnail = default,
+        InputFile? thumbnail = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -816,12 +817,12 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendVideoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile video,
+        InputFile video,
         int? messageThreadId = default,
         int? duration = default,
         int? width = default,
         int? height = default,
-        IInputFile? thumbnail = default,
+        InputFile? thumbnail = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -922,12 +923,12 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendAnimationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile animation,
+        InputFile animation,
         int? messageThreadId = default,
         int? duration = default,
         int? width = default,
         int? height = default,
-        IInputFile? thumbnail = default,
+        InputFile? thumbnail = default,
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -1013,7 +1014,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendVoiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile voice,
+        InputFile voice,
         int? messageThreadId = default,
         string? caption = default,
         ParseMode? parseMode = default,
@@ -1092,11 +1093,11 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendVideoNoteAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile videoNote,
+        InputFile videoNote,
         int? messageThreadId = default,
         int? duration = default,
         int? length = default,
-        IInputFile? thumbnail = default,
+        InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         int? replyToMessageId = default,
@@ -2417,7 +2418,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task SetChatPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        InputFile photo,
+        InputFileStream photo,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -3993,7 +3994,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<Message> SendStickerAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
-        IInputFile sticker,
+        InputFile sticker,
         int? messageThreadId = default,
         string? emoji = default,
         bool? disableNotification = default,
@@ -4095,7 +4096,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task<File> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         long userId,
-        InputFile sticker,
+        InputFileStream sticker,
         StickerFormat stickerFormat,
         CancellationToken cancellationToken = default
     ) =>
@@ -4408,7 +4409,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         string name,
         long userId,
-        IInputFile? thumbnail = default,
+        InputFile? thumbnail = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()

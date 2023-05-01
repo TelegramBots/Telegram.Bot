@@ -21,10 +21,10 @@ public class InputMediaPhoto :
     public bool? HasSpoiler { get; set; }
 
     /// <summary>
-    /// Initializes a new photo media to send with an <see cref="IInputFile"/>
+    /// Initializes a new photo media to send with an <see cref="InputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>
-    public InputMediaPhoto(IInputFile media)
+    public InputMediaPhoto(InputFile media)
         : base(media)
     { }
 }

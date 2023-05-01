@@ -18,7 +18,7 @@ public class InputMediaVideo :
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumbnail { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Video width
@@ -51,10 +51,10 @@ public class InputMediaVideo :
     public bool? HasSpoiler { get; set; }
 
     /// <summary>
-    /// Initializes a new video media to send with an <see cref="IInputFile"/>
+    /// Initializes a new video media to send with an <see cref="InputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>
-    public InputMediaVideo(IInputFile media)
+    public InputMediaVideo(InputFile media)
         : base(media)
     { }
 }
