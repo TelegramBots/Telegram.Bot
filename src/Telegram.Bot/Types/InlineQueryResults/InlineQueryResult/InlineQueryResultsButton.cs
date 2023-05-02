@@ -36,6 +36,7 @@ public class InlineQueryResultsButton
     /// the bot can offer a switch_inline button so that the user can easily return to the chat
     /// where they wanted to use the bot's inline capabilities.
     /// </remarks>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? StartParameter { get; set; }
 
     /// <summary>
