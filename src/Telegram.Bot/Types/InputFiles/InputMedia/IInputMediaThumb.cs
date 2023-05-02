@@ -14,5 +14,5 @@ public interface IInputMediaThumb
     /// and can be only uploaded as a new file, so you can pass "attach://&lt;file_attach_name&gt;"
     /// if the thumbnail was uploaded using multipart/form-data under &lt;file_attach_name&gt;.
     /// </summary>
-    IInputFile? Thumbnail { get; }
+    InputFile? Thumbnail { get; }
 }

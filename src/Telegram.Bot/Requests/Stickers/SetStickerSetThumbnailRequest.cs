@@ -34,15 +34,14 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// via HTTP URL. If omitted, then the thumbnail is dropped and the first sticker is used as the thumbnail.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumbnail { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Initializes a new request with sticker and position
     /// </summary>
     /// <param name="name">Sticker set name</param>
     /// <param name="userId">User identifier of the sticker set owner</param>
-    public SetStickerSetThumbnailRequest
-        (string name, long userId)
+    public SetStickerSetThumbnailRequest(string name, long userId)
         : base("setStickerSetThumbnail")
     {
         Name = name;
@@ -51,8 +50,9 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
-        Thumbnail switch {
-            InputFile thumbnail => ToMultipartFormDataContent(fileParameterName: "thumbnail", inputFile: thumbnail),
-            _                   => base.ToHttpContent()
+        Thumbnail switch
+        {
+            InputFileStream thumbnail => ToMultipartFormDataContent(fileParameterName: "thumbnail", inputFile: thumbnail),
+            _                         => base.ToHttpContent()
         };
 }

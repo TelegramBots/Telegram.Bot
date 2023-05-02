@@ -200,7 +200,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
         await BotClient.SetChatPhotoAsync(
             chatId: _classFixture.Chat.Id,
-            photo: new InputFile(stream)
+            photo: new InputFileStream(stream)
         );
     }
 

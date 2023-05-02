@@ -23,7 +23,7 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Sticker { get; }
+    public InputFileStream Sticker { get; }
 
     /// <summary>
     /// Format of the sticker
@@ -43,7 +43,7 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// <param name="stickerFormat">
     /// Format of the sticker
     /// </param>
-    public UploadStickerFileRequest(long userId, InputFile sticker, StickerFormat stickerFormat)
+    public UploadStickerFileRequest(long userId, InputFileStream sticker, StickerFormat stickerFormat)
         : base("uploadStickerFile")
     {
         UserId = userId;

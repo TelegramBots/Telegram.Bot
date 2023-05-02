@@ -281,7 +281,7 @@ public class InlineQueryTests
         {
             photoMessage = await BotClient.SendPhotoAsync(
                 chatId: _fixture.SupergroupChat,
-                photo: new InputFile(stream),
+                photo: new InputFileStream(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
             );
@@ -506,7 +506,7 @@ public class InlineQueryTests
         {
             audioMessage = await BotClient.SendAudioAsync(
                 chatId: _fixture.SupergroupChat,
-                audio: new InputFile(stream),
+                audio: new InputFileStream(stream),
                 performer: "Jackson F. Smith",
                 duration: 201,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -596,7 +596,7 @@ public class InlineQueryTests
         {
             voiceMessage = await BotClient.SendVoiceAsync(
                 chatId: _fixture.SupergroupChat,
-                voice: new InputFile(stream),
+                voice: new InputFileStream(stream),
                 duration: 24,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
@@ -685,7 +685,7 @@ public class InlineQueryTests
         {
             documentMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
-                document: new InputFile(stream),
+                document: new InputFileStream(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
             );

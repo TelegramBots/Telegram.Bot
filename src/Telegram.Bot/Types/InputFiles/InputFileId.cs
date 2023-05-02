@@ -6,10 +6,10 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents a file that is already stored somewhere on the Telegram servers
 /// </summary>
-public class InputFileId : IInputFile
+public class InputFileId : InputFile
 {
     /// <inheritdoc/>
-    public FileType FileType => FileType.Id;
+    public override FileType FileType => FileType.Id;
 
     /// <summary>
     /// A file identifier
