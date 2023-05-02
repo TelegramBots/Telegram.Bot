@@ -16,7 +16,7 @@ public abstract class InputFile
 {
     /// <summary>
     /// Type of file to send
-/// </summary>
+    /// </summary>
     public abstract FileType FileType { get; }
 
     /// <summary>
@@ -51,25 +51,4 @@ public abstract class InputFile
     /// <param name="fileId"></param>
     /// <returns></returns>
     public static InputFileId FromFileId(string fileId) => new(fileId.ThrowIfNull());
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="stream"></param>
-    /// <returns></returns>
-    public static explicit operator InputFile(Stream stream) => FromStream(stream);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="url"></param>
-    /// <returns></returns>
-    public static explicit operator InputFile(Uri url) => FromUri(url);
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="urlOrFileId"></param>
-    /// <returns></returns>
-    public static explicit operator InputFile(string urlOrFileId) => FromString(urlOrFileId);
 }
