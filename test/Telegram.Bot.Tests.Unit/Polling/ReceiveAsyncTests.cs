@@ -31,7 +31,7 @@ public class ReceiveAsyncTests
 
         DefaultUpdateHandler updateHandler = new(
             updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
+            errorHandler: async (_, _, token) => await Task.Delay(10, token)
         );
 
         CancellationToken cancellationToken = cancellationTokenSource.Token;
@@ -60,7 +60,7 @@ public class ReceiveAsyncTests
 
         DefaultUpdateHandler updateHandler = new(
             updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
+            errorHandler: async (_, _, token) => await Task.Delay(10, token)
         );
 
         try
@@ -102,7 +102,7 @@ public class ReceiveAsyncTests
 
         DefaultUpdateHandler updateHandler = new(
             updateHandler: HandleUpdate,
-            pollingErrorHandler: (_, _, _) => Task.CompletedTask
+            errorHandler: (_, _, _) => Task.CompletedTask
         );
 
         await bot.ReceiveAsync(

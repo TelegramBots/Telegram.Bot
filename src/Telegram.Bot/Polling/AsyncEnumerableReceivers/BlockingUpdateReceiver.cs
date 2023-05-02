@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Enums;
 
@@ -34,7 +35,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
         ReceiverOptions? receiverOptions = default,
         Func<Exception, CancellationToken, Task>? pollingErrorHandler = default)
     {
-        _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+        _botClient = botClient.ThrowIfNull();
         _receiverOptions = receiverOptions;
         _pollingErrorHandler = pollingErrorHandler;
     }

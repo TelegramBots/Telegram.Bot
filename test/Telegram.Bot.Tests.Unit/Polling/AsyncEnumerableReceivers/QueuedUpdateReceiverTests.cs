@@ -164,7 +164,7 @@ public class QueuedUpdateReceiverTests
         CancellationTokenSource cts = new();
         bool seenException = false;
 
-        QueuedUpdateReceiver receiver = new(mockClient, pollingErrorHandler: (ex, _) =>
+        QueuedUpdateReceiver receiver = new(mockClient, errorHandler: (ex, _) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
             seenException = true;
@@ -198,7 +198,7 @@ public class QueuedUpdateReceiverTests
         MockTelegramBotClient mockClient = new() { Options = { ExceptionToThrow = new("Oops") } };
         Exception? exceptionFromErrorHandler = null;
 
-        QueuedUpdateReceiver receiver = new(mockClient, pollingErrorHandler: (ex, _) =>
+        QueuedUpdateReceiver receiver = new(mockClient, errorHandler: (ex, _) =>
         {
             Assert.Same(mockClient.Options.ExceptionToThrow, ex);
             throw exceptionFromErrorHandler = new("Oops2");

@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 
 namespace Telegram.Bot.Polling;
@@ -26,7 +27,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         ITelegramBotClient botClient,
         ReceiverOptions? receiverOptions = default)
     {
-        _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+        _botClient = botClient.ThrowIfNull();
         _receiverOptions = receiverOptions;
     }
 
@@ -35,7 +36,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         IUpdateHandler updateHandler,
         CancellationToken cancellationToken = default)
     {
-        if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
+        updateHandler.ThrowIfNull();
 
         var allowedUpdates = _receiverOptions?.AllowedUpdates;
         var limit = _receiverOptions?.Limit ?? default;
@@ -79,26 +80,31 @@ public class DefaultUpdateReceiver : IUpdateReceiver
             {
                 // Ignore
             }
-#pragma warning disable CA1031
             catch (Exception exception)
-#pragma warning restore CA1031
             {
+                var errorContext = new ErrorContext(exception);
                 try
                 {
-                    await updateHandler.HandlePollingErrorAsync(
+                    await updateHandler.HandleErrorAsync(
                         botClient: _botClient,
-                        exception: exception,
+                        context: errorContext,
                         cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
                 }
-                catch (OperationCanceledException)
+                catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
                 {
                     // ignored
+                }
+
+                if (!errorContext.ErrorHandled)
+                {
+                    throw;
                 }
             }
 
             foreach (var update in updates)
             {
+                ErrorContext? errorContext = default;
                 try
                 {
                     await updateHandler.HandleUpdateAsync(
@@ -109,9 +115,28 @@ public class DefaultUpdateReceiver : IUpdateReceiver
 
                     messageOffset = update.Id + 1;
                 }
-                catch (OperationCanceledException)
+                catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
                 {
                     // ignored
+                }
+                catch (Exception exception)
+                {
+                    errorContext = new(exception);
+
+                    try
+                    {
+                        await updateHandler.HandleErrorAsync(_botClient, errorContext, cancellationToken)
+                            .ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                    {
+                        // ignored
+                    }
+                }
+
+                if (errorContext?.ErrorHandled is false)
+                {
+                    throw errorContext.Exception;
                 }
             }
         }

@@ -1,8 +1,14 @@
+using System.Threading;
+using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Types.Enums;
 
+
+
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Polling;
+
+using ErrorHandler = Func<ITelegramBotClient, Exception, CancellationToken, ValueTask<bool>>;
 
 /// <summary>
 /// Options to configure getUpdates requests
@@ -55,4 +61,14 @@ public sealed class ReceiverOptions
     /// receive all <see cref="Update"/>s.
     /// </summary>
     public bool ThrowPendingUpdates { get; set; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public bool ThrowOnPollingException { get; set; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    public ErrorHandler? PollingErrorHandler { get; set; }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Polling;
+using ErrorContext = Telegram.Bot.Polling.ErrorContext;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot;
@@ -49,7 +51,7 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
-    /// <param name="pollingErrorHandler">Delegate used for processing polling errors</param>
+    /// <param name="errorHandler">Delegate used for processing errors</param>
     /// <param name="receiverOptions">Options used to configure getUpdates request</param>
     /// <param name="cancellationToken">
     /// The <see cref="CancellationToken"/> with which you can stop receiving
@@ -57,7 +59,7 @@ public static partial class TelegramBotClientExtensions
     public static void StartReceiving(
         this ITelegramBotClient botClient,
         Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
-        Func<ITelegramBotClient, Exception, CancellationToken, Task> pollingErrorHandler,
+        Func<ITelegramBotClient, ErrorContext, CancellationToken, Task> errorHandler,
         ReceiverOptions? receiverOptions = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -65,7 +67,7 @@ public static partial class TelegramBotClientExtensions
             botClient: botClient,
             updateHandler: new DefaultUpdateHandler(
                 updateHandler: updateHandler,
-                pollingErrorHandler: pollingErrorHandler
+                errorHandler: errorHandler
             ),
             receiverOptions: receiverOptions,
             cancellationToken: cancellationToken
@@ -88,7 +90,7 @@ public static partial class TelegramBotClientExtensions
     public static void StartReceiving(
         this ITelegramBotClient botClient,
         Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
-        Action<ITelegramBotClient, Exception, CancellationToken> pollingErrorHandler,
+        Action<ITelegramBotClient, ErrorContext, CancellationToken> pollingErrorHandler,
         ReceiverOptions? receiverOptions = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -100,9 +102,9 @@ public static partial class TelegramBotClientExtensions
                     updateHandler.Invoke(bot, update, token);
                     return Task.CompletedTask;
                 },
-                pollingErrorHandler: (bot, exception, token) =>
+                errorHandler: (bot, context, token) =>
                 {
-                    pollingErrorHandler.Invoke(bot, exception, token);
+                    pollingErrorHandler.Invoke(bot, context, token);
                     return Task.CompletedTask;
                 }
             ),
@@ -132,42 +134,20 @@ public static partial class TelegramBotClientExtensions
         ReceiverOptions? receiverOptions = default,
         CancellationToken cancellationToken = default)
     {
-        if (botClient is null) { throw new ArgumentNullException(nameof(botClient)); }
-        if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
+        botClient.ThrowIfNull();
+        updateHandler.ThrowIfNull();
 
         // ReSharper disable once MethodSupportsCancellation
 #pragma warning disable CA2016
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
 #pragma warning restore CA2016
         {
-            try
-            {
-                await ReceiveAsync(
-                    botClient: botClient,
-                    updateHandler: updateHandler,
-                    receiverOptions: receiverOptions,
-                    cancellationToken: cancellationToken
-                ).ConfigureAwait(false);
-            }
-            catch (OperationCanceledException)
-            {
-                // ignored
-            }
-            catch (Exception ex)
-            {
-                try
-                {
-                    await updateHandler.HandlePollingErrorAsync(
-                        botClient: botClient,
-                        exception: ex,
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
-                }
-                catch (OperationCanceledException)
-                {
-                    // ignored
-                }
-            }
+            await ReceiveAsync(
+                botClient: botClient,
+                updateHandler: updateHandler,
+                receiverOptions: receiverOptions,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
         });
     }
 
@@ -213,7 +193,7 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="updateHandler">Delegate used for processing <see cref="Update"/>s</param>
-    /// <param name="pollingErrorHandler">Delegate used for processing polling errors</param>
+    /// <param name="errorHandler">Delegate used for processing polling errors</param>
     /// <param name="receiverOptions">Options used to configure getUpdates requests</param>
     /// <param name="cancellationToken">
     /// The <see cref="CancellationToken"/> with which you can stop receiving
@@ -225,7 +205,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task ReceiveAsync(
         this ITelegramBotClient botClient,
         Func<ITelegramBotClient, Update, CancellationToken, Task> updateHandler,
-        Func<ITelegramBotClient, Exception, CancellationToken, Task> pollingErrorHandler,
+        Func<ITelegramBotClient, ErrorContext, CancellationToken, Task> errorHandler,
         ReceiverOptions? receiverOptions = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -233,7 +213,7 @@ public static partial class TelegramBotClientExtensions
             botClient: botClient,
             updateHandler: new DefaultUpdateHandler(
                 updateHandler: updateHandler,
-                pollingErrorHandler: pollingErrorHandler
+                errorHandler: errorHandler
             ),
             receiverOptions: receiverOptions,
             cancellationToken: cancellationToken
@@ -261,7 +241,7 @@ public static partial class TelegramBotClientExtensions
     public static async Task ReceiveAsync(
         this ITelegramBotClient botClient,
         Action<ITelegramBotClient, Update, CancellationToken> updateHandler,
-        Action<ITelegramBotClient, Exception, CancellationToken> pollingErrorHandler,
+        Action<ITelegramBotClient, ErrorContext, CancellationToken> pollingErrorHandler,
         ReceiverOptions? receiverOptions = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -273,9 +253,9 @@ public static partial class TelegramBotClientExtensions
                     updateHandler.Invoke(bot, update, token);
                     return Task.CompletedTask;
                 },
-                pollingErrorHandler: (bot, exception, token) =>
+                errorHandler: (bot, context, token) =>
                 {
-                    pollingErrorHandler.Invoke(bot, exception, token);
+                    pollingErrorHandler.Invoke(bot, context, token);
                     return Task.CompletedTask;
                 }
             ),

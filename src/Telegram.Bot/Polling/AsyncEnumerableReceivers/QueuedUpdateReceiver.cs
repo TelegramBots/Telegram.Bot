@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Enums;
 
@@ -22,7 +23,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 {
     readonly ITelegramBotClient _botClient;
     readonly ReceiverOptions? _receiverOptions;
-    readonly Func<Exception, CancellationToken, Task>? _pollingErrorHandler;
+    readonly Func<Exception, CancellationToken, Task>? _errorHandler;
 
     int _inProcess;
     Enumerator? _enumerator;
@@ -32,17 +33,17 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     /// </summary>
     /// <param name="botClient">The <see cref="ITelegramBotClient"/> used for making GetUpdates calls</param>
     /// <param name="receiverOptions"></param>
-    /// <param name="pollingErrorHandler">
+    /// <param name="errorHandler">
     /// The function used to handle <see cref="Exception"/>s thrown by GetUpdates requests
     /// </param>
     public QueuedUpdateReceiver(
         ITelegramBotClient botClient,
         ReceiverOptions? receiverOptions = default,
-        Func<Exception, CancellationToken, Task>? pollingErrorHandler = default)
+        Func<Exception, CancellationToken, Task>? errorHandler = default)
     {
-        _botClient = botClient ?? throw new ArgumentNullException(nameof(botClient));
+        _botClient = botClient.ThrowIfNull();
         _receiverOptions = receiverOptions;
-        _pollingErrorHandler = pollingErrorHandler;
+        _errorHandler = errorHandler;
     }
 
     /// <summary>
@@ -104,7 +105,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             );
 
 #pragma warning disable CA2016
-            Task.Run(ReceiveUpdatesAsync);
+            _ = Task.Run(ReceiveUpdatesAsync);
 #pragma warning restore CA2016
         }
 
@@ -189,7 +190,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                     Debug.Assert(_uncaughtException is null);
 
                     // If there is no errorHandler or the errorHandler throws, stop receiving
-                    if (_receiver._pollingErrorHandler is null)
+                    if (_receiver._errorHandler is null)
                     {
                         _uncaughtException = ex;
                         _cts.Cancel();
@@ -198,7 +199,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                     {
                         try
                         {
-                            await _receiver._pollingErrorHandler(ex, _token).ConfigureAwait(false);
+                            await _receiver._errorHandler(ex, _token).ConfigureAwait(false);
                         }
 #pragma warning disable CA1031
                         catch (Exception errorHandlerException)
