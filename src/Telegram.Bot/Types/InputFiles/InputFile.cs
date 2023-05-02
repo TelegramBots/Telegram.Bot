@@ -46,6 +46,13 @@ public abstract class InputFile
     public static InputFileUrl FromUri(Uri url) => new(url.ThrowIfNull());
 
     /// <summary>
+    /// Creates an <see cref="InputFileUrl"/> from a URL passed as a <see cref="string"/>
+    /// </summary>
+    /// <param name="url">A URL of a file</param>
+    /// <returns>An instance of <see cref="InputFileUrl"/></returns>
+    public static InputFileUrl FromUri(string url) => new(url.ThrowIfNull());
+
+    /// <summary>
     /// Creates an <see cref="InputFileId"/> from a file id
     /// </summary>
     /// <param name="fileId">An ID of a file</param>
