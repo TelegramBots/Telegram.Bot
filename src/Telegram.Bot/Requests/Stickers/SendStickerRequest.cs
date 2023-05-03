@@ -31,7 +31,7 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     /// Animated stickers can't be sent via an HTTP URL.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IInputFile Sticker { get; }
+    public InputFile Sticker { get; }
 
     /// <summary>
     /// Optional. Emoji associated with the sticker; only for just uploaded stickers
@@ -74,7 +74,7 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     /// Video stickers can only be sent by a <see cref="InputFileId"/>.
     /// Animated stickers can't be sent via an HTTP URL.
     /// </param>
-    public SendStickerRequest(ChatId chatId, IInputFile sticker)
+    public SendStickerRequest(ChatId chatId, InputFile sticker)
         : base("sendSticker")
     {
         ChatId = chatId;
@@ -85,7 +85,7 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent() =>
         Sticker switch
         {
-            InputFile sticker => ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: sticker),
-            _                 => base.ToHttpContent()
+            InputFileStream sticker => ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: sticker),
+            _                       => base.ToHttpContent()
         };
 }

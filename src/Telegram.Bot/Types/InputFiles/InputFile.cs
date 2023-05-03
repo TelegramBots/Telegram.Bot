@@ -1,34 +1,61 @@
 using System.IO;
+using JetBrains.Annotations;
+using Telegram.Bot.Converters;
+using Telegram.Bot.Extensions;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types;
 
 /// <summary>
-/// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in
-/// the usual way that files are uploaded via the browser
+/// A file to send
 /// </summary>
-public class InputFile : IInputFile
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
+public abstract class InputFile
 {
-    /// <inheritdoc/>
-    public FileType FileType => FileType.Stream;
+    /// <summary>
+    /// Type of file to send
+    /// </summary>
+    public abstract FileType FileType { get; }
 
     /// <summary>
-    /// File content to upload
+    /// Creates an instance of <see cref="InputFile"/> from a string containing a file's URL or file id
     /// </summary>
-    public Stream Content { get; }
+    /// <param name="urlOrFileId">A file's URL or a file id</param>
+    /// <returns>An instance of a class that implements <see cref="InputFile"/></returns>
+    public static InputFile FromString(string urlOrFileId) =>
+        Uri.TryCreate(urlOrFileId, UriKind.Absolute, out var url)
+            ? new InputFileUrl(url)
+            : new InputFileId(urlOrFileId);
 
     /// <summary>
-    /// Name of a file to upload using multipart/form-data
+    /// Creates an <see cref="InputFileStream"/> from an instance <see cref="Stream"/>
     /// </summary>
-    public string? FileName { get; }
+    /// <param name="stream">A <see cref="Stream"/> with file data to upload</param>
+    /// <param name="fileName">An optional file name</param>
+    /// <returns>An instance of <see cref="InputFileStream"/></returns>
+    public static InputFileStream FromStream(Stream stream, string? fileName = default) =>
+        new(stream.ThrowIfNull(), fileName);
 
     /// <summary>
-    /// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data
-    /// in the usual way that files are uploaded via the browser.
+    /// Creates an <see cref="InputFileUrl"/> from an instance <see cref="Uri"/>
     /// </summary>
-    /// <param name="content">File content to upload</param>
-    /// <param name="fileName">Name of a file to upload using multipart/form-data</param>
-    public InputFile(Stream content, string? fileName = default) =>
-        (Content, FileName) = (content, fileName);
+    /// <param name="url"></param>
+    /// <returns>An instance of <see cref="InputFileUrl"/></returns>
+    public static InputFileUrl FromUri(Uri url) => new(url.ThrowIfNull());
+
+    /// <summary>
+    /// Creates an <see cref="InputFileUrl"/> from a URL passed as a <see cref="string"/>
+    /// </summary>
+    /// <param name="url">A URL of a file</param>
+    /// <returns>An instance of <see cref="InputFileUrl"/></returns>
+    public static InputFileUrl FromUri(string url) => new(url.ThrowIfNull());
+
+    /// <summary>
+    /// Creates an <see cref="InputFileId"/> from a file id
+    /// </summary>
+    /// <param name="fileId">An ID of a file</param>
+    /// <returns>An instance of <see cref="InputFileId"/></returns>
+    public static InputFileId FromFileId(string fileId) => new(fileId.ThrowIfNull());
 }

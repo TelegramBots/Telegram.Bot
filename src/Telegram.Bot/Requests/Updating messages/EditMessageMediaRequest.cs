@@ -65,11 +65,11 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
 
         var multipartContent = GenerateMultipartFormDataContent();
 
-        if (Media.Media is InputFile file)
+        if (Media.Media is InputFileStream file)
         {
             multipartContent.AddContentIfInputFile(file, file.FileName!);
         }
-        if (Media is IInputMediaThumb { Thumbnail: InputFile thumbnail })
+        if (Media is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
         {
             multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
         }

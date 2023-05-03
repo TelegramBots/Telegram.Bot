@@ -37,11 +37,11 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
         {
             IAlbumInputMedia[] inputMedia =
             {
-                new InputMediaPhoto(new InputFile(stream1, "logo.png"))
+                new InputMediaPhoto(new InputFileStream(stream1, "logo.png"))
                 {
                     Caption = "Logo"
                 },
-                new InputMediaPhoto(new InputFile(stream2, "bot.gif"))
+                new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
                 {
                     Caption = "Bot"
                 },
@@ -130,18 +130,18 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
         {
             IAlbumInputMedia[] inputMedia =
             {
-                new InputMediaVideo(new InputFile(stream0, "GoldenRatio.mp4"))
+                new InputMediaVideo(new InputFileStream(stream0, "GoldenRatio.mp4"))
                 {
                     Caption = "Golden Ratio",
                     Height = 240,
                     Width = 240,
                     Duration = 28,
                 },
-                new InputMediaVideo(new InputFile(stream1, "MoonLanding.mp4"))
+                new InputMediaVideo(new InputFileStream(stream1, "MoonLanding.mp4"))
                 {
                     Caption = "Moon Landing"
                 },
-                new InputMediaPhoto(new InputFile(stream2, "bot.gif"))
+                new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
                 {
                     Caption = "Bot"
                 },
@@ -186,12 +186,12 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         IAlbumInputMedia[] inputMedia =
         {
-            new InputMediaPhoto(new InputFile(stream1, "logo.png"))
+            new InputMediaPhoto(new InputFileStream(stream1, "logo.png"))
             {
                 Caption = "*Logo*",
                 ParseMode = ParseMode.Markdown
             },
-            new InputMediaPhoto(new InputFile(stream2, "bot.gif"))
+            new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
             {
                 Caption = "_Bot_",
                 ParseMode = ParseMode.Markdown
@@ -229,9 +229,9 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         IAlbumInputMedia[] inputMedia =
         {
-            new InputMediaVideo(new InputFile(stream1, "GoldenRatio.mp4"))
+            new InputMediaVideo(new InputFileStream(stream1, "GoldenRatio.mp4"))
             {
-                Thumbnail = new InputFile(stream2, "thumbnail.jpg"),
+                Thumbnail = new InputFileStream(stream2, "thumbnail.jpg"),
                 SupportsStreaming = true,
             },
             new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),

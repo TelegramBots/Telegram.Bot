@@ -6,10 +6,10 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents an HTTP URL for the file to be sent
 /// </summary>
-public class InputFileUrl : IInputFile
+public class InputFileUrl : InputFile
 {
     /// <inheritdoc/>
-    public FileType FileType => FileType.Url;
+    public override FileType FileType => FileType.Url;
 
     /// <summary>
     /// HTTP URL for the file to be sent

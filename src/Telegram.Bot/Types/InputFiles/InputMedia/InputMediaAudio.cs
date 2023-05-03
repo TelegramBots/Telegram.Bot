@@ -18,7 +18,7 @@ public class InputMediaAudio :
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumbnail { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Duration of the audio in seconds
@@ -39,10 +39,10 @@ public class InputMediaAudio :
     public string? Title { get; set; }
 
     /// <summary>
-    /// Initializes a new audio media to send with an <see cref="IInputFile"/>
+    /// Initializes a new audio media to send with an <see cref="InputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>
-    public InputMediaAudio(IInputFile media)
+    public InputMediaAudio(InputFile media)
         : base(media)
     { }
 }
