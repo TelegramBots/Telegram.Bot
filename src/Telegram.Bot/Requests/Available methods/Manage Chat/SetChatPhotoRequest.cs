@@ -20,7 +20,7 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     /// New chat photo, uploaded using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Photo { get; }
+    public InputFileStream Photo { get; }
 
     /// <summary>
     /// Initializes a new request with chatId and photo
@@ -29,7 +29,7 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="photo">New chat photo, uploaded using multipart/form-data</param>
-    public SetChatPhotoRequest(ChatId chatId, InputFile photo)
+    public SetChatPhotoRequest(ChatId chatId, InputFileStream photo)
         : base("setChatPhoto")
     {
         ChatId = chatId;
@@ -37,6 +37,6 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     }
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
+    public override HttpContent ToHttpContent()
         => ToMultipartFormDataContent("photo", Photo);
 }

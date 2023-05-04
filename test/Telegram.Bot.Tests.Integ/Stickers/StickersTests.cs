@@ -35,7 +35,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
-            sticker: new InputFile(stream),
+            sticker: new InputFileStream(stream),
             StickerFormat.Static
         );
 
@@ -53,7 +53,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
-            sticker: new InputFile(stream),
+            sticker: new InputFileStream(stream),
             StickerFormat.Animated
         );
 
@@ -71,7 +71,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
-            sticker: new InputFile(stream),
+            sticker: new InputFileStream(stream),
             StickerFormat.Video
         );
 
@@ -103,7 +103,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         inputStickers.Add(
             new InputSticker(
-                sticker: new InputFile(stream, "Static2.webp"),
+                sticker: new InputFileStream(stream, "Static2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
             )
         );
@@ -148,7 +148,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         inputStickers.Add(
             new InputSticker(
-                sticker: new InputFile(stream, "Animated2.webp"),
+                sticker: new InputFileStream(stream, "Animated2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
             )
         );
@@ -193,7 +193,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         inputStickers.Add(
             new InputSticker(
-                sticker: new InputFile(stream, "Video2.webp"),
+                sticker: new InputFileStream(stream, "Video2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
             )
         );
@@ -355,7 +355,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         InputSticker inputSticker = new InputSticker(
-            sticker: new InputFile(stream, "Static3.png"),
+            sticker: new InputFileStream(stream, "Static3.png"),
             emojiList: _stickersTestsFixture.ThirdEmojis
         );
 
@@ -394,7 +394,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         InputSticker inputSticker = new InputSticker(
-            sticker: new InputFile(stream, "Animated3.tgs"),
+            sticker: new InputFileStream(stream, "Animated3.tgs"),
             emojiList: _stickersTestsFixture.ThirdEmojis
         );
 
@@ -433,7 +433,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         InputSticker inputSticker = new InputSticker(
-            sticker: new InputFile(stream, "Video3.webm"),
+            sticker: new InputFileStream(stream, "Video3.webm"),
             emojiList: _stickersTestsFixture.ThirdEmojis
         );
 
@@ -617,7 +617,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         await BotClient.SetStickerSetThumbnailAsync(
             name: _stickersTestsFixture.TestStaticRegularStickerSetName,
             userId: _stickersTestsFixture.OwnerUserId,
-            thumbnail: new InputFile(stream)
+            thumbnail: new InputFileStream(stream)
         );
 
         await Task.Delay(1_000);
@@ -704,7 +704,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         List<InputSticker> inputStickers = new List<InputSticker>
         {
             new InputSticker(
-                sticker: new InputFile(stream, "logo.png"),
+                sticker: new InputFileStream(stream, "logo.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
         };
@@ -737,7 +737,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         List<InputSticker> inputStickers = new List<InputSticker>
         {
             new InputSticker(
-                sticker: new InputFile(stream, "apes.jpg"),
+                sticker: new InputFileStream(stream, "apes.jpg"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
         };
@@ -768,7 +768,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         List<InputSticker> inputStickers = new List<InputSticker>
         {
             new InputSticker(
-                sticker: new InputFile(stream, "ruby.png"),
+                sticker: new InputFileStream(stream, "ruby.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
         };
@@ -875,7 +875,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         inputStickers.Add(
             new InputSticker(
-                sticker: new InputFile(stream, "tux.png"),
+                sticker: new InputFileStream(stream, "tux.png"),
                 emojiList: _stickersTestsFixture.SecondEmojis
             )
         );
@@ -910,7 +910,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Vlc);
 
         InputSticker inputSticker = new InputSticker(
-            sticker: new InputFile(stream, "vlc.png"),
+            sticker: new InputFileStream(stream, "vlc.png"),
             emojiList: _stickersTestsFixture.SecondEmojis
         )
         {
@@ -1016,7 +1016,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         inputStickers.Add(
             new InputSticker(
-                sticker: new InputFile(stream, "Static1.png"),
+                sticker: new InputFileStream(stream, "Static1.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
         );
@@ -1050,7 +1050,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.CustomEmoji.StaticSecond);
 
         InputSticker inputSticker = new InputSticker(
-            sticker: new InputFile(stream, "Static2.png"),
+            sticker: new InputFileStream(stream, "Static2.png"),
             emojiList: _stickersTestsFixture.SecondEmojis
         );
 

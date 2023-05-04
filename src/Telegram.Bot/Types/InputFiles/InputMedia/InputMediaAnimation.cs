@@ -17,7 +17,7 @@ public class InputMediaAnimation :
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumbnail { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Animation width
@@ -44,10 +44,10 @@ public class InputMediaAnimation :
     public bool? HasSpoiler { get; set; }
 
     /// <summary>
-    /// Initializes a new animation media to send with an <see cref="IInputFile"/>
+    /// Initializes a new animation media to send with an <see cref="InputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>
-    public InputMediaAnimation(IInputFile media)
+    public InputMediaAnimation(InputFile media)
         : base(media)
     { }
 }

@@ -18,7 +18,7 @@ public class InputMediaDocument :
 
     /// <inheritdoc />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumbnail { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Disables automatic server-side content type detection for files uploaded using
@@ -31,7 +31,7 @@ public class InputMediaDocument :
     /// Initializes a new document media to send with an <see cref="InputMedia"/>
     /// </summary>
     /// <param name="media">File to send</param>
-    public InputMediaDocument(IInputFile media)
+    public InputMediaDocument(InputFile media)
         : base(media)
     { }
 }

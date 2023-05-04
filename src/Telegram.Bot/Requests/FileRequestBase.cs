@@ -38,7 +38,7 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// <returns></returns>
     protected MultipartFormDataContent ToMultipartFormDataContent(
         string fileParameterName,
-        InputFile inputFile)
+        InputFileStream inputFile)
     {
         if (inputFile is null or { Content: null })
         {
@@ -56,20 +56,17 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// <returns></returns>
     protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
     {
-        var multipartContent = new MultipartFormDataContent($"{Guid.NewGuid()}{DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture)}");
+        var boundary = $"{Guid.NewGuid()}{DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture)}";
+        var multipartContent = new MultipartFormDataContent(boundary);
 
         var stringContents = JObject.FromObject(this)
             .Properties()
             .Where(prop => exceptPropertyNames.Contains(prop.Name, StringComparer.InvariantCulture) is false)
-            .Select(prop => new
-            {
-                prop.Name,
-                Content = new StringContent(prop.Value.ToString())
-            });
+            .Select(prop => (name: prop.Name, content: new StringContent(prop.Value.ToString())));
 
         foreach (var strContent in stringContents)
         {
-            multipartContent.Add(content: strContent.Content, name: strContent.Name);
+            multipartContent.Add(content: strContent.content, name: strContent.name);
         }
 
         return multipartContent;

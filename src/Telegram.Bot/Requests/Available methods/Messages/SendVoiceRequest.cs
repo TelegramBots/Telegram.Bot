@@ -33,7 +33,7 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     /// a file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IInputFile Voice { get; }
+    public InputFile Voice { get; }
 
     /// <summary>
     /// Voice message caption, 0-1024 characters after entities parsing
@@ -86,7 +86,7 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     /// that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendVoiceRequest(ChatId chatId, IInputFile voice)
+    public SendVoiceRequest(ChatId chatId, InputFile voice)
         : base("sendVoice")
     {
         ChatId = chatId;
@@ -97,7 +97,7 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     public override HttpContent? ToHttpContent() =>
         Voice switch
         {
-            InputFile voice => ToMultipartFormDataContent(fileParameterName: "voice", inputFile: voice),
+            InputFileStream voice => ToMultipartFormDataContent(fileParameterName: "voice", inputFile: voice),
             _               => base.ToHttpContent()
         };
 }

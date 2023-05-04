@@ -33,7 +33,7 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IInputFile Audio { get; }
+    public InputFile Audio { get; }
 
     /// <summary>
     /// Audio caption, 0-1024 characters after entities parsing
@@ -69,7 +69,7 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
 
     /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public IInputFile? Thumbnail { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -102,7 +102,7 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     /// file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendAudioRequest(ChatId chatId, IInputFile audio)
+    public SendAudioRequest(ChatId chatId, InputFile audio)
         : base("sendAudio")
     {
         ChatId = chatId;
@@ -110,21 +110,10 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     }
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-    {
-        HttpContent? httpContent;
-
-        if (Audio is InputFile || Thumbnail is InputFile)
-        {
-            httpContent = GenerateMultipartFormDataContent("audio", "thumbnail")
+    public override HttpContent? ToHttpContent() =>
+        Audio is InputFileStream || Thumbnail is InputFileStream
+            ? GenerateMultipartFormDataContent("audio", "thumbnail")
                 .AddContentIfInputFile(media: Audio, name: "audio")
-                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail");
-        }
-        else
-        {
-            httpContent = base.ToHttpContent();
-        }
-
-        return httpContent;
-    }
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
+            : base.ToHttpContent();
 }

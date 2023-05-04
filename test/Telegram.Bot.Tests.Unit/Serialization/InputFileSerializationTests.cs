@@ -13,10 +13,10 @@ public class InputFileSerializationTests
     public void Should_Serialize_InputFile()
     {
         const string fileName = "myFile";
-        InputFile inputFile = new(new MemoryStream(), fileName);
+        InputFileStream inputFile = new(new MemoryStream(), fileName);
 
         string json = JsonConvert.SerializeObject(inputFile);
-        InputFile obj = JsonConvert.DeserializeObject<InputFile>(json)!;
+        InputFileStream obj = JsonConvert.DeserializeObject<InputFileStream>(json)!;
 
         Assert.Equal(@$"""attach://{fileName}""", json);
         Assert.Equal(Stream.Null, obj.Content);

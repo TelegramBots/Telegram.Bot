@@ -84,7 +84,7 @@ public class EditMessageMediaTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth);
         Message gifMessage = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: new InputFile(stream, "Earth.gif"),
+            document: new InputFileStream(stream, "Earth.gif"),
             caption: "`file_id` of this GIF will be used",
             parseMode: ParseMode.Markdown,
             replyMarkup: (InlineKeyboardMarkup) InlineKeyboardButton

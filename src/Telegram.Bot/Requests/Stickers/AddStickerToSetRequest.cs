@@ -69,7 +69,7 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
         =>
         Sticker.Sticker switch
         {
-            InputFile sticker => ToMultipartFormDataContent(fileParameterName: sticker.FileName!, inputFile: sticker),
-            _                 => base.ToHttpContent()
+            InputFileStream sticker => ToMultipartFormDataContent(fileParameterName: sticker.FileName!, inputFile: sticker),
+            _                       => base.ToHttpContent()
         };
 }

@@ -99,13 +99,13 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     }
 
     /// <inheritdoc/>
-    public override HttpContent? ToHttpContent()
+    public override HttpContent ToHttpContent()
     {
         var multipartContent = GenerateMultipartFormDataContent();
 
         foreach (var inputSticker in Stickers)
         {
-            if (inputSticker is InputSticker { Sticker: InputFile file })
+            if (inputSticker is { Sticker: InputFileStream file })
             {
                 multipartContent.AddContentIfInputFile(file, file.FileName!);
             }
