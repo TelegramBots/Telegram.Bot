@@ -27,7 +27,7 @@ public class DeleteForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     public DeleteForumTopicRequest(ChatId chatId, int messageThreadId)
-        : base("reopenForumTopic")
+        : base("deleteForumTopic")
     {
         ChatId = chatId;
         MessageThreadId = messageThreadId;
