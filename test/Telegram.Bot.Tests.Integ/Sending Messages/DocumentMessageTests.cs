@@ -27,7 +27,7 @@ public class SendingDocumentMessageTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat.Id,
-            document: new InputFile(content: stream, fileName: "HAMLET.pdf"),
+            document: new InputFileStream(content: stream, fileName: "HAMLET.pdf"),
             caption: "The Tragedy of Hamlet,\nPrince of Denmark"
         );
 
@@ -51,7 +51,7 @@ public class SendingDocumentMessageTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat.Id,
-            document: new InputFile(content: stream, fileName: "هملت.pdf"),
+            document: new InputFileStream(content: stream, fileName: "هملت.pdf"),
             caption: "تراژدی هملت\nشاهزاده دانمارک"
         );
 
@@ -76,8 +76,8 @@ public class SendingDocumentMessageTests
 
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: new InputFile(content: documentStream, fileName: "Hamlet.pdf"),
-            thumbnail: new InputFile(content: thumbStream, fileName: "thumb.jpg")
+            document: new InputFileStream(content: documentStream, fileName: "Hamlet.pdf"),
+            thumbnail: new InputFileStream(content: thumbStream, fileName: "thumb.jpg")
         );
 
         Assert.NotNull(message.Document);

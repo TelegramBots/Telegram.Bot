@@ -13,14 +13,14 @@ public class InputStickerSerializationTests
     public void Should_Serialize_InputFile()
     {
         const string fileName = "myFile";
-        InputFile inputFile = new(new MemoryStream(), fileName);
-        string[] emojiList = new[] { "🙂" };
-        InputSticker inputSticker = new InputSticker(inputFile, emojiList);
+        InputFileStream inputFile = new(new MemoryStream(), fileName);
+        string[] emojiList = { "🙂" };
+        InputSticker inputSticker = new(inputFile, emojiList);
 
         string json = JsonConvert.SerializeObject(inputSticker);
         InputSticker obj = JsonConvert.DeserializeObject<InputSticker>(json)!;
 
-        InputFile objInputFile = (InputFile)obj.Sticker;
+        InputFileStream objInputFile = (InputFileStream)obj.Sticker;
 
         Assert.Equal(emojiList, obj.EmojiList);
         Assert.Contains(@$"""sticker"":""attach://{fileName}""", json);

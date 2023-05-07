@@ -16,10 +16,10 @@ public class InputSticker
     /// from the Internet, or upload a new one using multipart/form-data.
     /// <see cref="StickerFormat.Animated">Animated</see> and <see cref="StickerFormat.Video">video</see>
     /// stickers can't be uploaded via HTTP URL.
-    /// If you are using a <see cref="InputFile"/>, then the property <see cref="InputFile.FileName"/> is required.
+    /// If you are using a <see cref="InputFileStream"/>, then the property <see cref="InputFileStream.FileName"/> is required.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IInputFile Sticker { get; }
+    public InputFile Sticker { get; }
 
     /// <summary>
     /// List of 1-20 emoji associated with the sticker
@@ -43,7 +43,7 @@ public class InputSticker
 
     /// <summary>
     /// Initializes a new input sticker to create or add sticker sets
-    /// with an <see cref="IInputFile">sticker</see> and emojiList
+    /// with an <see cref="InputFile">sticker</see> and emojiList
     /// </summary>
     /// <param name="sticker">
     /// The added sticker. Pass a file_id as a String to send a file that already exists
@@ -55,7 +55,7 @@ public class InputSticker
     /// <param name="emojiList">
     /// List of 1-20 emoji associated with the sticker
     /// </param>
-    public InputSticker(IInputFile sticker, IEnumerable<string> emojiList)
+    public InputSticker(InputFile sticker, IEnumerable<string> emojiList)
     {
         Sticker = sticker;
         EmojiList = emojiList;
