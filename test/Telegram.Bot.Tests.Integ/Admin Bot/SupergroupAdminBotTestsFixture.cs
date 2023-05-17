@@ -47,7 +47,7 @@ public class SupergroupAdminBotTestsFixture : AsyncLifetimeFixture
                     await using MemoryStream photoStream = new(_oldChatPhoto);
                     await TestsFixture.BotClient.SetChatPhotoAsync(
                         chatId: Chat.Id,
-                        photo: photoStream
+                        photo: new InputFileStream(photoStream)
                     );
                 }
 

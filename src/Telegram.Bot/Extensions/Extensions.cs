@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.CompilerServices;
 
 namespace Telegram.Bot.Extensions;
@@ -9,6 +8,9 @@ namespace Telegram.Bot.Extensions;
 internal static class ObjectExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static T ThrowIfNull<T>(this T? value, string parameterName) =>
+    internal static T ThrowIfNull<T>(
+        this T? value,
+        [CallerArgumentExpression(nameof(value))] string? parameterName = default
+    ) =>
         value ?? throw new ArgumentNullException(parameterName);
 }

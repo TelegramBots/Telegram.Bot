@@ -1,9 +1,5 @@
-using System;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -12,7 +8,7 @@ namespace Telegram.Bot.Requests;
 /// Use this request to ban a channel chat in a supergroup or a channel. The owner of the chat will not be able
 /// to send messages and join live streams on behalf of the chat, unless it is unbanned first. The bot must be
 /// an administrator in the supergroup or channel for this to work and must have the appropriate administrator
-/// rights. Returns <c>true</c> on success
+/// rights. Returns <see langword="true"/> on success
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable

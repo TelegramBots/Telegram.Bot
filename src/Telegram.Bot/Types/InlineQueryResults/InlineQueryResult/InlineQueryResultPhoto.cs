@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -25,9 +23,9 @@ public class InlineQueryResultPhoto : InlineQueryResult
     [JsonProperty(Required = Required.Always)]
     public string PhotoUrl { get; }
 
-    /// <inheritdoc cref="Documentation.ThumbUrl" />
+    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
     [JsonProperty(Required = Required.Always)]
-    public string ThumbUrl { get; }
+    public string ThumbnailUrl { get; }
 
     /// <summary>
     /// Optional. Width of the photo
@@ -74,11 +72,11 @@ public class InlineQueryResultPhoto : InlineQueryResult
     /// </summary>
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="photoUrl">A valid URL of the photo. Photo size must not exceed 5MB.</param>
-    /// <param name="thumbUrl">Optional. Url of the thumbnail for the result.</param>
-    public InlineQueryResultPhoto(string id, string photoUrl, string thumbUrl)
+    /// <param name="thumbnailUrl">Optional. Url of the thumbnail for the result.</param>
+    public InlineQueryResultPhoto(string id, string photoUrl, string thumbnailUrl)
         : base(id)
     {
         PhotoUrl = photoUrl;
-        ThumbUrl = thumbUrl;
+        ThumbnailUrl = thumbnailUrl;
     }
 }

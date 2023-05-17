@@ -1,23 +1,20 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this method to specify a url and receive incoming updates via an outgoing webhook.
+/// Use this method to specify a URL and receive incoming updates via an outgoing webhook.
 /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
-/// specified url, containing a JSON-serialized <see cref="Types.Update"/>. In case of
+/// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
 /// an unsuccessful request, we will give up after a reasonable amount of attempts.
-/// Returns <c>true</c> on success.
+/// Returns <see langword="true"/> on success.
 /// <para>
-/// If you'd like to make sure that the Webhook request comes from Telegram, we recommend
-/// using a secret path in the URL, e.g. <c>https://www.example.com/&lt;token&gt;</c>.
-/// Since nobody else knows your bot’s token, you can be pretty sure it's us.
+/// If you'd like to make sure that the webhook was set by you, you can specify secret data
+/// in the parameter <see cref="SecretToken"/> . If specified, the request
+/// will contain a header "X-Telegram-Bot-Api-Secret-Token" with the secret token as content.
 /// </para>
 /// <remarks>
 /// <list type="number">
@@ -30,7 +27,7 @@ namespace Telegram.Bot.Requests;
 /// <see cref="Certificate"/> parameter. Please upload as <see cref="InputFileStream"/>, sending
 /// a String will not work.
 /// </item>
-/// <item>Ports currently supported for Webhooks: <b>443, 80, 88, 8443</b></item>
+/// <item>Ports currently supported for webhooks: <b>443, 80, 88, 8443</b></item>
 /// </list>
 /// If you're having any trouble setting up webhooks, please check out this
 /// <a href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</a>.
@@ -40,7 +37,7 @@ namespace Telegram.Bot.Requests;
 public class SetWebhookRequest : FileRequestBase<bool>
 {
     /// <summary>
-    /// HTTPS url to send updates to. Use an empty string to remove webhook integration
+    /// HTTPS URL to send updates to. Use an empty string to remove webhook integration
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string Url { get; }
@@ -62,7 +59,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// <summary>
     /// Maximum allowed number of simultaneous HTTPS connections to the webhook for update
     /// delivery, 1-100. Defaults to <i>40</i>. Use lower values to limit the load on your
-    /// bot’s server, and higher values to increase your bot’s throughput
+    /// bot's server, and higher values to increase your bot's throughput.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? MaxConnections { get; set; }
@@ -84,10 +81,18 @@ public class SetWebhookRequest : FileRequestBase<bool>
     public IEnumerable<UpdateType>? AllowedUpdates { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c> to drop all pending updates
+    /// Pass <see langword="true"/> to drop all pending updates
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? DropPendingUpdates { get; set; }
+
+    /// <summary>
+    /// A secret token to be sent in a header "<c>X-Telegram-Bot-Api-Secret-Token</c>" in every webhook request,
+    /// 1-256 characters. Only characters <c>A-Z</c>, <c>a-z</c>, <c>0-9</c>, <c>_</c> and <c>-</c>
+    /// are allowed. The header is useful to ensure that the request comes from a webhook set by you.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? SecretToken { get; set; }
 
     /// <summary>
     /// Initializes a new request with uri
@@ -96,14 +101,14 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// HTTPS url to send updates to. Use an empty string to remove webhook integration
     /// </param>
     public SetWebhookRequest(string url)
-        : base("setWebhook")
-    {
+        : base("setWebhook") =>
         Url = url;
-    }
 
     /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
     public override HttpContent? ToHttpContent() =>
-        Certificate is null
-            ? base.ToHttpContent()
-            : ToMultipartFormDataContent("certificate", Certificate);
+        Certificate switch
+        {
+            not null => ToMultipartFormDataContent("certificate", Certificate),
+            _        => base.ToHttpContent()
+        };
 }

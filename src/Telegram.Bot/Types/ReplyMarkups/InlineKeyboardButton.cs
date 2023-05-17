@@ -1,10 +1,7 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
-/// This object represents one button of an inline keyboard.
+/// This object represents one button of an inline keyboard. You <b>must</b> use exactly one of the optional fields.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InlineKeyboardButton : IKeyboardButton
@@ -14,17 +11,11 @@ public class InlineKeyboardButton : IKeyboardButton
     public string Text { get; set; }
 
     /// <summary>
-    /// Optional. HTTP or tg:// url to be opened when button is pressed
+    /// Optional. HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;user_id&gt;</c>
+    /// can be used to mention a user by their ID without using a username, if this is allowed by their privacy settings.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Url { get; set; }
-
-    /// <summary>
-    /// Optional. An HTTP URL used to automatically authorize the user. Can be used as a replacement for the
-    /// <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public LoginUrl? LoginUrl { get; set; }
 
     /// <summary>
     /// Optional. Data to be sent in a <see cref="CallbackQuery">callback query</see> to the bot when button
@@ -40,6 +31,13 @@ public class InlineKeyboardButton : IKeyboardButton
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public WebAppInfo? WebApp { get; set; }
+
+    /// <summary>
+    /// Optional. An HTTP URL used to automatically authorize the user. Can be used as a replacement for the
+    /// <a href="https://core.telegram.org/widgets/login">Telegram Login Widget</a>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public LoginUrl? LoginUrl { get; set; }
 
     /// <summary>
     /// Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and
@@ -68,6 +66,13 @@ public class InlineKeyboardButton : IKeyboardButton
     public string? SwitchInlineQueryCurrentChat { get; set; }
 
     /// <summary>
+    /// Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type,
+    /// open that chat and insert the bot's username and the specified inline query in the input field
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public SwitchInlineQueryChosenChat? SwitchInlineQueryChosenChat { get; set; }
+
+    /// <summary>
     /// Optional. Description of the game that will be launched when the user presses the button.
     /// </summary>
     /// <remarks>
@@ -77,7 +82,7 @@ public class InlineKeyboardButton : IKeyboardButton
     public CallbackGame? CallbackGame { get; set; }
 
     /// <summary>
-    /// Optional. Specify True, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>.
+    /// Optional. Specify <see langword="true"/>, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>.
     /// </summary>
     /// <remarks>
     /// <b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.
@@ -161,6 +166,20 @@ public class InlineKeyboardButton : IKeyboardButton
     /// </param>
     public static InlineKeyboardButton WithSwitchInlineQueryCurrentChat(string text, string query = "") =>
         new(text) { SwitchInlineQueryCurrentChat = query };
+
+    /// <summary>
+    /// Creates an inline keyboard button. Pressing the button will prompt the user to select one of their chats
+    /// of the specified type, open that chat and insert the bot's username and the specified inline query
+    /// in the input field
+    /// </summary>
+    /// <param name="text">Label text on the button</param>
+    /// <param name="switchInlineQueryChosenChat">
+    /// represents an inline button that switches the current user to inline mode in a chosen chat,
+    /// with an optional default inline query.
+    /// </param>
+    /// <returns></returns>
+    public static InlineKeyboardButton WithSwitchInlineQueryChosenChat(string text, SwitchInlineQueryChosenChat switchInlineQueryChosenChat) =>
+        new(text) { SwitchInlineQueryChosenChat = switchInlineQueryChosenChat };
 
     /// <summary>
     /// Creates an inline keyboard button. Pressing the button will launch the game.

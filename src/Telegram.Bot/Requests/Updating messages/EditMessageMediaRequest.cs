@@ -1,9 +1,7 @@
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -13,7 +11,7 @@ namespace Telegram.Bot.Requests;
 /// Use this method to edit animation, audio, document, photo, or video messages. If a message is part
 /// of a message album, then it can be edited only to an audio for audio albums, only to a
 /// document for document albums and to a photo or a video otherwise. Use a previously uploaded
-/// file via its <see cref="Types.InputFiles.InputTelegramFile.FileId"/> or specify a URL.
+/// file via its <see cref="InputFileId"/> or specify a URL.
 /// On success the edited <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -33,7 +31,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     /// A new media content of the message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputMediaBase Media { get; }
+    public InputMedia Media { get; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -48,7 +46,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="media">A new media content of the message</param>
-    public EditMessageMediaRequest(ChatId chatId, int messageId, InputMediaBase media)
+    public EditMessageMediaRequest(ChatId chatId, int messageId, InputMedia media)
         : base("editMessageMedia")
     {
         ChatId = chatId;
@@ -56,12 +54,26 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
         Media = media;
     }
 
-    // ToDo: If there is no file stream in the request, request content should be string
     /// <inheritdoc />
-    public override HttpContent ToHttpContent()
+    public override HttpContent? ToHttpContent()
     {
-        var httpContent = GenerateMultipartFormDataContent();
-        httpContent.AddContentIfInputFileStream(Media);
-        return httpContent;
+        if (Media.Media.FileType is not FileType.Stream &&
+            Media is not IInputMediaThumb { Thumbnail.FileType: FileType.Stream })
+        {
+            return base.ToHttpContent();
+        }
+
+        var multipartContent = GenerateMultipartFormDataContent();
+
+        if (Media.Media is InputFileStream file)
+        {
+            multipartContent.AddContentIfInputFile(file, file.FileName!);
+        }
+        if (Media is IInputMediaThumb { Thumbnail: InputFileStream thumbnail })
+        {
+            multipartContent.AddContentIfInputFile(thumbnail, thumbnail.FileName!);
+        }
+
+        return multipartContent;
     }
 }

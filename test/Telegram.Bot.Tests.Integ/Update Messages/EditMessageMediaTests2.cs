@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -31,7 +32,7 @@ public class EditMessageMediaTests2
         {
             originalMessage = await BotClient.SendVideoAsync(
                 chatId: _fixture.SupergroupChat,
-                video: stream,
+                video: new InputFileStream(stream),
                 caption: "This message will be edited shortly"
             );
         }
@@ -45,7 +46,7 @@ public class EditMessageMediaTests2
             editedMessage = await BotClient.EditMessageMediaAsync(
                 chatId: originalMessage.Chat,
                 messageId: originalMessage.MessageId,
-                media: new InputMediaDocument(new InputMedia(stream, "public-key.pem.txt"))
+                media: new InputMediaDocument(new InputFileStream(stream, "public-key.pem.txt"))
                 {
                     Caption = "**Public** key in `.pem` format",
                     ParseMode = ParseMode.Markdown,
@@ -69,7 +70,7 @@ public class EditMessageMediaTests2
         // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
         Message gifMessage = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+            document: new InputFileUrl(new Uri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")),
             caption: "`file_id` of this GIF will be used"
         );
 
@@ -78,7 +79,7 @@ public class EditMessageMediaTests2
         // Send a photo to chat. This media will be changed later in test.
         Message originalMessage = await BotClient.SendPhotoAsync(
             chatId: _fixture.SupergroupChat,
-            photo: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
+            photo: new InputFileUrl(new Uri("https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")),
             caption: "This message will be edited shortly"
         );
 
@@ -89,9 +90,9 @@ public class EditMessageMediaTests2
         Message editedMessage = await BotClient.EditMessageMediaAsync(
             chatId: originalMessage.Chat,
             messageId: originalMessage.MessageId,
-            media: new InputMediaAnimation(gifMessage.Document.FileId)
+            media: new InputMediaAnimation(new InputFileId(gifMessage.Document.FileId))
             {
-                Thumb = new InputMedia(thumbStream, "thumb.jpg"),
+                Thumbnail = new InputFileStream(thumbStream, "thumb.jpg"),
                 Duration = 4,
                 Height = 320,
                 Width = 320,
@@ -102,7 +103,7 @@ public class EditMessageMediaTests2
 
         // For backward compatibility, when this field is set, the document field will also be set.
         // In that case, message type is still considered as Document.
-        Assert.Equal(MessageType.Document, editedMessage.Type);
+        Assert.Equal(MessageType.Animation, editedMessage.Type);
         Assert.NotNull(editedMessage.Document);
         Assert.NotNull(editedMessage.Animation);
 
@@ -116,8 +117,8 @@ public class EditMessageMediaTests2
         Assert.NotNull(editedMessage.Animation.MimeType);
         Assert.NotEmpty(editedMessage.Animation.MimeType);
 
-        Assert.NotNull(editedMessage.Animation.Thumb);
-        Assert.NotEmpty(editedMessage.Animation.Thumb.FileId);
-        Asserts.JsonEquals(editedMessage.Animation.Thumb, editedMessage.Document.Thumb);
+        Assert.NotNull(editedMessage.Animation.Thumbnail);
+        Assert.NotEmpty(editedMessage.Animation.Thumbnail.FileId);
+        Asserts.JsonEquals(editedMessage.Animation.Thumbnail, editedMessage.Document.Thumbnail);
     }
 }

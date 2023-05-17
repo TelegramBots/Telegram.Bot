@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
@@ -187,4 +185,54 @@ public enum MessageType
     /// The <see cref="Message"/> contains <see cref="Message.VideoChatParticipantsInvited"/>
     /// </summary>
     VideoChatParticipantsInvited,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.Animation"/>
+    /// </summary>
+    Animation,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicCreated"/>
+    /// </summary>
+    ForumTopicCreated,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicClosed"/>
+    /// </summary>
+    ForumTopicClosed,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicReopened"/>
+    /// </summary>
+    ForumTopicReopened,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicEdited"/>
+    /// </summary>
+    ForumTopicEdited,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.GeneralForumTopicHidden"/>
+    /// </summary>
+    GeneralForumTopicHidden,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.GeneralForumTopicUnhidden"/>
+    /// </summary>
+    GeneralForumTopicUnhidden,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.WriteAccessAllowed"/>
+    /// </summary>
+    WriteAccessAllowed,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.UserShared"/>
+    /// </summary>
+    UserShared,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.ChatShared"/>
+    /// </summary>
+    ChatShared,
 }

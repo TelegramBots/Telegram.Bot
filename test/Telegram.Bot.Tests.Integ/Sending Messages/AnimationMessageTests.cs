@@ -30,18 +30,18 @@ public class AnimationMessageTests
         {
             message = await BotClient.SendAnimationAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                animation: stream,
+                animation: new InputFileStream(stream),
                 duration: 4,
                 width: 400,
                 height: 400,
-                thumb: null,
+                thumbnail: null,
                 caption: "<b>Rotating</b> <i>Earth</i>",
                 parseMode: ParseMode.Html
             );
         }
 
         // For backwards compatibility, message type is set to Document
-        Assert.Equal(MessageType.Document, message.Type);
+        Assert.Equal(MessageType.Animation, message.Type);
         Assert.NotNull(message.Document);
         Assert.NotNull(message.Animation);
 
@@ -77,17 +77,17 @@ public class AnimationMessageTests
         {
             message = await BotClient.SendAnimationAsync(
                 chatId: _fixture.SupergroupChat,
-                animation: new InputMedia(stream1, "earth.gif"),
-                thumb: new InputMedia(stream2, "thumb.jpg")
+                animation: new InputFileStream(stream1, "earth.gif"),
+                thumbnail: new InputFileStream(stream2, "thumb.jpg")
             );
         }
 
         Assert.NotNull(message.Animation);
-        Assert.NotNull(message.Animation.Thumb);
-        Assert.NotEmpty(message.Animation.Thumb.FileId);
-        Assert.NotEmpty(message.Animation.Thumb.FileUniqueId);
-        Assert.Equal(320, message.Animation.Thumb.Height);
-        Assert.Equal(320, message.Animation.Thumb.Width);
-        Assert.True(message.Animation.Thumb.FileSize > 10_000);
+        Assert.NotNull(message.Animation.Thumbnail);
+        Assert.NotEmpty(message.Animation.Thumbnail.FileId);
+        Assert.NotEmpty(message.Animation.Thumbnail.FileUniqueId);
+        Assert.Equal(320, message.Animation.Thumbnail.Height);
+        Assert.Equal(320, message.Animation.Thumbnail.Width);
+        Assert.True(message.Animation.Thumbnail.FileSize > 10_000);
     }
 }

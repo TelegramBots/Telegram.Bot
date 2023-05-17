@@ -18,7 +18,7 @@ public class ApiResponseEventArgs
     public ApiRequestEventArgs ApiRequestEventArgs { get;  }
 
     /// <summary>
-    /// Initialize an <see cref="ApiRequestEventArgs"/> object
+    /// Initialize an <see cref="ApiResponseEventArgs"/> object
     /// </summary>
     /// <param name="responseMessage">HTTP response received from API</param>
     /// <param name="apiRequestEventArgs">Event arguments of this request</param>

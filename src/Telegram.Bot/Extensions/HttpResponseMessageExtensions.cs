@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -77,7 +76,7 @@ internal static class HttpResponseMessageExtensions
         }
         finally
         {
-#if NETCOREAPP3_1_OR_GREATER
+#if NET6_0_OR_GREATER
             if (contentStream is not null)
             {
                 await contentStream.DisposeAsync().ConfigureAwait(false);

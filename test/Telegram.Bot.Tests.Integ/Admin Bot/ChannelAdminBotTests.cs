@@ -116,7 +116,7 @@ public class ChannelAdminBotTests : IClassFixture<ChannelAdminBotTestFixture>
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
         await BotClient.SetChatPhotoAsync(
             chatId: _classFixture.Chat.Id,
-            photo: stream
+            photo: new InputFileStream(stream)
         );
     }
 

@@ -13,16 +13,16 @@ public static class Constants
     public const string AssemblyName = "Telegram.Bot.Tests.Integ";
 
     public const string TestCaseOrderer =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(Framework.TestCaseOrderer);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(Framework.TestCaseOrderer)}";
 
     public const string TestCaseDiscoverer =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(RetryFactDiscoverer);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(XunitExtensions)}.{nameof(RetryFactDiscoverer)}";
 
     public const string TestCollectionOrderer =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(TestCollectionOrderer);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(TestCollectionOrderer)}";
 
     public const string TestFramework =
-        AssemblyName + "." + nameof(Framework) + "." + nameof(XunitExtensions) + "." + nameof(XunitTestFrameworkWithAssemblyFixture);
+        $"{AssemblyName}.{nameof(Framework)}.{nameof(XunitExtensions)}.{nameof(XunitTestFrameworkWithAssemblyFixture)}";
 
     public static class TestCollections
     {
@@ -65,6 +65,10 @@ public static class Constants
         public const string FileDownload = "File Download";
 
         public const string BotCommands = "Bot Commands";
+
+        public const string BotDescription = "Bot Description";
+
+        public const string BotShortDescription = "Bot Short Description";
 
         public const string Dice = "Dice";
 
@@ -117,71 +121,112 @@ public static class Constants
 
         public static class Documents
         {
-            const string DocumentDir = FilesDir + "Document/";
+            const string DocumentDir = $"{FilesDir}Document/";
 
-            public const string Hamlet = DocumentDir + "hamlet.pdf";
+            public const string Hamlet = $"{DocumentDir}hamlet.pdf";
         }
 
         public static class Photos
         {
-            const string PhotoDir = FilesDir + "Photo/";
+            const string PhotoDir = $"{FilesDir}Photo/";
 
-            public const string Bot = PhotoDir + "bot.gif";
+            public const string Bot = $"{PhotoDir}bot.gif";
 
-            public const string Logo = PhotoDir + "logo.png";
+            public const string Logo = $"{PhotoDir}logo.png";
 
-            public const string Gnu = PhotoDir + "gnu.png";
+            public const string Gnu = $"{PhotoDir}gnu.png";
 
-            public const string Tux = PhotoDir + "tux.png";
+            public const string Tux = $"{PhotoDir}tux.png";
 
-            public const string Vlc = PhotoDir + "vlc.png";
+            public const string Vlc = $"{PhotoDir}vlc.png";
 
-            public const string Ruby = PhotoDir + "ruby.png";
+            public const string Ruby = $"{PhotoDir}ruby.png";
 
-            public const string Apes = PhotoDir + "apes.jpg";
+            public const string Apes = $"{PhotoDir}apes.jpg";
         }
 
         public static class Videos
         {
-            const string VideoDir = FilesDir + "Video/";
+            const string VideoDir = $"{FilesDir}Video/";
 
-            public const string GoldenRatio = VideoDir + "golden-ratio-240px.mp4";
+            public const string GoldenRatio = $"{VideoDir}golden-ratio-240px.mp4";
 
-            public const string MoonLanding = VideoDir + "moon-landing.mp4";
+            public const string MoonLanding = $"{VideoDir}moon-landing.mp4";
         }
 
         public static class Audio
         {
-            const string AudioDir = FilesDir + "Audio/";
+            const string AudioDir = $"{FilesDir}Audio/";
 
-            public const string AStateOfDespairMp3 = AudioDir + "Ask Again - A State of Despair.mp3";
+            public const string AStateOfDespairMp3 = $"{AudioDir}Ask Again - A State of Despair.mp3";
 
-            public const string CantinaRagMp3 = AudioDir + "Jackson F Smith - Cantina Rag.mp3";
+            public const string CantinaRagMp3 = $"{AudioDir}Jackson F Smith - Cantina Rag.mp3";
 
-            public const string TestOgg = AudioDir + "Test.ogg";
+            public const string TestOgg = $"{AudioDir}Test.ogg";
         }
 
         public static class Certificate
         {
-            const string CertificateDir = FilesDir + "Certificate/";
+            const string CertificateDir = $"{FilesDir}Certificate/";
 
-            public const string PublicKey = CertificateDir + "public-key.pem";
+            public const string PublicKey = $"{CertificateDir}public-key.pem";
         }
 
         public static class Animation
         {
-            const string Dir = FilesDir + "Animation/";
+            const string Dir = $"{FilesDir}Animation/";
 
-            public const string Earth = Dir + "earth.gif";
+            public const string Earth = $"{Dir}earth.gif";
         }
 
         public static class Thumbnail
         {
-            const string Dir = FilesDir + "Thumbnail/";
+            const string Dir = $"{FilesDir}Thumbnail/";
 
-            public const string Video = Dir + "video.jpg";
+            public const string Video = $"{Dir}video.jpg";
 
-            public const string TheAbilityToBreak = Dir + "The Ability to Break.jpg";
+            public const string TheAbilityToBreak = $"{Dir}The Ability to Break.jpg";
+        }
+
+        public static class Sticker
+        {
+            const string StickerDir = $"{FilesDir}Sticker/";
+
+            public static class Regular
+            {
+                const string Dir = $"{StickerDir}Regular/";
+
+                public const string StaticThumbnail = $"{Dir}StaticThumbnail.webp";
+
+                public const string StaticFirst = $"{Dir}Static1.webp";
+
+                public const string StaticSecond = $"{Dir}Static2.webp";
+
+                public const string StaticThird = $"{Dir}Static3.png";
+
+
+                public const string AnimatedFirst = $"{Dir}Animated1.tgs";
+
+                public const string AnimatedSecond = $"{Dir}Animated2.tgs";
+
+                public const string AnimatedThird = $"{Dir}Animated3.tgs";
+
+
+                public const string VideoFirst = $"{Dir}Video1.webm";
+
+                public const string VideoSecond = $"{Dir}Video2.webm";
+
+                public const string VideoThird = $"{Dir}Video3.webm";
+            }
+
+            public static class CustomEmoji
+            {
+                const string Dir = $"{StickerDir}CustomEmoji/";
+
+                public const string StaticFirst = $"{Dir}Static1.png";
+
+                public const string StaticSecond = $"{Dir}Static2.png";
+            }
         }
     }
 
@@ -255,8 +300,6 @@ public static class Constants
 
         public const string PromoteChatMember = "promoteChatMember";
 
-        public const string GetStickerSet = "getStickerSet";
-
         public const string SendPhoto = "sendPhoto";
 
         public const string SendVideo = "sendVideo";
@@ -293,9 +336,13 @@ public static class Constants
 
         public const string SetChatStickerSet = "setChatStickerSet";
 
+        public const string SendMediaGroup = "sendMediaGroup";
+
         public const string SendSticker = "sendSticker";
 
-        public const string SendMediaGroup = "sendMediaGroup";
+        public const string GetStickerSet = "getStickerSet";
+
+        public const string GetCustomEmojiStickers = "getCustomEmojiStickers";
 
         public const string UploadStickerFile = "uploadStickerFile";
 
@@ -306,6 +353,20 @@ public static class Constants
         public const string SetStickerPositionInSet = "setStickerPositionInSet";
 
         public const string DeleteStickerFromSet = "deleteStickerFromSet";
+
+        public const string SetStickerEmojiList = "setStickerEmojiList";
+
+        public const string SetStickerKeywords = "setStickerKeywords";
+
+        public const string SetStickerMaskPosition = "setStickerMaskPosition";
+
+        public const string SetStickerSetTitle = "setStickerSetTitle";
+
+        public const string SetStickerSetThumbnail = "setStickerSetThumbnail";
+
+        public const string SetCustomEmojiStickerSetThumbnail = "setCustomEmojiStickerSetThumbnail";
+
+        public const string DeleteStickerSet = "deleteStickerSet";
 
         public const string SendGame = "sendGame";
 
@@ -328,6 +389,14 @@ public static class Constants
         public const string GetMyCommands = "getMyCommands";
 
         public const string DeleteMyCommands = "deleteMyCommands";
+
+        public const string SetMyDescription = "setMyDescription";
+
+        public const string GetMyDescription = "getMyDescription";
+
+        public const string SetMyShortDescription = "setMyShortDescription";
+
+        public const string GetMyShortDescription = "getMyShortDescription";
 
         public const string SendDice = "sendDice";
 

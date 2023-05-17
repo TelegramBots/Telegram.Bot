@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -48,14 +46,14 @@ public class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// URL of the static (JPEG or GIF) or animated (MPEG4) thumbnail for the result
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string ThumbUrl { get; }
+    public string ThumbnailUrl { get; }
 
     /// <summary>
     /// Optional. MIME type of the thumbnail, must be one of “image/jpeg”, “image/gif”,
     /// or “video/mp4”. Defaults to “image/jpeg”
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ThumbMimeType { get; set; }
+    public string? ThumbnailMimeType { get; set; }
 
     /// <summary>
     /// Optional. Title for the result
@@ -84,11 +82,11 @@ public class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// </summary>
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
-    /// <param name="thumbUrl">Url of the thumbnail for the result.</param>
-    public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbUrl)
+    /// <param name="thumbnailUrl">Url of the thumbnail for the result.</param>
+    public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbnailUrl)
         : base(id)
     {
         Mpeg4Url = mpeg4Url;
-        ThumbUrl = thumbUrl;
+        ThumbnailUrl = thumbnailUrl;
     }
 }

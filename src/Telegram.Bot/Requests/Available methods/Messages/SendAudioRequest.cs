@@ -1,12 +1,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -26,12 +22,18 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an audio
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send an audio
     /// file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Audio { get; }
+    public InputFile Audio { get; }
 
     /// <summary>
     /// Audio caption, 0-1024 characters after entities parsing
@@ -65,9 +67,9 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Title { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
+    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -96,11 +98,11 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="audio">
-    /// Audio file to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send an audio
+    /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send an audio
     /// file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendAudioRequest(ChatId chatId, InputOnlineFile audio)
+    public SendAudioRequest(ChatId chatId, InputFile audio)
         : base("sendAudio")
     {
         ChatId = chatId;
@@ -108,37 +110,10 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     }
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-    {
-        HttpContent? httpContent;
-        if (Audio.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
-        {
-            var multipartContent = GenerateMultipartFormDataContent("audio", "thumb");
-            if (Audio.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Audio.Content!,
-                    name: "audio",
-                    fileName: Audio.FileName
-                );
-            }
-
-            if (Thumb?.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Thumb.Content!,
-                    name: "thumb",
-                    fileName: Thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
-        }
-        else
-        {
-            httpContent = base.ToHttpContent();
-        }
-
-        return httpContent;
-    }
+    public override HttpContent? ToHttpContent() =>
+        Audio is InputFileStream || Thumbnail is InputFileStream
+            ? GenerateMultipartFormDataContent("audio", "thumbnail")
+                .AddContentIfInputFile(media: Audio, name: "audio")
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
+            : base.ToHttpContent();
 }

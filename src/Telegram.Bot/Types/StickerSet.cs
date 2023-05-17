@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
 
@@ -23,22 +22,22 @@ public class StickerSet
     public string Title { get; set; } = default!;
 
     /// <summary>
-    /// True, if the sticker set contains animated stickers
+    /// Type of stickers in the set
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public StickerType StickerType { get; set; } = default!;
+
+    /// <summary>
+    /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Animated">animated stickers</see>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsAnimated { get; set; }
-        
+
     /// <summary>
-    /// <c>true</c>, if the sticker set contains video stickers
+    /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Video">video stickers</see>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool IsVideo { get; set; }
-
-    /// <summary>
-    /// True, if the sticker set contains masks
-    /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public bool ContainsMasks { get; set; }
 
     /// <summary>
     /// List of all set stickers
@@ -47,8 +46,8 @@ public class StickerSet
     public Sticker[] Stickers { get; set; } = default!;
 
     /// <summary>
-    /// Optional. Sticker set thumbnail in the .WEBP or .TGS format
+    /// Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 }

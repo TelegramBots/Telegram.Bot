@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 // ReSharper disable CheckNamespace
@@ -22,6 +18,12 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
     /// Poll question, 1-300 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -34,7 +36,7 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     public IEnumerable<string> Options { get; }
 
     /// <summary>
-    /// True, if the poll needs to be anonymous, defaults to True
+    /// <see langword="true"/>, if the poll needs to be anonymous, defaults to <see langword="true"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? IsAnonymous { get; set; }
@@ -46,7 +48,8 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     public PollType? Type { get; set; }
 
     /// <summary>
-    /// True, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to False
+    /// <see langword="true"/>, if the poll allows multiple answers, ignored for polls in quiz mode, defaults to
+    /// <see langword="false"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? AllowsMultipleAnswers { get; set; }
@@ -95,7 +98,7 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     public DateTime? CloseDate { get; set; }
 
     /// <summary>
-    /// Pass True, if the poll needs to be immediately closed. This can be useful for poll preview.
+    /// Pass <see langword="true"/>, if the poll needs to be immediately closed. This can be useful for poll preview.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? IsClosed { get; set; }

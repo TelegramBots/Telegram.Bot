@@ -8,38 +8,40 @@ using Telegram.Bot.Types.ReplyMarkups;
 namespace Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once UnusedType.Global
-internal abstract class Documentation
+/// <summary>
+/// Type used to store documentation for shared properties in request types, use it using
+/// <code>&lt;inheritdoc cref="Telegram.Bot.Requests.Abstractions.Documentation.[PropertyName]"/&gt;</code> syntax
+/// </summary>
+internal static class Documentation
 {
-    Documentation() { }
-
     /// <summary>
     /// List of special entities that appear in the caption, which can be specified instead of
     /// <see cref="Types.Enums.ParseMode"/>
     /// </summary>
-    object CaptionEntities;
+    static readonly object CaptionEntities;
 
     /// <summary>
     /// List of special entities that appear in message text, which can be specified instead of
     /// <see cref="Types.Enums.ParseMode"/>
     /// </summary>
-    object Entities;
+    static readonly object Entities;
 
     /// <summary>
     /// Mode for parsing entities in the new caption. See
     /// <a href="https://core.telegram.org/bots/api#formatting-options">formatting</a>
     /// options for more details.
     /// </summary>
-    object ParseMode;
+    static readonly object ParseMode;
 
     /// <summary>
     /// Identifier of the inline message
     /// </summary>
-    object InlineMessageId;
+    static readonly object InlineMessageId;
 
     /// <summary>
     /// An <see cref="InlineKeyboardMarkup">inline keyboard</see>
     /// </summary>
-    object InlineReplyMarkup;
+    static readonly object InlineReplyMarkup;
 
     /// <summary>
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -47,22 +49,22 @@ internal abstract class Documentation
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user.
     /// </summary>
-    object ReplyMarkup;
+    static readonly object ReplyMarkup;
 
     /// <summary>
     /// Sends the message silently. Users will receive a notification with no sound.
     /// </summary>
-    object DisableNotification;
+    static readonly object DisableNotification;
 
     /// <summary>
     /// If the message is a reply, ID of the original message
     /// </summary>
-    object ReplyToMessageId;
+    static readonly object ReplyToMessageId;
 
     /// <summary>
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </summary>
-    object AllowSendingWithoutReply;
+    static readonly object AllowSendingWithoutReply;
 
     /// <summary>
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
@@ -72,10 +74,10 @@ internal abstract class Documentation
     /// you can pass "attach://&lt;file_attach_name&gt;" if the thumbnail was uploaded using
     /// multipart/form-data under &lt;file_attach_name&gt;
     /// </summary>
-    object Thumb;
+    static readonly object Thumbnail;
 
     /// <summary>
     /// Protects the contents of sent messages from forwarding and saving
     /// </summary>
-    object ProtectContent;
+    static readonly object ProtectContent;
 }

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -15,7 +13,7 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 public class InlineQueryResultCachedGif : InlineQueryResult
 {
     /// <summary>
-    /// Type of the result, must be gif
+    /// Type of the result, must be GIF
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public override InlineQueryResultType Type => InlineQueryResultType.Gif;

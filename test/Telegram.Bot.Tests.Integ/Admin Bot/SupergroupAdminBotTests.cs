@@ -46,7 +46,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
         ChatPermissions newDefaultPermissions = new()
         {
             CanInviteUsers = false,
-            CanSendMediaMessages = true,
+            CanSendVoiceNotes = true,
             CanChangeInfo = false,
             CanSendMessages = true,
             CanPinMessages = false,
@@ -137,6 +137,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
 
         Chat chat = await BotClient.GetChatAsync(_classFixture.Chat.Id);
 
+        Assert.NotNull(chat.PinnedMessage);
         Assert.True(JToken.DeepEquals(
             JToken.FromObject(pinnedMsg), JToken.FromObject(chat.PinnedMessage)
         ));
@@ -155,6 +156,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
 
         Message secondsFromEndPinnedMessage = _classFixture.PinnedMessages[^2];
 
+        Assert.NotNull(chat.PinnedMessage);
         Assert.True(JToken.DeepEquals(
             JToken.FromObject(secondsFromEndPinnedMessage),
             JToken.FromObject(chat.PinnedMessage)
@@ -198,7 +200,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
         await BotClient.SetChatPhotoAsync(
             chatId: _classFixture.Chat.Id,
-            photo: stream
+            photo: new InputFileStream(stream)
         );
     }
 

@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types;
 
 /// <summary>
@@ -29,5 +26,5 @@ public abstract class FileBase
     /// Optional. File size
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? FileSize { get; set; }
+    public long? FileSize { get; set; }
 }

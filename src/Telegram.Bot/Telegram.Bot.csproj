@@ -1,9 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
-    <LangVersion>10</LangVersion>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <LangVersion>11</LangVersion>
     <Nullable>enable</Nullable>
+    <WarningLevel>7</WarningLevel>
+    <EnableNETAnalyzers>True</EnableNETAnalyzers>
+    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -23,10 +31,9 @@
     <AllowedOutputExtensionsInPackageBuildOutputFolder>
       $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
     </AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <AnalysisMode>AllEnabledByDefault</AnalysisMode>
   </PropertyGroup>
 
-  <PropertyGroup>
+  <PropertyGroup Label="Warnings">
     <NoWarn>$(NoWarn);CA1003</NoWarn> <!-- Change the event name to replace the type with a generic EventHandler,
                                            for example EventHandler<T>, where T is a valid EventArgs -->
     <NoWarn>$(NoWarn);CA1819</NoWarn> <!-- Properties should not return arrays-->
@@ -45,6 +52,7 @@
                                            'HttpClient.GetAsync(Uri, HttpCompletionOption, CancellationToken)' instead
                                            of 'HttpClient.GetAsync(string, HttpCompletionOption, CancellationToken)' -->
     <NoWarn>$(NoWarn);CA1031</NoWarn> <!-- Catch a more specific allowed exception type, or rethrow the exception -->
+    <NoWarn>$(NoWarn);MA0046;MA0048;MA0051</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -62,27 +70,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-    <PackageReference Include="System.Text.Json" Version="6.0.4" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup Label="Dev">
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.45" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" PrivateAssets="All" />
-    <PackageReference Include="Nullable" Version="1.3.0" PrivateAssets="all" />
+    <PackageReference Include="JetBrains.Annotations" Version="2022.3.1" PrivateAssets="All" />
+    <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
     <ProjectReference Include="..\EnumSerializer.Generator\EnumSerializer.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    <ProjectReference Include="..\Telegram.Bot.Gen.SourceGenerators\Telegram.Bot.Gen.SourceGenerators.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
-    <ProjectReference Include="..\Telegram.Bot.Gen.Shared\Telegram.Bot.Gen.Shared.csproj" ReferenceOutputAssembly="true" OutputItemType="Analyzer" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="data.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </AdditionalFiles>
   </ItemGroup>
 </Project>

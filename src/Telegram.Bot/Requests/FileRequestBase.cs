@@ -1,11 +1,8 @@
-using System;
+using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
-using Telegram.Bot.Types.InputFiles;
 
 namespace Telegram.Bot.Requests;
 
@@ -48,18 +45,8 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
             throw new ArgumentNullException(nameof(inputFile), $"{nameof(inputFile)} or it's content is null");
         }
 
-        var multipartContent = GenerateMultipartFormDataContent(fileParameterName);
-
-        multipartContent.AddStreamContent(
-            // Probably is a compiler bug, inputFile is already checked at this point
-#pragma warning disable CA1062
-            content: inputFile.Content,
-#pragma warning restore CA1062
-            name: fileParameterName,
-            fileName: inputFile.FileName
-        );
-
-        return multipartContent;
+        return GenerateMultipartFormDataContent(fileParameterName)
+            .AddContentIfInputFile(media: inputFile, name: fileParameterName);
     }
 
     /// <summary>
@@ -69,20 +56,17 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// <returns></returns>
     protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
     {
-        var multipartContent = new MultipartFormDataContent($"{Guid.NewGuid()}{DateTime.UtcNow.Ticks}");
+        var boundary = $"{Guid.NewGuid()}{DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture)}";
+        var multipartContent = new MultipartFormDataContent(boundary);
 
         var stringContents = JObject.FromObject(this)
             .Properties()
-            .Where(prop => exceptPropertyNames.Contains(prop.Name) == false)
-            .Select(prop => new
-            {
-                prop.Name,
-                Content = new StringContent(prop.Value.ToString())
-            });
+            .Where(prop => exceptPropertyNames.Contains(prop.Name, StringComparer.InvariantCulture) is false)
+            .Select(prop => (name: prop.Name, content: new StringContent(prop.Value.ToString())));
 
         foreach (var strContent in stringContents)
         {
-            multipartContent.Add(content: strContent.Content, name: strContent.Name);
+            multipartContent.Add(content: strContent.content, name: strContent.name);
         }
 
         return multipartContent;

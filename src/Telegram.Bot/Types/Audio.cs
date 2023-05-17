@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types;
 
 /// <summary>
@@ -43,5 +40,5 @@ public class Audio : FileBase
     /// Optional. Thumbnail of the album cover to which the music file belongs
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 }

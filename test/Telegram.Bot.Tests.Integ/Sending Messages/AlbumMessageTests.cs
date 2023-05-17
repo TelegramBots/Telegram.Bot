@@ -37,11 +37,11 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
         {
             IAlbumInputMedia[] inputMedia =
             {
-                new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
+                new InputMediaPhoto(new InputFileStream(stream1, "logo.png"))
                 {
                     Caption = "Logo"
                 },
-                new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
+                new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
                 {
                     Caption = "Bot"
                 },
@@ -80,9 +80,9 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
             chatId: _fixture.SupergroupChat.Id,
             media: new IAlbumInputMedia[]
             {
-                new InputMediaPhoto(fileIds[0]),
-                new InputMediaPhoto(fileIds[1]),
-                new InputMediaPhoto(fileIds[0]),
+                new InputMediaPhoto(new InputFileId(fileIds[0])),
+                new InputMediaPhoto(new InputFileId(fileIds[1])),
+                new InputMediaPhoto(new InputFileId(fileIds[0])),
             }
         );
 
@@ -101,8 +101,8 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
             chatId: _fixture.SupergroupChat.Id,
             media: new IAlbumInputMedia[]
             {
-                new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg"),
-                new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
+                new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")),
+                new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
             },
             replyToMessageId: replyToMessageId
         );
@@ -130,18 +130,18 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
         {
             IAlbumInputMedia[] inputMedia =
             {
-                new InputMediaVideo(new InputMedia(stream0, "GoldenRatio.mp4"))
+                new InputMediaVideo(new InputFileStream(stream0, "GoldenRatio.mp4"))
                 {
                     Caption = "Golden Ratio",
                     Height = 240,
                     Width = 240,
                     Duration = 28,
                 },
-                new InputMediaVideo(new InputMedia(stream1, "MoonLanding.mp4"))
+                new InputMediaVideo(new InputFileStream(stream1, "MoonLanding.mp4"))
                 {
                     Caption = "Moon Landing"
                 },
-                new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
+                new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
                 {
                     Caption = "Bot"
                 },
@@ -186,12 +186,12 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         IAlbumInputMedia[] inputMedia =
         {
-            new InputMediaPhoto(new InputMedia(stream1, "logo.png"))
+            new InputMediaPhoto(new InputFileStream(stream1, "logo.png"))
             {
                 Caption = "*Logo*",
                 ParseMode = ParseMode.Markdown
             },
-            new InputMediaPhoto(new InputMedia(stream2, "bot.gif"))
+            new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
             {
                 Caption = "_Bot_",
                 ParseMode = ParseMode.Markdown
@@ -229,12 +229,12 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         IAlbumInputMedia[] inputMedia =
         {
-            new InputMediaVideo(new InputMedia(stream1, "GoldenRatio.mp4"))
+            new InputMediaVideo(new InputFileStream(stream1, "GoldenRatio.mp4"))
             {
-                Thumb = new InputMedia(stream2, "thumbnail.jpg"),
+                Thumbnail = new InputFileStream(stream2, "thumbnail.jpg"),
                 SupportsStreaming = true,
             },
-            new InputMediaPhoto("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
+            new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
         };
 
         Message[] messages = await BotClient.SendMediaGroupAsync(
@@ -244,6 +244,6 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         Assert.Equal(MessageType.Video, messages[0].Type);
         Assert.NotNull(messages[0].Video);
-        Assert.NotNull(messages[0].Video.Thumb);
+        Assert.NotNull(messages[0].Video.Thumbnail);
     }
 }

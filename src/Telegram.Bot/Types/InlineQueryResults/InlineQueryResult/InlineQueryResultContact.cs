@@ -1,5 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -46,17 +45,17 @@ public class InlineQueryResultContact : InlineQueryResult
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public InputMessageContent? InputMessageContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbUrl" />
+    /// <inheritdoc cref="Documentation.ThumbnailUrl" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ThumbUrl { get; set; }
+    public string? ThumbnailUrl { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbWidth" />
+    /// <inheritdoc cref="Documentation.ThumbnailWidth" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ThumbWidth { get; set; }
+    public int? ThumbnailWidth { get; set; }
 
-    /// <inheritdoc cref="Documentation.ThumbHeight" />
+    /// <inheritdoc cref="Documentation.ThumbnailHeight" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ThumbHeight { get; set; }
+    public int? ThumbnailHeight { get; set; }
 
     /// <summary>
     /// Initializes a new inline query result

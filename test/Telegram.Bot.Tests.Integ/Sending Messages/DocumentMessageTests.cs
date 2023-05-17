@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Sending_Messages;
@@ -28,7 +27,7 @@ public class SendingDocumentMessageTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat.Id,
-            document: new InputOnlineFile(content: stream, fileName: "HAMLET.pdf"),
+            document: new InputFileStream(content: stream, fileName: "HAMLET.pdf"),
             caption: "The Tragedy of Hamlet,\nPrince of Denmark"
         );
 
@@ -52,7 +51,7 @@ public class SendingDocumentMessageTests
         await using Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet);
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat.Id,
-            document: new InputOnlineFile(content: stream, fileName: "هملت.pdf"),
+            document: new InputFileStream(content: stream, fileName: "هملت.pdf"),
             caption: "تراژدی هملت\nشاهزاده دانمارک"
         );
 
@@ -77,18 +76,18 @@ public class SendingDocumentMessageTests
 
         Message message = await BotClient.SendDocumentAsync(
             chatId: _fixture.SupergroupChat,
-            document: new InputMedia(content: documentStream, fileName: "Hamlet.pdf"),
-            thumb: new InputMedia(content: thumbStream, fileName: "thumb.jpg")
+            document: new InputFileStream(content: documentStream, fileName: "Hamlet.pdf"),
+            thumbnail: new InputFileStream(content: thumbStream, fileName: "thumb.jpg")
         );
 
         Assert.NotNull(message.Document);
-        Assert.NotNull(message.Document.Thumb);
-        Assert.NotEmpty(message.Document.Thumb.FileId);
-        Assert.NotEmpty(message.Document.Thumb.FileUniqueId);
-        Assert.Equal(90, message.Document.Thumb.Height);
-        Assert.Equal(90, message.Document.Thumb.Width);
-        Assert.NotNull(message.Document.Thumb.FileSize);
-        Assert.InRange((int)message.Document.Thumb.FileSize, 11_000, 12_000);
+        Assert.NotNull(message.Document.Thumbnail);
+        Assert.NotEmpty(message.Document.Thumbnail.FileId);
+        Assert.NotEmpty(message.Document.Thumbnail.FileUniqueId);
+        Assert.Equal(90, message.Document.Thumbnail.Height);
+        Assert.Equal(90, message.Document.Thumbnail.Width);
+        Assert.NotNull(message.Document.Thumbnail.FileSize);
+        Assert.InRange((int)message.Document.Thumbnail.FileSize, 11_000, 12_000);
 
         Assert.Equal(MessageType.Document, message.Type);
         Assert.Equal("Hamlet.pdf", message.Document.FileName);

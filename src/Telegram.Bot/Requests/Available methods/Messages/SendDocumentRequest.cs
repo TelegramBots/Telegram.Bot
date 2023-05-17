@@ -1,12 +1,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
-using Telegram.Bot.Types.InputFiles;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -25,16 +21,22 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     public ChatId ChatId { get; }
 
     /// <summary>
-    /// File to send. Pass a <see cref="InputTelegramFile.FileId"/> as String to send a file that
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
+
+    /// <summary>
+    /// File to send. Pass a <see cref="InputFileId"/> as String to send a file that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputOnlineFile Document { get; }
+    public InputFile Document { get; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.Thumb"/>
+    /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public InputMedia? Thumb { get; set; }
+    public InputFile? Thumbnail { get; set; }
 
     /// <summary>
     /// Document caption (may also be used when resending documents by file_id), 0-1024 characters
@@ -84,11 +86,11 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="document">
-    /// File to send. Pass a <see cref="InputTelegramFile.FileId"/> as string to send a file that
+    /// File to send. Pass a <see cref="InputFileId"/> as string to send a file that
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
-    public SendDocumentRequest(ChatId chatId, InputOnlineFile document)
+    public SendDocumentRequest(ChatId chatId, InputFile document)
         : base("sendDocument")
     {
         ChatId = chatId;
@@ -96,37 +98,10 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     }
 
     /// <inheritdoc />
-    public override HttpContent? ToHttpContent()
-    {
-        HttpContent? httpContent;
-        if (Document.FileType == FileType.Stream || Thumb?.FileType == FileType.Stream)
-        {
-            var multipartContent = GenerateMultipartFormDataContent("document", "thumb");
-            if (Document.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Document.Content!,
-                    name: "document",
-                    fileName: Document.FileName
-                );
-            }
-
-            if (Thumb?.FileType == FileType.Stream)
-            {
-                multipartContent.AddStreamContent(
-                    content: Thumb.Content!,
-                    name: "thumb",
-                    fileName: Thumb.FileName
-                );
-            }
-
-            httpContent = multipartContent;
-        }
-        else
-        {
-            httpContent = base.ToHttpContent();
-        }
-
-        return httpContent;
-    }
+    public override HttpContent? ToHttpContent() =>
+        Document is InputFileStream || Thumbnail is InputFileStream
+            ? GenerateMultipartFormDataContent("document", "thumbnail")
+                .AddContentIfInputFile(media: Document, name: "document")
+                .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
+            : base.ToHttpContent();
 }

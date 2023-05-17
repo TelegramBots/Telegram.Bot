@@ -21,7 +21,346 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [Unreleased]
+## [v19.0.0-preview.4] - Unreleased
+
+> [Bot API 6.7](https://core.telegram.org/bots/api#april-21-2023) (April 21, 2023)
+
+> [Bot API 6.6](https://core.telegram.org/bots/api#march-9-2023) (March 9, 2023)
+
+### Added
+
+- Type `InlineQueryResultsButton`
+- Type `SwitchInlineQueryChosenChat`
+- Type `BotName`
+- Property `WebAppName` to the class `WriteAccessAllowed`
+- Property `SwitchInlineQueryChosenChat` to the class `InlineKeyboardButton`
+- Property `ViaChatFolderInviteLink` to the class `ChatMemberUpdated`
+- Static method `InlineKeyboardButton.WithSwitchInlineQueryChosenChat`
+- Requests related to bot's name:
+  - `SetMyNameRequest`
+  - `GetMyNameRequest`
+- Methods related to bot's name:
+  - `ITelegramBotClient.SetMyNameAsync`
+  - `ITelegramBotClient.GetMyNameAsync`
+- New requests related to description:
+  - `GetMyDescriptionRequest`
+  - `SetMyDescriptionRequest`
+- New requests related to short description:
+  - `GetMyShortDescriptionRequest`
+  - `SetMyShortDescriptionRequest`
+- New requests related to stickers:
+  - `DeleteStickerSetRequest`
+  - `SetCustomEmojiStickerSetThumbnailRequest`
+  - `SetStickerEmojiListRequest`
+  - `SetStickerKeywordsRequest`
+  - `SetStickerMaskPositionRequest`
+  - `SetStickerSetThumbnailRequest`
+  - `SetStickerSetTitleRequest`
+- New methods related to description:
+  - `ITelegramBotClient.SetMyDescriptionAsync`
+  - `ITelegramBotClient.GetMyDescriptionAsync`
+- New methods related to short description:
+  - `ITelegramBotClient.SetMyShortDescriptionAsync`
+  - `ITelegramBotClient.GetMyShortDescriptionAsync`
+- New methods related to stickers:
+  - `ITelegramBotClient.DeleteStickerSetAsync`
+  - `ITelegramBotClient.SetCustomEmojiStickerSetThumbnailAsync`
+  - `ITelegramBotClient.SetStickerEmojiListAsync`
+  - `ITelegramBotClient.SetStickerKeywordsAsync`
+  - `ITelegramBotClient.SetStickerMaskPositionAsync`
+  - `ITelegramBotClient.SetStickerSetThumbnailAsync`
+  - `ITelegramBotClient.SetStickerSetTitleAsync`
+- Enum `StickerFormat`
+- Type `BotDescription`
+- Type `BotShortDescription`
+- Type `InputSticker`
+- Added property `string? Emoji` to class `SendStickerRequest`
+- Added property `bool? NeedsRepainting` to the following classes:
+  - `CreateNewStickerSetRequest`
+  - `Sticker`
+- Added property `IEnumerable<InputSticker> Stickers` to class `CreateNewStickerSetRequest`
+- Added property `StickerFormat` to class `CreateNewStickerSetRequest`
+- Added property `InputSticker Stickers` to class `AddStickerToSetRequest`
+
+### Changed
+
+- Replace the parameters `switchPmText` and `switchPmParameter` of the method `AnswerInlineQueryAsync` with the parameter `button` of type `InlineQueryResultsButton`.
+- Replace the properties `SwitchPmText` and `SwitchPmParameter` of the class `AnswerInlineQueryRequest` with the property `Button` of type `InlineQueryResultsButton`.
+- Class `SetStickerSetThumbRequest` renamed to `SetStickerSetThumbnailRequest`
+- Class `CreateNewStickerSetRequest` is no longer abstract
+- Class `AddStickerToSetRequest` is no longer abstract
+- Method `ITelegramBotClient.SetStickerSetThumbAsync` renamed to `ITelegramBotClient.SetStickerSetThumbnailAsync`
+- Properties `PngSticker`, `TgsSticker`, `WebmSticker`, `Emojis`, `MaskPostion` 
+  in class `AddStickerToSetRequest` replaced with `Sticker` on Type `InputSticker`
+- Properties `PngSticker`, `TgsSticker`, `WebmSticker`, `Emojis`, `MaskPostion` 
+  in class `CreateNewStickerSetRequest` replaced with `Stickers` on Type `IEnumerable<InputSticker>`
+- Renamed property `Thumb` to `Thumbnail`  to the following Types:
+  - `Animation`
+  - `Audio`
+  - `Document`
+  - `Sticker`
+  - `Video`
+  - `VideoNote`
+  - `InputMediaAnimation`
+  - `InputMediaAudio`
+  - `InputMediaDocument`
+  - `InputMediaVideo`
+  - `StickerSet`
+- Renamed property `Thumb` to `Thumbnail` in the following classes:
+  - `SendAnimationRequest`
+  - `SendAudioRequest`
+  - `SendDocumentRequest`
+  - `SendVideoRequest`
+  - `SendVideoNoteRequest`
+- Renamed properties `ThumbUrl`, `ThumbWidth`, `ThumbHeight` to 
+  `ThumbnailUrl`, `ThumbnailWidth`, `ThumbnailHeight` in the following Types:
+  - `InlineQueryResultArticle`
+  - `InlineQueryResultContact`
+  - `InlineQueryResultDocument`
+  - `InlineQueryResultLocation`
+  - `InlineQueryResultVenue`
+- Renamed property `ThumbUrl` to `ThumbnailUrl` in the following Types:
+  - `InlineQueryResultPhoto`
+  - `InlineQueryResultVideo`
+- Renamed properties `ThumbUrl`, `ThumbMimeType` to `ThumbnailUrl`, `ThumbnailMimeType` in the following Types:
+  - `InlineQueryResultGif`
+  - `InlineQueryResultMpeg4Gif`
+- Type of property `Sticker` changed from `string` to `InputFileId` in the following classes:
+  - `SetStickerPositionInSetRequest`
+  - `DeleteStickerFromSetRequest`
+
+### Fixed
+
+- Stickers tests
+
+### Removed
+- Class `AddAnimatedStickerToSetRequest`
+- Class `AddStaticStickerToSetRequest`
+- Class `AddVideoStickerToSetRequest`
+- Class `CreateNewAnimatedStickerSetRequest`
+- Class `CreateNewStaticStickerSetRequest`
+- Class `CreateNewVideoStickerSetRequest`
+- Method `ITelegramBotClient.AddAnimatedStickerToSetAsync`
+- Method `ITelegramBotClient.AddStaticStickerToSetAsync`
+- Method `ITelegramBotClient.AddVideoStickerToSetAsync`
+- Method `ITelegramBotClient.CreateNewAnimatedStickerSetAsync`
+- Method `ITelegramBotClient.CreateNewStaticStickerSetAsync`
+- Method `ITelegramBotClient.CreateNewVideoStickerSetAsync`
+- Properties `Emojis`, `MaskPostion` in classes `CreateNewStickerSetRequest`, `AddStickerToSetRequest`
+
+## [v19.0.0-preview.3] - Unreleased
+
+> [Bot API 6.5](https://core.telegram.org/bots/api#february-3-2023) (February 3, 2023)
+
+### Added
+
+- Types `KeyboardButtonRequestUser` and `KeyboardButtonRequestChat`
+- Properties `RequestUser` and `RequestChat` to the type `KeyboardButton`
+- Static methods `KeyboardButton.WithRequestUser` and `KeyboardButton.WithRequestChat`
+- Types `UserShared` and `ChatShared`
+- Properties `UserShared` and `ChatShared` to the type `Message`
+- Members `UserShared` and `ChatShared` to the enum `MessageType`
+- Following properties to the types `ChatMemberRestricted` and `ChatPermissions`:
+  - `CanSendAudios`
+  - `CanSendDocuments`
+  - `CanSendPhotos`
+  - `CanSendVideos`
+  - `CanSendVideoNotes`
+  - `CanSendVoiceNotes`
+- Property `UseIndependentChatPermissions` to the types `RestrictChatMemberRequest` and `SetChatPermissionsRequest`
+- Optional parameter `useIndependentChatPermissions` to the methods `ITelegramBotClient.RestrictChatMemberAsync` and `ITelegramBotClient.SetChatPermissionsAsync`
+- Property `UserChatId` to the type `ChatJoinRequest`
+
+### Removed
+
+- Properties `CanSendMediaMessages` from the types `ChatMemberRestricted` and `ChatPermissions`
+- Obsolete types `GetChatMembersCountRequest`, `KickChatMemberRequest`, `VoiceChatEnded`, `VoiceChatParticipantsInvited`,
+`VoiceChatScheduled`, `VoiceChatStarted`.
+- Obsolete methods `ITelegramBotClient.KickChatMemberAsync`, `ITelegramBotClient.GetChatMembersCountAsync`.
+- Obsolete properties `CanManageVoiceChat` from `PromoteChatMemberRequest`, `CanManageVoiceChats` from `ChatMember`. 
+
+## [v19.0.0-preview.2] - 2023-01-02
+
+> [Bot API 6.4](https://core.telegram.org/bots/api#december-30-2022) (December 30, 2022)
+
+### Added
+
+- New requests related to topics:
+  - `CloseGeneralForumTopicRequest`
+  - `EditGeneralForumTopicRequest`
+  - `ReopenGeneralForumTopicRequest`
+  - `HideGeneralForumTopicRequest`
+  - `UnhideGeneralForumTopicRequest`
+- New methods related to topics:
+  - `ITelegramBotClient.CloseGeneralForumTopicAsync`
+  - `ITelegramBotClient.EditGeneralForumTopicAsync`
+  - `ITelegramBotClient.ReopenGeneralForumTopicAsync`
+  - `ITelegramBotClient.HideGeneralForumTopicAsync`
+  - `ITelegramBotClient.UnhideGeneralForumTopicAsync`
+- Following properties to type `Chat`:
+  - `bool? IsForum`
+  - `string[]? ActiveUsernames`
+- Optional property `HasSpoiler`
+- Added property `bool? HasSpoiler` to the following classes:
+  - `SendAnimationRequest`
+  - `SendVideoRequest`
+  - `SendPhotoRequest`
+  - `InputMediaAnimation`
+  - `InputMediaPhoto`
+  - `InputMediaVideo`
+- Added following properties to class `Message`:
+  - `HasMediaSpoiler`
+  - `WriteAccessAllowed`
+  - `ForumTopicEdited`
+  - `GeneralForumTopicHidden`
+  - `GeneralForumTopicUnhidden`
+- Property `IsPersistent` to class `ReplyKeyboardMarkup`
+- Types `ForumTopicEdited`, `GeneralForumTopicHidden`, `GeneralForumTopicUnhidden`, `WriteAccessAllowed`
+- Property `int? MessageThreadId` to class `SendChatActionRequest`
+- Properties `HasAggressiveAntiSpamEnabled` and `HasHiddenMembers` to class `Chat`
+- Enum members `ForumTopicEdited`, `GeneralForumTopicHidden`, `GeneralForumTopicUnhidden`, `WriteAccessAllowed` to enum `MessageType`,
+
+### Changed
+- Properties `EditForumTopicRequest.Name` and `EditForumTopicRequest.IconCustomEmojiId` are made nullable
+- Added setters to properties `EditForumTopicRequest.Name` and `EditForumTopicRequest.IconCustomEmojiId`
+- Parameters `name` and `iconCustomEmojiId` and ctor of `EditForumTopicRequest` are made nullable and optional
+- Added optional parameter `bool? hasSpoiler` to the following methods
+  - `ITelegramBotClient.SendAnimationAsync`
+  - `ITelegramBotClient.SendVideoAsync`
+  - `ITelegramBotClient.SendPhotoAsync`
+- Added optional parameter `int? messageThreadId` to method `ITelegramBotClient.SendAnimationRequest`
+- Parameters `name` and `iconCustomEmojiId` in method `ITelegramBotClient.EditForumTopicAsync` are made nullable and optional
+
+## [v19.0.0-preview.1] - 2022-12-03
+
+> [Bot API 6.1](https://core.telegram.org/bots/api#june-20-2022) (June 20, 2022)
+
+> [Bot API 6.2](https://core.telegram.org/bots/api#august-12-2022) (August 12, 2022)
+
+> [Bot API 6.3](https://core.telegram.org/bots/api#november-5-2022) (November 5, 2022)
+
+### Added
+
+- .NET 6 to targeted frameworks
+- Following topic releated types:
+  - `Color` to represent color of topics
+  - `ForumTopic`
+  - `ForumTopicClosed`
+  - `ForumTopicCreated`
+  - `ForumTopicReopened`
+- New requests for managing topics:
+  - `CloseForumTopicRequest`
+  - `CreateForumTopicRequest`
+  - `DeleteForumTopicRequest`
+  - `EditForumTopicRequest`
+  - `ReopenForumTopicRequest`
+  - `UnpinAllForumTopicMessagesRequest`
+- Property `MessageThreadId` to following requests
+  - `SendMessageRequest`
+  - `SendPhotoRequest` 
+  - `SendVideoRequest` 
+  - `SendAnimationRequest`
+  - `SendAudioRequest`
+  - `SendDocumentRequest`
+  - `SendStickerRequest`
+  - `SendVideoNoteRequest`
+  - `SendVoiceRequest`
+  - `SendLocationRequest`
+  - `SendVenueRequest`
+  - `SendContactRequest`
+  - `SendPollRequest`
+  - `SendDiceRequest`
+  - `SendInvoiceRequest`
+  - `SendGameRequest`
+  - `SendMediaGroupRequest`
+  - `CopyMessageRequest`
+  - `ForwardMessageRequest`
+- Following properties to type `Chat`:
+  - `bool? IsForum`
+  - `string[]? ActiveUsernames`
+  - `string? EmojiStatusCustomEmojiId`
+  - `bool? HasRestrictedVoiceAndVideoMessages`
+- Property `bool? CanManageTopics` to following types:
+  - `ChatAdministratorRights`
+  - `ChatPermissions`
+  - `ChatMemberOwner`
+  - `ChatMemberRestricted`
+  - `PromoteChatMemberRequest`
+- Following enum members to `MessageType`:
+  - `ForumTopicCreated`
+  - `ForumTopicClosed`
+  - `ForumTopicReopened`
+  - `Animation`
+- Following properties to type `Message`:
+  - `int? MessageThreadId`
+  - `bool? IsTopicMessage`
+  - `ForumTopicCreated? ForumTopicCreated`
+  - `ForumTopicClosed? ForumTopicClosed`
+  - `ForumTopicClosed? ForumTopicClosed`
+- Enum member `CustomEmoji` to `MessageEntityType`
+- Property `CustomEmojiId`  to `MessageEntity`
+- Extension method `GetCustomEmojiStickersAsync`
+- Request `GetCustomEmojiStickersRequest`
+- Enum `StickerType`
+- Properties `Type` and `CustomEmojiId` to `Sticker`
+- Property `StickerType` to `StickerSet`
+- Property `StickerType` to `CreateNewStickerSetRequest`
+- Parameter `stickerType` to `CreateNew*StickerSetAsync` extension methods
+- Property `HasRestrictedVoiceAndVideoMessages` to `Chat`
+- Properties `JoinToSendMessages`, `JoinByRequest` to `Chat`
+- Properties `IsPremium`, `AddedToAttachmentMenu` to `User`
+- Property `PremiumAnimation` to `Sticker`
+- Property `SecretToken` to `SetWebhookRequest`
+- Parameter `secretToken` to `SetWebhookAsync`
+- Request `CreateInvoiceLinkRequest`
+- Method `CreateInvoiceLinkAsync`
+
+### Changed
+
+- Constructors in following requests accept `IInputFile` or inheritors instead of
+  - `AddAnimatedStickerToSetRequest`
+  - `AddStaticStickerToSetRequest`
+  - `AddVideoStickerToSetRequest`
+  - `CreateNewAnimatedStickerSetRequest`
+  - `CreateNewStaticStickerSetRequest`
+  - `CreateNewVideoStickerSetRequest`
+- Added optional parameter `int? messageThreadId` to following methods:
+  - `ITelegramBotClient.SendTextMessageAsync`
+  - `ITelegramBotClient.SendPhotoAsync`
+  - `ITelegramBotClient.SendVideoAsync`
+  - `ITelegramBotClient.SendAnimationAsync`
+  - `ITelegramBotClient.SendAudioAsync`
+  - `ITelegramBotClient.SendDocumentAsync`
+  - `ITelegramBotClient.SendStickerAsync`
+  - `ITelegramBotClient.SendVideoNoteAsync`
+  - `ITelegramBotClient.SendVoiceAsync`
+  - `ITelegramBotClient.SendLocationAsync`
+  - `ITelegramBotClient.SendVenueAsync`
+  - `ITelegramBotClient.SendContactAsync`
+  - `ITelegramBotClient.SendPollAsync`
+  - `ITelegramBotClient.SendDiceAsync`
+  - `ITelegramBotClient.SendInvoiceAsync`
+  - `ITelegramBotClient.SendGameAsync`
+  - `ITelegramBotClient.SendMediaGroupAsync`
+  - `ITelegramBotClient.CopyMessageAsync`
+  - `ITelegramBotClient.ForwardMessageAsync`
+- Added optional parameter `bool? canManageTopic` to method `ITelegramBotClient.PromoteChatMemberAsync`
+
+### Fixed
+
+- Property 'Message.Type' returns `MessageType.Animation` when a `message` contains `Animation` 
+
+### Removed
+
+- Implicit conversion from `ChatId` to `string`
+- .NET Core 3.1 from targeted frameworks
+- Property `ContainsMasks` from `StickerSet`
+- Property `ContainsMasks` from `CreateNewStickerSetRequest`
+- Parameter `containsMasks` from `CreateNew*StickerSetAsync` extension methods
+
+## [v18.0.0] - 2022-06-16
+
+> [Bot API 6.0](https://core.telegram.org/bots/api#april-16-2022) (April 16, 2022)
 
 ### Added
 
@@ -45,11 +384,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Renamed properties `ChatMemberAdministrator.CanManageVoiceChats`, `PromoteChatMemberRequest.CanManageVoiceChats` to 
   `ChatMemberAdministrator.CanManageVideoChats ` and `PromoteChatMemberRequest.CanManageVideoChats`
 - Removed `baseUrl` parameter from constructor in `TelegramBotClient` that accepts a token
+- Type of property `FileBase.FileSize` changed from `int?` to `long?`
 
 ### Fixed
 - Argument `protectContent` in method `TelegramBotClientExtensions.ForwardMessageAsync` is passed to the
   corresponding request
-- 
+
 ### Removed
 - Enum members `VoiceChatScheduled`, `VoiceChatStarted`, `VoiceChatEnded`, and `VoiceChatParticipantsInvited`
   in type `MessageType`

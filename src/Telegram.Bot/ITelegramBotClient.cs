@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace Telegram.Bot;
 public interface ITelegramBotClient
 {
     /// <summary>
-    ///
+    /// <see langword="true"/> when the bot is using local Bot API server
     /// </summary>
     bool LocalBotServer { get; }
 
@@ -66,7 +65,7 @@ public interface ITelegramBotClient
     /// Test the API token
     /// </summary>
     /// <param name="cancellationToken"></param>
-    /// <returns><c>true</c> if token is valid</returns>
+    /// <returns><see langword="true"/> if token is valid</returns>
     Task<bool> TestApiAsync(CancellationToken cancellationToken = default);
 
     /// <summary>

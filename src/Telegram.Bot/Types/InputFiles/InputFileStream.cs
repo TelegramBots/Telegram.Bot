@@ -1,57 +1,34 @@
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using Telegram.Bot.Converters;
 using Telegram.Bot.Types.Enums;
 
-namespace Telegram.Bot.Types.InputFiles;
+// ReSharper disable once CheckNamespace
+namespace Telegram.Bot.Types;
 
 /// <summary>
-/// Used for sending files to Telegram
+/// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in
+/// the usual way that files are uploaded via the browser
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-[JsonConverter(typeof(InputFileConverter))]
-public class InputFileStream : IInputFile
+public class InputFileStream : InputFile
 {
-    /// <inheritdoc />
-    public FileType FileType { get; }
+    /// <inheritdoc/>
+    public override FileType FileType => FileType.Stream;
 
     /// <summary>
     /// File content to upload
     /// </summary>
-    public Stream? Content { get; }
+    public Stream Content { get; }
 
     /// <summary>
     /// Name of a file to upload using multipart/form-data
     /// </summary>
-    public string? FileName { get; set; }
+    public string? FileName { get; }
 
     /// <summary>
-    /// Constructs an <see cref="InputFileStream"/> with a given <see cref="FileType"/>
+    /// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data
+    /// in the usual way that files are uploaded via the browser.
     /// </summary>
-    protected InputFileStream(FileType fileType)
-    {
-        FileType = fileType;
-    }
-
-    /// <summary>
-    /// Constructs an <see cref="InputFileStream"/> from a <see cref="Stream"/> and a file name
-    /// </summary>
-    /// <param name="content">A <see cref="Stream"/> containing a file to send</param>
-    /// <param name="fileName">A name of the file</param>
-    public InputFileStream(Stream content, string? fileName = default)
-    {
-        Content = content;
-        FileName = fileName;
-        FileType = FileType.Stream;
-    }
-
-    /// <summary>
-    /// Constructs an <see cref="InputFileStream"/> from a <see cref="Stream"/>
-    /// </summary>
-    /// <param name="stream">A <see cref="Stream"/> containing a file to send</param>
-    [return: NotNullIfNotNull("stream")]
-    public static implicit operator InputFileStream?(Stream? stream) =>
-        stream is null ? default : new InputFileStream(stream);
+    /// <param name="content">File content to upload</param>
+    /// <param name="fileName">Name of a file to upload using multipart/form-data</param>
+    public InputFileStream(Stream content, string? fileName = default) =>
+        (Content, FileName) = (content, fileName);
 }

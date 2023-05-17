@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -8,7 +6,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to edit live location messages. A location can be edited until its
 /// <see cref="Types.Location.LivePeriod"/> expires or editing is explicitly disabled by a call to
-/// <see cref="StopInlineMessageLiveLocationRequest"/>. On success True is returned.
+/// <see cref="StopInlineMessageLiveLocationRequest"/>. On success <see langword="true"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EditInlineMessageLiveLocationRequest : RequestBase<bool>

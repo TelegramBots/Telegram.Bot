@@ -20,9 +20,9 @@ public class ReplyMarkupSerializationTests
 
         string formattedType = string.IsNullOrEmpty(type)
             ? "{}"
-            : string.Format(@"{{""type"":""{0}""}}", type);
+            : $@"{{""type"":""{type}""}}";
 
-        string expectedString = string.Format(@"""request_poll"":{0}", formattedType);
+        string expectedString = $@"""request_poll"":{formattedType}";
 
         Assert.Contains(expectedString, serializedReplyMarkup);
     }

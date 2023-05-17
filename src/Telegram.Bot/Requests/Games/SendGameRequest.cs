@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -21,6 +18,12 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Short name of the game, serves as the unique identifier for the game. Set up your games

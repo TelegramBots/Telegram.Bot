@@ -41,7 +41,7 @@ public class FileDownloadTests : IClassFixture<FileDownloadTests.Fixture>
         {
             documentMessage = await BotClient.SendDocumentAsync(
                 chatId: _fixture.SupergroupChat,
-                document: stream
+                document: new InputFileStream(stream)
             );
         }
 
@@ -63,7 +63,7 @@ public class FileDownloadTests : IClassFixture<FileDownloadTests.Fixture>
     [OrderedFact("Should download file using file_path and write it to disk")]
     public async Task Should_Download_Write_Using_FilePath()
     {
-        int? fileSize = _classFixture.File.FileSize;
+        long? fileSize = _classFixture.File.FileSize;
 
         string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
         _output.WriteLine($@"Writing file to ""{destinationFilePath}""");
@@ -81,7 +81,7 @@ public class FileDownloadTests : IClassFixture<FileDownloadTests.Fixture>
     [OrderedFact("Should download file using file_id and write it to disk")]
     public async Task Should_Download_Write_Using_FileId()
     {
-        int? fileSize = _classFixture.File.FileSize;
+        long? fileSize = _classFixture.File.FileSize;
 
         string destinationFilePath = $"{Path.GetTempFileName()}.{Fixture.FileType}";
         _output.WriteLine($@"Writing file to ""{destinationFilePath}""");

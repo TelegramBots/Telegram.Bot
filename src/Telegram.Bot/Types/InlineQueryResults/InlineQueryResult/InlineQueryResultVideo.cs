@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -40,7 +38,7 @@ public class InlineQueryResultVideo : InlineQueryResult
     /// URL of the thumbnail (jpeg only) for the video
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string ThumbUrl { get; }
+    public string ThumbnailUrl { get; }
 
     /// <summary>
     /// Title for the result
@@ -97,7 +95,7 @@ public class InlineQueryResultVideo : InlineQueryResult
     /// </summary>
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="videoUrl">A valid URL for the embedded video player</param>
-    /// <param name="thumbUrl">Url of the thumbnail for the result</param>
+    /// <param name="thumbnailUrl">Url of the thumbnail for the result</param>
     /// <param name="title">Title of the result</param>
     /// <param name="inputMessageContent">
     /// Content of the message to be sent instead of the video. This field is <b>required</b> if
@@ -107,13 +105,13 @@ public class InlineQueryResultVideo : InlineQueryResult
     public InlineQueryResultVideo(
         string id,
         string videoUrl,
-        string thumbUrl,
+        string thumbnailUrl,
         string title,
         InputMessageContent? inputMessageContent = default) : base(id)
     {
         VideoUrl = videoUrl;
         MimeType = inputMessageContent is null ? "video/mp4" : "text/html";
-        ThumbUrl = thumbUrl;
+        ThumbnailUrl = thumbnailUrl;
         Title = title;
         InputMessageContent = inputMessageContent;
     }

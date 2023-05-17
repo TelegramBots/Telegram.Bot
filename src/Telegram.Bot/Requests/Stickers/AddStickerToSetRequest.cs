@@ -1,17 +1,27 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
-/// Use this request to add a new sticker to a set created by the bot. Static sticker sets
-/// can have up to 120 stickers. Returns <c>true</c> on success.
+/// Use this method to add a new sticker to a set created by the bot.
+/// The format of the added sticker must match the format of the other stickers in the set.
+/// <list type="bullet">
+/// <item>
+/// Emoji sticker sets can have up to 200 stickers.
+/// </item>
+/// <item>
+/// Animated and video sticker sets can have up to 50 stickers.
+/// </item>
+/// <item>
+/// Static sticker sets can have up to 120 stickers.
+/// </item>
+/// </list>
+/// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public abstract class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
+public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
@@ -24,31 +34,42 @@ public abstract class AddStickerToSetRequest : FileRequestBase<bool>, IUserTarge
     public string Name { get; }
 
     /// <summary>
-    /// One or more emoji corresponding to the sticker
+    /// A JSON-serialized object with information about the added sticker.
+    /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Emojis { get; }
+    public InputSticker Sticker { get; }
 
     /// <summary>
-    /// An object for position where the mask should be placed on faces
+    /// Initializes a new request with userId, name and sticker
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public MaskPosition? MaskPosition { get; set; }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="userId">User identifier</param>
-    /// <param name="name">Sticker set name</param>
-    /// <param name="emojis">One or more emoji corresponding to the sticker</param>
-    protected AddStickerToSetRequest(
-        long userId, 
-        string name, 
-        string emojis)
+    /// <param name="userId">
+    /// User identifier
+    /// </param>
+    /// <param name="name">
+    /// Sticker set name
+    /// </param>
+    /// <param name="sticker">
+    /// A JSON-serialized object with information about the added sticker.
+    /// If exactly the same sticker had already been added to the set, then the set isn't changed.
+    /// </param>
+    public AddStickerToSetRequest(
+        long userId,
+        string name,
+        InputSticker sticker)
         : base("addStickerToSet")
     {
         UserId = userId;
         Name = name;
-        Emojis = emojis;
+        Sticker = sticker;
     }
+
+    /// <inheritdoc />
+    public override HttpContent? ToHttpContent()
+        =>
+        Sticker.Sticker switch
+        {
+            InputFileStream sticker => ToMultipartFormDataContent(fileParameterName: sticker.FileName!, inputFile: sticker),
+            _                       => base.ToHttpContent()
+        };
 }

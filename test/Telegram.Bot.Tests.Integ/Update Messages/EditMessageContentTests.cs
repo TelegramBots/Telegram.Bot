@@ -163,7 +163,7 @@ public class EditMessageContentTests
             new InlineQueryResultPhoto(
                 id: "photo1",
                 photoUrl: url,
-                thumbUrl: url)
+                thumbnailUrl: url)
             {
                 Caption = "Message caption will be updated shortly",
                 ReplyMarkup = replyMarkup

@@ -1,6 +1,3 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types;
 
 /// <summary>
@@ -10,7 +7,7 @@ namespace Telegram.Bot.Types;
 public class VideoChatEnded
 {
     /// <summary>
-    /// Video chat duration; in seconds
+    /// Video chat duration in seconds
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public int Duration { get; set; }

@@ -1,5 +1,4 @@
-﻿#if NETCOREAPP3_1_OR_GREATER
-using System;
+﻿#if NET6_0_OR_GREATER
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -7,7 +6,6 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Requests;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -18,7 +16,9 @@ namespace Telegram.Bot.Polling;
 /// <para>Updates are received on a different thread and enqueued.</para>
 /// </summary>
 [PublicAPI]
+#pragma warning disable CA1001
 public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
+#pragma warning restore CA1001
 {
     readonly ITelegramBotClient _botClient;
     readonly ReceiverOptions? _receiverOptions;
@@ -58,7 +58,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     /// </param>
     public IAsyncEnumerator<Update> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
-        if (Interlocked.CompareExchange(ref _inProcess, 1, 0) == 1)
+        if (Interlocked.CompareExchange(ref _inProcess, 1, 0) is 1)
         {
             throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
         }

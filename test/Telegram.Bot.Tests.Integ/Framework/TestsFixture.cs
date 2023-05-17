@@ -53,15 +53,15 @@ public class TestsFixture : IDisposable
             var passed = RunSummary.Total - RunSummary.Skipped - RunSummary.Failed;
 
             await BotClient.SendTextMessageAsync(
-                SupergroupChat.Id,
-                string.Format(
+                chatId: SupergroupChat.Id,
+                text: string.Format(
                     Constants.TestExecutionResultMessageFormat,
                     RunSummary.Total,
                     passed,
                     RunSummary.Skipped,
                     RunSummary.Failed
                 ),
-                ParseMode.Markdown,
+                parseMode: ParseMode.Markdown,
                 cancellationToken: token
             );
         }).GetAwaiter().GetResult();
@@ -81,9 +81,9 @@ public class TestsFixture : IDisposable
 
         return await Ex.WithCancellation(async token =>
             await BotClient.SendTextMessageAsync(
-                chatId,
-                text,
-                ParseMode.Markdown,
+                chatId: chatId,
+                text: text,
+                parseMode: ParseMode.Markdown,
                 replyMarkup: replyMarkup,
                 cancellationToken: token
             )
@@ -138,10 +138,15 @@ public class TestsFixture : IDisposable
 
     public async Task<Chat> GetChatFromAdminAsync()
     {
-        static bool IsMatch(Update u) =>
-            u.Message?.Type == MessageType.Contact ||
-            u.Message?.ForwardFrom?.Id is not null ||
-            u.Message?.NewChatMembers?.Length > 0;
+        static bool IsMatch(Update u) => u is
+        {
+            Message:
+            {
+                Type: MessageType.Contact,
+                ForwardFrom: not null,
+                NewChatMembers.Length: > 0,
+            }
+        };
 
         var update = await UpdateReceiver.GetUpdateAsync(IsMatch, updateTypes: UpdateType.Message);
 
@@ -150,7 +155,7 @@ public class TestsFixture : IDisposable
         var userId = update.Message switch
         {
             { Contact.UserId: {} id } => id,
-            { ForwardFrom.Id: {} id } => id,
+            { ForwardFrom.Id: var id } => id,
             { NewChatMembers: { Length: 1 } members } => members[0].Id,
             _ => throw new InvalidOperationException()
         };
@@ -188,11 +193,17 @@ public class TestsFixture : IDisposable
         UpdateReceiver = new(BotClient, allowedUserNames);
 
         await Ex.WithCancellation(async token => await BotClient.SendTextMessageAsync(
-            SupergroupChat.Id,
-            "```\nTest execution is starting...\n```\n" +
-            "#testers\n" +
-            "These users are allowed to interact with the bot:\n\n" + UpdateReceiver.GetTesters(),
-            ParseMode.Markdown,
+            chatId: SupergroupChat.Id,
+            text: $"""
+                  ```
+                  Test execution is starting...
+                  ```
+                  #testers
+                  These users are allowed to interact with the bot:
+
+                  {UpdateReceiver.GetTesters()}
+                  """,
+            parseMode: ParseMode.Markdown,
             disableNotification: true,
             cancellationToken: token
         ));
@@ -328,10 +339,12 @@ public class TestsFixture : IDisposable
         public const string InstructionsMessageFormat = "👉 _Instructions_: 👈\n{0}";
 
         public const string TestExecutionResultMessageFormat =
-            "```\nTest execution is finished.\n```" +
-            "Total: {0} tests\n" +
-            "✅ `{1} passed`\n" +
-            "⚠ `{2} skipped`\n" +
-            "❎ `{3} failed`";
+            """
+            Test execution is finished.
+            Total: {0} tests
+            ✅ `{1} passed`
+            ⚠ `{2} skipped`
+            ❎ `{3} failed`
+            """;
     }
 }

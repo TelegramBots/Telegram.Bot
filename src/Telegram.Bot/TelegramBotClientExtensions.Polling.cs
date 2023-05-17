@@ -1,7 +1,5 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Telegram.Bot.Types;
 using JetBrains.Annotations;
 using Telegram.Bot.Polling;
 

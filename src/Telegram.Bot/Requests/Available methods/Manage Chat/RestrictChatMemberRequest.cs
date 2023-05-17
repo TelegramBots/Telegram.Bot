@@ -1,17 +1,13 @@
-using System;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to restrict a user in a supergroup. The bot must be an administrator in the
-/// supergroup for this to work and must have the appropriate admin rights. Pass <c>true</c>
-/// for all permissions to lift restrictions from a user. Returns <c>true</c> on success.
+/// supergroup for this to work and must have the appropriate admin rights. Pass <see langword="true"/>
+/// for all permissions to lift restrictions from a user. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
@@ -29,6 +25,19 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public ChatPermissions Permissions { get; }
+
+    /// <summary>
+    /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
+    /// <see cref="ChatPermissions.CanSendOtherMessages"/>, and <see cref="ChatPermissions.CanAddWebPagePreviews"/>
+    /// permissions will imply the <see cref="ChatPermissions.CanSendMessages"/>,
+    /// <see cref="ChatPermissions.CanSendAudios"/>, <see cref="ChatPermissions.CanSendDocuments"/>,
+    /// <see cref="ChatPermissions.CanSendPhotos"/>, <see cref="ChatPermissions.CanSendVideos"/>,
+    /// <see cref="ChatPermissions.CanSendVideoNotes"/>, and <see cref="ChatPermissions.CanSendVoiceNotes"/>
+    /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
+    /// <see cref="ChatPermissions.CanSendMessages"/> permission.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? UseIndependentChatPermissions { get; set; }
 
     /// <summary>
     /// Date when restrictions will be lifted for the user, unix time. If user is restricted for

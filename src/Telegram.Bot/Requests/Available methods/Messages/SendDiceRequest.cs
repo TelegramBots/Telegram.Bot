@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -20,6 +17,12 @@ public class SendDiceRequest : RequestBase<Message>, IChatTargetable
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public ChatId ChatId { get; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Emoji on which the dice throw animation is based. Defaults to <see cref="EmojiEnum.Dice"/>

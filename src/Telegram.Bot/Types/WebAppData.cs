@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// Contains data sent from a <a href="https://core.telegram.org/bots/webapps"></a>Web App to the bot.

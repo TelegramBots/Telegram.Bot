@@ -26,8 +26,11 @@ public class UpdateTypeConverterTests
     [InlineData(UpdateType.ChatJoinRequest, "chat_join_request")]
     public void Should_Convert_UpdateType_To_String(UpdateType updateType, string value)
     {
-        Update update = new Update() { Type = updateType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        Update update = new(updateType);
+        string expectedResult =
+            $$"""
+            {"type":"{{value}}"}
+            """;
 
         string result = JsonConvert.SerializeObject(update);
 
@@ -38,36 +41,40 @@ public class UpdateTypeConverterTests
     [InlineData(UpdateType.Unknown, "unknown")]
     public void Should_Convert_String_To_UpdateType(UpdateType updateType, string value)
     {
-        Update expectedResult = new Update() { Type = updateType };
-        string jsonData = @$"{{""type"":""{value}""}}";
+        Update expectedResult = new(updateType);
+        string jsonData =
+            $$"""
+            {"type":"{{value}}"}
+            """;
 
-        Update result = JsonConvert.DeserializeObject<Update>(jsonData);
+        Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
     [Fact]
     public void Should_Return_Unknown_For_Incorrect_UpdateType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
+        string jsonData =
+            $$"""
+            {"type":"{{int.MaxValue}}"}
+            """;
 
-        Update result = JsonConvert.DeserializeObject<Update>(jsonData);
+        Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(UpdateType.Unknown, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_UpdateType()
     {
-        Update update = new Update() { Type = (UpdateType)int.MaxValue };
+        Update update = new((UpdateType)int.MaxValue);
 
         Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(update));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    class Update
-    {
-        [JsonProperty(Required = Required.Always)]
-        public UpdateType Type { get; init; }
-    }
+    record Update([property: JsonProperty(Required = Required.Always)] UpdateType Type);
 }

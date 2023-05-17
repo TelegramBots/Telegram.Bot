@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
@@ -29,14 +26,28 @@ public class KeyboardButton : IKeyboardButton
     public string Text { get; set; }
 
     /// <summary>
-    /// Optional. If <c>true</c>, the user's phone number will be sent as a contact when the button is pressed.
-    /// Available in private chats only
+    /// Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send
+    /// their identifier to the bot in a “user_shared” service message. Available in private chats only.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public KeyboardButtonRequestUser? RequestUser { get; set; }
+
+    /// <summary>
+    /// Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
+    /// its identifier to the bot in a “chat_shared” service message. Available in private chats only.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public KeyboardButtonRequestChat? RequestChat { get; set; }
+
+    /// <summary>
+    /// Optional. If <see langword="true"/>, the user's phone number will be sent as a contact when the button
+    /// is pressed. Available in private chats only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? RequestContact { get; set; }
 
     /// <summary>
-    /// Optional. If <c>true</c>, the user's current location will be sent when the button is pressed.
+    /// Optional. If <see langword="true"/>, the user's current location will be sent when the button is pressed.
     /// Available in private chats only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -61,10 +72,7 @@ public class KeyboardButton : IKeyboardButton
     /// </summary>
     /// <param name="text">Label text on the button</param>
     [JsonConstructor]
-    public KeyboardButton(string text)
-    {
-        Text = text;
-    }
+    public KeyboardButton(string text) => Text = text;
 
     /// <summary>
     /// Generate a keyboard button to request for contact
@@ -99,6 +107,24 @@ public class KeyboardButton : IKeyboardButton
     /// <returns></returns>
     public static KeyboardButton WithWebApp(string text, WebAppInfo webAppInfo) =>
         new(text) { WebApp = webAppInfo };
+
+    /// <summary>
+    /// Generate a keyboard button to request user info
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestUser">Criteria used to request a suitable user</param>
+    /// <returns></returns>
+    public static KeyboardButton WithRequestUser(string text, KeyboardButtonRequestUser requestUser) =>
+        new(text) { RequestUser = requestUser };
+
+    /// <summary>
+    /// Generate a keyboard button to request chat info
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestChat">Criteria used to request a suitable chat</param>
+    /// <returns></returns>
+    public static KeyboardButton WithRequestChat(string text, KeyboardButtonRequestChat requestChat) =>
+        new(text) { RequestChat = requestChat };
 
     /// <summary>
     /// Generate a keyboard button from text

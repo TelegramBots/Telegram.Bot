@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types;
 
 /// <summary>
@@ -16,7 +13,6 @@ namespace Telegram.Bot.Types;
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class LoginUrl
 {
-
     /// <summary>
     /// An HTTP URL to be opened with user authorization data added to the query string when the button is pressed.
     /// If the user refuses to provide authorization data, the original URL without information about the user will
@@ -51,7 +47,7 @@ public class LoginUrl
     public string? BotUsername { get; set; }
 
     /// <summary>
-    /// Optional. Pass True to request the permission for your bot to send messages to the user
+    /// Optional. Pass <see langword="true"/> to request the permission for your bot to send messages to the user
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? RequestWriteAccess { get; set; }

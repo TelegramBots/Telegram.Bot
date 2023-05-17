@@ -18,15 +18,20 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		CHANGELOG.md = CHANGELOG.md
 		CONTRIBUTING.md = CONTRIBUTING.md
+		global.json = global.json
 		README.md = README.md
+		THIRD_PARTY_NOTICES = THIRD_PARTY_NOTICES
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		.gitpod.yml = .gitpod.yml
+		LICENSE = LICENSE
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".azure-pipelines", ".azure-pipelines", "{71662597-40F2-4192-AC4D-5FB9A1F12642}"
 	ProjectSection(SolutionItems) = preProject
 		.azure-pipelines\ci.yml = .azure-pipelines\ci.yml
-		.azure-pipelines\default-pipeline.yml = .azure-pipelines\default-pipeline.yml
-		.azure-pipelines\develop-pipeline.yml = .azure-pipelines\develop-pipeline.yml
-		.azure-pipelines\manual-pipeline.yml = .azure-pipelines\manual-pipeline.yml
+		.azure-pipelines\full-integration-tests.yml = .azure-pipelines\full-integration-tests.yml
+		.azure-pipelines\non-interactive-integration-tests.yml = .azure-pipelines\non-interactive-integration-tests.yml
 		.azure-pipelines\release-pipeline.yml = .azure-pipelines\release-pipeline.yml
 		.azure-pipelines\variables.yml = .azure-pipelines\variables.yml
 	EndProjectSection

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -9,7 +7,7 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this
 /// voice recording will be sent by the user. Alternatively, you can use
 /// <see cref="InlineQueryResultVoice.InputMessageContent"/> to send a message with the specified
-/// content instead of the the voice message.
+/// content instead of the voice message.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InlineQueryResultVoice : InlineQueryResult

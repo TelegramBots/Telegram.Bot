@@ -1,6 +1,3 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
 namespace Telegram.Bot.Types;
 
 /// <summary>
@@ -9,7 +6,6 @@ namespace Telegram.Bot.Types;
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class Animation : FileBase
 {
-
     /// <summary>
     /// Video width as defined by sender
     /// </summary>
@@ -32,7 +28,7 @@ public class Animation : FileBase
     /// Optional. Animation thumbnail as defined by sender
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public PhotoSize? Thumb { get; set; }
+    public PhotoSize? Thumbnail { get; set; }
 
     /// <summary>
     /// Optional. Original animation filename as defined by sender

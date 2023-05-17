@@ -1,7 +1,5 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Newtonsoft.Json;
 using Telegram.Bot.Converters;
 
 namespace Telegram.Bot.Types;
@@ -33,7 +31,7 @@ public class ChatId : IEquatable<ChatId>
     /// Create a <see cref="ChatId"/> using unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)
     /// </summary>
-    /// <param name="username">Unique identifier for the chat or username of 
+    /// <param name="username">Unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)</param>
     /// <exception cref="ArgumentException">
     /// Thrown when string value isn`t number and doesn't start with @
@@ -42,17 +40,21 @@ public class ChatId : IEquatable<ChatId>
     public ChatId(string username)
     {
         if (username is null) { throw new ArgumentNullException(nameof(username)); }
-        if (username.Length > 1 && username.StartsWith("@", StringComparison.InvariantCulture))
+        if (username.Length > 1 && username[0] == '@')
         {
             Username = username;
         }
-        else if (long.TryParse(username, out var identifier))
+        else if (long.TryParse(
+            s: username,
+            style: NumberStyles.Integer,
+            provider: CultureInfo.InvariantCulture,
+            result: out var identifier))
         {
             Identifier = identifier;
         }
         else
         {
-            throw new ArgumentException("Username value should be Identifier or Username that starts with @");
+            throw new ArgumentException("Username value should be Identifier or Username that starts with @", nameof(username));
         }
     }
 
@@ -75,11 +77,7 @@ public class ChatId : IEquatable<ChatId>
     /// Gets the hash code of this object
     /// </summary>
     /// <returns>A hash code for the current object.</returns>
-#if NETCOREAPP3_1_OR_GREATER
-    public override int GetHashCode() => ToString().GetHashCode(StringComparison.InvariantCulture);
-#else
-    public override int GetHashCode() => ToString().GetHashCode();
-#endif
+    public override int GetHashCode() => StringComparer.InvariantCulture.GetHashCode(ToString());
 
     /// <summary>
     /// Create a <c>string</c> out of a <see cref="ChatId"/>
@@ -97,7 +95,7 @@ public class ChatId : IEquatable<ChatId>
     /// Create a <see cref="ChatId"/> using unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)
     /// </summary>
-    /// <param name="username">Unique identifier for the chat or username of 
+    /// <param name="username">Unique identifier for the chat or username of
     /// the supergroup or channel (in the format @channelusername)</param>
     /// <exception cref="ArgumentException">
     /// Thrown when string value isn`t number and doesn't start with @
@@ -106,16 +104,10 @@ public class ChatId : IEquatable<ChatId>
     public static implicit operator ChatId(string username) => new(username);
 
     /// <summary>
-    /// Create a <c>string</c> out of a <see cref="ChatId"/>
-    /// </summary>
-    /// <param name="chatId">The <see cref="ChatId"/>The ChatId</param>
-    public static implicit operator string?(ChatId? chatId) => chatId?.ToString();
-
-    /// <summary>
     /// Convert a Chat Object to a <see cref="ChatId"/>
     /// </summary>
     /// <param name="chat"></param>
-    [return: NotNullIfNotNull("chat")]
+    [return: NotNullIfNotNull(nameof(chat))]
     public static implicit operator ChatId?(Chat? chat) => chat is null ? null : new(chat.Id);
 
     /// <summary>
@@ -132,7 +124,7 @@ public class ChatId : IEquatable<ChatId>
 
         if (obj1.Username is not null && obj2.Username is not null)
         {
-            return obj1.Username == obj2.Username;
+            return string.Equals(obj1.Username, obj2.Username, StringComparison.Ordinal);
         }
 
         return false;

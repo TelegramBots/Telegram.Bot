@@ -3,11 +3,12 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using Scriban;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace EnumSerializer.Generator;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public class EnumConverterGenerator : IIncrementalGenerator
 {
     const string JsonConverterAttribute = "Newtonsoft.Json.JsonConverterAttribute";
@@ -15,9 +16,9 @@ public class EnumConverterGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         IncrementalValuesProvider<EnumDeclarationSyntax> enumDeclarations = context.SyntaxProvider
-           .CreateSyntaxProvider(
-               predicate: static (s, _) => IsSyntaxTargetForGeneration(s),
-               transform: static (ctx, _) => GetSemanticTargetForGeneration(ctx))
+            .ForAttributeWithMetadataName(JsonConverterAttribute,
+               predicate: static (node, _) => node is EnumDeclarationSyntax { AttributeLists.Count: > 0 },
+               transform: static (context, _) => (EnumDeclarationSyntax)context.TargetNode)
            .Where(static m => m is not null)!;
 
         IncrementalValueProvider<(Compilation, ImmutableArray<EnumDeclarationSyntax>)> compilationAndEnums
@@ -25,42 +26,6 @@ public class EnumConverterGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(compilationAndEnums,
             static (spc, source) => Execute(source.Item1, source.Item2, spc));
-    }
-
-    static bool IsSyntaxTargetForGeneration(SyntaxNode node)
-        => node is EnumDeclarationSyntax { AttributeLists.Count: > 0 };
-
-    static EnumDeclarationSyntax? GetSemanticTargetForGeneration(GeneratorSyntaxContext context)
-    {
-        // we know the node is a EnumDeclarationSyntax thanks to IsSyntaxTargetForGeneration
-        var enumDeclarationSyntax = (EnumDeclarationSyntax)context.Node;
-
-        // loop through all the attributes on the method
-        foreach (AttributeListSyntax attributeListSyntax in enumDeclarationSyntax.AttributeLists)
-        {
-            foreach (AttributeSyntax attributeSyntax in attributeListSyntax.Attributes)
-            {
-                if (context.SemanticModel.GetSymbolInfo(attributeSyntax).Symbol
-                    is not IMethodSymbol attributeSymbol)
-                {
-                    // weird, we couldn't get the symbol, ignore it
-                    continue;
-                }
-
-                INamedTypeSymbol attributeContainingTypeSymbol = attributeSymbol.ContainingType;
-                string fullName = attributeContainingTypeSymbol.ToDisplayString();
-
-                // Is the attribute the [JsonConverterAttribute] attribute?
-                if (fullName == JsonConverterAttribute)
-                {
-                    // return the enum
-                    return enumDeclarationSyntax;
-                }
-            }
-        }
-
-        // we didn't find the attribute we were looking for
-        return null;
     }
 
     static void Execute(
@@ -123,8 +88,6 @@ public class EnumConverterGenerator : IIncrementalGenerator
                 ? string.Empty
                 : enumSymbol.ContainingNamespace.ToString();
 
-            string fullyQualifiedName = enumSymbol.ToString();
-
             var enumMembers = enumSymbol.GetMembers();
             var members = new List<KeyValuePair<string, string>>(enumMembers.Length);
 
@@ -136,44 +99,84 @@ public class EnumConverterGenerator : IIncrementalGenerator
                     continue;
                 }
 
-                string? displayName = null;
-                foreach (var attribute in member.GetAttributes())
-                {
-                    if (attribute.AttributeClass is null
-                        || attribute.AttributeClass.Name != "DisplayAttribute")
-                    {
-                        continue;
-                    }
-
-                    foreach (var namedArgument in attribute.NamedArguments)
-                    {
-                        if (namedArgument.Key == "Name" && namedArgument.Value.Value?.ToString() is { } dn)
-                        {
-                            displayName = dn;
-                            break;
-                        }
-                    }
-                }
+                string? displayName = GetDisplayName(member) ?? ToSnakeCase(member.Name);
 
                 members.Add(new(
                     member.Name,
-                    displayName ?? ToSnakeCase(member.Name)
+                    displayName
                 ));
             }
 
             enumsToProcess.Add(new(
                 name: name,
                 ns: nameSpace,
-                fullyQualifiedName: fullyQualifiedName,
                 members: members
             ));
         }
         return enumsToProcess;
     }
 
-    static string ToSnakeCase(string name) =>
-        string.Concat(name.Select((x, i) => i > 0 && char.IsUpper(x)
-            ? $"_{x}"
-            : x.ToString())
-        ).ToLower();
+    static string? GetDisplayName(ISymbol member)
+    {
+        foreach (var attribute in member.GetAttributes())
+        {
+            if (attribute.AttributeClass is null
+                || !string.Equals(attribute.AttributeClass.Name, "DisplayAttribute", StringComparison.InvariantCulture))
+            {
+                continue;
+            }
+
+            foreach (var namedArgument in attribute.NamedArguments)
+            {
+                if (string.Equals(namedArgument.Key, "Name", StringComparison.InvariantCulture)
+                    && namedArgument.Value.Value?.ToString() is { } displayName)
+                {
+                    return displayName;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    static string ToSnakeCase(string name)
+    {
+        StringBuilder sb = new();
+
+        State previous = default;
+
+        for (var index = 0; index < name.Length; index++)
+        {
+            char c = name[index];
+            State current = new(c, char.IsUpper(c));
+
+            if (current.IsUpper)
+            {
+                c = char.ToLowerInvariant(current.Character);
+
+                if (index > 0
+                    && previous.Character != '_'
+                    && !previous.IsUpper)
+                {
+                    sb.Append('_');
+                }
+            }
+
+            sb.Append(c);
+            previous = current;
+        }
+        return sb.ToString();
+    }
+
+    [StructLayout(LayoutKind.Auto)]
+    private readonly struct State
+    {
+        public readonly char Character;
+        public readonly bool IsUpper;
+        public State(char character, bool isUpper)
+        {
+            Character = character;
+            IsUpper = isUpper;
+        }
+    }
 }

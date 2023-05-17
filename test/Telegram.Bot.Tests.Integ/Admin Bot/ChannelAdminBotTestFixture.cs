@@ -38,7 +38,7 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
                     await using MemoryStream photoStream = new(_oldChatPhoto);
                     await fixture.BotClient.SetChatPhotoAsync(
                         chatId: Chat.Id,
-                        photo: photoStream
+                        photo: new InputFileStream(photoStream)
                     );
                 }
 

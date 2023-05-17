@@ -1,7 +1,4 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Requests.Abstractions;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -16,6 +13,12 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public ChatId ChatId { get; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Latitude of the location
@@ -66,7 +69,7 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     public int? ReplyToMessageId { get; set; }
 
     /// <summary>
-    /// Pass <c>true</c>, if the message should be sent even if the specified replied-to message is not found
+    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? AllowSendingWithoutReply { get; set; }

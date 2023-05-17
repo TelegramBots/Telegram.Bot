@@ -17,7 +17,7 @@ public class ChatMemberStatusConverterTests
     [InlineData(ChatMemberStatus.Restricted, "restricted")]
     public void Should_Convert_ChatMemberStatus_To_String(ChatMemberStatus chatMemberStatus, string value)
     {
-        ChatMember chatMember = new ChatMember() { Type = chatMemberStatus };
+        ChatMember chatMember = new() { Type = chatMemberStatus };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
         string result = JsonConvert.SerializeObject(chatMember);
@@ -34,11 +34,12 @@ public class ChatMemberStatusConverterTests
     [InlineData(ChatMemberStatus.Restricted, "restricted")]
     public void Should_Convert_String_To_ChatMemberStatus(ChatMemberStatus chatMemberStatus, string value)
     {
-        ChatMember expectedResult = new ChatMember() { Type = chatMemberStatus };
+        ChatMember expectedResult = new() { Type = chatMemberStatus };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        ChatMember result = JsonConvert.DeserializeObject<ChatMember>(jsonData);
+        ChatMember? result = JsonConvert.DeserializeObject<ChatMember>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
@@ -47,18 +48,18 @@ public class ChatMemberStatusConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        ChatMember result = JsonConvert.DeserializeObject<ChatMember>(jsonData);
+        ChatMember? result = JsonConvert.DeserializeObject<ChatMember>(jsonData);
 
+        Assert.NotNull(result);
         Assert.Equal((ChatMemberStatus)0, result.Type);
     }
 
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_ChatMemberStatus()
     {
-        ChatMember chatMember = new ChatMember() { Type = (ChatMemberStatus)int.MaxValue };
+        ChatMember chatMember = new() { Type = (ChatMemberStatus)int.MaxValue };
 
-        NotSupportedException ex = Assert.Throws<NotSupportedException>(() =>
-            JsonConvert.SerializeObject(chatMember));
+        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(chatMember));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
