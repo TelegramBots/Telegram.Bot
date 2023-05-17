@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters.SystemTextJson;
 
-internal class ChatMemberConverter : JsonConverter<ChatMember>
+internal class ChatMemberConverter : System.Text.Json.Serialization.JsonConverter<ChatMember>
 {
     static readonly TypeInfo BaseType = typeof(ChatMember).GetTypeInfo();
 
@@ -17,7 +14,7 @@ internal class ChatMemberConverter : JsonConverter<ChatMember>
     public override ChatMember Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         JsonDocument doc = JsonDocument.ParseValue(ref reader);
-        JsonElement statusElement = doc.RootElement.EnumerateObject().First(obj => obj.Name == "status").Value;
+        JsonElement statusElement = doc.RootElement.EnumerateObject().First(obj => string.Equals(obj.Name, "status", StringComparison.Ordinal)).Value;
         var status = statusElement.Deserialize<ChatMemberStatus>(options);
 
         Type actualType = status switch
@@ -36,6 +33,6 @@ internal class ChatMemberConverter : JsonConverter<ChatMember>
 
     public override void Write(Utf8JsonWriter writer, ChatMember value, JsonSerializerOptions options)
     {
-        JsonSerializer.Serialize(writer, value, options);
+        System.Text.Json.JsonSerializer.Serialize(writer, value, options);
     }
 }

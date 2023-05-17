@@ -1,10 +1,8 @@
-using System;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Telegram.Bot.Converters.SystemTextJson;
 
-internal class UnixDateTimeConverter : JsonConverter<DateTime?>
+internal class UnixDateTimeConverter : System.Text.Json.Serialization.JsonConverter<DateTime?>
 {
     private static readonly DateTime UnixEpoch = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -20,7 +18,7 @@ internal class UnixDateTimeConverter : JsonConverter<DateTime?>
         };
     }
 
-    private DateTime ReadFromString(string? timestampText)
+    private static DateTime ReadFromString(string? timestampText)
     {
         if (!long.TryParse(timestampText, out long timestamp))
             throw new ArgumentException("Input string doesn't seem to contain a valid Int64 number",
@@ -29,7 +27,7 @@ internal class UnixDateTimeConverter : JsonConverter<DateTime?>
         return ReadFromInt64(timestamp);
     }
 
-    private DateTime ReadFromInt64(long timestamp)
+    private static DateTime ReadFromInt64(long timestamp)
     {
         if (timestamp < 0L)
             throw new ArgumentException("Timestamp should be greater than or equal to 0", nameof(timestamp));

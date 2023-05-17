@@ -47,14 +47,20 @@ public class EnumConverterGenerator : IIncrementalGenerator
             return;
         }
 
-        Template template = Template.Parse(SourceGenerationHelper.ConverterTemplate);
+        Template newtonsoftTemplate = Template.Parse(SourceGenerationHelper.NewtonsoftConverterTemplate);
+        Template stjTemplate = Template.Parse(SourceGenerationHelper.StjConverterTemplate);
         foreach (var enumToProcess in enumsToProcess)
         {
-            var result = SourceGenerationHelper.GenerateConverterClass(template, enumToProcess);
+            var newtonsoftResult = SourceGenerationHelper.GenerateConverterClass(newtonsoftTemplate, enumToProcess);
             context.AddSource(
-                hintName: $"{enumToProcess.Name}Converter.g.cs",
-                sourceText: SourceText.From(result, Encoding.UTF8)
+                hintName: $"Newtonsoft{enumToProcess.Name}Converter.g.cs",
+                sourceText: SourceText.From(newtonsoftResult, Encoding.UTF8)
             );
+
+            var stjResult = SourceGenerationHelper.GenerateConverterClass(stjTemplate, enumToProcess);
+            context.AddSource(
+                hintName: $"Stj{enumToProcess.Name}Converter.g.cs",
+                sourceText: SourceText.From(stjResult, Encoding.UTF8));
         }
     }
 
