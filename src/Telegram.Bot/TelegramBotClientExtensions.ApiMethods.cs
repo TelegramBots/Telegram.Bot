@@ -1337,7 +1337,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task EditMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
-        string inlineMessageId,
+        int inlineMessageId,
         double latitude,
         double longitude,
         float? horizontalAccuracy = default,
@@ -1413,7 +1413,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task StopMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
-        string inlineMessageId,
+        int inlineMessageId,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3608,7 +3608,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task EditMessageTextAsync(
         this ITelegramBotClient botClient,
-        string inlineMessageId,
+        int inlineMessageId,
         string text,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
@@ -3707,7 +3707,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task EditMessageCaptionAsync(
         this ITelegramBotClient botClient,
-        string inlineMessageId,
+        int inlineMessageId,
         string? caption,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
@@ -3788,7 +3788,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task EditMessageMediaAsync(
         this ITelegramBotClient botClient,
-        string inlineMessageId,
+        int inlineMessageId,
         InputMedia media,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
@@ -3855,7 +3855,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     public static async Task EditMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
-        string inlineMessageId,
+        int inlineMessageId,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>

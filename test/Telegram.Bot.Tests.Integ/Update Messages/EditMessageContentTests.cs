@@ -78,7 +78,7 @@ public class EditMessageContentTests
         messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
         await BotClient.EditMessageTextAsync(
-            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId.Value,
             text: messageText,
             parseMode: ParseMode.Html
         );
@@ -131,7 +131,7 @@ public class EditMessageContentTests
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
         await BotClient.EditMessageReplyMarkupAsync(
-            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId.Value,
             replyMarkup: "✌ Edited 👌"
         );
     }
@@ -181,7 +181,7 @@ public class EditMessageContentTests
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
         await BotClient.EditMessageCaptionAsync(
-            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId,
+            inlineMessageId: callbackQUpdate.CallbackQuery.InlineMessageId.Value,
             caption: "_Caption is edited_ 👌",
             parseMode: ParseMode.Markdown
         );

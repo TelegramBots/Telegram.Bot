@@ -70,17 +70,19 @@ public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLoc
 
         Update cqUpdate = await _fixture.UpdateReceiver
             .GetCallbackQueryUpdateAsync(data: _classFixture.CallbackQueryData);
+        Assert.NotNull(cqUpdate.CallbackQuery);
+        Assert.NotNull(cqUpdate.CallbackQuery.InlineMessageId);
 
         Location beijing = new Location {Latitude = 39.9042f, Longitude = 116.4074f};
 
         await BotClient.EditMessageLiveLocationAsync(
-            inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,
+            inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId.Value,
             latitude: beijing.Latitude,
             longitude: beijing.Longitude,
             replyMarkup: InlineKeyboardMarkup.Empty()
         );
 
-        _classFixture.InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId;
+        _classFixture.InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId.Value;
     }
 
     [OrderedFact("Should stop live locations of previously sent inline message")]
@@ -94,7 +96,7 @@ public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLoc
 
     public class Fixture
     {
-        public string InlineMessageId { get; set; }
+        public int InlineMessageId { get; set; }
 
         public string CallbackQueryData { get; set; }
     }

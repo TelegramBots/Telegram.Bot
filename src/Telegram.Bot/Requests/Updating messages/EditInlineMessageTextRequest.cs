@@ -14,7 +14,7 @@ public class EditInlineMessageTextRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public int InlineMessageId { get; }
 
     /// <summary>
     /// New text of the message, 1-4096 characters after entities parsing
@@ -45,7 +45,7 @@ public class EditInlineMessageTextRequest : RequestBase<bool>
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
-    public EditInlineMessageTextRequest(string inlineMessageId, string text)
+    public EditInlineMessageTextRequest(int inlineMessageId, string text)
         : base("editMessageText")
     {
         InlineMessageId = inlineMessageId;

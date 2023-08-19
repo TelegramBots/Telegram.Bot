@@ -14,7 +14,7 @@ public class EditInlineMessageCaptionRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public int InlineMessageId { get; }
 
     /// <summary>
     /// New caption of the message, 0-1024 characters after entities parsing
@@ -38,7 +38,7 @@ public class EditInlineMessageCaptionRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId and new caption
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
-    public EditInlineMessageCaptionRequest(string inlineMessageId)
+    public EditInlineMessageCaptionRequest(int inlineMessageId)
         : base("editMessageCaption")
     {
         InlineMessageId = inlineMessageId;

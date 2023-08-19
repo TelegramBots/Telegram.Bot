@@ -41,7 +41,7 @@ public class CallbackQuery
     /// Optional. Identifier of the message sent via the bot in inline mode, that originated the query
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? InlineMessageId { get; set; }
+    public int? InlineMessageId { get; set; }
 
     /// <summary>
     /// Global identifier, uniquely corresponding to the chat to which the message with the callback button was

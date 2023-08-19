@@ -13,7 +13,7 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public int InlineMessageId { get; }
 
     /// <summary>
     /// Latitude of new location
@@ -56,7 +56,7 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
-    public EditInlineMessageLiveLocationRequest(string inlineMessageId, double latitude, double longitude)
+    public EditInlineMessageLiveLocationRequest(int inlineMessageId, double latitude, double longitude)
         : base("editMessageLiveLocation")
     {
         InlineMessageId = inlineMessageId;

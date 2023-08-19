@@ -12,7 +12,7 @@ public class StopInlineMessageLiveLocationRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public int InlineMessageId { get; }
 
     /// <inheritdoc cref="Abstractions.Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -22,7 +22,7 @@ public class StopInlineMessageLiveLocationRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
-    public StopInlineMessageLiveLocationRequest(string inlineMessageId)
+    public StopInlineMessageLiveLocationRequest(int inlineMessageId)
         : base("stopMessageLiveLocation")
     {
         InlineMessageId = inlineMessageId;

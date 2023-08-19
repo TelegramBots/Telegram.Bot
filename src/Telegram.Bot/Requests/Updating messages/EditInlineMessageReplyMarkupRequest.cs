@@ -12,7 +12,7 @@ public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public int InlineMessageId { get; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -22,7 +22,7 @@ public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId and new inline keyboard
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
-    public EditInlineMessageReplyMarkupRequest(string inlineMessageId)
+    public EditInlineMessageReplyMarkupRequest(int inlineMessageId)
         : base("editMessageReplyMarkup")
     {
         InlineMessageId = inlineMessageId;

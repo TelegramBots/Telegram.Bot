@@ -16,7 +16,7 @@ public class EditInlineMessageMediaRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public int InlineMessageId { get; }
 
     /// <summary>
     /// A new media content of the message
@@ -33,7 +33,7 @@ public class EditInlineMessageMediaRequest : RequestBase<bool>
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="media">A new media content of the message</param>
-    public EditInlineMessageMediaRequest(string inlineMessageId, InputMedia media)
+    public EditInlineMessageMediaRequest(int inlineMessageId, InputMedia media)
         : base("editMessageMedia")
     {
         InlineMessageId = inlineMessageId;
