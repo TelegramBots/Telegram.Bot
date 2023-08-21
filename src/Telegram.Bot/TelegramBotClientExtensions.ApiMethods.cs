@@ -3060,6 +3060,27 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in
+    /// the chat for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/> administrator right in the supergroup.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@supergroupusername</c>)
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task UnpinAllGeneralForumTopicMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(new UnpinAllGeneralForumTopicMessages(chatId), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to send answers to callback queries sent from
     /// <see cref="InlineKeyboardMarkup">inline keyboards</see>. The answer will be displayed
     /// to the user as a notification at the top of the chat screen or as an alert
