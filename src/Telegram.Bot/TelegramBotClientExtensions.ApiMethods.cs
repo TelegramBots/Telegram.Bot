@@ -3087,7 +3087,7 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <remarks>
     /// Alternatively, the user can be redirected to the specified Game URL.For this option to work, you must
-    /// first create a game for your bot via <c>@Botfather</c> and accept the terms. Otherwise, you may use
+    /// first create a game for your bot via <c>@BotFather</c> and accept the terms. Otherwise, you may use
     /// links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter
     /// </remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3102,7 +3102,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="url">
     /// URL that will be opened by the user's client. If you have created a
     /// <a href="https://core.telegram.org/bots/api#game">Game</a> and accepted the conditions via
-    /// <c>@Botfather</c>, specify the URL that opens your game — note that this will only work if the query
+    /// <c>@BotFather</c>, specify the URL that opens your game — note that this will only work if the query
     /// comes from a callback_game button
     /// <para>
     /// Otherwise, you may use links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter
@@ -4572,7 +4572,7 @@ public static partial class TelegramBotClientExtensions
     /// use for your internal processes
     /// </param>
     /// <param name="providerToken">
-    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     /// <param name="currency">
     /// Three-letter ISO 4217 currency code, see
@@ -4729,7 +4729,7 @@ public static partial class TelegramBotClientExtensions
     /// use for your internal processes
     /// </param>
     /// <param name="providerToken">
-    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     /// <param name="currency">
     /// Three-letter ISO 4217 currency code, see
@@ -4954,7 +4954,7 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
-    /// <a href="https://t.me/botfather">@Botfather</a>
+    /// <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound

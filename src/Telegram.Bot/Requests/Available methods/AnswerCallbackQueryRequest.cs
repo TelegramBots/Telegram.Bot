@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// </summary>
 /// <remarks>
 /// Alternatively, the user can be redirected to the specified Game URL.For this option to work, you
-/// must first create a game for your bot via <c>@Botfather</c> and accept the terms. Otherwise, you
+/// must first create a game for your bot via <c>@BotFather</c> and accept the terms. Otherwise, you
 /// may use links like <c>t.me/your_bot? start = XXXX</c> that open your bot with a parameter.
 /// </remarks>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
@@ -37,7 +37,7 @@ public class AnswerCallbackQueryRequest : RequestBase<bool>
     /// <summary>
     /// URL that will be opened by the user's client. If you have created a
     /// <a href="https://core.telegram.org/bots/api#game">Game</a> and accepted the conditions
-    /// via <c>@Botfather</c>, specify the URL that opens your game — note that this will only work
+    /// via <c>@BotFather</c>, specify the URL that opens your game — note that this will only work
     /// if the query comes from a callback_game button.
     /// <para>
     /// Otherwise, you may use links like <c>t.me/your_bot? start = XXXX</c> that open your bot with

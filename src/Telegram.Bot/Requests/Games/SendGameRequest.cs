@@ -27,7 +27,7 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
 
     /// <summary>
     /// Short name of the game, serves as the unique identifier for the game. Set up your games
-    /// via <a href="https://t.me/botfather">@Botfather</a>
+    /// via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string GameShortName { get; }
@@ -58,7 +58,7 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat</param>
     /// <param name="gameShortName">
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
-    /// <a href="https://t.me/botfather">@Botfather</a>
+    /// <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     public SendGameRequest(long chatId, string gameShortName)
         : base("sendGame")
