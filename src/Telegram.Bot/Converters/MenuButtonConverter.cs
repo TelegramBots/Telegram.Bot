@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types.Enums;
 
@@ -43,10 +43,10 @@ internal class MenuButtonConverter : JsonConverter
 
         var actualType = status switch
         {
-            MenuButtonType.Default => typeof(MenuButtonDefault),
+            MenuButtonType.Default  => typeof(MenuButtonDefault),
             MenuButtonType.Commands => typeof(MenuButtonCommands),
-            MenuButtonType.WebApp => typeof(MenuButtonWebApp),
-            _ => throw new JsonSerializationException($"Unknown menu button type value of '{typeToken}'")
+            MenuButtonType.WebApp   => typeof(MenuButtonWebApp),
+            _                       => throw new JsonSerializationException($"Unknown menu button type value of '{typeToken}'")
         };
 
         // Remove status because status property only has getter
