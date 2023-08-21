@@ -1,4 +1,4 @@
-﻿#if NET6_0_OR_GREATER
+#if NET6_0_OR_GREATER
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -104,7 +104,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             );
 
 #pragma warning disable CA2016
-            Task.Run(ReceiveUpdatesAsync);
+            _ = Task.Run(ReceiveUpdatesAsync);
 #pragma warning restore CA2016
         }
 
