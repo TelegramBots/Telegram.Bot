@@ -2031,6 +2031,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canPostMessages">Pass <see langword="true"/>, if the administrator can create channel posts, channels only</param>
     /// <param name="canEditMessages">Pass <see langword="true"/>, if the administrator can edit messages of other users, channels only</param>
     /// <param name="canDeleteMessages">Pass <see langword="true"/>, if the administrator can delete messages of other users</param>
+    /// <param name="canPostStories">Pass <see langword="true"/> if the administrator can post stories in the channel; channels only</param>
+    /// <param name="canEditStories">Pass <see langword="true"/> if the administrator can edit stories posted by other users; channels only</param>
+    /// <param name="canDeleteStories">Pass <see langword="true"/> if the administrator can delete stories posted by other users; channels only</param>
     /// <param name="canManageVideoChats">Pass <see langword="true"/>, if the administrator can manage voice chats, supergroups only</param>
     /// <param name="canRestrictMembers">Pass <see langword="true"/>, if the administrator can restrict, ban or unban chat members</param>
     /// <param name="canPromoteMembers">Pass <see langword="true"/>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
@@ -2050,6 +2053,9 @@ public static partial class TelegramBotClientExtensions
         bool? canPostMessages = default,
         bool? canEditMessages = default,
         bool? canDeleteMessages = default,
+        bool? canPostStories = default,
+        bool? canEditStories = default,
+        bool? canDeleteStories = default,
         bool? canManageVideoChats = default,
         bool? canRestrictMembers = default,
         bool? canPromoteMembers = default,
@@ -2068,6 +2074,9 @@ public static partial class TelegramBotClientExtensions
                     CanPostMessages = canPostMessages,
                     CanEditMessages = canEditMessages,
                     CanDeleteMessages = canDeleteMessages,
+                    CanPostStories = canPostStories,
+                    CanEditStories = canEditStories,
+                    CanDeleteStories = canDeleteStories,
                     CanManageVideoChat = canManageVideoChats,
                     CanRestrictMembers = canRestrictMembers,
                     CanPromoteMembers = canPromoteMembers,
