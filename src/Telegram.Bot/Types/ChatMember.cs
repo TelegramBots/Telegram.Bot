@@ -61,12 +61,6 @@ public class ChatMemberAdministrator : ChatMember
     public bool CanBeEdited { get; set; }
 
     /// <summary>
-    /// Custom title for this user
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? CustomTitle { get; set; }
-
-    /// <summary>
     /// <see langword="true"/>, if the user's presence in the chat is hidden
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -79,18 +73,6 @@ public class ChatMemberAdministrator : ChatMember
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public bool CanManageChat { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the administrator can post in the channel, channels only
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? CanPostMessages { get; set; }
-
-    /// <summary>
-    /// <see langword="true"/>, if the administrator can edit messages of other users, channels only
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? CanEditMessages { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the administrator can delete messages of other users
@@ -131,10 +113,40 @@ public class ChatMemberAdministrator : ChatMember
     public bool CanInviteUsers { get; set; }
 
     /// <summary>
-    /// <see langword="true"/>, if the administrator can pin messages, supergroups only
+    /// Optional. <see langword="true"/>, if the administrator can post in the channel, channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanPostMessages { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can edit messages of other users, channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanEditMessages { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can pin messages, supergroups only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanPinMessages { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can post stories in the channel; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanPostStories { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can edit stories posted by other users; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanEditStories { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can delete stories posted by other users; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanDeleteStories { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the user is allowed to create, rename, close, and reopen forum topics;
@@ -142,6 +154,12 @@ public class ChatMemberAdministrator : ChatMember
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanManageTopics { get; set; }
+
+    /// <summary>
+    /// Optional. Custom title for this user
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? CustomTitle { get; set; }
 }
 
 /// <summary>
