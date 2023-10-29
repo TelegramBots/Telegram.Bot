@@ -23,6 +23,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [v20.0.0] - Unreleased
 
+> [Bot API 6.9](https://core.telegram.org/bots/api#september-22-2023) (September 22, 2023)
+
+### Added
+
+- The new administrator privileges `CanPostStories`, `CanEditStories` and `CanDeleteStories` 
+to the classes `ChatMemberAdministrator` and `ChatAdministratorRights`.
+- The parameters `CanPostStories`, `CanEditStories` and `CanDeleteStories` to the method `ITelegramBotClient.PromoteChatMemberAsync` 
+and `PromoteChatMemberRequest`.Currently, bots have no use for these privileges besides assigning them to other administrators.
+- The properties `FromRequest` and `FromAttachmentMenu` to the class `WriteAccessAllowed`.
+
 > [Bot API 6.8](https://core.telegram.org/bots/api#august-18-2023) (August 18, 2023)
 
 ### Added
