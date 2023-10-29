@@ -13,10 +13,16 @@ public class PollAnswer
     public string PollId { get; set; } = default!;
 
     /// <summary>
-    /// The user, who changed the answer to the poll
+    /// Optional. The chat that changed the answer to the poll, if the voter is anonymous
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public User User { get; set; } = default!;
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Chat? VoterChat { get; set; }
+
+    /// <summary>
+    /// Optional. The user that changed the answer to the poll, if the voter isn't anonymous
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public User? User { get; set; }
 
     /// <summary>
     /// 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote.

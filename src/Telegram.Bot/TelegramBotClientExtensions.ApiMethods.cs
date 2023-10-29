@@ -2031,6 +2031,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="canPostMessages">Pass <see langword="true"/>, if the administrator can create channel posts, channels only</param>
     /// <param name="canEditMessages">Pass <see langword="true"/>, if the administrator can edit messages of other users, channels only</param>
     /// <param name="canDeleteMessages">Pass <see langword="true"/>, if the administrator can delete messages of other users</param>
+    /// <param name="canPostStories">Pass <see langword="true"/> if the administrator can post stories in the channel; channels only</param>
+    /// <param name="canEditStories">Pass <see langword="true"/> if the administrator can edit stories posted by other users; channels only</param>
+    /// <param name="canDeleteStories">Pass <see langword="true"/> if the administrator can delete stories posted by other users; channels only</param>
     /// <param name="canManageVideoChats">Pass <see langword="true"/>, if the administrator can manage voice chats, supergroups only</param>
     /// <param name="canRestrictMembers">Pass <see langword="true"/>, if the administrator can restrict, ban or unban chat members</param>
     /// <param name="canPromoteMembers">Pass <see langword="true"/>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
@@ -2050,6 +2053,9 @@ public static partial class TelegramBotClientExtensions
         bool? canPostMessages = default,
         bool? canEditMessages = default,
         bool? canDeleteMessages = default,
+        bool? canPostStories = default,
+        bool? canEditStories = default,
+        bool? canDeleteStories = default,
         bool? canManageVideoChats = default,
         bool? canRestrictMembers = default,
         bool? canPromoteMembers = default,
@@ -2068,6 +2074,9 @@ public static partial class TelegramBotClientExtensions
                     CanPostMessages = canPostMessages,
                     CanEditMessages = canEditMessages,
                     CanDeleteMessages = canDeleteMessages,
+                    CanPostStories = canPostStories,
+                    CanEditStories = canEditStories,
+                    CanDeleteStories = canDeleteStories,
                     CanManageVideoChat = canManageVideoChats,
                     CanRestrictMembers = canRestrictMembers,
                     CanPromoteMembers = canPromoteMembers,
@@ -3060,13 +3069,34 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in
+    /// the chat for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/> administrator right in the supergroup.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@supergroupusername</c>)
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task UnpinAllGeneralForumTopicMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(new UnpinAllGeneralForumTopicMessages(chatId), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to send answers to callback queries sent from
     /// <see cref="InlineKeyboardMarkup">inline keyboards</see>. The answer will be displayed
     /// to the user as a notification at the top of the chat screen or as an alert
     /// </summary>
     /// <remarks>
     /// Alternatively, the user can be redirected to the specified Game URL.For this option to work, you must
-    /// first create a game for your bot via <c>@Botfather</c> and accept the terms. Otherwise, you may use
+    /// first create a game for your bot via <c>@BotFather</c> and accept the terms. Otherwise, you may use
     /// links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter
     /// </remarks>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -3081,7 +3111,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="url">
     /// URL that will be opened by the user's client. If you have created a
     /// <a href="https://core.telegram.org/bots/api#game">Game</a> and accepted the conditions via
-    /// <c>@Botfather</c>, specify the URL that opens your game — note that this will only work if the query
+    /// <c>@BotFather</c>, specify the URL that opens your game — note that this will only work if the query
     /// comes from a callback_game button
     /// <para>
     /// Otherwise, you may use links like <c>t.me/your_bot?start=XXXX</c> that open your bot with a parameter
@@ -4551,7 +4581,7 @@ public static partial class TelegramBotClientExtensions
     /// use for your internal processes
     /// </param>
     /// <param name="providerToken">
-    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     /// <param name="currency">
     /// Three-letter ISO 4217 currency code, see
@@ -4708,7 +4738,7 @@ public static partial class TelegramBotClientExtensions
     /// use for your internal processes
     /// </param>
     /// <param name="providerToken">
-    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     /// <param name="currency">
     /// Three-letter ISO 4217 currency code, see
@@ -4933,7 +4963,7 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
-    /// <a href="https://t.me/botfather">@Botfather</a>
+    /// <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound

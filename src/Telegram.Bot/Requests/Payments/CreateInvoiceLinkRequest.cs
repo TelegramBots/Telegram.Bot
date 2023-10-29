@@ -30,7 +30,7 @@ public class CreateInvoiceLinkRequest : RequestBase<string>
     public string Payload { get; }
 
     /// <summary>
-    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string ProviderToken { get; }
@@ -150,7 +150,7 @@ public class CreateInvoiceLinkRequest : RequestBase<string>
     /// <param name="description">Product description, 1-255 characters</param>
     /// <param name="payload">Bot-defined invoice payload, 1-128 bytes</param>
     /// <param name="providerToken">
-    /// Payments provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     /// <param name="currency">
     /// Three-letter ISO 4217 currency code, see

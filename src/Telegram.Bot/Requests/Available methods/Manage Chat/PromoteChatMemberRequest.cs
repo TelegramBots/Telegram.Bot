@@ -53,6 +53,24 @@ public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUse
     public bool? CanDeleteMessages { get; set; }
 
     /// <summary>
+    /// Pass <see langword="true"/> if the administrator can post stories in the channel; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanPostStories { get; set; }
+
+    /// <summary>
+    /// Pass <see langword="true"/> if the administrator can edit stories posted by other users; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanEditStories { get; set; }
+
+    /// <summary>
+    /// Pass <see langword="true"/> if the administrator can delete stories posted by other users; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanDeleteStories { get; set; }
+
+    /// <summary>
     /// Pass <see langword="true"/>, if the administrator can manage video chats
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types;
+namespace Telegram.Bot.Types;
 
 /// <summary>
 /// Represents the rights of an administrator in a chat.
@@ -76,6 +76,24 @@ public class ChatAdministratorRights
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanPinMessages { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can post stories in the channel; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanPostStories { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can edit stories posted by other users; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanEditStories { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the administrator can delete stories posted by other users; channels only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanDeleteStories { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only

@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types.Enums;
 
@@ -42,13 +42,13 @@ internal class ChatMemberConverter : JsonConverter
 
         var actualType = status switch
         {
-            ChatMemberStatus.Creator => typeof(ChatMemberOwner),
+            ChatMemberStatus.Creator       => typeof(ChatMemberOwner),
             ChatMemberStatus.Administrator => typeof(ChatMemberAdministrator),
-            ChatMemberStatus.Member => typeof(ChatMemberMember),
-            ChatMemberStatus.Left => typeof(ChatMemberLeft),
-            ChatMemberStatus.Kicked => typeof(ChatMemberBanned),
-            ChatMemberStatus.Restricted => typeof(ChatMemberRestricted),
-            _ => throw new JsonSerializationException($"Unknown chat member status value of '{jo["status"]}'")
+            ChatMemberStatus.Member        => typeof(ChatMemberMember),
+            ChatMemberStatus.Left          => typeof(ChatMemberLeft),
+            ChatMemberStatus.Kicked        => typeof(ChatMemberBanned),
+            ChatMemberStatus.Restricted    => typeof(ChatMemberRestricted),
+            _                              => throw new JsonSerializationException($"Unknown chat member status value of '{jo["status"]}'")
         };
 
         // Remove status because status property only has getter
