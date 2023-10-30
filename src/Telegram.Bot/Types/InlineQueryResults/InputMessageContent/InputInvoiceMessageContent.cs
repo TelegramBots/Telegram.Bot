@@ -31,7 +31,7 @@ public class InputInvoiceMessageContent : InputMessageContent
     public string Payload { get; }
 
     /// <summary>
-    /// Payment provider token, obtained via <a href="https://t.me/botfather">@Botfather</a>
+    /// Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public string ProviderToken { get; }

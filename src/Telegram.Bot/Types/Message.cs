@@ -201,6 +201,12 @@ public class Message
     public Sticker? Sticker { get; set; }
 
     /// <summary>
+    /// Optional. Message is a forwarded story
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Story? Story { get; set; }
+
+    /// <summary>
     /// Optional. Message is a video, information about the video
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -504,6 +510,7 @@ public class Message
             { Animation: { } }                     => MessageType.Animation,
             { Document: { } }                      => MessageType.Document,
             { Sticker: { } }                       => MessageType.Sticker,
+            { Story: { } }                         => MessageType.Story,
             // Venue also contains Location
             { Location: { } } and { Venue: null }  => MessageType.Location,
             { Venue: { } }                         => MessageType.Venue,
