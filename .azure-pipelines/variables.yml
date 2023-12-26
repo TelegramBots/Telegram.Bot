@@ -3,7 +3,7 @@ variables:
   - name: versionPrefix
     value: 20.0.0
   - name: versionSuffix
-    value: 'alpha.1'
+    value: 'alpha.2'
   - name: ciVersionSuffix
     value: ci.$(Build.BuildId)+git.commit.$(Build.SourceVersion)
   - name: isPreRelease
@@ -19,7 +19,7 @@ variables:
     ${{ else }}:
       value: $(versionPrefix)-$(ciVersionSuffix)
   - name: netSdkVersion
-    value: 7.0.x
+    value: 8.0.x
   - name: buildConfiguration
     value: Release
   - name: vmImage
