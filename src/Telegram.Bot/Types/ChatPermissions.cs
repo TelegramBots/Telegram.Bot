@@ -15,37 +15,37 @@ public class ChatPermissions
     /// <summary>
     /// Optional. <see langword="true" />, if the user is allowed to send audios
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSendAudios { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true" />, if the user is allowed to send documents
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSendDocuments { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true" />, if the user is allowed to send photos
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSendPhotos { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true" />, if the user is allowed to send videos
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSendVideos { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true" />, if the user is allowed to send video notes
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSendVideoNotes { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true" />, if the user is allowed to send voice notes
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSendVoiceNotes { get; set; }
 
     /// <summary>
