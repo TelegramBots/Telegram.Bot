@@ -21,7 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v19.0.0-preview.4] - Unreleased
+## [v19.0.1] - Unreleased
+
+- Type `ChatPermissions` optional properties serialization options
+
+## [v19.0.0] - 2023-05-07
 
 > [Bot API 6.7](https://core.telegram.org/bots/api#april-21-2023) (April 21, 2023)
 
