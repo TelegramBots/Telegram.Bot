@@ -1,7 +1,7 @@
 variables:
   - group: Integration Tests Variables
   - name: versionPrefix
-    value: 19.0.0
+    value: 19.0.1
   - name: versionSuffix
     value: ''
   - name: ciVersionSuffix
@@ -19,7 +19,7 @@ variables:
     ${{ else }}:
       value: $(versionPrefix)-$(ciVersionSuffix)
   - name: netSdkVersion
-    value: 7.0.x
+    value: 8.0.x
   - name: buildConfiguration
     value: Release
   - name: vmImage
