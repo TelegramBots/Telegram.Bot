@@ -36,12 +36,14 @@ and the property `MessageReactionCount` in the class `Update`. The bot must expl
 - Type `ReactionCount`.
 - Request type `SetMessageReactionRequest` that allows bots to react to messages.
 - New method `ITelegramBotClient.SetMessageReactionAsync` that allows bots to react to messages.
-- The field `AvailableReactions` to the class `Chat`.
+- The property `AvailableReactions` to the class `Chat`.
 - The class `ExternalReplyInfo` and the property `ExternalReply` of type `ExternalReplyInfo` to the class `Message`,
 containing information about a message that is replied to by the current message, but can be from another chat or forum topic.
 - Added the class `TextQuote` and the property `Quote` of type `TextQuote` to the class `Message`, 
 which contains the part of the replied message text or caption that is quoted in the current message.
 - The class `ReplyParameters`.
+- The class `LinkPreviewOptions`.
+- The property `LinkPreviewOptions` to the class `Message` with information about the link preview options used to send the message.
 
 ### Changed
 
@@ -83,6 +85,10 @@ which contains the part of the replied message text or caption that is quoted in
     - `SendInvoiceRequest`,
     - `SendGameRequest`,
     - `SendMediaGroupRequest`
+- Replaced the parameter `DisableWebPagePreview` with `LinkPreviewOptions` in the methods `SendTextMessageAsync` and `EditMessageTextAsync`.
+- Replaced the property `DisableWebPagePreview` with `LinkPreviewOptions` in the request classes `SendMessageRequest`, `EditMessageTextRequest`
+ and `EditInlineMessageTextRequest`.
+ - Replaced the property disable_web_page_preview with `DisableWebPagePreview` in the class `InputTextMessageContent`.
 
 
 ## [v20.0.0] - Unreleased
