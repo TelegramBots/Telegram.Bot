@@ -150,6 +150,13 @@ public class Message
             : Entities?.Select(entity => Text.Substring(entity.Offset, entity.Length));
 
     /// <summary>
+    /// Optional. Options used for link preview generation for the message, if it is a text message
+    /// and link preview options were changed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public LinkPreviewOptions? LinkPreviewOptions { get; set; }
+
+    /// <summary>
     /// Optional. Message is an animation, information about the animation. For backward compatibility, when this
     /// field is set, the <see cref="Document"/> field will also be set
     /// </summary>

@@ -32,10 +32,10 @@ public class InputTextMessageContent : InputMessageContent
     public MessageEntity[]? Entities { get; set; } // ToDo: add test
 
     /// <summary>
-    /// Optional. Disables link previews for links in the sent message
+    /// Optional. Link preview generation options for the message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? DisableWebPagePreview { get; set; }
+    public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <summary>
     /// Initializes a new input text message content

@@ -37,10 +37,10 @@ public class SendMessageRequest : RequestBase<Message>, IChatTargetable
     public IEnumerable<MessageEntity>? Entities { get; set; }
 
     /// <summary>
-    /// Disables link previews for links in this message
+    /// Link preview generation options for the message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? DisableWebPagePreview { get; set; }
+    public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

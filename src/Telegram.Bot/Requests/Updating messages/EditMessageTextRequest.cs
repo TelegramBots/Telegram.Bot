@@ -37,10 +37,10 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
     public IEnumerable<MessageEntity>? Entities { get; set; }
 
     /// <summary>
-    /// Disables link previews for links in this message
+    /// Link preview generation options for the message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? DisableWebPagePreview { get; set; }
+    public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <inheritdoc cref="Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

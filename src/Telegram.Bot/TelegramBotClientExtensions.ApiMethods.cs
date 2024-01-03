@@ -293,7 +293,7 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in message text, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
-    /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
@@ -316,7 +316,7 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
@@ -330,12 +330,11 @@ public static partial class TelegramBotClientExtensions
                     MessageThreadId = messageThreadId,
                     ParseMode = parseMode,
                     Entities = entities,
-                    DisableWebPagePreview = disableWebPagePreview,
+                    LinkPreviewOptions = linkPreviewOptions,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -3548,7 +3547,7 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in message text, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
-    /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -3566,7 +3565,7 @@ public static partial class TelegramBotClientExtensions
         string text,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3576,7 +3575,7 @@ public static partial class TelegramBotClientExtensions
                 {
                     ParseMode = parseMode,
                     Entities = entities,
-                    DisableWebPagePreview = disableWebPagePreview,
+                    LinkPreviewOptions = linkPreviewOptions,
                     ReplyMarkup = replyMarkup
                 },
                 cancellationToken
@@ -3598,7 +3597,7 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in message text, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
-    /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -3614,7 +3613,7 @@ public static partial class TelegramBotClientExtensions
         string text,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -3624,7 +3623,7 @@ public static partial class TelegramBotClientExtensions
                 {
                     ParseMode = parseMode,
                     Entities = entities,
-                    DisableWebPagePreview = disableWebPagePreview,
+                    LinkPreviewOptions = linkPreviewOptions,
                     ReplyMarkup = replyMarkup
                 },
                 cancellationToken
