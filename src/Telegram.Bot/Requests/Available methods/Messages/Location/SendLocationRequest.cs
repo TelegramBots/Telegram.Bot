@@ -33,6 +33,12 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     public double Longitude { get; }
 
     /// <summary>
+    /// The radius of uncertainty for the location, measured in meters; 0-1500
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public double? HorizontalAccuracy { get; set; }
+
+    /// <summary>
     /// Period in seconds for which the location will be updated, should be between 60 and 86400
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

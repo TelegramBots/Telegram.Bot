@@ -1137,6 +1137,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
+    /// <param name="horizontalAccuracy">The radius of uncertainty for the location, measured in meters; 0-1500</param>
     /// <param name="livePeriod">
     /// Period in seconds for which the location will be updated, should be between 60 and 86400
     /// </param>
@@ -1169,6 +1170,7 @@ public static partial class TelegramBotClientExtensions
         double latitude,
         double longitude,
         int? messageThreadId = default,
+        double? horizontalAccuracy = default,
         int? livePeriod = default,
         int? heading = default,
         int? proximityAlertRadius = default,
@@ -1183,6 +1185,7 @@ public static partial class TelegramBotClientExtensions
                 request: new SendLocationRequest(chatId, latitude, longitude)
                 {
                     MessageThreadId = messageThreadId,
+                    HorizontalAccuracy = horizontalAccuracy,
                     LivePeriod = livePeriod,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
