@@ -54,10 +54,10 @@ public class Message
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
-    /// Optional. For forwarded messages, sender of the original message
+    ///Optional. Information about the original message for forwarded messages
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public User? ForwardFrom { get; set; }
+    public MessageOrigin? ForwardOrigin { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the message is sent to a forum topic
@@ -351,11 +351,11 @@ public class Message
     public long? MigrateFromChatId { get; set; }
 
     /// <summary>
-    /// Optional. Specified message was pinned. Note that the Message object in this field will not contain
-    /// further <see cref="ReplyToMessage"/> fields even if it is itself a reply.
+    /// Optional. Specified message was pinned. Note that the <see cref="Message"/> object in this field
+    /// will not contain further <see cref="ReplyToMessage"/> fields even if it itself is a reply.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Message? PinnedMessage { get; set; }
+    public MaybeInaccessibleMessage? PinnedMessage { get; set; }
 
     /// <summary>
     /// Optional. Message is an invoice for a
