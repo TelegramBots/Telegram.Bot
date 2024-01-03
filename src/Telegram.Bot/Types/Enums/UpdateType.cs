@@ -12,82 +12,82 @@ public enum UpdateType
     Unknown = 0,
 
     /// <summary>
-    /// The <see cref="Update"/> contains a <see cref="Types.Message"/>.
+    /// The <see cref="Update"/> contains a <see cref="Update.Message"/>.
     /// </summary>
     Message,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.InlineQuery"/>.
+    /// The <see cref="Update"/> contains an <see cref="Update.InlineQuery"/>.
     /// </summary>
     InlineQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains a <see cref="Types.ChosenInlineResult"/>.
+    /// The <see cref="Update"/> contains a <see cref="Update.ChosenInlineResult"/>.
     /// </summary>
     ChosenInlineResult,
 
     /// <summary>
-    /// The <see cref="Update"/> contains a <see cref="Types.CallbackQuery"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.CallbackQuery"/>
     /// </summary>
     CallbackQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an edited <see cref="Types.Message"/>
+    /// The <see cref="Update"/> contains <see cref="Update.EditedMessage"/>
     /// </summary>
     EditedMessage,
 
     /// <summary>
-    /// The <see cref="Update"/> contains a channel post <see cref="Types.Message"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.ChannelPost"/>
     /// </summary>
     ChannelPost,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an edited channel post <see cref="Types.Message"/>
+    /// The <see cref="Update"/> contains <see cref="Update.EditedChannelPost"/>
     /// </summary>
     EditedChannelPost,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Payments.ShippingQuery"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.ShippingQuery"/>
     /// </summary>
     ShippingQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Payments.PreCheckoutQuery"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.PreCheckoutQuery"/>
     /// </summary>
     PreCheckoutQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.Poll"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.Poll"/>
     /// </summary>
     Poll,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.PollAnswer"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.PollAnswer"/>
     /// </summary>
     PollAnswer,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.ChatMember"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.MyChatMember"/>
     /// </summary>
     MyChatMember,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.ChatMember"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.ChatMember"/>
     /// </summary>
     ChatMember,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.ChatJoinRequest"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.ChatJoinRequest"/>
     /// </summary>
     ChatJoinRequest,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.MessageReactionUpdated"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.MessageReaction"/>
     /// </summary>
     MessageReaction,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Types.MessageReactionCountUpdated"/>
+    /// The <see cref="Update"/> contains a <see cref="Update.MessageReactionCount"/>
     /// </summary>
     MessageReactionCount,
 

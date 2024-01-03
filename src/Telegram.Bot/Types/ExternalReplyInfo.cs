@@ -31,7 +31,7 @@ public class ExternalReplyInfo
     /// Optional.Options used for link preview generation for the original message, if it is a text message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public LinkPreviewOptions LinkPreviewOptions { get; set; }
+    public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <summary>
     /// Optional. Message is an animation, information about the animation

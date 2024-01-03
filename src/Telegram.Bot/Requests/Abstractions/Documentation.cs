@@ -1,6 +1,6 @@
 #nullable disable
 #pragma warning disable 169
-#pragma warning disable CA1823
+#pragma warning disable IDE0051
 
 using Telegram.Bot.Types.ReplyMarkups;
 

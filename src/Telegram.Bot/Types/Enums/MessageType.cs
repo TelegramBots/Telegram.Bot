@@ -12,217 +12,217 @@ public enum MessageType
     Unknown = 0,
 
     /// <summary>
-    /// The <see cref="Message"/> contains text
+    /// The <see cref="Message"/> contains <see cref="Message.Text"/>
     /// </summary>
     Text,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.PhotoSize"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Photo"/>
     /// </summary>
     Photo,
 
     /// <summary>
-    /// The <see cref="Message"/> contains an <see cref="Types.Audio"/>
+    /// The <see cref="Message"/> contains an <see cref="Message.Audio"/>
     /// </summary>
     Audio,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Video"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Video"/>
     /// </summary>
     Video,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Voice"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Voice"/>
     /// </summary>
     Voice,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Document"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Document"/>
     /// </summary>
     Document,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Sticker"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Sticker"/>
     /// </summary>
     Sticker,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Location"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Location"/>
     /// </summary>
     Location,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Contact"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Contact"/>
     /// </summary>
     Contact,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Venue"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Venue"/>
     /// </summary>
     Venue,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Game"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Game"/>
     /// </summary>
     Game,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.VideoNote"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.VideoNote"/>
     /// </summary>
     VideoNote,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Payments.Invoice"/>
+    /// The <see cref="Message"/> contains an <see cref="Message.Invoice"/>
     /// </summary>
     Invoice,
 
     /// <summary>
-    /// The <see cref="Message"/> contains a <see cref="Types.Payments.SuccessfulPayment"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.SuccessfulPayment"/>
     /// </summary>
     SuccessfulPayment,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.ConnectedWebsite"/>
     /// </summary>
-    WebsiteConnected,
+    ConnectedWebsite,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.NewChatMembers"/>
     /// </summary>
-    ChatMembersAdded,
+    NewChatMembers,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.LeftChatMember"/>
     /// </summary>
-    ChatMemberLeft,
+    LeftChatMember,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.NewChatTitle"/>
     /// </summary>
-    ChatTitleChanged,
+    NewChatTitle,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.NewChatPhoto"/>
     /// </summary>
-    ChatPhotoChanged,
+    NewChatPhoto,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.PinnedMessage"/>
     /// </summary>
-    MessagePinned,
+    PinnedMessage,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.DeleteChatPhoto"/>
     /// </summary>
-    ChatPhotoDeleted,
+    DeleteChatPhoto,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.GroupChatCreated"/>
     /// </summary>
-    GroupCreated,
+    GroupChatCreated,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.SupergroupChatCreated"/>
     /// </summary>
-    SupergroupCreated,
+    SupergroupChatCreated,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.ChannelChatCreated"/>
     /// </summary>
-    ChannelCreated,
+    ChannelChatCreated,
 
     /// <summary>
-    /// The <see cref="Message"/> contains non-default <see cref="Message.MigrateFromChatId"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.MigrateFromChatId"/>
     /// </summary>
-    MigratedToSupergroup,
+    MigrateFromChatId,
 
     /// <summary>
-    /// The <see cref="Message"/> contains non-default <see cref="Message.MigrateToChatId"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.MigrateToChatId"/>
     /// </summary>
-    MigratedFromGroup,
+    MigrateToChatId,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.Poll"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Poll"/>
     /// </summary>
     Poll,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.Dice"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Dice"/>
     /// </summary>
     Dice,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.MessageAutoDeleteTimerChanged"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.MessageAutoDeleteTimerChanged"/>
     /// </summary>
     MessageAutoDeleteTimerChanged,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.ProximityAlertTriggered"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.ProximityAlertTriggered"/>
     /// </summary>
     ProximityAlertTriggered,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.WebAppData"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.WebAppData"/>
     /// </summary>
     WebAppData,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VideoChatScheduled"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.VideoChatScheduled"/>
     /// </summary>
     VideoChatScheduled,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VideoChatStarted"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.VideoChatStarted"/>
     /// </summary>
     VideoChatStarted,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VideoChatEnded"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.VideoChatEnded"/>
     /// </summary>
     VideoChatEnded,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.VideoChatParticipantsInvited"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.VideoChatParticipantsInvited"/>
     /// </summary>
     VideoChatParticipantsInvited,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.Animation"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Animation"/>
     /// </summary>
     Animation,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicCreated"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.ForumTopicCreated"/>
     /// </summary>
     ForumTopicCreated,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicClosed"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.ForumTopicClosed"/>
     /// </summary>
     ForumTopicClosed,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicReopened"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.ForumTopicReopened"/>
     /// </summary>
     ForumTopicReopened,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.ForumTopicEdited"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.ForumTopicEdited"/>
     /// </summary>
     ForumTopicEdited,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.GeneralForumTopicHidden"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.GeneralForumTopicHidden"/>
     /// </summary>
     GeneralForumTopicHidden,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.GeneralForumTopicUnhidden"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.GeneralForumTopicUnhidden"/>
     /// </summary>
     GeneralForumTopicUnhidden,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.WriteAccessAllowed"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.WriteAccessAllowed"/>
     /// </summary>
     WriteAccessAllowed,
 
@@ -232,14 +232,19 @@ public enum MessageType
     UsersShared,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.ChatShared"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.ChatShared"/>
     /// </summary>
     ChatShared,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.Story"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.Story"/>
     /// </summary>
     Story,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.PassportData"/>
+    /// </summary>
+    PassportData,
 
     /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.GiveawayCreated"/>
