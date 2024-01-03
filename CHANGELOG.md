@@ -44,6 +44,7 @@ which contains the part of the replied message text or caption that is quoted in
 - The class `ReplyParameters`.
 - The class `LinkPreviewOptions`.
 - The property `LinkPreviewOptions` to the class `Message` with information about the link preview options used to send the message.
+- New enum value `Blockquote` for `MessageEntityType`.
 
 ### Changed
 
