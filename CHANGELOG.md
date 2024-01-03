@@ -34,7 +34,7 @@ and the property `MessageReaction` in the class `Update`. The bot must explicitl
 and the property `MessageReactionCount` in the class `Update`. The bot must explicitly allow the update to receive it.
 - New enum values `MessageReaction`, `MessageReactionCount` for `UpdateType`.
 - Type `ReactionCount`.
-- Request type `SetMessageReactionRequest` that allows bots to react to messages.
+- Request classes `SetMessageReactionRequest` that allows bots to react to messages.
 - New method `ITelegramBotClient.SetMessageReactionAsync` that allows bots to react to messages.
 - The property `AvailableReactions` to the class `Chat`.
 - The class `ExternalReplyInfo` and the property `ExternalReply` of type `ExternalReplyInfo` to the class `Message`,
@@ -45,6 +45,8 @@ which contains the part of the replied message text or caption that is quoted in
 - The class `LinkPreviewOptions`.
 - The property `LinkPreviewOptions` to the class `Message` with information about the link preview options used to send the message.
 - New enum value `Blockquote` for `MessageEntityType`.
+- Request classes `DeleteMessagesRequest`, `ForwardMessagesRequest` and `CopyMessagesRequest`.
+- New methods `ITelegramBotClient.DeleteMessagesAsync`, `ITelegramBotClient.ForwardMessagesAsync` and `ITelegramBotClient.CopyMessagesAsync`.
 
 ### Changed
 

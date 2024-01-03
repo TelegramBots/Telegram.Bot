@@ -378,9 +378,62 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new ForwardMessageRequest(chatId, fromChatId, messageId)
                 {
+                    MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to forward multiple messages of any kind. If some of the specified messages can't be found
+    /// or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded.
+    /// Album grouping is kept for forwarded messages.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="fromChatId">
+    /// Unique identifier for the chat where the original messages were sent 
+    /// (or channel username in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageIds">
+    /// Identifiers of 1-100 messages in the chat from_chat_id to forward.
+    /// The identifiers must be specified in a strictly increasing order.
+    /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
+    /// <param name="disableNotification">
+    /// Sends the message silently. Users will receive a notification with no sound.
+    /// </param>
+    /// <param name="protectContent">
+    /// Protects the contents of sent messages from forwarding and saving
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>On success, an array of <see cref="MessageId"/> of the sent messages is returned.</returns>
+    public static async Task<MessageId[]> ForwardMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        IEnumerable<int> messageIds,
+        int? messageThreadId = default,
+        bool? disableNotification = default,
+        bool? protectContent = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new ForwardMessagesRequest(chatId, fromChatId, messageIds)
+                {
                     MessageThreadId = messageThreadId,
+                    DisableNotification = disableNotification,
+                    ProtectContent = protectContent,
                 },
                 cancellationToken
             )
@@ -451,6 +504,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new CopyMessageRequest(chatId, fromChatId, messageId)
                 {
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
@@ -458,7 +512,67 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to copy messages of any kind. If some of the specified messages can't be found or copied,
+    /// they are skipped. Service messages, giveaway messages, giveaway winners messages, and invoice messages
+    /// can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field
+    /// <see cref="Poll.CorrectOptionId">CorrectOptionId</see> is known to the bot. The method is analogous
+    /// to the method <see cref="ForwardMessagesAsync"/>, but the copied messages don't have a link
+    /// to the original message. Album grouping is kept for copied messages.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="fromChatId">
+    /// Unique identifier for the chat where the original messages were sent 
+    /// (or channel username in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageIds">
+    /// Identifiers of 1-100 messages in the chat <paramref name="fromChatId"/> to copy.
+    /// The identifiers must be specified in a strictly increasing order.
+    /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
+    /// <param name="disableNotification">
+    /// Sends the message silently. Users will receive a notification with no sound.
+    /// </param>
+    /// <param name="protectContent">
+    /// Protects the contents of sent messages from forwarding and saving
+    /// </param>
+    /// <param name="RemoveCaption">
+    /// Pass <see langword="true"/> to copy the messages without their captions
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>On success, an array of <see cref="MessageId"/> of the sent messages is returned.</returns>
+    public static async Task<MessageId[]> CopyMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        int[] messageIds,
+        int? messageThreadId = default,
+        bool? disableNotification = default,
+        bool? protectContent = default,
+        bool? RemoveCaption = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new CopyMessagesRequest(chatId, fromChatId, messageIds)
+                {
                     MessageThreadId = messageThreadId,
+                    DisableNotification = disableNotification,
+                    ProtectContent = protectContent,
+                    RemoveCaption = RemoveCaption,
                 },
                 cancellationToken
             )
@@ -3937,6 +4051,32 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(request: new DeleteMessageRequest(chatId, messageId), cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to delete multiple messages simultaneously.
+    /// If some of the specified messages can't be found, they are skipped.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageIds">
+    /// Identifiers of 1-100 messages to delete. See <see cref="DeleteMessageAsync"/>
+    /// for limitations on which messages can be deleted
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task DeleteMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        IEnumerable<int> messageIds,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(request: new DeleteMessagesRequest(chatId, messageIds), cancellationToken)
             .ConfigureAwait(false);
 
     #endregion Updating messages
