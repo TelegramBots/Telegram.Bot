@@ -79,17 +79,17 @@ public class Message
     public int? ForwardFromMessageId { get; set; }
 
     /// <summary>
-    /// Optional. For messages forwarded from channels, signature of the post author if present
+    /// Optional. Information about the message that is being replied to, which may come from
+    /// another chat or forum topic
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ForwardSignature { get; set; }
+    public ExternalReplyInfo? ExternalReply { get; set; }
 
     /// <summary>
-    /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
-    /// forwarded messages
+    /// Optional. For replies that quote part of the original message, the quoted part of the message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ForwardSenderName { get; set; }
+    public TextQuote? Quote { get; set; }
 
     /// <summary>
     /// Optional. For forwarded messages, date the original message was sent
