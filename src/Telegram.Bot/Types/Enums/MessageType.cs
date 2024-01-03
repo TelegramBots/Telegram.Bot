@@ -240,4 +240,24 @@ public enum MessageType
     /// The <see cref="Message"/> contains <see cref="Message.Story"/>
     /// </summary>
     Story,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.GiveawayCreated"/>
+    /// </summary>
+    GiveawayCreated,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.Giveaway"/>
+    /// </summary>
+    Giveaway,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.GiveawayWinners"/>
+    /// </summary>
+    GiveawayWinners,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.GiveawayCompleted"/>
+    /// </summary>
+    GiveawayCompleted,
 }

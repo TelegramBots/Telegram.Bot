@@ -444,6 +444,30 @@ public class Message
     public GeneralForumTopicUnhidden? GeneralForumTopicUnhidden { get; set; }
 
     /// <summary>
+    /// Optional. Service message: a scheduled giveaway was created
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GiveawayCreated? GiveawayCreated { get; set; }
+
+    /// <summary>
+    /// Optional. The message is a scheduled giveaway message
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Giveaway? Giveaway { get; set; }
+
+    /// <summary>
+    /// Optional. A giveaway with public winners was completed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GiveawayWinners? GiveawayWinners { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: a giveaway without public winners was completed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GiveawayCompleted? GiveawayCompleted { get; set; }
+
+    /// <summary>
     /// Optional. Service message: video chat scheduled
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -489,53 +513,57 @@ public class Message
     public MessageType Type =>
         this switch
         {
-            { Text: { } }                          => MessageType.Text,
-            { Photo: { } }                         => MessageType.Photo,
-            { Audio: { } }                         => MessageType.Audio,
-            { Video: { } }                         => MessageType.Video,
-            { Voice: { } }                         => MessageType.Voice,
-            { Animation: { } }                     => MessageType.Animation,
-            { Document: { } }                      => MessageType.Document,
-            { Sticker: { } }                       => MessageType.Sticker,
-            { Story: { } }                         => MessageType.Story,
-            // Venue also contains Location
-            { Location: { } } and { Venue: null }  => MessageType.Location,
-            { Venue: { } }                         => MessageType.Venue,
-            { Contact: { } }                       => MessageType.Contact,
-            { Game: { } }                          => MessageType.Game,
-            { VideoNote: { } }                     => MessageType.VideoNote,
-            { Invoice: { } }                       => MessageType.Invoice,
-            { SuccessfulPayment: { } }             => MessageType.SuccessfulPayment,
-            { ConnectedWebsite: { } }              => MessageType.WebsiteConnected,
-            { NewChatMembers: { Length: > 0 } }    => MessageType.ChatMembersAdded,
-            { LeftChatMember: { } }                => MessageType.ChatMemberLeft,
-            { NewChatTitle: { } }                  => MessageType.ChatTitleChanged,
-            { NewChatPhoto: { } }                  => MessageType.ChatPhotoChanged,
-            { PinnedMessage: { } }                 => MessageType.MessagePinned,
-            { DeleteChatPhoto: { } }               => MessageType.ChatPhotoDeleted,
-            { GroupChatCreated: { } }              => MessageType.GroupCreated,
-            { SupergroupChatCreated: { } }         => MessageType.SupergroupCreated,
-            { ChannelChatCreated: { } }            => MessageType.ChannelCreated,
-            { MigrateToChatId: { } }               => MessageType.MigratedToSupergroup,
-            { MigrateFromChatId: { } }             => MessageType.MigratedFromGroup,
-            { Poll: { } }                          => MessageType.Poll,
-            { Dice: { } }                          => MessageType.Dice,
-            { MessageAutoDeleteTimerChanged: { } } => MessageType.MessageAutoDeleteTimerChanged,
-            { ProximityAlertTriggered: { } }       => MessageType.ProximityAlertTriggered,
-            { VideoChatScheduled: { } }            => MessageType.VideoChatScheduled,
-            { VideoChatStarted: { } }              => MessageType.VideoChatStarted,
-            { VideoChatEnded: { } }                => MessageType.VideoChatEnded,
-            { VideoChatParticipantsInvited: { } }  => MessageType.VideoChatParticipantsInvited,
-            { WebAppData: { } }                    => MessageType.WebAppData,
-            { ForumTopicCreated: { } }             => MessageType.ForumTopicCreated,
-            { ForumTopicEdited: { } }              => MessageType.ForumTopicEdited,
-            { ForumTopicClosed: { } }              => MessageType.ForumTopicClosed,
-            { ForumTopicReopened: { } }            => MessageType.ForumTopicReopened,
-            { GeneralForumTopicHidden: { } }       => MessageType.GeneralForumTopicHidden,
-            { GeneralForumTopicUnhidden: { } }     => MessageType.GeneralForumTopicUnhidden,
-            { WriteAccessAllowed: { } }            => MessageType.WriteAccessAllowed,
-            { UserShared: { } }                    => MessageType.UserShared,
-            { ChatShared: { } }                    => MessageType.ChatShared,
-            _                                      => MessageType.Unknown
+            { Text: not null }                          => MessageType.Text,
+            { Animation: not null }                     => MessageType.Animation,
+            { Audio: not null }                         => MessageType.Audio,
+            { Document: not null }                      => MessageType.Document,
+            { Photo: not null }                         => MessageType.Photo,
+            { Sticker: not null }                       => MessageType.Sticker,
+            { Story: not null }                         => MessageType.Story,
+            { Video: not null }                         => MessageType.Video,
+            { VideoNote: not null }                     => MessageType.VideoNote,
+            { Voice: not null }                         => MessageType.Voice,
+            { Contact: not null }                       => MessageType.Contact,
+            { Dice: not null }                          => MessageType.Dice,
+            { Game: not null }                          => MessageType.Game,
+            { Poll: not null }                          => MessageType.Poll,
+            { Venue: not null }                         => MessageType.Venue,
+            { Location: not null } and { Venue: null }  => MessageType.Location,
+            { NewChatMembers.Length: > 0 }              => MessageType.NewChatMembers,
+            { LeftChatMember: not null }                => MessageType.LeftChatMember,
+            { NewChatTitle: not null }                  => MessageType.NewChatTitle,
+            { NewChatPhoto: not null }                  => MessageType.NewChatPhoto,
+            { DeleteChatPhoto: not null }               => MessageType.DeleteChatPhoto,
+            { GroupChatCreated: not null }              => MessageType.GroupChatCreated,
+            { SupergroupChatCreated: not null }         => MessageType.SupergroupChatCreated,
+            { ChannelChatCreated: not null }            => MessageType.ChannelChatCreated,
+            { MessageAutoDeleteTimerChanged: not null } => MessageType.MessageAutoDeleteTimerChanged,
+            { MigrateToChatId: not null }               => MessageType.MigrateToChatId,
+            { MigrateFromChatId: not null }             => MessageType.MigrateFromChatId,
+            { PinnedMessage: not null }                 => MessageType.PinnedMessage,
+            { Invoice: not null }                       => MessageType.Invoice,
+            { SuccessfulPayment: not null }             => MessageType.SuccessfulPayment,
+            { UsersShared: not null }                   => MessageType.UsersShared,
+            { ChatShared: not null }                    => MessageType.ChatShared,
+            { ConnectedWebsite: not null }              => MessageType.ConnectedWebsite,
+            { WriteAccessAllowed: not null }            => MessageType.WriteAccessAllowed,
+            { PassportData: not null }                  => MessageType.PassportData,
+            { ProximityAlertTriggered: not null }       => MessageType.ProximityAlertTriggered,
+            { ForumTopicCreated: not null }             => MessageType.ForumTopicCreated,
+            { ForumTopicEdited: not null }              => MessageType.ForumTopicEdited,
+            { ForumTopicClosed: not null }              => MessageType.ForumTopicClosed,
+            { ForumTopicReopened: not null }            => MessageType.ForumTopicReopened,
+            { GeneralForumTopicHidden: not null }       => MessageType.GeneralForumTopicHidden,
+            { GeneralForumTopicUnhidden: not null }     => MessageType.GeneralForumTopicUnhidden,
+            { GiveawayCreated: not null }               => MessageType.GiveawayCreated,
+            { Giveaway: not null }                      => MessageType.Giveaway,
+            { GiveawayWinners: not null }               => MessageType.GiveawayWinners,
+            { GiveawayCompleted: not null }             => MessageType.GiveawayCompleted,
+            { VideoChatScheduled: not null }            => MessageType.VideoChatScheduled,
+            { VideoChatStarted: not null }              => MessageType.VideoChatStarted,
+            { VideoChatEnded: not null }                => MessageType.VideoChatEnded,
+            { VideoChatParticipantsInvited: not null }  => MessageType.VideoChatParticipantsInvited,
+            { WebAppData: not null }                    => MessageType.WebAppData,
+            _                                           => MessageType.Unknown
         };
 }
