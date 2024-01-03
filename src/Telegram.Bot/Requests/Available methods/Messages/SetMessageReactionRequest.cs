@@ -1,6 +1,7 @@
-// ReSharper disable once CheckNamespace
+using System.Collections.Generic;
 using Telegram.Bot.Requests.Abstractions;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -30,7 +31,7 @@ public class SetMessageReactionRequest : RequestBase<bool>,
     /// already present on the message or explicitly allowed by chat administrators.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public ReactionType[]? Reaction { get; set; }
+    public IEnumerable<ReactionType>? Reaction { get; set; }
 
     /// <summary>
     /// Pass <see langword="true"/> to set the reaction with a big animation
