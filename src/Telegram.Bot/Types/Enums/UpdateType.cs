@@ -1,4 +1,4 @@
-﻿namespace Telegram.Bot.Types.Enums;
+namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
 /// The type of an <see cref="Update"/>
@@ -47,37 +47,47 @@ public enum UpdateType
     EditedChannelPost,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="ShippingQuery"/>
+    /// The <see cref="Update"/> contains an <see cref="Payments.ShippingQuery"/>
     /// </summary>
     ShippingQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="PreCheckoutQuery"/>
+    /// The <see cref="Update"/> contains an <see cref="Payments.PreCheckoutQuery"/>
     /// </summary>
     PreCheckoutQuery,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="Poll"/>
+    /// The <see cref="Update"/> contains an <see cref="Types.Poll"/>
     /// </summary>
     Poll,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="PollAnswer"/>
+    /// The <see cref="Update"/> contains an <see cref="Types.PollAnswer"/>
     /// </summary>
     PollAnswer,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="MyChatMember"/>
+    /// The <see cref="Update"/> contains an <see cref="Types.ChatMember"/>
     /// </summary>
     MyChatMember,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="ChatMember"/>
+    /// The <see cref="Update"/> contains an <see cref="Types.ChatMember"/>
     /// </summary>
     ChatMember,
 
     /// <summary>
-    /// The <see cref="Update"/> contains an <see cref="ChatJoinRequest"/>
+    /// The <see cref="Update"/> contains an <see cref="Types.ChatJoinRequest"/>
     /// </summary>
     ChatJoinRequest,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains an <see cref="Types.MessageReactionUpdated"/>
+    /// </summary>
+    MessageReaction,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains an <see cref="Types.MessageReactionCountUpdated"/>
+    /// </summary>
+    MessageReactionCount,
 }

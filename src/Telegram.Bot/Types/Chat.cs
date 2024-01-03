@@ -69,6 +69,13 @@ public class Chat
     public string[]? ActiveUsernames { get; set; }
 
     /// <summary>
+    /// Optional. List of available reactions allowed in the chat. If omitted, then all <see cref="ReactionTypeEmoji.Emoji">emoji reactions</see> are allowed.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ReactionType[]? AvailableReactions { get; set; }
+
+    /// <summary>
     /// Optional. Custom emoji identifier of emoji status of the other party in a private chat.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>

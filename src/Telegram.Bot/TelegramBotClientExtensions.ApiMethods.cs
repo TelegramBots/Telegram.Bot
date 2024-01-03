@@ -1805,6 +1805,49 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to change the chosen reactions on a message. Service messages can't be reacted to.
+    /// Automatically forwarded messages from a channel to its discussion group have the same
+    /// available reactions as messages in the channel.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageId">
+    /// Identifier of the target message. If the message belongs to a media group, the reaction
+    /// is set to the first non-deleted message in the group instead.
+    /// </param>
+    /// <param name="reaction">
+    /// New list of reaction types to set on the message. Currently, as non-premium users, bots can
+    /// set up to one reaction per message. A custom emoji reaction can be used if it is either
+    /// already present on the message or explicitly allowed by chat administrators.
+    /// </param>
+    /// <param name="isBig">
+    /// Pass <see langword="true"/> to set the reaction with a big animation
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task SetMessageReactionAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        ReactionType[]? reaction,
+        bool? isBig,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                new SetMessageReactionRequest(chatId, messageId)
+                {
+                    Reaction = reaction,
+                    IsBig = isBig,
+                },
+                cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to get a list of profile pictures for a user.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
