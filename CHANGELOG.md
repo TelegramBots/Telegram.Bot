@@ -29,14 +29,61 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 - The classes `ReactionType`, `ReactionTypeEmoji` and `ReactionTypeCustomEmoji` representing different types of reaction.
 - Updates about a reaction change on a message with non-anonymous reactions, represented by the class `MessageReactionUpdated`
-and the field `MessageReaction` in the class `Update`. The bot must explicitly allow the update to receive it.
+and the property `MessageReaction` in the class `Update`. The bot must explicitly allow the update to receive it.
 - Updates about reaction changes on a message with anonymous reactions, represented by the class `MessageReactionCountUpdated`
-and the field `MessageReactionCount` in the class `Update`. The bot must explicitly allow the update to receive it.
+and the property `MessageReactionCount` in the class `Update`. The bot must explicitly allow the update to receive it.
 - New enum values `MessageReaction`, `MessageReactionCount` for `UpdateType`.
 - Type `ReactionCount`.
 - Request type `SetMessageReactionRequest` that allows bots to react to messages.
 - New method `ITelegramBotClient.SetMessageReactionAsync` that allows bots to react to messages.
 - The field `AvailableReactions` to the class `Chat`.
+- The class `ExternalReplyInfo` and the property `ExternalReply` of type `ExternalReplyInfo` to the class `Message`,
+containing information about a message that is replied to by the current message, but can be from another chat or forum topic.
+- Added the class `TextQuote` and the property `Quote` of type `TextQuote` to the class `Message`, 
+which contains the part of the replied message text or caption that is quoted in the current message.
+- The class `ReplyParameters`.
+
+### Changed
+
+- Replaced parameters `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the methods 
+    - `ITelegramBotClient.CopyMessageAsync`, 
+    - `ITelegramBotClient.SendMessageAsync`, 
+    - `ITelegramBotClient.SendPhotoAsync`, 
+    - `ITelegramBotClient.SendVideoAsync`, 
+    - `ITelegramBotClient.SendAnimationAsync`, 
+    - `ITelegramBotClient.SendAudioAsync`, 
+    - `ITelegramBotClient.SendDocumentAsync`, 
+    - `ITelegramBotClient.SendStickerAsync`, 
+    - `ITelegramBotClient.SendVideoNoteAsync`, 
+    - `ITelegramBotClient.SendVoiceAsync`, 
+    - `ITelegramBotClient.SendLocationAsync`, 
+    - `ITelegramBotClient.SendVenueAsync`, 
+    - `ITelegramBotClient.SendContactAsync`, 
+    - `ITelegramBotClient.SendPollAsync`, 
+    - `ITelegramBotClient.SendDiceAsync`, 
+    - `ITelegramBotClient.SendInvoiceAsync`, 
+    - `ITelegramBotClient.SendGameAsync`, 
+    - `ITelegramBotClient.SendMediaGroupAsync`
+- Replaced properties `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the request classes
+    - `CopyMessageRequest`,
+    - `SendMessageRequest`,
+    - `SendPhotoRequest`,
+    - `SendVideoRequest`,
+    - `SendAnimationRequest`,
+    - `SendAudioRequest`,
+    - `SendDocumentRequest`,
+    - `SendStickerRequest`,
+    - `SendVideoNoteRequest`,
+    - `SendVoiceRequest`,
+    - `SendLocationRequest`,
+    - `SendVenueRequest`,
+    - `SendContactRequest`,
+    - `SendPollRequest`,
+    - `SendDiceRequest`,
+    - `SendInvoiceRequest`,
+    - `SendGameRequest`,
+    - `SendMediaGroupRequest`
+
 
 ## [v20.0.0] - Unreleased
 
