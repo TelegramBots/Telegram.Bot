@@ -52,6 +52,11 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 - The classes `ChatBoostSourcePremium`, `ChatBoostSourceGiftCode` and `ChatBoostSourceGiveaway`, representing different sources of a chat boost.
 - The method `ITelegramBotClient.GetUserChatBoostsAsync` for obtaining the list of all active boosts a user has contributed to a chat.
 - Request class `GetUserChatBoostsRequest` for obtaining the list of all active boosts a user has contributed to a chat.
+- The class `Giveaway` and the property `Giveaway` to the class `Message` for messages about scheduled giveaways.
+- The class `GiveawayCreated` and the property `GiveawayCreated` to the class `Message` for service messages about the creation of a scheduled giveaway.
+- The class `GiveawayWinners` and the property `GiveawayWinners` to the class `Message` for messages about the completion of a giveaway with public winners.
+- The class `GiveawayCompleted` and the property `GiveawayCompleted` to the class `Message` for service messages about the completion of a giveaway without public winners.
+- New `MessageType` enum members: `Giveaway`, `GiveawayCreated`, `GiveawayWinners` and `GiveawayCompleted`
 
 ### Changed
 
