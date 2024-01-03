@@ -3232,29 +3232,28 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to set the result of an interaction with a Web App and send a corresponding message on
-    /// behalf of the user to the chat from which the query originated. On success, a <see cref="SentWebAppMessage"/>
-    /// object is returned.
+    /// Use this method to get the list of boosts added to a chat by a user.
+    /// Requires administrator rights in the chat.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="result">
-    /// An object describing the message to be sent
+    /// <param name="chatId">
+    /// Unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="userId">
+    /// Unique identifier of the target user
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task AnswerWebAppQueryAsync(
+    /// <returns>Returns a <see cref="UserChatBoosts"/> object.</returns>
+    public static async Task<UserChatBoosts> GetUserChatBoostsAsync(
         this ITelegramBotClient botClient,
-        string webAppQueryId,
-        InlineQueryResult result,
+        ChatId chatId,
+        long userId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new AnswerWebAppQueryRequest(webAppQueryId, result),
-                cancellationToken
-            )
+            .MakeRequestAsync(request: new GetUserChatBoostsRequest(chatId, userId), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -4661,6 +4660,32 @@ public static partial class TelegramBotClientExtensions
                     NextOffset = nextOffset,
                     Button = button,
                 },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to set the result of an interaction with a Web App and send a corresponding message on
+    /// behalf of the user to the chat from which the query originated. On success, a <see cref="SentWebAppMessage"/>
+    /// object is returned.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
+    /// <param name="result">
+    /// An object describing the message to be sent
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task AnswerWebAppQueryAsync(
+        this ITelegramBotClient botClient,
+        string webAppQueryId,
+        InlineQueryResult result,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                request: new AnswerWebAppQueryRequest(webAppQueryId, result),
                 cancellationToken
             )
             .ConfigureAwait(false);

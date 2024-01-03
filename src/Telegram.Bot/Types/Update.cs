@@ -129,6 +129,18 @@ public class Update
     public ChatJoinRequest? ChatJoinRequest { get; set; }
 
     /// <summary>
+    /// Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ChatBoostUpdated? ChatBoost { get; set; }
+
+    /// <summary>
+    /// Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ChatBoostRemoved? RemovedChatBoost { get; set; }
+
+    /// <summary>
     /// Gets the update type.
     /// </summary>
     /// <value>
@@ -136,22 +148,24 @@ public class Update
     /// </value>
     public UpdateType Type => this switch
     {
-        { Message: not null }              => UpdateType.Message,
-        { EditedMessage: not null }        => UpdateType.EditedMessage,
-        { ChannelPost: not null }          => UpdateType.ChannelPost,
-        { EditedChannelPost: not null }    => UpdateType.EditedChannelPost,
-        { MessageReaction: not null } => UpdateType.MessageReaction,
-        { MessageReactionCount: not null } => UpdateType.MessageReactionCount,
-        { InlineQuery: not null }          => UpdateType.InlineQuery,
-        { ChosenInlineResult: not null }   => UpdateType.ChosenInlineResult,
-        { CallbackQuery: not null }        => UpdateType.CallbackQuery,
-        { ShippingQuery: not null }        => UpdateType.ShippingQuery,
-        { PreCheckoutQuery: not null }     => UpdateType.PreCheckoutQuery,
-        { Poll: not null }                 => UpdateType.Poll,
-        { PollAnswer: not null }           => UpdateType.PollAnswer,
-        { MyChatMember: not null }         => UpdateType.MyChatMember,
-        { ChatMember: not null }           => UpdateType.ChatMember,
-        { ChatJoinRequest: not null }      => UpdateType.ChatJoinRequest,
-        _                                  => UpdateType.Unknown
+        { Message: not null }               => UpdateType.Message,
+        { EditedMessage: not null }         => UpdateType.EditedMessage,
+        { ChannelPost: not null }           => UpdateType.ChannelPost,
+        { EditedChannelPost: not null }     => UpdateType.EditedChannelPost,
+        { MessageReaction: not null }       => UpdateType.MessageReaction,
+        { MessageReactionCount: not null }  => UpdateType.MessageReactionCount,
+        { InlineQuery: not null }           => UpdateType.InlineQuery,
+        { ChosenInlineResult: not null }    => UpdateType.ChosenInlineResult,
+        { CallbackQuery: not null }         => UpdateType.CallbackQuery,
+        { ShippingQuery: not null }         => UpdateType.ShippingQuery,
+        { PreCheckoutQuery: not null }      => UpdateType.PreCheckoutQuery,
+        { Poll: not null }                  => UpdateType.Poll,
+        { PollAnswer: not null }            => UpdateType.PollAnswer,
+        { MyChatMember: not null }          => UpdateType.MyChatMember,
+        { ChatMember: not null }            => UpdateType.ChatMember,
+        { ChatJoinRequest: not null }       => UpdateType.ChatJoinRequest,
+        { ChatBoost: not null }             => UpdateType.ChatBoost,
+        { RemovedChatBoost: not null }      => UpdateType.RemovedChatBoost,
+        _                                   => UpdateType.Unknown
     };
 }

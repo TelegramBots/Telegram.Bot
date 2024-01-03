@@ -39,7 +39,7 @@ and the property `MessageReactionCount` in the class `Update`. The bot must expl
 - The property `AvailableReactions` to the class `Chat`.
 - The class `ExternalReplyInfo` and the property `ExternalReply` of type `ExternalReplyInfo` to the class `Message`,
 containing information about a message that is replied to by the current message, but can be from another chat or forum topic.
-- Added the class `TextQuote` and the property `Quote` of type `TextQuote` to the class `Message`, 
+- The class `TextQuote` and the property `Quote` of type `TextQuote` to the class `Message`, 
 which contains the part of the replied message text or caption that is quoted in the current message.
 - The class `ReplyParameters`.
 - The class `LinkPreviewOptions`.
@@ -47,6 +47,11 @@ which contains the part of the replied message text or caption that is quoted in
 - New enum value `Blockquote` for `MessageEntityType`.
 - Request classes `DeleteMessagesRequest`, `ForwardMessagesRequest` and `CopyMessagesRequest`.
 - New methods `ITelegramBotClient.DeleteMessagesAsync`, `ITelegramBotClient.ForwardMessagesAsync` and `ITelegramBotClient.CopyMessagesAsync`.
+- Updates about chat boost changes, represented by the classes `ChatBoostUpdated` and `ChatBoostRemoved` and the properties `ChatBoost` and `RemovedChatBoost` 
+in the class `Update`. The bot must be an administrator in the chat to receive these updates.
+- The classes `ChatBoostSourcePremium`, `ChatBoostSourceGiftCode` and `ChatBoostSourceGiveaway`, representing different sources of a chat boost.
+- The method `ITelegramBotClient.GetUserChatBoostsAsync` for obtaining the list of all active boosts a user has contributed to a chat.
+- Request class `GetUserChatBoostsRequest` for obtaining the list of all active boosts a user has contributed to a chat.
 
 ### Changed
 

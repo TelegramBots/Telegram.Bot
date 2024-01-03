@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -89,12 +90,14 @@ public class UpdateTypeConverterTests
         {
             yield return new object[] { UpdateType.Unknown, "unknown" };
             yield return new object[] { UpdateType.Message, "message" };
-            yield return new object[] { UpdateType.InlineQuery, "inline_query" };
-            yield return new object[] { UpdateType.ChosenInlineResult, "chosen_inline_result" };
-            yield return new object[] { UpdateType.CallbackQuery, "callback_query" };
             yield return new object[] { UpdateType.EditedMessage, "edited_message" };
             yield return new object[] { UpdateType.ChannelPost, "channel_post" };
             yield return new object[] { UpdateType.EditedChannelPost, "edited_channel_post" };
+            yield return new object[] { UpdateType.MessageReaction, "message_reaction" };
+            yield return new object[] { UpdateType.MessageReactionCount, "message_reaction_count" };
+            yield return new object[] { UpdateType.InlineQuery, "inline_query" };
+            yield return new object[] { UpdateType.ChosenInlineResult, "chosen_inline_result" };
+            yield return new object[] { UpdateType.CallbackQuery, "callback_query" };
             yield return new object[] { UpdateType.ShippingQuery, "shipping_query" };
             yield return new object[] { UpdateType.PreCheckoutQuery, "pre_checkout_query" };
             yield return new object[] { UpdateType.Poll, "poll" };
@@ -102,10 +105,10 @@ public class UpdateTypeConverterTests
             yield return new object[] { UpdateType.MyChatMember, "my_chat_member" };
             yield return new object[] { UpdateType.ChatMember, "chat_member" };
             yield return new object[] { UpdateType.ChatJoinRequest, "chat_join_request" };
-            yield return new object[] { UpdateType.MessageReaction, "message_reaction" };
-            yield return new object[] { UpdateType.MessageReactionCount, "message_reaction_count" };
+            yield return new object[] { UpdateType.ChatBoost, "chat_boost" };
+            yield return new object[] { UpdateType.RemovedChatBoost, "removed_chat_boost" };
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

@@ -90,4 +90,14 @@ public enum UpdateType
     /// The <see cref="Update"/> contains an <see cref="Types.MessageReactionCountUpdated"/>
     /// </summary>
     MessageReactionCount,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains a <see cref="Update.ChatBoost"/>
+    /// </summary>
+    ChatBoost,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains a <see cref="Update.RemovedChatBoost"/>
+    /// </summary>
+    RemovedChatBoost,
 }
