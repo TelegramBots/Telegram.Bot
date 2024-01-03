@@ -62,17 +62,9 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ProtectContent { get; set; }
 
-    /// <summary>
-    /// If the message is a reply, ID of the original message
-    /// </summary>
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ReplyToMessageId { get; set; }
-
-    /// <summary>
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? AllowSendingWithoutReply { get; set; }
+    public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

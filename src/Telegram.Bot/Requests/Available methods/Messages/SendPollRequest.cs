@@ -111,13 +111,9 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ReplyToMessageId { get; set; }
-
-    /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? AllowSendingWithoutReply { get; set; }
+    public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

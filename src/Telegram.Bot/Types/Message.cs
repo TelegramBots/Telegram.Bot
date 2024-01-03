@@ -66,17 +66,18 @@ public class Message
     public bool? IsTopicMessage { get; set; }
 
     /// <summary>
-    /// Optional. For messages forwarded from channels or from anonymous administrators, information about the
-    /// original sender chat
+    /// Optional. <see langword="true"/>, if the message is a channel post that was automatically forwarded to the connected
+    /// discussion group
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Chat? ForwardFromChat { get; set; }
+    public bool? IsAutomaticForward { get; set; }
 
     /// <summary>
-    /// Optional. For messages forwarded from channels, identifier of the original message in the channel
+    /// Optional. For replies, the original message. Note that the <see cref="Message"/> object in this field
+    /// will not contain further <see cref="ReplyToMessage"/> fields even if it itself is a reply.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ForwardFromMessageId { get; set; }
+    public Message? ReplyToMessage { get; set; }
 
     /// <summary>
     /// Optional. Information about the message that is being replied to, which may come from
@@ -90,27 +91,6 @@ public class Message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public TextQuote? Quote { get; set; }
-
-    /// <summary>
-    /// Optional. For forwarded messages, date the original message was sent
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime? ForwardDate { get; set; }
-
-    /// <summary>
-    /// Optional. <see langword="true"/>, if the message is a channel post that was automatically forwarded to the connected
-    /// discussion group
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? IsAutomaticForward { get; set; }
-
-    /// <summary>
-    /// Optional. For replies, the original message. Note that the <see cref="Message"/> object in this field
-    /// will not contain further <see cref="ReplyToMessage"/> fields even if it itself is a reply.
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Message? ReplyToMessage { get; set; }
 
     /// <summary>
     /// Optional. Bot through which the message was sent

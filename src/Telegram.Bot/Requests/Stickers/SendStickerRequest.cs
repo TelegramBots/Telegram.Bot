@@ -47,13 +47,9 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ReplyToMessageId"/>
+    /// <inheritdoc cref="Documentation.ReplyParameters"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ReplyToMessageId { get; set; }
-
-    /// <inheritdoc cref="Documentation.AllowSendingWithoutReply"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? AllowSendingWithoutReply { get; set; }
+    public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

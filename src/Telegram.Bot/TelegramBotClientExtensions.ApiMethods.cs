@@ -298,10 +298,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -322,8 +319,7 @@ public static partial class TelegramBotClientExtensions
         bool? disableWebPagePreview = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -331,13 +327,13 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendMessageRequest(chatId, text)
                 {
+                    MessageThreadId = messageThreadId,
                     ParseMode = parseMode,
                     Entities = entities,
                     DisableWebPagePreview = disableWebPagePreview,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
                 },
@@ -426,10 +422,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -451,8 +444,7 @@ public static partial class TelegramBotClientExtensions
         IEnumerable<MessageEntity>? captionEntities = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -463,10 +455,9 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
-                    ReplyToMessageId = replyToMessageId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
                 },
@@ -511,10 +502,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -536,8 +524,7 @@ public static partial class TelegramBotClientExtensions
         bool? hasSpoiler = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -545,16 +532,15 @@ public static partial class TelegramBotClientExtensions
             MakeRequestAsync(
                 request: new SendPhotoRequest(chatId, photo)
                 {
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
                     HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -602,10 +588,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -630,8 +613,7 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -639,6 +621,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendAudioRequest(chatId, audio)
                 {
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
@@ -648,10 +631,8 @@ public static partial class TelegramBotClientExtensions
                     Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -701,10 +682,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -727,8 +705,7 @@ public static partial class TelegramBotClientExtensions
         bool? disableContentTypeDetection = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -736,6 +713,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendDocumentRequest(chatId, document)
                 {
+                    MessageThreadId = messageThreadId,
                     Thumbnail = thumbnail,
                     Caption = caption,
                     ParseMode = parseMode,
@@ -743,10 +721,8 @@ public static partial class TelegramBotClientExtensions
                     DisableContentTypeDetection = disableContentTypeDetection,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -800,10 +776,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -830,8 +803,7 @@ public static partial class TelegramBotClientExtensions
         bool? supportsStreaming = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -839,6 +811,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendVideoRequest(chatId, video)
                 {
+                    MessageThreadId = messageThreadId,
                     Duration = duration,
                     Width = width,
                     Height = height,
@@ -850,10 +823,8 @@ public static partial class TelegramBotClientExtensions
                     SupportsStreaming = supportsStreaming,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -906,10 +877,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -935,8 +903,7 @@ public static partial class TelegramBotClientExtensions
         bool? hasSpoiler = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -944,6 +911,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendAnimationRequest(chatId, animation)
                 {
+                    MessageThreadId = messageThreadId,
                     Duration = duration,
                     Width = width,
                     Height = height,
@@ -954,10 +922,8 @@ public static partial class TelegramBotClientExtensions
                     HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -997,10 +963,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1022,8 +985,7 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -1031,16 +993,15 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendVoiceRequest(chatId, voice)
                 {
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
                     Duration = duration,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1076,10 +1037,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1100,8 +1058,7 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -1109,15 +1066,14 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendVideoNoteRequest(chatId, videoNote)
                 {
+                    MessageThreadId = messageThreadId,
                     Duration = duration,
                     Length = length,
                     Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1140,10 +1096,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1155,19 +1108,17 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 request: new SendMediaGroupRequest(chatId, media)
                 {
+                    MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
-                    MessageThreadId = messageThreadId,
+                    ReplyParameters = replyParameters,
                 },
                 cancellationToken
             )
@@ -1201,10 +1152,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1226,8 +1174,7 @@ public static partial class TelegramBotClientExtensions
         int? proximityAlertRadius = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -1235,15 +1182,14 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendLocationRequest(chatId, latitude, longitude)
                 {
+                    MessageThreadId = messageThreadId,
                     LivePeriod = livePeriod,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1456,10 +1402,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1485,8 +1428,7 @@ public static partial class TelegramBotClientExtensions
         string? googlePlaceType = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -1500,8 +1442,7 @@ public static partial class TelegramBotClientExtensions
                     GooglePlaceType = googlePlaceType,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
                 },
@@ -1528,10 +1469,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1552,8 +1490,7 @@ public static partial class TelegramBotClientExtensions
         string? vCard = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -1565,8 +1502,7 @@ public static partial class TelegramBotClientExtensions
                     Vcard = vCard,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
                 },
@@ -1627,10 +1563,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1659,8 +1592,7 @@ public static partial class TelegramBotClientExtensions
         bool? isClosed = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -1668,6 +1600,7 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendPollRequest(chatId, question, options)
                 {
+                    MessageThreadId = messageThreadId,
                     IsAnonymous = isAnonymous,
                     Type = type,
                     AllowsMultipleAnswers = allowsMultipleAnswers,
@@ -1680,10 +1613,8 @@ public static partial class TelegramBotClientExtensions
                     IsClosed = isClosed,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1712,10 +1643,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1733,8 +1661,7 @@ public static partial class TelegramBotClientExtensions
         Emoji? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -1742,13 +1669,12 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendDiceRequest(chatId)
                 {
+                    MessageThreadId = messageThreadId,
                     Emoji = emoji,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -4045,13 +3971,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">
     /// Protects the contents of sent messages from forwarding and saving
     /// </param>
-    /// <param name="replyToMessageId">
-    /// If the message is a reply, ID of the original message
-    /// </param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified
-    /// replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -4072,8 +3992,7 @@ public static partial class TelegramBotClientExtensions
         string? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -4081,13 +4000,12 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendStickerRequest(chatId, sticker)
                 {
-                    DisableNotification = disableNotification,
-                    ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
                     Emoji = emoji,
+                    DisableNotification = disableNotification,
+                    ProtectContent = protectContent,
+                    ReplyParameters = replyParameters,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken: cancellationToken
             )
@@ -4686,10 +4604,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -4727,8 +4642,7 @@ public static partial class TelegramBotClientExtensions
         bool? isFlexible = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -4744,6 +4658,7 @@ public static partial class TelegramBotClientExtensions
                     // ReSharper disable once PossibleMultipleEnumeration
                     prices)
                 {
+                    MessageThreadId = messageThreadId,
                     MaxTipAmount = maxTipAmount,
                     SuggestedTipAmounts = suggestedTipAmounts,
                     StartParameter = startParameter,
@@ -4761,10 +4676,8 @@ public static partial class TelegramBotClientExtensions
                     IsFlexible = isFlexible,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -5012,10 +4925,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -5033,8 +4943,7 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -5042,12 +4951,11 @@ public static partial class TelegramBotClientExtensions
             .MakeRequestAsync(
                 request: new SendGameRequest(chatId, gameShortName)
                 {
+                    MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
