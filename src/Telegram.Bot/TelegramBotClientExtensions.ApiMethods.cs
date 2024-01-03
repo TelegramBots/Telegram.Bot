@@ -1762,7 +1762,7 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         int messageId,
-        ReactionType[]? reaction,
+        IEnumerable<ReactionType>? reaction,
         bool? isBig,
         CancellationToken cancellationToken = default
     ) =>

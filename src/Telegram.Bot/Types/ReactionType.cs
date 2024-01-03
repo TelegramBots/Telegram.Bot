@@ -5,8 +5,8 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object describes the type of a reaction. Currently, it can be one of
 /// <list type="bullet">
-/// <item><description>ReactionTypeEmoji</description></item>
-/// <item><description>ReactionTypeCustomEmoji</description></item>
+/// <item><see cref="ReactionTypeEmoji"/></item>
+/// <item><see cref="ReactionTypeCustomEmoji"/></item>
 /// </list>
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
