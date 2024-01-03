@@ -1,4 +1,7 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
@@ -8,47 +11,31 @@ namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class MessageTypeConverterTests
 {
+    [Fact]
+    public void Should_Verify_All_MessageType_Members()
+    {
+        List<string> messageTypeMembers = Enum
+            .GetNames<MessageType>()
+            .OrderBy(x => x)
+            .ToList();
+        List<string> messageTypeDataMembers = new MessageTypeData()
+            .Select(x => Enum.GetName(typeof(MessageType), x[0]))
+            .OrderBy(x => x)
+            .ToList()!;
+
+        Assert.Equal(messageTypeMembers.Count, messageTypeDataMembers.Count);
+        Assert.Equal(messageTypeMembers, messageTypeDataMembers);
+    }
+
     [Theory]
-    [InlineData(MessageType.Unknown, "unknown")]
-    [InlineData(MessageType.Text, "text")]
-    [InlineData(MessageType.Photo, "photo")]
-    [InlineData(MessageType.Audio, "audio")]
-    [InlineData(MessageType.Video, "video")]
-    [InlineData(MessageType.Voice, "voice")]
-    [InlineData(MessageType.Animation, "animation")]
-    [InlineData(MessageType.Document, "document")]
-    [InlineData(MessageType.Sticker, "sticker")]
-    [InlineData(MessageType.Location, "location")]
-    [InlineData(MessageType.Contact, "contact")]
-    [InlineData(MessageType.Venue, "venue")]
-    [InlineData(MessageType.Game, "game")]
-    [InlineData(MessageType.VideoNote, "video_note")]
-    [InlineData(MessageType.Invoice, "invoice")]
-    [InlineData(MessageType.SuccessfulPayment, "successful_payment")]
-    [InlineData(MessageType.WebsiteConnected, "website_connected")]
-    [InlineData(MessageType.ChatMembersAdded, "chat_members_added")]
-    [InlineData(MessageType.ChatMemberLeft, "chat_member_left")]
-    [InlineData(MessageType.ChatTitleChanged, "chat_title_changed")]
-    [InlineData(MessageType.ChatPhotoChanged, "chat_photo_changed")]
-    [InlineData(MessageType.MessagePinned, "message_pinned")]
-    [InlineData(MessageType.ChatPhotoDeleted, "chat_photo_deleted")]
-    [InlineData(MessageType.GroupCreated, "group_created")]
-    [InlineData(MessageType.SupergroupCreated, "supergroup_created")]
-    [InlineData(MessageType.ChannelCreated, "channel_created")]
-    [InlineData(MessageType.MigratedToSupergroup, "migrated_to_supergroup")]
-    [InlineData(MessageType.MigratedFromGroup, "migrated_from_group")]
-    [InlineData(MessageType.Poll, "poll")]
-    [InlineData(MessageType.Dice, "dice")]
-    [InlineData(MessageType.MessageAutoDeleteTimerChanged, "message_auto_delete_timer_changed")]
-    [InlineData(MessageType.ProximityAlertTriggered, "proximity_alert_triggered")]
-    [InlineData(MessageType.VideoChatScheduled, "video_chat_scheduled")]
-    [InlineData(MessageType.VideoChatStarted, "video_chat_started")]
-    [InlineData(MessageType.VideoChatEnded, "video_chat_ended")]
-    [InlineData(MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited")]
+    [ClassData(typeof(MessageTypeData))]
     public void Should_Convert_UpdateType_To_String(MessageType messageType, string value)
     {
-        Message message = new() { Type = messageType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        Message message = new(messageType);
+        string expectedResult =
+            $$"""
+            {"type":"{{value}}"}
+            """;
 
         string result = JsonConvert.SerializeObject(message);
 
@@ -56,46 +43,14 @@ public class MessageTypeConverterTests
     }
 
     [Theory]
-    [InlineData(MessageType.Unknown, "unknown")]
-    [InlineData(MessageType.Text, "text")]
-    [InlineData(MessageType.Photo, "photo")]
-    [InlineData(MessageType.Audio, "audio")]
-    [InlineData(MessageType.Video, "video")]
-    [InlineData(MessageType.Voice, "voice")]
-    [InlineData(MessageType.Animation, "animation")]
-    [InlineData(MessageType.Document, "document")]
-    [InlineData(MessageType.Sticker, "sticker")]
-    [InlineData(MessageType.Location, "location")]
-    [InlineData(MessageType.Contact, "contact")]
-    [InlineData(MessageType.Venue, "venue")]
-    [InlineData(MessageType.Game, "game")]
-    [InlineData(MessageType.VideoNote, "video_note")]
-    [InlineData(MessageType.Invoice, "invoice")]
-    [InlineData(MessageType.SuccessfulPayment, "successful_payment")]
-    [InlineData(MessageType.WebsiteConnected, "website_connected")]
-    [InlineData(MessageType.ChatMembersAdded, "chat_members_added")]
-    [InlineData(MessageType.ChatMemberLeft, "chat_member_left")]
-    [InlineData(MessageType.ChatTitleChanged, "chat_title_changed")]
-    [InlineData(MessageType.ChatPhotoChanged, "chat_photo_changed")]
-    [InlineData(MessageType.MessagePinned, "message_pinned")]
-    [InlineData(MessageType.ChatPhotoDeleted, "chat_photo_deleted")]
-    [InlineData(MessageType.GroupCreated, "group_created")]
-    [InlineData(MessageType.SupergroupCreated, "supergroup_created")]
-    [InlineData(MessageType.ChannelCreated, "channel_created")]
-    [InlineData(MessageType.MigratedToSupergroup, "migrated_to_supergroup")]
-    [InlineData(MessageType.MigratedFromGroup, "migrated_from_group")]
-    [InlineData(MessageType.Poll, "poll")]
-    [InlineData(MessageType.Dice, "dice")]
-    [InlineData(MessageType.MessageAutoDeleteTimerChanged, "message_auto_delete_timer_changed")]
-    [InlineData(MessageType.ProximityAlertTriggered, "proximity_alert_triggered")]
-    [InlineData(MessageType.VideoChatScheduled, "video_chat_scheduled")]
-    [InlineData(MessageType.VideoChatStarted, "video_chat_started")]
-    [InlineData(MessageType.VideoChatEnded, "video_chat_ended")]
-    [InlineData(MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited")]
+    [ClassData(typeof(MessageTypeData))]
     public void Should_Convert_String_To_UpdateType(MessageType messageType, string value)
     {
-        Message expectedResult = new() { Type = messageType };
-        string jsonData = @$"{{""type"":""{value}""}}";
+        Message expectedResult = new(messageType);
+        string jsonData =
+            $$"""
+            {"type":"{{value}}"}
+            """;
 
         Message? result = JsonConvert.DeserializeObject<Message>(jsonData);
 
@@ -106,7 +61,10 @@ public class MessageTypeConverterTests
     [Fact]
     public void Should_Return_Unknown_For_Incorrect_UpdateType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
+        string jsonData =
+            $$"""
+            {"type":"{{int.MaxValue}}"}
+            """;
 
         Message? result = JsonConvert.DeserializeObject<Message>(jsonData);
 
@@ -117,15 +75,72 @@ public class MessageTypeConverterTests
     [Fact]
     public void Should_Throw_NotSupportedException_For_Incorrect_MessageType()
     {
-        Message message = new() { Type = (MessageType)int.MaxValue };
+        Message message = new((MessageType)int.MaxValue );
 
         Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(message));
     }
 
     [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    class Message
+    record Message([property: JsonProperty(Required = Required.Always)] MessageType Type);
+
+    private class MessageTypeData : IEnumerable<object[]>
     {
-        [JsonProperty(Required = Required.Always)]
-        public MessageType Type { get; init; }
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { MessageType.Unknown, "unknown" };
+            yield return new object[] { MessageType.Text, "text" };
+            yield return new object[] { MessageType.Animation, "animation" };
+            yield return new object[] { MessageType.Audio, "audio" };
+            yield return new object[] { MessageType.Document, "document" };
+            yield return new object[] { MessageType.Photo, "photo" };
+            yield return new object[] { MessageType.Sticker, "sticker" };
+            yield return new object[] { MessageType.Story, "story" };
+            yield return new object[] { MessageType.Video, "video" };
+            yield return new object[] { MessageType.VideoNote, "video_note" };
+            yield return new object[] { MessageType.Voice, "voice" };
+            yield return new object[] { MessageType.Contact, "contact" };
+            yield return new object[] { MessageType.Dice, "dice" };
+            yield return new object[] { MessageType.Game, "game" };
+            yield return new object[] { MessageType.Poll, "poll" };
+            yield return new object[] { MessageType.Venue, "venue" };
+            yield return new object[] { MessageType.Location, "location" };
+            yield return new object[] { MessageType.NewChatMembers, "new_chat_members" };
+            yield return new object[] { MessageType.LeftChatMember, "left_chat_member" };
+            yield return new object[] { MessageType.NewChatTitle, "new_chat_title" };
+            yield return new object[] { MessageType.NewChatPhoto, "new_chat_photo" };
+            yield return new object[] { MessageType.DeleteChatPhoto, "delete_chat_photo" };
+            yield return new object[] { MessageType.GroupChatCreated, "group_chat_created" };
+            yield return new object[] { MessageType.SupergroupChatCreated, "supergroup_chat_created" };
+            yield return new object[] { MessageType.ChannelChatCreated, "channel_chat_created" };
+            yield return new object[] { MessageType.MessageAutoDeleteTimerChanged, "message_auto_delete_timer_changed" };
+            yield return new object[] { MessageType.MigrateToChatId, "migrate_to_chat_id" };
+            yield return new object[] { MessageType.MigrateFromChatId, "migrate_from_chat_id" };
+            yield return new object[] { MessageType.PinnedMessage, "pinned_message" };
+            yield return new object[] { MessageType.Invoice, "invoice" };
+            yield return new object[] { MessageType.SuccessfulPayment, "successful_payment" };
+            yield return new object[] { MessageType.UsersShared, "users_shared" };
+            yield return new object[] { MessageType.ChatShared, "chat_shared" };
+            yield return new object[] { MessageType.ConnectedWebsite, "connected_website" };
+            yield return new object[] { MessageType.WriteAccessAllowed, "write_access_allowed" };
+            yield return new object[] { MessageType.PassportData, "passport_data" };
+            yield return new object[] { MessageType.ProximityAlertTriggered, "proximity_alert_triggered" };
+            yield return new object[] { MessageType.ForumTopicCreated, "forum_topic_created" };
+            yield return new object[] { MessageType.ForumTopicEdited, "forum_topic_edited" };
+            yield return new object[] { MessageType.ForumTopicClosed, "forum_topic_closed" };
+            yield return new object[] { MessageType.ForumTopicReopened, "forum_topic_reopened" };
+            yield return new object[] { MessageType.GeneralForumTopicHidden, "general_forum_topic_hidden" };
+            yield return new object[] { MessageType.GeneralForumTopicUnhidden, "general_forum_topic_unhidden" };
+            yield return new object[] { MessageType.GiveawayCreated, "giveaway_created" };
+            yield return new object[] { MessageType.Giveaway, "giveaway" };
+            yield return new object[] { MessageType.GiveawayWinners, "giveaway_winners" };
+            yield return new object[] { MessageType.GiveawayCompleted, "giveaway_completed" };
+            yield return new object[] { MessageType.VideoChatScheduled, "video_chat_scheduled" };
+            yield return new object[] { MessageType.VideoChatStarted, "video_chat_started" };
+            yield return new object[] { MessageType.VideoChatEnded, "video_chat_ended" };
+            yield return new object[] { MessageType.VideoChatParticipantsInvited, "video_chat_participants_invited" };
+            yield return new object[] { MessageType.WebAppData, "web_app_data" };
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

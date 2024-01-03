@@ -1,23 +1,11 @@
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
-/// This object represents one button of the reply keyboard. For simple text buttons <see cref="string"/> can be
-/// used instead of this object to specify text of the button.
+/// This object represents one button of the reply keyboard.
+/// For simple text buttons, <see cref="string"/> can be used instead of this object to specify the button text.
+/// The optional fields <see cref="WebApp"/>, <see cref="RequestUsers"/>, <see cref="RequestChat"/>,
+/// <see cref="RequestContact"/>, <see cref="RequestLocation"/>, and <see cref="RequestPoll"/> are mutually exclusive.
 /// </summary>
-/// <remarks>
-/// <para>
-/// <b>Note</b>: <see cref="RequestContact"/> and <see cref="RequestLocation"/> options will only work in Telegram
-/// versions released after 9 April, 2016. Older clients will display unsupported message.
-/// </para>
-/// <para>
-/// <b>Note</b>: <see cref="RequestPoll"/> option will only work in Telegram versions released after 23 January, 2020.
-/// Older clients will display unsupported message.
-/// </para>
-/// <para>
-/// <b>Note</b>: <see cref="WebApp"/> option will only work in Telegram versions released after 16 April, 2022. Older
-/// clients will display unsupported message.
-/// </para>
-/// </remarks>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class KeyboardButton : IKeyboardButton
 {
@@ -26,11 +14,11 @@ public class KeyboardButton : IKeyboardButton
     public string Text { get; set; }
 
     /// <summary>
-    /// Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send
-    /// their identifier to the bot in a “user_shared” service message. Available in private chats only.
+    /// Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users
+    /// will be sent to the bot in a "<see cref="UsersShared"/>" service message. Available in private chats only.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public KeyboardButtonRequestUser? RequestUser { get; set; }
+    public KeyboardButtonRequestUsers? RequestUsers { get; set; }
 
     /// <summary>
     /// Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
@@ -112,10 +100,10 @@ public class KeyboardButton : IKeyboardButton
     /// Generate a keyboard button to request user info
     /// </summary>
     /// <param name="text">Button's text</param>
-    /// <param name="requestUser">Criteria used to request a suitable user</param>
+    /// <param name="requestUsers">Criteria used to request a suitable users</param>
     /// <returns></returns>
-    public static KeyboardButton WithRequestUser(string text, KeyboardButtonRequestUser requestUser) =>
-        new(text) { RequestUser = requestUser };
+    public static KeyboardButton WithRequestUser(string text, KeyboardButtonRequestUsers requestUsers) =>
+        new(text) { RequestUsers = requestUsers };
 
     /// <summary>
     /// Generate a keyboard button to request chat info

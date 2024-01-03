@@ -227,9 +227,9 @@ public enum MessageType
     WriteAccessAllowed,
 
     /// <summary>
-    /// The <see cref="Message"/> contains <see cref="Message.UserShared"/>
+    /// The <see cref="Message"/> contains a <see cref="Message.UsersShared"/>
     /// </summary>
-    UserShared,
+    UsersShared,
 
     /// <summary>
     /// The <see cref="Message"/> contains <see cref="Message.ChatShared"/>

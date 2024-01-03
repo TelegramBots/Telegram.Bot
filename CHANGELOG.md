@@ -91,8 +91,12 @@ which contains the part of the replied message text or caption that is quoted in
 - Replaced the parameter `DisableWebPagePreview` with `LinkPreviewOptions` in the methods `SendTextMessageAsync` and `EditMessageTextAsync`.
 - Replaced the property `DisableWebPagePreview` with `LinkPreviewOptions` in the request classes `SendMessageRequest`, `EditMessageTextRequest`
  and `EditInlineMessageTextRequest`.
- - Replaced the property disable_web_page_preview with `DisableWebPagePreview` in the class `InputTextMessageContent`.
-
+- Replaced the property disable_web_page_preview with `DisableWebPagePreview` in the class `InputTextMessageContent`.
+- Renamed the class `KeyboardButtonRequestUser` to `KeyboardButtonRequestUsers` and added the property `MaxQuantity` to it.
+- Renamed the property `RequestUser` in the class `KeyboardButton` to `RequestUsers`. The old name will still work for backward compatibility.
+- Renamed the class `UserShared` to `UsersShared` and changed the property `UserId` to `UserIds`.
+- Replaced the property `UserShared` in the class Message with the property `UsersShared`.
+- Replaced enum member `MessageType.UserShared` with `MessageType.UsersShared`
 
 ## [v20.0.0] - Unreleased
 
