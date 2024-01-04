@@ -27,7 +27,7 @@ public abstract class MessageOrigin
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public abstract DateTime Date { get; }
+    public abstract DateTime Date { get; set; }
 }
 
 /// <summary>
@@ -44,13 +44,13 @@ public class MessageOriginUser : MessageOrigin
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; }
+    public override DateTime Date { get; set; }
 
     /// <summary>
     /// User that sent the message originally
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public User SenderUser { get; } = default!;
+    public User SenderUser { get; set; } = default!;
 }
 
 /// <summary>
@@ -67,13 +67,13 @@ public class MessageOriginHiddenUser : MessageOrigin
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; }
+    public override DateTime Date { get; set; }
 
     /// <summary>
     /// Name of the user that sent the message originally
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string SenderUserName { get; } = default!;
+    public string SenderUserName { get; set; } = default!;
 }
 
 /// <summary>
@@ -90,13 +90,13 @@ public class MessageOriginChat : MessageOrigin
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; }
+    public override DateTime Date { get; set; }
 
     /// <summary>
     /// Chat that sent the message originally
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public Chat SenderChat { get; } = default!;
+    public Chat SenderChat { get; set; } = default!;
 
     /// <summary>
     /// Optional. For messages originally sent by an anonymous chat administrator,
@@ -120,19 +120,19 @@ public class MessageOriginChannel : MessageOrigin
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public override DateTime Date { get; }
+    public override DateTime Date { get; set; }
 
     /// <summary>
     /// Channel chat to which the message was originally sent
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public Chat Chat { get; } = default!;
+    public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Unique message identifier inside the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; } = default!;
+    public int MessageId { get; set; } = default!;
 
     /// <summary>
     /// Optional. Signature of the original post author

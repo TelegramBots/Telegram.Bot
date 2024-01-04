@@ -10,7 +10,7 @@ public class GiveawayCompleted
     /// Number of winners in the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int WinnerCount { get; } = default!;
+    public int WinnerCount { get; set; } = default!;
 
     /// <summary>
     /// Optional. Number of undistributed prizes

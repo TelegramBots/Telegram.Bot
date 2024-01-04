@@ -40,7 +40,7 @@ public class ReactionTypeEmoji : ReactionType
     /// "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Emoji { get; } = default!;
+    public string Emoji { get; set; } = default!;
 }
 
 /// <summary>
@@ -58,5 +58,5 @@ public class ReactionTypeCustomEmoji : ReactionType
     /// Custom emoji identifier
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string CustomEmojiId { get; } = default!;
+    public string CustomEmojiId { get; set; } = default!;
 }

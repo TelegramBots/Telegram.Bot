@@ -10,11 +10,11 @@ public class ChatBoostUpdated
     /// Chat which was boosted
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public Chat Chat { get; } = default!;
+    public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Information about the chat boost
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatBoost Boost { get; } = default!;
+    public ChatBoost Boost { get; set; } = default!;
 }

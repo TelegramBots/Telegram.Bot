@@ -12,20 +12,20 @@ public class Giveaway
     /// The list of chats which the user must join to participate in the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public Chat[] Chats { get; } = default!;
+    public Chat[] Chats { get; set; } = default!;
 
     /// <summary>
     /// Point in time when winners of the giveaway will be selected
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime WinnersSelectionDate { get; } = default!;
+    public DateTime WinnersSelectionDate { get; set; } = default!;
 
     /// <summary>
     /// The number of users which are supposed to be selected as winners of the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int WinnerCount { get; } = default!;
+    public int WinnerCount { get; set; } = default!;
 
     /// <summary>
     /// Optional. <see langword="true"/>, if only users who join the chats after the giveaway started should be eligible to win

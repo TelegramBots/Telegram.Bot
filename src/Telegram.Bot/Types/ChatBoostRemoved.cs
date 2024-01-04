@@ -12,24 +12,24 @@ public class ChatBoostRemoved
     /// Chat which was boosted
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public Chat Chat { get; } = default!;
+    public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Unique identifier of the boost
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string BoostId { get; } = default!;
+    public string BoostId { get; set; } = default!;
 
     /// <summary>
     /// Point in time when the boost was removed
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime RemoveDate { get; } = default!;
+    public DateTime RemoveDate { get; set; } = default!;
 
     /// <summary>
     /// Source of the removed boost
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatBoostSource Source { get; } = default!;
+    public ChatBoostSource Source { get; set; } = default!;
 }

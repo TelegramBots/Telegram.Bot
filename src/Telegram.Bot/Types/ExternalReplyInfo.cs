@@ -12,7 +12,7 @@ public class ExternalReplyInfo
     /// Origin of the message replied to by the given message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public MessageOrigin Origin { get; } = default!;
+    public MessageOrigin Origin { get; set; } = default!;
 
     /// <summary>
     /// Optional.Chat the original message belongs to.Available only if the chat is a supergroup or a channel.

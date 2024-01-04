@@ -10,7 +10,7 @@ public class ReplyParameters
     /// Identifier of the message that will be replied to in the current chat, or in the chat <see cref="ChatId"/> if it is specified
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public int MessageId { get; set; }
 
     /// <summary>
     /// Optional. If the message to be replied to is from a different chat, unique identifier for the

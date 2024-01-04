@@ -36,7 +36,7 @@ public abstract class ChatBoostSourcePremium : ChatBoostSource
     /// User that boosted the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public User User { get; } = default!;
+    public User User { get; set; } = default!;
 }
 
 /// <summary>
@@ -55,7 +55,7 @@ public abstract class ChatBoostSourceGiftCode : ChatBoostSource
     /// User for which the gift code was created
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public User User { get; } = default!;
+    public User User { get; set; } = default!;
 }
 
 /// <summary>
@@ -75,7 +75,7 @@ public abstract class ChatBoostSourceGiveaway : ChatBoostSource
     /// May be 0 if the message isn't sent yet.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int GiveawayMessageId { get; } = default!;
+    public int GiveawayMessageId { get; set; } = default!;
 
     /// <summary>
     /// Optional. User that won the prize in the giveaway if any

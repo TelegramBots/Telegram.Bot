@@ -12,32 +12,32 @@ public class GiveawayWinners
     /// The chat that created the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public Chat Chat { get; } = default!;
+    public Chat Chat { get; set; } = default!;
 
     /// <summary>
     /// Identifier of the message with the giveaway in the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int GiveawayMessageId { get; } = default!;
+    public int GiveawayMessageId { get; set; } = default!;
 
     /// <summary>
     /// Point in time when winners of the giveaway were selected
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime WinnersSelectionDate { get; } = default!;
+    public DateTime WinnersSelectionDate { get; set; } = default!;
 
     /// <summary>
     /// Total number of winners in the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int WinnerCount { get; } = default!;
+    public int WinnerCount { get; set; } = default!;
 
     /// <summary>
     /// List of up to 100 winners of the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public User[] Winners { get; } = default!;
+    public User[] Winners { get; set; } = default!;
 
     /// <summary>
     /// Optional. The number of other chats the user had to join in order to be eligible for the giveaway
