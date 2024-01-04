@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -40,6 +41,8 @@ public class BotShortDescriptionTests: IAsyncLifetime
             shortDescription: shortDescription
         );
 
+        await Task.Delay(TimeSpan.FromSeconds(10));
+
         BotShortDescription currentShortDescription = await _fixture.BotClient.GetMyShortDescriptionAsync();
 
         Assert.NotNull(currentShortDescription);
@@ -62,8 +65,10 @@ public class BotShortDescriptionTests: IAsyncLifetime
         Assert.Equal(shortDescription, setShortDescription.ShortDescription);
 
         await BotClient.SetMyShortDescriptionAsync(
-            shortDescription: string.Empty
+            shortDescription: ""
         );
+
+        await Task.Delay(TimeSpan.FromSeconds(10));
 
         BotShortDescription currentShortDescription = await _fixture.BotClient.GetMyShortDescriptionAsync();
 
@@ -84,6 +89,8 @@ public class BotShortDescriptionTests: IAsyncLifetime
             languageCode: _languageCode
         );
 
+        await Task.Delay(TimeSpan.FromSeconds(10));
+
         BotShortDescription newDescription = await _fixture.BotClient.GetMyShortDescriptionAsync(languageCode: _languageCode);
 
         Assert.NotNull(newDescription);
@@ -95,11 +102,11 @@ public class BotShortDescriptionTests: IAsyncLifetime
     public async Task DisposeAsync()
     {
         await BotClient.SetMyShortDescriptionAsync(
-            shortDescription: string.Empty
+            shortDescription: ""
         );
 
         await BotClient.SetMyShortDescriptionAsync(
-            shortDescription: string.Empty,
+            shortDescription: "",
             languageCode: _languageCode
         );
     }

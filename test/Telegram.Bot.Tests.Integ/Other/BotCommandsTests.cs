@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -50,7 +51,7 @@ public class BotCommandsTests: IAsyncLifetime
     public async Task Should_Get_Set_Bot_Commands()
     {
         BotCommand[] commands =
-        {
+        [
             new()
             {
                 Command = "start",
@@ -61,7 +62,7 @@ public class BotCommandsTests: IAsyncLifetime
                 Command = "help",
                 Description = "Help command"
             },
-        };
+        ];
 
         _scope = BotCommandScope.Default();
 
@@ -69,6 +70,8 @@ public class BotCommandsTests: IAsyncLifetime
             commands: commands,
             scope: _scope
         );
+
+        await Task.Delay(TimeSpan.FromSeconds(10));
 
         BotCommand[] currentCommands = await _fixture.BotClient.GetMyCommandsAsync();
 
@@ -101,6 +104,8 @@ public class BotCommandsTests: IAsyncLifetime
             commands: commands,
             scope: _scope
         );
+
+        await Task.Delay(TimeSpan.FromSeconds(10));
 
         BotCommand[] setCommands = await BotClient.GetMyCommandsAsync();
 
@@ -139,6 +144,8 @@ public class BotCommandsTests: IAsyncLifetime
             commands: commands,
             scope: _scope
         );
+
+        await Task.Delay(TimeSpan.FromSeconds(10));
 
         BotCommand[] newCommands = await BotClient.GetMyCommandsAsync(scope: _scope);
 

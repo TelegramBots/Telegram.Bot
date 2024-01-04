@@ -89,7 +89,7 @@ public class StickersTestsFixture
                 testsFixture.SupergroupChat,
                 testsFixture.UpdateReceiver.GetTesters() +
                 "\nUse the following button to become Sticker Set Owner",
-                replyToMessageId: notificationMessage.MessageId,
+                replyParameters: new() { MessageId = notificationMessage.MessageId },
                 replyMarkup: new InlineKeyboardMarkup(
                     InlineKeyboardButton.WithCallbackData("I am the Owner!", cqData)
                 )

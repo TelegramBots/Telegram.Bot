@@ -39,7 +39,7 @@ public class GamesExceptionTests
         ApiRequestException e = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.SendGameAsync(
                 chatId: _fixture.SupergroupChat.Id,
-                gameShortName: string.Empty
+                gameShortName: ""
             )
         );
 

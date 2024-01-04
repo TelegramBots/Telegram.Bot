@@ -26,7 +26,7 @@ public class UpdateReceiver
     public UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
     {
         _botClient = botClient;
-        AllowedUsernames = allowedUsernames?.ToList() ?? new();
+        AllowedUsernames = allowedUsernames?.ToList() ?? [];
     }
 
     public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
@@ -79,7 +79,7 @@ public class UpdateReceiver
                 cancellationToken = cts.Token;
             }
 
-            Update[] matchingUpdates = Array.Empty<Update>();
+            Update[] matchingUpdates = [];
 
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -143,7 +143,7 @@ public class UpdateReceiver
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
         var updates = await GetUpdatesAsync(
-            predicate: u => (messageId is null || u.CallbackQuery?.Message?.MessageId == messageId) &&
+            predicate: u => (messageId is null || ((Message?)u.CallbackQuery?.Message)?.MessageId == messageId) &&
                             (data is null || u.CallbackQuery?.Data == data),
             updateTypes: new [] { UpdateType.CallbackQuery },
             cancellationToken: cancellationToken
@@ -161,7 +161,7 @@ public class UpdateReceiver
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
         var updates = await GetUpdatesAsync(
-            updateTypes: new [] { UpdateType.InlineQuery },
+            updateTypes: [UpdateType.InlineQuery],
             cancellationToken: cancellationToken
         );
 
@@ -194,7 +194,7 @@ public class UpdateReceiver
                                  id == chatId && type == messageType) ||
                                 u.ChosenInlineResult is not null,
                 cancellationToken: cancellationToken,
-                updateTypes: new[] { UpdateType.Message, UpdateType.ChosenInlineResult }
+                updateTypes: [UpdateType.Message, UpdateType.ChosenInlineResult]
             );
 
             messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);

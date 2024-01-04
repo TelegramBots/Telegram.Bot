@@ -80,13 +80,11 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
             messageId: message1.MessageId
         );
 
-        Asserts.UsersEqual(_fixture.BotUser, message2.ForwardFrom);
-        Assert.Null(message2.ForwardFromChat);
-        Assert.Equal(default, message2.ForwardFromMessageId);
-        Assert.Null(message2.ForwardSignature);
-        Assert.NotNull(message2.ForwardDate);
+        MessageOriginUser forwardOrigin = (MessageOriginUser)message2.ForwardOrigin;
+        Assert.NotNull(forwardOrigin);
+        Asserts.UsersEqual(_fixture.BotUser, forwardOrigin.SenderUser);
         Assert.InRange(
-            message2.ForwardDate.Value,
+            forwardOrigin.Date,
             DateTime.UtcNow.AddSeconds(-20),
             DateTime.UtcNow
         );
@@ -115,7 +113,7 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
             chatId: _fixture.SupergroupChat.Id,
             text: string.Join("\n", entityValueMappings.Values),
             parseMode: ParseMode.Markdown,
-            disableWebPagePreview: true
+            linkPreviewOptions: new() { IsDisabled = true }
         );
 
         Assert.NotNull(message.Entities);
@@ -133,7 +131,7 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
     {
         const string url = "https://telegram.org/";
         (MessageEntityType Type, string Value)[] entityValueMappings =
-        {
+        [
             (MessageEntityType.Bold, "<b>bold</b>"),
             (MessageEntityType.Bold, "<strong>&lt;strong&gt;</strong>"),
             (MessageEntityType.Italic, "<i>italic</i>"),
@@ -148,13 +146,13 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
             (MessageEntityType.Strikethrough, "<s>strikethrough</s>"),
             (MessageEntityType.Underline, "<u>underline</u>"),
             (MessageEntityType.Spoiler, "<tg-spoiler>spoiler</tg-spoiler>"),
-        };
+        ];
 
         Message message = await BotClient.SendTextMessageAsync(
             chatId: _fixture.SupergroupChat.Id,
             text: string.Join("\n", entityValueMappings.Select(tuple => tuple.Value)),
             parseMode: ParseMode.Html,
-            disableWebPagePreview: true
+            linkPreviewOptions: new() { IsDisabled = true }
         );
 
         Assert.NotNull(message.Entities);
@@ -174,7 +172,7 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
     public async Task Should_Parse_Message_Entities_Into_Values()
     {
         (MessageEntityType Type, string Value)[] entityValueMappings =
-        {
+        [
             (MessageEntityType.PhoneNumber, "+38612345678"),
             (MessageEntityType.Cashtag, "$EUR"),
             (MessageEntityType.Hashtag, "#TelegramBots"),
@@ -183,7 +181,7 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
             (MessageEntityType.Email, "security@telegram.org"),
             (MessageEntityType.BotCommand, "/test"),
             (MessageEntityType.BotCommand, $"/test@{_fixture.BotUser.Username}"),
-        };
+        ];
 
         Message message = await BotClient.SendTextMessageAsync(
             chatId: _fixture.SupergroupChat.Id,
@@ -224,7 +222,7 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
             chatId: _fixture.SupergroupChat.Id,
             text: string.Join("\n", entityValueMappings.Values),
             parseMode: ParseMode.MarkdownV2,
-            disableWebPagePreview: true
+            linkPreviewOptions: new() { IsDisabled = true }
         );
 
         Assert.NotNull(message.Entities);
@@ -282,10 +280,7 @@ public class TextMessageTests : IClassFixture<TextMessageTests.Fixture>
         Assert.Equal(400, exception.ErrorCode);
     }
 
-    public class Fixture : ChannelChatFixture
+    public class Fixture(TestsFixture testsFixture) : ChannelChatFixture(testsFixture, Constants.TestCollections.SendTextMessage)
     {
-        public Fixture(TestsFixture testsFixture)
-            : base(testsFixture, Constants.TestCollections.SendTextMessage)
-        { }
     }
 }

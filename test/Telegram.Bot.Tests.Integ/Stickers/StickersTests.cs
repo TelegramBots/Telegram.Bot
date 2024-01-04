@@ -235,7 +235,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join(string.Empty, _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
@@ -276,7 +276,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join(string.Empty, _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
@@ -317,7 +317,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join(string.Empty, _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
@@ -377,7 +377,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        string thirdEmojisString = string.Join(string.Empty, _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, thirdSticker.Emoji);
         Assert.False(thirdSticker.IsAnimated);
@@ -416,7 +416,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        string thirdEmojisString = string.Join(string.Empty, _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, thirdSticker.Emoji);
         Assert.True(thirdSticker.IsAnimated);
@@ -455,7 +455,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        string thirdEmojisString = string.Join(string.Empty, _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, thirdSticker.Emoji);
         Assert.False(thirdSticker.IsAnimated);
@@ -530,7 +530,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string thirdEmojisString = string.Join(string.Empty, _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, firstSticker.Emoji);
 
@@ -547,7 +547,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker updatedFirstSticker = updatedStickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join(string.Empty, _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, updatedFirstSticker.Emoji);
     }

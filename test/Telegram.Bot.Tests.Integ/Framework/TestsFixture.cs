@@ -118,7 +118,7 @@ public class TestsFixture : IDisposable
             u.Message.Text?.StartsWith("/test", StringComparison.OrdinalIgnoreCase) == true
         ) || (
             ChatType.Channel == chatType &&
-            ChatType.Channel == u.Message?.ForwardFromChat?.Type
+            u.Message?.ForwardOrigin is MessageOriginChannel
         );
 
         var updates = await UpdateReceiver.GetUpdatesAsync(
@@ -132,7 +132,7 @@ public class TestsFixture : IDisposable
         await UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
         return chatType == ChatType.Channel
-            ? update.Message?.ForwardFromChat
+            ? ((MessageOriginChannel)update.Message?.ForwardOrigin).Chat
             : update.Message?.Chat;
     }
 
@@ -143,7 +143,7 @@ public class TestsFixture : IDisposable
             Message:
             {
                 Type: MessageType.Contact,
-                ForwardFrom: not null,
+                ForwardOrigin: not null,
                 NewChatMembers.Length: > 0,
             }
         };
@@ -155,7 +155,7 @@ public class TestsFixture : IDisposable
         var userId = update.Message switch
         {
             { Contact.UserId: {} id } => id,
-            { ForwardFrom.Id: var id } => id,
+            { ForwardOrigin: MessageOriginUser originUser } => originUser.SenderUser.Id,
             { NewChatMembers: { Length: 1 } members } => members[0].Id,
             _ => throw new InvalidOperationException()
         };
@@ -259,7 +259,7 @@ public class TestsFixture : IDisposable
         // Try to get user names from test configurations first
         var allowedUserNames = Configuration.AllowedUserNames;
 
-        if (allowedUserNames.Any()) return allowedUserNames;
+        if (allowedUserNames.Length != 0) return allowedUserNames;
 
         // Assume all chat admins are allowed testers
         var admins = await BotClient.GetChatAdministratorsAsync(SupergroupChat, cancellationToken);
