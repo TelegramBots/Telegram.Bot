@@ -13,9 +13,4 @@ namespace Telegram.Bot.Types;
 [JsonConverter(typeof(MaybeInaccessibleMessageConverter))]
 public abstract class MaybeInaccessibleMessage
 {
-    /// <summary>
-    /// Date the message was sent. It is always a positive number, representing a valid date.
-    /// </summary>
-    [JsonProperty]
-    public abstract int Date { get; }
 }

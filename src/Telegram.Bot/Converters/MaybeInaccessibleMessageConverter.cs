@@ -41,8 +41,8 @@ internal class MaybeInaccessibleMessageConverter : JsonConverter
 
         var actualType = date switch
         {
-            0 => typeof(Message),
-            _ => typeof(InaccessibleMessage),
+            0 => typeof(InaccessibleMessage),
+            _ => typeof(Message),
         };
 
         // Remove status because status property only has getter
