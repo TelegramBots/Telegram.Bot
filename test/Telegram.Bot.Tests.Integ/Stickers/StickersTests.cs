@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,16 +28,16 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     }
 
     #region 1. Upload sticker files
-    [OrderedFact("Shound upload static sticker file")]
+    [OrderedFact("Should upload static sticker file")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UploadStickerFile)]
-    public async Task Shound_Upload_Static_Sticker_File()
+    public async Task Should_Upload_Static_Sticker_File()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.StaticFirst);
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.StaticFirst);
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
             sticker: new InputFileStream(stream),
-            StickerFormat.Static
+            stickerFormat: StickerFormat.Static
         );
 
         Assert.NotEmpty(file.FileId);
@@ -45,16 +46,16 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         _stickersTestsFixture.TestUploadedStaticStickerFile = file;
     }
 
-    [OrderedFact("Shound upload animated sticker file")]
+    [OrderedFact("Should upload animated sticker file")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UploadStickerFile)]
-    public async Task Shound_Upload_Animated_Sticker_File()
+    public async Task Should_Upload_Animated_Sticker_File()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.AnimatedFirst);
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.AnimatedFirst);
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
             sticker: new InputFileStream(stream),
-            StickerFormat.Animated
+            stickerFormat: StickerFormat.Animated
         );
 
         Assert.NotEmpty(file.FileId);
@@ -63,16 +64,16 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         _stickersTestsFixture.TestUploadedAnimatedStickerFile = file;
     }
 
-    [OrderedFact("Shound upload video sticker file")]
+    [OrderedFact("Should upload video sticker file")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.UploadStickerFile)]
-    public async Task Shound_Upload_Video_Sticker_File()
+    public async Task Should_Upload_Video_Sticker_File()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.VideoFirst);
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.Regular.VideoFirst);
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
             sticker: new InputFileStream(stream),
-            StickerFormat.Video
+            stickerFormat: StickerFormat.Video
         );
 
         Assert.NotEmpty(file.FileId);
@@ -83,30 +84,26 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     #endregion
 
     #region 2. Create sticker sets
-    [OrderedFact("Shound create new static sticker set")]
+    [OrderedFact("Should create new static sticker set")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Create_New_Static_Sticker_Set()
     {
-        List<InputSticker> inputStickers = new List<InputSticker>(2);
-
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.Regular.StaticSecond
         );
 
-        inputStickers.Add(
+        List<InputSticker> inputStickers =
+        [
             new InputSticker(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedStaticStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
-            )
-        );
-
-        inputStickers.Add(
+            ),
             new InputSticker(
                 sticker: new InputFileStream(stream, "Static2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
-            )
-        );
+            ),
+        ];
 
         await BotClient.CreateNewStickerSetAsync(
             userId: _stickersTestsFixture.OwnerUserId,
@@ -125,33 +122,28 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.False(_stickersTestsFixture.TestStaticRegularStickerSet.IsAnimated);
         Assert.False(_stickersTestsFixture.TestStaticRegularStickerSet.IsVideo);
-        Assert.True(_stickersTestsFixture.TestStaticRegularStickerSet.Stickers.Length == 2);
+        Assert.Equal(2, _stickersTestsFixture.TestStaticRegularStickerSet.Stickers.Length);
     }
 
-    [OrderedFact("Shound create new animated sticker set")]
+    [OrderedFact("Should create new animated sticker set")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Create_New_Animated_Sticker_Set()
     {
-        List<InputSticker> inputStickers = new List<InputSticker>(2);
-
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.Regular.AnimatedSecond
         );
 
-        inputStickers.Add(
+        List<InputSticker> inputStickers = [
             new InputSticker(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedAnimatedStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
-            )
-        );
-
-        inputStickers.Add(
+            ),
             new InputSticker(
                 sticker: new InputFileStream(stream, "Animated2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
-            )
-        );
+            ),
+        ];
 
         await BotClient.CreateNewStickerSetAsync(
             userId: _stickersTestsFixture.OwnerUserId,
@@ -170,33 +162,28 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.True(_stickersTestsFixture.TestAnimatedRegularStickerSet.IsAnimated);
         Assert.False(_stickersTestsFixture.TestAnimatedRegularStickerSet.IsVideo);
-        Assert.True(_stickersTestsFixture.TestAnimatedRegularStickerSet.Stickers.Length == 2);
+        Assert.Equal(2, _stickersTestsFixture.TestAnimatedRegularStickerSet.Stickers.Length);
     }
 
-    [OrderedFact("Shound create new video sticker set")]
+    [OrderedFact("Should create new video sticker set")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Create_New_Video_Sticker_Set()
     {
-        List<InputSticker> inputStickers = new List<InputSticker>(2);
-
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.Regular.VideoSecond
         );
 
-        inputStickers.Add(
+        List<InputSticker> inputStickers = [
             new InputSticker(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedVideoStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
-            )
-        );
-
-        inputStickers.Add(
+            ),
             new InputSticker(
                 sticker: new InputFileStream(stream, "Video2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
-            )
-        );
+            ),
+        ];
 
         await BotClient.CreateNewStickerSetAsync(
             userId: _stickersTestsFixture.OwnerUserId,
@@ -215,7 +202,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.False(_stickersTestsFixture.TestVideoRegularStickerSet.IsAnimated);
         Assert.True(_stickersTestsFixture.TestVideoRegularStickerSet.IsVideo);
-        Assert.True(_stickersTestsFixture.TestVideoRegularStickerSet.Stickers.Length == 2);
+        Assert.Equal(2, _stickersTestsFixture.TestVideoRegularStickerSet.Stickers.Length);
     }
     #endregion
 
@@ -231,11 +218,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.False(stickerSet.IsAnimated);
         Assert.False(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 2);
+        Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Concat(_stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
@@ -272,11 +259,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.True(stickerSet.IsAnimated);
         Assert.False(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 2);
+        Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Concat(_stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
@@ -313,11 +300,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.False(stickerSet.IsAnimated);
         Assert.True(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 2);
+        Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Concat(_stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, firstSticker.Emoji);
 
@@ -350,11 +337,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Add_Sticker_To_Static_Sticker_Set()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.Regular.StaticThird
         );
 
-        InputSticker inputSticker = new InputSticker(
+        InputSticker inputSticker = new(
             sticker: new InputFileStream(stream, "Static3.png"),
             emojiList: _stickersTestsFixture.ThirdEmojis
         );
@@ -373,11 +360,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.False(stickerSet.IsAnimated);
         Assert.False(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 3);
+        Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Concat(_stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, thirdSticker.Emoji);
         Assert.False(thirdSticker.IsAnimated);
@@ -389,11 +376,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Add_Sticker_To_Animated_Sticker_Set()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.Regular.AnimatedThird
         );
 
-        InputSticker inputSticker = new InputSticker(
+        InputSticker inputSticker = new(
             sticker: new InputFileStream(stream, "Animated3.tgs"),
             emojiList: _stickersTestsFixture.ThirdEmojis
         );
@@ -412,11 +399,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.True(stickerSet.IsAnimated);
         Assert.False(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 3);
+        Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Concat(_stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, thirdSticker.Emoji);
         Assert.True(thirdSticker.IsAnimated);
@@ -428,11 +415,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Add_Sticker_To_Video_Sticker_Set()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.Regular.VideoThird
         );
 
-        InputSticker inputSticker = new InputSticker(
+        InputSticker inputSticker = new(
             sticker: new InputFileStream(stream, "Video3.webm"),
             emojiList: _stickersTestsFixture.ThirdEmojis
         );
@@ -451,11 +438,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Assert.False(stickerSet.IsAnimated);
         Assert.True(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 3);
+        Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
 
-        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Concat(_stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, thirdSticker.Emoji);
         Assert.False(thirdSticker.IsAnimated);
@@ -530,7 +517,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker firstSticker = stickerSet.Stickers.First();
 
-        string thirdEmojisString = string.Join("", _stickersTestsFixture.ThirdEmojis);
+        string thirdEmojisString = string.Concat(_stickersTestsFixture.ThirdEmojis);
 
         Assert.Equal(thirdEmojisString, firstSticker.Emoji);
 
@@ -547,7 +534,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         Sticker updatedFirstSticker = updatedStickerSet.Stickers.First();
 
-        string firstEmojisString = string.Join("", _stickersTestsFixture.FirstEmojis);
+        string firstEmojisString = string.Concat(_stickersTestsFixture.FirstEmojis);
 
         Assert.Equal(firstEmojisString, updatedFirstSticker.Emoji);
     }
@@ -559,7 +546,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Set_First_Sticker_Keywords()
     {
-        string[] keywords = new[] { "test", "supertest" };
+        string[] keywords = ["test", "supertest"];
 
         StickerSet stickerSet = await BotClient.GetStickerSetAsync(
             name: _stickersTestsFixture.TestStaticRegularStickerSetName
@@ -610,7 +597,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Set_Sticker_Set_Thumbnail()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.Regular.StaticThumbnail
         );
 
@@ -632,20 +619,19 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     #endregion
 
     #region 11. Some exceptions
-    [OrderedFact("Should throw " + nameof(ApiRequestException) +
-                 " while trying to create sticker set with name not ending in _by_<bot username>")]
+    [OrderedFact($"Should throw {nameof(ApiRequestException)} while trying to create sticker set with name not ending in _by_<bot username>")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     public async Task Should_Throw_InvalidStickerSetNameException()
     {
         const string expectedExceptionMessage = "Bad Request: invalid sticker set name is specified";
 
-        List<InputSticker> inputStickers = new List<InputSticker>
-        {
+        List<InputSticker> inputStickers =
+        [
             new InputSticker(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedStaticStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
-        };
+        ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.CreateNewStickerSetAsync(
@@ -660,22 +646,21 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 
-    [OrderedFact("Should throw " + nameof(ApiRequestException) +
-                 " while trying to create sticker with invalid emoji")]
+    [OrderedFact($"Should throw {nameof(ApiRequestException)} while trying to create sticker with invalid emoji")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     public async Task Should_Throw_InvalidStickerEmojisException()
     {
         const string expectedExceptionMessage = "Bad Request: can't parse InputSticker: expected a Unicode emoji";
 
-        string[] invalidEmojis = new[] { "INVALID" };
+        string[] invalidEmojis = ["INVALID"];
 
-        List<InputSticker> inputStickers = new List<InputSticker>
-        {
+        List<InputSticker> inputStickers =
+        [
             new InputSticker(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedStaticStickerFile.FileId),
                 emojiList: invalidEmojis
             )
-        };
+        ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.CreateNewStickerSetAsync(
@@ -690,8 +675,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 
-    [OrderedFact("Should throw " + nameof(ApiRequestException) +
-                 " while trying to create sticker with invalid dimensions")]
+    [OrderedFact($"Should throw {nameof(ApiRequestException)} while trying to create sticker with invalid dimensions")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     public async Task Should_Throw_InvalidStickerDimensionsException()
     {
@@ -699,15 +683,15 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         const string expectedExceptionMessage = "Bad Request: STICKER_PNG_DIMENSIONS";
 
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Logo);
 
-        List<InputSticker> inputStickers = new List<InputSticker>
-        {
+        List<InputSticker> inputStickers =
+        [
             new InputSticker(
                 sticker: new InputFileStream(stream, "logo.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
-        };
+        ];
 
         //New name, because an exception might be thrown: Bad Request: sticker set name is already occupied
         string newStickerSetName = $"new_{_stickersTestsFixture.TestStaticRegularStickerSetName}";
@@ -725,22 +709,21 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 
-    [OrderedFact("Should throw " + nameof(ApiRequestException) +
-                 " while trying to create sticker with invalid file size")]
+    [OrderedFact($"Should throw {nameof(ApiRequestException)} while trying to create sticker with invalid file size")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     public async Task Should_Throw_InvalidFileSizeException()
     {
         const string expectedExceptionMessage = "Bad Request: file is too big";
 
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes);
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes);
 
-        List<InputSticker> inputStickers = new List<InputSticker>
-        {
+        List<InputSticker> inputStickers =
+        [
             new InputSticker(
                 sticker: new InputFileStream(stream, "apes.jpg"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
-        };
+        ];
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.CreateNewStickerSetAsync(
@@ -755,23 +738,22 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 
-    [OrderedFact("Should throw " + nameof(ApiRequestException) +
-                 " while trying to create sticker set with the same name with ruby photo", Skip = "Bot API Bug")]
+    [OrderedFact($"Should throw {nameof(ApiRequestException)} while trying to create sticker set with the same name with ruby photo",
+        Skip = "Bot API Bug")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     public async Task Should_Throw_StickerSetNameExistsException()
     {
-        
         const string expectedExceptionMessage = "Bad Request: sticker set name is already occupied";
 
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Ruby);
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Ruby);
 
-        List<InputSticker> inputStickers = new List<InputSticker>
-        {
+        List<InputSticker> inputStickers =
+        [
             new InputSticker(
                 sticker: new InputFileStream(stream, "ruby.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
-        };
+        ];
 
         // Telegram for some reason does not return an error, so the test is skipped
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
@@ -787,8 +769,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(expectedExceptionMessage, exception.Message);
     }
 
-    [OrderedFact("Should throw " + nameof(ApiRequestException) +
-                 " while trying to remove the last sticker in the set twice")]
+    [OrderedFact($"Should throw {nameof(ApiRequestException)} while trying to remove the last sticker in the set twice")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeleteStickerFromSet)]
     public async Task Should_Throw_StickerSetNotModifiedException()
@@ -805,8 +786,10 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
             sticker: new InputFileId(lastSticker.FileId)
         );
 
-        ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
-            BotClient.DeleteStickerFromSetAsync(
+        await Task.Delay(TimeSpan.FromSeconds(10));
+
+        ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
+            await BotClient.DeleteStickerFromSetAsync(
                 sticker: new InputFileId(lastSticker.FileId)
             )
         );
@@ -862,23 +845,20 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     #endregion
 
     #region 13. Mask tests
-    [OrderedFact("Shound create new mask static sticker set")]
+    [OrderedFact("Should create new mask static sticker set")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Create_New_Mask_Static_Sticker_Set()
     {
-        List<InputSticker> inputStickers = new List<InputSticker>(1);
-
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Photos.Tux
         );
 
-        inputStickers.Add(
+        List<InputSticker> inputStickers = [
             new InputSticker(
                 sticker: new InputFileStream(stream, "tux.png"),
-                emojiList: _stickersTestsFixture.SecondEmojis
-            )
-        );
+                emojiList: _stickersTestsFixture.SecondEmojis)
+        ];
 
         await BotClient.CreateNewStickerSetAsync(
             userId: _stickersTestsFixture.OwnerUserId,
@@ -898,7 +878,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(StickerType.Mask, _stickersTestsFixture.TestStaticMaskStickerSet.StickerType);
         Assert.False(_stickersTestsFixture.TestStaticMaskStickerSet.IsAnimated);
         Assert.False(_stickersTestsFixture.TestStaticMaskStickerSet.IsVideo);
-        Assert.True(_stickersTestsFixture.TestStaticMaskStickerSet.Stickers.Length == 1);
+        Assert.Single(_stickersTestsFixture.TestStaticMaskStickerSet.Stickers);
     }
 
     [OrderedFact("Should add VLC logo sticker with mask position like hat on forehead")]
@@ -906,10 +886,9 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Add_Sticker_With_Mask_Position_To_Set()
     {
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Vlc);
 
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Vlc);
-
-        InputSticker inputSticker = new InputSticker(
+        InputSticker inputSticker = new(
             sticker: new InputFileStream(stream, "vlc.png"),
             emojiList: _stickersTestsFixture.SecondEmojis
         )
@@ -936,7 +915,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(StickerType.Mask, stickerSet.StickerType);
         Assert.False(stickerSet.IsAnimated);
         Assert.False(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 2);
+        Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker sticker = stickerSet.Stickers.Last();
 
@@ -949,7 +928,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AddStickerToSet)]
     public async Task Should_Set_Mask_Position_From_Last_Sticker()
     {
-        MaskPosition newMaskPosition = new MaskPosition
+        MaskPosition newMaskPosition = new()
         {
             Point = MaskPositionPoint.Chin,
             Scale = .42f
@@ -990,7 +969,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
             name: _stickersTestsFixture.TestStaticMaskStickerSetName
         );
 
-        await Task.Delay(1_000);
+        await Task.Delay(TimeSpan.FromSeconds(10));
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.GetStickerSetAsync(
@@ -1003,23 +982,21 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     #endregion
 
     #region 14. Custom emoji tests
-    [OrderedFact("Shound create new custom emoji static sticker set")]
+    [OrderedFact("Should create new custom emoji static sticker set")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CreateNewStickerSet)]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Create_New_Custom_Emoji_Static_Sticker_Set()
     {
-        List<InputSticker> inputStickers = new List<InputSticker>(1);
-
-        using System.IO.Stream stream = System.IO.File.OpenRead(
+        await using System.IO.Stream stream = System.IO.File.OpenRead(
             Constants.PathToFile.Sticker.CustomEmoji.StaticFirst
         );
 
-        inputStickers.Add(
+        List<InputSticker> inputStickers =
+        [
             new InputSticker(
                 sticker: new InputFileStream(stream, "Static1.png"),
-                emojiList: _stickersTestsFixture.FirstEmojis
-            )
-        );
+                emojiList: _stickersTestsFixture.FirstEmojis)
+        ];
 
         await BotClient.CreateNewStickerSetAsync(
             userId: _stickersTestsFixture.OwnerUserId,
@@ -1039,7 +1016,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(StickerType.CustomEmoji, _stickersTestsFixture.TestStaticCustomEmojiStickerSet.StickerType);
         Assert.False(_stickersTestsFixture.TestStaticCustomEmojiStickerSet.IsAnimated);
         Assert.False(_stickersTestsFixture.TestStaticCustomEmojiStickerSet.IsVideo);
-        Assert.True(_stickersTestsFixture.TestStaticCustomEmojiStickerSet.Stickers.Length == 1);
+        Assert.Single(_stickersTestsFixture.TestStaticCustomEmojiStickerSet.Stickers);
     }
 
     [OrderedFact("Should add sticker to a custom emoji set")]
@@ -1047,9 +1024,9 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetStickerSet)]
     public async Task Should_Add_Sticker_To_A_Custom_Emoji_set()
     {
-        using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.CustomEmoji.StaticSecond);
+        await using System.IO.Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Sticker.CustomEmoji.StaticSecond);
 
-        InputSticker inputSticker = new InputSticker(
+        InputSticker inputSticker = new(
             sticker: new InputFileStream(stream, "Static2.png"),
             emojiList: _stickersTestsFixture.SecondEmojis
         );
@@ -1069,7 +1046,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(StickerType.CustomEmoji, stickerSet.StickerType);
         Assert.False(stickerSet.IsAnimated);
         Assert.False(stickerSet.IsVideo);
-        Assert.True(stickerSet.Stickers.Length == 2);
+        Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker sticker = stickerSet.Stickers.Last();
 
@@ -1101,8 +1078,8 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.NotNull(changedStickerSet.Thumbnail);
         Assert.NotNull(changedStickerSet.Thumbnail.FileSize);
         Assert.True(changedStickerSet.Thumbnail.FileSize > 0);
-        Assert.True(changedStickerSet.Thumbnail.Width == 100);
-        Assert.True(changedStickerSet.Thumbnail.Height == 100);
+        Assert.Equal(100, changedStickerSet.Thumbnail.Width);
+        Assert.Equal(100, changedStickerSet.Thumbnail.Height);
     }
 
     [OrderedFact("Should delete custom emoji sticker set")]
