@@ -1,5 +1,7 @@
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -65,10 +67,10 @@ public class SendingVideoMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
         {
             message = await BotClient.SendVideoNoteAsync(
-                chatId:  _fixture.SupergroupChat.Id,
+                chatId: _fixture.SupergroupChat.Id,
                 videoNote: new InputFileStream(stream),
-                duration:  28,
-                length:  240
+                duration: 28,
+                length: 240
             );
         }
 
@@ -111,7 +113,7 @@ public class SendingVideoMessageTests
         Assert.Equal(320, message.Video.Thumbnail.Width);
         Assert.Equal(240, message.Video.Thumbnail.Height);
         Assert.NotNull(message.Video.Thumbnail.FileSize);
-        Assert.InRange((int)message.Video.Thumbnail.FileSize, 600, 900);
+        Assert.InRange((long)message.Video.Thumbnail.FileSize, 600, 900);
     }
 
     [OrderedFact("Should send a video note with thumbnail")]
@@ -125,7 +127,7 @@ public class SendingVideoMessageTests
                     )
         {
             message = await BotClient.SendVideoNoteAsync(
-                chatId:  _fixture.SupergroupChat.Id,
+                chatId: _fixture.SupergroupChat.Id,
                 videoNote: new InputFileStream(stream1),
                 thumbnail: new InputFileStream(stream2, "thumbnail.jpg")
             );
@@ -139,5 +141,69 @@ public class SendingVideoMessageTests
         Assert.Equal(240, message.VideoNote.Thumbnail.Width);
         Assert.NotNull(message.VideoNote.Thumbnail.FileSize);
         Assert.InRange((int)message.VideoNote.Thumbnail.FileSize, 1_000, 1_500);
+    }
+
+    [OrderedFact("Should cache content")]
+    [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideoNote)]
+    public async Task Should_Cache_Content()
+    {
+        await using Stream
+                     stream1 = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio),
+                     stream2 = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
+
+        SendVideoRequest sendVideoRequest1 = new(
+            chatId: 999999,
+            video: new InputFileStream(stream1, "file"))
+        {
+            Thumbnail = new InputFileStream(stream2, "thumb.jpg"),
+        };
+
+        SendVideoRequest sendVideoRequest2 = new(
+            chatId: 999999,
+            video: new InputFileStream(stream1, "file"))
+        {
+            Thumbnail = new InputFileStream(stream2, "thumb.jpg"),
+        };
+
+        /*
+        StreamContent[] t1 = await Task.WhenAll(
+            sendVideoRequest1.CachedContent(),
+            sendVideoRequest2.CachedContent());
+
+        StreamContent[] t2 = await Task.WhenAll(
+            sendVideoRequest1.CachedContent(),
+            sendVideoRequest2.CachedContent());
+
+        string[] c1 = await Task.WhenAll(
+            t1[0]!.ReadAsStringAsync(),
+            t1[1]!.ReadAsStringAsync());
+
+        string[] c2 = await Task.WhenAll(
+            t2[0]!.ReadAsStringAsync(),
+            t2[1]!.ReadAsStringAsync());
+
+        Assert.Equal(c1[0], c2[0]);
+        Assert.Equal(c2[1], c2[1]);
+        //*/
+
+        /*
+        string[] c1 = await Task.WhenAll(
+            sendVideoRequest1.CachedContent()!.ReadAsStringAsync(),
+            sendVideoRequest2.CachedContent()!.ReadAsStringAsync());
+
+        string[] c2 = await Task.WhenAll(
+            sendVideoRequest1.CachedContent()!.ReadAsStringAsync(),
+            sendVideoRequest2.CachedContent()!.ReadAsStringAsync());
+
+        Assert.Equal(c1[0], c2[0]);
+        Assert.Equal(c2[1], c2[1]);
+        */
+
+        /*
+        string hc1 = await sendVideoRequest1.ToHttpContent().ReadAsStringAsync();
+        string hc2 = await sendVideoRequest1.ToHttpContent().ReadAsStringAsync();
+
+        Assert.Equal(hc1, hc2);
+        */
     }
 }
