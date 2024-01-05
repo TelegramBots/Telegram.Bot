@@ -984,7 +984,7 @@ public static partial class TelegramBotClientExtensions
     /// of <see cref="ParseMode"/>
     /// </param>
     /// <param name="hasSpoiler">
-    /// Pass <see langword="true"/> if the animatopn needs to be covered with a spoiler animation
+    /// Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
@@ -1753,7 +1753,7 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="Emoji.Bowling"/> or <see cref="Emoji.SlotMachine"/>. Dice can have values 1-6 for
     /// <see cref="Emoji.Dice"/>, <see cref="Emoji.Darts"/> and <see cref="Emoji.Bowling"/>, values 1-5 for
     /// <see cref="Emoji.Basketball"/> and <see cref="Emoji.Football"/>, and values 1-64 for
-    /// <see cref="Emoji.SlotMachine"/>. Defauts to <see cref="Emoji.Dice"/>
+    /// <see cref="Emoji.SlotMachine"/>. Defaults to <see cref="Emoji.Dice"/>
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
@@ -2078,7 +2078,7 @@ public static partial class TelegramBotClientExtensions
     /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
     /// <see cref="ChatPermissions.CanSendMessages"/> permission.
     /// </param>
-    /// <param name="untilDate">Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever.</param>
+    /// <param name="untilDate">Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -3751,7 +3751,7 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
-    /// <param name="messageId">dentifier of the message to edit</param>
+    /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="caption">New caption of the message, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
@@ -4250,7 +4250,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="name">
     /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>). Can contain
-    /// only english letters, digits and underscores. Must begin with a letter, can't contain consecutive
+    /// only English letters, digits and underscores. Must begin with a letter, can't contain consecutive
     /// underscores and must end in <i>"_by_&lt;bot username&gt;"</i>. <i>&lt;bot_username&gt;</i> is case
     /// insensitive. 1-64 characters
     /// </param>
