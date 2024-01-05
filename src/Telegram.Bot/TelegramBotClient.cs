@@ -91,9 +91,10 @@ public class TelegramBotClient : ITelegramBotClient
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
 
 #pragma warning disable CA2000
+        var content = await request.CachedContent().ConfigureAwait(false);
         var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
-            Content = request.ToHttpContent()
+            Content = content,
         };
 #pragma warning restore CA2000
 
@@ -149,7 +150,7 @@ public class TelegramBotClient : ITelegramBotClient
 
         var apiResponse = await httpResponse
             .DeserializeContentAsync<ApiResponse<TResponse>>(
-                guard: response => response.Ok == false ||
+                guard: response => !response.Ok ||
                                    response.Result is null
             )
             .ConfigureAwait(false);
@@ -169,13 +170,8 @@ public class TelegramBotClient : ITelegramBotClient
                     .SendAsync(request: httpRequest, cancellationToken: cancellationToken)
                     .ConfigureAwait(continueOnCapturedContext: false);
             }
-            catch (TaskCanceledException exception)
+            catch (TaskCanceledException exception) when (!cancellationToken.IsCancellationRequested)
             {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    throw;
-                }
-
                 throw new RequestException(message: "Request timed out", innerException: exception);
             }
             catch (Exception exception)

@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 // ReSharper disable once UnusedTypeParameter
 namespace Telegram.Bot.Requests.Abstractions;
@@ -22,6 +23,11 @@ public interface IRequest
     /// Allows this object to be used as a response in webhooks
     /// </summary>
     bool IsWebhookResponse { get; set; }
+
+    /// <summary>
+    /// A cached HTTP content
+    /// </summary>
+    Task<StreamContent?> CachedContent();
 
     /// <summary>
     /// Generate content of HTTP message
