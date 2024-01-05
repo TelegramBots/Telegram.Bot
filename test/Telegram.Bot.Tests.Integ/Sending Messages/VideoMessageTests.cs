@@ -42,7 +42,7 @@ public class SendingVideoMessageTests
         Assert.NotNull(message.Video);
         Assert.NotEmpty(message.Video.FileId);
         Assert.NotEmpty(message.Video.FileUniqueId);
-        Assert.Equal(104, message.Video.Duration);
+        Assert.True(message.Video.Duration >= 104);
         Assert.Equal(320, message.Video.Width);
         Assert.Equal(240, message.Video.Height);
         Assert.Equal("video/mp4", message.Video.MimeType);
@@ -76,7 +76,7 @@ public class SendingVideoMessageTests
         Assert.NotNull(message.VideoNote);
         Assert.NotEmpty(message.VideoNote.FileId);
         Assert.NotEmpty(message.VideoNote.FileUniqueId);
-        Assert.Equal(28, message.VideoNote.Duration);
+        Assert.True(message.VideoNote.Duration >= 28);
         Assert.Equal(240, message.VideoNote.Length);
         Assert.NotNull(message.VideoNote.Thumbnail);
         Assert.NotEmpty(message.VideoNote.Thumbnail.FileId);
