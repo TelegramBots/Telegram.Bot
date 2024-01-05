@@ -39,6 +39,9 @@ public class ReactionTypeEmoji : ReactionType
     /// "🙈", "😇", "😨", "🤝", "✍", "🤗", "🫡", "🎅", "🎄", "☃", "💅", "🤪", "🗿", "🆒",
     /// "💘", "🙉", "🦄", "😘", "💊", "🙊", "😎", "👾", "🤷‍♂", "🤷", "🤷‍♀", "😡"
     /// </summary>
+    /// <remarks>
+    /// Available shortcuts: <see cref="Enums.KnownReactionTypeEmoji"/>
+    /// </remarks>
     [JsonProperty(Required = Required.Always)]
     public string Emoji { get; set; } = default!;
 }

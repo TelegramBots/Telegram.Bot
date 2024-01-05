@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Added
 
 - The classes `ReactionType`, `ReactionTypeEmoji` and `ReactionTypeCustomEmoji` representing different types of reaction.
+- The class `KnownReactionTypeEmoji`  containing Emojis available for `ReactionTypeEmoji`.
 - Updates about a reaction change on a message with non-anonymous reactions, represented by the class `MessageReactionUpdated`
 and the property `MessageReaction` in the class `Update`. The bot must explicitly allow the update to receive it.
 - Updates about reaction changes on a message with anonymous reactions, represented by the class `MessageReactionCountUpdated`
