@@ -10,7 +10,7 @@ public class ReplyMarkupSerializationTests
     [InlineData(null)]
     [InlineData("regular")]
     [InlineData("quiz")]
-    public void Should_Serialize_Request_Poll_Keyboard_Button(string type)
+    public void Should_Serialize_Request_Poll_Keyboard_Button(string? type)
     {
         IReplyMarkup replyMarkup = new ReplyKeyboardMarkup(
             KeyboardButton.WithRequestPoll("Create a poll", type)
