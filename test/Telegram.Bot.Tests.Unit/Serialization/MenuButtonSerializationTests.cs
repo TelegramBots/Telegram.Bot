@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -35,7 +35,7 @@ public class MenuButtonSerializationTests
     {
         MenuButtonWebApp webAppButton = new()
         {
-            WebApp = new() { Url = "https://example.com/link/to/web/app" },
+            WebApp = new(url: "https://example.com/link/to/web/app"),
             Text = "Test text"
         };
 
