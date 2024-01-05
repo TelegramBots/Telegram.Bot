@@ -45,17 +45,24 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
     {
         ChatPermissions newDefaultPermissions = new()
         {
-            CanInviteUsers = false,
-            CanSendVoiceNotes = true,
-            CanChangeInfo = false,
             CanSendMessages = true,
-            CanPinMessages = false,
-            CanSendPolls = false,
-            CanSendOtherMessages = false,
-            CanAddWebPagePreviews = false
+            CanSendAudios=false,
+            CanSendDocuments=true,
+            CanSendPhotos=false,
+            CanSendVideos=false,
+            CanSendVideoNotes=false,
+            CanSendVoiceNotes=true,
+            CanSendPolls=false,
+            CanSendOtherMessages=false,
+            CanAddWebPagePreviews=false,
+            CanChangeInfo=false,
+            CanInviteUsers=false,
+            CanPinMessages=false,
+            CanManageTopics=false,
         };
 
         await BotClient.SetChatPermissionsAsync(_classFixture.Chat.Id, newDefaultPermissions);
+
         Chat supergroup = await BotClient.GetChatAsync(_classFixture.Chat.Id);
         ChatPermissions setChatPermissions = supergroup.Permissions!;
 
@@ -259,10 +266,9 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
 
         ChatInviteLink chatInviteLink = await BotClient.CreateChatInviteLinkAsync(
             chatId: _classFixture.TestsFixture.SupergroupChat.Id,
-            createsJoinRequest: true,
             name: inviteLinkName,
-            expireDate: expireDate
-        );
+            expireDate: expireDate,
+            createsJoinRequest: true);
 
         Assert.NotNull(chatInviteLink);
         Assert.NotNull(chatInviteLink.Creator);
@@ -297,10 +303,10 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
         ChatInviteLink editedChatInviteLink = await BotClient.EditChatInviteLinkAsync(
             chatId: _classFixture.TestsFixture.SupergroupChat.Id,
             inviteLink: _classFixture.ChatInviteLink.InviteLink,
-            createsJoinRequest: false,
             name: inviteLinkName,
             expireDate: expireDate,
-            memberLimit: 100
+            memberLimit: 100,
+            createsJoinRequest: false
         );
 
         ChatInviteLink chatInviteLink = _classFixture.ChatInviteLink;
