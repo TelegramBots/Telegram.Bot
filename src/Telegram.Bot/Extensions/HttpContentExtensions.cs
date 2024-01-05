@@ -21,6 +21,7 @@ internal static class HttpContentExtensions
 
         // It will be dispose of after the request is made
 #pragma warning disable CA2000
+        inputFile.Content.Position = 0;
         var mediaPartContent = new StreamContent(inputFile.Content)
         {
             Headers =
