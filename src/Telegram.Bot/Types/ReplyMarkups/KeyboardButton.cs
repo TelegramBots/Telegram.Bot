@@ -91,28 +91,63 @@ public class KeyboardButton : IKeyboardButton
     /// Generate a keyboard button to request a web app
     /// </summary>
     /// <param name="text">Button's text</param>
-    /// <param name="webAppInfo">Web app information</param>
+    /// <param name="url">
+    /// An HTTPS URL of a Web App to be opened with additional data as specified in
+    /// <a href="https://core.telegram.org/bots/webapps#initializing-web-apps">Initializing Web Apps</a>
+    /// </param>
     /// <returns></returns>
+    public static KeyboardButton WithWebApp(string text, string url) =>
+        new(text) { WebApp = new(url) };
+
+    /// <summary>
+    /// Generate a keyboard button to request a web app
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="webAppInfo">Web app information</param>
     public static KeyboardButton WithWebApp(string text, WebAppInfo webAppInfo) =>
         new(text) { WebApp = webAppInfo };
 
     /// <summary>
-    /// Generate a keyboard button to request user info
+    /// Generate a keyboard button to request users
     /// </summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestUsers">Criteria used to request a suitable users</param>
     /// <returns></returns>
-    public static KeyboardButton WithRequestUser(string text, KeyboardButtonRequestUsers requestUsers) =>
+    public static KeyboardButton WithRequestUsers(string text, KeyboardButtonRequestUsers requestUsers) =>
         new(text) { RequestUsers = requestUsers };
 
     /// <summary>
-    /// Generate a keyboard button to request chat info
+    /// Generate a keyboard button to request users
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestId">
+    /// Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object.
+    /// Must be unique within the message
+    /// </param>
+    public static KeyboardButton WithRequestUsers(string text, int requestId) =>
+        new(text) { RequestUsers = new(requestId) };
+
+    /// <summary>
+    /// Generate a keyboard button to request a chat
     /// </summary>
     /// <param name="text">Button's text</param>
     /// <param name="requestChat">Criteria used to request a suitable chat</param>
-    /// <returns></returns>
     public static KeyboardButton WithRequestChat(string text, KeyboardButtonRequestChat requestChat) =>
         new(text) { RequestChat = requestChat };
+
+    /// <summary>
+    /// Generate a keyboard button to request a chat
+    /// </summary>
+    /// <param name="text">Button's text</param>
+    /// <param name="requestId">
+    /// Signed 32-bit identifier of the request, which will be received back in the <see cref="ChatShared"/> object.
+    /// Must be unique within the message
+    /// </param>
+    /// <param name="chatIsChannel">
+    /// Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/> to request a group or a supergroup chat.
+    /// </param>
+    public static KeyboardButton WithRequestChat(string text, int requestId, bool chatIsChannel) =>
+        new(text) { RequestChat = new(requestId, chatIsChannel) };
 
     /// <summary>
     /// Generate a keyboard button from text

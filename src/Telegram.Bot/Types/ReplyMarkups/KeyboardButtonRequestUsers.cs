@@ -12,7 +12,7 @@ public class KeyboardButtonRequestUsers
     /// Must be unique within the message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int RequestId { get; set; }
+    public int RequestId { get; }
 
     /// <summary>
     /// Optional. Pass <see langword="true" /> to request bots, pass <see langword="false" /> to request regular users.
@@ -33,4 +33,16 @@ public class KeyboardButtonRequestUsers
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? MaxQuantity { get; set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KeyboardButtonRequestUsers"/> class with requestId
+    /// </summary>
+    /// <param name="requestId">
+    /// Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object.
+    /// Must be unique within the message
+    /// </param>
+    public KeyboardButtonRequestUsers(int requestId)
+    {
+        RequestId = requestId;
+    }
 }
