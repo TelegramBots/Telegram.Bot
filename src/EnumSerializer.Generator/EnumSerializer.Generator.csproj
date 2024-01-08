@@ -14,7 +14,7 @@
 
   <!-- The following libraries include the source generator interfaces and types we need -->
   <ItemGroup>
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.85" PrivateAssets="all" />
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.135" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.7.0" PrivateAssets="all" />
     <PackageReference Include="Scriban" Version="5.9.0" GeneratePathProperty="true" PrivateAssets="all" />
