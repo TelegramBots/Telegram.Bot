@@ -6,11 +6,10 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 
-public class ChatMemberAdministrationTestFixture : IAsyncLifetime
+public class ChatMemberAdministrationTestFixture(TestsFixture testsFixture)
+    : IAsyncLifetime
 {
-    readonly TestsFixture _testsFixture;
-
-    public ChatMemberAdministrationTestFixture(TestsFixture testsFixture) => _testsFixture = testsFixture;
+    readonly TestsFixture _testsFixture = testsFixture;
 
     public Chat RegularMemberChat { get; private set; }
     public long RegularMemberUserId { get; private set; }

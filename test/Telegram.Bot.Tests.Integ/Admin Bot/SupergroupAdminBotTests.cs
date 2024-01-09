@@ -12,16 +12,12 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 
 [Collection(Constants.TestCollections.SupergroupAdminBots)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixture>
+public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture)
+    : IClassFixture<SupergroupAdminBotTestsFixture>
 {
-    readonly SupergroupAdminBotTestsFixture _classFixture;
+    readonly SupergroupAdminBotTestsFixture _classFixture = classFixture;
 
     ITelegramBotClient BotClient => _classFixture.TestsFixture.BotClient;
-
-    public SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture)
-    {
-        _classFixture = classFixture;
-    }
 
     #region 1. Changing Chat Title
 
@@ -258,7 +254,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
     {
         DateTime createdAt = DateTime.UtcNow;
 
-        // Milliseconds are ignored during conversion to unix timestamp since it counts only up to
+        // Milliseconds are ignored during conversion to Unix timestamp since it counts only up to
         // seconds, so for equality to work later on assertion we need to zero out milliseconds
         DateTime expireDate = createdAt.With(new () {Millisecond = 0}).AddHours(1);
 
@@ -294,7 +290,7 @@ public class SupergroupAdminBotTests : IClassFixture<SupergroupAdminBotTestsFixt
     {
         DateTime editedAt = DateTime.UtcNow;
 
-        // Milliseconds are ignored during conversion to unix timestamp since it counts only up to
+        // Milliseconds are ignored during conversion to Unix timestamp since it counts only up to
         // seconds, so for equality to work later on assertion we need to zero out milliseconds
         DateTime expireDate = editedAt.With(new () {Millisecond = 0}).AddHours(1);
 

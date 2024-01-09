@@ -10,19 +10,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 
 [Collection(Constants.TestCollections.ChannelAdminBots)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class ChannelAdminBotTests : IClassFixture<ChannelAdminBotTestFixture>
+public class ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTestFixture classFixture)
+    : IClassFixture<ChannelAdminBotTestFixture>
 {
-    readonly ChannelAdminBotTestFixture _classFixture;
+    readonly ChannelAdminBotTestFixture _classFixture = classFixture;
 
-    readonly TestsFixture _fixture;
+    readonly TestsFixture _fixture = testsFixture;
 
     ITelegramBotClient BotClient => _fixture.BotClient;
-
-    public ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTestFixture classFixture)
-    {
-        _fixture = testsFixture;
-        _classFixture = classFixture;
-    }
 
     #region 1. Changing Chat Title
 

@@ -13,19 +13,14 @@ namespace Telegram.Bot.Tests.Integ.Admin_Bot;
 [Collection(Constants.TestCollections.ChatMemberAdministration)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class ChatMemberAdministrationTests : IClassFixture<ChatMemberAdministrationTestFixture>
+public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdministrationTestFixture classFixture)
+    : IClassFixture<ChatMemberAdministrationTestFixture>
 {
     ITelegramBotClient BotClient => _fixture.BotClient;
 
-    readonly TestsFixture _fixture;
+    readonly TestsFixture _fixture = fixture;
 
-    readonly ChatMemberAdministrationTestFixture _classFixture;
-
-    public ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdministrationTestFixture classFixture)
-    {
-        _fixture = fixture;
-        _classFixture = classFixture;
-    }
+    readonly ChatMemberAdministrationTestFixture _classFixture = classFixture;
 
     #region Kick, Unban, and Invite chat member back
 
