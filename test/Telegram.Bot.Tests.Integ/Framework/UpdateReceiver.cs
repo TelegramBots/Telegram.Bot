@@ -17,17 +17,11 @@ public enum UpdatePosition
     Single
 }
 
-public class UpdateReceiver
+public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
 {
-    readonly ITelegramBotClient _botClient;
+    readonly ITelegramBotClient _botClient = botClient;
 
-    public List<string> AllowedUsernames { get; }
-
-    public UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
-    {
-        _botClient = botClient;
-        AllowedUsernames = allowedUsernames?.ToList() ?? [];
-    }
+    public List<string> AllowedUsernames { get; } = allowedUsernames?.ToList() ?? [];
 
     public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
     {
@@ -47,7 +41,7 @@ public class UpdateReceiver
             {
                 var updates = await _botClient.GetUpdatesAsync(
                     offset: offset,
-                    allowedUpdates: Array.Empty<UpdateType>(),
+                    allowedUpdates: Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown),
                     cancellationToken: cancellationToken
                 );
 
@@ -145,7 +139,7 @@ public class UpdateReceiver
         var updates = await GetUpdatesAsync(
             predicate: u => (messageId is null || ((Message?)u.CallbackQuery?.Message)?.MessageId == messageId) &&
                             (data is null || u.CallbackQuery?.Data == data),
-            updateTypes: new [] { UpdateType.CallbackQuery },
+            updateTypes: [UpdateType.CallbackQuery],
             cancellationToken: cancellationToken
         );
 
@@ -243,10 +237,10 @@ public class UpdateReceiver
                 or UpdateType.ChatMember
                 or UpdateType.MyChatMember
                 or UpdateType.ChatJoinRequest =>
-                AllowedUsernames.Contains(
-                    update.GetUser().Username,
-                    StringComparer.OrdinalIgnoreCase
-                ),
+                    AllowedUsernames.Contains(
+                        update.GetUser().Username,
+                        StringComparer.OrdinalIgnoreCase
+                    ),
             UpdateType.Poll => true,
             UpdateType.EditedMessage
                 or UpdateType.ChannelPost

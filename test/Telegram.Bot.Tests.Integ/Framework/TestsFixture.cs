@@ -138,17 +138,14 @@ public class TestsFixture : IDisposable
 
     public async Task<Chat> GetChatFromAdminAsync()
     {
-        static bool IsMatch(Update u) => u is
-        {
-            Message:
-            {
-                Type: MessageType.Contact,
-                ForwardOrigin: not null,
-                NewChatMembers.Length: > 0,
-            }
-        };
+        static bool IsMatch(Update u) => u
+            is { Message.Type: MessageType.Contact }
+            or { Message.NewChatMembers.Length: > 0 }
+            or { Message.ForwardOrigin: not null };
 
-        var update = await UpdateReceiver.GetUpdateAsync(IsMatch, updateTypes: UpdateType.Message);
+        await UpdateReceiver.DiscardNewUpdatesAsync();
+
+        var update = await UpdateReceiver.GetUpdateAsync(IsMatch, updateTypes: [UpdateType.Message, UpdateType.ChatMember]);
 
         await UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -306,7 +303,7 @@ public class TestsFixture : IDisposable
                 }
             }
 
-            multipartContent = stringifiedFormContent.ToArray();
+            multipartContent = [.. stringifiedFormContent];
         }
         else
         {
