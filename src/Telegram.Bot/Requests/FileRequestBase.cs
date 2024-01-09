@@ -33,8 +33,8 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// <summary>
     /// Generate multipart form data content
     /// </summary>
-    /// <param name="fileParameterName"></param>
-    /// <param name="inputFile"></param>
+    /// <param name="fileParameterName">File name</param>
+    /// <param name="inputFile">The contents of a file to be uploaded</param>
     /// <returns></returns>
     protected MultipartFormDataContent ToMultipartFormDataContent(
         string fileParameterName,
@@ -52,7 +52,7 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// <summary>
     /// Generate multipart form data content
     /// </summary>
-    /// <param name="exceptPropertyNames"></param>
+    /// <param name="exceptPropertyNames">Properties to exclude from content</param>
     /// <returns></returns>
     protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
     {
@@ -64,9 +64,9 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
             .Where(prop => exceptPropertyNames.Contains(prop.Name, StringComparer.InvariantCulture) is false)
             .Select(prop => (name: prop.Name, content: new StringContent(prop.Value.ToString())));
 
-        foreach (var strContent in stringContents)
+        foreach ((string name, StringContent content) in stringContents)
         {
-            multipartContent.Add(content: strContent.content, name: strContent.name);
+            multipartContent.Add(content: content, name: name);
         }
 
         return multipartContent;

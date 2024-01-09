@@ -24,11 +24,19 @@ public class InputFileStream : InputFile
     public string? FileName { get; }
 
     /// <summary>
+    /// The position within the current stream.
+    /// </summary>
+    public long StreamStartPosition { get; }
+
+    /// <summary>
     /// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data
     /// in the usual way that files are uploaded via the browser.
     /// </summary>
     /// <param name="content">File content to upload</param>
     /// <param name="fileName">Name of a file to upload using multipart/form-data</param>
-    public InputFileStream(Stream content, string? fileName = default) =>
+    public InputFileStream(Stream content, string? fileName = default)
+    {
         (Content, FileName) = (content, fileName);
+        StreamStartPosition = Content.Position;
+    }
 }

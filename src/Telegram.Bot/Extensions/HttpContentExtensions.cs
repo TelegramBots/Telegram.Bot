@@ -19,9 +19,10 @@ internal static class HttpContentExtensions
         string fileName = inputFile.FileName ?? name;
         string contentDisposition = $@"form-data; name=""{name}""; filename=""{fileName}""".EncodeUtf8();
 
+        // Bug #1336 Calling MakeRequestAsync with Stream content more then once results in error
+        if (inputFile.Content.CanSeek) inputFile.Content.Position = inputFile.StreamStartPosition;
+
         // It will be dispose of after the request is made
-#pragma warning disable CA2000
-        inputFile.Content.Position = 0;
         var mediaPartContent = new StreamContent(inputFile.Content)
         {
             Headers =
@@ -30,8 +31,6 @@ internal static class HttpContentExtensions
                 {"Content-Disposition", contentDisposition},
             },
         };
-#pragma warning restore CA2000
-
         multipartContent.Add(mediaPartContent, name, fileName);
 
         return multipartContent;
