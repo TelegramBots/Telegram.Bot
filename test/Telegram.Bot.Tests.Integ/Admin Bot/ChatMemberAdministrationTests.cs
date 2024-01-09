@@ -91,7 +91,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
-        await BotClient.SendTextMessageAsync(
+        Message privateMessage = await BotClient.SendTextMessageAsync(
             chatId: _classFixture.RegularMemberChat,
             text: _classFixture.GroupInviteLink
         );
@@ -103,6 +103,10 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
                 && u.Message!.Type == MessageType.NewChatMembers,
             updateTypes: [UpdateType.Message]
         );
+
+        await BotClient.DeleteMessageAsync(
+            chatId: _classFixture.RegularMemberChat,
+            messageId: privateMessage.MessageId);
 
         await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -127,7 +131,7 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
 
         // Milliseconds are ignored during conversion to Unix timestamp since it counts only up to
         // seconds, so for equality to work later on assertion we need to zero out milliseconds
-        DateTime expireDate = createdAt.With(new () {Millisecond = 0}).AddHours(1);
+        DateTime expireDate = createdAt.With(new () {Millisecond = 0}).AddHours(24);
 
         string inviteLinkName = $"Created at {createdAt:yyyy-MM-ddTHH:mm:ss}";
 
@@ -157,28 +161,24 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     public async Task Should_Receive_Chat_Join_Request()
     {
         await _fixture.SendTestInstructionsAsync(
-            $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should send a request to join the" +
+            $"@{_classFixture.RegularMemberUserName.Replace("_", @"\_")} should send a request to join the " +
             "chat by following the invite link sent to them in private chat two time. The administrator should " +
             "decline the first attempt and then approve the second one."
         );
 
-        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
-
         await BotClient.BanChatMemberAsync(
             chatId: _fixture.SupergroupChat.Id,
-            userId: _classFixture.RegularMemberUserId
-        );
+            userId: _classFixture.RegularMemberUserId);
 
-        await Task.Delay(TimeSpan.FromSeconds(3));
+        await Task.Delay(TimeSpan.FromSeconds(5));
 
         await BotClient.UnbanChatMemberAsync(
             chatId: _fixture.SupergroupChat.Id,
-            userId: _classFixture.RegularMemberUserId
-        );
+            userId: _classFixture.RegularMemberUserId);
 
-        await Task.Delay(TimeSpan.FromSeconds(3));
+        await Task.Delay(TimeSpan.FromSeconds(5));
 
-        await BotClient.SendTextMessageAsync(
+        Message privateMessage = await BotClient.SendTextMessageAsync(
             chatId: _classFixture.RegularMemberChat,
             text: _classFixture.ChatInviteLink.InviteLink
         );
@@ -186,8 +186,13 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
         await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
 
         Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
-            predicate: u => u.ChatJoinRequest is not null
+            predicate: u => u.ChatJoinRequest is not null,
+            updateTypes: [UpdateType.ChatJoinRequest]
         );
+
+        await BotClient.DeleteMessageAsync(
+            chatId: _classFixture.RegularMemberChat,
+            messageId: privateMessage.MessageId);
 
         ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
 
@@ -206,7 +211,6 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.DeclineChatJoinRequest)]
     public async Task Should_Decline_Chat_Join_Request()
     {
-
         Exception exception = await Record.ExceptionAsync(async () =>
             await BotClient.DeclineChatJoinRequest(
                 chatId: _fixture.SupergroupChat.Id,
@@ -220,10 +224,21 @@ public class ChatMemberAdministrationTests(TestsFixture fixture, ChatMemberAdmin
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.ApproveChatJoinRequest)]
     public async Task Should_Approve_Chat_Join_Request()
     {
+        Message privateMessage = await BotClient.SendTextMessageAsync(
+            chatId: _classFixture.RegularMemberChat,
+            text: _classFixture.ChatInviteLink.InviteLink
+        );
+
+        await _fixture.UpdateReceiver.DiscardNewUpdatesAsync();
+
         Update update = await _fixture.UpdateReceiver.GetUpdateAsync(
             predicate: u => u.ChatJoinRequest is not null,
-            updateTypes: UpdateType.ChatJoinRequest
+            updateTypes: [UpdateType.ChatJoinRequest]
         );
+
+        await BotClient.DeleteMessageAsync(
+            chatId: _classFixture.RegularMemberChat,
+            messageId: privateMessage.MessageId);
 
         ChatJoinRequest chatJoinRequest = update.ChatJoinRequest;
 
