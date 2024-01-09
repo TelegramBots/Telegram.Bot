@@ -15,7 +15,6 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="8.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="Polly" Version="8.2.0" />
     <PackageReference Include="xunit" Version="2.6.5" />
     <PackageReference Include="xunit.runner.utility" Version="2.6.5" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">

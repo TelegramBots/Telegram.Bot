@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Polly;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -10,31 +9,24 @@ using File = System.IO.File;
 
 namespace Telegram.Bot.Tests.Integ.Getting_Updates;
 
+/// <summary>Webhook tests</summary>
 /// <remarks>
 /// Webhooks must be immediately disabled because the test framework uses getUpdates method.
 /// </remarks>
 [Collection(Constants.TestCollections.Webhook)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class WebhookTests : IDisposable
+public class WebhookTests(TestsFixture fixture) : IDisposable
 {
     ITelegramBotClient BotClient => _fixture.BotClient;
 
-    readonly TestsFixture _fixture;
-
-    public WebhookTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    readonly TestsFixture _fixture = fixture;
 
     /// <summary>
     /// Ensures that the webhooks are immediately disabled after each test case.
     /// </summary>
     public void Dispose()
     {
-        Policy
-            .Handle<TaskCanceledException>()
-            .WaitAndRetryAsync(new[] {TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(15)})
-            .ExecuteAsync(() => BotClient.DeleteWebhookAsync())
+        BotClient.DeleteWebhookAsync()
             .GetAwaiter()
             .GetResult();
     }
@@ -53,7 +45,7 @@ public class WebhookTests : IDisposable
         await BotClient.SetWebhookAsync(
             url: "https://www.t.me/",
             maxConnections: 5,
-            allowedUpdates: new[] {UpdateType.CallbackQuery, UpdateType.InlineQuery}
+            allowedUpdates: new[] { UpdateType.CallbackQuery, UpdateType.InlineQuery }
         );
     }
 
