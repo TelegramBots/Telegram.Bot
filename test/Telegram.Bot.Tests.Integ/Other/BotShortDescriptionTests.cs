@@ -8,23 +8,18 @@ namespace Telegram.Bot.Tests.Integ.Other;
 
 [Collection(Constants.TestCollections.BotShortDescription)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class BotShortDescriptionTests: IAsyncLifetime
+public class BotShortDescriptionTests(TestsFixture fixture) : IAsyncLifetime
 {
-    readonly TestsFixture _fixture;
+    readonly TestsFixture _fixture = fixture;
     string _languageCode;
 
     ITelegramBotClient BotClient => _fixture.BotClient;
-
-    public BotShortDescriptionTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
 
     [OrderedFact("Should set a new bot short description")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyShortDescription)]
     public async Task Should_Set_New_Bot__Short_Description()
     {
-        string shortDescription = "Test bot short description";
+        const string shortDescription = "Test bot short description";
 
         await BotClient.SetMyShortDescriptionAsync(
             shortDescription: shortDescription
@@ -35,7 +30,7 @@ public class BotShortDescriptionTests: IAsyncLifetime
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetMyShortDescription)]
     public async Task Should_Get_Set_Bot_Short_Description()
     {
-        string shortDescription = "Test bot short description";
+        const string shortDescription = "Test bot short description";
 
         await BotClient.SetMyShortDescriptionAsync(
             shortDescription: shortDescription
@@ -53,7 +48,7 @@ public class BotShortDescriptionTests: IAsyncLifetime
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyShortDescription)]
     public async Task Should_Delete_Bot_Short_Description()
     {
-        string shortDescription = "Test bot short description";
+        const string shortDescription = "Test bot short description";
 
         await BotClient.SetMyShortDescriptionAsync(
             shortDescription: shortDescription
@@ -68,7 +63,8 @@ public class BotShortDescriptionTests: IAsyncLifetime
             shortDescription: ""
         );
 
-        await Task.Delay(TimeSpan.FromSeconds(10));
+        // Test fails receiving old description without a delay
+        await Task.Delay(TimeSpan.FromSeconds(20));
 
         BotShortDescription currentShortDescription = await _fixture.BotClient.GetMyShortDescriptionAsync();
 
@@ -80,7 +76,7 @@ public class BotShortDescriptionTests: IAsyncLifetime
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SetMyShortDescription)]
     public async Task Should_Set_Short_Description_With_Language_Code_Area()
     {
-        string shortDescription = "Короткое тестовое описание бота";
+        const string shortDescription = "Короткое тестовое описание бота";
 
         _languageCode = "ru";
 
