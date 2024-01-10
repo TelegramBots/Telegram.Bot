@@ -28,24 +28,31 @@ stages:
             inputs:
               packageType: sdk
               version: $(netSdkVersion)
-          - pwsh: >
-              dotnet build
-              --configuration $(buildConfiguration)
-              -p:Version=$(ciVersion)
-              -p:CI_EMBED_SYMBOLS=true
-              $(projectPath)
-            displayName: Build project with CI version
-          - pwsh: >
-              dotnet pack
-              --no-build
-              --output "$(Build.ArtifactStagingDirectory)/packages"
-              --configuration $(buildConfiguration)
-              -p:Version=$(ciVersion)
-              -p:CI_EMBED_SYMBOLS=true
-              $(projectPath)
-            displayName: Create CI nuget package
+
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: 'restore'
+              projects: '$(projectPath)'
+            displayName: dotnet restore
+
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: 'build'
+              arguments: '--no-restore --configuration $(buildConfiguration) -p:Version=$(ciVersion) -p:CI_EMBED_SYMBOLS=true'
+              projects: '$(projectPath)'
+            displayName: dotnet build
+              
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: 'custom'
+              custom: 'pack'
+              arguments: '--no-build --configuration $(buildConfiguration) --output "$(Build.ArtifactStagingDirectory)/packages" -p:Version=$(ciVersion) -p:CI_EMBED_SYMBOLS=true'
+              projects: '$(projectPath)'
+            displayName: dotnet pack
+
           - publish: $(Build.ArtifactStagingDirectory)/packages
             artifact: packages
+
   - stage: UnitTest
     dependsOn: Build
     displayName: 🧪 Unit test
@@ -56,6 +63,7 @@ stages:
           projects: $(unitTestsProject)
           strategies:
             - Ubuntu: ubuntu-22.04
+  
   - stage: PublishArtifacts
     dependsOn: Build
     displayName: 📤 Publish artifacts
