@@ -10,23 +10,33 @@ jobs:
     displayName: Run integration tests
     pool:
       vmImage: ${{ parameters.vmImage }}
+
     steps:
       - task: UseDotNet@2
         displayName: Install .NET SDK
         inputs:
           packageType: sdk
           version: ${{ parameters.netSdkVersion }}
-      - pwsh: >
-          dotnet test
-          --verbosity normal
-          --configuration ${{ parameters.buildConfiguration }}
-          --logger "trx;LogFileName=testresults.trx"
-          ${{ parameters.arguments }}
-          ${{ parameters.projects }}
-        displayName: Execute integration tests
-      - task: PublishTestResults@2
-        displayName: Publish test results
+          
+          
+      - task: DotNetCoreCLI@2
         inputs:
-          testResultsFormat: VSTest
-          testResultsFiles: testresults.trx
-          configuration: ${{ parameters.buildConfiguration }}
+          command: 'restore'
+          projects: '${{ parameters.projects }}'          
+          arguments: '${{ parameters.arguments }}'
+        displayName: dotnet restore
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          arguments: '--no-restore --configuration $(buildConfiguration) ${{ parameters.arguments }}'
+          projects: '${{ parameters.projects }}'          
+        displayName: dotnet build
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'test'
+          arguments: '--no-build --configuration $(buildConfiguration) --collect "Code Coverage" ${{ parameters.arguments }} --verbosity normal '
+          publishTestResults: true
+          projects: '${{ parameters.projects }}'          
+        displayName: dotnet test

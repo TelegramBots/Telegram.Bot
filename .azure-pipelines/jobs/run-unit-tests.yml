@@ -15,23 +15,31 @@ jobs:
               VM_IMAGE: ${{ pair.value }}
     pool:
       vmImage: $(VM_IMAGE)
+
     steps:
       - task: UseDotNet@2
         displayName: Install .NET SDK
         inputs:
           packageType: sdk
           version: ${{ parameters.netSdkVersion }}
-      - pwsh: >
-          dotnet test
-          --verbosity normal
-          --configuration ${{ parameters.buildConfiguration }}
-          --logger "trx;LogFileName=testresults.trx"
-          ${{ parameters.projects }}
-        displayName: Execute unit tests
-      - task: PublishTestResults@2
-        displayName: Publish test results
+          
+      - task: DotNetCoreCLI@2
         inputs:
-          testResultsFormat: VSTest
-          testResultsFiles: "**/*.trx"
-          mergeTestResults: true
-          configuration: ${{ parameters.buildConfiguration }}
+          command: 'restore'
+          projects: '${{ parameters.projects }}'          
+        displayName: dotnet restore
+
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'build'
+          arguments: '--no-restore --configuration $(buildConfiguration)'
+          projects: '${{ parameters.projects }}'          
+        displayName: dotnet build
+              
+      - task: DotNetCoreCLI@2
+        inputs:
+          command: 'test'
+          arguments: '--no-build --configuration $(buildConfiguration) --collect "Code Coverage" --verbosity normal '
+          publishTestResults: true
+          projects: '${{ parameters.projects }}'          
+        displayName: dotnet test
