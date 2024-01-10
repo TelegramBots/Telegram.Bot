@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
@@ -10,37 +13,23 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework;
 
-internal class TestClientOptions : TelegramBotClientOptions
+internal class TestClientOptions(
+    string token,
+    string? baseUrl,
+    bool useTestEnvironment,
+    int retryCount,
+    TimeSpan defaultTimeout) : TelegramBotClientOptions(token, baseUrl, useTestEnvironment)
 {
-    public int RetryCount { get; }
-    public TimeSpan DefaultTimeout { get; }
-
-    public TestClientOptions(
-        string token,
-        string? baseUrl,
-        bool useTestEnvironment,
-        int retryCount,
-        TimeSpan defaultTimeout)
-        : base(token, baseUrl, useTestEnvironment)
-    {
-        RetryCount = retryCount;
-        DefaultTimeout = defaultTimeout;
-    }
+    public int RetryCount { get; } = retryCount;
+    public TimeSpan DefaultTimeout { get; } = defaultTimeout;
 };
 
-internal class RetryTelegramBotClient : TelegramBotClient
+internal class RetryTelegramBotClient(
+    IMessageSink diagnosticMessageSink,
+    TestClientOptions options) : TelegramBotClient(options)
 {
-    readonly IMessageSink _diagnosticMessageSink;
-    readonly TestClientOptions _options;
-
-    public RetryTelegramBotClient(
-        IMessageSink diagnosticMessageSink,
-        TestClientOptions options)
-        : base(options)
-    {
-        _diagnosticMessageSink = diagnosticMessageSink;
-        _options = options;
-    }
+    readonly IMessageSink _diagnosticMessageSink = diagnosticMessageSink;
+    readonly TestClientOptions _options = options;
 
     public override async Task<TResponse> MakeRequestAsync<TResponse>(
         IRequest<TResponse> request,
@@ -48,11 +37,18 @@ internal class RetryTelegramBotClient : TelegramBotClient
     {
         ApiRequestException apiRequestException = default!;
 
+        var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
+        var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
+        {
+            Content = request.ToHttpContent()
+        };
+
         for (var i = 0; i < _options.RetryCount; i++)
         {
             try
             {
-                return await base.MakeRequestAsync(request, cancellationToken);
+                HttpRequestMessage? clonedContent = await CloneHttpRequestMessageAsync(httpRequest);
+                return await MakeRequestAsync<TResponse>(request, clonedContent, cancellationToken);
             }
             catch (ApiRequestException e) when (e.ErrorCode == 429)
             {
@@ -69,5 +65,34 @@ internal class RetryTelegramBotClient : TelegramBotClient
         }
 
         throw apiRequestException;
+    }
+
+    internal static async Task<HttpRequestMessage> CloneHttpRequestMessageAsync(HttpRequestMessage req)
+    {
+        HttpRequestMessage clone = new HttpRequestMessage(req.Method, req.RequestUri);
+
+        // Copy the request's content (via a MemoryStream) into the cloned object
+        var ms = new MemoryStream();
+        if (req.Content != null)
+        {
+            await req.Content.CopyToAsync(ms).ConfigureAwait(false);
+            ms.Position = 0;
+            clone.Content = new StreamContent(ms);
+
+            // Copy the content headers
+            foreach (var h in req.Content.Headers)
+                clone.Content.Headers.Add(h.Key, h.Value);
+        }
+
+
+        clone.Version = req.Version;
+
+        foreach (KeyValuePair<string, object?> option in req.Options)
+            clone.Options.Set(new HttpRequestOptionsKey<object?>(option.Key), option.Value);
+
+        foreach (KeyValuePair<string, IEnumerable<string>> header in req.Headers)
+            clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
+
+        return clone;
     }
 }
