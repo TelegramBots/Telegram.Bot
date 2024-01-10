@@ -1053,10 +1053,10 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
-    /// <param name="voice">
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
+    /// <param name="voice">
     /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send a file that exists
     /// on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from
     /// the Internet, or upload a new one using multipart/form-data
