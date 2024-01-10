@@ -235,4 +235,9 @@ public enum MessageType
     /// The <see cref="Message"/> contains <see cref="Message.ChatShared"/>
     /// </summary>
     ChatShared,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains <see cref="Message.Story"/>
+    /// </summary>
+    Story,
 }

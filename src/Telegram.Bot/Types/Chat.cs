@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Converters;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
@@ -73,6 +74,14 @@ public class Chat
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? EmojiStatusCustomEmojiId { get; set; }
+
+    /// <summary>
+    /// Optional. Expiration date of the emoji status of the other party in a private chat, if any.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonConverter(typeof(UnixDateTimeConverter))]
+    public DateTime? EmojiStatusExpirationDate { get; set; }
 
     /// <summary>
     /// Optional. Bio of the other party in a private chat. Returned only in <see cref="Requests.GetChatRequest"/>.

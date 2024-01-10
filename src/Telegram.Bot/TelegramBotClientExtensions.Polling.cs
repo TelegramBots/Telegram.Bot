@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Telegram.Bot.Polling;
@@ -137,7 +137,7 @@ public static partial class TelegramBotClientExtensions
 
         // ReSharper disable once MethodSupportsCancellation
 #pragma warning disable CA2016
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
 #pragma warning restore CA2016
         {
             try

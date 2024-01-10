@@ -21,7 +21,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
-## [v19.0.0-preview.4] - Unreleased
+## [v20.0.0] - Unreleased
+
+> [Bot API 6.9](https://core.telegram.org/bots/api#september-22-2023) (September 22, 2023)
+
+### Added
+
+- The new administrator privileges `CanPostStories`, `CanEditStories` and `CanDeleteStories` 
+to the classes `ChatMemberAdministrator` and `ChatAdministratorRights`.
+- The parameters `CanPostStories`, `CanEditStories` and `CanDeleteStories` to the method `ITelegramBotClient.PromoteChatMemberAsync` 
+and `PromoteChatMemberRequest`.Currently, bots have no use for these privileges besides assigning them to other administrators.
+- The properties `FromRequest` and `FromAttachmentMenu` to the class `WriteAccessAllowed`.
+
+> [Bot API 6.8](https://core.telegram.org/bots/api#august-18-2023) (August 18, 2023)
+
+### Added
+
+- Type `Story`. 
+- Member `Story` to the enum `MessageType`
+- Property `Story? Story` to the class `Message`. Currently, it holds no information.
+- Property `Chat? VoterChat` to the `PollAnswer` class. For backward compatibility, the field user in 
+such objects will contain the user `136817688` (`@Channel_Bot`).
+- Property `DateTime? EmojiStatusExpirationDate` to the `Chat` class.
+- New request related to topics:
+  - `UnpinAllGeneralForumTopicMessages`
+- New method related to topics:
+  - `ITelegramBotClient.UnpinAllGeneralForumTopicMessagesAsync`
+
+### Changed
+
+- Property `User? User` in the `PollAnswer` class is optional now.
+
+## [v19.0.0] - 2023-05-07
 
 > [Bot API 6.7](https://core.telegram.org/bots/api#april-21-2023) (April 21, 2023)
 
@@ -134,6 +165,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Stickers tests
 
 ### Removed
+
 - Class `AddAnimatedStickerToSetRequest`
 - Class `AddStaticStickerToSetRequest`
 - Class `AddVideoStickerToSetRequest`
