@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -41,12 +44,13 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         var limit = _receiverOptions?.Limit ?? default;
         var messageOffset = _receiverOptions?.Offset ?? 0;
         var emptyUpdates = EmptyUpdates;
+        var runningTasks = new List<Task>();
 
         if (_receiverOptions?.ThrowPendingUpdates is true)
         {
             try
             {
-                messageOffset = await _botClient.ThrowOutPendingUpdatesAsync(
+                messageOffset = await _botClient.DiscardPendingUpdatesAsync(
                     cancellationToken: cancellationToken
                 ).ConfigureAwait(false);
             }
@@ -58,7 +62,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            var timeout = (int) _botClient.Timeout.TotalSeconds;
+            var timeout = (int)_botClient.Timeout.TotalSeconds;
             var updates = emptyUpdates;
             try
             {
@@ -71,49 +75,74 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                 };
                 updates = await _botClient.MakeRequestAsync(
                     request: request,
-                    cancellationToken:
-                    cancellationToken
-                ).ConfigureAwait(false);
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
                 // Ignore
             }
-#pragma warning disable CA1031
             catch (Exception exception)
-#pragma warning restore CA1031
             {
                 try
                 {
-                    await updateHandler.HandlePollingErrorAsync(
+                    await updateHandler.HandleErrorAsync(
                         botClient: _botClient,
                         exception: exception,
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
+                        cancellationToken: cancellationToken)
+                        .ConfigureAwait(false);
                 }
                 catch (OperationCanceledException)
                 {
                     // ignored
                 }
+
+                // Cooldown on network error
+                if (exception is HttpRequestException)
+                    await Task.Delay(500, cancellationToken).ConfigureAwait(false);
             }
 
             foreach (var update in updates)
             {
-                try
-                {
-                    await updateHandler.HandleUpdateAsync(
-                        botClient: _botClient,
-                        update: update,
-                        cancellationToken: cancellationToken
-                    ).ConfigureAwait(false);
-
-                    messageOffset = update.Id + 1;
-                }
-                catch (OperationCanceledException)
-                {
-                    // ignored
-                }
+                var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                runningTasks.Add(SafeInvoke(updateHandler, update, cts.Token));
             }
+
+            messageOffset = updates.Length > 0
+                ? updates[updates.Length - 1].Id + 1
+                : 0;
+        }
+
+        var faultedTasks = runningTasks.Where(t => t.Status == TaskStatus.Faulted);
+        if (faultedTasks.Any())
+        {
+            throw new AggregateException(faultedTasks.SelectMany(t => t.Exception!.InnerExceptions));
+        }
+        runningTasks.RemoveAll(t => t.IsCompleted);
+
+        cancellationToken.ThrowIfCancellationRequested();
+    }
+
+    private async Task SafeInvoke(IUpdateHandler updateHandler, Update update, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await updateHandler.HandleUpdateAsync(
+                botClient: _botClient,
+                update: update,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            // ignored
+        }
+        catch (Exception exception)
+        {
+            await updateHandler.HandleErrorAsync(
+                botClient: _botClient,
+                exception: exception,
+                cancellationToken: cancellationToken
+            ).ConfigureAwait(false);
         }
     }
 }

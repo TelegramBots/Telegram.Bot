@@ -1,4 +1,4 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -20,7 +20,7 @@ public interface IUpdateHandler
     /// </param>
     /// <param name="update">The <see cref="Update"/> to handle</param>
     /// <param name="cancellationToken">
-    /// The <see cref="CancellationToken"/> which will notify that method execution should be cancelled
+    /// The <see cref="CancellationToken"/> which will notify that method execution should be canceled
     /// </param>
     /// <returns></returns>
     Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken);
@@ -33,10 +33,10 @@ public interface IUpdateHandler
     /// </param>
     /// <param name="exception">The <see cref="Exception"/> to handle</param>
     /// <param name="cancellationToken">
-    /// The <see cref="CancellationToken"/> which will notify that method execution should be cancelled
+    /// The <see cref="CancellationToken"/> which will notify that method execution should be canceled
     /// </param>
     /// <returns></returns>
-    Task HandlePollingErrorAsync(
+    Task HandleErrorAsync(
         ITelegramBotClient botClient,
         Exception exception,
         CancellationToken cancellationToken
