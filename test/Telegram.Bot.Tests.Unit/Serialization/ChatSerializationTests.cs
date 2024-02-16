@@ -17,7 +17,7 @@ public class ChatSerializationTests
 
         string serializeChat = JsonConvert.SerializeObject(chat);
 
-        Assert.Contains(@"""unrestricted_boost_count"":10", serializeChat);
+        Assert.Contains(@"""unrestrict_boost_count"":10", serializeChat);
         Assert.Contains(@"""custom_emoji_sticker_set_name"":""test_sticker_set""", serializeChat);
     }
 }
