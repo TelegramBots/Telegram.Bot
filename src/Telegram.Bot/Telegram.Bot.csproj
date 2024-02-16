@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <LangVersion>11</LangVersion>
+    <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
@@ -51,6 +51,11 @@
                                            'HttpClient.GetAsync(Uri, HttpCompletionOption, CancellationToken)' instead
                                            of 'HttpClient.GetAsync(string, HttpCompletionOption, CancellationToken)' -->
     <NoWarn>$(NoWarn);CA1031</NoWarn> <!-- Catch a more specific allowed exception type, or rethrow the exception -->
+    <NoWarn>$(NoWarn);CA1716</NoWarn> <!-- Rename virtual/interface member MessageOrigin.Date so that it no longer
+                                           conflicts with the reserved language keyword 'Date' -->
+    <NoWarn>$(NoWarn);CA1510</NoWarn> <!-- Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing
+                                           a new exception instance -->
+    <NoWarn>$(NoWarn);MA0046</NoWarn> <!-- The delegate must return void -->
     <NoWarn>$(NoWarn);MA0048;MA0051</NoWarn>
   </PropertyGroup>
 
