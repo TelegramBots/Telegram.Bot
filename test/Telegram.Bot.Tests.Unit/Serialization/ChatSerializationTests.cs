@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -34,14 +36,20 @@ public class ChatSerializationTests
     {
         Chat chat = new()
         {
+            Id = 1000,
+            Type = ChatType.Supergroup,
             UnrestrictBoostCount = 10,
             CustomEmojiStickerSetName = "test_sticker_set"
         };
 
-        Chat? deserialized = JsonConvert.DeserializeObject<Chat>(JsonConvert.SerializeObject(chat));
+        string json = JsonConvert.SerializeObject(chat);
 
-        Assert.NotNull(deserialized);
-        Assert.Equal(deserialized.UnrestrictBoostCount, deserialized.UnrestrictBoostCount);
-        Assert.Equal(chat.CustomEmojiStickerSetName, deserialized.CustomEmojiStickerSetName);
+        JObject j = JObject.Parse(json);
+
+        Assert.Equal(4, j.Children().Count());
+        Assert.Equal(chat.UnrestrictBoostCount, j["unrestrict_boost_count"]);
+        Assert.Equal("supergroup", j["type"]);
+        Assert.Equal(chat.Id, j["id"]);
+        Assert.Equal(chat.CustomEmojiStickerSetName, j["custom_emoji_sticker_set_name"]);
     }
 }

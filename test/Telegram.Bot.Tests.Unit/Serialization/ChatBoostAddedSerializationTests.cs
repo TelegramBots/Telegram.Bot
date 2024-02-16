@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Xunit;
 
@@ -30,9 +31,10 @@ public class ChatBoostAddedSerializationTests
             BoostCount = 101,
         };
 
-        ChatBoostAdded? deserialized = JsonConvert.DeserializeObject<ChatBoostAdded>(JsonConvert.SerializeObject(chat));
+        string json = JsonConvert.SerializeObject(chat);
+        JObject j = JObject.Parse(json);
 
-        Assert.NotNull(deserialized);
-        Assert.Equal(deserialized.BoostCount, deserialized.BoostCount);
+        Assert.Single(j.Children());
+        Assert.Equal(101, j["boost_count"]);
     }
 }

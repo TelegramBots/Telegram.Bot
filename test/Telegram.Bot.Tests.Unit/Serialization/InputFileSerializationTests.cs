@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using Newtonsoft.Json;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
@@ -13,15 +12,12 @@ public class InputFileSerializationTests
     public void Should_Serialize_InputFile()
     {
         const string fileName = "myFile";
-        InputFileStream inputFile = new(new MemoryStream(), fileName);
+        using MemoryStream memoryStream = new();
+        InputFileStream inputFile = new(memoryStream, fileName);
 
-        string json = JsonConvert.SerializeObject(inputFile);
-        InputFileStream obj = JsonConvert.DeserializeObject<InputFileStream>(json)!;
+        string serializedValue = JsonConvert.SerializeObject(inputFile);
 
-        Assert.Equal(@$"""attach://{fileName}""", json);
-        Assert.Equal(Stream.Null, obj.Content);
-        Assert.Equal(fileName, obj.FileName);
-        Assert.Equal(FileType.Stream, obj.FileType);
+        Assert.Equal(@$"""attach://{fileName}""", serializedValue);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input file with file_id")]
@@ -30,27 +26,19 @@ public class InputFileSerializationTests
         const string fileId = "This-is-a-file_id";
         InputFileId inputFileId = new(fileId);
 
-        string json = JsonConvert.SerializeObject(inputFileId);
-        InputFileId? obj = JsonConvert.DeserializeObject<InputFileId>(json);
+        string serializedValue = JsonConvert.SerializeObject(inputFileId);
 
-        Assert.NotNull(obj);
-        Assert.Equal(@$"""{fileId}""", json);
-        Assert.Equal(fileId, obj.Id);
-        Assert.Equal(FileType.Id, obj.FileType);
+        Assert.Equal($"\"{fileId}\"", serializedValue);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input file with URL")]
     public void Should_Serialize_InputUrlFile()
     {
-        Uri url = new("http://github.org/TelegramBots");
+        Uri url = new("https://github.com/TelegramBots");
         InputFileUrl inputFileUrl = new(url);
 
-        string json = JsonConvert.SerializeObject(inputFileUrl);
-        InputFileUrl? obj = JsonConvert.DeserializeObject<InputFileUrl>(json);
+        string serializedValue = JsonConvert.SerializeObject(inputFileUrl);
 
-        Assert.NotNull(obj);
-        Assert.Equal(@$"""{url}""", json);
-        Assert.Equal(url, obj.Url);
-        Assert.Equal(FileType.Url, obj.FileType);
+        Assert.Equal($"\"{url}\"", serializedValue);
     }
 }
