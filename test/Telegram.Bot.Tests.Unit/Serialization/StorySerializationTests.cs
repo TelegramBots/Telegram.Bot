@@ -17,7 +17,7 @@ public class StorySerializationTests
             {
                 Id = 876543,
                 Type = ChatType.Private,
-                Username = "test_user",
+                Username = "test_user"
             },
         };
 
@@ -40,7 +40,7 @@ public class StorySerializationTests
                 "chat": {
                     "id": 876543,
                     "type": "private",
-                    "username": "test_user",
+                    "username": "test_user"
                 }
             }
             """;
