@@ -1,5 +1,6 @@
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters;
 
@@ -32,7 +33,7 @@ internal class MessageOriginConverter : JsonConverter
         JsonSerializer serializer)
     {
         var jo = JObject.Load(reader);
-        var type = jo["type"]?.Value<string>();
+        var type = jo["type"]?.Value<MessageOriginType>();
 
         if (type is null)
         {
@@ -41,11 +42,11 @@ internal class MessageOriginConverter : JsonConverter
 
         var actualType = type switch
         {
-            "user"        => typeof(MessageOriginUser),
-            "hidden_user" => typeof(MessageOriginHiddenUser),
-            "chat"        => typeof(MessageOriginChat),
-            "channel"     => typeof(MessageOriginChannel),
-            _             => throw new JsonSerializationException($"Unknown message origin type value of '{jo["type"]}'")
+            MessageOriginType.User       => typeof(MessageOriginUser),
+            MessageOriginType.HiddenUser => typeof(MessageOriginHiddenUser),
+            MessageOriginType.Chat       => typeof(MessageOriginChat),
+            MessageOriginType.Channel    => typeof(MessageOriginChannel),
+            _                            => throw new JsonSerializationException($"Unknown message origin type value of '{jo["type"]}'")
         };
 
         // Remove status because status property only has getter
