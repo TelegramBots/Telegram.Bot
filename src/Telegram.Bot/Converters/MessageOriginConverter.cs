@@ -33,7 +33,7 @@ internal class MessageOriginConverter : JsonConverter
         JsonSerializer serializer)
     {
         var jo = JObject.Load(reader);
-        var type = jo["type"]?.Value<MessageOriginType>();
+        var type = jo["type"]?.ToObject<MessageOriginType>();
 
         if (type is null)
         {
