@@ -19,5 +19,5 @@ public enum MenuButtonType
     /// <summary>
     /// Represents a menu button, which launches a <a href="https://core.telegram.org/bots/webapps">Web App</a>.
     /// </summary>
-    WebApp
+    WebApp,
 }
