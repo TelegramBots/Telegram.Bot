@@ -12,5 +12,5 @@ public class UserChatBoosts
     /// The list of boosts added to the chat by the user
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    IEnumerable<ChatBoost> Boosts { get; set; } = default!;
+    public IEnumerable<ChatBoost> Boosts { get; set; } = default!;
 }
