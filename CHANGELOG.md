@@ -120,7 +120,7 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 - Replaced the property `UserShared` in the class Message with the property `UsersShared`.
 - Replaced enum member `MessageType.UserShared` with `MessageType.UsersShared`
 - Fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName` 
-and `ForwardDate` with the field `ForwardOrigin` of type `MessageOrigin` in the class `Message`.
+and `ForwardDate` replaced with the field `ForwardOrigin` of type `MessageOrigin` in the class `Message`.
 - Type of the property `Message` of the class `CallbackQuery` to `MaybeInaccessibleMessage`
 - Type of the property `PinnedMessage` of the class `Message` to `MaybeInaccessibleMessage`.
 
