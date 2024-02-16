@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -25,15 +27,22 @@ public class MessageOriginSerializationTests
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        MessageOrigin? messageOrigin = JsonConvert.DeserializeObject<MessageOrigin>(
-            JsonConvert.SerializeObject(origin)
-        );
-        Assert.NotNull(messageOrigin);
+        string json = JsonConvert.SerializeObject(origin);
+        JObject j = JObject.Parse(json);
 
-        MessageOriginUser messageOriginUser = Assert.IsType<MessageOriginUser>(messageOrigin);
+        Assert.Equal(3, j.Children().Count());
+        Assert.Equal(1708106405, j["date"]);
 
-        Assert.Equal(origin.Date, messageOriginUser.Date);
-        Assert.Equal(origin.SenderUser.Id, messageOriginUser.SenderUser.Id);
+        JToken? senderUser = j["sender_user"];
+        Assert.NotNull(senderUser);
+
+        Assert.Equal(6, senderUser.Children().Count());
+        Assert.Equal(12345, senderUser["id"]);
+        Assert.Equal(true, senderUser["is_bot"]);
+        Assert.Equal("First Name", senderUser["first_name"]);
+        Assert.Equal("Last Name", senderUser["first_name"]);
+        Assert.Equal("test_bot", senderUser["username"]);
+        Assert.Equal("en_US", senderUser["language_code"]);
     }
 
     [Fact]
@@ -45,15 +54,16 @@ public class MessageOriginSerializationTests
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        MessageOrigin? messageOrigin = JsonConvert.DeserializeObject<MessageOrigin>(
-            JsonConvert.SerializeObject(origin)
-        );
-        Assert.NotNull(messageOrigin);
+        string json = JsonConvert.SerializeObject(origin);
+        JObject j = JObject.Parse(json);
 
-        MessageOriginHiddenUser messageOriginHiddenUser = Assert.IsType<MessageOriginHiddenUser>(messageOrigin);
+        Assert.Equal(3, j.Children().Count());
+        Assert.Equal(1708106405, j["date"]);
 
-        Assert.Equal(origin.Date, messageOriginHiddenUser.Date);
-        Assert.Equal(origin.SenderUserName, origin.SenderUserName);
+        JToken? senderUser = j["sender_user_name"];
+        Assert.NotNull(senderUser);
+
+        Assert.Equal("test_bot", senderUser);
     }
 
     [Fact]
@@ -65,22 +75,26 @@ public class MessageOriginSerializationTests
             {
                 Id = 12345,
                 Type = ChatType.Supergroup,
-                Username = "test_bot",
+                Username = "test_group",
                 IsForum = true,
             },
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        MessageOrigin? messageOrigin = JsonConvert.DeserializeObject<MessageOrigin>(
-            JsonConvert.SerializeObject(origin)
-        );
-        Assert.NotNull(messageOrigin);
+        string json = JsonConvert.SerializeObject(origin);
+        JObject j = JObject.Parse(json);
 
-        MessageOriginChat messageOriginChat = Assert.IsType<MessageOriginChat>(messageOrigin);
+        Assert.Equal(3, j.Children().Count());
+        Assert.Equal(1708106405, j["date"]);
 
-        Assert.Equal(origin.Date, messageOriginChat.Date);
-        Assert.Equal(origin.SenderChat.Id, messageOriginChat.SenderChat.Id);
-        Assert.Equal(origin.SenderChat.Type, messageOriginChat.SenderChat.Type);
+        JToken? senderChat = j["sender_chat"];
+        Assert.NotNull(senderChat);
+
+        Assert.Equal(4, senderChat.Children().Count());
+        Assert.Equal(12345, senderChat["id"]);
+        Assert.Equal("supergroup", senderChat["type"]);
+        Assert.Equal("test_group", senderChat["username"]);
+        Assert.Equal(true, senderChat["is_forum"]);
     }
 
     [Fact]
@@ -99,19 +113,21 @@ public class MessageOriginSerializationTests
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        MessageOrigin? messageOrigin = JsonConvert.DeserializeObject<MessageOrigin>(
-            JsonConvert.SerializeObject(origin)
-        );
-        Assert.NotNull(messageOrigin);
+        string json = JsonConvert.SerializeObject(origin);
+        JObject j = JObject.Parse(json);
 
-        MessageOriginChannel messageOriginChat = Assert.IsType<MessageOriginChannel>(messageOrigin);
+        Assert.Equal(5, j.Children().Count());
+        Assert.Equal(1708106405, j["date"]);
+        Assert.Equal(1236886, j["message_id"]);
+        Assert.Equal("author_name", j["author_signature"]);
 
-        Assert.Equal(origin.Date, messageOriginChat.Date);
-        Assert.Equal(origin.Chat.Id, messageOriginChat.Chat.Id);
-        Assert.Equal(origin.Chat.Type, messageOriginChat.Chat.Type);
-        Assert.Equal(origin.AuthorSignature, messageOriginChat.AuthorSignature);
-        Assert.Equal(origin.MessageId, messageOriginChat.MessageId);
+        JToken? chat = j["chat"];
+        Assert.NotNull(chat);
 
+        Assert.Equal(3, chat.Children().Count());
+        Assert.Equal(12345, chat["id"]);
+        Assert.Equal("supergroup", chat["type"]);
+        Assert.Equal("test_group", chat["username"]);
     }
 
     [Fact]
