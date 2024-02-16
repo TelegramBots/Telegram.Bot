@@ -193,6 +193,13 @@ public class Chat
     public int? SlowModeDelay { get; set; }
 
     /// <summary>
+    /// Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order
+    /// to ignore slow mode and chat permissions. Returned only in getChat.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? UnrestrictBoostCount { get; set; }
+
+    /// <summary>
     /// Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
@@ -240,6 +247,14 @@ public class Chat
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSetStickerSet { get; set; }
+
+    /// <summary>
+    /// Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be
+    /// used by all users and bots in the group.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? CustomEmojiStickerSetName { get; set; }
 
     /// <summary>
     /// Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel

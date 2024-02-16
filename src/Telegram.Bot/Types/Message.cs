@@ -41,6 +41,12 @@ public class Message : MaybeInaccessibleMessage
     public Chat? SenderChat { get; set; }
 
     /// <summary>
+    /// Optional. If the sender of the message boosted the chat, the number of boosts added by the user
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? SenderBoostCount { get; set; }
+
+    /// <summary>
     /// Date the message was sent
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -91,6 +97,12 @@ public class Message : MaybeInaccessibleMessage
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public TextQuote? Quote { get; set; }
+
+    /// <summary>
+    /// Optional. For replies to a story, the original story
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Story? ReplyToStory { get; set; }
 
     /// <summary>
     /// Optional. Bot through which the message was sent
@@ -408,6 +420,12 @@ public class Message : MaybeInaccessibleMessage
     public ProximityAlertTriggered? ProximityAlertTriggered { get; set; }
 
     /// <summary>
+    /// Optional. Service message: user boosted the chat
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ChatBoostAdded? BoostAdded { get; set; }
+
+    /// <summary>
     /// Optional. Service message: forum topic created
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -549,6 +567,7 @@ public class Message : MaybeInaccessibleMessage
             { WriteAccessAllowed: not null }            => MessageType.WriteAccessAllowed,
             { PassportData: not null }                  => MessageType.PassportData,
             { ProximityAlertTriggered: not null }       => MessageType.ProximityAlertTriggered,
+            { BoostAdded: not null }                    => MessageType.BoostAdded,
             { ForumTopicCreated: not null }             => MessageType.ForumTopicCreated,
             { ForumTopicEdited: not null }              => MessageType.ForumTopicEdited,
             { ForumTopicClosed: not null }              => MessageType.ForumTopicClosed,
