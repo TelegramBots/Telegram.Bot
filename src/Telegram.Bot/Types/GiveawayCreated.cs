@@ -5,6 +5,4 @@ namespace Telegram.Bot.Types;
 /// Currently holds no information.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class GiveawayCreated
-{
-}
+public class GiveawayCreated;

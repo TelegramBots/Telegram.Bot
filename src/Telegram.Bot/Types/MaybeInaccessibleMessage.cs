@@ -11,6 +11,4 @@ namespace Telegram.Bot.Types;
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 [JsonConverter(typeof(MaybeInaccessibleMessageConverter))]
-public abstract class MaybeInaccessibleMessage
-{
-}
+public abstract class MaybeInaccessibleMessage;
