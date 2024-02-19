@@ -1,4 +1,5 @@
 using Telegram.Bot.Converters;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
 
@@ -17,7 +18,7 @@ public abstract class ReactionType
     /// Type of the reaction
     /// </summary>
     [JsonProperty]
-    public abstract string Type { get; }
+    public abstract ReactionTypeKind Type { get; }
 }
 
 /// <summary>
@@ -29,7 +30,7 @@ public class ReactionTypeEmoji : ReactionType
     /// <summary>
     /// Type of the reaction, always "emoji"
     /// </summary>
-    public override string Type => "emoji";
+    public override ReactionTypeKind Type => ReactionTypeKind.Emoji;
 
     /// <summary>
     /// Reaction emoji. Currently, it can be one of "👍", "👎", "❤", "🔥", "🥰", "👏", "😁",
@@ -55,7 +56,7 @@ public class ReactionTypeCustomEmoji : ReactionType
     /// <summary>
     /// Type of the reaction, always "custom_emoji"
     /// </summary>
-    public override string Type => "custom_emoji";
+    public override ReactionTypeKind Type => ReactionTypeKind.CustomEmoji;
 
     /// <summary>
     /// Custom emoji identifier

@@ -129,13 +129,15 @@ public class Update
     public ChatJoinRequest? ChatJoinRequest { get; set; }
 
     /// <summary>
-    /// Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these updates.
+    /// Optional. A chat boost was added or changed.
+    /// The bot must be an administrator in the chat to receive these updates.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatBoostUpdated? ChatBoost { get; set; }
 
     /// <summary>
-    /// Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these updates.
+    /// Optional. A boost was removed from a chat.
+    /// The bot must be an administrator in the chat to receive these updates.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatBoostRemoved? RemovedChatBoost { get; set; }

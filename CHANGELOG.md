@@ -24,11 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 > [Bot API 7.0](https://core.telegram.org/bots/api#december-29-2023) (December 29, 2023)
+> [Bot API 7.1](https://core.telegram.org/bots/api#february-16-2024) (February 16, 2024)
 
 ### Added
 
 - The classes `ReactionType`, `ReactionTypeEmoji` and `ReactionTypeCustomEmoji` representing different types of reaction.
-- The class `KnownReactionTypeEmoji`  containing Emojis available for `ReactionTypeEmoji`.
+- Enum `ReactionTypeKind`
+- The class `KnownReactionTypeEmoji` containing Emojis available for `ReactionTypeEmoji`.
 - Updates about a reaction change on a message with non-anonymous reactions, represented by the class `MessageReactionUpdated`
 and the property `MessageReaction` in the class `Update`. The bot must explicitly allow the update to receive it.
 - Updates about reaction changes on a message with anonymous reactions, represented by the class `MessageReactionCountUpdated`
@@ -61,6 +63,13 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 - The properties `AccentColorId`, `BackgroundCustomEmojiId`, `ProfileAccentColorId`, and `ProfileBackgroundCustomEmojiId` to the class `Chat`.
 - The property `HasVisibleHistory` to the class `Chat`.
 - Classes `MaybeInaccessibleMessage` and `InaccessibleMessage`.
+- The class `ChatBoostAdded`
+- Classes `MessageOrigin`, `MessageOriginUser`, `MessageOriginHiddenUser` and `MessageOriginChannel`
+- Enum `MessageOriginType`
+- Fields `UnrestrictBoostCount` and `CustomEmojiStickerSetName` to type `Chat`
+- Enum member `MessageType.BoostAdded`
+- Fields `SenderBoostCount`, `ReplyToStory` and `BoostAdded` to type `Message`
+- Fields `Chat` and `Id` to type `Story`
 
 ### Changed
 
@@ -111,10 +120,14 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 - Renamed the class `UserShared` to `UsersShared` and changed the property `UserId` to `UserIds`.
 - Replaced the property `UserShared` in the class Message with the property `UsersShared`.
 - Replaced enum member `MessageType.UserShared` with `MessageType.UsersShared`
-- The class `MessageOrigin` and replaced the fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName` 
-and `ForwardDate` with the field `ForwardOrigin` of type `MessageOrigin in the class `Message`.
+- Fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName` 
+and `ForwardDate` replaced with the field `ForwardOrigin` of type `MessageOrigin` in the class `Message`.
 - Type of the property `Message` of the class `CallbackQuery` to `MaybeInaccessibleMessage`
 - Type of the property `PinnedMessage` of the class `Message` to `MaybeInaccessibleMessage`.
+
+### Removed
+- Fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName`
+  and `ForwardDate` from type `Message`
 
 ## [v20.0.0] - Unreleased
 

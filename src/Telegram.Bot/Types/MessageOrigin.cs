@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Converters;
 using Telegram.Bot.Converters;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
 
@@ -20,7 +21,7 @@ public abstract class MessageOrigin
     /// Type of the message origin
     /// </summary>
     [JsonProperty]
-    public abstract string Type { get; }
+    public abstract MessageOriginType Type { get; }
 
     /// <summary>
     /// Date the message was sent originally
@@ -37,9 +38,9 @@ public abstract class MessageOrigin
 public class MessageOriginUser : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always "user"
+    /// Type of the message origin, always <see cref="MessageOriginType.User"/>
     /// </summary>
-    public override string Type => "user";
+    public override MessageOriginType Type => MessageOriginType.User;
 
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]
@@ -60,9 +61,9 @@ public class MessageOriginUser : MessageOrigin
 public class MessageOriginHiddenUser : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always "hidden_user"
+    /// Type of the message origin, always <see cref="MessageOriginType.HiddenUser"/>
     /// </summary>
-    public override string Type => "hidden_user";
+    public override MessageOriginType Type => MessageOriginType.HiddenUser;
 
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]
@@ -83,9 +84,9 @@ public class MessageOriginHiddenUser : MessageOrigin
 public class MessageOriginChat : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always "chat"
+    /// Type of the message origin, always <see cref="MessageOriginType.Chat"/>
     /// </summary>
-    public override string Type => "chat";
+    public override MessageOriginType Type => MessageOriginType.Chat;
 
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]
@@ -113,9 +114,9 @@ public class MessageOriginChat : MessageOrigin
 public class MessageOriginChannel : MessageOrigin
 {
     /// <summary>
-    /// Type of the message origin, always "channel"
+    /// Type of the message origin, always <see cref="MessageOriginType.Channel"/>
     /// </summary>
-    public override string Type => "channel";
+    public override MessageOriginType Type => MessageOriginType.Channel;
 
     /// <inheritdoc/>
     [JsonProperty(Required = Required.Always)]

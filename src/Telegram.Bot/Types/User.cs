@@ -56,19 +56,22 @@ public class User
     public bool? AddedToAttachmentMenu { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the bot can be invited to groups. Returned only in <see cref="Requests.GetMeRequest"/>
+    /// Optional. <see langword="true"/>, if the bot can be invited to groups.
+    /// Returned only in <see cref="Requests.GetMeRequest"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanJoinGroups { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if privacy mode is disabled for the bot. Returned only in <see cref="Requests.GetMeRequest"/>
+    /// Optional. <see langword="true"/>, if privacy mode is disabled for the bot.
+    /// Returned only in <see cref="Requests.GetMeRequest"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanReadAllGroupMessages { get; set; }
 
     /// <summary>
-    /// Optional. <see langword="true"/>, if the bot supports inline queries. Returned only in <see cref="Requests.GetMeRequest"/>
+    /// Optional. <see langword="true"/>, if the bot supports inline queries.
+    /// Returned only in <see cref="Requests.GetMeRequest"/>
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SupportsInlineQueries { get; set; }

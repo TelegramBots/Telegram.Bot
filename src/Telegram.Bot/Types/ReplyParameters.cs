@@ -7,7 +7,8 @@ namespace Telegram.Bot.Types;
 public class ReplyParameters
 {
     /// <summary>
-    /// Identifier of the message that will be replied to in the current chat, or in the chat <see cref="ChatId"/> if it is specified
+    /// Identifier of the message that will be replied to in the current chat,
+    /// or in the chat <see cref="ChatId"/> if it is specified
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public int MessageId { get; set; }

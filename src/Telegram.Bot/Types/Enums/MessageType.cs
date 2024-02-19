@@ -265,4 +265,9 @@ public enum MessageType
     /// The <see cref="Message"/> contains a <see cref="Message.GiveawayCompleted"/>
     /// </summary>
     GiveawayCompleted,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.BoostAdded"/>
+    /// </summary>
+    BoostAdded,
 }

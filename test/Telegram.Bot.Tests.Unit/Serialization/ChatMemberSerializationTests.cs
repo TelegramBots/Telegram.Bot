@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -62,17 +64,21 @@ public class ChatMemberSerializationTests
             CustomTitle = "Custom test title"
         };
 
-        string? chatMemberJson = JsonConvert.SerializeObject(creator);
-        Assert.Contains(@"""status"":""creator""", chatMemberJson);
-        Assert.Contains(@"""is_anonymous"":true", chatMemberJson);
-        Assert.Contains(@"""custom_title"":""Custom test title""", chatMemberJson);
-        Assert.Contains(@"""user"":{", chatMemberJson);
-        Assert.Contains(@"""id"":12345", chatMemberJson);
-        Assert.Contains(@"""is_bot"":true", chatMemberJson);
-        Assert.Contains(@"""first_name"":""First Name""", chatMemberJson);
-        Assert.Contains(@"""last_name"":""Last Name""", chatMemberJson);
-        Assert.Contains(@"""username"":""test_bot""", chatMemberJson);
-        Assert.Contains(@"""language_code"":""en_US""", chatMemberJson);
+        string chatMemberJson = JsonConvert.SerializeObject(creator);
+        JObject j = JObject.Parse(chatMemberJson);
+
+        Assert.Equal(4, j.Children().Count());
+        Assert.Equal("creator", j["status"]);
+        Assert.Equal(true, j["is_anonymous"]);
+        Assert.Equal("Custom test title", j["custom_title"]);
+        Assert.True(j.ContainsKey("user"));
+        Assert.Equal(6, j["user"]?.Children().Count());
+        Assert.Equal(12345, j["user"]?["id"]);
+        Assert.Equal(true, j["user"]?["is_bot"]);
+        Assert.Equal("First Name", j["user"]?["first_name"]);
+        Assert.Equal("Last Name", j["user"]?["first_name"]);
+        Assert.Equal("test_bot", j["user"]?["username"]);
+        Assert.Equal("en_US", j["user"]?["language_code"]);
     }
 
     [Fact]
@@ -92,17 +98,20 @@ public class ChatMemberSerializationTests
             UntilDate = new(2021, 4, 2, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string? chatMemberJson = JsonConvert.SerializeObject(creator);
+        string chatMemberJson = JsonConvert.SerializeObject(creator);
+        JObject j = JObject.Parse(chatMemberJson);
 
-        Assert.Contains(@"""until_date"":1617321600", chatMemberJson);
-        Assert.Contains(@"""status"":""kicked""", chatMemberJson);
-        Assert.Contains(@"""user"":{", chatMemberJson);
-        Assert.Contains(@"""id"":12345", chatMemberJson);
-        Assert.Contains(@"""is_bot"":true", chatMemberJson);
-        Assert.Contains(@"""first_name"":""First Name""", chatMemberJson);
-        Assert.Contains(@"""last_name"":""Last Name""", chatMemberJson);
-        Assert.Contains(@"""username"":""test_bot""", chatMemberJson);
-        Assert.Contains(@"""language_code"":""en_US""", chatMemberJson);
+        Assert.Equal(3, j.Children().Count());
+        Assert.Equal(1617321600, j["until_date"]);
+        Assert.Equal("kicked", j["status"]);
+        Assert.True(j.ContainsKey("user"));
+        Assert.Equal(6, j["user"]?.Children().Count());
+        Assert.Equal(12345, j["user"]?["id"]);
+        Assert.Equal(true, j["user"]?["is_bot"]);
+        Assert.Equal("First Name", j["user"]?["first_name"]);
+        Assert.Equal("Last Name", j["user"]?["first_name"]);
+        Assert.Equal("test_bot", j["user"]?["username"]);
+        Assert.Equal("en_US", j["user"]?["language_code"]);
     }
 
     [Fact]
@@ -122,16 +131,19 @@ public class ChatMemberSerializationTests
         };
 
         string chatMemberJson = JsonConvert.SerializeObject(creator);
+        JObject j = JObject.Parse(chatMemberJson);
 
-        Assert.DoesNotContain(@"""until_date""", chatMemberJson);
-        Assert.Contains(@"""status"":""kicked""", chatMemberJson);
-        Assert.Contains(@"""user"":{", chatMemberJson);
-        Assert.Contains(@"""id"":12345", chatMemberJson);
-        Assert.Contains(@"""is_bot"":true", chatMemberJson);
-        Assert.Contains(@"""first_name"":""First Name""", chatMemberJson);
-        Assert.Contains(@"""last_name"":""Last Name""", chatMemberJson);
-        Assert.Contains(@"""username"":""test_bot""", chatMemberJson);
-        Assert.Contains(@"""language_code"":""en_US""", chatMemberJson);
+        Assert.Equal(2, j.Children().Count());
+        Assert.False(j.ContainsKey("until_date"));
+        Assert.Equal("kicked", j["status"]);
+        Assert.True(j.ContainsKey("user"));
+        Assert.Equal(6, j["user"]?.Children().Count());
+        Assert.Equal(12345, j["user"]?["id"]);
+        Assert.Equal(true, j["user"]?["is_bot"]);
+        Assert.Equal("First Name", j["user"]?["first_name"]);
+        Assert.Equal("Last Name", j["user"]?["first_name"]);
+        Assert.Equal("test_bot", j["user"]?["username"]);
+        Assert.Equal("en_US", j["user"]?["language_code"]);
     }
 
     [Fact]
