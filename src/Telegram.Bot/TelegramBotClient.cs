@@ -11,6 +11,8 @@ using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 
+[assembly: InternalsVisibleTo("Telegram.Bot.Tests.Integ")]
+
 namespace Telegram.Bot;
 
 /// <summary>
@@ -81,7 +83,6 @@ public class TelegramBotClient : ITelegramBotClient
         this(new TelegramBotClientOptions(token), httpClient)
     { }
 
-    /// <inheritdoc />
     public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
@@ -89,14 +90,20 @@ public class TelegramBotClient : ITelegramBotClient
         if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
         var url = $"{_options.BaseRequestUrl}/{request.MethodName}";
-
-#pragma warning disable CA2000
         var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
             Content = request.ToHttpContent()
         };
-#pragma warning restore CA2000
 
+        return await MakeRequestAsync<TResponse>(request, httpRequest, cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc />
+    internal async Task<TResponse> MakeRequestAsync<TResponse>(
+        IRequest<TResponse> request,
+        HttpRequestMessage httpRequest,
+        CancellationToken cancellationToken = default)
+    {
         if (OnMakingApiRequest is not null)
         {
             var requestEventArgs = new ApiRequestEventArgs(
