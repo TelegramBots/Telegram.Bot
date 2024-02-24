@@ -71,14 +71,17 @@ public class ChatMemberSerializationTests
         Assert.Equal("creator", j["status"]);
         Assert.Equal(true, j["is_anonymous"]);
         Assert.Equal("Custom test title", j["custom_title"]);
-        Assert.True(j.ContainsKey("user"));
-        Assert.Equal(6, j["user"]?.Children().Count());
-        Assert.Equal(12345, j["user"]?["id"]);
-        Assert.Equal(true, j["user"]?["is_bot"]);
-        Assert.Equal("First Name", j["user"]?["first_name"]);
-        Assert.Equal("Last Name", j["user"]?["first_name"]);
-        Assert.Equal("test_bot", j["user"]?["username"]);
-        Assert.Equal("en_US", j["user"]?["language_code"]);
+
+        JToken? ju = j["user"];
+        Assert.NotNull(ju);
+
+        Assert.Equal(6, ju.Children().Count());
+        Assert.Equal(12345, ju["id"]);
+        Assert.Equal(true, ju["is_bot"]);
+        Assert.Equal("First Name", ju["first_name"]);
+        Assert.Equal("Last Name", ju["first_name"]);
+        Assert.Equal("test_bot", ju["username"]);
+        Assert.Equal("en_US", ju["language_code"]);
     }
 
     [Fact]
@@ -105,13 +108,17 @@ public class ChatMemberSerializationTests
         Assert.Equal(1617321600, j["until_date"]);
         Assert.Equal("kicked", j["status"]);
         Assert.True(j.ContainsKey("user"));
-        Assert.Equal(6, j["user"]?.Children().Count());
-        Assert.Equal(12345, j["user"]?["id"]);
-        Assert.Equal(true, j["user"]?["is_bot"]);
-        Assert.Equal("First Name", j["user"]?["first_name"]);
-        Assert.Equal("Last Name", j["user"]?["first_name"]);
-        Assert.Equal("test_bot", j["user"]?["username"]);
-        Assert.Equal("en_US", j["user"]?["language_code"]);
+
+        JToken? ju = j["user"];
+        Assert.NotNull(ju);
+
+        Assert.Equal(6, ju.Children().Count());
+        Assert.Equal(12345, ju["id"]);
+        Assert.Equal(true, ju["is_bot"]);
+        Assert.Equal("First Name", ju["first_name"]);
+        Assert.Equal("Last Name", ju["first_name"]);
+        Assert.Equal("test_bot", ju["username"]);
+        Assert.Equal("en_US", ju["language_code"]);
     }
 
     [Fact]
@@ -136,14 +143,17 @@ public class ChatMemberSerializationTests
         Assert.Equal(2, j.Children().Count());
         Assert.False(j.ContainsKey("until_date"));
         Assert.Equal("kicked", j["status"]);
-        Assert.True(j.ContainsKey("user"));
-        Assert.Equal(6, j["user"]?.Children().Count());
-        Assert.Equal(12345, j["user"]?["id"]);
-        Assert.Equal(true, j["user"]?["is_bot"]);
-        Assert.Equal("First Name", j["user"]?["first_name"]);
-        Assert.Equal("Last Name", j["user"]?["first_name"]);
-        Assert.Equal("test_bot", j["user"]?["username"]);
-        Assert.Equal("en_US", j["user"]?["language_code"]);
+
+        JToken? ju = j["user"];
+        Assert.NotNull(ju);
+
+        Assert.Equal(6, ju.Children().Count());
+        Assert.Equal(12345, ju["id"]);
+        Assert.Equal(true, ju["is_bot"]);
+        Assert.Equal("First Name", ju["first_name"]);
+        Assert.Equal("Last Name", ju["first_name"]);
+        Assert.Equal("test_bot", ju["username"]);
+        Assert.Equal("en_US", ju["language_code"]);
     }
 
     [Fact]

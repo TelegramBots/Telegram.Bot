@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -21,13 +23,20 @@ public class StorySerializationTests
             },
         };
 
-        Story? deserializedStory = JsonConvert.DeserializeObject<Story>(JsonConvert.SerializeObject(story));
+        string serializeStory = JsonConvert.SerializeObject(story);
 
-        Assert.NotNull(deserializedStory);
-        Assert.Equal(story.Id, deserializedStory.Id);
-        Assert.Equal(story.Chat.Id, deserializedStory.Chat.Id);
-        Assert.Equal(story.Chat.Type, deserializedStory.Chat.Type);
-        Assert.Equal(story.Chat.Username, deserializedStory.Chat.Username);
+        JObject j = JObject.Parse(serializeStory);
+
+        Assert.Equal(2, j.Children().Count());
+        Assert.Equal(1234, j["id"]);
+
+        JToken? jc = j["chat"];
+        Assert.NotNull(jc);
+
+        Assert.Equal(3, jc.Children().Count());
+        Assert.Equal(876543, jc["id"]);
+        Assert.Equal("private", jc["type"]);
+        Assert.Equal("test_user", jc["username"]);
     }
 
     [Fact]

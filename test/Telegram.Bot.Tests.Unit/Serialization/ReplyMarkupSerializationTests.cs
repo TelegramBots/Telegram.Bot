@@ -1,4 +1,6 @@
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
 
@@ -18,12 +20,34 @@ public class ReplyMarkupSerializationTests
 
         string serializedReplyMarkup = JsonConvert.SerializeObject(replyMarkup);
 
-        string formattedType = string.IsNullOrEmpty(type)
-            ? "{}"
-            : $@"{{""type"":""{type}""}}";
+        JObject j = JObject.Parse(serializedReplyMarkup);
+        Assert.Single(j);
 
-        string expectedString = $@"""request_poll"":{formattedType}";
+        JToken? jk = j["keyboard"];
+        Assert.NotNull(jk);
 
-        Assert.Contains(expectedString, serializedReplyMarkup);
+        JArray jKeyboard = Assert.IsType<JArray>(jk);
+        Assert.Single(jKeyboard);
+
+        JToken jRow = jKeyboard[0];
+        Assert.Single(jRow);
+
+        JToken? jButton = jRow[0];
+        Assert.NotNull(jButton);
+        Assert.Equal(2, jButton.Children().Count());
+        Assert.Equal("Create a poll", jButton["text"]);
+
+        JToken? jRequestPoll = jButton["request_poll"];
+        Assert.NotNull(jRequestPoll);
+
+        if (string.IsNullOrEmpty(type))
+        {
+            Assert.Empty(jRequestPoll);
+        }
+        else
+        {
+            Assert.Single(jRequestPoll);
+            Assert.Equal(type, jRequestPoll["type"]);
+        }
     }
 }
