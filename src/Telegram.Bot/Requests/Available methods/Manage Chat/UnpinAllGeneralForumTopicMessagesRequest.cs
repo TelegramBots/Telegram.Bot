@@ -10,7 +10,7 @@ namespace Telegram.Bot.Requests;
 /// Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class UnpinAllGeneralForumTopicMessages : RequestBase<bool>, IChatTargetable
+public class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
@@ -21,8 +21,8 @@ public class UnpinAllGeneralForumTopicMessages : RequestBase<bool>, IChatTargeta
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
-    public UnpinAllGeneralForumTopicMessages(ChatId chatId)
+    [Obsolete("Use parameterless constructor with required properties")]
+    public UnpinAllGeneralForumTopicMessagesRequest(ChatId chatId)
         : this()
     {
         ChatId = chatId;
@@ -31,7 +31,7 @@ public class UnpinAllGeneralForumTopicMessages : RequestBase<bool>, IChatTargeta
     /// <summary>
     /// Initializes a new request
     /// </summary>
-    public UnpinAllGeneralForumTopicMessages()
+    public UnpinAllGeneralForumTopicMessagesRequest()
         : base("unpinAllGeneralForumTopicMessages")
     { }
 }

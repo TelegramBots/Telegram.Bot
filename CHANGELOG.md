@@ -73,6 +73,7 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 
 ### Changed
 
+- Class `UnpinAllGeneralForumTopicMessages` renamed to `UnpinAllGeneralForumTopicMessagesRequest`
 - Replaced parameters `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the methods 
     - `ITelegramBotClient.CopyMessageAsync`, 
     - `ITelegramBotClient.SendMessageAsync`, 
