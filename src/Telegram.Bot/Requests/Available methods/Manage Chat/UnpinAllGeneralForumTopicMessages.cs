@@ -1,4 +1,4 @@
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -10,7 +10,8 @@ namespace Telegram.Bot.Requests;
 /// right in the supergroup. Returns <see langword="true"/> on success.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool>, IChatTargetable
+[Obsolete("Use class UnpinAllGeneralForumTopicMessagesRequest")]
+public class UnpinAllGeneralForumTopicMessages : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
@@ -22,7 +23,7 @@ public class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool>, IChat
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
-    public UnpinAllGeneralForumTopicMessagesRequest(ChatId chatId)
+    public UnpinAllGeneralForumTopicMessages(ChatId chatId)
         : this()
     {
         ChatId = chatId;
@@ -31,7 +32,7 @@ public class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool>, IChat
     /// <summary>
     /// Initializes a new request
     /// </summary>
-    public UnpinAllGeneralForumTopicMessagesRequest()
+    public UnpinAllGeneralForumTopicMessages()
         : base("unpinAllGeneralForumTopicMessages")
     { }
 }

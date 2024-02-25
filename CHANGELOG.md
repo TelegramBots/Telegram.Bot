@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Class `UnpinAllGeneralForumTopicMessagesRequest`
 - The classes `ReactionType`, `ReactionTypeEmoji` and `ReactionTypeCustomEmoji` representing different types of reaction.
 - Enum `ReactionTypeKind`
 - The class `KnownReactionTypeEmoji` containing Emojis available for `ReactionTypeEmoji`.
@@ -72,8 +73,7 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 - Fields `Chat` and `Id` to type `Story`
 
 ### Changed
-
-- Class `UnpinAllGeneralForumTopicMessages` renamed to `UnpinAllGeneralForumTopicMessagesRequest`
+- Class `UnpinAllGeneralForumTopicMessages` marked as obsolete
 - Replaced parameters `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the methods 
     - `ITelegramBotClient.CopyMessageAsync`, 
     - `ITelegramBotClient.SendMessageAsync`, 
