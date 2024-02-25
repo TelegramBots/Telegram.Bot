@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- API methods on `ITelegramBotClient` that accept request classes with parameters 
 - Class `UnpinAllGeneralForumTopicMessagesRequest`
 - The classes `ReactionType`, `ReactionTypeEmoji` and `ReactionTypeCustomEmoji` representing different types of reaction.
 - Enum `ReactionTypeKind`
@@ -73,6 +74,7 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 - Fields `Chat` and `Id` to type `Story`
 
 ### Changed
+- All API methods with positional parameters on `ITelegramBotClient` are marked obsolete
 - Class `UnpinAllGeneralForumTopicMessages` marked as obsolete
 - Replaced parameters `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the methods 
     - `ITelegramBotClient.CopyMessageAsync`, 
