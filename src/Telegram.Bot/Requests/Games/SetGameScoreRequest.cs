@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Requests.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -13,13 +14,13 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// New score, must be non-negative
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int Score { get; }
+    public required int Score { get; init; }
 
     /// <summary>
     /// Pass <see langword="true"/>, if the high score is allowed to decrease. This can be useful when fixing mistakes
@@ -39,7 +40,7 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
     /// Unique identifier for the target chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public long ChatId { get; }
+    public required long ChatId { get; init; }
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;
@@ -48,7 +49,7 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
     /// Identifier of the sent message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <summary>
     /// Initializes a new request
@@ -57,12 +58,21 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
     /// <param name="score">New score, must be non-negative</param>
     /// <param name="chatId">Unique identifier for the target chat</param>
     /// <param name="messageId">Identifier of the sent message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SetGameScoreRequest(long userId, int score, long chatId, int messageId)
-        : base("setGameScore")
+        : this()
     {
         UserId = userId;
         Score = score;
         ChatId = chatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetGameScoreRequest()
+        : base("setGameScore")
+    { }
 }

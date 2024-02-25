@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -13,23 +14,32 @@ public class ReopenForumTopicRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread of the forum topic
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageThreadId { get; }
+    public required int MessageThreadId { get; init; }
 
     /// <summary>
     /// Initializes a new request
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public ReopenForumTopicRequest(ChatId chatId, int messageThreadId)
-        : base("reopenForumTopic")
+        : this()
     {
         ChatId = chatId;
         MessageThreadId = messageThreadId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public ReopenForumTopicRequest()
+        : base("reopenForumTopic")
+    { }
 }

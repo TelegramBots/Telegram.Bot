@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -14,13 +15,13 @@ public class RevokeChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// The invite link to revoke
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string InviteLink { get; }
+    public required string InviteLink { get; init; }
 
     /// <summary>
     /// Initializes a new request with chatId and inviteLink
@@ -29,10 +30,19 @@ public class RevokeChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="inviteLink">The invite link to revoke</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public RevokeChatInviteLinkRequest(ChatId chatId, string inviteLink)
-        : base("revokeChatInviteLink")
+        : this()
     {
         ChatId = chatId;
         InviteLink = inviteLink;
     }
+
+    /// <summary>
+    /// Initializes a new request with chatId and inviteLink
+    /// </summary>
+    public RevokeChatInviteLinkRequest()
+        : base("revokeChatInviteLink")
+    { }
 }

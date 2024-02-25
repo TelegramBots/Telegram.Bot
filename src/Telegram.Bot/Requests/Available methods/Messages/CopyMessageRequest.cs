@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -21,7 +22,7 @@ public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -34,13 +35,13 @@ public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
     /// (or channel username in the format <c>@channelusername</c>)
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatId FromChatId { get; }
+    public required ChatId FromChatId { get; init; }
 
     /// <summary>
     /// Message identifier in the chat specified in <see cref="FromChatId"/>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <summary>
     /// New caption for media, 0-1024 characters after entities parsing.
@@ -86,11 +87,20 @@ public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
     /// <param name="messageId">
     /// Message identifier in the chat specified in <see cref="FromChatId"/>
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public CopyMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
-        : base("copyMessage")
+        : this()
     {
         ChatId = chatId;
         FromChatId = fromChatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public CopyMessageRequest()
+        : base("copyMessage")
+    { }
 }

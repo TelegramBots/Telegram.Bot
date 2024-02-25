@@ -36,11 +36,12 @@ public class DeleteMessageTests
             inlineQueryId: queryUpdate.InlineQuery!.Id,
             results: new[]
             {
-                new InlineQueryResultArticle(
-                    id: "article-to-delete",
-                    title: "Telegram Bot API",
-                    inputMessageContent: new InputTextMessageContent("https://www.telegram.org/")
-                )
+                new InlineQueryResultArticle
+                {
+                    Id = "article-to-delete",
+                    Title = "Telegram Bot API",
+                    InputMessageContent = new InputTextMessageContent { MessageText = "https://www.telegram.org/"},
+                }
             },
             cacheTime: 0
         );

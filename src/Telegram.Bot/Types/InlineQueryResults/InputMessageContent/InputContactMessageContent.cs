@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -13,13 +13,13 @@ public class InputContactMessageContent : InputMessageContent
     /// Contact's phone number
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string PhoneNumber { get; }
+    public required string PhoneNumber { get; init; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string FirstName { get; }
+    public required string FirstName { get; init; }
 
     /// <summary>
     /// Optional. Contact's last name
@@ -38,9 +38,17 @@ public class InputContactMessageContent : InputMessageContent
     /// </summary>
     /// <param name="phoneNumber">The phone number of the contact</param>
     /// <param name="firstName">The first name of the contact</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InputContactMessageContent(string phoneNumber, string firstName)
     {
         PhoneNumber = phoneNumber;
         FirstName = firstName;
     }
+
+    /// <summary>
+    /// Initializes a new input contact message content
+    /// </summary>
+    public InputContactMessageContent()
+    { }
 }

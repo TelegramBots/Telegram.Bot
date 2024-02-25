@@ -1,4 +1,7 @@
 // ReSharper disable once CheckNamespace
+
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -11,15 +14,24 @@ public class GetStickerSetRequest : RequestBase<StickerSet>
     /// Name of the sticker set
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Initializes a new request with name
     /// </summary>
     /// <param name="name">Name of the sticker set</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public GetStickerSetRequest(string name)
-        : base("getStickerSet")
+        : this()
     {
         Name = name;
     }
+
+    /// <summary>
+    /// Initializes a new request with name
+    /// </summary>
+    public GetStickerSetRequest()
+        : base("getStickerSet")
+    { }
 }

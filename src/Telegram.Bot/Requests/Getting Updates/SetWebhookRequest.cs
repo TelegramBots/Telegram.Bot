@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Types.Enums;
 
@@ -40,7 +41,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// HTTPS URL to send updates to. Use an empty string to remove webhook integration
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Url { get; }
+    public required string Url { get; init; }
 
     /// <summary>
     /// Upload your public key certificate so that the root certificate in use can be checked. See
@@ -100,9 +101,16 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// <param name="url">
     /// HTTPS url to send updates to. Use an empty string to remove webhook integration
     /// </param>
-    public SetWebhookRequest(string url)
-        : base("setWebhook") =>
-        Url = url;
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
+    public SetWebhookRequest(string url) : base("setWebhook")
+        => Url = url;
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetWebhookRequest() : base("setWebhook")
+    { }
 
     /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
     public override HttpContent? ToHttpContent() =>

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -19,13 +20,7 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
-
-    /// <summary>
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? MessageThreadId { get; set; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send an audio
@@ -33,7 +28,13 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Audio { get; }
+    public required InputFile Audio { get; init; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Audio caption, 0-1024 characters after entities parsing
@@ -98,12 +99,21 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     /// file that exists on the Telegram servers (recommended), pass an HTTP URL as a String for
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendAudioRequest(ChatId chatId, InputFile audio)
-        : base("sendAudio")
+        : this()
     {
         ChatId = chatId;
         Audio = audio;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendAudioRequest()
+        : base("sendAudio")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

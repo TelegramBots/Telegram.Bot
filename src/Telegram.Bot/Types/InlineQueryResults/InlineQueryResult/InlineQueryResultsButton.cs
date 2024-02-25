@@ -12,7 +12,7 @@ public class InlineQueryResultsButton
     /// Label text on the button
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Text { get; }
+    public required string Text { get; init; }
 
     /// <summary>
     /// Optional. Description of the Web App that will be launched when the user presses
@@ -49,4 +49,10 @@ public class InlineQueryResultsButton
     {
         Text = text;
     }
+
+    /// <summary>
+    /// Initializes a new <see cref="InlineQueryResultsButton"/> object
+    /// </summary>
+    public InlineQueryResultsButton()
+    { }
 }

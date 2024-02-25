@@ -46,8 +46,9 @@ public class EditMessageMediaTests2
             editedMessage = await BotClient.EditMessageMediaAsync(
                 chatId: originalMessage.Chat,
                 messageId: originalMessage.MessageId,
-                media: new InputMediaDocument(new InputFileStream(stream, "public-key.pem.txt"))
+                media: new InputMediaDocument
                 {
+                    Media = InputFile.FromStream(stream, "public-key.pem.txt"),
                     Caption = "**Public** key in `.pem` format",
                     ParseMode = ParseMode.Markdown,
                 }
@@ -90,8 +91,9 @@ public class EditMessageMediaTests2
         Message editedMessage = await BotClient.EditMessageMediaAsync(
             chatId: originalMessage.Chat,
             messageId: originalMessage.MessageId,
-            media: new InputMediaAnimation(new InputFileId(gifMessage.Document.FileId))
+            media: new InputMediaAnimation
             {
+                Media = InputFile.FromFileId(gifMessage.Document.FileId),
                 Thumbnail = new InputFileStream(thumbStream, "thumb.jpg"),
                 Duration = 4,
                 Height = 320,

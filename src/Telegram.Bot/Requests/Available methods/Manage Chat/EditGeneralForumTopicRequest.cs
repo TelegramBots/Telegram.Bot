@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -13,19 +14,28 @@ public class EditGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// New topic name, 1-128 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Initializes a new request
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="name">New topic name, 1-128 characters</param>
-    public EditGeneralForumTopicRequest(ChatId chatId, string name)
-        : base("editGeneralForumTopic") => (ChatId, Name) = (chatId, name);
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
+    public EditGeneralForumTopicRequest(ChatId chatId, string name) : this()
+        => (ChatId, Name) = (chatId, name);
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public EditGeneralForumTopicRequest()
+        : base("editGeneralForumTopic")
+    { }
 }

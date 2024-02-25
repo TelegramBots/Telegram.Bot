@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Converters;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -15,13 +16,13 @@ public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier of the target sender chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public long SenderChatId { get; }
+    public required long SenderChatId { get; init; }
 
     /// <summary>
     /// Date when the sender chat will be unbanned, unix time. If the chat is banned for more than 366 days or
@@ -40,10 +41,19 @@ public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
     /// <param name="senderChatId">
     /// Unique identifier of the target sender chat
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public BanChatSenderChatRequest(ChatId chatId, long senderChatId)
-        : base("banChatSenderChat")
+        : this()
     {
         ChatId = chatId;
         SenderChatId = senderChatId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public BanChatSenderChatRequest()
+        : base("banChatSenderChat")
+    { }
 }

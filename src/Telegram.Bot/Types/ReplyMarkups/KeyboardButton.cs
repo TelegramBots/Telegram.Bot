@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
@@ -11,7 +13,7 @@ public class KeyboardButton : IKeyboardButton
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public string Text { get; set; }
+    public required string Text { get; init; }
 
     /// <summary>
     /// Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users
@@ -60,6 +62,7 @@ public class KeyboardButton : IKeyboardButton
     /// </summary>
     /// <param name="text">Label text on the button</param>
     [JsonConstructor]
+    [SetsRequiredMembers]
     public KeyboardButton(string text) => Text = text;
 
     /// <summary>

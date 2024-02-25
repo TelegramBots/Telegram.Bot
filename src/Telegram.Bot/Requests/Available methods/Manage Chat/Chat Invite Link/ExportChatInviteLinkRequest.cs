@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -13,7 +14,7 @@ public class ExportChatInviteLinkRequest : RequestBase<string>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Initializes a new request with chatId
@@ -21,9 +22,18 @@ public class ExportChatInviteLinkRequest : RequestBase<string>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public ExportChatInviteLinkRequest(ChatId chatId)
-        : base("exportChatInviteLink")
+        : this()
     {
         ChatId = chatId;
     }
+
+    /// <summary>
+    /// Initializes a new request with chatId
+    /// </summary>
+    public ExportChatInviteLinkRequest()
+        : base("exportChatInviteLink")
+    { }
 }

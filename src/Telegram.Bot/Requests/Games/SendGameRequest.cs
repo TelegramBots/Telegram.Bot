@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -14,7 +15,7 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
     /// Unique identifier for the target chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public long ChatId { get; }
+    public required long ChatId { get; init; }
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;
@@ -30,7 +31,7 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
     /// via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string GameShortName { get; }
+    public required string GameShortName { get; init; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -56,10 +57,19 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
     /// <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendGameRequest(long chatId, string gameShortName)
-        : base("sendGame")
+        : this()
     {
         ChatId = chatId;
         GameShortName = gameShortName;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendGameRequest()
+        : base("sendGame")
+    { }
 }

@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -14,25 +14,25 @@ public class InputVenueMessageContent : InputMessageContent
     /// Latitude of the venue in degrees
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Latitude { get; }
+    public required double Latitude { get; init; }
 
     /// <summary>
     /// Longitude of the venue in degrees
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Longitude { get; }
+    public required double Longitude { get; init; }
 
     /// <summary>
     /// Name of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Address of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Address { get; }
+    public required string Address { get; init; }
 
     /// <summary>
     /// Optional. Foursquare identifier of the venue, if known
@@ -67,6 +67,8 @@ public class InputVenueMessageContent : InputMessageContent
     /// <param name="address">The address of the venue</param>
     /// <param name="latitude">The latitude of the venue</param>
     /// <param name="longitude">The longitude of the venue</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InputVenueMessageContent(string title, string address, double latitude, double longitude)
     {
         Title = title;
@@ -74,4 +76,10 @@ public class InputVenueMessageContent : InputMessageContent
         Latitude = latitude;
         Longitude = longitude;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InputVenueMessageContent()
+    { }
 }

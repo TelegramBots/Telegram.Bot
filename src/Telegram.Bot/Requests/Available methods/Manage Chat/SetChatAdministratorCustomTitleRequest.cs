@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -12,17 +13,17 @@ public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTa
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// New custom title for the administrator; 0-16 characters, emoji are not allowed
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string CustomTitle { get; }
+    public required string CustomTitle { get; init; }
 
     /// <summary>
     /// Initializes a new request with chatId, userId and customTitle
@@ -34,11 +35,20 @@ public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTa
     /// <param name="customTitle">
     /// New custom title for the administrator; 0-16 characters, emoji are not allowed
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SetChatAdministratorCustomTitleRequest(ChatId chatId, long userId, string customTitle)
-        : base("setChatAdministratorCustomTitle")
+        : this()
     {
         ChatId = chatId;
         UserId = userId;
         CustomTitle = customTitle;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetChatAdministratorCustomTitleRequest()
+        : base("setChatAdministratorCustomTitle")
+    { }
 }

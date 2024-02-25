@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -14,7 +15,7 @@ public class InputTextMessageContent : InputMessageContent
     /// Text of the message to be sent, 1-4096 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string MessageText { get; }
+    public required string MessageText { get; init; }
 
     /// <summary>
     /// Optional. Mode for
@@ -41,8 +42,16 @@ public class InputTextMessageContent : InputMessageContent
     /// Initializes a new input text message content
     /// </summary>
     /// <param name="messageText">The text of the message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InputTextMessageContent(string messageText)
     {
         MessageText = messageText;
     }
+
+    /// <summary>
+    /// Initializes a new input text message content
+    /// </summary>
+    public InputTextMessageContent()
+    { }
 }

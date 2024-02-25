@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
@@ -12,13 +14,14 @@ public class KeyboardButtonRequestChat
     /// Must be unique within the message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int RequestId { get; }
+    public required int RequestId { get; init; }
 
     /// <summary>
-    /// Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/> to request a group or a supergroup chat.
+    /// Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/>
+    /// to request a group or a supergroup chat.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public bool ChatIsChannel { get; }
+    public required bool ChatIsChannel { get; init; }
 
     /// <summary>
     /// Optional. Pass <see langword="true" /> to request a forum supergroup, pass <see langword="false" /> to
@@ -72,11 +75,19 @@ public class KeyboardButtonRequestChat
     /// Must be unique within the message
     /// </param>
     /// <param name="chatIsChannel">
-    /// Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/> to request a group or a supergroup chat.
+    /// Pass <see langword="true"/> to request a channel chat, pass <see langword="false"/>
+    /// to request a group or a supergroup chat.
     /// </param>
+    [SetsRequiredMembers]
     public KeyboardButtonRequestChat(int requestId, bool chatIsChannel)
     {
         RequestId = requestId;
         ChatIsChannel = chatIsChannel;
     }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KeyboardButtonRequestChat"/> class
+    /// </summary>
+    public KeyboardButtonRequestChat()
+    { }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -22,7 +23,7 @@ public class InlineQueryResultCachedPhoto : InlineQueryResult
     /// A valid file identifier of the photo
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string PhotoFileId { get; }
+    public required string PhotoFileId { get; init; }
 
     /// <summary>
     /// Optional. Title for the result
@@ -57,9 +58,17 @@ public class InlineQueryResultCachedPhoto : InlineQueryResult
     /// </summary>
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="photoFileId">A valid file identifier of the photo</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InlineQueryResultCachedPhoto(string id, string photoFileId)
         : base(id)
     {
         PhotoFileId = photoFileId;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultCachedPhoto()
+    { }
 }

@@ -42,15 +42,15 @@ public class InlineQueryTests
 
         // Prepare results of the query
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultArticle(
-                id: "article:bot-api",
-                title: "Telegram Bot API",
-                inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
+        [
+            new InlineQueryResultArticle
             {
+                Id = "article:bot-api",
+                Title = "Telegram Bot API",
+                InputMessageContent = new InputTextMessageContent { MessageText = "https://core.telegram.org/bots/api" },
                 Description = "The Bot API is an HTTP-based interface created for developers",
-            },
-        };
+            }
+        ];
 
         // Answer the query
         await BotClient.AnswerInlineQueryAsync(
@@ -87,15 +87,15 @@ public class InlineQueryTests
         Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultArticle(
-                id: "article:bot-api",
-                title: "Telegram Bot API",
-                inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
+        [
+            new InlineQueryResultArticle
             {
+                Id = "article:bot-api",
+                Title = "Telegram Bot API",
+                InputMessageContent = new InputTextMessageContent { MessageText = "https://core.telegram.org/bots/api" },
                 Description = "The Bot API is an HTTP-based interface created for developers",
-            },
-        };
+            }
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -105,7 +105,7 @@ public class InlineQueryTests
 
         Update messageUpdate = await _fixture.UpdateReceiver.GetUpdateAsync(
             predicate: update => update.Message!.ViaBot is not null,
-            updateTypes: new[] { UpdateType.Message }
+            updateTypes: [UpdateType.Message]
         );
 
         Assert.NotNull(messageUpdate.Message);
@@ -127,12 +127,15 @@ public class InlineQueryTests
 
         const string resultId = "contact:john-doe";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultContact(id: resultId, phoneNumber: "+1234567", firstName: "John")
+        [
+            new InlineQueryResultContact
             {
+                Id = resultId,
+                PhoneNumber = "+1234567",
+                FirstName = "John",
                 LastName = "Doe"
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -165,13 +168,15 @@ public class InlineQueryTests
 
         const string resultId = "location:hobitton";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultLocation(
-                id: resultId,
-                latitude: -37.8721897f,
-                longitude: 175.6810213f,
-                title: "Hobbiton Movie Set")
-        };
+        [
+            new InlineQueryResultLocation
+            {
+                Id = resultId,
+                Latitude = -37.8721897f,
+                Longitude = 175.6810213f,
+                Title = "Hobbiton Movie Set"
+            }
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -204,14 +209,16 @@ public class InlineQueryTests
 
         const string resultId = "venue:hobbiton";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultVenue(
-                id: resultId,
-                latitude: -37.8721897f,
-                longitude: 175.6810213f,
-                title: "Hobbiton Movie Set",
-                address: "501 Buckland Rd, Hinuera, Matamata 3472, New Zealand")
-        };
+        [
+            new InlineQueryResultVenue
+            {
+                Id = resultId,
+                Latitude = -37.8721897f,
+                Longitude = 175.6810213f,
+                Title = "Hobbiton Movie Set",
+                Address = "501 Buckland Rd, Hinuera, Matamata 3472, New Zealand",
+            }
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -246,12 +253,15 @@ public class InlineQueryTests
         const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
         const string caption = "Rainbow Girl";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbnailUrl: url)
+        [
+            new InlineQueryResultPhoto
             {
+                Id = resultId,
+                PhotoUrl = url,
+                ThumbnailUrl = url,
                 Caption = caption
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -292,14 +302,14 @@ public class InlineQueryTests
         const string resultId = "photo:apes";
         const string caption = "Apes smoking shisha";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedPhoto(
-                id: resultId,
-                photoFileId: photoMessage.Photo!.First().FileId)
+        [
+            new InlineQueryResultCachedPhoto
             {
+                Id = resultId,
+                PhotoFileId = photoMessage.Photo!.First().FileId,
                 Caption = caption
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -333,16 +343,17 @@ public class InlineQueryTests
 
         const string resultId = "sunset_video";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultVideo(
-                id: resultId,
-                videoUrl: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
-                thumbnailUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg",
-                title: "Sunset Landscape")
+        [
+            new InlineQueryResultVideo
             {
+                Id = resultId,
+                VideoUrl = "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
+                ThumbnailUrl = "https://i.vimeocdn.com/video/646283246_640x360.jpg",
+                MimeType = "video/mp4",
+                Title = "Sunset Landscape",
                 Description = "A beautiful scene"
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -377,19 +388,21 @@ public class InlineQueryTests
 
         const string resultId = "youtube_video";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultVideo(
-                id: resultId,
-                videoUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
-                thumbnailUrl: "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
-                title: "Rocket Launch",
-                inputMessageContent:
-                new InputTextMessageContent("[Rocket Launch](https://www.youtube.com/watch?v=1S0CTtY8Qa0)")
+        [
+            new InlineQueryResultVideo
+            {
+                Id = resultId,
+                VideoUrl = "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
+                ThumbnailUrl = "https://www.youtube.com/watch?v=1S0CTtY8Qa0",
+                MimeType = "video/mp4",
+                Title = "Rocket Launch",
+                InputMessageContent = new InputTextMessageContent
                 {
+                    MessageText = "[Rocket Launch](https://www.youtube.com/watch?v=1S0CTtY8Qa0)",
                     ParseMode = ParseMode.Markdown
                 }
-            )
-        };
+            }
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -425,15 +438,15 @@ public class InlineQueryTests
 
         const string resultId = "fireworks_video";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedVideo(
-                id: resultId,
-                videoFileId: videoMessage.Video!.FileId,
-                title: "New Year's Eve Fireworks")
+        [
+            new InlineQueryResultCachedVideo
             {
+                Id = resultId,
+                VideoFileId = videoMessage.Video!.FileId,
+                Title = "New Year's Eve Fireworks",
                 Description = "2017 Fireworks in Germany"
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -466,17 +479,16 @@ public class InlineQueryTests
 
         const string resultId = "audio_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultAudio(
-                id: resultId,
-                audioUrl:
-                "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3",
-                title: "Test ogg mp3")
+        [
+            new InlineQueryResultAudio
             {
+                Id = resultId,
+                AudioUrl = "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3",
+                Title = "Test ogg mp3",
                 Performer = "Shishirdasika",
                 AudioDuration = 25
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -518,14 +530,14 @@ public class InlineQueryTests
 
         const string resultId = "audio_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedAudio(
-                id: resultId,
-                audioFileId: audioMessage.Audio!.FileId)
+        [
+            new InlineQueryResultCachedAudio
             {
+                Id = resultId,
+                AudioFileId = audioMessage.Audio!.FileId,
                 Caption = "Jackson F. Smith - Cantina Rag"
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -558,16 +570,16 @@ public class InlineQueryTests
 
         const string resultId = "voice_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultVoice(
-                id: resultId,
-                voiceUrl: "http://www.vorbis.com/music/Hydrate-Kenny_Beltrey.ogg",
-                title: "Hydrate - Kenny Beltrey")
+        [
+            new InlineQueryResultVoice
             {
+                Id = resultId,
+                VoiceUrl = "http://www.vorbis.com/music/Hydrate-Kenny_Beltrey.ogg",
+                Title = "Hydrate - Kenny Beltrey",
                 Caption = "Hydrate - Kenny Beltrey",
                 VoiceDuration = 265
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -607,13 +619,14 @@ public class InlineQueryTests
 
         const string resultId = "voice_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedVoice(
-                id: resultId,
-                fileId: voiceMessage.Voice!.FileId,
-                title: "Test Voice"
-            )
-        };
+        [
+            new InlineQueryResultCachedVoice
+            {
+                Id = resultId,
+                VoiceFileId = voiceMessage.Voice!.FileId,
+                Title = "Test Voice",
+            }
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -646,17 +659,17 @@ public class InlineQueryTests
 
         const string resultId = "document_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultDocument(
-                id: resultId,
-                documentUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                title: "Dummy PDF File",
-                mimeType: "application/pdf")
+        [
+            new InlineQueryResultDocument
             {
+                Id = resultId,
+                DocumentUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                Title = "Dummy PDF File",
+                MimeType = "application/pdf",
                 Caption = "Dummy PDF File",
                 Description = "Dummy PDF File for testing",
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -695,16 +708,16 @@ public class InlineQueryTests
 
         const string resultId = "document_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedDocument(
-                id: resultId,
-                documentFileId: documentMessage.Document!.FileId,
-                title: "Test Document")
+        [
+            new InlineQueryResultCachedDocument
             {
+                Id = resultId,
+                DocumentFileId = documentMessage.Document!.FileId,
+                Title = "Test Document",
                 Caption = "The Tragedy of Hamlet, Prince of Denmark",
                 Description = "Sample PDF Document",
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -737,12 +750,12 @@ public class InlineQueryTests
 
         const string resultId = "gif_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultGif(
-                id: resultId,
-                gifUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
-                thumbnailUrl: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")
+        [
+            new InlineQueryResultGif
             {
+                Id = resultId,
+                GifUrl = "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
+                ThumbnailUrl = "https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif",
                 Caption = "Rotating Earth",
                 GifDuration = 4,
                 GifHeight = 400,
@@ -750,7 +763,7 @@ public class InlineQueryTests
                 Title = "Rotating Earth",
                 ThumbnailMimeType = "image/gif",
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -784,14 +797,14 @@ public class InlineQueryTests
 
         const string resultId = "gif_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedGif(
-                id: resultId,
-                gifFileId: gifMessage.Document!.FileId)
+        [
+            new InlineQueryResultCachedGif
             {
+                Id = resultId,
+                GifFileId = gifMessage.Document!.FileId,
                 Caption = "Rotating Earth",
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -824,15 +837,15 @@ public class InlineQueryTests
 
         const string resultId = "mpeg4_gif_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultMpeg4Gif(
-                id: resultId,
-                mpeg4Url: "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
-                thumbnailUrl: "https://i.vimeocdn.com/video/646283246_640x360.jpg")
+        [
+            new InlineQueryResultMpeg4Gif
             {
+                Id = resultId,
+                Mpeg4Url = "https://pixabay.com/en/videos/download/video-10737_medium.mp4",
+                ThumbnailUrl = "https://i.vimeocdn.com/video/646283246_640x360.jpg",
                 Caption = "A beautiful scene",
-            },
-        };
+            }
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -866,14 +879,14 @@ public class InlineQueryTests
 
         const string resultId = "mpeg4_gif_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedMpeg4Gif(
-                id: resultId,
-                mpeg4FileId: gifMessage.Document!.FileId)
+        [
+            new InlineQueryResultCachedMpeg4Gif
             {
+                Id = resultId,
+                Mpeg4FileId = gifMessage.Document!.FileId,
                 Caption = "Rotating Earth",
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -909,9 +922,13 @@ public class InlineQueryTests
 
         const string resultId = "sticker_result";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultCachedSticker(id: resultId, stickerFileId: stickerSet.Stickers[0].FileId)
-        };
+        [
+            new InlineQueryResultCachedSticker
+            {
+                Id = resultId,
+                StickerFileId = stickerSet.Stickers[0].FileId,
+            }
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -946,13 +963,16 @@ public class InlineQueryTests
         const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
         const string photoCaption = "Rainbow Girl";
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultPhoto(id: resultId, photoUrl: url, thumbnailUrl: url)
+        [
+            new InlineQueryResultPhoto
             {
+                Id = resultId,
+                PhotoUrl = url,
+                ThumbnailUrl = url,
                 Caption = $"*{photoCaption}*",
                 ParseMode = ParseMode.Markdown
             }
-        };
+        ];
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
@@ -987,15 +1007,15 @@ public class InlineQueryTests
         Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         InlineQueryResult[] results =
-        {
-            new InlineQueryResultArticle(
-                id: "article:bot-api",
-                title: "Telegram Bot API",
-                inputMessageContent: new InputTextMessageContent("https://core.telegram.org/bots/api"))
+        [
+            new InlineQueryResultArticle
             {
+                Id = "article:bot-api",
+                Title = "Telegram Bot API",
+                InputMessageContent = new InputTextMessageContent { MessageText = "https://core.telegram.org/bots/api"},
                 Description = "The Bot API is an HTTP-based interface created for developers",
-            },
-        };
+            }
+        ];
 
         await Task.Delay(10_000);
 

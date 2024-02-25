@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -16,14 +17,14 @@ public class SetMessageReactionRequest : RequestBase<bool>,
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the target message. If the message belongs to a media group, the reaction
     /// is set to the first non-deleted message in the group instead.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <summary>
     /// New list of reaction types to set on the message. Currently, as non-premium users, bots can
@@ -49,10 +50,19 @@ public class SetMessageReactionRequest : RequestBase<bool>,
     /// Identifier of the target message. If the message belongs to a media group, the reaction
     /// is set to the first non-deleted message in the group instead.
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SetMessageReactionRequest(ChatId chatId, int messageId)
-    : base("setMessageReaction")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetMessageReactionRequest()
+        : base("setMessageReaction")
+    { }
 }

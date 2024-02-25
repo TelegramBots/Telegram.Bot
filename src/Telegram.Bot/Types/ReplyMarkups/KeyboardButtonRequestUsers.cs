@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
@@ -12,7 +14,7 @@ public class KeyboardButtonRequestUsers
     /// Must be unique within the message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int RequestId { get; }
+    public required int RequestId { get; init; }
 
     /// <summary>
     /// Optional. Pass <see langword="true" /> to request bots, pass <see langword="false" /> to request regular users.
@@ -41,8 +43,12 @@ public class KeyboardButtonRequestUsers
     /// Signed 32-bit identifier of the request that will be received back in the <see cref="UsersShared"/> object.
     /// Must be unique within the message
     /// </param>
+    [SetsRequiredMembers]
     public KeyboardButtonRequestUsers(int requestId)
-    {
-        RequestId = requestId;
-    }
+        => RequestId = requestId;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="KeyboardButtonRequestUsers"/> class
+    /// </summary>
+    public KeyboardButtonRequestUsers() {}
 }

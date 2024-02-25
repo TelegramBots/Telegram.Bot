@@ -38,23 +38,21 @@ public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLoc
         Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         string callbackQueryData = $"edit-location{new Random().Next(1_000)}";
-        Location newYork = new Location {Latitude = 40.7128f, Longitude = -74.0060f};
+        Location newYork = new() { Latitude = 40.7128f, Longitude = -74.0060f };
 
         await BotClient.AnswerInlineQueryAsync(
             inlineQueryId: iqUpdate.InlineQuery!.Id,
             cacheTime: 0,
             results: new[]
             {
-                new InlineQueryResultLocation(
-                    id: "live-location",
-                    latitude: newYork.Latitude,
-                    longitude: newYork.Longitude,
-                    title: "Live Locations Test")
+                new InlineQueryResultLocation
                 {
+                    Id = "live-location",
+                    Latitude = newYork.Latitude,
+                    Longitude = newYork.Longitude,
+                    Title = "Live Locations Test",
                     LivePeriod = 60,
-                    ReplyMarkup = InlineKeyboardButton.WithCallbackData(
-                        "Start live locations", callbackQueryData
-                    )
+                    ReplyMarkup = InlineKeyboardButton.WithCallbackData("Start live locations", callbackQueryData)
                 }
             }
         );
@@ -71,7 +69,7 @@ public class InlineMessageLiveLocationTests : IClassFixture<InlineMessageLiveLoc
         Update cqUpdate = await _fixture.UpdateReceiver
             .GetCallbackQueryUpdateAsync(data: _classFixture.CallbackQueryData);
 
-        Location beijing = new Location {Latitude = 39.9042f, Longitude = 116.4074f};
+        Location beijing = new() { Latitude = 39.9042f, Longitude = 116.4074f };
 
         await BotClient.EditMessageLiveLocationAsync(
             inlineMessageId: cqUpdate.CallbackQuery!.InlineMessageId!,

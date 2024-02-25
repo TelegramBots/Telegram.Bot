@@ -36,7 +36,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
-            sticker: new InputFileStream(stream),
+            sticker: new(stream),
             stickerFormat: StickerFormat.Static
         );
 
@@ -54,7 +54,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
-            sticker: new InputFileStream(stream),
+            sticker: new(stream),
             stickerFormat: StickerFormat.Animated
         );
 
@@ -72,7 +72,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         File file = await BotClient.UploadStickerFileAsync(
             userId: _stickersTestsFixture.OwnerUserId,
-            sticker: new InputFileStream(stream),
+            sticker: new(stream),
             stickerFormat: StickerFormat.Video
         );
 
@@ -95,11 +95,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         List<InputSticker> inputStickers =
         [
-            new InputSticker(
+            new(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedStaticStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
             ),
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "Static2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
             ),
@@ -135,11 +135,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         List<InputSticker> inputStickers = [
-            new InputSticker(
+            new(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedAnimatedStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
             ),
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "Animated2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
             ),
@@ -175,11 +175,11 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         List<InputSticker> inputStickers = [
-            new InputSticker(
+            new(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedVideoStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
             ),
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "Video2.webp"),
                 emojiList: _stickersTestsFixture.SecondEmojis
             ),
@@ -232,6 +232,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         Assert.Equal(MessageType.Sticker, stickerMessage.Type);
+        Assert.NotNull(stickerMessage.Sticker);
         Assert.Equal(firstSticker.FileUniqueId, stickerMessage.Sticker.FileUniqueId);
         Assert.Equal(firstSticker.FileSize, stickerMessage.Sticker.FileSize);
         Assert.Equal(firstSticker.Type, stickerMessage.Sticker.Type);
@@ -239,6 +240,8 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(firstSticker.Height, stickerMessage.Sticker.Height);
         Assert.False(stickerMessage.Sticker.IsAnimated);
         Assert.False(stickerMessage.Sticker.IsVideo);
+        Assert.NotNull(firstSticker.Thumbnail);
+        Assert.NotNull(stickerMessage.Sticker.Thumbnail);
         Assert.Equal(firstSticker.Thumbnail.FileUniqueId, stickerMessage.Sticker.Thumbnail.FileUniqueId);
         Assert.Equal(firstSticker.Thumbnail.FileSize, stickerMessage.Sticker.Thumbnail.FileSize);
         Assert.Equal(firstSticker.Thumbnail.Width, stickerMessage.Sticker.Thumbnail.Width);
@@ -273,6 +276,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         Assert.Equal(MessageType.Sticker, stickerMessage.Type);
+        Assert.NotNull(stickerMessage.Sticker);
         Assert.Equal(firstSticker.FileUniqueId, stickerMessage.Sticker.FileUniqueId);
         Assert.Equal(firstSticker.FileSize, stickerMessage.Sticker.FileSize);
         Assert.Equal(firstSticker.Type, stickerMessage.Sticker.Type);
@@ -280,6 +284,8 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(firstSticker.Height, stickerMessage.Sticker.Height);
         Assert.True(stickerMessage.Sticker.IsAnimated);
         Assert.False(stickerMessage.Sticker.IsVideo);
+        Assert.NotNull(firstSticker.Thumbnail);
+        Assert.NotNull(stickerMessage.Sticker.Thumbnail);
         Assert.Equal(firstSticker.Thumbnail.FileUniqueId, stickerMessage.Sticker.Thumbnail.FileUniqueId);
         Assert.Equal(firstSticker.Thumbnail.FileSize, stickerMessage.Sticker.Thumbnail.FileSize);
         Assert.Equal(firstSticker.Thumbnail.Width, stickerMessage.Sticker.Thumbnail.Width);
@@ -463,7 +469,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker thirdSticker = stickerSet.Stickers[2];
 
         await BotClient.SetStickerPositionInSetAsync(
-            sticker: new InputFileId(thirdSticker.FileId),
+            sticker: new(thirdSticker.FileId),
             position: 0
         );
 
@@ -492,7 +498,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker thirdSticker = stickerSet.Stickers[2];
 
         await BotClient.DeleteStickerFromSetAsync(
-            sticker: new InputFileId(thirdSticker.FileId)
+            sticker: new(thirdSticker.FileId)
         );
 
         await Task.Delay(1_000);
@@ -522,7 +528,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Assert.Equal(thirdEmojisString, firstSticker.Emoji);
 
         await BotClient.SetStickerEmojiListAsync(
-            sticker: new InputFileId(firstSticker.FileId),
+            sticker: new(firstSticker.FileId),
             emojiList: _stickersTestsFixture.FirstEmojis
         );
 
@@ -555,14 +561,14 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker firstSticker = stickerSet.Stickers.First();
 
         await BotClient.SetStickerKeywordsAsync(
-            sticker: new InputFileId(firstSticker.FileId),
+            sticker: new(firstSticker.FileId),
             keywords: keywords
         );
 
         await Task.Delay(1_000);
 
         await BotClient.SetStickerKeywordsAsync(
-            sticker: new InputFileId(firstSticker.FileId),
+            sticker: new(firstSticker.FileId),
             keywords: null
         );
     }
@@ -627,7 +633,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         List<InputSticker> inputStickers =
         [
-            new InputSticker(
+            new(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedStaticStickerFile.FileId),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
@@ -656,7 +662,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         List<InputSticker> inputStickers =
         [
-            new InputSticker(
+            new(
                 sticker: new InputFileId(_stickersTestsFixture.TestUploadedStaticStickerFile.FileId),
                 emojiList: invalidEmojis
             )
@@ -687,7 +693,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         List<InputSticker> inputStickers =
         [
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "logo.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
@@ -719,7 +725,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         List<InputSticker> inputStickers =
         [
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "apes.jpg"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
@@ -749,7 +755,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         List<InputSticker> inputStickers =
         [
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "ruby.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis
             )
@@ -783,14 +789,14 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker lastSticker = stickerSet.Stickers.Last();
 
         await BotClient.DeleteStickerFromSetAsync(
-            sticker: new InputFileId(lastSticker.FileId)
+            sticker: new(lastSticker.FileId)
         );
 
         await Task.Delay(TimeSpan.FromSeconds(10));
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
             await BotClient.DeleteStickerFromSetAsync(
-                sticker: new InputFileId(lastSticker.FileId)
+                sticker: new(lastSticker.FileId)
             )
         );
 
@@ -855,7 +861,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         );
 
         List<InputSticker> inputStickers = [
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "tux.png"),
                 emojiList: _stickersTestsFixture.SecondEmojis)
         ];
@@ -893,7 +899,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
             emojiList: _stickersTestsFixture.SecondEmojis
         )
         {
-            MaskPosition = new MaskPosition
+            MaskPosition = new()
             {
                 Point = MaskPositionPoint.Forehead,
                 Scale = .8f
@@ -941,7 +947,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
         Sticker sticker = stickerSet.Stickers.First();
 
         await BotClient.SetStickerMaskPositionAsync(
-            sticker: new InputFileId(sticker.FileId),
+            sticker: new(sticker.FileId),
             maskPosition: newMaskPosition
         );
 
@@ -993,7 +999,7 @@ public class StickersTests : IClassFixture<StickersTestsFixture>
 
         List<InputSticker> inputStickers =
         [
-            new InputSticker(
+            new(
                 sticker: new InputFileStream(stream, "Static1.png"),
                 emojiList: _stickersTestsFixture.FirstEmojis)
         ];

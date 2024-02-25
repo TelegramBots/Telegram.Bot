@@ -50,16 +50,15 @@ public class EditMessageContentTests
 
         InlineQueryResult[] inlineQueryResults =
         {
-            new InlineQueryResultArticle(
-                id: "bot-api",
-                title: "Telegram Bot API",
-                inputMessageContent:
-                new InputTextMessageContent(messageText)
-                {
-                    ParseMode = ParseMode.Html
-                }
-            )
+            new InlineQueryResultArticle
             {
+                Id = "bot-api",
+                Title = "Telegram Bot API",
+                InputMessageContent = new InputTextMessageContent
+                {
+                    MessageText = messageText,
+                    ParseMode = ParseMode.Html
+                },
                 ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to modify text", data)
             }
         };
@@ -105,16 +104,18 @@ public class EditMessageContentTests
             InlineKeyboardButton.WithCallbackData("Click here to change this button", data)
         });
 
-        InputMessageContent inputMessageContent =
-            new InputTextMessageContent("https://core.telegram.org/bots/api");
+        InputMessageContent inputMessageContent = new InputTextMessageContent
+        {
+            MessageText = "https://core.telegram.org/bots/api"
+        };
 
         InlineQueryResult[] inlineQueryResults =
         {
-            new InlineQueryResultArticle(
-                id: "bot-api",
-                title: "Telegram Bot API",
-                inputMessageContent: inputMessageContent)
+            new InlineQueryResultArticle
             {
+                Id = "bot-api",
+                Title = "Telegram Bot API",
+                InputMessageContent = inputMessageContent,
                 Description = "The Bot API is an HTTP-based interface created for developers",
                 ReplyMarkup = initialMarkup,
             },
@@ -160,11 +161,11 @@ public class EditMessageContentTests
 
         InlineQueryResult[] inlineQueryResults =
         {
-            new InlineQueryResultPhoto(
-                id: "photo1",
-                photoUrl: url,
-                thumbnailUrl: url)
+            new InlineQueryResultPhoto
             {
+                Id = "photo1",
+                PhotoUrl = url,
+                ThumbnailUrl = url,
                 Caption = "Message caption will be updated shortly",
                 ReplyMarkup = replyMarkup
             }

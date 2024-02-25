@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,13 +15,13 @@ public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <summary>
     /// New caption of the message, 0-1024 characters after entities parsing
@@ -47,10 +48,19 @@ public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public EditMessageCaptionRequest(ChatId chatId, int messageId)
-        : base("editMessageCaption")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request with chatId and messageIdn
+    /// </summary>
+    public EditMessageCaptionRequest()
+        : base("editMessageCaption")
+    { }
 }

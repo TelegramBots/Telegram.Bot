@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Types;
 
 /// <summary>
@@ -11,7 +13,7 @@ public class WebAppInfo
     /// <a href="https://core.telegram.org/bots/webapps#initializing-web-apps">Initializing Web Apps</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Url { get; }
+    public required string Url { get; init; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WebAppInfo"/> class with url
@@ -20,8 +22,13 @@ public class WebAppInfo
     /// An HTTPS URL of a Web App to be opened with additional data as specified in
     /// <a href="https://core.telegram.org/bots/webapps#initializing-web-apps">Initializing Web Apps</a>
     /// </param>
+    [SetsRequiredMembers]
     public WebAppInfo(string url)
-    {
-        Url = url;
-    }
+        => Url = url;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="WebAppInfo"/> class
+    /// </summary>
+    public WebAppInfo()
+    {}
 }

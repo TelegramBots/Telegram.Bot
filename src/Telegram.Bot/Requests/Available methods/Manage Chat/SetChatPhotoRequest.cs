@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -14,13 +15,13 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// New chat photo, uploaded using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileStream Photo { get; }
+    public required InputFileStream Photo { get; init; }
 
     /// <summary>
     /// Initializes a new request with chatId and photo
@@ -29,12 +30,21 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="photo">New chat photo, uploaded using multipart/form-data</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SetChatPhotoRequest(ChatId chatId, InputFileStream photo)
-        : base("setChatPhoto")
+        : this()
     {
         ChatId = chatId;
         Photo = photo;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetChatPhotoRequest()
+        : base("setChatPhoto")
+    { }
 
     /// <inheritdoc />
     public override HttpContent ToHttpContent()

@@ -40,11 +40,11 @@ public class EditMessageMediaTests
 
         InlineQueryResult[] inlineQueryResults =
         {
-            new InlineQueryResultPhoto(
-                id: "photo:rainbow-girl",
-                photoUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
-                thumbnailUrl: "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")
+            new InlineQueryResultPhoto
             {
+                Id = "photo:rainbow-girl",
+                PhotoUrl = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
+                ThumbnailUrl = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg",
                 Caption = "Rainbow Girl",
                 ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to edit"),
             }
@@ -62,12 +62,12 @@ public class EditMessageMediaTests
 
         // Change the photo for an audio. Note that, in the case of an inline message, the new media should be
         // either an URL or the file_id of a previously uploaded media.
+        InputFileUrl inputFileUrl = InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3");
         await BotClient.EditMessageMediaAsync(
             inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
-            media: new InputMediaAudio(new InputFileUrl(
-                "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/" +
-                "Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3"))
+            media: new InputMediaAudio
             {
+                Media = inputFileUrl,
                 Caption = "**Audio** in `.mp3` format",
                 ParseMode = ParseMode.Markdown,
             }
@@ -101,12 +101,12 @@ public class EditMessageMediaTests
 
         InlineQueryResult[] inlineQueryResults =
         {
-            new InlineQueryResultDocument(
-                id: "document:acrobat",
-                documentUrl: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                title: "Dummy PDF File",
-                mimeType: "application/pdf")
+            new InlineQueryResultDocument
             {
+                Id = "document:acrobat",
+                DocumentUrl = "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                Title = "Dummy PDF File",
+                MimeType = "application/pdf",
                 ReplyMarkup = InlineKeyboardButton.WithCallbackData("Click here to edit"),
             }
         };
@@ -125,7 +125,7 @@ public class EditMessageMediaTests
         // Also, animation thumbnail cannot be uploaded for an inline message.
         await BotClient.EditMessageMediaAsync(
             inlineMessageId: cqUpdate.CallbackQuery.InlineMessageId,
-            media: new InputMediaAnimation(new InputFileId(animationFileId))
+            media: new InputMediaAnimation { Media = InputFile.FromFileId(animationFileId) }
         );
     }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.ReplyMarkups;
 
 // ReSharper disable once CheckNamespace
@@ -12,7 +13,7 @@ public class StopInlineMessageLiveLocationRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public required string InlineMessageId { get; init; }
 
     /// <inheritdoc cref="Abstractions.Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -22,9 +23,18 @@ public class StopInlineMessageLiveLocationRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public StopInlineMessageLiveLocationRequest(string inlineMessageId)
-        : base("stopMessageLiveLocation")
+        : this()
     {
         InlineMessageId = inlineMessageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public StopInlineMessageLiveLocationRequest()
+        : base("stopMessageLiveLocation")
+    { }
 }

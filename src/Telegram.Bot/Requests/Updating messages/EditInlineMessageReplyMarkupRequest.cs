@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -12,7 +13,7 @@ public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public required string InlineMessageId { get; init; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -22,9 +23,18 @@ public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId and new inline keyboard
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public EditInlineMessageReplyMarkupRequest(string inlineMessageId)
-        : base("editMessageReplyMarkup")
+        : this()
     {
         InlineMessageId = inlineMessageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public EditInlineMessageReplyMarkupRequest()
+        : base("editMessageReplyMarkup")
+    { }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -14,13 +15,13 @@ public class StopPollRequest : RequestBase<Poll>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the original message with the poll
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -34,10 +35,19 @@ public class StopPollRequest : RequestBase<Poll>, IChatTargetable
     /// <c>@channelusername</c>)
     /// </param>
     /// <param name="messageId">Identifier of the original message with the poll</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public StopPollRequest(ChatId chatId, int messageId)
-        : base("stopPoll")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public StopPollRequest()
+        : base("stopPoll")
+    { }
 }

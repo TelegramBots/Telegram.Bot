@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -16,7 +17,7 @@ public class SendDiceRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -51,9 +52,18 @@ public class SendDiceRequest : RequestBase<Message>, IChatTargetable
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendDiceRequest(ChatId chatId)
-        : base("sendDice")
+        : this()
     {
         ChatId = chatId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendDiceRequest()
+        : base("sendDice")
+    { }
 }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -22,13 +23,13 @@ public class InlineQueryResultVoice : InlineQueryResult
     /// A valid URL for the voice recording
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string VoiceUrl { get; }
+    public required string VoiceUrl { get; init; }
 
     /// <summary>
     /// Recording title
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <inheritdoc cref="Documentation.Caption" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -58,10 +59,18 @@ public class InlineQueryResultVoice : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="voiceUrl">A valid URL for the voice recording</param>
     /// <param name="title">Title of the result</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InlineQueryResultVoice(string id, string voiceUrl, string title)
         : base(id)
     {
         VoiceUrl = voiceUrl;
         Title = title;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultVoice()
+    { }
 }

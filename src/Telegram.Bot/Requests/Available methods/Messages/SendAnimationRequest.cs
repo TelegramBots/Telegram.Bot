@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -18,13 +19,7 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
-
-    /// <summary>
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? MessageThreadId { get; set; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Animation to send. Pass a <see cref="InputFileId"/> as String to send an animation
@@ -32,7 +27,13 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     /// to get an animation from the Internet, or upload a new animation using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Animation { get; }
+    public required InputFile Animation { get; init; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Duration of sent animation in seconds
@@ -104,12 +105,21 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     /// that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to
     /// get an animation from the Internet, or upload a new animation using multipart/form-data
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendAnimationRequest(ChatId chatId, InputFile animation)
-        : base("sendAnimation")
+        : this()
     {
         ChatId = chatId;
         Animation = animation;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendAnimationRequest()
+        : base("sendAnimation")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

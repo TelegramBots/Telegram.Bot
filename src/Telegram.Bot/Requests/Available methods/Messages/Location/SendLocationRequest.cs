@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -12,7 +13,7 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -24,13 +25,13 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     /// Latitude of the location
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Latitude { get; }
+    public required double Latitude { get; init; }
 
     /// <summary>
     /// Longitude of the location
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Longitude { get; }
+    public required double Longitude { get; init; }
 
     /// <summary>
     /// The radius of uncertainty for the location, measured in meters; 0-1500
@@ -84,11 +85,20 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="latitude">Latitude of the location</param>
     /// <param name="longitude">Longitude of the location</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendLocationRequest(ChatId chatId, double latitude, double longitude)
-        : base("sendLocation")
+        : this()
     {
         ChatId = chatId;
         Latitude = latitude;
         Longitude = longitude;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendLocationRequest()
+        : base("sendLocation")
+    { }
 }

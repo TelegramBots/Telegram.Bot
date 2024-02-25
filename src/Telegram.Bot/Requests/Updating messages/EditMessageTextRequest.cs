@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,19 +15,19 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <summary>
     /// New text of the message, 1-4096 characters after entities parsing
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Text { get; }
+    public required string Text { get; init; }
 
     /// <inheritdoc cref="Documentation.ParseMode"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -55,11 +56,20 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public EditMessageTextRequest(ChatId chatId, int messageId, string text)
-        : base("editMessageText")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
         Text = text;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public EditMessageTextRequest()
+        : base("editMessageText")
+    { }
 }

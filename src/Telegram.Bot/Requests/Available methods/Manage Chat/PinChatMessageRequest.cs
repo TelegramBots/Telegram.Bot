@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -15,13 +16,13 @@ public class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of a message to pin
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -34,10 +35,19 @@ public class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageId">Identifier of a message to pin</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public PinChatMessageRequest(ChatId chatId, int messageId)
-        : base("pinChatMessage")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request with chatId and messageId
+    /// </summary>
+    public PinChatMessageRequest()
+        : base("pinChatMessage")
+    { }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Telegram.Bot.Requests;
 
@@ -14,7 +15,7 @@ public class SetStickerKeywordsRequest : RequestBase<bool>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileId Sticker { get; }
+    public required InputFileId Sticker { get; init; }
 
     /// <summary>
     /// Optional. A JSON-serialized list of 0-20 search keywords for the sticker
@@ -29,9 +30,18 @@ public class SetStickerKeywordsRequest : RequestBase<bool>
     /// <param name="sticker">
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SetStickerKeywordsRequest(InputFileId sticker)
-        : base("setStickerKeywords")
+        : this()
     {
         Sticker = sticker;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetStickerKeywordsRequest()
+        : base("setStickerKeywords")
+    { }
 }

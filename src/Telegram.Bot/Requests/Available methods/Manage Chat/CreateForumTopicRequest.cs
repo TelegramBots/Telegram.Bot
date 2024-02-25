@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -14,13 +15,13 @@ public class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Topic name, 1-128 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Optional. Color of the topic icon in RGB format. Currently, must be one of 0x6FB9F0, 0xFFD67E, 0xCB86DB,
@@ -41,10 +42,19 @@ public class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTargetable
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="name">Topic name</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public CreateForumTopicRequest(ChatId chatId, string name)
-        : base("createForumTopic")
+        : this()
     {
         ChatId = chatId;
         Name = name;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public CreateForumTopicRequest()
+        : base("createForumTopic")
+    { }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Converters;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
@@ -15,7 +16,7 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -27,13 +28,13 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     /// Poll question, 1-300 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Question { get; }
+    public required string Question { get; init; }
 
     /// <summary>
     /// A list of answer options, 2-10 strings 1-100 characters each
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<string> Options { get; }
+    public required IEnumerable<string> Options { get; init; }
 
     /// <summary>
     /// <see langword="true"/>, if the poll needs to be anonymous, defaults to <see langword="true"/>
@@ -127,11 +128,20 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="question">Poll question, 1-300 characters</param>
     /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)
-        : base("sendPoll")
+        : this()
     {
         ChatId = chatId;
         Question = question;
         Options = options;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendPollRequest()
+        : base("sendPoll")
+    { }
 }

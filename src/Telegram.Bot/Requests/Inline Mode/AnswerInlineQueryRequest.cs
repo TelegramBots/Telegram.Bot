@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.InlineQueryResults;
 
 // ReSharper disable once CheckNamespace
@@ -17,13 +18,13 @@ public class AnswerInlineQueryRequest : RequestBase<bool>
     /// Unique identifier for the answered query
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string InlineQueryId { get; }
+    public required string InlineQueryId { get; init; }
 
     /// <summary>
     /// An array of results for the inline query
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<InlineQueryResult> Results { get; }
+    public required IEnumerable<InlineQueryResult> Results { get; init; }
 
     /// <summary>
     /// The maximum amount of time in seconds that the result of the
@@ -58,10 +59,19 @@ public class AnswerInlineQueryRequest : RequestBase<bool>
     /// </summary>
     /// <param name="inlineQueryId">Unique identifier for the answered query</param>
     /// <param name="results">An array of results for the inline query</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public AnswerInlineQueryRequest(string inlineQueryId, IEnumerable<InlineQueryResult> results)
-        : base("answerInlineQuery")
+        : this()
     {
         InlineQueryId = inlineQueryId;
         Results = results;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public AnswerInlineQueryRequest()
+        : base("answerInlineQuery")
+    { }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
@@ -19,7 +20,7 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -33,7 +34,7 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     /// a file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Voice { get; }
+    public required InputFile Voice { get; init; }
 
     /// <summary>
     /// Voice message caption, 0-1024 characters after entities parsing
@@ -82,12 +83,21 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
     /// that exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendVoiceRequest(ChatId chatId, InputFile voice)
-        : base("sendVoice")
+        : this()
     {
         ChatId = chatId;
         Voice = voice;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendVoiceRequest()
+        : base("sendVoice")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

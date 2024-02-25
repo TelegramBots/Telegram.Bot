@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -18,27 +19,27 @@ public class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? MessageThreadId { get; set; }
-
-    /// <summary>
-    /// Unique identifier for the chat where the original messages were sent 
+    /// Unique identifier for the chat where the original messages were sent
     /// (or channel username in the format <c>@channelusername</c>)
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatId FromChatId { get; }
+    public required ChatId FromChatId { get; init; }
 
     /// <summary>
     /// Identifiers of 1-100 messages in the chat from_chat_id to forward.
     /// The identifiers must be specified in a strictly increasing order.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<int> MessageIds { get; }
+    public required IEnumerable<int> MessageIds { get; init; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -56,18 +57,27 @@ public class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="fromChatId">
-    /// Unique identifier for the chat where the original messages were sent 
+    /// Unique identifier for the chat where the original messages were sent
     /// (or channel username in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageIds">
     /// Identifiers of 1-100 messages in the chat from_chat_id to forward.
     /// The identifiers must be specified in a strictly increasing order.
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public ForwardMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds)
-        :base("forwardMessages")
+        : this()
     {
         ChatId = chatId;
         FromChatId = fromChatId;
         MessageIds = messageIds;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public ForwardMessagesRequest()
+        :base("forwardMessages")
+    { }
 }

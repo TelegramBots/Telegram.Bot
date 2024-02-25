@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -16,7 +17,7 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -30,7 +31,7 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     /// multipart/form-data. Sending video notes by a URL is currently unsupported
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile VideoNote { get; }
+    public required InputFile VideoNote { get; init; }
 
     /// <summary>
     /// Duration of sent video in seconds
@@ -75,12 +76,21 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     /// note that exists on the Telegram servers (recommended) or upload a new video using
     /// multipart/form-data. Sending video notes by a URL is currently unsupported
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendVideoNoteRequest(ChatId chatId, InputFile videoNote)
-        : base("sendVideoNote")
+        : this()
     {
         ChatId = chatId;
         VideoNote = videoNote;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendVideoNoteRequest()
+        : base("sendVideoNote")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

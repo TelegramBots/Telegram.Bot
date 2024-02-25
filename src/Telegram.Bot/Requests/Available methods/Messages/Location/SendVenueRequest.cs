@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -12,7 +13,7 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -24,25 +25,25 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable
     /// Latitude of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Latitude { get; }
+    public required double Latitude { get; init; }
 
     /// <summary>
     /// Longitude of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Longitude { get; }
+    public required double Longitude { get; init; }
 
     /// <summary>
     /// Name of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Address of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Address { get; }
+    public required string Address { get; init; }
 
     /// <summary>
     /// Foursquare identifier of the venue
@@ -96,12 +97,14 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable
     /// <param name="longitude">Longitude of the venue</param>
     /// <param name="title">Name of the venue</param>
     /// <param name="address">Address of the venue</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendVenueRequest(
         ChatId chatId,
         double latitude,
         double longitude,
         string title,
-        string address) : base("sendVenue")
+        string address) : this()
     {
         ChatId = chatId;
         Latitude = latitude;
@@ -109,4 +112,10 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable
         Title = title;
         Address = address;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendVenueRequest() : base("sendVenue")
+    { }
 }

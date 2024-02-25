@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -16,7 +17,7 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -28,7 +29,7 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     /// An array describing messages to be sent, must include 2-10 items
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<IAlbumInputMedia> Media { get; }
+    public required IEnumerable<IAlbumInputMedia> Media { get; init; }
 
     /// <inheritdoc cref="Abstractions.Documentation.DisableNotification"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -50,12 +51,21 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="media">An array describing messages to be sent, must include 2-10 items</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media)
-        : base("sendMediaGroup")
+        : this()
     {
         ChatId = chatId;
         Media = media;
     }
+
+    /// <summary>
+    /// Initializes a request
+    /// </summary>
+    public SendMediaGroupRequest()
+        : base("sendMediaGroup")
+    { }
 
     /// <inheritdoc />
     public override HttpContent ToHttpContent()

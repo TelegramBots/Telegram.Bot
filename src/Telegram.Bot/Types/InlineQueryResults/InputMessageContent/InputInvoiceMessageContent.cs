@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Payments;
 
 // ReSharper disable once CheckNamespace
@@ -15,40 +16,40 @@ public class InputInvoiceMessageContent : InputMessageContent
     /// Product name, 1-32 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Product description, 1-255 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Description { get; }
+    public required string Description { get; init; }
 
     /// <summary>
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user,
     /// use for your internal processes.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Payload { get; }
+    public required string Payload { get; init; }
 
     /// <summary>
     /// Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string ProviderToken { get; }
+    public required string ProviderToken { get; init; }
 
     /// <summary>
     /// Three-letter ISO 4217 currency code, see
     /// <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Currency { get; }
+    public required string Currency { get; init; }
 
     /// <summary>
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost,
     /// delivery tax, bonus, etc.)
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<LabeledPrice> Prices { get; }
+    public required IEnumerable<LabeledPrice> Prices { get; init; }
 
     /// <summary>
     /// Optional. The maximum accepted amount for tips in the smallest units of the currency
@@ -158,6 +159,8 @@ public class InputInvoiceMessageContent : InputMessageContent
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost,
     /// delivery tax, bonus, etc.)
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InputInvoiceMessageContent(
         string title,
         string description,
@@ -173,4 +176,10 @@ public class InputInvoiceMessageContent : InputMessageContent
         Currency = currency;
         Prices = prices;
     }
+
+    /// <summary>
+    /// Initializes a new input message content
+    /// </summary>
+    public InputInvoiceMessageContent()
+    { }
 }

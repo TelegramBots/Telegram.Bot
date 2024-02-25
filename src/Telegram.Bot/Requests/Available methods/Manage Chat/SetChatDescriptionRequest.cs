@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -13,7 +14,7 @@ public class SetChatDescriptionRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// New chat Description, 0-255 characters
@@ -28,9 +29,18 @@ public class SetChatDescriptionRequest : RequestBase<bool>, IChatTargetable
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SetChatDescriptionRequest(ChatId chatId)
-        : base("setChatDescription")
+        : this()
     {
         ChatId = chatId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetChatDescriptionRequest()
+        : base("setChatDescription")
+    { }
 }

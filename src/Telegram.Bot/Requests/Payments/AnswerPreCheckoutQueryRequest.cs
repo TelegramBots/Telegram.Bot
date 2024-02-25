@@ -1,4 +1,6 @@
-﻿// ReSharper disable once CheckNamespace
+﻿using System.Diagnostics.CodeAnalysis;
+
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -17,14 +19,14 @@ public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     /// Unique identifier for the query to be answered
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string PreCheckoutQueryId { get; }
+    public required string PreCheckoutQueryId { get; init; }
 
     /// <summary>
     /// Specify <see langword="true"/> if everything is alright (goods are available, etc.) and the
     /// bot is ready to proceed with the order. Use <see langword="false"/> if there are any problems.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public bool Ok { get; }
+    public required bool Ok { get; init; }
 
     /// <summary>
     /// Required if <see cref="Ok"/> is <see langword="false"/>. Error message in human readable form that explains
@@ -39,8 +41,9 @@ public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     /// Initializes a new successful answerPreCheckoutQuery request
     /// </summary>
     /// <param name="preCheckoutQueryId">Unique identifier for the query to be answered</param>
+    [SetsRequiredMembers]
     public AnswerPreCheckoutQueryRequest(string preCheckoutQueryId)
-        : base("answerPreCheckoutQuery")
+        : this()
     {
         PreCheckoutQueryId = preCheckoutQueryId;
         Ok = true;
@@ -56,11 +59,19 @@ public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     /// our amazing black T-shirts while you were busy filling out your payment details. Please
     /// choose a different color or garment!"). Telegram will display this message to the user.
     /// </param>
+    [SetsRequiredMembers]
     public AnswerPreCheckoutQueryRequest(string preCheckoutQueryId, string errorMessage)
-        : base("answerPreCheckoutQuery")
+        : this()
     {
         PreCheckoutQueryId = preCheckoutQueryId;
         Ok = false;
         ErrorMessage = errorMessage;
     }
+
+    /// <summary>
+    /// Initializes a new failing answerPreCheckoutQuery request with error message
+    /// </summary>
+    public AnswerPreCheckoutQueryRequest()
+        : base("answerPreCheckoutQuery")
+    { }
 }

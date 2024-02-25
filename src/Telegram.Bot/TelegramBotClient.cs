@@ -149,7 +149,7 @@ public class TelegramBotClient : ITelegramBotClient
 
         var apiResponse = await httpResponse
             .DeserializeContentAsync<ApiResponse<TResponse>>(
-                guard: response => response.Ok == false ||
+                guard: response => !response.Ok ||
                                    response.Result is null
             )
             .ConfigureAwait(false);

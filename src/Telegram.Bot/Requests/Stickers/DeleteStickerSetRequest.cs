@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -11,7 +13,7 @@ namespace Telegram.Bot.Requests;
     /// Sticker set name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Initializes a new request with name
@@ -19,9 +21,18 @@ namespace Telegram.Bot.Requests;
     /// <param name="name">
     /// Sticker set name
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public DeleteStickerSetRequest(string name)
-        : base("deleteStickerSet")
+        : this()
     {
         Name = name;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public DeleteStickerSetRequest()
+        : base("deleteStickerSet")
+    { }
 }

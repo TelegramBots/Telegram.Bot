@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -19,19 +20,19 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <summary>
     /// A new media content of the message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputMedia Media { get; }
+    public required InputMedia Media { get; init; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -46,13 +47,22 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="media">A new media content of the message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public EditMessageMediaRequest(ChatId chatId, int messageId, InputMedia media)
-        : base("editMessageMedia")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
         Media = media;
     }
+
+    /// <summary>
+    /// Initializes a new
+    /// </summary>
+    public EditMessageMediaRequest()
+        : base("editMessageMedia")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

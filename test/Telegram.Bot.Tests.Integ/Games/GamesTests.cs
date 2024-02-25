@@ -42,10 +42,11 @@ public class GamesTests : IClassFixture<GamesFixture>
             inlineQueryId: queryUpdate.InlineQuery!.Id,
             results: new InlineQueryResult[]
             {
-                new InlineQueryResultGame(
-                    id: resultId,
-                    gameShortName: _classFixture.GameShortName
-                )
+                new InlineQueryResultGame
+                {
+                    Id = resultId,
+                    GameShortName = _classFixture.GameShortName,
+                }
             },
             cacheTime: 0
         );

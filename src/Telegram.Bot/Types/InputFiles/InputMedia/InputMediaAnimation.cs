@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -47,7 +48,15 @@ public class InputMediaAnimation :
     /// Initializes a new animation media to send with an <see cref="InputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InputMediaAnimation(InputFile media)
         : base(media)
+    { }
+
+    /// <summary>
+    /// Initializes a new animation media to send with an <see cref="InputFile"/>
+    /// </summary>
+    public InputMediaAnimation()
     { }
 }

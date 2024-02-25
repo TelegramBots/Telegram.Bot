@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Types.InlineQueryResults;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Types.InlineQueryResults;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -15,23 +16,32 @@ public class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
     /// Unique identifier for the query to be answered
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string WebAppQueryId { get; }
+    public required string WebAppQueryId { get; init; }
 
     /// <summary>
     /// An object describing the message to be sent
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InlineQueryResult Result { get; }
+    public required InlineQueryResult Result { get; init; }
 
     /// <summary>
     /// Initializes a new request with <see cref="WebAppQueryId"/> and a <see cref="InlineQueryResult"/>
     /// </summary>
     /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
     /// <param name="result">An object describing the message to be sent</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public AnswerWebAppQueryRequest(string webAppQueryId, InlineQueryResult result)
-        : base("answerWebAppQuery")
+        : this()
     {
         WebAppQueryId = webAppQueryId;
         Result = result;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public AnswerWebAppQueryRequest()
+        : base("answerWebAppQuery")
+    { }
 }

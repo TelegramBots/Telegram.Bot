@@ -70,12 +70,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetUpdatesRequest
+                new GetUpdatesRequest
                 {
                     Offset = offset,
                     Limit = limit,
                     Timeout = timeout,
-                    AllowedUpdates = allowedUpdates
+                    AllowedUpdates = allowedUpdates,
                 },
                 cancellationToken
             )
@@ -160,8 +160,9 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetWebhookRequest(url)
+                new SetWebhookRequest
                 {
+                    Url = url,
                     Certificate = certificate,
                     IpAddress = ipAddress,
                     MaxConnections = maxConnections,
@@ -190,10 +191,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteWebhookRequest
-                {
-                    DropPendingUpdates = dropPendingUpdates
-                },
+                new DeleteWebhookRequest { DropPendingUpdates = dropPendingUpdates },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -214,7 +212,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetWebhookInfoRequest(), cancellationToken)
+            .MakeRequestAsync(new GetWebhookInfoRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     #endregion Getting updates
@@ -234,7 +232,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetMeRequest(), cancellationToken)
+            .MakeRequestAsync(new GetMeRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -252,7 +250,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new LogOutRequest(), cancellationToken)
+            .MakeRequestAsync(new LogOutRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -269,7 +267,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new CloseRequest(), cancellationToken)
+            .MakeRequestAsync(new CloseRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -325,8 +323,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendMessageRequest(chatId, text)
+                new SendMessageRequest
                 {
+                    ChatId = chatId,
+                    Text = text,
                     MessageThreadId = messageThreadId,
                     ParseMode = parseMode,
                     Entities = entities,
@@ -376,8 +376,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new ForwardMessageRequest(chatId, fromChatId, messageId)
+                new ForwardMessageRequest
                 {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageId = messageId,
                     MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
@@ -397,7 +400,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="fromChatId">
-    /// Unique identifier for the chat where the original messages were sent 
+    /// Unique identifier for the chat where the original messages were sent
     /// (or channel username in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageIds">
@@ -429,8 +432,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new ForwardMessagesRequest(chatId, fromChatId, messageIds)
+                new ForwardMessagesRequest
                 {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageIds = messageIds,
                     MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
@@ -502,8 +508,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CopyMessageRequest(chatId, fromChatId, messageId)
+                new CopyMessageRequest
                 {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageId = messageId,
                     MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
@@ -531,7 +540,7 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="fromChatId">
-    /// Unique identifier for the chat where the original messages were sent 
+    /// Unique identifier for the chat where the original messages were sent
     /// (or channel username in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageIds">
@@ -547,7 +556,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">
     /// Protects the contents of sent messages from forwarding and saving
     /// </param>
-    /// <param name="RemoveCaption">
+    /// <param name="removeCaption">
     /// Pass <see langword="true"/> to copy the messages without their captions
     /// </param>
     /// <param name="cancellationToken">
@@ -562,17 +571,20 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        bool? RemoveCaption = default,
+        bool? removeCaption = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CopyMessagesRequest(chatId, fromChatId, messageIds)
+                new CopyMessagesRequest
                 {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageIds = messageIds,
                     MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    RemoveCaption = RemoveCaption,
+                    RemoveCaption = removeCaption,
                 },
                 cancellationToken
             )
@@ -643,8 +655,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull().
             MakeRequestAsync(
-                request: new SendPhotoRequest(chatId, photo)
+                new SendPhotoRequest
                 {
+                    ChatId = chatId,
+                    Photo = photo,
                     MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
@@ -732,8 +746,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendAudioRequest(chatId, audio)
+                new SendAudioRequest
                 {
+                    ChatId = chatId,
+                    Audio = audio,
                     MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
@@ -824,8 +840,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendDocumentRequest(chatId, document)
+                new SendDocumentRequest
                 {
+                    ChatId = chatId,
+                    Document = document,
                     MessageThreadId = messageThreadId,
                     Thumbnail = thumbnail,
                     Caption = caption,
@@ -922,8 +940,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVideoRequest(chatId, video)
+                new SendVideoRequest
                 {
+                    ChatId = chatId,
+                    Video = video,
                     MessageThreadId = messageThreadId,
                     Duration = duration,
                     Width = width,
@@ -1022,8 +1042,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendAnimationRequest(chatId, animation)
+                new SendAnimationRequest
                 {
+                    ChatId = chatId,
+                    Animation = animation,
                     MessageThreadId = messageThreadId,
                     Duration = duration,
                     Width = width,
@@ -1104,8 +1126,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVoiceRequest(chatId, voice)
+                new SendVoiceRequest
                 {
+                    ChatId = chatId,
+                    Voice = voice,
                     MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
@@ -1177,8 +1201,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVideoNoteRequest(chatId, videoNote)
+                new SendVideoNoteRequest
                 {
+                    ChatId = chatId,
+                    VideoNote = videoNote,
                     MessageThreadId = messageThreadId,
                     Duration = duration,
                     Length = length,
@@ -1226,8 +1252,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendMediaGroupRequest(chatId, media)
+                new SendMediaGroupRequest
                 {
+                    ChatId = chatId,
+                    Media = media,
                     MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
@@ -1295,8 +1323,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendLocationRequest(chatId, latitude, longitude)
+                new SendLocationRequest
                 {
+                    ChatId = chatId,
+                    Latitude = latitude,
+                    Longitude = longitude,
                     MessageThreadId = messageThreadId,
                     HorizontalAccuracy = horizontalAccuracy,
                     LivePeriod = livePeriod,
@@ -1358,12 +1389,16 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
+                new EditMessageLiveLocationRequest
                 {
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    Latitude = latitude,
+                    Longitude = longitude,
                     HorizontalAccuracy = horizontalAccuracy,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -1410,8 +1445,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
+                new EditInlineMessageLiveLocationRequest
                 {
+                    InlineMessageId = inlineMessageId,
+                    Latitude = latitude,
+                    Longitude = longitude,
                     HorizontalAccuracy = horizontalAccuracy,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
@@ -1450,9 +1488,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new StopMessageLiveLocationRequest(chatId, messageId)
+                new StopMessageLiveLocationRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -1481,9 +1521,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new StopInlineMessageLiveLocationRequest(inlineMessageId)
+                new StopInlineMessageLiveLocationRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    InlineMessageId = inlineMessageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -1550,8 +1591,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVenueRequest(chatId, latitude, longitude, title, address)
+                new SendVenueRequest
                 {
+                    ChatId = chatId,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Title = title,
+                    Address = address,
                     FoursquareId = foursquareId,
                     FoursquareType = foursquareType,
                     GooglePlaceId = googlePlaceId,
@@ -1612,8 +1658,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendContactRequest(chatId, phoneNumber, firstName)
+                new SendContactRequest
                 {
+                    ChatId = chatId,
+                    PhoneNumber = phoneNumber,
+                    FirstName = firstName,
                     LastName = lastName,
                     Vcard = vCard,
                     DisableNotification = disableNotification,
@@ -1714,8 +1763,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendPollRequest(chatId, question, options)
+                new SendPollRequest
                 {
+                    ChatId = chatId,
+                    Question = question,
+                    Options = options,
                     MessageThreadId = messageThreadId,
                     IsAnonymous = isAnonymous,
                     Type = type,
@@ -1783,8 +1835,9 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendDiceRequest(chatId)
+                new SendDiceRequest
                 {
+                    ChatId = chatId,
                     MessageThreadId = messageThreadId,
                     Emoji = emoji,
                     DisableNotification = disableNotification,
@@ -1842,7 +1895,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new SendChatActionRequest(chatId, chatAction) { MessageThreadId = messageThreadId },
+                new SendChatActionRequest
+                {
+                    ChatId = chatId,
+                    Action = chatAction,
+                    MessageThreadId = messageThreadId,
+                },
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -1881,8 +1939,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new SetMessageReactionRequest(chatId, messageId)
+                new SetMessageReactionRequest
                 {
+                    ChatId = chatId,
+                    MessageId = messageId,
                     Reaction = reaction,
                     IsBig = isBig,
                 },
@@ -1913,10 +1973,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetUserProfilePhotosRequest(userId)
+                new GetUserProfilePhotosRequest
                 {
+                    UserId = userId,
                     Offset = offset,
-                    Limit = limit
+                    Limit = limit,
                 },
                 cancellationToken
             )
@@ -1946,8 +2007,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetFileRequest(fileId),
-                cancellationToken: cancellationToken
+                new GetFileRequest { FileId = fileId },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -1969,7 +2030,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default)
     {
         var file = await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetFileRequest(fileId), cancellationToken)
+            .MakeRequestAsync(new GetFileRequest { FileId = fileId }, cancellationToken)
             .ConfigureAwait(false);
 
         await botClient.DownloadFileAsync(filePath: file.FilePath!, destination, cancellationToken)
@@ -2013,10 +2074,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new BanChatMemberRequest(chatId, userId)
+                new BanChatMemberRequest
                 {
+                    ChatId = chatId,
+                    UserId = userId,
                     UntilDate = untilDate,
-                    RevokeMessages = revokeMessages
+                    RevokeMessages = revokeMessages,
                 },
                 cancellationToken
             )
@@ -2048,9 +2111,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new UnbanChatMemberRequest(chatId, userId)
+                new UnbanChatMemberRequest
                 {
-                    OnlyIfBanned = onlyIfBanned
+                    ChatId = chatId,
+                    UserId = userId,
+                    OnlyIfBanned = onlyIfBanned,
                 },
                 cancellationToken
             )
@@ -2093,8 +2158,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new RestrictChatMemberRequest(chatId, userId, permissions)
+                new RestrictChatMemberRequest
                 {
+                    ChatId = chatId,
+                    UserId = userId,
+                    Permissions = permissions,
                     UntilDate = untilDate,
                     UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
@@ -2103,7 +2171,9 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass <c><see langword="false"/></c> for all boolean parameters to demote a user.
+    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in
+    /// the chat for this to work and must have the appropriate admin rights. Pass <c><see langword="false"/></c> for
+    /// all boolean parameters to demote a user.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2111,21 +2181,56 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="isAnonymous">Pass <see langword="true"/>, if the administrator's presence in the chat is hidden</param>
-    /// <param name="canManageChat">Pass <see langword="true"/>, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege</param>
-    /// <param name="canPostMessages">Pass <see langword="true"/>, if the administrator can create channel posts, channels only</param>
-    /// <param name="canEditMessages">Pass <see langword="true"/>, if the administrator can edit messages of other users, channels only</param>
-    /// <param name="canDeleteMessages">Pass <see langword="true"/>, if the administrator can delete messages of other users</param>
-    /// <param name="canPostStories">Pass <see langword="true"/> if the administrator can post stories in the channel; channels only</param>
-    /// <param name="canEditStories">Pass <see langword="true"/> if the administrator can edit stories posted by other users; channels only</param>
-    /// <param name="canDeleteStories">Pass <see langword="true"/> if the administrator can delete stories posted by other users; channels only</param>
-    /// <param name="canManageVideoChats">Pass <see langword="true"/>, if the administrator can manage voice chats, supergroups only</param>
-    /// <param name="canRestrictMembers">Pass <see langword="true"/>, if the administrator can restrict, ban or unban chat members</param>
-    /// <param name="canPromoteMembers">Pass <see langword="true"/>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
-    /// <param name="canChangeInfo">Pass <see langword="true"/>, if the administrator can change chat title, photo and other settings</param>
-    /// <param name="canInviteUsers">Pass <see langword="true"/>, if the administrator can invite new users to the chat</param>
-    /// <param name="canPinMessages">Pass <see langword="true"/>, if the administrator can pin messages, supergroups only</param>
-    /// <param name="canManageTopic">Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics, supergroups only</param>
+    /// <param name="isAnonymous">
+    /// Pass <see langword="true"/>, if the administrator's presence in the chat is hidden
+    /// </param>
+    /// <param name="canManageChat">
+    /// Pass <see langword="true"/>, if the administrator can access the chat event log, chat statistics, message
+    /// statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode.
+    /// Implied by any other administrator privilege
+    /// </param>
+    /// <param name="canPostMessages">
+    /// Pass <see langword="true"/>, if the administrator can create channel posts, channels only
+    /// </param>
+    /// <param name="canEditMessages">
+    /// Pass <see langword="true"/>, if the administrator can edit messages of other users, channels only
+    /// </param>
+    /// <param name="canDeleteMessages">
+    /// Pass <see langword="true"/>, if the administrator can delete messages of other users
+    /// </param>
+    /// <param name="canPostStories">
+    /// Pass <see langword="true"/> if the administrator can post stories in the channel; channels only
+    /// </param>
+    /// <param name="canEditStories">
+    /// Pass <see langword="true"/> if the administrator can edit stories posted by other users; channels only
+    /// </param>
+    /// <param name="canDeleteStories">
+    /// Pass <see langword="true"/> if the administrator can delete stories posted by other users; channels only
+    /// </param>
+    /// <param name="canManageVideoChats">
+    /// Pass <see langword="true"/>, if the administrator can manage voice chats, supergroups only
+    /// </param>
+    /// <param name="canRestrictMembers">
+    /// Pass <see langword="true"/>, if the administrator can restrict, ban or unban chat members
+    /// </param>
+    /// <param name="canPromoteMembers">
+    /// Pass <see langword="true"/>, if the administrator can add new administrators with a subset of his own
+    /// privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators
+    /// that were appointed by him)
+    /// </param>
+    /// <param name="canChangeInfo">
+    /// Pass <see langword="true"/>, if the administrator can change chat title, photo and other settings
+    /// </param>
+    /// <param name="canInviteUsers">
+    /// Pass <see langword="true"/>, if the administrator can invite new users to the chat
+    /// </param>
+    /// <param name="canPinMessages">
+    /// Pass <see langword="true"/>, if the administrator can pin messages, supergroups only
+    /// </param>
+    /// <param name="canManageTopic">
+    /// Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics,
+    /// supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -2152,8 +2257,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new PromoteChatMemberRequest(chatId, userId)
+                new PromoteChatMemberRequest
                 {
+                    ChatId = chatId,
+                    UserId = userId,
                     IsAnonymous = isAnonymous,
                     CanManageChat = canManageChat,
                     CanPostMessages = canPostMessages,
@@ -2198,7 +2305,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatAdministratorCustomTitleRequest(chatId, userId, customTitle),
+                new SetChatAdministratorCustomTitleRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                    CustomTitle = customTitle,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2225,7 +2337,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new BanChatSenderChatRequest(chatId, senderChatId),
+                new BanChatSenderChatRequest
+                {
+                    ChatId = chatId,
+                    SenderChatId = senderChatId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2251,7 +2367,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new UnbanChatSenderChatRequest(chatId, senderChatId),
+                new UnbanChatSenderChatRequest
+                {
+                    ChatId = chatId,
+                    SenderChatId = senderChatId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2288,8 +2408,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatPermissionsRequest(chatId, permissions)
+                new SetChatPermissionsRequest
                 {
+                    ChatId = chatId,
+                    Permissions = permissions,
                     UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
                 cancellationToken
@@ -2316,7 +2438,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new ExportChatInviteLinkRequest(chatId),
+                new ExportChatInviteLinkRequest
+                {
+                    ChatId = chatId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2356,8 +2481,9 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateChatInviteLinkRequest(chatId)
+                new CreateChatInviteLinkRequest
                 {
+                    ChatId = chatId,
                     Name = name,
                     ExpireDate = expireDate,
                     MemberLimit = memberLimit,
@@ -2403,8 +2529,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditChatInviteLinkRequest(chatId, inviteLink)
+                new EditChatInviteLinkRequest
                 {
+                    ChatId = chatId,
+                    InviteLink = inviteLink,
                     Name = name,
                     ExpireDate = expireDate,
                     MemberLimit = memberLimit,
@@ -2437,7 +2565,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new RevokeChatInviteLinkRequest(chatId, inviteLink),
+                new RevokeChatInviteLinkRequest
+                {
+                    ChatId = chatId,
+                    InviteLink = inviteLink,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2464,7 +2596,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new ApproveChatJoinRequest(chatId, userId),
+                new ApproveChatJoinRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2491,7 +2627,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeclineChatJoinRequest(chatId, userId),
+                new DeclineChatJoinRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2517,7 +2657,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatPhotoRequest(chatId, photo),
+                new SetChatPhotoRequest
+                {
+                    ChatId = chatId,
+                    Photo = photo,
+                },
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -2539,7 +2683,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteChatPhotoRequest(chatId),
+                new DeleteChatPhotoRequest { ChatId = chatId },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2564,7 +2708,14 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new SetChatTitleRequest(chatId, title), cancellationToken)
+            .MakeRequestAsync(
+                new SetChatTitleRequest
+                {
+                    ChatId = chatId,
+                    Title = title,
+                },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2588,7 +2739,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatDescriptionRequest(chatId) { Description = description },
+                new SetChatDescriptionRequest { ChatId = chatId, Description = description },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2621,9 +2772,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull().
             MakeRequestAsync(
-                request: new PinChatMessageRequest(chatId, messageId)
+                new PinChatMessageRequest
                 {
-                    DisableNotification = disableNotification
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    DisableNotification = disableNotification,
                 },
                 cancellationToken
             )
@@ -2655,7 +2808,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull().
             MakeRequestAsync(
-                request: new UnpinChatMessageRequest(chatId) { MessageId = messageId },
+                new UnpinChatMessageRequest { ChatId = chatId, MessageId = messageId },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2680,7 +2833,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
-            MakeRequestAsync(request: new UnpinAllChatMessagesRequest(chatId), cancellationToken)
+            MakeRequestAsync(new UnpinAllChatMessagesRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2700,7 +2853,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
-            MakeRequestAsync(request: new LeaveChatRequest(chatId), cancellationToken)
+            MakeRequestAsync(new LeaveChatRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2722,7 +2875,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new GetChatRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2747,7 +2900,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatAdministratorsRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new GetChatAdministratorsRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2768,7 +2921,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatMemberCountRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new GetChatMemberCountRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2791,7 +2944,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatMemberRequest(chatId, userId), cancellationToken)
+            .MakeRequestAsync(
+                new GetChatMemberRequest { ChatId = chatId, UserId = userId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2816,7 +2972,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken)
+            .MakeRequestAsync(
+                new SetChatStickerSetRequest { ChatId = chatId, StickerSetName = stickerSetName },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2839,7 +2998,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new DeleteChatStickerSetRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new DeleteChatStickerSetRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2893,8 +3052,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new CreateForumTopicRequest(chatId, name)
+                new CreateForumTopicRequest
                 {
+                    ChatId = chatId,
+                    Name = name,
                     IconColor = iconColor,
                     IconCustomEmojiId = iconCustomEmojiId,
                 },
@@ -2934,8 +3095,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new EditForumTopicRequest(chatId, messageThreadId)
+                new EditForumTopicRequest
                 {
+                    ChatId = chatId,
+                    MessageThreadId = messageThreadId,
                     Name = name,
                     IconCustomEmojiId = iconCustomEmojiId,
                 },
@@ -2964,7 +3127,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new CloseForumTopicRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new CloseForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2988,7 +3154,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new ReopenForumTopicRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new ReopenForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3013,7 +3182,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new DeleteForumTopicRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new DeleteForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3037,7 +3209,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnpinAllForumTopicMessagesRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new UnpinAllForumTopicMessagesRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3061,7 +3236,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new EditGeneralForumTopicRequest(chatId, name), cancellationToken)
+            .MakeRequestAsync(
+                new EditGeneralForumTopicRequest { ChatId = chatId, Name = name },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3083,7 +3261,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new CloseGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new CloseGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3106,7 +3284,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new ReopenGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new ReopenGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3128,7 +3306,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new HideGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new HideGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3150,12 +3328,13 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnhideGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new UnhideGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in
-    /// the chat for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/> administrator right in the supergroup.
+    /// Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator
+    /// in the chat for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/>
+    /// administrator right in the supergroup.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -3171,7 +3350,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnpinAllGeneralForumTopicMessages(chatId), cancellationToken)
+            .MakeRequestAsync(new UnpinAllGeneralForumTopicMessages { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3220,12 +3399,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerCallbackQueryRequest(callbackQueryId)
+                new AnswerCallbackQueryRequest
                 {
+                    CallbackQueryId = callbackQueryId,
                     Text = text,
                     ShowAlert = showAlert,
                     Url = url,
-                    CacheTime = cacheTime
+                    CacheTime = cacheTime,
                 },
                 cancellationToken
             )
@@ -3253,7 +3433,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetUserChatBoostsRequest(chatId, userId), cancellationToken)
+            .MakeRequestAsync(new GetUserChatBoostsRequest { ChatId = chatId, UserId = userId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3284,10 +3464,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyCommandsRequest(commands)
+                new SetMyCommandsRequest
                 {
+                    Commands = commands,
                     Scope = scope,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
@@ -3319,10 +3500,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteMyCommandsRequest
+                new DeleteMyCommandsRequest
                 {
                     Scope = scope,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
@@ -3353,10 +3534,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyCommandsRequest
+                new GetMyCommandsRequest
                 {
                     Scope = scope,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
@@ -3384,7 +3565,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyNameRequest { Name = name, LanguageCode = languageCode },
+                new SetMyNameRequest { Name = name, LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3409,7 +3590,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyNameRequest { LanguageCode = languageCode },
+                new GetMyNameRequest { LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3438,7 +3619,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyDescriptionRequest { Description = description, LanguageCode = languageCode },
+                new SetMyDescriptionRequest { Description = description, LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3464,7 +3645,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyDescriptionRequest { LanguageCode = languageCode },
+                new GetMyDescriptionRequest { LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3494,7 +3675,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyShortDescriptionRequest
+                new SetMyShortDescriptionRequest
                 {
                     ShortDescription = shortDescription,
                     LanguageCode = languageCode,
@@ -3524,7 +3705,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyShortDescriptionRequest { LanguageCode = languageCode },
+                new GetMyShortDescriptionRequest { LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3550,7 +3731,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatMenuButtonRequest { ChatId = chatId, MenuButton = menuButton },
+                new SetChatMenuButtonRequest { ChatId = chatId, MenuButton = menuButton },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3574,7 +3755,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetChatMenuButtonRequest() { ChatId = chatId },
+                new GetChatMenuButtonRequest { ChatId = chatId },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3604,7 +3785,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyDefaultAdministratorRightsRequest()
+                new SetMyDefaultAdministratorRightsRequest
                 {
                     Rights = rights,
                     ForChannels = forChannels,
@@ -3632,7 +3813,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyDefaultAdministratorRightsRequest { ForChannels = forChannels },
+                new GetMyDefaultAdministratorRightsRequest { ForChannels = forChannels },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3684,12 +3865,15 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageTextRequest(chatId, messageId, text)
+                new EditMessageTextRequest
                 {
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    Text = text,
                     ParseMode = parseMode,
                     Entities = entities,
                     LinkPreviewOptions = linkPreviewOptions,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3732,12 +3916,14 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageTextRequest(inlineMessageId, text)
+                new EditInlineMessageTextRequest
                 {
+                    InlineMessageId = inlineMessageId,
+                    Text = text,
                     ParseMode = parseMode,
                     Entities = entities,
                     LinkPreviewOptions = linkPreviewOptions,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3784,12 +3970,14 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageCaptionRequest(chatId, messageId)
+                new EditMessageCaptionRequest
                 {
+                    ChatId = chatId,
+                    MessageId = messageId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3830,12 +4018,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageCaptionRequest(inlineMessageId)
+                new EditInlineMessageCaptionRequest
                 {
+                    InlineMessageId = inlineMessageId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3874,9 +4063,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageMediaRequest(chatId, messageId, media)
+                new EditMessageMediaRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    Media = media,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3909,9 +4101,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageMediaRequest(inlineMessageId, media)
+                new EditInlineMessageMediaRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    InlineMessageId = inlineMessageId,
+                    Media = media,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3945,9 +4139,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageReplyMarkupRequest(chatId, messageId)
+                new EditMessageReplyMarkupRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3975,9 +4171,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageReplyMarkupRequest(inlineMessageId)
+                new EditInlineMessageReplyMarkupRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    InlineMessageId = inlineMessageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -4011,9 +4208,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new StopPollRequest(chatId, messageId)
+                new StopPollRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -4049,7 +4248,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new DeleteMessageRequest(chatId, messageId), cancellationToken)
+            .MakeRequestAsync(new DeleteMessageRequest { ChatId = chatId, MessageId = messageId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -4075,7 +4274,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new DeleteMessagesRequest(chatId, messageIds), cancellationToken)
+            .MakeRequestAsync(
+                new DeleteMessagesRequest { ChatId = chatId, MessageIds = messageIds },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     #endregion Updating messages
@@ -4139,8 +4341,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendStickerRequest(chatId, sticker)
+                new SendStickerRequest
                 {
+                    ChatId = chatId,
+                    Sticker = sticker,
                     MessageThreadId = messageThreadId,
                     Emoji = emoji,
                     DisableNotification = disableNotification,
@@ -4148,7 +4352,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                 },
-                cancellationToken: cancellationToken
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4173,10 +4377,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new GetStickerSetRequest(name),
-                cancellationToken: cancellationToken
-            )
+            .MakeRequestAsync(new GetStickerSetRequest { Name = name }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -4197,8 +4398,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetCustomEmojiStickersRequest(customEmojiIds),
-                cancellationToken: cancellationToken
+                new GetCustomEmojiStickersRequest { CustomEmojiIds = customEmojiIds },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4234,8 +4435,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new UploadStickerFileRequest(userId, sticker, stickerFormat),
-                cancellationToken: cancellationToken
+                new UploadStickerFileRequest
+                {
+                    UserId = userId,
+                    Sticker = sticker,
+                    StickerFormat = stickerFormat,
+                },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4289,12 +4495,17 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateNewStickerSetRequest(userId, name, title, stickers, stickerFormat)
+                new CreateNewStickerSetRequest
                 {
+                    UserId = userId,
+                    Name = name,
+                    Title = title,
+                    Stickers = stickers,
+                    StickerFormat = stickerFormat,
                     NeedsRepainting = needsRepainting,
                     StickerType = stickerType,
                 },
-                cancellationToken: cancellationToken
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4338,8 +4549,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AddStickerToSetRequest(userId, name, sticker),
-                cancellationToken: cancellationToken
+                new AddStickerToSetRequest { UserId = userId, Name = name, Sticker = sticker, },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4362,8 +4573,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerPositionInSetRequest(sticker, position),
-                cancellationToken: cancellationToken
+                new SetStickerPositionInSetRequest { Sticker = sticker, Position = position, },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4384,8 +4595,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteStickerFromSetRequest(sticker),
-                cancellationToken: cancellationToken
+                new DeleteStickerFromSetRequest { Sticker = sticker },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4413,8 +4624,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerEmojiListRequest(sticker, emojiList),
-                cancellationToken: cancellationToken
+                new SetStickerEmojiListRequest { Sticker = sticker, EmojiList = emojiList },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4443,11 +4654,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerKeywordsRequest(sticker)
-                {
-                    Keywords = keywords,
-                },
-                cancellationToken: cancellationToken
+                new SetStickerKeywordsRequest { Sticker = sticker, Keywords = keywords, },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4476,8 +4684,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerMaskPositionRequest(sticker) { MaskPosition = maskPosition },
-                cancellationToken: cancellationToken
+                new SetStickerMaskPositionRequest { Sticker = sticker, MaskPosition = maskPosition },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4504,8 +4712,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerSetTitleRequest(name, title),
-                cancellationToken: cancellationToken
+                new SetStickerSetTitleRequest { Name = name, Title = title },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4546,11 +4754,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerSetThumbnailRequest(name, userId)
-                {
-                    Thumbnail = thumbnail,
-                },
-                cancellationToken: cancellationToken
+                new SetStickerSetThumbnailRequest { Name = name, UserId = userId, Thumbnail = thumbnail },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4578,11 +4783,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetCustomEmojiStickerSetThumbnailRequest(name)
-                {
-                    CustomEmojiId = customEmojiId,
-                },
-                cancellationToken: cancellationToken
+                new SetCustomEmojiStickerSetThumbnailRequest { Name = name, CustomEmojiId = customEmojiId },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4604,10 +4806,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new DeleteStickerSetRequest(name),
-                cancellationToken: cancellationToken
-            )
+            .MakeRequestAsync(new DeleteStickerSetRequest { Name = name }, cancellationToken)
             .ConfigureAwait(false);
     #endregion
 
@@ -4653,8 +4852,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerInlineQueryRequest(inlineQueryId, results)
+                new AnswerInlineQueryRequest
                 {
+                    InlineQueryId = inlineQueryId,
+                    Results = results,
                     CacheTime = cacheTime,
                     IsPersonal = isPersonal,
                     NextOffset = nextOffset,
@@ -4685,7 +4886,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerWebAppQueryRequest(webAppQueryId, result),
+                new AnswerWebAppQueryRequest { WebAppQueryId = webAppQueryId, Result = result },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4815,16 +5016,15 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendInvoiceRequest(
-                    chatId,
-                    title,
-                    description,
-                    payload,
-                    providerToken,
-                    currency,
-                    // ReSharper disable once PossibleMultipleEnumeration
-                    prices)
+                new SendInvoiceRequest
                 {
+                    ChatId = chatId,
+                    Title = title,
+                    Description = description,
+                    Payload = payload,
+                    ProviderToken = providerToken,
+                    Currency = currency,
+                    Prices = prices,
                     MessageThreadId = messageThreadId,
                     MaxTipAmount = maxTipAmount,
                     SuggestedTipAmounts = suggestedTipAmounts,
@@ -4939,15 +5139,14 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateInvoiceLinkRequest(
-                    title,
-                    description,
-                    payload,
-                    providerToken,
-                    currency,
-                    // ReSharper disable once PossibleMultipleEnumeration
-                    prices)
+                new CreateInvoiceLinkRequest
                 {
+                    Title = title,
+                    Description = description,
+                    Payload = payload,
+                    ProviderToken = providerToken,
+                    Currency = currency,
+                    Prices = prices,
                     MaxTipAmount = maxTipAmount,
                     SuggestedTipAmounts = suggestedTipAmounts,
                     ProviderData = providerData,
@@ -4961,7 +5160,7 @@ public static partial class TelegramBotClientExtensions
                     NeedShippingAddress = needShippingAddress,
                     SendPhoneNumberToProvider = sendPhoneNumberToProvider,
                     SendEmailToProvider = sendEmailToProvider,
-                    IsFlexible = isFlexible
+                    IsFlexible = isFlexible,
                 },
                 cancellationToken
             )
@@ -4988,7 +5187,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerShippingQueryRequest(shippingQueryId, shippingOptions),
+                new AnswerShippingQueryRequest(shippingQueryId, shippingOptions),
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5016,7 +5215,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerShippingQueryRequest(shippingQueryId, errorMessage),
+                new AnswerShippingQueryRequest(shippingQueryId, errorMessage),
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5040,7 +5239,7 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new AnswerPreCheckoutQueryRequest(preCheckoutQueryId), cancellationToken)
+            .MakeRequestAsync(new AnswerPreCheckoutQueryRequest(preCheckoutQueryId), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -5067,7 +5266,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage),
+                new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage),
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5081,10 +5280,10 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat</param>
-    /// <param name="gameShortName">
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
+    /// <param name="gameShortName">
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
     /// <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
@@ -5116,8 +5315,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendGameRequest(chatId, gameShortName)
+                new SendGameRequest
                 {
+                    ChatId = chatId,
+                    GameShortName = gameShortName,
                     MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
@@ -5162,10 +5363,14 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetGameScoreRequest(userId, score, chatId, messageId)
+                new SetGameScoreRequest
                 {
+                    UserId = userId,
+                    Score = score,
+                    ChatId = chatId,
+                    MessageId = messageId,
                     Force = force,
-                    DisableEditMessage = disableEditMessage
+                    DisableEditMessage = disableEditMessage,
                 },
                 cancellationToken
             )
@@ -5203,10 +5408,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetInlineGameScoreRequest(userId, score, inlineMessageId)
+                new SetInlineGameScoreRequest
                 {
+                    UserId = userId,
+                    Score = score,
+                    InlineMessageId = inlineMessageId,
                     Force = force,
-                    DisableEditMessage = disableEditMessage
+                    DisableEditMessage = disableEditMessage,
                 },
                 cancellationToken
             )
@@ -5237,7 +5445,15 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetGameHighScoresRequest(userId, chatId, messageId), cancellationToken)
+            .MakeRequestAsync(
+                new GetGameHighScoresRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                    MessageId = messageId,
+                },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -5264,7 +5480,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetInlineGameHighScoresRequest(userId, inlineMessageId),
+                new GetInlineGameHighScoresRequest { UserId = userId, InlineMessageId = inlineMessageId },
                 cancellationToken
             )
             .ConfigureAwait(false);

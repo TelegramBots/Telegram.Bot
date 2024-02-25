@@ -200,15 +200,15 @@ public class PaymentsBuilder
         if (string.IsNullOrWhiteSpace(_currency)) throw new InvalidOperationException("Currency isn't set");
         if (string.IsNullOrWhiteSpace(_payload)) throw new InvalidOperationException("Payload isn't set");
 
-        return new(
-            chatId: _chatId.Value,
-            title: _product.Title,
-            description: _product.Description,
-            payload: _payload,
-            providerToken: _paymentsProviderToken,
-            currency: _currency,
-            prices: _product.ProductPrices)
+        return new()
         {
+            ChatId = _chatId.Value,
+            Title = _product.Title,
+            Description = _product.Description,
+            Payload = _payload,
+            ProviderToken = _paymentsProviderToken,
+            Currency = _currency,
+            Prices = _product.ProductPrices,
             PhotoUrl = _product.PhotoUrl,
             PhotoWidth = _product.PhotoWidth,
             PhotoHeight = _product.PhotoHeight,

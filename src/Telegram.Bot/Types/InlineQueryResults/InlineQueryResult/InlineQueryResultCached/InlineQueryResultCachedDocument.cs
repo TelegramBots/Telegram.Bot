@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -22,13 +23,13 @@ public class InlineQueryResultCachedDocument : InlineQueryResult
     /// Title for the result
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// A valid file identifier for the file
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string DocumentFileId { get; }
+    public required string DocumentFileId { get; init; }
 
     /// <summary>
     /// Optional. Short description of the result
@@ -58,10 +59,18 @@ public class InlineQueryResultCachedDocument : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="documentFileId">A valid file identifier for the file</param>
     /// <param name="title">Title of the result</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public InlineQueryResultCachedDocument(string id, string documentFileId, string title)
         : base(id)
     {
         DocumentFileId = documentFileId;
         Title = title;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultCachedDocument()
+    { }
 }

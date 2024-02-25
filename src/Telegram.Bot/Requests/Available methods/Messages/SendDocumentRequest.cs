@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -18,13 +19,7 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
-
-    /// <summary>
-    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? MessageThreadId { get; set; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// File to send. Pass a <see cref="InputFileId"/> as String to send a file that
@@ -32,7 +27,13 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Document { get; }
+    public required InputFile Document { get; init; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.Thumbnail"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -86,12 +87,21 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendDocumentRequest(ChatId chatId, InputFile document)
-        : base("sendDocument")
+        : this()
     {
         ChatId = chatId;
         Document = document;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendDocumentRequest()
+        : base("sendDocument")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

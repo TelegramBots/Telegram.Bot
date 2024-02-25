@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,13 +38,15 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
         {
             IAlbumInputMedia[] inputMedia =
             [
-                new InputMediaPhoto(new InputFileStream(stream1, "logo.png"))
+                new InputMediaPhoto
                 {
-                    Caption = "Logo"
+                    Media = InputFile.FromStream(stream1, "logo.png"),
+                    Caption = "Logo",
                 },
-                new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
+                new InputMediaPhoto
                 {
-                    Caption = "Bot"
+                    Media = InputFile.FromStream(stream2, "bot.gif"),
+                    Caption = "Bot",
                 },
             ];
 
@@ -80,9 +83,9 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
             chatId: _fixture.SupergroupChat.Id,
             media: new IAlbumInputMedia[]
             {
-                new InputMediaPhoto(new InputFileId(fileIds[0])),
-                new InputMediaPhoto(new InputFileId(fileIds[1])),
-                new InputMediaPhoto(new InputFileId(fileIds[0])),
+                new InputMediaPhoto { Media = new InputFileId(fileIds[0])},
+                new InputMediaPhoto { Media = new InputFileId(fileIds[1])},
+                new InputMediaPhoto { Media = new InputFileId(fileIds[0])},
             }
         );
 
@@ -101,8 +104,8 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
             chatId: _fixture.SupergroupChat.Id,
             media: new IAlbumInputMedia[]
             {
-                new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")),
-                new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
+                new InputMediaPhoto { Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/06/20/19/22/fuchs-2424369_640.jpg")},
+                new InputMediaPhoto { Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")},
             },
             replyParameters: new() { MessageId = replyToMessageId }
         );
@@ -130,19 +133,22 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
         {
             IAlbumInputMedia[] inputMedia =
             [
-                new InputMediaVideo(new InputFileStream(stream0, "GoldenRatio.mp4"))
+                new InputMediaVideo
                 {
+                    Media = InputFile.FromStream(stream0, "GoldenRatio.mp4"),
                     Caption = "Golden Ratio",
                     Height = 240,
                     Width = 240,
                     Duration = 28,
                 },
-                new InputMediaVideo(new InputFileStream(stream1, "MoonLanding.mp4"))
+                new InputMediaVideo
                 {
+                    Media = InputFile.FromStream(stream1, "MoonLanding.mp4"),
                     Caption = "Moon Landing"
                 },
-                new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
+                new InputMediaPhoto
                 {
+                    Media = InputFile.FromStream(stream2, "bot.gif"),
                     Caption = "Bot"
                 },
             ];
@@ -186,13 +192,15 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         IAlbumInputMedia[] inputMedia =
         [
-            new InputMediaPhoto(new InputFileStream(stream1, "logo.png"))
+            new InputMediaPhoto
             {
+                Media = InputFile.FromStream(stream1, "logo.png"),
                 Caption = "*Logo*",
                 ParseMode = ParseMode.Markdown
             },
-            new InputMediaPhoto(new InputFileStream(stream2, "bot.gif"))
+            new InputMediaPhoto
             {
+                Media = InputFile.FromStream(stream2, "bot.gif"),
                 Caption = "_Bot_",
                 ParseMode = ParseMode.Markdown
             },
@@ -229,12 +237,16 @@ public class AlbumMessageTests : IClassFixture<EntitiesFixture<Message>>
 
         IAlbumInputMedia[] inputMedia =
         [
-            new InputMediaVideo(new InputFileStream(stream1, "GoldenRatio.mp4"))
+            new InputMediaVideo
             {
+                Media = InputFile.FromStream(stream1, "GoldenRatio.mp4"),
                 Thumbnail = new InputFileStream(stream2, "thumbnail.jpg"),
                 SupportsStreaming = true,
             },
-            new InputMediaPhoto(new InputFileUrl("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg")),
+            new InputMediaPhoto
+            {
+                Media = InputFile.FromUri("https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg"),
+            },
         ];
 
         Message[] messages = await BotClient.SendMediaGroupAsync(

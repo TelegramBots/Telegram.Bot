@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -12,25 +13,25 @@ public class SendContactRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
+
+    /// <summary>
+    /// Contact's phone number
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public required string PhoneNumber { get; init; }
+
+    /// <summary>
+    /// Contact's first name
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public required string FirstName { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public int? MessageThreadId { get; set; }
-
-    /// <summary>
-    /// Contact's phone number
-    /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public string PhoneNumber { get; }
-
-    /// <summary>
-    /// Contact's first name
-    /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public string FirstName { get; }
 
     /// <summary>
     /// Contact's last name
@@ -68,11 +69,20 @@ public class SendContactRequest : RequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public SendContactRequest(ChatId chatId, string phoneNumber, string firstName)
-        : base("sendContact")
+        : this()
     {
         ChatId = chatId;
         PhoneNumber = phoneNumber;
         FirstName = firstName;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendContactRequest()
+        : base("sendContact")
+    { }
 }

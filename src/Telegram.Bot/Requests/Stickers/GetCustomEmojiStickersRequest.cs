@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -14,16 +15,26 @@ public class GetCustomEmojiStickersRequest : RequestBase<Sticker[]>
     /// List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<string> CustomEmojiIds { get; }
+    public required IEnumerable<string> CustomEmojiIds { get; init; }
 
     /// <summary>
     /// Initializes a new request with name
     /// </summary>
-    /// <param name="customEmojiIds">List of custom emoji identifiers. At most 200 custom emoji
-    /// identifiers can be specified.</param>
+    /// <param name="customEmojiIds">
+    /// List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
+    /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public GetCustomEmojiStickersRequest(IEnumerable<string> customEmojiIds)
-        : base("getCustomEmojiStickers")
+        : this()
     {
         CustomEmojiIds = customEmojiIds;
     }
+
+    /// <summary>
+    /// Initializes a new request with name
+    /// </summary>
+    public GetCustomEmojiStickersRequest()
+        : base("getCustomEmojiStickers")
+    { }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,7 +15,7 @@ public class EditInlineMessageCaptionRequest : RequestBase<bool>
 {
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public required string InlineMessageId { get; init; }
 
     /// <summary>
     /// New caption of the message, 0-1024 characters after entities parsing
@@ -38,9 +39,18 @@ public class EditInlineMessageCaptionRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId and new caption
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required parameters")]
     public EditInlineMessageCaptionRequest(string inlineMessageId)
-        : base("editMessageCaption")
+        : this()
     {
         InlineMessageId = inlineMessageId;
     }
+
+    /// <summary>
+    /// Initializes a new request with inlineMessageId and new caption
+    /// </summary>
+    public EditInlineMessageCaptionRequest()
+        : base("editMessageCaption")
+    { }
 }
