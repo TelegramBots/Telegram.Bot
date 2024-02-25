@@ -47,7 +47,7 @@ public class EditInlineMessageTextRequest : RequestBase<bool>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditInlineMessageTextRequest(string inlineMessageId, string text)
         : this()
     {

@@ -162,7 +162,7 @@ public class CreateInvoiceLinkRequest : RequestBase<string>
     /// delivery tax, bonus, etc.)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public CreateInvoiceLinkRequest(
         string title,
         string description,

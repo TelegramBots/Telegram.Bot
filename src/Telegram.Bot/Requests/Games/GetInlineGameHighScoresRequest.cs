@@ -31,7 +31,7 @@ public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>, IUse
     /// <param name="userId">User identifier</param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetInlineGameHighScoresRequest(long userId, string inlineMessageId)
         : this()
     {

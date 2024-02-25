@@ -85,7 +85,7 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Format of stickers in the set.
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public CreateNewStickerSetRequest(
         long userId,
         string name,

@@ -43,7 +43,7 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// <param name="name">Sticker set name</param>
     /// <param name="userId">User identifier of the sticker set owner</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerSetThumbnailRequest(string name, long userId)
         : this()
     {

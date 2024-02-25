@@ -32,7 +32,7 @@ public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>, IUser
     /// </summary>
     /// <param name="userId">Unique identifier of the target user</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetUserProfilePhotosRequest(long userId)
         : this()
     {

@@ -210,7 +210,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// delivery tax, bonus, etc.)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendInvoiceRequest(
         long chatId,
         string title,

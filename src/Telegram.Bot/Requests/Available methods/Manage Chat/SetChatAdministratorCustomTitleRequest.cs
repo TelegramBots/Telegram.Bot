@@ -36,7 +36,7 @@ public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTa
     /// New custom title for the administrator; 0-16 characters, emoji are not allowed
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetChatAdministratorCustomTitleRequest(ChatId chatId, long userId, string customTitle)
         : this()
     {

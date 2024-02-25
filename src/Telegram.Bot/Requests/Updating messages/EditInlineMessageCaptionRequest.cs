@@ -40,7 +40,7 @@ public class EditInlineMessageCaptionRequest : RequestBase<bool>
     /// </summary>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditInlineMessageCaptionRequest(string inlineMessageId)
         : this()
     {

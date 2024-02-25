@@ -59,7 +59,7 @@ public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendChatActionRequest(ChatId chatId, ChatAction action)
         : this()
     {

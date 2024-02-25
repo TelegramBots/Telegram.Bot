@@ -38,7 +38,7 @@ public class SetMyCommandsRequest : RequestBase<bool>
     /// </summary>
     /// <param name="commands">A list of bot commands to be set</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetMyCommandsRequest(IEnumerable<BotCommand> commands)
         : this()
     {

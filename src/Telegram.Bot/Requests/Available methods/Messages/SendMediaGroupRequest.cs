@@ -52,7 +52,7 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     /// </param>
     /// <param name="media">An array describing messages to be sent, must include 2-10 items</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendMediaGroupRequest(ChatId chatId, IEnumerable<IAlbumInputMedia> media)
         : this()
     {

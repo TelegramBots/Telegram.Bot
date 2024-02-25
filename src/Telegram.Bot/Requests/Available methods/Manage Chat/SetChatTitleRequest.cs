@@ -30,7 +30,7 @@ public class SetChatTitleRequest : RequestBase<bool>, IChatTargetable
     /// </param>
     /// <param name="title">New chat title, 1-255 characters</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetChatTitleRequest(ChatId chatId, string title)
         : this()
     {

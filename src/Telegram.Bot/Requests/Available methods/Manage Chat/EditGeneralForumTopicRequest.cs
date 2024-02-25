@@ -28,7 +28,7 @@ public class EditGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="name">New topic name, 1-128 characters</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditGeneralForumTopicRequest(ChatId chatId, string name) : this()
         => (ChatId, Name) = (chatId, name);
 

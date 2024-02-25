@@ -58,7 +58,7 @@ public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTarge
     /// </param>
     /// <param name="inviteLink">The invite link to edit</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditChatInviteLinkRequest(ChatId chatId, string inviteLink)
         : this()
     {

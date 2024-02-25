@@ -43,7 +43,7 @@ public class InputTextMessageContent : InputMessageContent
     /// </summary>
     /// <param name="messageText">The text of the message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InputTextMessageContent(string messageText)
     {
         MessageText = messageText;

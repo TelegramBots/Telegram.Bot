@@ -28,7 +28,7 @@ public class GetChatMemberRequest : RequestBase<ChatMember>, IChatTargetable, IU
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetChatMemberRequest(ChatId chatId, long userId)
         : this()
     {

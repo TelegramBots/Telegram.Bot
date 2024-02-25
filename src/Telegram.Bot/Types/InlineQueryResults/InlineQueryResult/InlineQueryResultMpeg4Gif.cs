@@ -85,7 +85,7 @@ public class InlineQueryResultMpeg4Gif : InlineQueryResult
     /// <param name="mpeg4Url">A valid URL for the MP4 file. File size must not exceed 1MB.</param>
     /// <param name="thumbnailUrl">Url of the thumbnail for the result.</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultMpeg4Gif(string id, string mpeg4Url, string thumbnailUrl)
         : base(id)
     {

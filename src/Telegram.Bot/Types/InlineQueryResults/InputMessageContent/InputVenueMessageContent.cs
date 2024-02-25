@@ -68,7 +68,7 @@ public class InputVenueMessageContent : InputMessageContent
     /// <param name="latitude">The latitude of the venue</param>
     /// <param name="longitude">The longitude of the venue</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InputVenueMessageContent(string title, string address, double latitude, double longitude)
     {
         Title = title;

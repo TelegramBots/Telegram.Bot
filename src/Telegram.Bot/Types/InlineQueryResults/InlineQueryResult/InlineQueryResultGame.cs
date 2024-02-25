@@ -27,7 +27,7 @@ public class InlineQueryResultGame : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="gameShortName">Short name of the game</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultGame(string id, string gameShortName)
         : base(id)
     {

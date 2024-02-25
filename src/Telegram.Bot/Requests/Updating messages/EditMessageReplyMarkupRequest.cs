@@ -35,7 +35,7 @@ public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetab
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditMessageReplyMarkupRequest(ChatId chatId, int messageId)
         : this()
     {

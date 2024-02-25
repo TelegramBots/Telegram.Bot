@@ -104,7 +104,7 @@ public class InlineQueryResultVideo : InlineQueryResult
     /// (e.g., a YouTube video).
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultVideo(
         string id,
         string videoUrl,

@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -29,7 +30,7 @@ public class SetCustomEmojiStickerSetThumbnailRequest : RequestBase<bool>
     /// Sticker set name
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetCustomEmojiStickerSetThumbnailRequest(string name)
         : this()
     {

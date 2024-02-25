@@ -30,7 +30,7 @@ public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserT
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public ApproveChatJoinRequest(ChatId chatId, long userId)
         : this()
     {

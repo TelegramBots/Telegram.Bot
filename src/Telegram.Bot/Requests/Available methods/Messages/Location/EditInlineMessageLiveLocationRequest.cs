@@ -58,7 +58,7 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditInlineMessageLiveLocationRequest(string inlineMessageId, double latitude, double longitude)
         : this()
     {

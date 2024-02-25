@@ -88,7 +88,7 @@ public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
     /// to get a file from the Internet, or upload a new one using multipart/form-data
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendDocumentRequest(ChatId chatId, InputFile document)
         : this()
     {

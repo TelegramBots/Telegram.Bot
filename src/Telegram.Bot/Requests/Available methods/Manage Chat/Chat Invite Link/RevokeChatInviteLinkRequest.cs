@@ -31,7 +31,7 @@ public class RevokeChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
     /// </param>
     /// <param name="inviteLink">The invite link to revoke</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public RevokeChatInviteLinkRequest(ChatId chatId, string inviteLink)
         : this()
     {

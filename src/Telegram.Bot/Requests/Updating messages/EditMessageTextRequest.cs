@@ -57,7 +57,7 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="text">New text of the message, 1-4096 characters after entities parsing</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditMessageTextRequest(ChatId chatId, int messageId, string text)
         : this()
     {

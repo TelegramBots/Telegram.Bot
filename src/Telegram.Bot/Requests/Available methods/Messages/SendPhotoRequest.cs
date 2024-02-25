@@ -84,7 +84,7 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     /// must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total.
     /// Width and height ratio must be at most 20</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendPhotoRequest(ChatId chatId, InputFile photo)
         : this()
     {

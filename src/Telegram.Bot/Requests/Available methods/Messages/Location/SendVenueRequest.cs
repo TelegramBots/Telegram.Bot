@@ -98,7 +98,7 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable
     /// <param name="title">Name of the venue</param>
     /// <param name="address">Address of the venue</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendVenueRequest(
         ChatId chatId,
         double latitude,

@@ -60,7 +60,7 @@ public class InlineQueryResultVoice : InlineQueryResult
     /// <param name="voiceUrl">A valid URL for the voice recording</param>
     /// <param name="title">Title of the result</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultVoice(string id, string voiceUrl, string title)
         : base(id)
     {

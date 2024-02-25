@@ -21,7 +21,7 @@ public class ReopenGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public ReopenGeneralForumTopicRequest(ChatId chatId) : this()
         => ChatId = chatId;
 

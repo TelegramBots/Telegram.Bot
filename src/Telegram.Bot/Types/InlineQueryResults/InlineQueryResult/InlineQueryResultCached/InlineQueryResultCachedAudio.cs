@@ -47,7 +47,7 @@ public class InlineQueryResultCachedAudio : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="audioFileId">A valid file identifier for the audio file</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedAudio(string id, string audioFileId)
         : base(id)
     {

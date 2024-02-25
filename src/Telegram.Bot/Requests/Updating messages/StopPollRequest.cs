@@ -36,7 +36,7 @@ public class StopPollRequest : RequestBase<Poll>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of the original message with the poll</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public StopPollRequest(ChatId chatId, int messageId)
         : this()
     {

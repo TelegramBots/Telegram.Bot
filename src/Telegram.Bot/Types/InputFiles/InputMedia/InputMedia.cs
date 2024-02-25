@@ -48,7 +48,7 @@ public abstract class InputMedia
     /// </summary>
     /// <param name="media">File to send</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     protected InputMedia(InputFile media) => Media = media;
 
     /// <summary>

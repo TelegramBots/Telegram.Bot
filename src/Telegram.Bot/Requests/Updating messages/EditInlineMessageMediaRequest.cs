@@ -35,7 +35,7 @@ public class EditInlineMessageMediaRequest : RequestBase<bool>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="media">A new media content of the message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditInlineMessageMediaRequest(string inlineMessageId, InputMedia media)
         : this()
     {

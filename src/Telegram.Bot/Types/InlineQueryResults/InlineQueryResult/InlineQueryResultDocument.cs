@@ -81,7 +81,7 @@ public class InlineQueryResultDocument : InlineQueryResult
     /// Mime type of the content of the file, either “application/pdf” or “application/zip”
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
         : base(id)
     {

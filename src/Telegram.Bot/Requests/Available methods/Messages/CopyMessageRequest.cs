@@ -88,7 +88,7 @@ public class CopyMessageRequest : RequestBase<MessageId>, IChatTargetable
     /// Message identifier in the chat specified in <see cref="FromChatId"/>
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public CopyMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
         : this()
     {

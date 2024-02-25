@@ -102,7 +102,7 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// HTTPS url to send updates to. Use an empty string to remove webhook integration
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetWebhookRequest(string url) : base("setWebhook")
         => Url = url;
 

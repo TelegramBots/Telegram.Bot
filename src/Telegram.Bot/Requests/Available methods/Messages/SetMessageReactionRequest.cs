@@ -51,7 +51,7 @@ public class SetMessageReactionRequest : RequestBase<bool>,
     /// is set to the first non-deleted message in the group instead.
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetMessageReactionRequest(ChatId chatId, int messageId)
         : this()
     {

@@ -42,7 +42,7 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditForumTopicRequest(ChatId chatId, int messageThreadId)
         : this()
         => (ChatId, MessageThreadId) = (chatId, messageThreadId);

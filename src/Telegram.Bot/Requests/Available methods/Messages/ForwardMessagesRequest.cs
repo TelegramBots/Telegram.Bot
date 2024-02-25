@@ -65,7 +65,7 @@ public class ForwardMessagesRequest : RequestBase<MessageId[]>, IChatTargetable
     /// The identifiers must be specified in a strictly increasing order.
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public ForwardMessagesRequest(ChatId chatId, ChatId fromChatId, IEnumerable<int> messageIds)
         : this()
     {

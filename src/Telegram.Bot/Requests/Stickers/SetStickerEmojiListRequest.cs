@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -33,7 +34,7 @@ public class SetStickerEmojiListRequest : RequestBase<bool>
     /// A JSON-serialized list of 1-20 emoji associated with the sticker
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerEmojiListRequest(InputFileId sticker, IEnumerable<string> emojiList)
         : this()
     {

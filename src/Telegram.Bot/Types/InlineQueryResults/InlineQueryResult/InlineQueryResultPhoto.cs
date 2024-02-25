@@ -75,7 +75,7 @@ public class InlineQueryResultPhoto : InlineQueryResult
     /// <param name="photoUrl">A valid URL of the photo. Photo size must not exceed 5MB.</param>
     /// <param name="thumbnailUrl">Optional. Url of the thumbnail for the result.</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultPhoto(string id, string photoUrl, string thumbnailUrl)
         : base(id)
     {

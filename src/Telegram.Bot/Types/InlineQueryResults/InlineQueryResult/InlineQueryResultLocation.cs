@@ -81,7 +81,7 @@ public class InlineQueryResultLocation : InlineQueryResult
     /// <param name="longitude">Longitude of the location in degrees</param>
     /// <param name="title">Title of the result</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultLocation(string id, double latitude, double longitude, string title)
         : base(id)
     {

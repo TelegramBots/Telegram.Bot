@@ -59,7 +59,7 @@ public class InlineQueryResultCachedPhoto : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="photoFileId">A valid file identifier of the photo</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedPhoto(string id, string photoFileId)
         : base(id)
     {

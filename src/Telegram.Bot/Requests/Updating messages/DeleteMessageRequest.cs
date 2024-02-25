@@ -42,7 +42,7 @@ public class DeleteMessageRequest : RequestBase<bool>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of the message to delete</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public DeleteMessageRequest(ChatId chatId, int messageId)
         : this()
     {

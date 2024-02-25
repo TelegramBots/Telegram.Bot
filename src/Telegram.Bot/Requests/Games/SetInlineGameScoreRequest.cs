@@ -47,7 +47,7 @@ public class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargetable
     /// <param name="score">New score, must be non-negative</param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetInlineGameScoreRequest(long userId, int score, string inlineMessageId)
         : this()
     {

@@ -60,7 +60,7 @@ public class InlineQueryResultCachedDocument : InlineQueryResult
     /// <param name="documentFileId">A valid file identifier for the file</param>
     /// <param name="title">Title of the result</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedDocument(string id, string documentFileId, string title)
         : base(id)
     {

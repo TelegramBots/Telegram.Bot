@@ -37,7 +37,7 @@ public class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserT
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public UnbanChatMemberRequest(ChatId chatId, long userId)
         : this()
     {

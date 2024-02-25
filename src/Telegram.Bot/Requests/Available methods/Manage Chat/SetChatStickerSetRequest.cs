@@ -31,7 +31,7 @@ public class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetable
     /// </param>
     /// <param name="stickerSetName">Name of the sticker set to be set as the group sticker set</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetChatStickerSetRequest(ChatId chatId, string stickerSetName)
         : this()
     {

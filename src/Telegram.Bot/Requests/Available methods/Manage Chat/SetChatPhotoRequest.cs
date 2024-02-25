@@ -31,7 +31,7 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     /// </param>
     /// <param name="photo">New chat photo, uploaded using multipart/form-data</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetChatPhotoRequest(ChatId chatId, InputFileStream photo)
         : this()
     {

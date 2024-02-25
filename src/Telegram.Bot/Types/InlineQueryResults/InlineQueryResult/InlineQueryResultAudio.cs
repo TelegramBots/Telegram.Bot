@@ -65,7 +65,7 @@ public class InlineQueryResultAudio : InlineQueryResult
     /// <param name="audioUrl">A valid URL for the audio file</param>
     /// <param name="title">Title of the result</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultAudio(string id, string audioUrl, string title)
         : base(id)
     {

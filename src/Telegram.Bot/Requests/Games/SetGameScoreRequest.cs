@@ -59,7 +59,7 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
     /// <param name="chatId">Unique identifier for the target chat</param>
     /// <param name="messageId">Identifier of the sent message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetGameScoreRequest(long userId, int score, long chatId, int messageId)
         : this()
     {

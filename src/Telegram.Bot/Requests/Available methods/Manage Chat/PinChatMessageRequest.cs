@@ -36,7 +36,7 @@ public class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of a message to pin</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public PinChatMessageRequest(ChatId chatId, int messageId)
         : this()
     {

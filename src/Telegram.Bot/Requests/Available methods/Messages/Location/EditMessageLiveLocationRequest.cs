@@ -69,7 +69,7 @@ public class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditMessageLiveLocationRequest(ChatId chatId, int messageId, double latitude, double longitude)
         : this()
     {

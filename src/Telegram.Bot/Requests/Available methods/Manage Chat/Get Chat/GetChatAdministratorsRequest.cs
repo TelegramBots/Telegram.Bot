@@ -25,7 +25,7 @@ public class GetChatAdministratorsRequest : RequestBase<ChatMember[]>, IChatTarg
     /// (in the format <c>@channelusername</c>)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetChatAdministratorsRequest(ChatId chatId)
         : this()
     {

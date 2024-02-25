@@ -60,7 +60,7 @@ public class AnswerInlineQueryRequest : RequestBase<bool>
     /// <param name="inlineQueryId">Unique identifier for the answered query</param>
     /// <param name="results">An array of results for the inline query</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public AnswerInlineQueryRequest(string inlineQueryId, IEnumerable<InlineQueryResult> results)
         : this()
     {

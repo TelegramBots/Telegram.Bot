@@ -67,7 +67,7 @@ public class SendMessageRequest : RequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="text">Text of the message to be sent, 1-4096 characters after entities parsing</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendMessageRequest(ChatId chatId, string text)
         : this()
     {

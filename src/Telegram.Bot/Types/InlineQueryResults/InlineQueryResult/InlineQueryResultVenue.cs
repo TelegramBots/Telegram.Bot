@@ -88,7 +88,7 @@ public class InlineQueryResultVenue : InlineQueryResult
     /// <param name="title">Title of the result</param>
     /// <param name="address">Address of the venue</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultVenue(
         string id,
         double latitude,

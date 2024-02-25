@@ -53,7 +53,7 @@ public class InputLocationMessageContent : InputMessageContent
     /// <param name="latitude">The latitude of the location</param>
     /// <param name="longitude">The longitude of the location</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InputLocationMessageContent(double latitude, double longitude)
     {
         Latitude = latitude;

@@ -100,7 +100,7 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
     /// Telegram to get an audio file from the Internet, or upload a new one using multipart/form-data
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendAudioRequest(ChatId chatId, InputFile audio)
         : this()
     {

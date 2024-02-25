@@ -45,7 +45,7 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// Format of the sticker
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public UploadStickerFileRequest(long userId, InputFileStream sticker, StickerFormat stickerFormat)
         : this()
     {

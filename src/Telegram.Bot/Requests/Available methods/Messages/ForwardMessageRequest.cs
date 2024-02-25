@@ -58,7 +58,7 @@ public class ForwardMessageRequest : RequestBase<Message>, IChatTargetable
     /// Message identifier in the chat specified in <see cref="FromChatId"/>
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public ForwardMessageRequest(ChatId chatId, ChatId fromChatId, int messageId)
         : this()
     {

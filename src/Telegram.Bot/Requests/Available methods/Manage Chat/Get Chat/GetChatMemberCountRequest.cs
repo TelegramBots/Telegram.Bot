@@ -22,7 +22,7 @@ public class GetChatMemberCountRequest : RequestBase<int>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetChatMemberCountRequest(ChatId chatId)
         : this()
     {

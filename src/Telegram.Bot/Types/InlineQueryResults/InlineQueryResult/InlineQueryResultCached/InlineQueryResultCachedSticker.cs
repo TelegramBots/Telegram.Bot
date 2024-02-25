@@ -34,7 +34,7 @@ public class InlineQueryResultCachedSticker : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="stickerFileId">A valid file identifier of the sticker</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedSticker(string id, string stickerFileId)
         : base(id)
     {

@@ -22,7 +22,7 @@ public class LeaveChatRequest : RequestBase<bool>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public LeaveChatRequest(ChatId chatId)
         : this()
     {

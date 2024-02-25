@@ -31,7 +31,7 @@ public class GetFileRequest : RequestBase<File>
     /// </summary>
     /// <param name="fileId">File identifier to get info about</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetFileRequest(string fileId)
         : this()
     {

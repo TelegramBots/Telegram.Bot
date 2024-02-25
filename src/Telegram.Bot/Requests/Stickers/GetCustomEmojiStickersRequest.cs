@@ -24,7 +24,7 @@ public class GetCustomEmojiStickersRequest : RequestBase<Sticker[]>
     /// List of custom emoji identifiers. At most 200 custom emoji identifiers can be specified.
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetCustomEmojiStickersRequest(IEnumerable<string> customEmojiIds)
         : this()
     {

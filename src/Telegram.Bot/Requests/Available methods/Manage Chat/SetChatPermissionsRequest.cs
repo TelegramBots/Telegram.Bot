@@ -43,7 +43,7 @@ public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
     /// </param>
     /// <param name="permissions">New default chat permissions</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetChatPermissionsRequest(ChatId chatId, ChatPermissions permissions)
         : this()
     {

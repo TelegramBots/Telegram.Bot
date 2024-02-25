@@ -48,7 +48,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="media">A new media content of the message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditMessageMediaRequest(ChatId chatId, int messageId, InputMedia media)
         : this()
     {

@@ -36,7 +36,7 @@ public class DeleteMessagesRequest : RequestBase<bool>, IChatTargetable
     /// for limitations on which messages can be deleted
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public DeleteMessagesRequest(ChatId chatId, IEnumerable<int> messageIds)
         : this()
     {

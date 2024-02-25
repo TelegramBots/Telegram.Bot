@@ -33,7 +33,7 @@ public abstract class InlineQueryResult
     /// </summary>
     /// <param name="id">Unique identifier for this result, 1-64 Bytes</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     protected InlineQueryResult(string id) => Id = id;
 
     /// <summary>

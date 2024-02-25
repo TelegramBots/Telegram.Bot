@@ -54,7 +54,7 @@ public class InlineQueryResultCachedMpeg4Gif : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="mpeg4FileId">A valid file identifier for the MP4 file</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedMpeg4Gif(string id, string mpeg4FileId)
         : base(id)
     {

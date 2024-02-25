@@ -160,7 +160,7 @@ public class InputInvoiceMessageContent : InputMessageContent
     /// delivery tax, bonus, etc.)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InputInvoiceMessageContent(
         string title,
         string description,

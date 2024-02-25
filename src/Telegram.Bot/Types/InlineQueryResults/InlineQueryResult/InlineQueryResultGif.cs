@@ -85,7 +85,7 @@ public class InlineQueryResultGif : InlineQueryResult
     /// <param name="gifUrl">Width of the GIF</param>
     /// <param name="thumbnailUrl">Url of the thumbnail for the result.</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultGif(string id, string gifUrl, string thumbnailUrl)
         : base(id)
     {

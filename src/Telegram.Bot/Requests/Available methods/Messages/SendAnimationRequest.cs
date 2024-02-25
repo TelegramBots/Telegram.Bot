@@ -106,7 +106,7 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
     /// get an animation from the Internet, or upload a new animation using multipart/form-data
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendAnimationRequest(ChatId chatId, InputFile animation)
         : this()
     {

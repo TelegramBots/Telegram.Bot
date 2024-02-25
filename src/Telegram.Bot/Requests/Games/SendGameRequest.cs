@@ -58,7 +58,7 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable
     /// <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendGameRequest(long chatId, string gameShortName)
         : this()
     {

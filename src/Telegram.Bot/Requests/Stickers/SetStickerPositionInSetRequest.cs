@@ -1,7 +1,6 @@
-// ReSharper disable once CheckNamespace
-
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -31,7 +30,7 @@ public class SetStickerPositionInSetRequest : RequestBase<bool>
     /// </param>
     /// <param name="position">New sticker position in the set, zero-based</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerPositionInSetRequest(InputFileId sticker, int position)
         : this()
     {

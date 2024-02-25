@@ -64,7 +64,7 @@ public class InlineQueryResultArticle : InlineQueryResult
     /// <param name="title">Title of the result</param>
     /// <param name="inputMessageContent">Content of the message to be sent</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultArticle(string id, string title, InputMessageContent inputMessageContent)
         : base(id)
     {

@@ -86,7 +86,7 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable
     /// <param name="latitude">Latitude of the location</param>
     /// <param name="longitude">Longitude of the location</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendLocationRequest(ChatId chatId, double latitude, double longitude)
         : this()
     {

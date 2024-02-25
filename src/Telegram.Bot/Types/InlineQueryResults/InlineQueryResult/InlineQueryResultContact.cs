@@ -64,7 +64,7 @@ public class InlineQueryResultContact : InlineQueryResult
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultContact(string id, string phoneNumber, string firstName)
         : base(id)
     {

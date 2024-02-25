@@ -129,7 +129,7 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable
     /// <param name="question">Poll question, 1-300 characters</param>
     /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)
         : this()
     {

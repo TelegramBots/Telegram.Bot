@@ -39,7 +39,7 @@ public class InputContactMessageContent : InputMessageContent
     /// <param name="phoneNumber">The phone number of the contact</param>
     /// <param name="firstName">The first name of the contact</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InputContactMessageContent(string phoneNumber, string firstName)
     {
         PhoneNumber = phoneNumber;

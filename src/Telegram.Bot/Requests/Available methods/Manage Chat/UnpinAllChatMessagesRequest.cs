@@ -25,7 +25,7 @@ public class UnpinAllChatMessagesRequest : RequestBase<bool>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public UnpinAllChatMessagesRequest(ChatId chatId)
         : this()
     {

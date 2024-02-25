@@ -58,7 +58,7 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
     /// <param name="userId">Unique identifier of the target user</param>
     /// <param name="permissions">New user permissions</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public RestrictChatMemberRequest(ChatId chatId, long userId, ChatPermissions permissions)
         : this()
     {

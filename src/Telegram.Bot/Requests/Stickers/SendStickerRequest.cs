@@ -72,7 +72,7 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     /// Animated stickers can't be sent via an HTTP URL.
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendStickerRequest(ChatId chatId, InputFile sticker)
         : this()
     {

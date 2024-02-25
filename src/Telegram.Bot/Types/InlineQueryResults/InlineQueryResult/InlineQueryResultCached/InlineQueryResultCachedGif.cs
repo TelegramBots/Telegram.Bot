@@ -53,7 +53,7 @@ public class InlineQueryResultCachedGif : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="gifFileId">A valid file identifier for the GIF file</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedGif(string id, string gifFileId)
         : base(id)
     {

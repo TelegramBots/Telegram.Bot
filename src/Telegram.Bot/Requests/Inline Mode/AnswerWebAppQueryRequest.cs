@@ -30,7 +30,7 @@ public class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
     /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
     /// <param name="result">An object describing the message to be sent</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public AnswerWebAppQueryRequest(string webAppQueryId, InlineQueryResult result)
         : this()
     {

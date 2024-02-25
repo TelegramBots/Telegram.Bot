@@ -32,7 +32,7 @@ public class UnbanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
     /// Unique identifier of the target sender chat
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public UnbanChatSenderChatRequest(ChatId chatId, long senderChatId)
         : this()
     {

@@ -55,7 +55,7 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public AddStickerToSetRequest(
         long userId,
         string name,

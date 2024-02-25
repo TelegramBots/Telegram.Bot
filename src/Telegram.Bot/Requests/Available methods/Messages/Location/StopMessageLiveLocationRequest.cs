@@ -35,7 +35,7 @@ public class StopMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
     /// </param>
     /// <param name="messageId">Identifier of the sent message</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public StopMessageLiveLocationRequest(ChatId chatId, int messageId)
         : this()
     {

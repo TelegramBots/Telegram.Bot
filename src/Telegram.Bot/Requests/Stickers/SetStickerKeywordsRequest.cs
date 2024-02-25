@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -31,7 +32,7 @@ public class SetStickerKeywordsRequest : RequestBase<bool>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerKeywordsRequest(InputFileId sticker)
         : this()
     {

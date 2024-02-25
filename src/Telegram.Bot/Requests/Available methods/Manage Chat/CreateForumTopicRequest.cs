@@ -43,7 +43,7 @@ public class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="name">Topic name</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public CreateForumTopicRequest(ChatId chatId, string name)
         : this()
     {

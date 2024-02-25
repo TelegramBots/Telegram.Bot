@@ -52,7 +52,7 @@ public class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
     /// (in the format <c>@channelusername</c>)
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public CreateChatInviteLinkRequest(ChatId chatId)
         : this()
     {

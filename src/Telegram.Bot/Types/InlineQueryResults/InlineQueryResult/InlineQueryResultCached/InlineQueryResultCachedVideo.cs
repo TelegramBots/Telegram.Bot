@@ -60,7 +60,7 @@ public class InlineQueryResultCachedVideo : InlineQueryResult
     /// <param name="videoFileId">A valid file identifier for the video file</param>
     /// <param name="title">Title of the result</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedVideo(string id, string videoFileId, string title)
         : base(id)
     {

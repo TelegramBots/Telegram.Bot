@@ -49,7 +49,7 @@ public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditMessageCaptionRequest(ChatId chatId, int messageId)
         : this()
     {

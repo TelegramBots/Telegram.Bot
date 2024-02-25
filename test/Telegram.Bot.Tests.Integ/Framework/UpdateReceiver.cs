@@ -19,8 +19,6 @@ public enum UpdatePosition
 
 public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
 {
-    readonly ITelegramBotClient _botClient = botClient;
-
     public List<string> AllowedUsernames { get; } = allowedUsernames?.ToList() ?? [];
 
     public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
@@ -39,9 +37,12 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var updates = await _botClient.GetUpdatesAsync(
-                    offset: offset,
-                    allowedUpdates: Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown),
+                var updates = await botClient.GetUpdatesAsync(
+                    new()
+                    {
+                        Offset = offset,
+                        AllowedUpdates = Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown)
+                    },
                     cancellationToken: cancellationToken
                 );
 
@@ -184,9 +185,8 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
         {
             await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             var updates = await GetUpdatesAsync(
-                predicate: u => (u.Message is { Chat.Id: var id, Type: var type } &&
-                                 id == chatId && type == messageType) ||
-                                u.ChosenInlineResult is not null,
+                predicate: u => (u.Message is { Chat.Id: var id, Type: var type } && id == chatId && type == messageType)
+                                || u.ChosenInlineResult is not null,
                 cancellationToken: cancellationToken,
                 updateTypes: [UpdateType.Message, UpdateType.ChosenInlineResult]
             );
@@ -211,10 +211,12 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
         CancellationToken cancellationToken,
         params UpdateType[] types)
     {
-        var updates = await _botClient.GetUpdatesAsync(
-            offset: offset,
-            timeout: 120,
-            allowedUpdates: types,
+        var updates = await botClient.GetUpdatesAsync(
+            new() {
+                Offset = offset,
+                Timeout = 120,
+                AllowedUpdates = types,
+            },
             cancellationToken: cancellationToken
         );
 

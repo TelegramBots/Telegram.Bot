@@ -48,7 +48,7 @@ public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTar
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public BanChatMemberRequest(ChatId chatId, long userId)
         : this()
     {

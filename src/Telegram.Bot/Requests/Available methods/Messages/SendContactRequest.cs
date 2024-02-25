@@ -70,7 +70,7 @@ public class SendContactRequest : RequestBase<Message>, IChatTargetable
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendContactRequest(ChatId chatId, string phoneNumber, string firstName)
         : this()
     {

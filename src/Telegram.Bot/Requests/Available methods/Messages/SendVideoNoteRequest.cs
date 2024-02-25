@@ -77,7 +77,7 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
     /// multipart/form-data. Sending video notes by a URL is currently unsupported
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendVideoNoteRequest(ChatId chatId, InputFile videoNote)
         : this()
     {

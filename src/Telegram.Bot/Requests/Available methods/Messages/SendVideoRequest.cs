@@ -112,7 +112,7 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     /// get a video from the Internet, or upload a new video using multipart/form-data
     /// </param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendVideoRequest(ChatId chatId, InputFile video)
         : this()
     {

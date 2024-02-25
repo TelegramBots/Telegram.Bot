@@ -66,7 +66,7 @@ public class AnswerCallbackQueryRequest : RequestBase<bool>
     /// </summary>
     /// <param name="callbackQueryId">Unique identifier for the query to be answered</param>
     [SetsRequiredMembers]
-    [Obsolete("Use parameterless constructor with required parameters")]
+    [Obsolete("Use parameterless constructor with required properties")]
     public AnswerCallbackQueryRequest(string callbackQueryId)
         : this()
     {
