@@ -35,7 +35,7 @@ public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     /// Please choose a different color or garment!"). Telegram will display this message to the user.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ErrorMessage { get; }
+    public string? ErrorMessage { get; set; }
 
     /// <summary>
     /// Initializes a new successful answerPreCheckoutQuery request

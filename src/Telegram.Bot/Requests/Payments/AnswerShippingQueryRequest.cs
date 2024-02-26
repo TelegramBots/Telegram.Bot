@@ -39,7 +39,7 @@ public class AnswerShippingQueryRequest : RequestBase<bool>
     /// is unavailable'). Telegram will display this message to the user.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ErrorMessage { get; }
+    public string? ErrorMessage { get; set; }
 
     /// <summary>
     /// Initializes a new failing answerShippingQuery request with error message
