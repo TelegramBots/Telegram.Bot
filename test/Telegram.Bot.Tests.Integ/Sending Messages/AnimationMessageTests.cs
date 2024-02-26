@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -10,16 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages;
 
 [Collection(Constants.TestCollections.SendAnimationMessage)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class AnimationMessageTests
+public class AnimationMessageTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public AnimationMessageTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should send an animation with caption")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAnimation)]
@@ -29,14 +23,17 @@ public class AnimationMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
             message = await BotClient.SendAnimationAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                animation: new InputFileStream(stream),
-                duration: 4,
-                width: 400,
-                height: 400,
-                thumbnail: null,
-                caption: "<b>Rotating</b> <i>Earth</i>",
-                parseMode: ParseMode.Html
+                new()
+                {
+                    ChatId = fixture.SupergroupChat.Id,
+                    Animation = InputFile.FromStream(stream),
+                    Duration = 4,
+                    Width = 400,
+                    Height = 400,
+                    Thumbnail = null,
+                    Caption = "<b>Rotating</b> <i>Earth</i>",
+                    ParseMode = ParseMode.Html,
+                }
             );
         }
 
@@ -76,9 +73,12 @@ public class AnimationMessageTests
                     )
         {
             message = await BotClient.SendAnimationAsync(
-                chatId: _fixture.SupergroupChat,
-                animation: new InputFileStream(stream1, "earth.gif"),
-                thumbnail: new InputFileStream(stream2, "thumb.jpg")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Animation = InputFile.FromStream(stream1, "earth.gif"),
+                    Thumbnail = InputFile.FromStream(stream2, "thumb.jpg"),
+                }
             );
         }
 

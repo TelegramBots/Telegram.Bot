@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -9,16 +10,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages;
 
 [Collection(Constants.TestCollections.SendAudioMessage)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class AudioMessageTests
+public class AudioMessageTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public AudioMessageTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should send an audio with caption")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendAudio)]
@@ -33,12 +27,15 @@ public class AudioMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
             message = await BotClient.SendAudioAsync(
-                chatId: _fixture.SupergroupChat,
-                audio: new InputFileStream(stream, "Jackson F Smith - Cantina Rag.mp3"),
-                title: title,
-                performer: performer,
-                caption: caption,
-                duration: duration
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Audio = InputFile.FromStream(stream, "Jackson F Smith - Cantina Rag.mp3"),
+                    Title = title,
+                    Performer = performer,
+                    Caption = caption,
+                    Duration = duration,
+                }
             );
         }
 
@@ -67,9 +64,12 @@ public class AudioMessageTests
                     )
         {
             message = await BotClient.SendAudioAsync(
-                chatId: _fixture.SupergroupChat,
-                audio: new InputFileStream(stream1, "Ask Again - A State of Despair.mp3"),
-                thumbnail: new InputFileStream(stream2, "thumb.jpg")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Audio = InputFile.FromStream(stream1, "Ask Again - A State of Despair.mp3"),
+                    Thumbnail = InputFile.FromStream(stream2, "thumb.jpg"),
+                }
             );
         }
 
@@ -93,10 +93,13 @@ public class AudioMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
             message = await BotClient.SendVoiceAsync(
-                chatId: _fixture.SupergroupChat,
-                voice: new InputFileStream(stream),
-                caption: caption,
-                duration: duration
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Voice = InputFile.FromStream(stream),
+                    Caption = caption,
+                    Duration = duration,
+                }
             );
         }
 

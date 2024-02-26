@@ -9,23 +9,19 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
-public class XunitTestAssemblyRunnerWithAssemblyFixture : XunitTestAssemblyRunner
+public class XunitTestAssemblyRunnerWithAssemblyFixture(
+    ITestAssembly testAssembly,
+    IEnumerable<IXunitTestCase> testCases,
+    IMessageSink diagnosticMessageSink,
+    IMessageSink executionMessageSink,
+    ITestFrameworkExecutionOptions executionOptions)
+    : XunitTestAssemblyRunner(testAssembly,
+        testCases,
+        diagnosticMessageSink,
+        executionMessageSink,
+        executionOptions)
 {
     readonly Dictionary<Type, object> _assemblyFixtureMappings = new();
-
-    public XunitTestAssemblyRunnerWithAssemblyFixture(
-        ITestAssembly testAssembly,
-        IEnumerable<IXunitTestCase> testCases,
-        IMessageSink diagnosticMessageSink,
-        IMessageSink executionMessageSink,
-        ITestFrameworkExecutionOptions executionOptions)
-        : base(
-            testAssembly,
-            testCases,
-            diagnosticMessageSink,
-            executionMessageSink,
-            executionOptions)
-    { }
 
     protected override async Task AfterTestAssemblyStartingAsync()
     {
@@ -73,8 +69,8 @@ public class XunitTestAssemblyRunnerWithAssemblyFixture : XunitTestAssemblyRunne
                 }
 
                 var fixture = ctor.Invoke(parameters.Length == 1
-                    ? new object[] { DiagnosticMessageSink }
-                    : Array.Empty<object>()
+                    ? [DiagnosticMessageSink]
+                    : []
                 );
 
                 _assemblyFixtureMappings[fixtureAttr.FixtureType] = fixture;

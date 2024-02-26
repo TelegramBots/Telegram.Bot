@@ -8,23 +8,16 @@ namespace Telegram.Bot.Tests.Integ.Other;
 
 [Collection(Constants.TestCollections.GetUserProfilePhotos)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class GetUserProfileTests
+public class GetUserProfileTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public GetUserProfileTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should get bot’s profile photos")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetUserProfilePhotos)]
     public async Task Should_Get_User_Profile_Photos()
     {
         UserProfilePhotos profilePhotos = await BotClient.GetUserProfilePhotosAsync(
-            userId: _fixture.BotUser.Id
+            userId: fixture.BotUser.Id
         );
 
         Assert.True(1 <= profilePhotos.TotalCount);

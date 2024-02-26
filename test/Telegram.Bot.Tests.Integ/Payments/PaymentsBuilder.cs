@@ -32,35 +32,37 @@ public class PaymentsBuilder
 
     public PaymentsBuilder WithCurrency(string currency)
     {
-        if (string.IsNullOrWhiteSpace(currency)) throw new ArgumentException($"{nameof(currency)} is null or empty");
+        ArgumentException.ThrowIfNullOrWhiteSpace(currency);
         _currency = currency;
         return this;
     }
 
     public PaymentsBuilder WithStartParameter(string startParameter)
     {
-        if (string.IsNullOrWhiteSpace(startParameter)) throw new ArgumentException($"{nameof(startParameter)} is null or empty");
+        ArgumentException.ThrowIfNullOrWhiteSpace(startParameter);
         _startParameter = startParameter;
         return this;
     }
 
     public PaymentsBuilder WithPayload(string payload)
     {
-        if (string.IsNullOrWhiteSpace(payload)) throw new ArgumentException($"{nameof(payload)} is null or empty");
+        ArgumentException.ThrowIfNullOrWhiteSpace(payload);
         _payload = payload;
         return this;
     }
 
     public PaymentsBuilder WithProviderData(string providerData)
     {
-        if (string.IsNullOrWhiteSpace(providerData)) throw new ArgumentException($"{nameof(providerData)} is null or empty");
+        ArgumentException.ThrowIfNullOrWhiteSpace(providerData);
+
         _providerData = providerData;
         return this;
     }
 
     public PaymentsBuilder WithReplyMarkup(InlineKeyboardMarkup replyMarkup)
     {
-        _replyMarkup = replyMarkup ?? throw new ArgumentNullException(nameof(replyMarkup));
+        ArgumentNullException.ThrowIfNull(replyMarkup);
+        _replyMarkup = replyMarkup;
         return this;
     }
 
@@ -114,21 +116,15 @@ public class PaymentsBuilder
 
     public PaymentsBuilder WithPaymentProviderToken(string paymentsProviderToken)
     {
-        if (string.IsNullOrWhiteSpace(paymentsProviderToken)) throw new ArgumentException($"{nameof(paymentsProviderToken)} is null or empty");
+        ArgumentException.ThrowIfNullOrWhiteSpace(paymentsProviderToken);
         _paymentsProviderToken = paymentsProviderToken;
         return this;
     }
 
     public PaymentsBuilder WithMaxTip(int maxTipAmount)
     {
-        if (maxTipAmount < 1)
-            throw new ArgumentOutOfRangeException(
-                nameof(maxTipAmount),
-                maxTipAmount,
-                "Max tip amount must be greater than 0"
-            );
-
-        if (_suggestedTipAmounts is not null && _suggestedTipAmounts.Any(_ => _ > maxTipAmount))
+        ArgumentOutOfRangeException.ThrowIfLessThan(maxTipAmount, 1);
+        if (_suggestedTipAmounts is not null && _suggestedTipAmounts.Any(tip => tip > maxTipAmount))
         {
             throw new ArgumentOutOfRangeException(
                 nameof(maxTipAmount),
@@ -144,27 +140,16 @@ public class PaymentsBuilder
 
     public PaymentsBuilder WithSuggestedTips(params int[] suggestedTipAmounts)
     {
-        if (suggestedTipAmounts.Length is 0)
-        {
-            throw new ArgumentException("Suggested tips must not be empty");
-        }
+        ArgumentOutOfRangeException.ThrowIfZero(suggestedTipAmounts.Length);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(suggestedTipAmounts.Length, 4);
 
-        if (suggestedTipAmounts.Length > 4)
-        {
-            throw new ArgumentException("No more than four suggested tips can be set");
-        }
-
-        if (suggestedTipAmounts.Any(_ => _ < 1))
-        {
+        if (suggestedTipAmounts.Any(tip => tip < 1))
             throw new ArgumentException("Suggested tips must be greater than 0");
-        }
 
-        if (_maxTipAmount is not null && suggestedTipAmounts.Any(_ => _ < _maxTipAmount))
-        {
+        if (_maxTipAmount is not null && suggestedTipAmounts.Any(tip => tip < _maxTipAmount))
             throw new ArgumentException("Suggested tips must not be greater than max tip amount");
-        }
 
-        _suggestedTipAmounts = suggestedTipAmounts.OrderBy(_ => _).ToArray();
+        _suggestedTipAmounts = suggestedTipAmounts.OrderBy(tip => tip).ToArray();
 
         return this;
     }
@@ -194,11 +179,11 @@ public class PaymentsBuilder
 
     public SendInvoiceRequest BuildInvoiceRequest()
     {
-        if (_product is null) throw new InvalidOperationException("Product wasn't added");
-        if (string.IsNullOrWhiteSpace(_paymentsProviderToken)) throw new ArgumentException("Payments provider token is null or empty");
-        if (_chatId is null) throw new InvalidOperationException("ChatId is null");
-        if (string.IsNullOrWhiteSpace(_currency)) throw new InvalidOperationException("Currency isn't set");
-        if (string.IsNullOrWhiteSpace(_payload)) throw new InvalidOperationException("Payload isn't set");
+        ArgumentNullException.ThrowIfNull(_product);
+        ArgumentException.ThrowIfNullOrWhiteSpace(_paymentsProviderToken);
+        ArgumentNullException.ThrowIfNull(_chatId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(_currency);
+        ArgumentException.ThrowIfNullOrWhiteSpace(_payload);
 
         return new()
         {
@@ -229,7 +214,7 @@ public class PaymentsBuilder
 
     public AnswerShippingQueryRequest BuildShippingQueryRequest(string shippingQueryId, string? errorMessage = default)
     {
-        if (string.IsNullOrWhiteSpace(shippingQueryId)) throw new ArgumentNullException(nameof(shippingQueryId));
+        ArgumentException.ThrowIfNullOrWhiteSpace(shippingQueryId);
 
         AnswerShippingQueryRequest shippingQueryRequest = errorMessage is null
             ? new(shippingQueryId, _shippingOptions)
@@ -266,22 +251,22 @@ public class PaymentsBuilder
 
         public ShippingOptionsBuilder WithId(string id)
         {
-            if (string.IsNullOrWhiteSpace(id)) throw new ArgumentNullException(nameof(id));
+            ArgumentException.ThrowIfNullOrWhiteSpace(id);
             _id = id;
             return this;
         }
 
         public ShippingOptionsBuilder WithTitle(string title)
         {
-            if (string.IsNullOrWhiteSpace(title)) throw new ArgumentNullException(nameof(title));
+            ArgumentException.ThrowIfNullOrWhiteSpace(title);
             _title = title;
             return this;
         }
 
         public ShippingOptionsBuilder WithPrice(string label, int amount)
         {
-            if (string.IsNullOrWhiteSpace(label)) throw new ArgumentNullException(nameof(label));
-            if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Price must be greater than 0");
+            ArgumentException.ThrowIfNullOrWhiteSpace(label);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
 
             _shippingPrices.Add(new(label, amount));
 
@@ -310,22 +295,23 @@ public class PaymentsBuilder
 
         public ProductBuilder WithTitle(string title)
         {
-            if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException($"{nameof(title)} is null or empty");
+            ArgumentException.ThrowIfNullOrWhiteSpace(title);
             _title = title;
             return this;
         }
 
         public ProductBuilder WithDescription(string description)
         {
-            if (string.IsNullOrWhiteSpace(description)) throw new ArgumentException($"{nameof(description)} is null or empty");
+            ArgumentException.ThrowIfNullOrWhiteSpace(description);
             _description = description;
             return this;
         }
 
         public ProductBuilder WithPhoto(string url, int width, int height)
         {
-            if (string.IsNullOrWhiteSpace(url)) throw new ArgumentException($"{nameof(url)} is null or empty");
-            if (width < 1 || height < 1) throw new ArgumentException("Dimensions are invalid");
+            ArgumentException.ThrowIfNullOrWhiteSpace(url);
+            ArgumentOutOfRangeException.ThrowIfLessThan(width, 1);
+            ArgumentOutOfRangeException.ThrowIfLessThan(height, 1);
 
             _photoUrl = url;
             _photoWidth = width;
@@ -336,8 +322,8 @@ public class PaymentsBuilder
 
         public ProductBuilder WithProductPrice(string label, int amount)
         {
-            if (string.IsNullOrWhiteSpace(label)) throw new ArgumentNullException(nameof(label));
-            if (amount <= 0) throw new ArgumentOutOfRangeException(nameof(amount), "Price must be greater than 0");
+            ArgumentException.ThrowIfNullOrWhiteSpace(label);
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(amount);
             _productPrices.Add(new(label, amount));
             return this;
         }

@@ -203,7 +203,7 @@ public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? a
             CancellationToken cancellationToken,
             (Update? update1, Update? update2) updates
         ) =>
-            !cancellationToken.IsCancellationRequested && updates is not ({}, {});
+            !cancellationToken.IsCancellationRequested && updates is not (not null, not null);
     }
 
     async Task<Update[]> GetOnlyAllowedUpdatesAsync(

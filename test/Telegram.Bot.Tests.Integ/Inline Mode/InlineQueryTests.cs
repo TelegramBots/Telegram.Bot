@@ -2,6 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -14,31 +15,26 @@ namespace Telegram.Bot.Tests.Integ.Inline_Mode;
 [Collection(Constants.TestCollections.InlineQuery)]
 [Trait(Constants.CategoryTraitName, Constants.InteractiveCategoryValue)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class InlineQueryTests
+public class InlineQueryTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public InlineQueryTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should answer inline query with an article")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Article()
     {
-        await _fixture.SendTestInstructionsAsync(
-            "1. Start an inline query\n" +
-            "2. Wait for bot to answer it\n" +
-            "3. Choose the answer",
+        await fixture.SendTestInstructionsAsync(
+            """
+            1. Start an inline query
+            2. Wait for bot to answer it
+            3. Choose the answer
+            """,
             startInlineQuery: true
         );
 
         // Wait for tester to start an inline query
         // This looks for an Update having a value on "inline_query" field
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         // Prepare results of the query
         InlineQueryResult[] results =
@@ -54,17 +50,20 @@ public class InlineQueryTests
 
         // Answer the query
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         // Wait for tester to choose a result and send it(as a message) to the chat
         (
             Update messageUpdate,
             Update chosenResultUpdate
-        ) = await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-            chatId: _fixture.SupergroupChat.Id,
+        ) = await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+            chatId: fixture.SupergroupChat.Id,
             messageType: MessageType.Text
         );
 
@@ -77,14 +76,16 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Get_Message_From_Inline_Query_With_ViaBot()
     {
-        await _fixture.SendTestInstructionsAsync(
-            "1. Start an inline query\n" +
-            "2. Wait for bot to answer it\n" +
-            "3. Choose the answer",
+        await fixture.SendTestInstructionsAsync(
+            """
+            1. Start an inline query
+            2. Wait for bot to answer it
+            3. Choose the answer
+            """,
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         InlineQueryResult[] results =
         [
@@ -98,12 +99,15 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
-        Update messageUpdate = await _fixture.UpdateReceiver.GetUpdateAsync(
+        Update messageUpdate = await fixture.UpdateReceiver.GetUpdateAsync(
             predicate: update => update.Message!.ViaBot is not null,
             updateTypes: [UpdateType.Message]
         );
@@ -111,19 +115,19 @@ public class InlineQueryTests
         Assert.NotNull(messageUpdate.Message);
         Assert.Equal(MessageType.Text, messageUpdate.Message.Type);
         Assert.NotNull(messageUpdate.Message.ViaBot);
-        Assert.Equal(_fixture.BotUser.Id, messageUpdate.Message.ViaBot.Id);
+        Assert.Equal(fixture.BotUser.Id, messageUpdate.Message.ViaBot.Id);
     }
 
     [OrderedFact("Should answer inline query with a contact")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Contact()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "contact:john-doe";
         InlineQueryResult[] results =
@@ -138,14 +142,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Contact
             );
         Update resultUpdate = chosenResultUpdate;
@@ -159,12 +166,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Location()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "location:hobitton";
         InlineQueryResult[] results =
@@ -179,14 +186,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Location
             );
         Update resultUpdate = chosenResultUpdate;
@@ -200,12 +210,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Venue()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "venue:hobbiton";
         InlineQueryResult[] results =
@@ -221,14 +231,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Venue
             );
         Update resultUpdate = chosenResultUpdate;
@@ -242,12 +255,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Photo()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "photo:rainbow-girl";
         const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
@@ -270,8 +283,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Photo
             );
         Update resultUpdate = chosenResultUpdate;
@@ -290,14 +303,14 @@ public class InlineQueryTests
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
         {
             photoMessage = await BotClient.SendPhotoAsync(
-                chatId: _fixture.SupergroupChat,
-                photo: new InputFileStream(stream),
+                chatId: fixture.SupergroupChat,
+                photo: InputFile.FromStream(stream),
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
             );
         }
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "photo:apes";
         const string caption = "Apes smoking shisha";
@@ -318,8 +331,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Photo
             );
         Update resultUpdate = chosenResultUpdate;
@@ -334,12 +347,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Video()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "sunset_video";
         InlineQueryResult[] results =
@@ -362,8 +375,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Video
             );
         Update resultUpdate = chosenResultUpdate;
@@ -379,12 +392,12 @@ public class InlineQueryTests
     {
         // ToDo exception when input_message_content not specified. Bad Request: SEND_MESSAGE_MEDIA_INVALID
 
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "youtube_video";
         InlineQueryResult[] results =
@@ -411,8 +424,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Text
             );
         Update resultUpdate = chosenResultUpdate;
@@ -428,13 +441,13 @@ public class InlineQueryTests
     {
         // Video from https://pixabay.com/en/videos/fireworks-rocket-new-year-s-eve-7122/
         Message videoMessage = await BotClient.SendVideoAsync(
-            chatId: _fixture.SupergroupChat,
-            video: new InputFileUrl("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
+            chatId: fixture.SupergroupChat,
+            video: InputFile.FromUri("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
             replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                 .WithSwitchInlineQueryCurrentChat("Start inline query")
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "fireworks_video";
         InlineQueryResult[] results =
@@ -455,8 +468,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Video
             );
         Update resultUpdate = chosenResultUpdate;
@@ -470,12 +483,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Audio()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "audio_result";
         InlineQueryResult[] results =
@@ -497,8 +510,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Audio
             );
         Update resultUpdate = chosenResultUpdate;
@@ -517,8 +530,8 @@ public class InlineQueryTests
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
             audioMessage = await BotClient.SendAudioAsync(
-                chatId: _fixture.SupergroupChat,
-                audio: new InputFileStream(stream),
+                chatId: fixture.SupergroupChat,
+                audio: InputFile.FromStream(stream),
                 performer: "Jackson F. Smith",
                 duration: 201,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
@@ -526,7 +539,7 @@ public class InlineQueryTests
             );
         }
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "audio_result";
         InlineQueryResult[] results =
@@ -546,8 +559,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Audio
             );
         Update resultUpdate = chosenResultUpdate;
@@ -561,12 +574,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Voice()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "voice_result";
         InlineQueryResult[] results =
@@ -588,8 +601,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Voice
             );
         Update resultUpdate = chosenResultUpdate;
@@ -607,15 +620,15 @@ public class InlineQueryTests
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
             voiceMessage = await BotClient.SendVoiceAsync(
-                chatId: _fixture.SupergroupChat,
-                voice: new InputFileStream(stream),
+                chatId: fixture.SupergroupChat,
+                voice: InputFile.FromStream(stream),
                 duration: 24,
                 replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
                     .WithSwitchInlineQueryCurrentChat("Start inline query")
             );
         }
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "voice_result";
         InlineQueryResult[] results =
@@ -635,8 +648,8 @@ public class InlineQueryTests
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Voice
             );
         Update resultUpdate = chosenResultUpdate;
@@ -650,12 +663,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Document()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "document_result";
         InlineQueryResult[] results =
@@ -672,14 +685,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Document
             );
         Update resultUpdate = chosenResultUpdate;
@@ -697,14 +713,17 @@ public class InlineQueryTests
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
             documentMessage = await BotClient.SendDocumentAsync(
-                chatId: _fixture.SupergroupChat,
-                document: new InputFileStream(stream),
-                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                    .WithSwitchInlineQueryCurrentChat("Start inline query")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Document = InputFile.FromStream(stream),
+                    ReplyMarkup = (InlineKeyboardMarkup)InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query"),
+                }
             );
         }
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "document_result";
         InlineQueryResult[] results =
@@ -720,14 +739,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Document
             );
         Update resultUpdate = chosenResultUpdate;
@@ -741,12 +763,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Gif()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "gif_result";
         InlineQueryResult[] results =
@@ -766,14 +788,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
@@ -788,12 +813,16 @@ public class InlineQueryTests
     public async Task Should_Answer_Inline_Query_With_Cached_Gif()
     {
         Message gifMessage = await BotClient.SendDocumentAsync(
-            chatId: _fixture.SupergroupChat,
-            document: new InputFileUrl("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
-            replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                .WithSwitchInlineQueryCurrentChat("Start inline query"));
+            new()
+            {
+                ChatId = fixture.SupergroupChat,
+                Document = InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
+                ReplyMarkup = (InlineKeyboardMarkup)InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start inline query"),
+            }
+        );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "gif_result";
         InlineQueryResult[] results =
@@ -807,14 +836,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
@@ -828,12 +860,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Mpeg4Gif()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "mpeg4_gif_result";
         InlineQueryResult[] results =
@@ -848,14 +880,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Video
             );
         Update resultUpdate = chosenResultUpdate;
@@ -870,12 +905,16 @@ public class InlineQueryTests
     public async Task Should_Answer_Inline_Query_With_Cached_Mpeg4Gif()
     {
         Message gifMessage = await BotClient.SendDocumentAsync(
-            chatId: _fixture.SupergroupChat,
-            document: new InputFileUrl("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
-            replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                .WithSwitchInlineQueryCurrentChat("Start inline query"));
+            new()
+            {
+                ChatId = fixture.SupergroupChat,
+                Document = InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif"),
+                ReplyMarkup = (InlineKeyboardMarkup)InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start inline query"),
+            }
+        );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "mpeg4_gif_result";
         InlineQueryResult[] results =
@@ -889,14 +928,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Animation
             );
         Update resultUpdate = chosenResultUpdate;
@@ -911,14 +953,14 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Cached_Sticker()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
-        StickerSet stickerSet = await BotClient.GetStickerSetAsync("EvilMinds");
+        StickerSet stickerSet = await BotClient.GetStickerSetAsync(new GetStickerSetRequest { Name = "EvilMinds"});
 
         const string resultId = "sticker_result";
         InlineQueryResult[] results =
@@ -931,14 +973,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Sticker
             );
         Update resultUpdate = chosenResultUpdate;
@@ -952,12 +997,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Answer_Inline_Query_With_Photo_With_Markdown_Encoded_Caption()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Staring the inline query with this message...",
             startInlineQuery: true
         );
 
-        Update iqUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         const string resultId = "photo:rainbow-girl-caption";
         const string url = "https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg";
@@ -975,14 +1020,17 @@ public class InlineQueryTests
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
-            await _fixture.UpdateReceiver.GetInlineQueryResultUpdates(
-                chatId: _fixture.SupergroupChat.Id,
+            await fixture.UpdateReceiver.GetInlineQueryResultUpdates(
+                chatId: fixture.SupergroupChat.Id,
                 messageType: MessageType.Photo
             );
 
@@ -999,12 +1047,12 @@ public class InlineQueryTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.AnswerInlineQuery)]
     public async Task Should_Throw_Exception_When_Answering_Late()
     {
-        await _fixture.SendTestInstructionsAsync(
+        await fixture.SendTestInstructionsAsync(
             "Write an inline query that I'll never answer!",
             startInlineQuery: true
         );
 
-        Update queryUpdate = await _fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
+        Update queryUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
 
         InlineQueryResult[] results =
         [
@@ -1021,9 +1069,12 @@ public class InlineQueryTests
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(() =>
             BotClient.AnswerInlineQueryAsync(
-                inlineQueryId: queryUpdate.InlineQuery!.Id,
-                results: results,
-                cacheTime: 0
+                new()
+                {
+                    InlineQueryId = queryUpdate.InlineQuery!.Id,
+                    Results = results,
+                    CacheTime = 0,
+                }
             )
         );
 

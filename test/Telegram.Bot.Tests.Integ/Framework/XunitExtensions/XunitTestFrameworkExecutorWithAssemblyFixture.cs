@@ -5,15 +5,12 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
-public class XunitTestFrameworkExecutorWithAssemblyFixture : XunitTestFrameworkExecutor
+public class XunitTestFrameworkExecutorWithAssemblyFixture(
+    AssemblyName assemblyName,
+    ISourceInformationProvider sourceInformationProvider,
+    IMessageSink diagnosticMessageSink)
+    : XunitTestFrameworkExecutor(assemblyName, sourceInformationProvider, diagnosticMessageSink)
 {
-    public XunitTestFrameworkExecutorWithAssemblyFixture(
-        AssemblyName assemblyName,
-        ISourceInformationProvider sourceInformationProvider,
-        IMessageSink diagnosticMessageSink)
-        : base(assemblyName, sourceInformationProvider, diagnosticMessageSink)
-    { }
-
     protected override async void RunTestCases(
         IEnumerable<IXunitTestCase> testCases,
         IMessageSink executionMessageSink,

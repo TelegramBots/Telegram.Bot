@@ -11,16 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages;
 
 [Collection(Constants.TestCollections.SendVideoMessage)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class SendingVideoMessageTests
+public class SendingVideoMessageTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public SendingVideoMessageTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should send a video with caption")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideo)]
@@ -30,12 +23,15 @@ public class SendingVideoMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
         {
             message = await BotClient.SendVideoAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                video: new InputFileStream(stream, "moon-landing.mp4"),
-                duration: 104,
-                width: 320,
-                height: 240,
-                caption: "Moon Landing"
+                new()
+                {
+                    ChatId = fixture.SupergroupChat.Id,
+                    Video = InputFile.FromStream(stream, "moon-landing.mp4"),
+                    Duration = 104,
+                    Width = 320,
+                    Height = 240,
+                    Caption = "Moon Landing",
+                }
             );
         }
 
@@ -67,10 +63,13 @@ public class SendingVideoMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
         {
             message = await BotClient.SendVideoNoteAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                videoNote: new InputFileStream(stream),
-                duration: 28,
-                length: 240
+                new()
+                {
+                    ChatId = fixture.SupergroupChat.Id,
+                    VideoNote = InputFile.FromStream(stream),
+                    Duration = 28,
+                    Length = 240,
+                }
             );
         }
 
@@ -100,9 +99,12 @@ public class SendingVideoMessageTests
                     )
         {
             message = await BotClient.SendVideoAsync(
-                chatId: _fixture.SupergroupChat,
-                video: new InputFileStream(stream1),
-                thumbnail: new InputFileStream(stream2, "thumb.jpg")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Video = InputFile.FromStream(stream1),
+                    Thumbnail = InputFile.FromStream(stream2, "thumb.jpg"),
+                }
             );
         }
 
@@ -127,9 +129,12 @@ public class SendingVideoMessageTests
                     )
         {
             message = await BotClient.SendVideoNoteAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                videoNote: new InputFileStream(stream1),
-                thumbnail: new InputFileStream(stream2, "thumbnail.jpg")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat.Id,
+                    VideoNote = InputFile.FromStream(stream1),
+                    Thumbnail = InputFile.FromStream(stream2, "thumbnail.jpg"),
+                }
             );
         }
 

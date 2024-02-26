@@ -9,16 +9,10 @@ namespace Telegram.Bot.Tests.Integ.Polls;
 
 [Collection(Constants.TestCollections.NativePolls)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class SelfStoppingPollTests : IClassFixture<SelfStoppingPollTestsFixture>
+public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture) : IClassFixture<SelfStoppingPollTestsFixture>
 {
-    readonly SelfStoppingPollTestsFixture _classFixture;
-    TestsFixture Fixture => _classFixture.TestsFixture;
+    TestsFixture Fixture => fixture.TestsFixture;
     ITelegramBotClient BotClient => Fixture.BotClient;
-
-    public SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture)
-    {
-        _classFixture = fixture;
-    }
 
     [OrderedFact(
         "Should send self closing anonymous poll by period",
@@ -27,10 +21,13 @@ public class SelfStoppingPollTests : IClassFixture<SelfStoppingPollTestsFixture>
     public async Task Should_Send_Self_Closing_Poll_Anonymous_Poll_By_Period()
     {
         Message message = await BotClient.SendPollAsync(
-            chatId: Fixture.SupergroupChat,
-            question: "Who shot first?",
-            options: new[] {"Han Solo", "Greedo", "I don't care"},
-            openPeriod: 6
+            new()
+            {
+                ChatId = Fixture.SupergroupChat,
+                Question = "Who shot first?",
+                Options = ["Han Solo", "Greedo", "I don't care"],
+                OpenPeriod = 6,
+            }
         );
 
         Assert.Equal(MessageType.Poll, message.Type);
@@ -51,8 +48,8 @@ public class SelfStoppingPollTests : IClassFixture<SelfStoppingPollTestsFixture>
         Assert.Equal("I don't care", message.Poll.Options[2].Text);
         Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
 
-        _classFixture.PollMessage = message;
-        _classFixture.OpenPeriod = 6;
+        fixture.PollMessage = message;
+        fixture.OpenPeriod = 6;
     }
 
     // For some reason Telegram doesn't send poll update when a poll closes itself
@@ -83,10 +80,13 @@ public class SelfStoppingPollTests : IClassFixture<SelfStoppingPollTestsFixture>
         DateTime closeDate = DateTime.UtcNow.AddSeconds(8);
 
         Message message = await BotClient.SendPollAsync(
-            chatId: Fixture.SupergroupChat,
-            question: "Who shot first?",
-            options: new[] {"Han Solo", "Greedo", "I don't care"},
-            closeDate: closeDate
+            new()
+            {
+                ChatId = Fixture.SupergroupChat,
+                Question = "Who shot first?",
+                Options = ["Han Solo", "Greedo", "I don't care"],
+                CloseDate = closeDate,
+            }
         );
 
         Assert.Equal(MessageType.Poll, message.Type);
@@ -115,8 +115,8 @@ public class SelfStoppingPollTests : IClassFixture<SelfStoppingPollTestsFixture>
         Assert.Equal("I don't care", message.Poll.Options[2].Text);
         Assert.All(message.Poll.Options, option => Assert.Equal(0, option.VoterCount));
 
-        _classFixture.PollMessage = message;
-        _classFixture.CloseDate = closeDate;
+        fixture.PollMessage = message;
+        fixture.CloseDate = closeDate;
     }
 
     // For some reason Telegram doesn't send poll update when a poll closes itself

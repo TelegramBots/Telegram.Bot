@@ -6,16 +6,9 @@ namespace Telegram.Bot.Tests.Integ.Other;
 
 [Collection(Constants.TestCollections.LeaveChat)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class LeaveChatTests
+public class LeaveChatTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public LeaveChatTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should leave chat",
         Skip = "Bot should stay in chat for other the test cases")]
@@ -24,7 +17,7 @@ public class LeaveChatTests
     {
         // ToDo: Exception when leaving private chat
         await BotClient.LeaveChatAsync(
-            chatId: _fixture.SupergroupChat
+            chatId: fixture.SupergroupChat
         );
     }
 }

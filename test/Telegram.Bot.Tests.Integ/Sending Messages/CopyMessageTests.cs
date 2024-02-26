@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
@@ -17,15 +18,21 @@ public class CopyMessageTests(TestsFixture testsFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CopyMessage)]
     public async Task Should_Copy_Text_Message()
     {
-        Message message = await BotClient.SendTextMessageAsync(
-            chatId: _fixture.SupergroupChat.Id,
-            text: "hello"
+        Message message = await BotClient.SendMessageAsync(
+            new()
+            {
+                ChatId = _fixture.SupergroupChat.Id,
+                Text = "hello",
+            }
         );
 
         MessageId copyMessageId = await BotClient.CopyMessageAsync(
-            chatId: _fixture.SupergroupChat.Id,
-            fromChatId: _fixture.SupergroupChat.Id,
-            messageId: message.MessageId
+            new()
+            {
+                ChatId = _fixture.SupergroupChat.Id,
+                FromChatId = _fixture.SupergroupChat.Id,
+                MessageId = message.MessageId,
+            }
         );
 
         Assert.NotEqual(0, copyMessageId.Id);
@@ -35,22 +42,31 @@ public class CopyMessageTests(TestsFixture testsFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.CopyMessages)]
     public async Task Should_Copy_Text_Messages()
     {
-        Message message1 = await BotClient.SendTextMessageAsync(
-            chatId: _fixture.SupergroupChat.Id,
-            text: "message one."
+        Message message1 = await BotClient.SendMessageAsync(
+            new()
+            {
+                ChatId = _fixture.SupergroupChat.Id,
+                Text = "message one.",
+            }
         );
 
-        Message message2 = await BotClient.SendTextMessageAsync(
-            chatId: _fixture.SupergroupChat.Id,
-            text: "message two"
+        Message message2 = await BotClient.SendMessageAsync(
+            new()
+            {
+                ChatId = _fixture.SupergroupChat.Id,
+                Text = "message two",
+            }
         );
 
         int[] messageIds = [message1.MessageId, message2.MessageId];
 
         MessageId[] copyMessageIds = await BotClient.CopyMessagesAsync(
-            chatId: _fixture.SupergroupChat.Id,
-            fromChatId: _fixture.SupergroupChat.Id,
-            messageIds: messageIds
+            new()
+            {
+                ChatId = _fixture.SupergroupChat.Id,
+                FromChatId = _fixture.SupergroupChat.Id,
+                MessageIds = messageIds,
+            }
         );
 
         Assert.Equal(2, copyMessageIds.Length);
