@@ -15,7 +15,12 @@ public class DiceTests(TestsFixture testsFixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendDice)]
     public async Task Should_Send_A_Die()
     {
-        Message message = await testsFixture.BotClient.SendDiceAsync(testsFixture.SupergroupChat);
+        Message message = await testsFixture.BotClient.SendDiceAsync(
+            new SendDiceRequest
+            {
+                ChatId = testsFixture.SupergroupChat
+            }
+        );
 
         Assert.Equal(MessageType.Dice, message.Type);
         Assert.NotNull(message.Dice);
@@ -28,8 +33,11 @@ public class DiceTests(TestsFixture testsFixture)
     public async Task Should_Send_A_Dart()
     {
         Message message = await testsFixture.BotClient.SendDiceAsync(
-            testsFixture.SupergroupChat,
-            emoji: Emoji.Darts
+            new SendDiceRequest
+            {
+                ChatId = testsFixture.SupergroupChat,
+                Emoji = Emoji.Darts,
+            }
         );
 
         Assert.Equal(MessageType.Dice, message.Type);
@@ -43,8 +51,11 @@ public class DiceTests(TestsFixture testsFixture)
     public async Task Should_Send_A_Basketball()
     {
         Message message = await testsFixture.BotClient.SendDiceAsync(
-            testsFixture.SupergroupChat,
-            emoji: Emoji.Basketball
+            new SendDiceRequest
+            {
+                ChatId = testsFixture.SupergroupChat,
+                Emoji = Emoji.Basketball,
+            }
         );
 
         Assert.Equal(MessageType.Dice, message.Type);
@@ -93,7 +104,7 @@ public class DiceTests(TestsFixture testsFixture)
     public async Task Should_Send_A_Bowling()
     {
         Message message = await testsFixture.BotClient.SendDiceAsync(
-            new SendDiceRequest()
+            new SendDiceRequest
             {
                 ChatId = testsFixture.SupergroupChat,
                 Emoji = Emoji.Bowling

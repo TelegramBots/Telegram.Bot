@@ -64,7 +64,7 @@ public class EditMessageMediaTests(TestsFixture fixture)
         // Change the photo for an audio. Note that, in the case of an inline message, the new media should be
         // either an URL or the file_id of a previously uploaded media.
         InputFileUrl inputFileUrl = InputFile.FromUri("https://upload.wikimedia.org/wikipedia/commons/transcoded/b/bb/Test_ogg_mp3_48kbps.wav/Test_ogg_mp3_48kbps.wav.mp3");
-        await BotClient.EditMessageMediaAsync(
+        await BotClient.EditInlineMessageMediaAsync(
             new EditInlineMessageMediaRequest
             {
                 InlineMessageId = cqUpdate.CallbackQuery.InlineMessageId,
@@ -137,7 +137,7 @@ public class EditMessageMediaTests(TestsFixture fixture)
         // Change the YouTube video for an animation. Note that, in the case of an inline message, the new media
         // should be either an URL or the file_id of a previously uploaded media.
         // Also, animation thumbnail cannot be uploaded for an inline message.
-        await BotClient.EditMessageMediaAsync(
+        await BotClient.EditInlineMessageMediaAsync(
             new EditInlineMessageMediaRequest
             {
                 InlineMessageId =  cqUpdate.CallbackQuery.InlineMessageId,

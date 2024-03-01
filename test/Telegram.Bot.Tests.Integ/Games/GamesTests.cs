@@ -63,7 +63,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetGameHighScores)]
     public async Task Should_Get_High_Scores_Inline_Message()
     {
-        GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
+        GameHighScore[] highScores = await BotClient.GetInlineGameHighScoresAsync(
             new GetInlineGameHighScoresRequest
             {
                 UserId = classFixture.Player.Id,
@@ -90,7 +90,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
             $"Changing score from {oldScore} to {newScore} for {classFixture.Player.Username!.Replace("_", @"\_")}."
         );
 
-        await BotClient.SetGameScoreAsync(
+        await BotClient.SetInlineGameScoreAsync(
             new SetInlineGameScoreRequest
             {
                 UserId = playerId,

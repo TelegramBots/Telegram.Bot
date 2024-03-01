@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
@@ -17,7 +18,10 @@ public class GetUserProfileTests(TestsFixture fixture)
     public async Task Should_Get_User_Profile_Photos()
     {
         UserProfilePhotos profilePhotos = await BotClient.GetUserProfilePhotosAsync(
-            userId: fixture.BotUser.Id
+            new GetUserProfilePhotosRequest
+            {
+                UserId = fixture.BotUser.Id,
+            }
         );
 
         Assert.True(1 <= profilePhotos.TotalCount);

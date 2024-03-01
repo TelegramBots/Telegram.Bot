@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Xunit;
 
@@ -17,7 +18,10 @@ public class LeaveChatTests(TestsFixture fixture)
     {
         // ToDo: Exception when leaving private chat
         await BotClient.LeaveChatAsync(
-            chatId: fixture.SupergroupChat
+            new LeaveChatRequest
+            {
+                ChatId = fixture.SupergroupChat,
+            }
         );
     }
 }

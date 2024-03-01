@@ -277,9 +277,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -303,10 +306,13 @@ public class InlineQueryTests(TestsFixture fixture)
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Photos.Apes))
         {
             photoMessage = await BotClient.SendPhotoAsync(
-                chatId: fixture.SupergroupChat,
-                photo: InputFile.FromStream(stream),
-                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                    .WithSwitchInlineQueryCurrentChat("Start inline query")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Photo = InputFile.FromStream(stream),
+                    ReplyMarkup = (InlineKeyboardMarkup)InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query"),
+                }
             );
         }
 
@@ -325,9 +331,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -369,9 +378,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -418,9 +430,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -441,10 +456,13 @@ public class InlineQueryTests(TestsFixture fixture)
     {
         // Video from https://pixabay.com/en/videos/fireworks-rocket-new-year-s-eve-7122/
         Message videoMessage = await BotClient.SendVideoAsync(
-            chatId: fixture.SupergroupChat,
-            video: InputFile.FromUri("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
-            replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                .WithSwitchInlineQueryCurrentChat("Start inline query")
+            new()
+            {
+                ChatId = fixture.SupergroupChat,
+                Video = InputFile.FromUri("https://pixabay.com/en/videos/download/video-7122_medium.mp4"),
+                ReplyMarkup = (InlineKeyboardMarkup)InlineKeyboardButton
+                    .WithSwitchInlineQueryCurrentChat("Start inline query"),
+            }
         );
 
         Update iqUpdate = await fixture.UpdateReceiver.GetInlineQueryUpdateAsync();
@@ -462,9 +480,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -504,9 +525,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -530,12 +554,15 @@ public class InlineQueryTests(TestsFixture fixture)
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.CantinaRagMp3))
         {
             audioMessage = await BotClient.SendAudioAsync(
-                chatId: fixture.SupergroupChat,
-                audio: InputFile.FromStream(stream),
-                performer: "Jackson F. Smith",
-                duration: 201,
-                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                    .WithSwitchInlineQueryCurrentChat("Start inline query")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Audio = InputFile.FromStream(stream),
+                    Performer = "Jackson F. Smith",
+                    Duration = 201,
+                    ReplyMarkup = (InlineKeyboardMarkup)InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query"),
+                }
             );
         }
 
@@ -553,9 +580,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -595,9 +625,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+            new()
+            {
+                InlineQueryId = iqUpdate.InlineQuery!.Id,
+                Results = results,
+                CacheTime = 0,
+            }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =
@@ -620,11 +653,14 @@ public class InlineQueryTests(TestsFixture fixture)
         await using (FileStream stream = System.IO.File.OpenRead(Constants.PathToFile.Audio.TestOgg))
         {
             voiceMessage = await BotClient.SendVoiceAsync(
-                chatId: fixture.SupergroupChat,
-                voice: InputFile.FromStream(stream),
-                duration: 24,
-                replyMarkup: (InlineKeyboardMarkup)InlineKeyboardButton
-                    .WithSwitchInlineQueryCurrentChat("Start inline query")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Voice = InputFile.FromStream(stream),
+                    Duration = 24,
+                    ReplyMarkup = (InlineKeyboardMarkup)InlineKeyboardButton
+                        .WithSwitchInlineQueryCurrentChat("Start inline query"),
+                }
             );
         }
 
@@ -642,9 +678,12 @@ public class InlineQueryTests(TestsFixture fixture)
         ];
 
         await BotClient.AnswerInlineQueryAsync(
-            inlineQueryId: iqUpdate.InlineQuery!.Id,
-            results: results,
-            cacheTime: 0
+             new()
+             {
+                 InlineQueryId = iqUpdate.InlineQuery!.Id,
+                 Results = results,
+                 CacheTime = 0,
+             }
         );
 
         (Update messageUpdate, Update chosenResultUpdate) =

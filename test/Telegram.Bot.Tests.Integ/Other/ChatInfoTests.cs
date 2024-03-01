@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -21,7 +22,10 @@ public class ChatInfoTests(TestsFixture fixture)
         Chat supergroupChat = fixture.SupergroupChat;
 
         Chat chat = await BotClient.GetChatAsync(
-            chatId: supergroupChat.Id
+            new GetChatRequest
+            {
+                ChatId = supergroupChat.Id,
+            }
         );
 
         Assert.Equal(ChatType.Supergroup, chat.Type);
@@ -45,8 +49,11 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Get_Bot_Chat_Member()
     {
         ChatMember memberBot = await BotClient.GetChatMemberAsync(
-            chatId: fixture.SupergroupChat.Id,
-            userId: fixture.BotUser.Id
+            new()
+            {
+                ChatId = fixture.SupergroupChat.Id,
+                UserId = fixture.BotUser.Id,
+            }
         );
 
         Assert.Equal(ChatMemberStatus.Administrator, memberBot.Status);
@@ -71,13 +78,16 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Get_Chat_Admins()
     {
         ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
-            chatId: fixture.SupergroupChat.Id
+            new GetChatAdministratorsRequest
+            {
+                ChatId = fixture.SupergroupChat.Id,
+            }
         );
 
-        ChatMember memberCreator = Assert.Single(chatAdmins, _ => _.Status == ChatMemberStatus.Creator);
+        ChatMember memberCreator = Assert.Single(chatAdmins, admin => admin.Status == ChatMemberStatus.Creator);
         Assert.IsType<ChatMemberOwner>(memberCreator);
 
-        ChatMember memberBot = Assert.Single(chatAdmins, _ => _.User.IsBot);
+        ChatMember memberBot = Assert.Single(chatAdmins, admin => admin.User.IsBot);
         Debug.Assert(memberBot != null);
 
         Assert.True(2 <= chatAdmins.Length); // at least, Bot and the Creator
@@ -94,14 +104,16 @@ public class ChatInfoTests(TestsFixture fixture)
             /* In order to have a private chat id, take the Creator of supergroup and use his User ID because
              * for a regular user, "User ID" is the same number as "Private Chat ID".
              */
-            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(fixture.SupergroupChat);
+            ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
+                new GetChatAdministratorsRequest { ChatId = fixture.SupergroupChat }
+            );
             privateChatId = chatAdmins
                 .Single(member => member.Status == ChatMemberStatus.Creator)
                 .User.Id;
         }
 
         Chat chat = await BotClient.GetChatAsync(
-            chatId: privateChatId
+            new GetChatRequest { ChatId = privateChatId, }
         );
 
         Assert.Equal(ChatType.Private, chat.Type);
@@ -127,7 +139,7 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Get_Chat_Members_Count()
     {
         int membersCount = await BotClient.GetChatMemberCountAsync(
-            chatId: fixture.SupergroupChat.Id
+             new GetChatMemberCountRequest {ChatId = fixture.SupergroupChat.Id}
         );
 
         Assert.True(2 <= membersCount); // at least, Bot and the Creator
@@ -142,8 +154,11 @@ public class ChatInfoTests(TestsFixture fixture)
     public async Task Should_Send_Chat_Action()
     {
         await BotClient.SendChatActionAsync(
-            chatId: fixture.SupergroupChat.Id,
-            chatAction: ChatAction.RecordVoice
+            new()
+            {
+                ChatId = fixture.SupergroupChat.Id,
+                Action = ChatAction.RecordVoice,
+            }
         );
 
         await Task.Delay(5_000);

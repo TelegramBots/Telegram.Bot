@@ -77,7 +77,7 @@ public class EditMessageContentTests(TestsFixture fixture)
         const string modifiedMessagePrefix = "✌ modified 👌\n";
         messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
-        await BotClient.EditMessageTextAsync(
+        await BotClient.EditInlineMessageTextAsync(
             new EditInlineMessageTextRequest
             {
                 InlineMessageId = callbackQUpdate.CallbackQuery.InlineMessageId,
@@ -142,7 +142,7 @@ public class EditMessageContentTests(TestsFixture fixture)
         Assert.NotNull(callbackQUpdate.CallbackQuery);
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
-        await BotClient.EditMessageReplyMarkupAsync(
+        await BotClient.EditInlineMessageReplyMarkupAsync(
             new EditInlineMessageReplyMarkupRequest
             {
                 InlineMessageId = callbackQUpdate.CallbackQuery.InlineMessageId,
@@ -202,7 +202,7 @@ public class EditMessageContentTests(TestsFixture fixture)
         Assert.NotNull(callbackQUpdate.CallbackQuery);
         Assert.NotNull(callbackQUpdate.CallbackQuery.InlineMessageId);
 
-        await BotClient.EditMessageCaptionAsync(
+        await BotClient.EditInlineMessageCaptionAsync(
             new EditInlineMessageCaptionRequest
             {
                 InlineMessageId = callbackQUpdate.CallbackQuery.InlineMessageId,

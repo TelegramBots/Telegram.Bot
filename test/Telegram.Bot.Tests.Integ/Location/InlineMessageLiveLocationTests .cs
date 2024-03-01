@@ -65,7 +65,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
 
         Location beijing = new() { Latitude = 39.9042f, Longitude = 116.4074f };
 
-        await BotClient.EditMessageLiveLocationAsync(
+        await BotClient.EditInlineMessageLiveLocationAsync(
             new EditInlineMessageLiveLocationRequest
             {
                 InlineMessageId = cqUpdate.CallbackQuery!.InlineMessageId!,
@@ -82,7 +82,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.StopMessageLiveLocation)]
     public async Task Should_Stop_Inline_Message_Live_Location()
     {
-        await BotClient.StopMessageLiveLocationAsync(
+        await BotClient.StopInlineMessageLiveLocationAsync(
             new StopInlineMessageLiveLocationRequest
             {
                 InlineMessageId = classFixture.InlineMessageId,

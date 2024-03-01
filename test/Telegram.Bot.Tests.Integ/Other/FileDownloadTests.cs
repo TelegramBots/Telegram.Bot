@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Telegram.Bot.Exceptions;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Xunit;
@@ -30,8 +31,11 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Documents.Hamlet))
         {
             documentMessage = await BotClient.SendDocumentAsync(
-                chatId: fixture.SupergroupChat,
-                document: InputFile.FromStream(stream)
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Document = InputFile.FromStream(stream),
+                }
             );
         }
 
@@ -39,7 +43,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
 
         #endregion
 
-        File file = await BotClient.GetFileAsync(documentMessage.Document.FileId);
+        File file = await BotClient.GetFileAsync(new GetFileRequest { FileId = documentMessage.Document.FileId });
 
         Assert.Equal(fileId, file.FileId);
         Assert.NotNull(file.FileSize);
@@ -94,7 +98,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
     public async Task Should_Throw_FileId_InvalidParameterException()
     {
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(async () =>
-            await BotClient.GetFileAsync("Invalid_File_id")
+            await BotClient.GetFileAsync(new GetFileRequest { FileId =  "Invalid_File_id" })
         );
 
         Assert.Contains("file_id", exception.Message);
