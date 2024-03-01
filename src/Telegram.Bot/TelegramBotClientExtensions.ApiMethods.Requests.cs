@@ -1196,14 +1196,14 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to edit live location messages. A location can be edited until its
     /// <see cref="Location.LivePeriod"/> expires or editing is explicitly disabled by a call to
-    /// <see cref="StopMessageLiveLocationAsync(ITelegramBotClient, StopInlineMessageLiveLocationRequest, CancellationToken)"/>.
+    /// <see cref="StopInlineMessageLiveLocationAsync"/>.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="request">Request parameters</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task<bool> EditMessageLiveLocationAsync(
+    public static async Task<bool> EditInlineMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageLiveLocationRequest request,
         CancellationToken cancellationToken = default
@@ -1278,7 +1278,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task<bool> StopMessageLiveLocationAsync(
+    public static async Task<bool> StopInlineMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         StopInlineMessageLiveLocationRequest request,
         CancellationToken cancellationToken = default
@@ -1715,7 +1715,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects.</returns>
-    public static async Task<GameHighScore[]> GetGameHighScoresAsync(
+    public static async Task<GameHighScore[]> GetInlineGameHighScoresAsync(
         this ITelegramBotClient botClient,
         GetInlineGameHighScoresRequest request,
         CancellationToken cancellationToken = default
@@ -1775,7 +1775,7 @@ public static partial class TelegramBotClientExtensions
     /// Returns an error, if the new score is not greater than the user's current score in the chat and
     /// <see cref="SetGameScoreRequest.Force"/> is <see langword="false"/>
     /// </returns>
-    public static async Task<bool> SetGameScoreAsync(
+    public static async Task<bool> SetInlineGameScoreAsync(
         this ITelegramBotClient botClient,
         SetInlineGameScoreRequest request,
         CancellationToken cancellationToken = default
@@ -2371,7 +2371,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task<bool> EditMessageCaptionAsync(
+    public static async Task<bool> EditInlineMessageCaptionAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageCaptionRequest request,
         CancellationToken cancellationToken = default
@@ -2391,7 +2391,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task<bool> EditMessageMediaAsync(
+    public static async Task<bool> EditInlineMessageMediaAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageMediaRequest request,
         CancellationToken cancellationToken = default
@@ -2408,7 +2408,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task<bool> EditMessageReplyMarkupAsync(
+    public static async Task<bool> EditInlineMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageReplyMarkupRequest request,
         CancellationToken cancellationToken = default
@@ -2425,7 +2425,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task<bool> EditMessageTextAsync(
+    public static async Task<bool> EditInlineMessageTextAsync(
         this ITelegramBotClient botClient,
         EditInlineMessageTextRequest request,
         CancellationToken cancellationToken = default
