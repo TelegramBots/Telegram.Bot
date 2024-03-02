@@ -44,7 +44,7 @@ public class EditMessageContentTests2(TestsFixture fixture)
         messageText = $"{modifiedMessagePrefix}{string.Join("\n", entityValueMappings.Select(tuple => tuple.Value))}";
 
         Message editedMessage = await BotClient.EditMessageTextAsync(
-            new EditMessageTextRequest
+            new()
             {
                 ChatId = originalMessage.Chat.Id,
                 MessageId = originalMessage.MessageId,
@@ -122,7 +122,7 @@ public class EditMessageContentTests2(TestsFixture fixture)
         string caption = $"{captionPrefix} {captionEntity.Value}";
 
         Message editedMessage = await BotClient.EditMessageCaptionAsync(
-            new EditMessageCaptionRequest
+            new()
             {
                 ChatId = originalMessage.Chat.Id,
                 MessageId = originalMessage.MessageId,

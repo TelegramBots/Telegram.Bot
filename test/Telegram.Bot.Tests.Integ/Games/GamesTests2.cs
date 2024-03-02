@@ -74,7 +74,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
     public async Task Should_Get_High_Scores()
     {
         GameHighScore[] highScores = await BotClient.GetGameHighScoresAsync(
-            new GetGameHighScoresRequest
+            new()
             {
                 UserId = classFixture.Player.Id,
                 ChatId = fixture.SupergroupChat.Id,
@@ -110,7 +110,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
         );
 
         Message gameMessage = await BotClient.SetGameScoreAsync(
-            new SetGameScoreRequest
+            new()
             {
                 UserId = playerId,
                 Score = newScore,
@@ -124,7 +124,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
         // update the high scores cache
         await Task.Delay(1_000);
         classFixture.HighScores = await BotClient.GetGameHighScoresAsync(
-            new GetGameHighScoresRequest
+            new()
             {
                 UserId = playerId,
                 ChatId = fixture.SupergroupChat.Id,
@@ -146,7 +146,7 @@ public class GamesTests2(TestsFixture fixture, GamesFixture classFixture) : ICla
         );
 
         Message gameMessage = await BotClient.SetGameScoreAsync(
-            new SetGameScoreRequest
+            new()
             {
                 UserId = playerId,
                 Score = newScore,

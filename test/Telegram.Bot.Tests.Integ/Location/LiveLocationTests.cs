@@ -62,7 +62,7 @@ public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> clas
             await Task.Delay(1_500);
 
             editedMessage = await BotClient.EditMessageLiveLocationAsync(
-                new EditMessageLiveLocationRequest
+                new()
                 {
                     ChatId = LocationMessage.Chat.Id,
                     MessageId = LocationMessage.MessageId,

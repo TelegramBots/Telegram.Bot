@@ -64,7 +64,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
     public async Task Should_Get_High_Scores_Inline_Message()
     {
         GameHighScore[] highScores = await BotClient.GetInlineGameHighScoresAsync(
-            new GetInlineGameHighScoresRequest
+            new()
             {
                 UserId = classFixture.Player.Id,
                 InlineMessageId = classFixture.InlineGameMessageId,
@@ -91,7 +91,7 @@ public class GamesTests(TestsFixture fixture, GamesFixture classFixture) : IClas
         );
 
         await BotClient.SetInlineGameScoreAsync(
-            new SetInlineGameScoreRequest
+            new()
             {
                 UserId = playerId,
                 Score = newScore,

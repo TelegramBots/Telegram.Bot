@@ -41,7 +41,7 @@ public class EditMessageMediaTests2(TestsFixture fixture)
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
         {
             editedMessage = await BotClient.EditMessageMediaAsync(
-                new EditMessageMediaRequest
+                new()
                 {
                     ChatId = originalMessage.Chat,
                     MessageId = originalMessage.MessageId,
@@ -95,7 +95,7 @@ public class EditMessageMediaTests2(TestsFixture fixture)
         // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
         await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
         Message editedMessage = await BotClient.EditMessageMediaAsync(
-            new EditMessageMediaRequest
+            new()
             {
                 ChatId = originalMessage.Chat,
                 MessageId = originalMessage.MessageId,

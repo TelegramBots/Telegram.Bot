@@ -66,7 +66,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
         Location beijing = new() { Latitude = 39.9042f, Longitude = 116.4074f };
 
         await BotClient.EditInlineMessageLiveLocationAsync(
-            new EditInlineMessageLiveLocationRequest
+            new()
             {
                 InlineMessageId = cqUpdate.CallbackQuery!.InlineMessageId!,
                 Latitude = beijing.Latitude,
@@ -83,7 +83,7 @@ public class InlineMessageLiveLocationTests(TestsFixture fixture, InlineMessageL
     public async Task Should_Stop_Inline_Message_Live_Location()
     {
         await BotClient.StopInlineMessageLiveLocationAsync(
-            new StopInlineMessageLiveLocationRequest
+            new()
             {
                 InlineMessageId = classFixture.InlineMessageId,
             }
