@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Extensions;
@@ -27,8 +26,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="offset">
     /// Identifier of the first update to be returned. Must be greater by one than the highest among the
     /// identifiers of previously received updates. By default, updates starting with the earliest unconfirmed
-    /// update are returned. An update is considered confirmed as soon as <see cref="GetUpdatesAsync"/> is called
-    /// with an <paramref name="offset"/> higher than its <see cref="Update.Id"/>. The negative offset can be
+    /// update are returned. An update is considered confirmed as soon as
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/> is called with an
+    /// <paramref name="offset"/> higher than its <see cref="Update.Id"/>. The negative offset can be
     /// specified to retrieve updates starting from <paramref name="offset">-offset</paramref> update from the end
     /// of the updates queue. All previous updates will forgotten.
     /// </param>
@@ -119,7 +119,8 @@ public static partial class TelegramBotClientExtensions
     /// </para>
     /// <para>
     /// Please note that this parameter doesn't affect updates created before the call to the
-    /// <see cref="SetWebhookAsync"/>, so unwanted updates may be received for a short period of time.
+    /// <see cref="SetWebhookAsync(ITelegramBotClient,SetWebhookRequest,CancellationToken)"/>,
+    /// so unwanted updates may be received for a short period of time.
     /// </para>
     /// </param>
     /// <param name="dropPendingUpdates">Pass <see langword="true"/> to drop all pending updates</param>
@@ -134,8 +135,9 @@ public static partial class TelegramBotClientExtensions
     /// <remarks>
     /// <list type="number">
     /// <item>
-    /// You will not be able to receive updates using <see cref="GetUpdatesAsync"/> for as long as an outgoing
-    /// webhook is set up
+    /// You will not be able to receive updates using
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/> for as long as
+    /// an outgoing webhook is set up
     /// </item>
     /// <item>
     /// To use a self-signed certificate, you need to upload your
@@ -178,7 +180,8 @@ public static partial class TelegramBotClientExtensions
 
 
     /// <summary>
-    /// Use this method to remove webhook integration if you decide to switch back to <see cref="GetUpdatesAsync"/>
+    /// Use this method to remove webhook integration if you decide to switch back to
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="dropPendingUpdates">Pass <see langword="true"/> to drop all pending updates</param>
@@ -207,7 +210,8 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>
-    /// On success, returns a <see cref="WebhookInfo"/> object. If the bot is using <see cref="GetUpdatesAsync"/>,
+    /// On success, returns a <see cref="WebhookInfo"/> object. If the bot is using
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/>,
     /// will return an object with the <see cref="WebhookInfo.Url"/> field empty.
     /// </returns>
     [Obsolete("Use the overload that accepts the corresponding request class")]
@@ -457,8 +461,9 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied.
-    /// The method is analogous to the method <see cref="ForwardMessageAsync"/>, but the copied message doesn't
-    /// have a link to the original message.
+    /// The method is analogous to the method
+    /// <see cref="ForwardMessageAsync(ITelegramBotClient,ForwardMessageRequest,CancellationToken)"/>,
+    /// but the copied message doesn't have a link to the original message.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -542,8 +547,9 @@ public static partial class TelegramBotClientExtensions
     /// they are skipped. Service messages, giveaway messages, giveaway winners messages, and invoice messages
     /// can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field
     /// <see cref="Poll.CorrectOptionId">CorrectOptionId</see> is known to the bot. The method is analogous
-    /// to the method <see cref="ForwardMessagesAsync"/>, but the copied messages don't have a link
-    /// to the original message. Album grouping is kept for copied messages.
+    /// to the method
+    /// <see cref="ForwardMessagesAsync(ITelegramBotClient,ForwardMessagesRequest,CancellationToken)"/>, but the
+    /// copied messages don't have a link to the original message. Album grouping is kept for copied messages.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -1886,7 +1892,8 @@ public static partial class TelegramBotClientExtensions
     /// <para>
     /// The <a href="https://t.me/imagebot">ImageBot</a> needs some time to process a request and upload the
     /// image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may
-    /// use <see cref="SendChatActionAsync"/> with <see cref="Action"/> = <see cref="ChatAction.UploadPhoto"/>.
+    /// use <see cref="SendChatActionAsync(ITelegramBotClient,SendChatActionRequest,CancellationToken)"/> with
+    /// <see cref="SendChatActionRequest.Action"/> = <see cref="ChatAction.UploadPhoto"/>.
     /// The user will see a “sending photo” status for the bot.
     /// </para>
     /// <para>
@@ -1902,14 +1909,18 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatAction">
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive:
     /// <see cref="ChatAction.Typing"/> for <see cref="SendTextMessageAsync">text messages</see>,
-    /// <see cref="ChatAction.UploadPhoto"/> for <see cref="SendPhotoAsync">photos</see>,
+    /// <see cref="ChatAction.UploadPhoto"/> for
+    /// <see cref="SendPhotoAsync(ITelegramBotClient,SendPhotoRequest,CancellationToken)">photos</see>,
     /// <see cref="ChatAction.RecordVideo"/> or <see cref="ChatAction.UploadVideo"/> for
-    /// <see cref="SendVideoAsync">videos</see>, <see cref="ChatAction.RecordVoice"/> or
-    /// <see cref="ChatAction.UploadVoice"/> for <see cref="SendVoiceAsync">voice notes</see>,
-    /// <see cref="ChatAction.UploadDocument"/> for <see cref="SendDocumentAsync">general files</see>,
-    /// <see cref="ChatAction.FindLocation"/> for <see cref="SendLocationAsync">location data</see>,
+    /// <see cref="SendVideoAsync(ITelegramBotClient,SendVideoRequest,CancellationToken)">videos</see>,
+    /// <see cref="ChatAction.RecordVoice"/> or <see cref="ChatAction.UploadVoice"/> for
+    /// <see cref="SendVoiceAsync(ITelegramBotClient,SendVoiceRequest,CancellationToken)">voice notes</see>,
+    /// <see cref="ChatAction.UploadDocument"/> for
+    /// <see cref="SendDocumentAsync(ITelegramBotClient,SendDocumentRequest,CancellationToken)">general files</see>,
+    /// <see cref="ChatAction.FindLocation"/> for
+    /// <see cref="SendLocationAsync(ITelegramBotClient,SendLocationRequest,CancellationToken)">location data</see>,
     /// <see cref="ChatAction.RecordVideoNote"/> or <see cref="ChatAction.UploadVideoNote"/> for
-    /// <see cref="SendVideoNoteAsync">video notes</see>
+    /// <see cref="SendVideoNoteAsync(ITelegramBotClient,SendVideoNoteRequest,CancellationToken)">video notes</see>
     /// </param>
     /// <param name="messageThreadId">Unique identifier for the target message thread; supergroups only</param>
     /// <param name="cancellationToken">
@@ -2020,7 +2031,8 @@ public static partial class TelegramBotClientExtensions
     /// download files of up to 20MB in size. The file can then be downloaded via the link
     /// <c>https://api.telegram.org/file/bot&lt;token&gt;/&lt;file_path&gt;</c>, where <c>&lt;file_path&gt;</c>
     /// is taken from the response. It is guaranteed that the link will be valid for at least 1 hour.
-    /// When the link expires, a new one can be requested by calling <see cref="GetFileAsync"/> again.
+    /// When the link expires, a new one can be requested by calling
+    /// <see cref="GetFileAsync(ITelegramBotClient,GetFileRequest,CancellationToken)"/> again.
     /// </summary>
     /// <remarks>
     /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or
@@ -2464,7 +2476,8 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to create an additional invite link for a chat. The bot must be an administrator
     /// in the chat for this to work and must have the appropriate admin rights. The link can be revoked
-    /// using the method <see cref="RevokeChatInviteLinkAsync"/>
+    /// using the method
+    /// <see cref="RevokeChatInviteLinkAsync(ITelegramBotClient,RevokeChatInviteLinkRequest,CancellationToken)"/>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2985,8 +2998,9 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatAsync"/> requests to check
-    /// if the bot can use this method.
+    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)"/> requests to check if the bot
+    /// can use this method.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -3014,8 +3028,9 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatAsync"/> requests to
-    /// check if the bot can use this method
+    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)"/> requests to check if the bot
+    /// can use this method
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -3068,7 +3083,8 @@ public static partial class TelegramBotClientExtensions
     /// 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
     /// </param>
     /// <param name="iconCustomEmojiId">
-    /// Unique identifier of the custom emoji shown as the topic icon. Use <see cref="GetForumTopicIconStickersAsync"/>
+    /// Unique identifier of the custom emoji shown as the topic icon. Use
+    /// <see cref="GetForumTopicIconStickersAsync(ITelegramBotClient,GetForumTopicIconStickersRequest,CancellationToken)"/>
     /// to get all allowed custom emoji identifiers
     /// </param>
     /// <param name="cancellationToken">
@@ -4333,8 +4349,9 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageIds">
-    /// Identifiers of 1-100 messages to delete. See <see cref="DeleteMessageAsync"/>
-    /// for limitations on which messages can be deleted
+    /// Identifiers of 1-100 messages to delete. See
+    /// <see cref="DeleteMessageAsync(ITelegramBotClient,DeleteMessageRequest,CancellationToken)"/> for limitations
+    /// on which messages can be deleted
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
