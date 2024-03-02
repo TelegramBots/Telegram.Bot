@@ -13,24 +13,23 @@ public class ChatMemberSerializationTests
     [Fact]
     public void Should_Deserialize_Chat_Member_Member()
     {
-        var creator = new
+        const string json = """
         {
-            status = ChatMemberStatus.Creator,
-            user = new
-            {
-                id = 12345,
-                is_bot = true,
-                first_name = "First Name",
-                last_name = "Last Name",
-                username = "test_bot",
-                language_code = "en_US",
+            "status": "creator",
+            "user": {
+                "id": 12345,
+                "is_bot": true,
+                "first_name": "First Name",
+                "last_name": "Last Name",
+                "username": "test_bot",
+                "language_code": "en_US",
             },
-            is_anonymous = true,
-            custom_title = "custom test title"
-        };
+            "is_anonymous": true,
+            "custom_title": "custom test title"
+        }
+        """;
 
-        string? chatMemberJson = JsonConvert.SerializeObject(creator, Formatting.Indented);
-        ChatMember? chatMember = JsonConvert.DeserializeObject<ChatMember>(chatMemberJson);
+        ChatMember? chatMember = JsonConvert.DeserializeObject<ChatMember>(json);
 
         ChatMemberOwner owner = Assert.IsType<ChatMemberOwner>(chatMember);
 

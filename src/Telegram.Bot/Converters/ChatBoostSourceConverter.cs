@@ -1,5 +1,6 @@
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Converters;
 
@@ -32,7 +33,7 @@ internal class ChatBoostSourceConverter : JsonConverter
         JsonSerializer serializer)
     {
         var jo = JObject.Load(reader);
-        var type = jo["source"]?.Value<string>();
+        var type = jo["source"]?.ToObject<ChatBoostSourceType>();
 
         if (type is null)
         {
@@ -41,10 +42,10 @@ internal class ChatBoostSourceConverter : JsonConverter
 
         var actualType = type switch
         {
-            "premium"   => typeof(ChatBoostSourcePremium),
-            "gift_code" => typeof(ChatBoostSourceGiftCode),
-            "giveaway"  => typeof(ChatBoostSourceGiveaway),
-            _           => throw new JsonSerializationException($"Unknown chat boost source value of '{jo["source"]}'")
+            ChatBoostSourceType.Premium  => typeof(ChatBoostSourcePremium),
+            ChatBoostSourceType.GiftCode => typeof(ChatBoostSourceGiftCode),
+            ChatBoostSourceType.Giveaway => typeof(ChatBoostSourceGiveaway),
+            _ => throw new JsonSerializationException($"Unknown chat boost source value of '{jo["source"]}'")
         };
 
         // Remove status because status property only has getter

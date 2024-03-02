@@ -1,4 +1,5 @@
 using Telegram.Bot.Converters;
+using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
 
@@ -18,19 +19,19 @@ public abstract class ChatBoostSource
     /// Source of the boost
     /// </summary>
     [JsonProperty]
-    public abstract string Source { get; }
+    public abstract ChatBoostSourceType Source { get; }
 }
 
 /// <summary>
 /// The boost was obtained by subscribing to Telegram Premium or by gifting a Telegram Premium subscription to another user.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public abstract class ChatBoostSourcePremium : ChatBoostSource
+public class ChatBoostSourcePremium : ChatBoostSource
 {
     /// <summary>
     /// Source of the boost, always "premium"
     /// </summary>
-    public override string Source => "premium";
+    public override ChatBoostSourceType Source => ChatBoostSourceType.Premium;
 
     /// <summary>
     /// User that boosted the chat
@@ -44,12 +45,12 @@ public abstract class ChatBoostSourcePremium : ChatBoostSource
 /// Each such code boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public abstract class ChatBoostSourceGiftCode : ChatBoostSource
+public class ChatBoostSourceGiftCode : ChatBoostSource
 {
     /// <summary>
     /// Source of the boost, always "gift_code"
     /// </summary>
-    public override string Source => "gift_code";
+    public override ChatBoostSourceType Source => ChatBoostSourceType.GiftCode;
 
     /// <summary>
     /// User for which the gift code was created
@@ -63,19 +64,19 @@ public abstract class ChatBoostSourceGiftCode : ChatBoostSource
 /// This boosts the chat 4 times for the duration of the corresponding Telegram Premium subscription.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public abstract class ChatBoostSourceGiveaway : ChatBoostSource
+public class ChatBoostSourceGiveaway : ChatBoostSource
 {
     /// <summary>
     /// Source of the boost, always "giveaway"
     /// </summary>
-    public override string Source => "giveaway";
+    public override ChatBoostSourceType Source => ChatBoostSourceType.Giveaway;
 
     /// <summary>
     /// Identifier of a message in the chat with the giveaway; the message could have been deleted already.
     /// May be 0 if the message isn't sent yet.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int GiveawayMessageId { get; set; } = default!;
+    public int GiveawayMessageId { get; set; }
 
     /// <summary>
     /// Optional. User that won the prize in the giveaway if any
