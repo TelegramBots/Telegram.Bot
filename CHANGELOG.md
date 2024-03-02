@@ -74,6 +74,8 @@ in the class `Update`. The bot must be an administrator in the chat to receive t
 - Fields `Chat` and `Id` to type `Story`
 
 ### Changed
+- All required properties without setters marked as required using `required` keyword
+- All non-default ctors are marked as obsolete in favor of the default ctors with object initialization syntax and required properties 
 - All API methods with positional parameters on `ITelegramBotClient` are marked obsolete
 - Class `UnpinAllGeneralForumTopicMessages` marked as obsolete
 - Replaced parameters `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the methods 
