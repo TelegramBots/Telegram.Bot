@@ -10,16 +10,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages;
 
 [Collection(Constants.TestCollections.SendVenueMessage)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class SendingVenueMessageTests
+public class SendingVenueMessageTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public SendingVenueMessageTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should send a venue")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
@@ -32,12 +25,15 @@ public class SendingVenueMessageTests
         const string foursquareId = "4cc6222106c25481d7a4a047";
 
         Message message = await BotClient.SendVenueAsync(
-            chatId: _fixture.SupergroupChat,
-            latitude: lat,
-            longitude: lon,
-            title: title,
-            address: address,
-            foursquareId: foursquareId
+            new()
+            {
+                ChatId = fixture.SupergroupChat,
+                Latitude = lat,
+                Longitude = lon,
+                Title = title,
+                Address = address,
+                FoursquareId = foursquareId,
+            }
         );
 
         Assert.Equal(MessageType.Venue, message.Type);
@@ -53,15 +49,18 @@ public class SendingVenueMessageTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVenue)]
     public async Task Should_Deserialize_Send_Venue()
     {
-        string json = $@"{{
-                chat_id: ""{_fixture.SupergroupChat.Id}"",
+        string json =
+            $$"""
+            {
+                chat_id: "{{fixture.SupergroupChat.Id}}",
                 latitude: 48.204296,
                 longitude: 16.365514,
-                title: ""Burggarten"",
-                address: ""Opernring"",
-                foursquare_id: ""4b7ff7c3f964a5208d4730e3"",
-                foursquare_type: ""parks_outdoors/park""
-            }}";
+                title: "Burggarten",
+                address: "Opernring",
+                foursquare_id: "4b7ff7c3f964a5208d4730e3",
+                foursquare_type: "parks_outdoors/park"
+            }
+            """;
 
         SendVenueRequest request = JsonConvert.DeserializeObject<SendVenueRequest>(json);
 

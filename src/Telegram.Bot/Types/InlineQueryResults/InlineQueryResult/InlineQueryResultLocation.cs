@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -19,17 +19,17 @@ public class InlineQueryResultLocation : InlineQueryResult
 
     /// <inheritdoc cref="Documentation.Latitude" />
     [JsonProperty(Required = Required.Always)]
-    public double Latitude { get; }
+    public required double Latitude { get; init; }
 
     /// <inheritdoc cref="Documentation.Longitude" />
     [JsonProperty(Required = Required.Always)]
-    public double Longitude { get; }
+    public required double Longitude { get; init; }
 
     /// <summary>
     /// Location title
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
@@ -80,6 +80,8 @@ public class InlineQueryResultLocation : InlineQueryResult
     /// <param name="latitude">Latitude of the location in degrees</param>
     /// <param name="longitude">Longitude of the location in degrees</param>
     /// <param name="title">Title of the result</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultLocation(string id, double latitude, double longitude, string title)
         : base(id)
     {
@@ -87,4 +89,10 @@ public class InlineQueryResultLocation : InlineQueryResult
         Longitude = longitude;
         Title = title;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultLocation()
+    { }
 }

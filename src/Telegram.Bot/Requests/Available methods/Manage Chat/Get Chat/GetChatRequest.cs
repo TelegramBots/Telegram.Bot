@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Converters;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -15,7 +16,7 @@ public class GetChatRequest : RequestBase<Chat>, IChatTargetable
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(ChatIdConverter))]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Initializes a new request with chatId
@@ -24,9 +25,18 @@ public class GetChatRequest : RequestBase<Chat>, IChatTargetable
     /// Unique identifier for the target chat or username of the target supergroup or channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetChatRequest(ChatId chatId)
-        : base("getChat")
+        : this()
     {
         ChatId = chatId;
     }
+
+    /// <summary>
+    /// Initializes a new request with chatId
+    /// </summary>
+    public GetChatRequest()
+        : base("getChat")
+    { }
 }

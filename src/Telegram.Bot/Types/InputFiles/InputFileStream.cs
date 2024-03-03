@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using Telegram.Bot.Types.Enums;
 
@@ -16,7 +17,7 @@ public class InputFileStream : InputFile
     /// <summary>
     /// File content to upload
     /// </summary>
-    public Stream Content { get; }
+    public required Stream Content { get; init; }
 
     /// <summary>
     /// Name of a file to upload using multipart/form-data
@@ -29,6 +30,14 @@ public class InputFileStream : InputFile
     /// </summary>
     /// <param name="content">File content to upload</param>
     /// <param name="fileName">Name of a file to upload using multipart/form-data</param>
+    [SetsRequiredMembers]
     public InputFileStream(Stream content, string? fileName = default) =>
         (Content, FileName) = (content, fileName);
+
+    /// <summary>
+    /// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data
+    /// in the usual way that files are uploaded via the browser.
+    /// </summary>
+    public InputFileStream()
+    { }
 }

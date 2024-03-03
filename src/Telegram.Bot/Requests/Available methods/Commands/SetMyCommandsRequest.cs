@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -16,7 +17,7 @@ public class SetMyCommandsRequest : RequestBase<bool>
     /// At most 100 commands can be specified.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<BotCommand> Commands { get; }
+    public required IEnumerable<BotCommand> Commands { get; init; }
 
     /// <summary>
     /// An object, describing scope of users for which the commands are relevant.
@@ -36,9 +37,18 @@ public class SetMyCommandsRequest : RequestBase<bool>
     /// Initializes a new request with commands
     /// </summary>
     /// <param name="commands">A list of bot commands to be set</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetMyCommandsRequest(IEnumerable<BotCommand> commands)
-        : base("setMyCommands")
+        : this()
     {
         Commands = commands;
     }
+
+    /// <summary>
+    /// Initializes a new request with commands
+    /// </summary>
+    public SetMyCommandsRequest()
+        : base("setMyCommands")
+    { }
 }

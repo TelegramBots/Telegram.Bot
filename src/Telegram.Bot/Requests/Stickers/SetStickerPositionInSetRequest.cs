@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
@@ -12,13 +14,13 @@ public class SetStickerPositionInSetRequest : RequestBase<bool>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileId Sticker { get; }
+    public required InputFileId Sticker { get; init; }
 
     /// <summary>
     /// New sticker position in the set, zero-based
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int Position { get; }
+    public required int Position { get; init; }
 
     /// <summary>
     /// Initializes a new request with sticker and position
@@ -27,10 +29,19 @@ public class SetStickerPositionInSetRequest : RequestBase<bool>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </param>
     /// <param name="position">New sticker position in the set, zero-based</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerPositionInSetRequest(InputFileId sticker, int position)
-        : base("setStickerPositionInSet")
+        : this()
     {
         Sticker = sticker;
         Position = position;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetStickerPositionInSetRequest()
+        : base("setStickerPositionInSet")
+    { }
 }

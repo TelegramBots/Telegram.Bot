@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -35,16 +37,44 @@ public class DocumentSerializationTests
                 FileSize = 123_456,
                 MimeType = "plain/text"
             },
-            Date = DateTime.UtcNow,
+            Date = new(2024, 1, 1, 10, 0, 0, DateTimeKind.Utc),
             Caption = "Test Document Description"
         };
 
         string json = JsonConvert.SerializeObject(documentMessage);
 
         Assert.NotNull(json);
-        Assert.True(json.Length > 100);
-        Assert.Contains(@"""file_id"":""KLAHCVUydfS_jHIBildtwpmvxZg""", json);
-        Assert.Contains(@"""can_set_sticker_set"":true", json);
+
+        JObject j = JObject.Parse(json);
+        Assert.Equal(6, j.Children().Count());
+        Assert.Equal(1234, j["message_id"]);
+        Assert.Equal("Test Document Description", j["caption"]);
+        Assert.Equal(1704088800, j["date"]);
+
+        JToken? document = j["document"];
+        Assert.NotNull(document);
+        Assert.Equal(5, document.Children().Count());
+        Assert.Equal("KLAHCVUydfS_jHIBildtwpmvxZg", document["file_id"]);
+        Assert.Equal("AgADcOsAAhUdZAc", document["file_unique_id"]);
+        Assert.Equal("test_file.txt", document["file_name"]);
+        Assert.Equal(123_456, document["file_size"]);
+        Assert.Equal("plain/text", document["mime_type"]);
+
+        JToken? user = j["from"];
+        Assert.NotNull(user);
+        Assert.Equal(4, user.Children().Count());
+        Assert.Equal(123_456_789, user["id"]);
+        Assert.Equal("TelegramBots", user["first_name"]);
+        Assert.Equal("Telegram_Bots", user["username"]);
+        Assert.Equal(false, user["is_bot"]);
+
+        JToken? chat = j["chat"];
+        Assert.NotNull(chat);
+        Assert.Equal(4, chat.Children().Count());
+        Assert.Equal(-9_877_654_320_000, chat["id"]);
+        Assert.Equal("Test Chat", chat["title"]);
+        Assert.Equal("supergroup", chat["type"]);
+        Assert.Equal(true, chat["can_set_sticker_set"]);
     }
 
     [Fact(DisplayName = "Should deserialize a document message")]

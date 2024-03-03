@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -14,13 +14,13 @@ public class InputLocationMessageContent : InputMessageContent
     /// Latitude of the location in degrees
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Latitude { get; }
+    public required double Latitude { get; init; }
 
     /// <summary>
     /// Longitude of the location in degrees
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Longitude { get; }
+    public required double Longitude { get; init; }
 
     /// <summary>
     /// Optional. The radius of uncertainty for the location, measured in meters; 0-1500
@@ -52,9 +52,17 @@ public class InputLocationMessageContent : InputMessageContent
     /// </summary>
     /// <param name="latitude">The latitude of the location</param>
     /// <param name="longitude">The longitude of the location</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InputLocationMessageContent(double latitude, double longitude)
     {
         Latitude = latitude;
         Longitude = longitude;
     }
+
+    /// <summary>
+    /// Initializes a new input location message content
+    /// </summary>
+    public InputLocationMessageContent()
+    { }
 }

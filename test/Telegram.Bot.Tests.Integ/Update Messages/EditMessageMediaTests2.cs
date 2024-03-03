@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -10,16 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Update_Messages;
 
 [Collection(Constants.TestCollections.EditMessageMedia2)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class EditMessageMediaTests2
+public class EditMessageMediaTests2(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public EditMessageMediaTests2(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should change a message's video to a document file")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideo)]
@@ -31,9 +25,12 @@ public class EditMessageMediaTests2
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Animation.Earth))
         {
             originalMessage = await BotClient.SendVideoAsync(
-                chatId: _fixture.SupergroupChat,
-                video: new InputFileStream(stream),
-                caption: "This message will be edited shortly"
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Video = InputFile.FromStream(stream),
+                    Caption = "This message will be edited shortly",
+                }
             );
         }
 
@@ -44,12 +41,16 @@ public class EditMessageMediaTests2
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Certificate.PublicKey))
         {
             editedMessage = await BotClient.EditMessageMediaAsync(
-                chatId: originalMessage.Chat,
-                messageId: originalMessage.MessageId,
-                media: new InputMediaDocument(new InputFileStream(stream, "public-key.pem.txt"))
+                new()
                 {
-                    Caption = "**Public** key in `.pem` format",
-                    ParseMode = ParseMode.Markdown,
+                    ChatId = originalMessage.Chat,
+                    MessageId = originalMessage.MessageId,
+                    Media = new InputMediaDocument
+                    {
+                        Media = InputFile.FromStream(stream, "public-key.pem.txt"),
+                        Caption = "**Public** key in `.pem` format",
+                        ParseMode = ParseMode.Markdown,
+                    },
                 }
             );
         }
@@ -69,18 +70,24 @@ public class EditMessageMediaTests2
     {
         // Upload a GIF file to Telegram servers and obtain its file_id. This file_id will be used later in test.
         Message gifMessage = await BotClient.SendDocumentAsync(
-            chatId: _fixture.SupergroupChat,
-            document: new InputFileUrl(new Uri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")),
-            caption: "`file_id` of this GIF will be used"
+            new()
+            {
+                ChatId = fixture.SupergroupChat,
+                Document = InputFile.FromUri(new Uri("https://upload.wikimedia.org/wikipedia/commons/2/2c/Rotating_earth_%28large%29.gif")),
+                Caption = "`file_id` of this GIF will be used",
+            }
         );
 
         Assert.NotNull(gifMessage.Document);
 
         // Send a photo to chat. This media will be changed later in test.
         Message originalMessage = await BotClient.SendPhotoAsync(
-            chatId: _fixture.SupergroupChat,
-            photo: new InputFileUrl(new Uri("https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")),
-            caption: "This message will be edited shortly"
+            new()
+            {
+                ChatId = fixture.SupergroupChat,
+                Photo = InputFile.FromUri(new Uri("https://cdn.pixabay.com/photo/2017/08/30/12/45/girl-2696947_640.jpg")),
+                Caption = "This message will be edited shortly",
+            }
         );
 
         await Task.Delay(500);
@@ -88,14 +95,18 @@ public class EditMessageMediaTests2
         // Replace audio with another audio by uploading the new file. A thumbnail image is also uploaded.
         await using Stream thumbStream = System.IO.File.OpenRead(Constants.PathToFile.Thumbnail.Video);
         Message editedMessage = await BotClient.EditMessageMediaAsync(
-            chatId: originalMessage.Chat,
-            messageId: originalMessage.MessageId,
-            media: new InputMediaAnimation(new InputFileId(gifMessage.Document.FileId))
+            new()
             {
-                Thumbnail = new InputFileStream(thumbStream, "thumb.jpg"),
-                Duration = 4,
-                Height = 320,
-                Width = 320,
+                ChatId = originalMessage.Chat,
+                MessageId = originalMessage.MessageId,
+                Media = new InputMediaAnimation
+                {
+                    Media = InputFile.FromFileId(gifMessage.Document.FileId),
+                    Thumbnail = InputFile.FromStream(thumbStream, "thumb.jpg"),
+                    Duration = 4,
+                    Height = 320,
+                    Width = 320,
+                }
             }
         );
 

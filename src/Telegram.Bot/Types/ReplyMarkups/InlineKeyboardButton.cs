@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
@@ -8,11 +10,12 @@ public class InlineKeyboardButton : IKeyboardButton
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public string Text { get; set; }
+    public required string Text { get; init; }
 
     /// <summary>
-    /// Optional. HTTP or tg:// URL to be opened when the button is pressed. Links <c>tg://user?id=&lt;user_id&gt;</c>
-    /// can be used to mention a user by their ID without using a username, if this is allowed by their privacy settings.
+    /// Optional. HTTP or tg:// URL to be opened when the button is pressed.
+    /// Links <c>tg://user?id=&lt;user_id&gt;</c> can be used to mention a user by their ID without using a username,
+    /// if this is allowed by their privacy settings.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? Url { get; set; }
@@ -82,7 +85,8 @@ public class InlineKeyboardButton : IKeyboardButton
     public CallbackGame? CallbackGame { get; set; }
 
     /// <summary>
-    /// Optional. Specify <see langword="true"/>, to send a <a href="https://core.telegram.org/bots/api#payments">Pay button</a>.
+    /// Optional. Specify <see langword="true"/>, to send a
+    /// <a href="https://core.telegram.org/bots/api#payments">Pay button</a>.
     /// </summary>
     /// <remarks>
     /// <b>NOTE:</b> This type of button <b>must</b> always be the first button in the first row.
@@ -93,8 +97,15 @@ public class InlineKeyboardButton : IKeyboardButton
     /// <summary>
     /// Instantiates new Inline Keyboard object
     /// </summary>
+    public InlineKeyboardButton()
+    { }
+
+    /// <summary>
+    /// Instantiates new Inline Keyboard object
+    /// </summary>
     /// <param name="text">Label text on the button</param>
     [JsonConstructor]
+    [SetsRequiredMembers]
     public InlineKeyboardButton(string text)
     {
         Text = text;
@@ -178,7 +189,10 @@ public class InlineKeyboardButton : IKeyboardButton
     /// with an optional default inline query.
     /// </param>
     /// <returns></returns>
-    public static InlineKeyboardButton WithSwitchInlineQueryChosenChat(string text, SwitchInlineQueryChosenChat switchInlineQueryChosenChat) =>
+    public static InlineKeyboardButton WithSwitchInlineQueryChosenChat(
+        string text,
+        SwitchInlineQueryChosenChat switchInlineQueryChosenChat
+    ) =>
         new(text) { SwitchInlineQueryChosenChat = switchInlineQueryChosenChat };
 
     /// <summary>

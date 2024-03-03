@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -14,13 +16,13 @@ public class SetStickerEmojiListRequest : RequestBase<bool>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileId Sticker { get; }
+    public required InputFileId Sticker { get; init; }
 
     /// <summary>
     /// A JSON-serialized list of 1-20 emoji associated with the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<string> EmojiList { get; }
+    public required IEnumerable<string> EmojiList { get; init; }
 
     /// <summary>
     /// Initializes a new request with sticker and emojiList
@@ -31,10 +33,19 @@ public class SetStickerEmojiListRequest : RequestBase<bool>
     /// <param name="emojiList">
     /// A JSON-serialized list of 1-20 emoji associated with the sticker
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerEmojiListRequest(InputFileId sticker, IEnumerable<string> emojiList)
-        : base("setStickerEmojiList")
+        : this()
     {
         Sticker = sticker;
         EmojiList = emojiList;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetStickerEmojiListRequest()
+        : base("setStickerEmojiList")
+    { }
 }

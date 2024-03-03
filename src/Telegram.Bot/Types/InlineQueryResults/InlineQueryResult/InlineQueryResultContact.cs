@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -21,13 +21,13 @@ public class InlineQueryResultContact : InlineQueryResult
     /// Contact's phone number
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string PhoneNumber { get; }
+    public required string PhoneNumber { get; init; }
 
     /// <summary>
     /// Contact's first name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string FirstName { get; }
+    public required string FirstName { get; init; }
 
     /// <summary>
     /// Optional. Contact's last name
@@ -63,10 +63,18 @@ public class InlineQueryResultContact : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="phoneNumber">Contact's phone number</param>
     /// <param name="firstName">Contact's first name</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultContact(string id, string phoneNumber, string firstName)
         : base(id)
     {
         PhoneNumber = phoneNumber;
         FirstName = firstName;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultContact()
+    { }
 }

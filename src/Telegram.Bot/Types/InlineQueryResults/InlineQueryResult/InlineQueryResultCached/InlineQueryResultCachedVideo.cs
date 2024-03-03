@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -22,13 +23,13 @@ public class InlineQueryResultCachedVideo : InlineQueryResult
     /// A valid file identifier for the video file
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string VideoFileId { get; }
+    public required string VideoFileId { get; init; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Optional. Short description of the result
@@ -58,10 +59,18 @@ public class InlineQueryResultCachedVideo : InlineQueryResult
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="videoFileId">A valid file identifier for the video file</param>
     /// <param name="title">Title of the result</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedVideo(string id, string videoFileId, string title)
         : base(id)
     {
         VideoFileId = videoFileId;
         Title = title;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultCachedVideo()
+    { }
 }

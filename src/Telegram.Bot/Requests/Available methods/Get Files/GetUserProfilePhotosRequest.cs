@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -12,7 +13,7 @@ public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>, IUser
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// Sequential number of the first photo to be returned. By default, all photos are returned
@@ -30,9 +31,18 @@ public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>, IUser
     /// Initializes a new request with userId
     /// </summary>
     /// <param name="userId">Unique identifier of the target user</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetUserProfilePhotosRequest(long userId)
-        : base("getUserProfilePhotos")
+        : this()
     {
         UserId = userId;
     }
+
+    /// <summary>
+    /// Initializes a new request with userId
+    /// </summary>
+    public GetUserProfilePhotosRequest()
+        : base("getUserProfilePhotos")
+    { }
 }

@@ -18,12 +18,19 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// <see cref="InlineKeyboardButton"/>.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; }
+    public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; init; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/>
+    /// </summary>
+    public InlineKeyboardMarkup()
+    { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button
     /// </summary>
     /// <param name="inlineKeyboardButton">Keyboard button</param>
+    [SetsRequiredMembers]
     public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
         : this(new[] { inlineKeyboardButton })
     { }
@@ -32,6 +39,7 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with a one-row keyboard
     /// </summary>
     /// <param name="inlineKeyboardRow">The inline keyboard row</param>
+    [SetsRequiredMembers]
     public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow)
         : this(new[] { inlineKeyboardRow })
     { }
@@ -41,6 +49,7 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// </summary>
     /// <param name="inlineKeyboard">The inline keyboard.</param>
     [JsonConstructor]
+    [SetsRequiredMembers]
     public InlineKeyboardMarkup(IEnumerable<IEnumerable<InlineKeyboardButton>> inlineKeyboard) =>
         InlineKeyboard = inlineKeyboard;
 

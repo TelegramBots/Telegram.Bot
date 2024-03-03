@@ -31,11 +31,10 @@ public class CallbackQuery
     public User From { get; set; } = default!;
 
     /// <summary>
-    /// Optional. Description with the callback button that originated the query. Note that message content and
-    /// message date will not be available if the message is too old
+    /// Optional. Message sent by the bot with the callback button that originated the query
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Message? Message { get; set; }
+    public MaybeInaccessibleMessage? Message { get; set; }
 
     /// <summary>
     /// Optional. Identifier of the message sent via the bot in inline mode, that originated the query

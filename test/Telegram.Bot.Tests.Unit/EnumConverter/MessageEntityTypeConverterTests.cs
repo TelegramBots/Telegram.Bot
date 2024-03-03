@@ -97,6 +97,7 @@ public class MessageEntityTypeConverterTests
             yield return new object[] { MessageEntityType.Strikethrough, "strikethrough" };
             yield return new object[] { MessageEntityType.Spoiler, "spoiler" };
             yield return new object[] { MessageEntityType.CustomEmoji, "custom_emoji" };
+            yield return new object[] { MessageEntityType.Blockquote, "blockquote" };
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

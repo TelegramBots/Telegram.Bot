@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -18,7 +19,7 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -32,7 +33,7 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     /// get a video from the Internet, or upload a new video using multipart/form-data
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Video { get; }
+    public required InputFile Video { get; init; }
 
     /// <summary>
     /// Duration of sent video in seconds
@@ -91,13 +92,9 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ReplyToMessageId { get; set; }
-
-    /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? AllowSendingWithoutReply { get; set; }
+    public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -114,12 +111,21 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     /// exists on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to
     /// get a video from the Internet, or upload a new video using multipart/form-data
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendVideoRequest(ChatId chatId, InputFile video)
-        : base("sendVideo")
+        : this()
     {
         ChatId = chatId;
         Video = video;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendVideoRequest()
+        : base("sendVideo")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

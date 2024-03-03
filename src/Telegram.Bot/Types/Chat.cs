@@ -69,6 +69,44 @@ public class Chat
     public string[]? ActiveUsernames { get; set; }
 
     /// <summary>
+    /// Optional. List of available reactions allowed in the chat. If omitted, then all <see cref="ReactionTypeEmoji.Emoji">emoji reactions</see> are allowed.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ReactionType[]? AvailableReactions { get; set; }
+
+    /// <summary>
+    /// Optional. Identifier of the <see href="https://core.telegram.org/bots/api#accent-colors">accent color</see>
+    /// for the chat name and backgrounds of the chat photo, reply header, and link preview.
+    /// See accent colors for more details. Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// Always returned in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? AccentColorId { get; set; }
+
+    /// <summary>
+    /// Optional. Custom emoji identifier of emoji chosen by the chat for the reply header and link preview background.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BackgroundCustomEmojiId { get; set; }
+
+    /// <summary>
+    /// Optional. Identifier of the accent color for the chat's profile background.
+    /// See <see href="https://core.telegram.org/bots/api#profile-accent-colors">profile accent colors</see> for more details.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? ProfileAccentColorId { get; set; }
+
+    /// <summary>
+    /// Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? ProfileBackgroundCustomEmojiId { get; set; }
+
+    /// <summary>
     /// Optional. Custom emoji identifier of emoji status of the other party in a private chat.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
@@ -155,6 +193,13 @@ public class Chat
     public int? SlowModeDelay { get; set; }
 
     /// <summary>
+    /// Optional. For supergroups, the minimum number of boosts that a non-administrator user needs to add in order
+    /// to ignore slow mode and chat permissions. Returned only in getChat.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? UnrestrictBoostCount { get; set; }
+
+    /// <summary>
     /// Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
@@ -176,6 +221,13 @@ public class Chat
     public bool? HasHiddenMembers { get; set; }
 
     /// <summary>
+    /// Optional.  <see langword="true"/>, if new chat members will have access to old messages; available only to chat administrators.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? HasVisibleHistory { get; set; }
+
+    /// <summary>
     /// Optional. <see langword="true"/>, if messages from the chat can't be forwarded to other chats.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
@@ -195,6 +247,14 @@ public class Chat
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? CanSetStickerSet { get; set; }
+
+    /// <summary>
+    /// Optional. For supergroups, the name of the group's custom emoji sticker set. Custom emoji from this set can be
+    /// used by all users and bots in the group.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? CustomEmojiStickerSetName { get; set; }
 
     /// <summary>
     /// Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel

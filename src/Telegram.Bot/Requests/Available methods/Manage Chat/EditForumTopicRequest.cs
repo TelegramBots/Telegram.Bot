@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -13,13 +14,13 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread of the forum topic
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageThreadId { get; }
+    public required int MessageThreadId { get; init; }
 
     /// <summary>
     /// New topic name, 0-128 characters. If not specififed or empty, the current name of the topic will be kept
@@ -40,7 +41,16 @@ public class EditForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// </summary>
     /// <param name="chatId">Unique identifier for the target chat or username of the target supergroup</param>
     /// <param name="messageThreadId">Unique identifier for the target message thread of the forum topic</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditForumTopicRequest(ChatId chatId, int messageThreadId)
-        : base("editForumTopic") =>
-        (ChatId, MessageThreadId) = (chatId, messageThreadId);
+        : this()
+        => (ChatId, MessageThreadId) = (chatId, messageThreadId);
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public EditForumTopicRequest()
+        : base("editForumTopic")
+    { }
 }

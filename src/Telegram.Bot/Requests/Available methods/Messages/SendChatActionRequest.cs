@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
 
@@ -25,13 +26,7 @@ public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
-
-    /// <summary>
-    /// Unique identifier for the target message thread; supergroups only
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? MessageThreadId { get; set; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive:
@@ -46,7 +41,13 @@ public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
     /// <see cref="SendVideoNoteRequest">video notes</see>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatAction Action { get; }
+    public required ChatAction Action { get; init; }
+
+    /// <summary>
+    /// Unique identifier for the target message thread; supergroups only
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? MessageThreadId { get; set; }
 
     /// <summary>
     /// Initializes a new request chatId and action
@@ -57,10 +58,19 @@ public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
     /// <param name="action">
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendChatActionRequest(ChatId chatId, ChatAction action)
-        : base("sendChatAction")
+        : this()
     {
         ChatId = chatId;
         Action = action;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendChatActionRequest()
+        : base("sendChatAction")
+    { }
 }

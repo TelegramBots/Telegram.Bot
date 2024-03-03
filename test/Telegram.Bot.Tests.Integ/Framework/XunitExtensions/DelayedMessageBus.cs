@@ -9,12 +9,9 @@ namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 /// Used to capture messages to potentially be forwarded later. Messages are forwarded by
 /// disposing of the message bus.
 /// </summary>
-public class DelayedMessageBus : IMessageBus
+public class DelayedMessageBus(IMessageBus innerBus) : IMessageBus
 {
-    readonly IMessageBus _innerBus;
     readonly List<IMessageSinkMessage> _messages = new();
-
-    public DelayedMessageBus(IMessageBus innerBus) => _innerBus = innerBus;
 
     /// <inheritdoc />
     public bool QueueMessage(IMessageSinkMessage message)
@@ -34,7 +31,7 @@ public class DelayedMessageBus : IMessageBus
     {
         foreach (var message in _messages)
         {
-            _innerBus.QueueMessage(message);
+            innerBus.QueueMessage(message);
         }
     }
 

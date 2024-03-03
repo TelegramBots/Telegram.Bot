@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -14,25 +15,25 @@ public class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <summary>
     /// Latitude of new location
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Latitude { get; }
+    public required double Latitude { get; init; }
 
     /// <summary>
     /// Longitude of new location
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public double Longitude { get; }
+    public required double Longitude { get; init; }
 
     /// <summary>
     /// The radius of uncertainty for the location, measured in meters; 0-1500
@@ -67,12 +68,21 @@ public class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditMessageLiveLocationRequest(ChatId chatId, int messageId, double latitude, double longitude)
-        : base("editMessageLiveLocation")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
         Latitude = latitude;
         Longitude = longitude;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public EditMessageLiveLocationRequest()
+        : base("editMessageLiveLocation")
+    { }
 }

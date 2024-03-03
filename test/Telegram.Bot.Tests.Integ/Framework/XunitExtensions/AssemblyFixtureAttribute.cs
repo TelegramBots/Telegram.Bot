@@ -3,12 +3,7 @@
 namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
 [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
-public class AssemblyFixtureAttribute : Attribute
+public class AssemblyFixtureAttribute(Type fixtureType) : Attribute
 {
-    public Type FixtureType { get; }
-
-    public AssemblyFixtureAttribute(Type fixtureType)
-    {
-        FixtureType = fixtureType;
-    }
+    public Type FixtureType { get; } = fixtureType;
 }

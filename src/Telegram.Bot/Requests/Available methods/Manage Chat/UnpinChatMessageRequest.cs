@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -15,7 +16,7 @@ public class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of a message to unpin. If not specified, the most recent pinned message
@@ -30,9 +31,18 @@ public class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetable
     /// <param name="chatId">Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public UnpinChatMessageRequest(ChatId chatId)
-        : base("unpinChatMessage")
+        : this()
     {
         ChatId = chatId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public UnpinChatMessageRequest()
+        : base("unpinChatMessage")
+    { }
 }

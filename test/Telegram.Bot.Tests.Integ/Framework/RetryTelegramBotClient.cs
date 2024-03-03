@@ -10,45 +10,30 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework;
 
-internal class TestClientOptions : TelegramBotClientOptions
+internal class TestClientOptions(
+    string token,
+    string? baseUrl,
+    bool useTestEnvironment,
+    int retryCount,
+    TimeSpan defaultTimeout)
+    : TelegramBotClientOptions(token, baseUrl, useTestEnvironment)
 {
-    public int RetryCount { get; }
-    public TimeSpan DefaultTimeout { get; }
-
-    public TestClientOptions(
-        string token,
-        string? baseUrl,
-        bool useTestEnvironment,
-        int retryCount,
-        TimeSpan defaultTimeout)
-        : base(token, baseUrl, useTestEnvironment)
-    {
-        RetryCount = retryCount;
-        DefaultTimeout = defaultTimeout;
-    }
+    public int RetryCount { get; } = retryCount;
+    public TimeSpan DefaultTimeout { get; } = defaultTimeout;
 };
 
-internal class RetryTelegramBotClient : TelegramBotClient
+internal class RetryTelegramBotClient(
+    IMessageSink diagnosticMessageSink,
+    TestClientOptions options)
+    : TelegramBotClient(options)
 {
-    readonly IMessageSink _diagnosticMessageSink;
-    readonly TestClientOptions _options;
-
-    public RetryTelegramBotClient(
-        IMessageSink diagnosticMessageSink,
-        TestClientOptions options)
-        : base(options)
-    {
-        _diagnosticMessageSink = diagnosticMessageSink;
-        _options = options;
-    }
-
     public override async Task<TResponse> MakeRequestAsync<TResponse>(
         IRequest<TResponse> request,
         CancellationToken cancellationToken = default)
     {
         ApiRequestException apiRequestException = default!;
 
-        for (var i = 0; i < _options.RetryCount; i++)
+        for (var i = 0; i < options.RetryCount; i++)
         {
             try
             {
@@ -59,11 +44,11 @@ internal class RetryTelegramBotClient : TelegramBotClient
                 apiRequestException = e;
 
                 var timeout = e.Parameters?.RetryAfter is null
-                    ? _options.DefaultTimeout
+                    ? options.DefaultTimeout
                     : TimeSpan.FromSeconds(e.Parameters.RetryAfter.Value);
 
                 var message = $"Retry attempt {i + 1}. Waiting for {timeout} seconds before retrying.";
-                _diagnosticMessageSink.OnMessage(new DiagnosticMessage(message));
+                diagnosticMessageSink.OnMessage(new DiagnosticMessage(message));
                 await Task.Delay(timeout, cancellationToken);
             }
         }

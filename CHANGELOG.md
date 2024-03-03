@@ -21,6 +21,120 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+## [Unreleased]
+
+> [Bot API 7.0](https://core.telegram.org/bots/api#december-29-2023) (December 29, 2023)
+> [Bot API 7.1](https://core.telegram.org/bots/api#february-16-2024) (February 16, 2024)
+
+### Added
+
+- API methods on `ITelegramBotClient` that accept request classes with parameters 
+- Class `UnpinAllGeneralForumTopicMessagesRequest`
+- The classes `ReactionType`, `ReactionTypeEmoji` and `ReactionTypeCustomEmoji` representing different types of reaction.
+- Enum `ReactionTypeKind`
+- Enum `ChatBoostSourceType`
+- The class `KnownReactionTypeEmoji` containing Emojis available for `ReactionTypeEmoji`.
+- Updates about a reaction change on a message with non-anonymous reactions, represented by the class `MessageReactionUpdated`
+and the property `MessageReaction` in the class `Update`. The bot must explicitly allow the update to receive it.
+- Updates about reaction changes on a message with anonymous reactions, represented by the class `MessageReactionCountUpdated`
+and the property `MessageReactionCount` in the class `Update`. The bot must explicitly allow the update to receive it.
+- New enum values `MessageReaction`, `MessageReactionCount` for `UpdateType`.
+- Type `ReactionCount`.
+- Request classes `SetMessageReactionRequest` that allows bots to react to messages.
+- New method `ITelegramBotClient.SetMessageReactionAsync` that allows bots to react to messages.
+- The property `AvailableReactions` to the class `Chat`.
+- The class `ExternalReplyInfo` and the property `ExternalReply` of type `ExternalReplyInfo` to the class `Message`,
+containing information about a message that is replied to by the current message, but can be from another chat or forum topic.
+- The class `TextQuote` and the property `Quote` of type `TextQuote` to the class `Message`, 
+which contains the part of the replied message text or caption that is quoted in the current message.
+- The class `ReplyParameters`.
+- The class `LinkPreviewOptions`.
+- The property `LinkPreviewOptions` to the class `Message` with information about the link preview options used to send the message.
+- New enum value `Blockquote` for `MessageEntityType`.
+- Request classes `DeleteMessagesRequest`, `ForwardMessagesRequest` and `CopyMessagesRequest`.
+- New methods `ITelegramBotClient.DeleteMessagesAsync`, `ITelegramBotClient.ForwardMessagesAsync` and `ITelegramBotClient.CopyMessagesAsync`.
+- Updates about chat boost changes, represented by the classes `ChatBoostUpdated` and `ChatBoostRemoved` and the properties `ChatBoost` and `RemovedChatBoost` 
+in the class `Update`. The bot must be an administrator in the chat to receive these updates.
+- The classes `ChatBoostSourcePremium`, `ChatBoostSourceGiftCode` and `ChatBoostSourceGiveaway`, representing different sources of a chat boost.
+- The method `ITelegramBotClient.GetUserChatBoostsAsync` for obtaining the list of all active boosts a user has contributed to a chat.
+- Request class `GetUserChatBoostsRequest` for obtaining the list of all active boosts a user has contributed to a chat.
+- The class `Giveaway` and the property `Giveaway` to the class `Message` for messages about scheduled giveaways.
+- The class `GiveawayCreated` and the property `GiveawayCreated` to the class `Message` for service messages about the creation of a scheduled giveaway.
+- The class `GiveawayWinners` and the property `GiveawayWinners` to the class `Message` for messages about the completion of a giveaway with public winners.
+- The class `GiveawayCompleted` and the property `GiveawayCompleted` to the class `Message` for service messages about the completion of a giveaway without public winners.
+- New `MessageType` enum members: `Giveaway`, `GiveawayCreated`, `GiveawayWinners` and `GiveawayCompleted`
+- The properties `AccentColorId`, `BackgroundCustomEmojiId`, `ProfileAccentColorId`, and `ProfileBackgroundCustomEmojiId` to the class `Chat`.
+- The property `HasVisibleHistory` to the class `Chat`.
+- Classes `MaybeInaccessibleMessage` and `InaccessibleMessage`.
+- The class `ChatBoostAdded`
+- Classes `MessageOrigin`, `MessageOriginUser`, `MessageOriginHiddenUser` and `MessageOriginChannel`
+- Enum `MessageOriginType`
+- Fields `UnrestrictBoostCount` and `CustomEmojiStickerSetName` to type `Chat`
+- Enum member `MessageType.BoostAdded`
+- Fields `SenderBoostCount`, `ReplyToStory` and `BoostAdded` to type `Message`
+- Fields `Chat` and `Id` to type `Story`
+
+### Changed
+- All required properties without setters marked as required using `required` keyword
+- All non-default ctors are marked as obsolete in favor of the default ctors with object initialization syntax and required properties 
+- All API methods with positional parameters on `ITelegramBotClient` are marked obsolete
+- Class `UnpinAllGeneralForumTopicMessages` marked as obsolete
+- Replaced parameters `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the methods 
+    - `ITelegramBotClient.CopyMessageAsync`, 
+    - `ITelegramBotClient.SendMessageAsync`, 
+    - `ITelegramBotClient.SendPhotoAsync`, 
+    - `ITelegramBotClient.SendVideoAsync`, 
+    - `ITelegramBotClient.SendAnimationAsync`, 
+    - `ITelegramBotClient.SendAudioAsync`, 
+    - `ITelegramBotClient.SendDocumentAsync`, 
+    - `ITelegramBotClient.SendStickerAsync`, 
+    - `ITelegramBotClient.SendVideoNoteAsync`, 
+    - `ITelegramBotClient.SendVoiceAsync`, 
+    - `ITelegramBotClient.SendLocationAsync`, 
+    - `ITelegramBotClient.SendVenueAsync`, 
+    - `ITelegramBotClient.SendContactAsync`, 
+    - `ITelegramBotClient.SendPollAsync`, 
+    - `ITelegramBotClient.SendDiceAsync`, 
+    - `ITelegramBotClient.SendInvoiceAsync`, 
+    - `ITelegramBotClient.SendGameAsync`, 
+    - `ITelegramBotClient.SendMediaGroupAsync`
+- Replaced properties `ReplyToMessageId` and `AllowSendingWithoutReply` with the property `ReplyParameters` of type `ReplyParameters` in the request classes
+    - `CopyMessageRequest`,
+    - `SendMessageRequest`,
+    - `SendPhotoRequest`,
+    - `SendVideoRequest`,
+    - `SendAnimationRequest`,
+    - `SendAudioRequest`,
+    - `SendDocumentRequest`,
+    - `SendStickerRequest`,
+    - `SendVideoNoteRequest`,
+    - `SendVoiceRequest`,
+    - `SendLocationRequest`,
+    - `SendVenueRequest`,
+    - `SendContactRequest`,
+    - `SendPollRequest`,
+    - `SendDiceRequest`,
+    - `SendInvoiceRequest`,
+    - `SendGameRequest`,
+    - `SendMediaGroupRequest`
+- Replaced the parameter `DisableWebPagePreview` with `LinkPreviewOptions` in the methods `SendTextMessageAsync` and `EditMessageTextAsync`.
+- Replaced the property `DisableWebPagePreview` with `LinkPreviewOptions` in the request classes `SendMessageRequest`, `EditMessageTextRequest`
+ and `EditInlineMessageTextRequest`.
+- Replaced the property disable_web_page_preview with `DisableWebPagePreview` in the class `InputTextMessageContent`.
+- Renamed the class `KeyboardButtonRequestUser` to `KeyboardButtonRequestUsers` and added the property `MaxQuantity` to it.
+- Renamed the property `RequestUser` in the class `KeyboardButton` to `RequestUsers`. The old name will still work for backward compatibility.
+- Renamed the class `UserShared` to `UsersShared` and changed the property `UserId` to `UserIds`.
+- Replaced the property `UserShared` in the class Message with the property `UsersShared`.
+- Replaced enum member `MessageType.UserShared` with `MessageType.UsersShared`
+- Fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName` 
+and `ForwardDate` replaced with the field `ForwardOrigin` of type `MessageOrigin` in the class `Message`.
+- Type of the property `Message` of the class `CallbackQuery` to `MaybeInaccessibleMessage`
+- Type of the property `PinnedMessage` of the class `Message` to `MaybeInaccessibleMessage`.
+
+### Removed
+- Fields `ForwardFrom`, `ForwardFromChat`, `ForwardFromMessageId`, `ForwardSignature`, `ForwardSenderName`
+  and `ForwardDate` from type `Message`
+
 ## [v20.0.0] - Unreleased
 
 > [Bot API 6.9](https://core.telegram.org/bots/api#september-22-2023) (September 22, 2023)

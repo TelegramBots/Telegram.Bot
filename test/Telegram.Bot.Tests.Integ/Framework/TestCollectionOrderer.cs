@@ -10,7 +10,7 @@ namespace Telegram.Bot.Tests.Integ.Framework;
 public class TestCollectionOrderer : ITestCollectionOrderer
 {
     readonly string[] _orderedCollections =
-    {
+    [
         // Tests that require user interaction:
         Constants.TestCollections.CallbackQuery,
         Constants.TestCollections.PrivateChatReplyMarkup,
@@ -58,7 +58,7 @@ public class TestCollectionOrderer : ITestCollectionOrderer
         Constants.TestCollections.ChannelAdminBots,
         Constants.TestCollections.Exceptions2,
         Constants.TestCollections.SendCopyMessage
-    };
+    ];
 
     public IEnumerable<ITestCollection> OrderTestCollections(IEnumerable<ITestCollection> testCollections)
     {

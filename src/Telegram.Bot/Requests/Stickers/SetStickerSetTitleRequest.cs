@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -11,13 +14,13 @@ public class SetStickerSetTitleRequest : RequestBase<bool>
     /// Sticker set name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Sticker set title, 1-64 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Initializes a new request with name and title
@@ -28,10 +31,19 @@ public class SetStickerSetTitleRequest : RequestBase<bool>
     /// <param name="title">
     /// Sticker set title, 1-64 characters
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerSetTitleRequest(string name, string title)
-        : base("setStickerSetTitle")
+        : this()
     {
         Name = name;
         Title = title;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetStickerSetTitleRequest()
+        : base("setStickerSetTitle")
+    { }
 }

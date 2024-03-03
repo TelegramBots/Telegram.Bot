@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -11,7 +14,7 @@ public class SetCustomEmojiStickerSetThumbnailRequest : RequestBase<bool>
     /// Sticker set name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Optional. Custom emoji identifier of a <see cref="Sticker"/> from the <see cref="StickerSet"/>;
@@ -26,9 +29,18 @@ public class SetCustomEmojiStickerSetThumbnailRequest : RequestBase<bool>
     /// <param name="name">
     /// Sticker set name
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetCustomEmojiStickerSetThumbnailRequest(string name)
-        : base("setCustomEmojiStickerSetThumbnail")
+        : this()
     {
         Name = name;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetCustomEmojiStickerSetThumbnailRequest()
+        : base("setCustomEmojiStickerSetThumbnail")
+    { }
 }

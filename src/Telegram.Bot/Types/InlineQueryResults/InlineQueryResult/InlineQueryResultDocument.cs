@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -22,7 +23,7 @@ public class InlineQueryResultDocument : InlineQueryResult
     /// Title for the result
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <inheritdoc cref="Documentation.Caption" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -40,13 +41,13 @@ public class InlineQueryResultDocument : InlineQueryResult
     /// A valid URL for the file
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string DocumentUrl { get; }
+    public required string DocumentUrl { get; init; }
 
     /// <summary>
     /// Mime type of the content of the file, either “application/pdf” or “application/zip”
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string MimeType { get; }
+    public required string MimeType { get; init; }
 
     /// <summary>
     /// Optional. Short description of the result
@@ -79,6 +80,8 @@ public class InlineQueryResultDocument : InlineQueryResult
     /// <param name="mimeType">
     /// Mime type of the content of the file, either “application/pdf” or “application/zip”
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultDocument(string id, string documentUrl, string title, string mimeType)
         : base(id)
     {
@@ -86,4 +89,10 @@ public class InlineQueryResultDocument : InlineQueryResult
         Title = title;
         MimeType = mimeType;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultDocument()
+    { }
 }

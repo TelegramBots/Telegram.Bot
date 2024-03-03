@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
@@ -17,19 +18,19 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFileStream Sticker { get; }
+    public required InputFileStream Sticker { get; init; }
 
     /// <summary>
     /// Format of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public StickerFormat StickerFormat { get; }
+    public required StickerFormat StickerFormat { get; init; }
 
     /// <summary>
     /// Initializes a new request with userId, sticker and stickerFormat
@@ -43,13 +44,22 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// <param name="stickerFormat">
     /// Format of the sticker
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public UploadStickerFileRequest(long userId, InputFileStream sticker, StickerFormat stickerFormat)
-        : base("uploadStickerFile")
+        : this()
     {
         UserId = userId;
         Sticker = sticker;
         StickerFormat = stickerFormat;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public UploadStickerFileRequest()
+        : base("uploadStickerFile")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()

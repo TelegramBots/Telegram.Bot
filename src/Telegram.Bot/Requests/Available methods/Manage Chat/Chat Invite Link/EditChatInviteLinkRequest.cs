@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Converters;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -14,13 +15,13 @@ public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTarge
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// The invite link to edit
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string InviteLink { get; }
+    public required string InviteLink { get; init; }
 
     /// <summary>
     /// Invite link name; 0-32 characters
@@ -56,10 +57,19 @@ public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTarge
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="inviteLink">The invite link to edit</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditChatInviteLinkRequest(ChatId chatId, string inviteLink)
-        : base("editChatInviteLink")
+        : this()
     {
         ChatId = chatId;
         InviteLink = inviteLink;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public EditChatInviteLinkRequest()
+        : base("editChatInviteLink")
+    { }
 }

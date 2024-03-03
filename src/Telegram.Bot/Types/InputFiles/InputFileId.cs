@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -14,11 +15,19 @@ public class InputFileId : InputFile
     /// <summary>
     /// A file identifier
     /// </summary>
-    public string Id { get; }
+    public required string Id { get; init; }
+
+    /// <summary>
+    /// This object represents a file that is already stored somewhere on the Telegram servers
+    /// </summary>
+    public InputFileId()
+    {}
 
     /// <summary>
     /// This object represents a file that is already stored somewhere on the Telegram servers
     /// </summary>
     /// <param name="id">A file identifier</param>
-    public InputFileId(string id) => Id = id;
+    [SetsRequiredMembers]
+    public InputFileId(string id)
+        => Id = id;
 }

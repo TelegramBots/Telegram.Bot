@@ -32,7 +32,7 @@ internal class InputFileConverter : JsonConverter<InputFile?>
         }
 
         return Uri.TryCreate(value, UriKind.Absolute, out var url)
-            ? new InputFileUrl(url)
-            : new InputFileId(value);
+            ? InputFile.FromUri(url)
+            : InputFile.FromFileId(value);
     }
 }

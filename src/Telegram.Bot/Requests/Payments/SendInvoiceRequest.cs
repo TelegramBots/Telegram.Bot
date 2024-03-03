@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Payments;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -17,7 +18,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// (in the format <c>@channelusername</c>)
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public long ChatId { get; }
+    public required long ChatId { get; init; }
 
     /// <inheritdoc />
     ChatId IChatTargetable.ChatId => ChatId;
@@ -32,40 +33,40 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// Product name, 1-32 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Product description, 1-255 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Description { get; }
+    public required string Description { get; init; }
 
     /// <summary>
     /// Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user,
     /// use for your internal processes
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Payload { get; }
+    public required string Payload { get; init; }
 
     /// <summary>
     /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string ProviderToken { get; }
+    public required string ProviderToken { get; init; }
 
     /// <summary>
     /// Three-letter ISO 4217 currency code, see
     /// <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Currency { get; }
+    public required string Currency { get; init; }
 
     /// <summary>
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost,
     /// delivery tax, bonus, etc.)
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<LabeledPrice> Prices { get; }
+    public required IEnumerable<LabeledPrice> Prices { get; init; }
 
     /// <summary>
     /// The maximum accepted amount for tips in the smallest units of the currency.
@@ -178,13 +179,9 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ReplyToMessageId" />
+    /// <inheritdoc cref="Documentation.ReplyParameters" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ReplyToMessageId { get; set; }
-
-    /// <inheritdoc cref="Documentation.AllowSendingWithoutReply" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? AllowSendingWithoutReply { get; set; }
+    public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -212,6 +209,8 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost,
     /// delivery tax, bonus, etc.)
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendInvoiceRequest(
         long chatId,
         string title,
@@ -219,7 +218,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
         string payload,
         string providerToken,
         string currency,
-        IEnumerable<LabeledPrice> prices) : base("sendInvoice")
+        IEnumerable<LabeledPrice> prices) : this()
     {
         ChatId = chatId;
         Title = title;
@@ -229,4 +228,11 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
         Currency = currency;
         Prices = prices;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendInvoiceRequest()
+        : base("sendInvoice")
+    { }
 }

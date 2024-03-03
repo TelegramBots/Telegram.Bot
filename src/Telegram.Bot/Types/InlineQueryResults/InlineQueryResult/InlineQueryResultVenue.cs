@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -19,23 +19,23 @@ public class InlineQueryResultVenue : InlineQueryResult
 
     /// <inheritdoc cref="Documentation.Latitude" />
     [JsonProperty(Required = Required.Always)]
-    public double Latitude { get; }
+    public required double Latitude { get; init; }
 
     /// <inheritdoc cref="Documentation.Longitude" />
     [JsonProperty(Required = Required.Always)]
-    public double Longitude { get; }
+    public required double Longitude { get; init; }
 
     /// <summary>
     /// Title of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// Address of the venue
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Address { get; }
+    public required string Address { get; init; }
 
     /// <summary>
     /// Optional. Foursquare identifier of the venue if known
@@ -87,6 +87,8 @@ public class InlineQueryResultVenue : InlineQueryResult
     /// <param name="longitude">Longitude of the location in degrees</param>
     /// <param name="title">Title of the result</param>
     /// <param name="address">Address of the venue</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultVenue(
         string id,
         double latitude,
@@ -99,4 +101,10 @@ public class InlineQueryResultVenue : InlineQueryResult
         Title = title;
         Address = address;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultVenue()
+    { }
 }

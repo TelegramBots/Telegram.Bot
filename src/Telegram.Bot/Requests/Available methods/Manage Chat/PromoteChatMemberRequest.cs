@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -13,11 +14,11 @@ public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUse
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// Pass <see langword="true"/>, if the administrator's presence in the chat is hidden
@@ -121,10 +122,19 @@ public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUse
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public PromoteChatMemberRequest(ChatId chatId, long userId)
-        : base("promoteChatMember")
+        : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public PromoteChatMemberRequest()
+        : base("promoteChatMember")
+    { }
 }

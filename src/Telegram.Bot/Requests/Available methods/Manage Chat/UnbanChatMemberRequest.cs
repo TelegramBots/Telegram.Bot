@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -16,11 +17,11 @@ public class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserT
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// Do nothing if the user is not banned
@@ -35,10 +36,19 @@ public class UnbanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserT
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public UnbanChatMemberRequest(ChatId chatId, long userId)
-        : base("unbanChatMember")
+        : this()
     {
         ChatId = chatId;
         UserId = userId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public UnbanChatMemberRequest()
+        : base("unbanChatMember")
+    { }
 }

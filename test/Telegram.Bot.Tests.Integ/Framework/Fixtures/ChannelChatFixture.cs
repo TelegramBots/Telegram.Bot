@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
@@ -15,8 +16,8 @@ public class ChannelChatFixture : AsyncLifetimeFixture
     {
         _testsFixture = testsFixture;
 
-        AddLifetime(
-            initialize: async () =>
+        AddInitializer(
+            async () =>
             {
                 _testsFixture.ChannelChat ??= await GetChat(collectionName);
                 ChannelChat = _testsFixture.ChannelChat;
@@ -34,7 +35,8 @@ public class ChannelChatFixture : AsyncLifetimeFixture
     async Task<Chat> GetChat(string collectionName)
     {
         var chatId = _testsFixture.Configuration.ChannelChatId;
-        if (chatId is not null) return await _testsFixture.BotClient.GetChatAsync(chatId.Value);
+        if (chatId is not null)
+            return await _testsFixture.BotClient.GetChatAsync(new GetChatRequest {ChatId = chatId.Value});
 
         await _testsFixture.UpdateReceiver.DiscardNewUpdatesAsync();
 

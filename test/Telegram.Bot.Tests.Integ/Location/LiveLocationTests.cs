@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -10,24 +11,15 @@ namespace Telegram.Bot.Tests.Integ.Locations;
 
 [Collection(Constants.TestCollections.LiveLocation)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class LiveLocationTests : IClassFixture<EntityFixture<Message>>
+public class LiveLocationTests(TestsFixture fixture, EntityFixture<Message> classFixture)
+    : IClassFixture<EntityFixture<Message>>
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     Message LocationMessage
     {
-        get => _classFixture.Entity;
-        set => _classFixture.Entity = value;
-    }
-
-    readonly TestsFixture _fixture;
-
-    readonly EntityFixture<Message> _classFixture;
-
-    public LiveLocationTests(TestsFixture fixture, EntityFixture<Message> classFixture)
-    {
-        _fixture = fixture;
-        _classFixture = classFixture;
+        get => classFixture.Entity;
+        set => classFixture.Entity = value;
     }
 
     [OrderedFact("Should send a location with live period to update")]
@@ -38,10 +30,13 @@ public class LiveLocationTests : IClassFixture<EntityFixture<Message>>
         const float lonBerlin = 13.4050f;
 
         Message message = await BotClient.SendLocationAsync(
-            chatId: _fixture.SupergroupChat.Id,
-            latitude: latBerlin,
-            longitude: lonBerlin,
-            livePeriod: 60
+            new()
+            {
+                ChatId = fixture.SupergroupChat.Id,
+                Latitude = latBerlin,
+                Longitude = lonBerlin,
+                LivePeriod = 60,
+            }
         );
 
         Assert.Equal(MessageType.Location, message.Type);
@@ -55,11 +50,11 @@ public class LiveLocationTests : IClassFixture<EntityFixture<Message>>
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.EditMessageLiveLocation)]
     public async Task Should_Update_Live_Location()
     {
-        Location[] locations = {
-            new Location { Latitude = 43.6532f, Longitude = -79.3832f }, // Toronto
-            new Location { Latitude = 59.9343f, Longitude = 30.3351f },  // Saint Petersburg
-            new Location { Latitude = 35.6892f, Longitude = 51.3890f },  // Tehran
-        };
+        Location[] locations = [
+            new() { Latitude = 43.6532f, Longitude = -79.3832f }, // Toronto
+            new() { Latitude = 59.9343f, Longitude = 30.3351f },  // Saint Petersburg
+            new() { Latitude = 35.6892f, Longitude = 51.3890f } // Tehran
+        ];
 
         Message editedMessage = default;
         foreach (Location newLocation in locations)
@@ -67,10 +62,13 @@ public class LiveLocationTests : IClassFixture<EntityFixture<Message>>
             await Task.Delay(1_500);
 
             editedMessage = await BotClient.EditMessageLiveLocationAsync(
-                chatId: LocationMessage.Chat.Id,
-                messageId: LocationMessage.MessageId,
-                latitude: newLocation.Latitude,
-                longitude: newLocation.Longitude
+                new()
+                {
+                    ChatId = LocationMessage.Chat.Id,
+                    MessageId = LocationMessage.MessageId,
+                    Latitude = newLocation.Latitude,
+                    Longitude = newLocation.Longitude,
+                }
             );
 
             Assert.Equal(MessageType.Location, editedMessage.Type);
@@ -87,8 +85,11 @@ public class LiveLocationTests : IClassFixture<EntityFixture<Message>>
     public async Task Should_Stop_Live_Location()
     {
         Message message = await BotClient.StopMessageLiveLocationAsync(
-            chatId: LocationMessage.Chat,
-            messageId: LocationMessage.MessageId
+            new StopMessageLiveLocationRequest
+            {
+                ChatId = LocationMessage.Chat,
+                MessageId = LocationMessage.MessageId,
+            }
         );
 
         Assert.Equal(LocationMessage.MessageId, message.MessageId);

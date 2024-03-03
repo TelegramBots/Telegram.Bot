@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
@@ -14,7 +15,7 @@ public class GetChatAdministratorsRequest : RequestBase<ChatMember[]>, IChatTarg
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Initializes a new request with chatId
@@ -23,9 +24,18 @@ public class GetChatAdministratorsRequest : RequestBase<ChatMember[]>, IChatTarg
     /// Unique identifier for the target chat or username of the target supergroup or channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetChatAdministratorsRequest(ChatId chatId)
-        : base("getChatAdministrators")
+        : this()
     {
         ChatId = chatId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public GetChatAdministratorsRequest()
+        : base("getChatAdministrators")
+    { }
 }

@@ -1,5 +1,3 @@
-
-
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
 
@@ -8,4 +6,4 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// <see cref="InlineQuery">inline query</see>.
 /// </summary>
 [JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public abstract class InputMessageContent { }
+public abstract class InputMessageContent;

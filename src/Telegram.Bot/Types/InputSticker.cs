@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 namespace Telegram.Bot.Types;
@@ -19,13 +20,13 @@ public class InputSticker
     /// If you are using a <see cref="InputFileStream"/>, then the property <see cref="InputFileStream.FileName"/> is required.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Sticker { get; }
+    public required InputFile Sticker { get; init; }
 
     /// <summary>
     /// List of 1-20 emoji associated with the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<string> EmojiList { get; }
+    public required IEnumerable<string> EmojiList { get; init; }
 
     /// <summary>
     /// Optional. Position where the mask should be placed on faces.
@@ -55,9 +56,16 @@ public class InputSticker
     /// <param name="emojiList">
     /// List of 1-20 emoji associated with the sticker
     /// </param>
+    [SetsRequiredMembers]
     public InputSticker(InputFile sticker, IEnumerable<string> emojiList)
     {
         Sticker = sticker;
         EmojiList = emojiList;
     }
+
+    /// <summary>
+    /// Initializes a new input sticker to create or add sticker sets
+    /// </summary>
+    public InputSticker()
+    { }
 }

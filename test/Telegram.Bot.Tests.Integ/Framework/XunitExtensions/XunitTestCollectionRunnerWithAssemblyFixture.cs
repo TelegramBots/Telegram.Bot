@@ -7,32 +7,24 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
-public class XunitTestCollectionRunnerWithAssemblyFixture : XunitTestCollectionRunner
+public class XunitTestCollectionRunnerWithAssemblyFixture(
+    Dictionary<Type, object> assemblyFixtureMappings,
+    ITestCollection testCollection,
+    IEnumerable<IXunitTestCase> testCases,
+    IMessageSink diagnosticMessageSink,
+    IMessageBus messageBus,
+    ITestCaseOrderer testCaseOrderer,
+    ExceptionAggregator aggregator,
+    CancellationTokenSource cancellationTokenSource)
+    : XunitTestCollectionRunner(testCollection,
+        testCases,
+        diagnosticMessageSink,
+        messageBus,
+        testCaseOrderer,
+        aggregator,
+        cancellationTokenSource)
 {
-    readonly Dictionary<Type, object> _assemblyFixtureMappings;
-    readonly IMessageSink _diagnosticMessageSink;
-
-    public XunitTestCollectionRunnerWithAssemblyFixture(
-        Dictionary<Type, object> assemblyFixtureMappings,
-        ITestCollection testCollection,
-        IEnumerable<IXunitTestCase> testCases,
-        IMessageSink diagnosticMessageSink,
-        IMessageBus messageBus,
-        ITestCaseOrderer testCaseOrderer,
-        ExceptionAggregator aggregator,
-        CancellationTokenSource cancellationTokenSource)
-        : base(
-            testCollection,
-            testCases,
-            diagnosticMessageSink,
-            messageBus,
-            testCaseOrderer,
-            aggregator,
-            cancellationTokenSource)
-    {
-        _assemblyFixtureMappings = assemblyFixtureMappings;
-        _diagnosticMessageSink = diagnosticMessageSink;
-    }
+    readonly IMessageSink _diagnosticMessageSink = diagnosticMessageSink;
 
     protected override async Task<RunSummary> RunTestClassAsync(
         ITestClass testClass,
@@ -41,7 +33,7 @@ public class XunitTestCollectionRunnerWithAssemblyFixture : XunitTestCollectionR
     {
         // Don't want to use .Concat + .ToDictionary because of the possibility of overriding types,
         // so instead we'll just let collection fixtures override assembly fixtures.
-        var combinedFixtures = new Dictionary<Type, object>(_assemblyFixtureMappings);
+        var combinedFixtures = new Dictionary<Type, object>(assemblyFixtureMappings);
         foreach (var (key, value) in CollectionFixtureMappings)
         {
             combinedFixtures[key] = value;
