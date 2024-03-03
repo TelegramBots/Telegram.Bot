@@ -66,6 +66,12 @@ public class KeyboardButton : IKeyboardButton
     public KeyboardButton(string text) => Text = text;
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="KeyboardButton"/> class.
+    /// </summary>
+    public KeyboardButton()
+    { }
+
+    /// <summary>
     /// Generate a keyboard button to request for contact
     /// </summary>
     /// <param name="text">Button's text</param>

@@ -21,6 +21,12 @@ public class InlineKeyboardMarkup : IReplyMarkup
     public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; init; }
 
     /// <summary>
+    /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/>
+    /// </summary>
+    public InlineKeyboardMarkup()
+    { }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="InlineKeyboardMarkup"/> class with only one keyboard button
     /// </summary>
     /// <param name="inlineKeyboardButton">Keyboard button</param>
