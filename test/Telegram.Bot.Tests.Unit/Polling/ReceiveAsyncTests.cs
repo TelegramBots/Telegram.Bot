@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Polling;
@@ -16,63 +16,82 @@ public class ReceiveAsyncTests
 
         CancellationTokenSource cancellationTokenSource = new();
 
-        int updateCount = 0;
+        int updatesCount = 0;
+
         async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken token)
         {
-            updateCount++;
+            Interlocked.Add(ref updatesCount, 1);
+
             Assert.NotNull(update.Message?.Text);
             Assert.Contains(update.Message.Text, "start end");
-            await Task.Delay(10, cancellationTokenSource.Token);
-            if (update.Message.Text is "end")
+
+            if (update.Message.Text.Contains("end"))
             {
                 cancellationTokenSource.Cancel();
             }
+
+            await Task.Delay(10, cancellationTokenSource.Token);
         }
 
         DefaultUpdateHandler updateHandler = new(
             updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
+            errorHandler: async (_, _, token) => await Task.Delay(10, token)
         );
 
         CancellationToken cancellationToken = cancellationTokenSource.Token;
-        await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
+
+        try
+        {
+            await bot.ReceiveAsync(updateHandler, cancellationToken: cancellationToken);
+        }
+        catch (OperationCanceledException) { }
 
         Assert.True(cancellationToken.IsCancellationRequested);
-        Assert.Equal(2, updateCount);
-        Assert.Equal(1, bot.MessageGroupsLeft);
+        Assert.Equal(expected: 2, updatesCount);
+        Assert.Equal(expected: 1, bot.MessageGroupsLeft);
     }
 
     [Fact]
     public async Task UserExceptionsPropagateToSurface()
     {
         MockTelegramBotClient bot = new("foo-bar", "throw");
+        Exception handledException = new();
 
         int updateCount = 0;
         async Task HandleUpdate(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
             updateCount++;
-            await Task.Delay(10, cancellationToken);
+            await Task.Yield();
             if (update.Message?.Text is "throw")
             {
-                throw new InvalidOperationException("Oops");
+                throw new InvalidOperationException("Update handler exception");
             }
         }
 
         DefaultUpdateHandler updateHandler = new(
             updateHandler: HandleUpdate,
-            pollingErrorHandler: async (_, _, token) => await Task.Delay(10, token)
+            errorHandler: (_, exception, token) =>
+                {
+                    handledException = exception;
+
+                    throw new InvalidOperationException("Error handler exception");
+                }
         );
 
         try
         {
-            await bot.ReceiveAsync(updateHandler);
+            CancellationTokenSource cts = new(millisecondsDelay: 1_000);
+            await bot.ReceiveAsync(updateHandler, cancellationToken: cts.Token);
             Assert.True(false);
         }
-        catch (Exception ex)
+        catch (AggregateException ex)
         {
-            Assert.IsType<InvalidOperationException>(ex);
-            Assert.Contains("Oops", ex.Message);
+            Assert.IsType<InvalidOperationException>(ex.InnerException);
+            Assert.Contains("Error handler exception", ex.InnerException.Message);
         }
+
+        Assert.IsType<InvalidOperationException>(handledException);
+        Assert.Contains("Update handler exception", handledException.Message);
 
         Assert.Equal(3, updateCount);
         Assert.Equal(0, bot.MessageGroupsLeft);
@@ -81,11 +100,9 @@ public class ReceiveAsyncTests
     [Fact]
     public async Task ThrowOutPendingUpdates()
     {
-        CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(4));
-
         MockTelegramBotClient bot = new(new MockClientOptions
         {
-            Messages = new[] { "foo-bar", "baz", "quux" },
+            Messages = ["foo-bar", "baz", "quux"],
             HandleNegativeOffset = true
         });
 
@@ -102,14 +119,19 @@ public class ReceiveAsyncTests
 
         DefaultUpdateHandler updateHandler = new(
             updateHandler: HandleUpdate,
-            pollingErrorHandler: (_, _, _) => Task.CompletedTask
+            errorHandler: (_, _, _) => Task.CompletedTask
         );
 
-        await bot.ReceiveAsync(
-            updateHandler,
-            new() { ThrowPendingUpdates = true },
-            cancellationTokenSource.Token
-        );
+        try
+        {
+            CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(1));
+            await bot.ReceiveAsync(
+                updateHandler,
+                new() { ThrowPendingUpdates = true },
+                cancellationTokenSource.Token
+            );
+        }
+        catch (OperationCanceledException) { }
 
         Assert.Equal(0, handleCount);
         Assert.Equal(0, bot.MessageGroupsLeft);

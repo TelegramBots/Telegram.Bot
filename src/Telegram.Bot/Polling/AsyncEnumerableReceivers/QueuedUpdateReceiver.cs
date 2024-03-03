@@ -60,7 +60,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
     {
         if (Interlocked.CompareExchange(ref _inProcess, 1, 0) is 1)
         {
-            throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
+            throw new InvalidOperationException($"{nameof(GetAsyncEnumerator)} may only be called once");
         }
 
         _enumerator = new(receiver: this, cancellationToken: cancellationToken);
@@ -99,7 +99,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                 new()
                 {
                     SingleReader = true,
-                    SingleWriter = true
+                    SingleWriter = true,
                 }
             );
 
@@ -136,7 +136,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             {
                 try
                 {
-                    _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
+                    _messageOffset = await _receiver._botClient.DiscardPendingUpdatesAsync(
                         cancellationToken: _token
                     ).ConfigureAwait(false);
                 }

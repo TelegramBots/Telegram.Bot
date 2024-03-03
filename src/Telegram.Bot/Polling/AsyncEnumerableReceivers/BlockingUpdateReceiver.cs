@@ -49,7 +49,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
     {
         if (Interlocked.CompareExchange(ref _inProcess, 1, 0) is 1)
         {
-            throw new InvalidOperationException(nameof(GetAsyncEnumerator) + " may only be called once");
+            throw new InvalidOperationException($"{nameof(GetAsyncEnumerator)} may only be called once");
         }
 
         return new Enumerator(receiver: this, cancellationToken: cancellationToken);
@@ -100,7 +100,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
             {
                 try
                 {
-                    _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
+                    _messageOffset = await _receiver._botClient.DiscardPendingUpdatesAsync(
                         cancellationToken: _token
                     ).ConfigureAwait(false);
                 }
