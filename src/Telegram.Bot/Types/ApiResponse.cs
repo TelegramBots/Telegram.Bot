@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace Telegram.Bot.Types;
+﻿namespace Telegram.Bot.Types;
 
 /// <summary>
 /// Represents bot API response
@@ -37,9 +35,7 @@ public class ApiResponse<TResult>
     /// Gets the result object.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    [MaybeNull]
-    [AllowNull]
-    public TResult Result { get; private set; }
+    public TResult? Result { get; private set; }
 
     /// <summary>
     /// Initializes an instance of <see cref="ApiResponse{TResult}"/>

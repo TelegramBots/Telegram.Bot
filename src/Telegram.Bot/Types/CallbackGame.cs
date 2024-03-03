@@ -5,6 +5,4 @@ namespace Telegram.Bot.Types;
 /// to set up your game.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class CallbackGame
-{
-}
+public class CallbackGame;

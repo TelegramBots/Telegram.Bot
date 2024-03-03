@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
@@ -15,7 +16,7 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -31,7 +32,7 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     /// Width and height ratio must be at most 20
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Photo { get; }
+    public required InputFile Photo { get; init; }
 
     /// <summary>
     /// Photo caption (may also be used when resending photos by <see cref="InputFileId"/>),
@@ -62,13 +63,9 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ReplyToMessageId { get; set; }
-
-    /// <inheritdoc cref="Abstractions.Documentation.AllowSendingWithoutReply"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? AllowSendingWithoutReply { get; set; }
+    public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -86,18 +83,27 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     /// get a photo from the Internet, or upload a new photo using multipart/form-data. The photo
     /// must be at most 10 MB in size. The photo's width and height must not exceed 10000 in total.
     /// Width and height ratio must be at most 20</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendPhotoRequest(ChatId chatId, InputFile photo)
-        : base("sendPhoto")
+        : this()
     {
         ChatId = chatId;
         Photo = photo;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SendPhotoRequest()
+        : base("sendPhoto")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Photo switch
         {
             InputFileStream photo => ToMultipartFormDataContent(fileParameterName: "photo", inputFile: photo),
-            _               => base.ToHttpContent()
+            _                     => base.ToHttpContent()
         };
 }

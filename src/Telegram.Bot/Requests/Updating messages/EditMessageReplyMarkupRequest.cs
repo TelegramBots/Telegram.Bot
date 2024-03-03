@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -13,13 +14,13 @@ public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetab
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -33,10 +34,19 @@ public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetab
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageId">Identifier of the message to edit</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public EditMessageReplyMarkupRequest(ChatId chatId, int messageId)
-        : base("editMessageReplyMarkup")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request with chatId and messageId
+    /// </summary>
+    public EditMessageReplyMarkupRequest()
+        : base("editMessageReplyMarkup")
+    { }
 }

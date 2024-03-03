@@ -1,4 +1,5 @@
-﻿using Telegram.Bot.Requests.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Requests.Abstractions;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -18,21 +19,30 @@ public class GetInlineGameHighScoresRequest : RequestBase<GameHighScore[]>, IUse
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
     [JsonProperty(Required = Required.Always)]
-    public string InlineMessageId { get; }
+    public required string InlineMessageId { get; init; }
 
     /// <summary>
     /// Initializes a new request with userId and inlineMessageId
     /// </summary>
     /// <param name="userId">User identifier</param>
     /// <param name="inlineMessageId">Identifier of the inline message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public GetInlineGameHighScoresRequest(long userId, string inlineMessageId)
-        : base("getGameHighScores")
+        : this()
     {
         UserId = userId;
         InlineMessageId = inlineMessageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public GetInlineGameHighScoresRequest()
+        : base("getGameHighScores")
+    { }
 }

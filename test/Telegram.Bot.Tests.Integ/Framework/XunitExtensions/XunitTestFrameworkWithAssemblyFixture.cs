@@ -4,12 +4,8 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
-public class XunitTestFrameworkWithAssemblyFixture : XunitTestFramework
+public class XunitTestFrameworkWithAssemblyFixture(IMessageSink messageSink) : XunitTestFramework(messageSink)
 {
-    public XunitTestFrameworkWithAssemblyFixture(IMessageSink messageSink)
-        : base(messageSink)
-    { }
-
     protected override ITestFrameworkExecutor CreateExecutor(AssemblyName assemblyName)
         => new XunitTestFrameworkExecutorWithAssemblyFixture(
             assemblyName,

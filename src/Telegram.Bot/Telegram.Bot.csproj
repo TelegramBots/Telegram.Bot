@@ -2,9 +2,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <LangVersion>11</LangVersion>
+    <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
-    <WarningLevel>7</WarningLevel>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
     <AnalysisMode>AllEnabledByDefault</AnalysisMode>
     <AnalysisLevel>latest-recommended</AnalysisLevel>
@@ -24,6 +23,7 @@
     <Authors>RoundRobin,Poulad,tuscen</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
@@ -52,7 +52,12 @@
                                            'HttpClient.GetAsync(Uri, HttpCompletionOption, CancellationToken)' instead
                                            of 'HttpClient.GetAsync(string, HttpCompletionOption, CancellationToken)' -->
     <NoWarn>$(NoWarn);CA1031</NoWarn> <!-- Catch a more specific allowed exception type, or rethrow the exception -->
-    <NoWarn>$(NoWarn);MA0046;MA0048;MA0051</NoWarn>
+    <NoWarn>$(NoWarn);CA1716</NoWarn> <!-- Rename virtual/interface member MessageOrigin.Date so that it no longer
+                                           conflicts with the reserved language keyword 'Date' -->
+    <NoWarn>$(NoWarn);CA1510</NoWarn> <!-- Use 'ArgumentNullException.ThrowIfNull' instead of explicitly throwing
+                                           a new exception instance -->
+    <NoWarn>$(NoWarn);MA0046</NoWarn> <!-- The delegate must return void -->
+    <NoWarn>$(NoWarn);MA0048;MA0051</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -60,6 +65,7 @@
       <Pack>true</Pack>
       <PackagePath>/</PackagePath>
     </None>
+    <None Include="../../README.md" Pack="true" PackagePath="/"/>
   </ItemGroup>
 
   <!-- Make build deterministic only in CI environment to make local development easier with non-trimmed paths -->
@@ -70,7 +76,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
@@ -79,9 +85,11 @@
   </ItemGroup>
 
   <ItemGroup Label="Dev">
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.85" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.2.0" PrivateAssets="All" />
+    <PackageReference Include="IsExternalInit" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="Required" Version="1.0.0" PrivateAssets="all" />
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.141" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
     <ProjectReference Include="..\EnumSerializer.Generator\EnumSerializer.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>

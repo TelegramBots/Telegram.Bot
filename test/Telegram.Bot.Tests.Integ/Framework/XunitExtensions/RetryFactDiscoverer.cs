@@ -4,15 +4,8 @@ using Xunit.Sdk;
 
 namespace Telegram.Bot.Tests.Integ.Framework.XunitExtensions;
 
-public class RetryFactDiscoverer : IXunitTestCaseDiscoverer
+public class RetryFactDiscoverer(IMessageSink diagnosticMessageSink) : IXunitTestCaseDiscoverer
 {
-    readonly IMessageSink _diagnosticMessageSink;
-
-    public RetryFactDiscoverer(IMessageSink diagnosticMessageSink)
-    {
-        _diagnosticMessageSink = diagnosticMessageSink;
-    }
-
     /// <inheritdoc />
     public IEnumerable<IXunitTestCase> Discover(
         ITestFrameworkDiscoveryOptions discoveryOptions,
@@ -29,7 +22,7 @@ public class RetryFactDiscoverer : IXunitTestCaseDiscoverer
             .GetNamedArgument<string>(nameof(OrderedFactAttribute.ExceptionTypeFullName));
 
         var retryTestCase = new RetryTestCase(
-            _diagnosticMessageSink,
+            diagnosticMessageSink,
             discoveryOptions.MethodDisplayOrDefault(),
             testMethod,
             maxRetries,

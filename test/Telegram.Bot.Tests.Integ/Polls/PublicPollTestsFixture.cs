@@ -3,14 +3,9 @@ using Telegram.Bot.Types;
 
 namespace Telegram.Bot.Tests.Integ.Polls;
 
-public class PublicPollTestsFixture
+public class PublicPollTestsFixture(TestsFixture testsFixture)
 {
-    public TestsFixture TestsFixture { get; }
+    public TestsFixture TestsFixture { get; } = testsFixture;
     public Message OriginalPollMessage { get; set; }
     public PollAnswer PollAnswer { get; set; }
-
-    public PublicPollTestsFixture(TestsFixture testsFixture)
-    {
-        TestsFixture = testsFixture;
-    }
 }

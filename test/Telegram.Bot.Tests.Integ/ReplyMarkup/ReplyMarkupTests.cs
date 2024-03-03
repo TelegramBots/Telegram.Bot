@@ -9,25 +9,21 @@ namespace Telegram.Bot.Tests.Integ.ReplyMarkup;
 
 [Collection(Constants.TestCollections.ReplyMarkup)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class ReplyMarkupTests
+public class ReplyMarkupTests(TestsFixture testsFixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public ReplyMarkupTests(TestsFixture testsFixture)
-    {
-        _fixture = testsFixture;
-    }
+    ITelegramBotClient BotClient => testsFixture.BotClient;
 
     [OrderedFact("Should send a message with force reply markup")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Force_Reply()
     {
-        await BotClient.SendTextMessageAsync(
-            chatId: _fixture.SupergroupChat,
-            text: "Message with force_reply",
-            replyMarkup: new ForceReplyMarkup()
+        await BotClient.SendMessageAsync(
+            new()
+            {
+                ChatId = testsFixture.SupergroupChat,
+                Text = "Message with force_reply",
+                ReplyMarkup = new ForceReplyMarkup(),
+            }
         );
     }
 
@@ -35,16 +31,25 @@ public class ReplyMarkupTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_MultiRow_Keyboard()
     {
-        ReplyKeyboardMarkup replyMarkup = new[] {
-            new[] {    "Top-Left",   "Top" , "Top-Right"    },
-            new[] {        "Left", "Center", "Right"        },
-            new[] { "Bottom-Left", "Bottom", "Bottom-Right" },
+        KeyboardButton[][] keyboard =
+        [
+            ["Top-Left",     "Top"  , "Top-Right"],
+            ["Left",        "Center", "Right"],
+            ["Bottom-Left", "Bottom", "Bottom-Right"],
+        ];
+
+        ReplyKeyboardMarkup replyMarkup = new(keyboard: keyboard)
+        {
+            ResizeKeyboard = true,
         };
 
-        await BotClient.SendTextMessageAsync(
-            chatId: _fixture.SupergroupChat,
-            text: "Message with 3x3 keyboard",
-            replyMarkup: replyMarkup
+        await BotClient.SendMessageAsync(
+            new()
+            {
+                ChatId = testsFixture.SupergroupChat,
+                Text = "Message with 3x3 keyboard",
+                ReplyMarkup = replyMarkup,
+            }
         );
     }
 
@@ -52,10 +57,13 @@ public class ReplyMarkupTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Remove_Reply_Keyboard()
     {
-        await BotClient.SendTextMessageAsync(
-            chatId: _fixture.SupergroupChat,
-            text: "Message to remove keyboard",
-            replyMarkup: new ReplyKeyboardRemove()
+        await BotClient.SendMessageAsync(
+            new()
+            {
+                ChatId = testsFixture.SupergroupChat,
+                Text = "Message to remove keyboard",
+                ReplyMarkup = new ReplyKeyboardRemove(),
+            }
         );
     }
 
@@ -63,59 +71,32 @@ public class ReplyMarkupTests
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendMessage)]
     public async Task Should_Send_Inline_Keyboard()
     {
-        Message sentMessage = await BotClient.SendTextMessageAsync(
-            chatId: _fixture.SupergroupChat,
-            text: "Message with inline keyboard markup",
-            replyMarkup: new InlineKeyboardMarkup(new[]
+        InlineKeyboardButton[][] keyboard =
+        [
+            [
+                InlineKeyboardButton.WithUrl(
+                    text: "Link to Repository",
+                    url: "https://github.com/TelegramBots/Telegram.Bot"),
+            ],
+            [
+                InlineKeyboardButton.WithCallbackData(textAndCallbackData: "callback_data1"),
+                InlineKeyboardButton.WithCallbackData(text: "callback_data: a2", callbackData: "data"),
+            ],
+            [InlineKeyboardButton.WithSwitchInlineQuery(text: "switch_inline_query"),],
+            [InlineKeyboardButton.WithSwitchInlineQueryCurrentChat(text: "switch_inline_query_current_chat"),],
+        ];
+
+        InlineKeyboardMarkup replyMarkup = new(keyboard);
+
+        Message sentMessage = await BotClient.SendMessageAsync(
+            new()
             {
-                new []
-                {
-                    InlineKeyboardButton.WithUrl(
-                        "Link to Repository",
-                        "https://github.com/TelegramBots/Telegram.Bot"
-                    ),
-                },
-                new []
-                {
-                    InlineKeyboardButton.WithCallbackData("callback_data1"),
-                    InlineKeyboardButton.WithCallbackData("callback_data2", "data"),
-                },
-                new [] { InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"), },
-                new [] { InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"), },
-            })
+                ChatId = testsFixture.SupergroupChat,
+                Text = "Message with inline keyboard markup",
+                ReplyMarkup = replyMarkup,
+            }
         );
 
-        Assert.True(
-            JToken.DeepEquals(
-                JToken.FromObject(sentMessage.ReplyMarkup),
-                JToken.FromObject(
-                    new InlineKeyboardMarkup(
-                        new[]
-                        {
-                            new[]
-                            {
-                                InlineKeyboardButton.WithUrl(
-                                    "Link to Repository",
-                                    "https://github.com/TelegramBots/Telegram.Bot"
-                                ),
-                            },
-                            new[]
-                            {
-                                InlineKeyboardButton.WithCallbackData("callback_data1"),
-                                InlineKeyboardButton.WithCallbackData("callback_data2", "data"),
-                            },
-                            new[]
-                            {
-                                InlineKeyboardButton.WithSwitchInlineQuery("switch_inline_query"),
-                            },
-                            new[]
-                            {
-                                InlineKeyboardButton.WithSwitchInlineQueryCurrentChat("switch_inline_query_current_chat"),
-                            },
-                        }
-                    )
-                )
-            )
-        );
+        Asserts.JsonEquals(replyMarkup, sentMessage.ReplyMarkup);
     }
 }

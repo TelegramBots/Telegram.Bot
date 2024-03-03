@@ -85,7 +85,7 @@ public readonly record struct Color
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public Color(uint color)
     {
-        if (color is > MaxRgbValue or < 0)
+        if (color is > MaxRgbValue)
         {
             throw new ArgumentOutOfRangeException(nameof(color), color, "Color is out of range");
         }

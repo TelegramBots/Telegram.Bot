@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Telegram.Bot.Types.ReplyMarkups;
@@ -13,7 +14,7 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     /// Array of button rows, each represented by an Array of KeyboardButton objects
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; set; }
+    public required IEnumerable<IEnumerable<KeyboardButton>> Keyboard { get; init; }
 
     /// <summary>
     /// Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to
@@ -23,13 +24,17 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     public bool? IsPersistent { get; set; }
 
     /// <summary>
-    /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always of the same height as the app's standard keyboard.
+    /// Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller
+    /// if there are just two rows of buttons). Defaults to false, in which case the custom keyboard is always
+    /// of the same height as the app's standard keyboard.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ResizeKeyboard { get; set; }
 
     /// <summary>
-    /// Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be available, but clients will automatically display the usual letter-keyboard in the chat – the user can press a special button in the input field to see the custom keyboard again. Defaults to false.
+    /// Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still
+    /// be available, but clients will automatically display the usual letter-keyboard in the chat – the user can
+    /// press a special button in the input field to see the custom keyboard again. Defaults to false.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? OneTimeKeyboard { get; set; }
@@ -41,31 +46,37 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     public string? InputFieldPlaceholder { get; set; }
 
     /// <summary>
+    /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>
+    /// </summary>
+    public ReplyKeyboardMarkup()
+    { }
+
+    /// <summary>
     /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/> with one button
     /// </summary>
     /// <param name="button">Button on keyboard</param>
+    [SetsRequiredMembers]
     public ReplyKeyboardMarkup(KeyboardButton button)
-        : this(new[] { button })
-    {
-    }
+        : this([button])
+    { }
 
     /// <summary>
     /// Initializes a new instance of <see cref="ReplyKeyboardMarkup"/>
     /// </summary>
     /// <param name="keyboardRow">The keyboard row.</param>
+    [SetsRequiredMembers]
     public ReplyKeyboardMarkup(IEnumerable<KeyboardButton> keyboardRow)
-        : this(new[] { keyboardRow })
+        : this([keyboardRow])
     { }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ReplyKeyboardMarkup"/> class.
     /// </summary>
     /// <param name="keyboard">The keyboard.</param>
+    [SetsRequiredMembers]
     [JsonConstructor]
     public ReplyKeyboardMarkup(IEnumerable<IEnumerable<KeyboardButton>> keyboard)
-    {
-        Keyboard = keyboard;
-    }
+        => Keyboard = keyboard;
 
     /// <summary>
     /// Generates a reply keyboard markup with one button

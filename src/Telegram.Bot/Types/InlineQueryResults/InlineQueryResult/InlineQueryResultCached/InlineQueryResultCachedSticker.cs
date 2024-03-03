@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -22,7 +22,7 @@ public class InlineQueryResultCachedSticker : InlineQueryResult
     /// A valid file identifier of the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string StickerFileId { get; }
+    public required string StickerFileId { get; init; }
 
     /// <inheritdoc cref="Documentation.InputMessageContent" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -33,9 +33,17 @@ public class InlineQueryResultCachedSticker : InlineQueryResult
     /// </summary>
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="stickerFileId">A valid file identifier of the sticker</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultCachedSticker(string id, string stickerFileId)
         : base(id)
     {
         StickerFileId = stickerFileId;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultCachedSticker()
+    { }
 }

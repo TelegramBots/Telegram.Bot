@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -16,11 +17,11 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// Sticker set name
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// A <b>.WEBP</b> or <b>.PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have
@@ -41,12 +42,21 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// </summary>
     /// <param name="name">Sticker set name</param>
     /// <param name="userId">User identifier of the sticker set owner</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SetStickerSetThumbnailRequest(string name, long userId)
-        : base("setStickerSetThumbnail")
+        : this()
     {
         Name = name;
         UserId = userId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public SetStickerSetThumbnailRequest()
+        : base("setStickerSetThumbnail")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

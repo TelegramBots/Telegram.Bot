@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -14,17 +15,27 @@ public class InputFileUrl : InputFile
     /// <summary>
     /// HTTP URL for the file to be sent
     /// </summary>
-    public Uri Url { get; }
+    public required Uri Url { get; init; }
 
     /// <summary>
     /// This object represents an HTTP URL for the file to be sent
     /// </summary>
     /// <param name="url">HTTP URL for the file to be sent</param>
-    public InputFileUrl(string url) => Url = new(url);
+    [SetsRequiredMembers]
+    public InputFileUrl(string url)
+        => Url = new(url);
 
     /// <summary>
     /// This object represents an HTTP URL for the file to be sent
     /// </summary>
     /// <param name="uri">HTTP URL for the file to be sent</param>
-    public InputFileUrl(Uri uri) => Url = uri;
+    [SetsRequiredMembers]
+    public InputFileUrl(Uri uri)
+        => Url = uri;
+
+    /// <summary>
+    /// This object represents an HTTP URL for the file to be sent
+    /// </summary>
+    public InputFileUrl()
+    { }
 }

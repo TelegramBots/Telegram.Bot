@@ -1,4 +1,7 @@
 // ReSharper disable once CheckNamespace
+
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Requests;
 
 /// <summary>

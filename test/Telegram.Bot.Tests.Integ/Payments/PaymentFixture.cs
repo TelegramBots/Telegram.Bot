@@ -12,14 +12,7 @@ public class PaymentFixture : PrivateChatFixture
         : base(testsFixture, Constants.TestCollections.Payment)
     {
         PaymentProviderToken = testsFixture.Configuration.PaymentProviderToken;
-        if (PaymentProviderToken is null)
-        {
-            throw new ArgumentNullException(nameof(PaymentProviderToken));
-        }
-
-        if (PaymentProviderToken.Length < 5)
-        {
-            throw new ArgumentException("Payment provider token is invalid", nameof(PaymentProviderToken));
-        }
+        ArgumentNullException.ThrowIfNull(PaymentProviderToken);
+        ArgumentOutOfRangeException.ThrowIfLessThan(PaymentProviderToken.Length, 5);
     }
 }

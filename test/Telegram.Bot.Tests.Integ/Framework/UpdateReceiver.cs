@@ -17,17 +17,9 @@ public enum UpdatePosition
     Single
 }
 
-public class UpdateReceiver
+public class UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
 {
-    readonly ITelegramBotClient _botClient;
-
-    public List<string> AllowedUsernames { get; }
-
-    public UpdateReceiver(ITelegramBotClient botClient, IEnumerable<string>? allowedUsernames)
-    {
-        _botClient = botClient;
-        AllowedUsernames = allowedUsernames?.ToList() ?? new();
-    }
+    public List<string> AllowedUsernames { get; } = allowedUsernames?.ToList() ?? [];
 
     public async Task DiscardNewUpdatesAsync(CancellationToken cancellationToken = default)
     {
@@ -45,9 +37,12 @@ public class UpdateReceiver
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                var updates = await _botClient.GetUpdatesAsync(
-                    offset: offset,
-                    allowedUpdates: Array.Empty<UpdateType>(),
+                var updates = await botClient.GetUpdatesAsync(
+                    new()
+                    {
+                        Offset = offset,
+                        AllowedUpdates = Enum.GetValues<UpdateType>().Where(u => u != UpdateType.Unknown)
+                    },
                     cancellationToken: cancellationToken
                 );
 
@@ -79,7 +74,7 @@ public class UpdateReceiver
                 cancellationToken = cts.Token;
             }
 
-            Update[] matchingUpdates = Array.Empty<Update>();
+            Update[] matchingUpdates = [];
 
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -143,9 +138,9 @@ public class UpdateReceiver
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
         var updates = await GetUpdatesAsync(
-            predicate: u => (messageId is null || u.CallbackQuery?.Message?.MessageId == messageId) &&
+            predicate: u => (messageId is null || ((Message?)u.CallbackQuery?.Message)?.MessageId == messageId) &&
                             (data is null || u.CallbackQuery?.Data == data),
-            updateTypes: new [] { UpdateType.CallbackQuery },
+            updateTypes: [UpdateType.CallbackQuery],
             cancellationToken: cancellationToken
         );
 
@@ -161,7 +156,7 @@ public class UpdateReceiver
         if (discardNewUpdates) { await DiscardNewUpdatesAsync(cancellationToken); }
 
         var updates = await GetUpdatesAsync(
-            updateTypes: new [] { UpdateType.InlineQuery },
+            updateTypes: [UpdateType.InlineQuery],
             cancellationToken: cancellationToken
         );
 
@@ -190,11 +185,10 @@ public class UpdateReceiver
         {
             await Task.Delay(TimeSpan.FromSeconds(1), cancellationToken);
             var updates = await GetUpdatesAsync(
-                predicate: u => (u.Message is { Chat.Id: var id, Type: var type } &&
-                                 id == chatId && type == messageType) ||
-                                u.ChosenInlineResult is not null,
+                predicate: u => (u.Message is { Chat.Id: var id, Type: var type } && id == chatId && type == messageType)
+                                || u.ChosenInlineResult is not null,
                 cancellationToken: cancellationToken,
-                updateTypes: new[] { UpdateType.Message, UpdateType.ChosenInlineResult }
+                updateTypes: [UpdateType.Message, UpdateType.ChosenInlineResult]
             );
 
             messageUpdate = updates.SingleOrDefault(u => u.Message?.Type == messageType);
@@ -209,7 +203,7 @@ public class UpdateReceiver
             CancellationToken cancellationToken,
             (Update? update1, Update? update2) updates
         ) =>
-            !cancellationToken.IsCancellationRequested && updates is not ({}, {});
+            !cancellationToken.IsCancellationRequested && updates is not (not null, not null);
     }
 
     async Task<Update[]> GetOnlyAllowedUpdatesAsync(
@@ -217,10 +211,12 @@ public class UpdateReceiver
         CancellationToken cancellationToken,
         params UpdateType[] types)
     {
-        var updates = await _botClient.GetUpdatesAsync(
-            offset: offset,
-            timeout: 120,
-            allowedUpdates: types,
+        var updates = await botClient.GetUpdatesAsync(
+            new() {
+                Offset = offset,
+                Timeout = 120,
+                AllowedUpdates = types,
+            },
             cancellationToken: cancellationToken
         );
 
@@ -243,10 +239,10 @@ public class UpdateReceiver
                 or UpdateType.ChatMember
                 or UpdateType.MyChatMember
                 or UpdateType.ChatJoinRequest =>
-                AllowedUsernames.Contains(
-                    update.GetUser().Username,
-                    StringComparer.OrdinalIgnoreCase
-                ),
+                    AllowedUsernames.Contains(
+                        update.GetUser().Username,
+                        StringComparer.OrdinalIgnoreCase
+                    ),
             UpdateType.Poll => true,
             UpdateType.EditedMessage
                 or UpdateType.ChannelPost

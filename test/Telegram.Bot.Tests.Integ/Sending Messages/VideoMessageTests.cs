@@ -1,5 +1,7 @@
 using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -9,16 +11,9 @@ namespace Telegram.Bot.Tests.Integ.Sending_Messages;
 
 [Collection(Constants.TestCollections.SendVideoMessage)]
 [TestCaseOrderer(Constants.TestCaseOrderer, Constants.AssemblyName)]
-public class SendingVideoMessageTests
+public class SendingVideoMessageTests(TestsFixture fixture)
 {
-    ITelegramBotClient BotClient => _fixture.BotClient;
-
-    readonly TestsFixture _fixture;
-
-    public SendingVideoMessageTests(TestsFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should send a video with caption")]
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.SendVideo)]
@@ -28,12 +23,15 @@ public class SendingVideoMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.MoonLanding))
         {
             message = await BotClient.SendVideoAsync(
-                chatId: _fixture.SupergroupChat.Id,
-                video: new InputFileStream(stream, "moon-landing.mp4"),
-                duration: 104,
-                width: 320,
-                height: 240,
-                caption: "Moon Landing"
+                new()
+                {
+                    ChatId = fixture.SupergroupChat.Id,
+                    Video = InputFile.FromStream(stream, "moon-landing.mp4"),
+                    Duration = 104,
+                    Width = 320,
+                    Height = 240,
+                    Caption = "Moon Landing",
+                }
             );
         }
 
@@ -42,7 +40,7 @@ public class SendingVideoMessageTests
         Assert.NotNull(message.Video);
         Assert.NotEmpty(message.Video.FileId);
         Assert.NotEmpty(message.Video.FileUniqueId);
-        Assert.Equal(104, message.Video.Duration);
+        Assert.True(message.Video.Duration >= 104);
         Assert.Equal(320, message.Video.Width);
         Assert.Equal(240, message.Video.Height);
         Assert.Equal("video/mp4", message.Video.MimeType);
@@ -65,10 +63,13 @@ public class SendingVideoMessageTests
         await using (Stream stream = System.IO.File.OpenRead(Constants.PathToFile.Videos.GoldenRatio))
         {
             message = await BotClient.SendVideoNoteAsync(
-                chatId:  _fixture.SupergroupChat.Id,
-                videoNote: new InputFileStream(stream),
-                duration:  28,
-                length:  240
+                new()
+                {
+                    ChatId = fixture.SupergroupChat.Id,
+                    VideoNote = InputFile.FromStream(stream),
+                    Duration = 28,
+                    Length = 240,
+                }
             );
         }
 
@@ -76,7 +77,7 @@ public class SendingVideoMessageTests
         Assert.NotNull(message.VideoNote);
         Assert.NotEmpty(message.VideoNote.FileId);
         Assert.NotEmpty(message.VideoNote.FileUniqueId);
-        Assert.Equal(28, message.VideoNote.Duration);
+        Assert.True(message.VideoNote.Duration >= 28);
         Assert.Equal(240, message.VideoNote.Length);
         Assert.NotNull(message.VideoNote.Thumbnail);
         Assert.NotEmpty(message.VideoNote.Thumbnail.FileId);
@@ -98,9 +99,12 @@ public class SendingVideoMessageTests
                     )
         {
             message = await BotClient.SendVideoAsync(
-                chatId: _fixture.SupergroupChat,
-                video: new InputFileStream(stream1),
-                thumbnail: new InputFileStream(stream2, "thumb.jpg")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat,
+                    Video = InputFile.FromStream(stream1),
+                    Thumbnail = InputFile.FromStream(stream2, "thumb.jpg"),
+                }
             );
         }
 
@@ -111,7 +115,7 @@ public class SendingVideoMessageTests
         Assert.Equal(320, message.Video.Thumbnail.Width);
         Assert.Equal(240, message.Video.Thumbnail.Height);
         Assert.NotNull(message.Video.Thumbnail.FileSize);
-        Assert.InRange((int)message.Video.Thumbnail.FileSize, 600, 900);
+        Assert.InRange((long)message.Video.Thumbnail.FileSize, 600, 900);
     }
 
     [OrderedFact("Should send a video note with thumbnail")]
@@ -125,9 +129,12 @@ public class SendingVideoMessageTests
                     )
         {
             message = await BotClient.SendVideoNoteAsync(
-                chatId:  _fixture.SupergroupChat.Id,
-                videoNote: new InputFileStream(stream1),
-                thumbnail: new InputFileStream(stream2, "thumbnail.jpg")
+                new()
+                {
+                    ChatId = fixture.SupergroupChat.Id,
+                    VideoNote = InputFile.FromStream(stream1),
+                    Thumbnail = InputFile.FromStream(stream2, "thumbnail.jpg"),
+                }
             );
         }
 

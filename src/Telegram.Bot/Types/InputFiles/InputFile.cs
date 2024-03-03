@@ -26,8 +26,8 @@ public abstract class InputFile
     /// <returns>An instance of a class that implements <see cref="InputFile"/></returns>
     public static InputFile FromString(string urlOrFileId) =>
         Uri.TryCreate(urlOrFileId, UriKind.Absolute, out var url)
-            ? new InputFileUrl(url)
-            : new InputFileId(urlOrFileId);
+            ? FromUri(url)
+            : FromFileId(urlOrFileId);
 
     /// <summary>
     /// Creates an <see cref="InputFileStream"/> from an instance <see cref="Stream"/>

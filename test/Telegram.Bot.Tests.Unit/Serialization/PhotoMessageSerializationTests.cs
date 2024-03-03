@@ -4,6 +4,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -69,10 +70,10 @@ public class PhotoMessageSerializationTests
         Assert.NotNull(message);
         Assert.Equal(MessageType.Photo, message.Type);
         Assert.NotNull(message.Photo);
-        Assert.NotEmpty(message.Photo!);
+        Assert.NotEmpty(message.Photo);
         Assert.All(message.Photo.Select(ps => ps.FileId), Assert.NotEmpty);
-        Assert.All(message.Photo.Select(ps => ps.Width), w => Assert.NotEqual(default, w));
-        Assert.All(message.Photo.Select(ps => ps.Height), h => Assert.NotEqual(default, h));
+        Assert.All(message.Photo.Select(ps => ps.Width), w => Assert.NotEqual(0, w));
+        Assert.All(message.Photo.Select(ps => ps.Height), h => Assert.NotEqual(0, h));
     }
 
     [Fact(DisplayName = "Should serialize a photo message")]
@@ -95,9 +96,9 @@ public class PhotoMessageSerializationTests
                 Type = ChatType.Private
             },
             Date = new(2018, 1, 1, 0, 0, 0, DateTimeKind.Utc),
-            Photo = new[]
-            {
-                new PhotoSize
+            Photo =
+            [
+                new()
                 {
                     FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABN7x5HqnrHW_wp4BAAEC",
                     FileUniqueId = "AgADcOsAAhUdZAc",
@@ -105,7 +106,7 @@ public class PhotoMessageSerializationTests
                     Width = 90,
                     Height = 90,
                 },
-                new PhotoSize
+                new()
                 {
                     FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIrxzSBLXOQYw54BAAEC",
                     FileUniqueId = "AgADcOsAAhUdZAc",
@@ -113,7 +114,7 @@ public class PhotoMessageSerializationTests
                     Width = 320,
                     Height = 320,
                 },
-                new PhotoSize
+                new()
                 {
                     FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABIJONRZpTJFnxJ4BAAEC",
                     FileUniqueId = "AgADcOsAAhUdZAc",
@@ -121,7 +122,7 @@ public class PhotoMessageSerializationTests
                     Width = 800,
                     Height = 800,
                 },
-                new PhotoSize
+                new()
                 {
                     FileId = "AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABP6uRLtwe8Z8wZ4BAAEC",
                     FileUniqueId = "AgADcOsAAhUdZAc",
@@ -129,13 +130,53 @@ public class PhotoMessageSerializationTests
                     Width = 1280,
                     Height = 1280,
                 }
-            }
+            ]
         };
 
-        string? json = JsonConvert.SerializeObject(message);
+        string json = JsonConvert.SerializeObject(message);
+        JObject j = JObject.Parse(json);
 
-        Assert.NotNull(json);
-        Assert.True(json.Length > 100);
-        Assert.Contains(@"""file_id"":""AgADAgADvKgxGxW80EtRgjrTaWNmy7UerQ4ABP6uRLtwe8Z8wZ4BAAEC""", json);
+        Assert.Equal(5, j.Children().Count());
+        Assert.Equal(1234, j["message_id"]);
+        Assert.Equal(123, j["date"]);
+
+        JToken? jChat = j["chat"];
+        Assert.NotNull(jChat);
+        Assert.Equal(4, jChat.Children().Count());
+        Assert.Equal(1234567, jChat["id"]);
+        Assert.Equal("Telegram_Bots", jChat["first_name"]);
+        Assert.Equal("TelegramBots", jChat["username"]);
+        Assert.Equal("private", jChat["type"]);
+
+        JToken? jFrom = j["from"];
+        Assert.NotNull(jFrom);
+        Assert.Equal(4, jFrom.Children().Count());
+        Assert.Equal(1234567, jFrom["id"]);
+        Assert.Equal("Telegram_Bots", jFrom["first_name"]);
+        Assert.Equal("TelegramBots", jFrom["username"]);
+        Assert.Equal(false, jFrom["is_bot"]);
+
+        JToken? jPhoto = j["photo"];
+        Assert.NotNull(jPhoto);
+        Assert.IsType<JArray>(jPhoto);
+        Assert.Equal(4, jPhoto.Children().Count());
+        Assert.All(jPhoto.Children(), photo =>
+        {
+            Assert.Equal(5, photo.Children().Count());
+            Assert.NotNull(photo["file_id"]);
+            Assert.Equal(JTokenType.String, photo["file_id"]!.Type);
+
+            Assert.NotNull(photo["file_unique_id"]);
+            Assert.Equal(JTokenType.String, photo["file_unique_id"]!.Type);
+
+            Assert.NotNull(photo["file_size"]);
+            Assert.Equal(JTokenType.Integer, photo["file_size"]!.Type);
+
+            Assert.NotNull(photo["width"]);
+            Assert.Equal(JTokenType.Integer, photo["width"]!.Type);
+
+            Assert.NotNull(photo["height"]);
+            Assert.Equal(JTokenType.Integer, photo["height"]!.Type);
+        });
     }
 }

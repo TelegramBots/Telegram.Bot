@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -14,13 +15,13 @@ public class StopMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the sent message
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; }
+    public required int MessageId { get; init; }
 
     /// <inheritdoc cref="Abstractions.Documentation.InlineReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -33,10 +34,19 @@ public class StopMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="messageId">Identifier of the sent message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public StopMessageLiveLocationRequest(ChatId chatId, int messageId)
-        : base("stopMessageLiveLocation")
+        : this()
     {
         ChatId = chatId;
         MessageId = messageId;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public StopMessageLiveLocationRequest()
+        : base("stopMessageLiveLocation")
+    { }
 }

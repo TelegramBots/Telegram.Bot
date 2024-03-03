@@ -10,16 +10,32 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures;
 
 public abstract class AsyncLifetimeFixture : IAsyncLifetime
 {
-    readonly List<IAsyncLifetime> _lifetimes = new();
+    readonly List<IAsyncLifetime> _lifetimes = [];
+
+    protected virtual IEnumerable<IAsyncLifetime> Lifetimes() => [];
+    protected virtual IEnumerable<Func<Task>> Initializers() => [];
+    protected virtual IEnumerable<Func<Task>> Finalizers() => [];
+
+    protected AsyncLifetimeFixture()
+    {
+        // ReSharper disable VirtualMemberCallInConstructor
+        _lifetimes.AddRange(Initializers().Select(initializer => new AsyncLifetimeAction(initializer: initializer)));
+        _lifetimes.AddRange(Lifetimes());
+        _lifetimes.AddRange(Finalizers().Select(finalizer => new AsyncLifetimeAction(finalizer: finalizer)));
+        // ReSharper restore VirtualMemberCallInConstructor
+    }
 
     protected void AddLifetime(IAsyncLifetime lifetime) =>
         _lifetimes.Add(lifetime);
 
-    protected void AddLifetime(Func<Task>? initialize = default, Func<Task>? dispose = default) =>
-        _lifetimes.Add(new AsyncLifetimeAction(initialize, dispose));
+    protected void AddLifetime(Func<Task>? initializer = default, Func<Task>? finalizer = default) =>
+        _lifetimes.Add(new AsyncLifetimeAction(initializer, finalizer));
 
-    protected void AddLifetime(Action? initialize = default, Action? dispose = default) =>
-        _lifetimes.Add(new AsyncLifetimeAction(initialize, dispose));
+    protected void AddInitializer(Func<Task> initializer) =>
+        _lifetimes.Add(new AsyncLifetimeAction(initializer: initializer));
+
+    protected void AddFinalizer(Func<Task> finalizer) =>
+        _lifetimes.Add(new AsyncLifetimeAction(finalizer: finalizer));
 
     public async Task InitializeAsync()
     {
@@ -31,53 +47,24 @@ public abstract class AsyncLifetimeFixture : IAsyncLifetime
 
     public async Task DisposeAsync()
     {
-        // dispose in reverse order because later lifetimes might depend on previous lifetimes to be intact
+        // finalizer in reverse order because later lifetimes might depend on previous lifetimes to be intact
         foreach (var asyncLifetime in ((IEnumerable<IAsyncLifetime>)_lifetimes).Reverse())
         {
             await asyncLifetime.DisposeAsync();
         }
     }
 
-    sealed class AsyncLifetimeAction : IAsyncLifetime
+    public sealed class AsyncLifetimeAction(Func<Task>? initializer = default, Func<Task>? finalizer = default)
+        : IAsyncLifetime
     {
-        readonly Func<Task>? _initialize;
-        readonly Func<Task>? _dispose;
-
-        public AsyncLifetimeAction(Func<Task>? initialize = default, Func<Task>? dispose = default)
-        {
-            _initialize = initialize;
-            _dispose = dispose;
-        }
-
-        public AsyncLifetimeAction(Action? initialize = default, Action? dispose = default)
-        {
-            if (initialize is not null)
-            {
-                _initialize = () =>
-                {
-                    initialize.Invoke();
-                    return Task.CompletedTask;
-                };
-            }
-
-            if (dispose is not null)
-            {
-                _dispose = () =>
-                {
-                    dispose.Invoke();
-                    return Task.CompletedTask;
-                };
-            }
-        }
-
         public async Task InitializeAsync()
         {
-            if (_initialize is not null) { await _initialize(); }
+            if (initializer is not null) { await initializer(); }
         }
 
         public async Task DisposeAsync()
         {
-            if (_dispose is not null) { await _dispose(); }
+            if (finalizer is not null) { await finalizer(); }
         }
     }
 }

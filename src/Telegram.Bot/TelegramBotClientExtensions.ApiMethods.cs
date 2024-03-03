@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Extensions;
@@ -27,8 +26,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="offset">
     /// Identifier of the first update to be returned. Must be greater by one than the highest among the
     /// identifiers of previously received updates. By default, updates starting with the earliest unconfirmed
-    /// update are returned. An update is considered confirmed as soon as <see cref="GetUpdatesAsync"/> is called
-    /// with an <paramref name="offset"/> higher than its <see cref="Update.Id"/>. The negative offset can be
+    /// update are returned. An update is considered confirmed as soon as
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/> is called with an
+    /// <paramref name="offset"/> higher than its <see cref="Update.Id"/>. The negative offset can be
     /// specified to retrieve updates starting from <paramref name="offset">-offset</paramref> update from the end
     /// of the updates queue. All previous updates will forgotten.
     /// </param>
@@ -60,6 +60,7 @@ public static partial class TelegramBotClientExtensions
     /// </list>
     /// </remarks>
     /// <returns>An Array of <see cref="Update"/> objects is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Update[]> GetUpdatesAsync(
         this ITelegramBotClient botClient,
         int? offset = default,
@@ -70,12 +71,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetUpdatesRequest
+                new GetUpdatesRequest
                 {
                     Offset = offset,
                     Limit = limit,
                     Timeout = timeout,
-                    AllowedUpdates = allowedUpdates
+                    AllowedUpdates = allowedUpdates,
                 },
                 cancellationToken
             )
@@ -118,7 +119,8 @@ public static partial class TelegramBotClientExtensions
     /// </para>
     /// <para>
     /// Please note that this parameter doesn't affect updates created before the call to the
-    /// <see cref="SetWebhookAsync"/>, so unwanted updates may be received for a short period of time.
+    /// <see cref="SetWebhookAsync(ITelegramBotClient,SetWebhookRequest,CancellationToken)"/>,
+    /// so unwanted updates may be received for a short period of time.
     /// </para>
     /// </param>
     /// <param name="dropPendingUpdates">Pass <see langword="true"/> to drop all pending updates</param>
@@ -133,8 +135,9 @@ public static partial class TelegramBotClientExtensions
     /// <remarks>
     /// <list type="number">
     /// <item>
-    /// You will not be able to receive updates using <see cref="GetUpdatesAsync"/> for as long as an outgoing
-    /// webhook is set up
+    /// You will not be able to receive updates using
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/> for as long as
+    /// an outgoing webhook is set up
     /// </item>
     /// <item>
     /// To use a self-signed certificate, you need to upload your
@@ -147,6 +150,7 @@ public static partial class TelegramBotClientExtensions
     /// If you're having any trouble setting up webhooks, please check out this
     /// <a href="https://core.telegram.org/bots/webhooks">amazing guide to Webhooks</a>.
     /// </remarks>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetWebhookAsync(
         this ITelegramBotClient botClient,
         string url,
@@ -160,8 +164,9 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetWebhookRequest(url)
+                new SetWebhookRequest
                 {
+                    Url = url,
                     Certificate = certificate,
                     IpAddress = ipAddress,
                     MaxConnections = maxConnections,
@@ -175,7 +180,8 @@ public static partial class TelegramBotClientExtensions
 
 
     /// <summary>
-    /// Use this method to remove webhook integration if you decide to switch back to <see cref="GetUpdatesAsync"/>
+    /// Use this method to remove webhook integration if you decide to switch back to
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="dropPendingUpdates">Pass <see langword="true"/> to drop all pending updates</param>
@@ -183,6 +189,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns true on success</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteWebhookAsync(
         this ITelegramBotClient botClient,
         bool? dropPendingUpdates = default,
@@ -190,10 +197,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteWebhookRequest
-                {
-                    DropPendingUpdates = dropPendingUpdates
-                },
+                new DeleteWebhookRequest { DropPendingUpdates = dropPendingUpdates },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -206,15 +210,17 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>
-    /// On success, returns a <see cref="WebhookInfo"/> object. If the bot is using <see cref="GetUpdatesAsync"/>,
+    /// On success, returns a <see cref="WebhookInfo"/> object. If the bot is using
+    /// <see cref="GetUpdatesAsync(ITelegramBotClient,GetUpdatesRequest,CancellationToken)"/>,
     /// will return an object with the <see cref="WebhookInfo.Url"/> field empty.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<WebhookInfo> GetWebhookInfoAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetWebhookInfoRequest(), cancellationToken)
+            .MakeRequestAsync(new GetWebhookInfoRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     #endregion Getting updates
@@ -229,12 +235,13 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns basic information about the bot in form of a <see cref="User"/> object.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<User> GetMeAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetMeRequest(), cancellationToken)
+            .MakeRequestAsync(new GetMeRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -247,12 +254,13 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task LogOutAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new LogOutRequest(), cancellationToken)
+            .MakeRequestAsync(new LogOutRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -264,12 +272,13 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task CloseAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new CloseRequest(), cancellationToken)
+            .MakeRequestAsync(new CloseRequest(), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -293,15 +302,12 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in message text, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
-    /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -312,6 +318,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the method SendMessageAsync instead")]
     public static async Task<Message> SendTextMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -319,27 +326,27 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendMessageRequest(chatId, text)
+                new SendMessageRequest
                 {
+                    ChatId = chatId,
+                    Text = text,
+                    MessageThreadId = messageThreadId,
                     ParseMode = parseMode,
                     Entities = entities,
-                    DisableWebPagePreview = disableWebPagePreview,
+                    LinkPreviewOptions = linkPreviewOptions,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -369,6 +376,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> ForwardMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -381,11 +389,71 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new ForwardMessageRequest(chatId, fromChatId, messageId)
+                new ForwardMessageRequest
                 {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageId = messageId,
+                    MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to forward multiple messages of any kind. If some of the specified messages can't be found
+    /// or forwarded, they are skipped. Service messages and messages with protected content can't be forwarded.
+    /// Album grouping is kept for forwarded messages.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="fromChatId">
+    /// Unique identifier for the chat where the original messages were sent
+    /// (or channel username in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageIds">
+    /// Identifiers of 1-100 messages in the chat from_chat_id to forward.
+    /// The identifiers must be specified in a strictly increasing order.
+    /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
+    /// <param name="disableNotification">
+    /// Sends the message silently. Users will receive a notification with no sound.
+    /// </param>
+    /// <param name="protectContent">
+    /// Protects the contents of sent messages from forwarding and saving
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>On success, an array of <see cref="MessageId"/> of the sent messages is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
+    public static async Task<MessageId[]> ForwardMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        IEnumerable<int> messageIds,
+        int? messageThreadId = default,
+        bool? disableNotification = default,
+        bool? protectContent = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                new ForwardMessagesRequest
+                {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageIds = messageIds,
                     MessageThreadId = messageThreadId,
+                    DisableNotification = disableNotification,
+                    ProtectContent = protectContent,
                 },
                 cancellationToken
             )
@@ -393,8 +461,9 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to copy messages of any kind. Service messages and invoice messages can't be copied.
-    /// The method is analogous to the method <see cref="ForwardMessageAsync"/>, but the copied message doesn't
-    /// have a link to the original message.
+    /// The method is analogous to the method
+    /// <see cref="ForwardMessageAsync(ITelegramBotClient,ForwardMessageRequest,CancellationToken)"/>,
+    /// but the copied message doesn't have a link to the original message.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -426,10 +495,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -440,6 +506,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the <see cref="MessageId"/> of the sent message on success.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<MessageId> CopyMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -451,24 +518,91 @@ public static partial class TelegramBotClientExtensions
         IEnumerable<MessageEntity>? captionEntities = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CopyMessageRequest(chatId, fromChatId, messageId)
+                new CopyMessageRequest
                 {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageId = messageId,
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
-                    ReplyToMessageId = replyToMessageId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to copy messages of any kind. If some of the specified messages can't be found or copied,
+    /// they are skipped. Service messages, giveaway messages, giveaway winners messages, and invoice messages
+    /// can't be copied. A quiz <see cref="Poll"/> can be copied only if the value of the field
+    /// <see cref="Poll.CorrectOptionId">CorrectOptionId</see> is known to the bot. The method is analogous
+    /// to the method
+    /// <see cref="ForwardMessagesAsync(ITelegramBotClient,ForwardMessagesRequest,CancellationToken)"/>, but the
+    /// copied messages don't have a link to the original message. Album grouping is kept for copied messages.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="fromChatId">
+    /// Unique identifier for the chat where the original messages were sent
+    /// (or channel username in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageIds">
+    /// Identifiers of 1-100 messages in the chat <paramref name="fromChatId"/> to copy.
+    /// The identifiers must be specified in a strictly increasing order.
+    /// </param>
+    /// <param name="messageThreadId">
+    /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
+    /// </param>
+    /// <param name="disableNotification">
+    /// Sends the message silently. Users will receive a notification with no sound.
+    /// </param>
+    /// <param name="protectContent">
+    /// Protects the contents of sent messages from forwarding and saving
+    /// </param>
+    /// <param name="removeCaption">
+    /// Pass <see langword="true"/> to copy the messages without their captions
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>On success, an array of <see cref="MessageId"/> of the sent messages is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
+    public static async Task<MessageId[]> CopyMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        ChatId fromChatId,
+        int[] messageIds,
+        int? messageThreadId = default,
+        bool? disableNotification = default,
+        bool? protectContent = default,
+        bool? removeCaption = default,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                new CopyMessagesRequest
+                {
+                    ChatId = chatId,
+                    FromChatId = fromChatId,
+                    MessageIds = messageIds,
                     MessageThreadId = messageThreadId,
+                    DisableNotification = disableNotification,
+                    ProtectContent = protectContent,
+                    RemoveCaption = removeCaption,
                 },
                 cancellationToken
             )
@@ -511,10 +645,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -525,6 +656,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -536,25 +668,25 @@ public static partial class TelegramBotClientExtensions
         bool? hasSpoiler = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
             MakeRequestAsync(
-                request: new SendPhotoRequest(chatId, photo)
+                new SendPhotoRequest
                 {
+                    ChatId = chatId,
+                    Photo = photo,
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
                     HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -602,10 +734,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -616,6 +745,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendAudioAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -630,15 +760,17 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendAudioRequest(chatId, audio)
+                new SendAudioRequest
                 {
+                    ChatId = chatId,
+                    Audio = audio,
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
@@ -648,10 +780,8 @@ public static partial class TelegramBotClientExtensions
                     Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -701,10 +831,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -715,6 +842,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendDocumentAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -727,15 +855,17 @@ public static partial class TelegramBotClientExtensions
         bool? disableContentTypeDetection = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendDocumentRequest(chatId, document)
+                new SendDocumentRequest
                 {
+                    ChatId = chatId,
+                    Document = document,
+                    MessageThreadId = messageThreadId,
                     Thumbnail = thumbnail,
                     Caption = caption,
                     ParseMode = parseMode,
@@ -743,10 +873,8 @@ public static partial class TelegramBotClientExtensions
                     DisableContentTypeDetection = disableContentTypeDetection,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -800,10 +928,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -814,6 +939,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendVideoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -830,15 +956,17 @@ public static partial class TelegramBotClientExtensions
         bool? supportsStreaming = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVideoRequest(chatId, video)
+                new SendVideoRequest
                 {
+                    ChatId = chatId,
+                    Video = video,
+                    MessageThreadId = messageThreadId,
                     Duration = duration,
                     Width = width,
                     Height = height,
@@ -850,10 +978,8 @@ public static partial class TelegramBotClientExtensions
                     SupportsStreaming = supportsStreaming,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -900,16 +1026,13 @@ public static partial class TelegramBotClientExtensions
     /// of <see cref="ParseMode"/>
     /// </param>
     /// <param name="hasSpoiler">
-    /// Pass <see langword="true"/> if the animatopn needs to be covered with a spoiler animation
+    /// Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -920,6 +1043,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendAnimationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -935,15 +1059,17 @@ public static partial class TelegramBotClientExtensions
         bool? hasSpoiler = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendAnimationRequest(chatId, animation)
+                new SendAnimationRequest
                 {
+                    ChatId = chatId,
+                    Animation = animation,
+                    MessageThreadId = messageThreadId,
                     Duration = duration,
                     Width = width,
                     Height = height,
@@ -954,10 +1080,8 @@ public static partial class TelegramBotClientExtensions
                     HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -974,10 +1098,10 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
-    /// <param name="voice">
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
+    /// <param name="voice">
     /// Audio file to send. Pass a <see cref="InputFileId"/> as String to send a file that exists
     /// on the Telegram servers (recommended), pass an HTTP URL as a String for Telegram to get a file from
     /// the Internet, or upload a new one using multipart/form-data
@@ -997,10 +1121,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1011,6 +1132,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendVoiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1022,25 +1144,25 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVoiceRequest(chatId, voice)
+                new SendVoiceRequest
                 {
+                    ChatId = chatId,
+                    Voice = voice,
+                    MessageThreadId = messageThreadId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
                     Duration = duration,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1076,10 +1198,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1090,6 +1209,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendVideoNoteAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1100,24 +1220,24 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVideoNoteRequest(chatId, videoNote)
+                new SendVideoNoteRequest
                 {
+                    ChatId = chatId,
+                    VideoNote = videoNote,
+                    MessageThreadId = messageThreadId,
                     Duration = duration,
                     Length = length,
                     Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1140,14 +1260,12 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, an array of <see cref="Message"/>s that were sent is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message[]> SendMediaGroupAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1155,19 +1273,19 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendMediaGroupRequest(chatId, media)
+                new SendMediaGroupRequest
                 {
+                    ChatId = chatId,
+                    Media = media,
+                    MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
-                    MessageThreadId = messageThreadId,
+                    ReplyParameters = replyParameters,
                 },
                 cancellationToken
             )
@@ -1186,6 +1304,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
+    /// <param name="horizontalAccuracy">The radius of uncertainty for the location, measured in meters; 0-1500</param>
     /// <param name="livePeriod">
     /// Period in seconds for which the location will be updated, should be between 60 and 86400
     /// </param>
@@ -1201,10 +1320,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1215,35 +1331,39 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendLocationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         double latitude,
         double longitude,
         int? messageThreadId = default,
+        double? horizontalAccuracy = default,
         int? livePeriod = default,
         int? heading = default,
         int? proximityAlertRadius = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendLocationRequest(chatId, latitude, longitude)
+                new SendLocationRequest
                 {
+                    ChatId = chatId,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    MessageThreadId = messageThreadId,
+                    HorizontalAccuracy = horizontalAccuracy,
                     LivePeriod = livePeriod,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1282,6 +1402,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> EditMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1296,12 +1417,16 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageLiveLocationRequest(chatId, messageId, latitude, longitude)
+                new EditMessageLiveLocationRequest
                 {
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    Latitude = latitude,
+                    Longitude = longitude,
                     HorizontalAccuracy = horizontalAccuracy,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -1335,6 +1460,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task EditMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -1348,8 +1474,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageLiveLocationRequest(inlineMessageId, latitude, longitude)
+                new EditInlineMessageLiveLocationRequest
                 {
+                    InlineMessageId = inlineMessageId,
+                    Latitude = latitude,
+                    Longitude = longitude,
                     HorizontalAccuracy = horizontalAccuracy,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
@@ -1379,6 +1508,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> StopMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1388,9 +1518,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new StopMessageLiveLocationRequest(chatId, messageId)
+                new StopMessageLiveLocationRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -1411,6 +1543,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task StopMessageLiveLocationAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -1419,9 +1552,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new StopInlineMessageLiveLocationRequest(inlineMessageId)
+                new StopInlineMessageLiveLocationRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    InlineMessageId = inlineMessageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -1456,10 +1590,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1471,6 +1602,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
     /// <a href="https://core.telegram.org/bots/api#sendvenue"/>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendVenueAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1485,23 +1617,26 @@ public static partial class TelegramBotClientExtensions
         string? googlePlaceType = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendVenueRequest(chatId, latitude, longitude, title, address)
+                new SendVenueRequest
                 {
+                    ChatId = chatId,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Title = title,
+                    Address = address,
                     FoursquareId = foursquareId,
                     FoursquareType = foursquareType,
                     GooglePlaceId = googlePlaceId,
                     GooglePlaceType = googlePlaceType,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
                 },
@@ -1528,10 +1663,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1542,6 +1674,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendContactAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1552,21 +1685,22 @@ public static partial class TelegramBotClientExtensions
         string? vCard = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendContactRequest(chatId, phoneNumber, firstName)
+                new SendContactRequest
                 {
+                    ChatId = chatId,
+                    PhoneNumber = phoneNumber,
+                    FirstName = firstName,
                     LastName = lastName,
                     Vcard = vCard,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
                 },
@@ -1627,10 +1761,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1641,6 +1772,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendPollAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1659,15 +1791,18 @@ public static partial class TelegramBotClientExtensions
         bool? isClosed = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendPollRequest(chatId, question, options)
+                new SendPollRequest
                 {
+                    ChatId = chatId,
+                    Question = question,
+                    Options = options,
+                    MessageThreadId = messageThreadId,
                     IsAnonymous = isAnonymous,
                     Type = type,
                     AllowsMultipleAnswers = allowsMultipleAnswers,
@@ -1680,10 +1815,8 @@ public static partial class TelegramBotClientExtensions
                     IsClosed = isClosed,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1706,16 +1839,13 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="Emoji.Bowling"/> or <see cref="Emoji.SlotMachine"/>. Dice can have values 1-6 for
     /// <see cref="Emoji.Dice"/>, <see cref="Emoji.Darts"/> and <see cref="Emoji.Bowling"/>, values 1-5 for
     /// <see cref="Emoji.Basketball"/> and <see cref="Emoji.Football"/>, and values 1-64 for
-    /// <see cref="Emoji.SlotMachine"/>. Defauts to <see cref="Emoji.Dice"/>
+    /// <see cref="Emoji.SlotMachine"/>. Defaults to <see cref="Emoji.Dice"/>
     /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -1726,6 +1856,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendDiceAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1733,22 +1864,21 @@ public static partial class TelegramBotClientExtensions
         Emoji? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendDiceRequest(chatId)
+                new SendDiceRequest
                 {
+                    ChatId = chatId,
+                    MessageThreadId = messageThreadId,
                     Emoji = emoji,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -1762,7 +1892,8 @@ public static partial class TelegramBotClientExtensions
     /// <para>
     /// The <a href="https://t.me/imagebot">ImageBot</a> needs some time to process a request and upload the
     /// image. Instead of sending a text message along the lines of “Retrieving image, please wait…”, the bot may
-    /// use <see cref="SendChatActionAsync"/> with <see cref="Action"/> = <see cref="ChatAction.UploadPhoto"/>.
+    /// use <see cref="SendChatActionAsync(ITelegramBotClient,SendChatActionRequest,CancellationToken)"/> with
+    /// <see cref="SendChatActionRequest.Action"/> = <see cref="ChatAction.UploadPhoto"/>.
     /// The user will see a “sending photo” status for the bot.
     /// </para>
     /// <para>
@@ -1778,19 +1909,24 @@ public static partial class TelegramBotClientExtensions
     /// <param name="chatAction">
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive:
     /// <see cref="ChatAction.Typing"/> for <see cref="SendTextMessageAsync">text messages</see>,
-    /// <see cref="ChatAction.UploadPhoto"/> for <see cref="SendPhotoAsync">photos</see>,
+    /// <see cref="ChatAction.UploadPhoto"/> for
+    /// <see cref="SendPhotoAsync(ITelegramBotClient,SendPhotoRequest,CancellationToken)">photos</see>,
     /// <see cref="ChatAction.RecordVideo"/> or <see cref="ChatAction.UploadVideo"/> for
-    /// <see cref="SendVideoAsync">videos</see>, <see cref="ChatAction.RecordVoice"/> or
-    /// <see cref="ChatAction.UploadVoice"/> for <see cref="SendVoiceAsync">voice notes</see>,
-    /// <see cref="ChatAction.UploadDocument"/> for <see cref="SendDocumentAsync">general files</see>,
-    /// <see cref="ChatAction.FindLocation"/> for <see cref="SendLocationAsync">location data</see>,
+    /// <see cref="SendVideoAsync(ITelegramBotClient,SendVideoRequest,CancellationToken)">videos</see>,
+    /// <see cref="ChatAction.RecordVoice"/> or <see cref="ChatAction.UploadVoice"/> for
+    /// <see cref="SendVoiceAsync(ITelegramBotClient,SendVoiceRequest,CancellationToken)">voice notes</see>,
+    /// <see cref="ChatAction.UploadDocument"/> for
+    /// <see cref="SendDocumentAsync(ITelegramBotClient,SendDocumentRequest,CancellationToken)">general files</see>,
+    /// <see cref="ChatAction.FindLocation"/> for
+    /// <see cref="SendLocationAsync(ITelegramBotClient,SendLocationRequest,CancellationToken)">location data</see>,
     /// <see cref="ChatAction.RecordVideoNote"/> or <see cref="ChatAction.UploadVideoNote"/> for
-    /// <see cref="SendVideoNoteAsync">video notes</see>
+    /// <see cref="SendVideoNoteAsync(ITelegramBotClient,SendVideoNoteRequest,CancellationToken)">video notes</see>
     /// </param>
     /// <param name="messageThreadId">Unique identifier for the target message thread; supergroups only</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SendChatActionAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1800,7 +1936,58 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new SendChatActionRequest(chatId, chatAction) { MessageThreadId = messageThreadId },
+                new SendChatActionRequest
+                {
+                    ChatId = chatId,
+                    Action = chatAction,
+                    MessageThreadId = messageThreadId,
+                },
+                cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to change the chosen reactions on a message. Service messages can't be reacted to.
+    /// Automatically forwarded messages from a channel to its discussion group have the same
+    /// available reactions as messages in the channel.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageId">
+    /// Identifier of the target message. If the message belongs to a media group, the reaction
+    /// is set to the first non-deleted message in the group instead.
+    /// </param>
+    /// <param name="reaction">
+    /// New list of reaction types to set on the message. Currently, as non-premium users, bots can
+    /// set up to one reaction per message. A custom emoji reaction can be used if it is either
+    /// already present on the message or explicitly allowed by chat administrators.
+    /// </param>
+    /// <param name="isBig">
+    /// Pass <see langword="true"/> to set the reaction with a big animation
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
+    public static async Task SetMessageReactionAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        int messageId,
+        IEnumerable<ReactionType>? reaction,
+        bool? isBig,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                new SetMessageReactionRequest
+                {
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    Reaction = reaction,
+                    IsBig = isBig,
+                },
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -1819,6 +2006,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="UserProfilePhotos"/> object</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<UserProfilePhotos> GetUserProfilePhotosAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -1828,10 +2016,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetUserProfilePhotosRequest(userId)
+                new GetUserProfilePhotosRequest
                 {
+                    UserId = userId,
                     Offset = offset,
-                    Limit = limit
+                    Limit = limit,
                 },
                 cancellationToken
             )
@@ -1842,7 +2031,8 @@ public static partial class TelegramBotClientExtensions
     /// download files of up to 20MB in size. The file can then be downloaded via the link
     /// <c>https://api.telegram.org/file/bot&lt;token&gt;/&lt;file_path&gt;</c>, where <c>&lt;file_path&gt;</c>
     /// is taken from the response. It is guaranteed that the link will be valid for at least 1 hour.
-    /// When the link expires, a new one can be requested by calling <see cref="GetFileAsync"/> again.
+    /// When the link expires, a new one can be requested by calling
+    /// <see cref="GetFileAsync(ITelegramBotClient,GetFileRequest,CancellationToken)"/> again.
     /// </summary>
     /// <remarks>
     /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or
@@ -1854,6 +2044,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, a <see cref="File"/> object is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<File> GetFileAsync(
         this ITelegramBotClient botClient,
         string fileId,
@@ -1861,37 +2052,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetFileRequest(fileId),
-                cancellationToken: cancellationToken
+                new GetFileRequest { FileId = fileId },
+                cancellationToken
             )
             .ConfigureAwait(false);
-
-    /// <summary>
-    /// Use this method to get basic info about a file download it. For the moment, bots can download files
-    /// of up to 20MB in size.
-    /// </summary>
-    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="fileId">File identifier to get info about</param>
-    /// <param name="destination">Destination stream to write file to</param>
-    /// <param name="cancellationToken">
-    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
-    /// </param>
-    /// <returns>On success, a <see cref="File"/> object is returned.</returns>
-    public static async Task<File> GetInfoAndDownloadFileAsync(
-        this ITelegramBotClient botClient,
-        string fileId,
-        Stream destination,
-        CancellationToken cancellationToken = default)
-    {
-        var file = await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetFileRequest(fileId), cancellationToken)
-            .ConfigureAwait(false);
-
-        await botClient.DownloadFileAsync(filePath: file.FilePath!, destination, cancellationToken)
-            .ConfigureAwait(false);
-
-        return file;
-    }
 
     /// <summary>
     /// Use this method to ban a user in a group, a supergroup or a channel. In the case of supergroups and
@@ -1918,6 +2082,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task BanChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1928,10 +2093,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new BanChatMemberRequest(chatId, userId)
+                new BanChatMemberRequest
                 {
+                    ChatId = chatId,
+                    UserId = userId,
                     UntilDate = untilDate,
-                    RevokeMessages = revokeMessages
+                    RevokeMessages = revokeMessages,
                 },
                 cancellationToken
             )
@@ -1954,6 +2121,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task UnbanChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -1963,9 +2131,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new UnbanChatMemberRequest(chatId, userId)
+                new UnbanChatMemberRequest
                 {
-                    OnlyIfBanned = onlyIfBanned
+                    ChatId = chatId,
+                    UserId = userId,
+                    OnlyIfBanned = onlyIfBanned,
                 },
                 cancellationToken
             )
@@ -1993,10 +2163,11 @@ public static partial class TelegramBotClientExtensions
     /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
     /// <see cref="ChatPermissions.CanSendMessages"/> permission.
     /// </param>
-    /// <param name="untilDate">Date when restrictions will be lifted for the user, unix time. If user is restricted for more than 366 days or less than 30 seconds from the current time, they are considered to be restricted forever.</param>
+    /// <param name="untilDate">Date when restrictions will be lifted for this user; Unix time. If 0, then the user is restricted forever</param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task RestrictChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2008,8 +2179,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new RestrictChatMemberRequest(chatId, userId, permissions)
+                new RestrictChatMemberRequest
                 {
+                    ChatId = chatId,
+                    UserId = userId,
+                    Permissions = permissions,
                     UntilDate = untilDate,
                     UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
@@ -2018,7 +2192,9 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights. Pass <c><see langword="false"/></c> for all boolean parameters to demote a user.
+    /// Use this method to promote or demote a user in a supergroup or a channel. The bot must be an administrator in
+    /// the chat for this to work and must have the appropriate admin rights. Pass <c><see langword="false"/></c> for
+    /// all boolean parameters to demote a user.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2026,24 +2202,60 @@ public static partial class TelegramBotClientExtensions
     /// (in the format <c>@channelusername</c>)
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
-    /// <param name="isAnonymous">Pass <see langword="true"/>, if the administrator's presence in the chat is hidden</param>
-    /// <param name="canManageChat">Pass <see langword="true"/>, if the administrator can access the chat event log, chat statistics, message statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege</param>
-    /// <param name="canPostMessages">Pass <see langword="true"/>, if the administrator can create channel posts, channels only</param>
-    /// <param name="canEditMessages">Pass <see langword="true"/>, if the administrator can edit messages of other users, channels only</param>
-    /// <param name="canDeleteMessages">Pass <see langword="true"/>, if the administrator can delete messages of other users</param>
-    /// <param name="canPostStories">Pass <see langword="true"/> if the administrator can post stories in the channel; channels only</param>
-    /// <param name="canEditStories">Pass <see langword="true"/> if the administrator can edit stories posted by other users; channels only</param>
-    /// <param name="canDeleteStories">Pass <see langword="true"/> if the administrator can delete stories posted by other users; channels only</param>
-    /// <param name="canManageVideoChats">Pass <see langword="true"/>, if the administrator can manage voice chats, supergroups only</param>
-    /// <param name="canRestrictMembers">Pass <see langword="true"/>, if the administrator can restrict, ban or unban chat members</param>
-    /// <param name="canPromoteMembers">Pass <see langword="true"/>, if the administrator can add new administrators with a subset of his own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)</param>
-    /// <param name="canChangeInfo">Pass <see langword="true"/>, if the administrator can change chat title, photo and other settings</param>
-    /// <param name="canInviteUsers">Pass <see langword="true"/>, if the administrator can invite new users to the chat</param>
-    /// <param name="canPinMessages">Pass <see langword="true"/>, if the administrator can pin messages, supergroups only</param>
-    /// <param name="canManageTopic">Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics, supergroups only</param>
+    /// <param name="isAnonymous">
+    /// Pass <see langword="true"/>, if the administrator's presence in the chat is hidden
+    /// </param>
+    /// <param name="canManageChat">
+    /// Pass <see langword="true"/>, if the administrator can access the chat event log, chat statistics, message
+    /// statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode.
+    /// Implied by any other administrator privilege
+    /// </param>
+    /// <param name="canPostMessages">
+    /// Pass <see langword="true"/>, if the administrator can create channel posts, channels only
+    /// </param>
+    /// <param name="canEditMessages">
+    /// Pass <see langword="true"/>, if the administrator can edit messages of other users, channels only
+    /// </param>
+    /// <param name="canDeleteMessages">
+    /// Pass <see langword="true"/>, if the administrator can delete messages of other users
+    /// </param>
+    /// <param name="canPostStories">
+    /// Pass <see langword="true"/> if the administrator can post stories in the channel; channels only
+    /// </param>
+    /// <param name="canEditStories">
+    /// Pass <see langword="true"/> if the administrator can edit stories posted by other users; channels only
+    /// </param>
+    /// <param name="canDeleteStories">
+    /// Pass <see langword="true"/> if the administrator can delete stories posted by other users; channels only
+    /// </param>
+    /// <param name="canManageVideoChats">
+    /// Pass <see langword="true"/>, if the administrator can manage voice chats, supergroups only
+    /// </param>
+    /// <param name="canRestrictMembers">
+    /// Pass <see langword="true"/>, if the administrator can restrict, ban or unban chat members
+    /// </param>
+    /// <param name="canPromoteMembers">
+    /// Pass <see langword="true"/>, if the administrator can add new administrators with a subset of his own
+    /// privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators
+    /// that were appointed by him)
+    /// </param>
+    /// <param name="canChangeInfo">
+    /// Pass <see langword="true"/>, if the administrator can change chat title, photo and other settings
+    /// </param>
+    /// <param name="canInviteUsers">
+    /// Pass <see langword="true"/>, if the administrator can invite new users to the chat
+    /// </param>
+    /// <param name="canPinMessages">
+    /// Pass <see langword="true"/>, if the administrator can pin messages, supergroups only
+    /// </param>
+    /// <param name="canManageTopic">
+    /// Pass <see langword="true"/> if the user is allowed to create, rename, close, and reopen forum topics,
+    /// supergroups only
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task PromoteChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2067,8 +2279,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new PromoteChatMemberRequest(chatId, userId)
+                new PromoteChatMemberRequest
                 {
+                    ChatId = chatId,
+                    UserId = userId,
                     IsAnonymous = isAnonymous,
                     CanManageChat = canManageChat,
                     CanPostMessages = canPostMessages,
@@ -2104,6 +2318,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetChatAdministratorCustomTitleAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2113,7 +2328,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatAdministratorCustomTitleRequest(chatId, userId, customTitle),
+                new SetChatAdministratorCustomTitleRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                    CustomTitle = customTitle,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2133,6 +2353,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task BanChatSenderChatAsync(this ITelegramBotClient botClient,
         ChatId chatId,
         long senderChatId,
@@ -2140,7 +2361,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new BanChatSenderChatRequest(chatId, senderChatId),
+                new BanChatSenderChatRequest
+                {
+                    ChatId = chatId,
+                    SenderChatId = senderChatId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2159,6 +2384,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task UnbanChatSenderChatAsync(this ITelegramBotClient botClient,
         ChatId chatId,
         long senderChatId,
@@ -2166,7 +2392,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new UnbanChatSenderChatRequest(chatId, senderChatId),
+                new UnbanChatSenderChatRequest
+                {
+                    ChatId = chatId,
+                    SenderChatId = senderChatId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2194,6 +2424,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetChatPermissionsAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2203,8 +2434,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatPermissionsRequest(chatId, permissions)
+                new SetChatPermissionsRequest
                 {
+                    ChatId = chatId,
+                    Permissions = permissions,
                     UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
                 cancellationToken
@@ -2224,6 +2457,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<string> ExportChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2231,7 +2465,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new ExportChatInviteLinkRequest(chatId),
+                new ExportChatInviteLinkRequest
+                {
+                    ChatId = chatId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2239,7 +2476,8 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to create an additional invite link for a chat. The bot must be an administrator
     /// in the chat for this to work and must have the appropriate admin rights. The link can be revoked
-    /// using the method <see cref="RevokeChatInviteLinkAsync"/>
+    /// using the method
+    /// <see cref="RevokeChatInviteLinkAsync(ITelegramBotClient,RevokeChatInviteLinkRequest,CancellationToken)"/>
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2260,6 +2498,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the new invite link as <see cref="ChatInviteLink"/> object.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<ChatInviteLink> CreateChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2271,8 +2510,9 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateChatInviteLinkRequest(chatId)
+                new CreateChatInviteLinkRequest
                 {
+                    ChatId = chatId,
                     Name = name,
                     ExpireDate = expireDate,
                     MemberLimit = memberLimit,
@@ -2306,6 +2546,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the edited invite link as a <see cref="ChatInviteLink"/> object.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<ChatInviteLink> EditChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2318,8 +2559,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditChatInviteLinkRequest(chatId, inviteLink)
+                new EditChatInviteLinkRequest
                 {
+                    ChatId = chatId,
+                    InviteLink = inviteLink,
                     Name = name,
                     ExpireDate = expireDate,
                     MemberLimit = memberLimit,
@@ -2344,6 +2587,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns the revoked invite link as <see cref="ChatInviteLink"/> object.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<ChatInviteLink> RevokeChatInviteLinkAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2352,7 +2596,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new RevokeChatInviteLinkRequest(chatId, inviteLink),
+                new RevokeChatInviteLinkRequest
+                {
+                    ChatId = chatId,
+                    InviteLink = inviteLink,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2371,6 +2619,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<bool> ApproveChatJoinRequest(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2379,7 +2628,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new ApproveChatJoinRequest(chatId, userId),
+                new ApproveChatJoinRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2398,6 +2651,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<bool> DeclineChatJoinRequest(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2406,7 +2660,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeclineChatJoinRequest(chatId, userId),
+                new DeclineChatJoinRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2424,6 +2682,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetChatPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2432,7 +2691,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatPhotoRequest(chatId, photo),
+                new SetChatPhotoRequest
+                {
+                    ChatId = chatId,
+                    Photo = photo,
+                },
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -2447,6 +2710,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteChatPhotoAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2454,7 +2718,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteChatPhotoRequest(chatId),
+                new DeleteChatPhotoRequest { ChatId = chatId },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2472,6 +2736,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetChatTitleAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2479,7 +2744,14 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new SetChatTitleRequest(chatId, title), cancellationToken)
+            .MakeRequestAsync(
+                new SetChatTitleRequest
+                {
+                    ChatId = chatId,
+                    Title = title,
+                },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2495,6 +2767,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetChatDescriptionAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2503,7 +2776,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatDescriptionRequest(chatId) { Description = description },
+                new SetChatDescriptionRequest { ChatId = chatId, Description = description },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2511,7 +2784,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to add a message to the list of pinned messages in a chat. If the chat is not a private
     /// chat, the bot must be an administrator in the chat for this to work and must have the
-    /// '<see cref="ChatPermissions.CanPinMessages"/>' admin right in a supergroup or
+    /// '<see cref="ChatMemberAdministrator.CanPinMessages"/>' admin right in a supergroup or
     /// '<see cref="ChatMemberAdministrator.CanEditMessages"/>' admin right in a channel
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
@@ -2527,6 +2800,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task PinChatMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2536,9 +2810,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull().
             MakeRequestAsync(
-                request: new PinChatMessageRequest(chatId, messageId)
+                new PinChatMessageRequest
                 {
-                    DisableNotification = disableNotification
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    DisableNotification = disableNotification,
                 },
                 cancellationToken
             )
@@ -2562,6 +2838,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task UnpinChatMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2570,7 +2847,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull().
             MakeRequestAsync(
-                request: new UnpinChatMessageRequest(chatId) { MessageId = messageId },
+                new UnpinChatMessageRequest { ChatId = chatId, MessageId = messageId },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2589,13 +2866,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task UnpinAllChatMessages(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
-            MakeRequestAsync(request: new UnpinAllChatMessagesRequest(chatId), cancellationToken)
+            MakeRequestAsync(new UnpinAllChatMessagesRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2609,13 +2887,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task LeaveChatAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
-            MakeRequestAsync(request: new LeaveChatRequest(chatId), cancellationToken)
+            MakeRequestAsync(new LeaveChatRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2631,13 +2910,14 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="Chat"/> object on success.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Chat> GetChatAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new GetChatRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2656,13 +2936,14 @@ public static partial class TelegramBotClientExtensions
     /// administrators except other bots. If the chat is a group or a supergroup and no administrators were
     /// appointed, only the creator will be returned
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<ChatMember[]> GetChatAdministratorsAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatAdministratorsRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new GetChatAdministratorsRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2676,14 +2957,15 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    /// <returns>Returns <see cref="int"/> on success..</returns>
+    /// <returns>Returns <see cref="int"/> on success.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<int> GetChatMemberCountAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatMemberCountRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new GetChatMemberCountRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2699,6 +2981,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="ChatMember"/> object on success.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<ChatMember> GetChatMemberAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2706,14 +2989,18 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetChatMemberRequest(chatId, userId), cancellationToken)
+            .MakeRequestAsync(
+                new GetChatMemberRequest { ChatId = chatId, UserId = userId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
     /// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatAsync"/> requests to check
-    /// if the bot can use this method.
+    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)"/> requests to check if the bot
+    /// can use this method.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2724,6 +3011,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetChatStickerSetAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2731,14 +3019,18 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new SetChatStickerSetRequest(chatId, stickerSetName), cancellationToken)
+            .MakeRequestAsync(
+                new SetChatStickerSetRequest { ChatId = chatId, StickerSetName = stickerSetName },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
     /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in <see cref="GetChatAsync"/> requests to
-    /// check if the bot can use this method
+    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)"/> requests to check if the bot
+    /// can use this method
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -2748,13 +3040,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteChatStickerSetAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new DeleteChatStickerSetRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new DeleteChatStickerSetRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2765,6 +3058,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns an Array of <see cref="Sticker"/> objects.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Sticker[]> GetForumTopicIconStickersAsync(
         this ITelegramBotClient botClient,
         CancellationToken cancellationToken = default
@@ -2789,7 +3083,8 @@ public static partial class TelegramBotClientExtensions
     /// 13338331 (0xCB86DB), 9367192 (0x8EEE98), 16749490 (0xFF93B2), or 16478047 (0xFB6F5F)
     /// </param>
     /// <param name="iconCustomEmojiId">
-    /// Unique identifier of the custom emoji shown as the topic icon. Use <see cref="GetForumTopicIconStickersAsync"/>
+    /// Unique identifier of the custom emoji shown as the topic icon. Use
+    /// <see cref="GetForumTopicIconStickersAsync(ITelegramBotClient,GetForumTopicIconStickersRequest,CancellationToken)"/>
     /// to get all allowed custom emoji identifiers
     /// </param>
     /// <param name="cancellationToken">
@@ -2798,6 +3093,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns information about the created topic as a <see cref="ForumTopic"/> object.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<ForumTopic> CreateForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2808,8 +3104,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new CreateForumTopicRequest(chatId, name)
+                new CreateForumTopicRequest
                 {
+                    ChatId = chatId,
+                    Name = name,
                     IconColor = iconColor,
                     IconCustomEmojiId = iconCustomEmojiId,
                 },
@@ -2839,6 +3137,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task EditForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2849,8 +3148,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new EditForumTopicRequest(chatId, messageThreadId)
+                new EditForumTopicRequest
                 {
+                    ChatId = chatId,
+                    MessageThreadId = messageThreadId,
                     Name = name,
                     IconCustomEmojiId = iconCustomEmojiId,
                 },
@@ -2872,6 +3173,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task CloseForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2879,7 +3181,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new CloseForumTopicRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new CloseForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2896,6 +3201,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task ReopenForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2903,7 +3209,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new ReopenForumTopicRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new ReopenForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2921,6 +3230,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2928,7 +3238,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new DeleteForumTopicRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new DeleteForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2945,6 +3258,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task UnpinAllForumTopicMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2952,7 +3266,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnpinAllForumTopicMessagesRequest(chatId, messageThreadId), cancellationToken)
+            .MakeRequestAsync(
+                new UnpinAllForumTopicMessagesRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2969,6 +3286,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task EditGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -2976,7 +3294,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new EditGeneralForumTopicRequest(chatId, name), cancellationToken)
+            .MakeRequestAsync(
+                new EditGeneralForumTopicRequest { ChatId = chatId, Name = name },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2992,13 +3313,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task CloseGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new CloseGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new CloseGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3015,13 +3337,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task ReopenGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new ReopenGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new ReopenGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3037,13 +3360,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task HideGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new HideGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new HideGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3059,18 +3383,20 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task UnhideGeneralForumTopicAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnhideGeneralForumTopicRequest(chatId), cancellationToken)
+            .MakeRequestAsync(new UnhideGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in
-    /// the chat for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/> administrator right in the supergroup.
+    /// Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator
+    /// in the chat for this to work and must have the <see cref="ChatAdministratorRights.CanPinMessages"/>
+    /// administrator right in the supergroup.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -3080,13 +3406,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task UnpinAllGeneralForumTopicMessagesAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnpinAllGeneralForumTopicMessages(chatId), cancellationToken)
+            .MakeRequestAsync(new UnpinAllGeneralForumTopicMessagesRequest { ChatId = chatId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3124,6 +3451,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task AnswerCallbackQueryAsync(
         this ITelegramBotClient botClient,
         string callbackQueryId,
@@ -3135,41 +3463,42 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerCallbackQueryRequest(callbackQueryId)
+                new AnswerCallbackQueryRequest
                 {
+                    CallbackQueryId = callbackQueryId,
                     Text = text,
                     ShowAlert = showAlert,
                     Url = url,
-                    CacheTime = cacheTime
+                    CacheTime = cacheTime,
                 },
                 cancellationToken
             )
             .ConfigureAwait(false);
 
     /// <summary>
-    /// Use this method to set the result of an interaction with a Web App and send a corresponding message on
-    /// behalf of the user to the chat from which the query originated. On success, a <see cref="SentWebAppMessage"/>
-    /// object is returned.
+    /// Use this method to get the list of boosts added to a chat by a user.
+    /// Requires administrator rights in the chat.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
-    /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="result">
-    /// An object describing the message to be sent
+    /// <param name="chatId">
+    /// Unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="userId">
+    /// Unique identifier of the target user
     /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
-    public static async Task AnswerWebAppQueryAsync(
+    /// <returns>Returns a <see cref="UserChatBoosts"/> object.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
+    public static async Task<UserChatBoosts> GetUserChatBoostsAsync(
         this ITelegramBotClient botClient,
-        string webAppQueryId,
-        InlineQueryResult result,
+        ChatId chatId,
+        long userId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new AnswerWebAppQueryRequest(webAppQueryId, result),
-                cancellationToken
-            )
+            .MakeRequestAsync(new GetUserChatBoostsRequest { ChatId = chatId, UserId = userId }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3191,6 +3520,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetMyCommandsAsync(
         this ITelegramBotClient botClient,
         IEnumerable<BotCommand> commands,
@@ -3200,10 +3530,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyCommandsRequest(commands)
+                new SetMyCommandsRequest
                 {
+                    Commands = commands,
                     Scope = scope,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
@@ -3227,6 +3558,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteMyCommandsAsync(
         this ITelegramBotClient botClient,
         BotCommandScope? scope = default,
@@ -3235,10 +3567,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteMyCommandsRequest
+                new DeleteMyCommandsRequest
                 {
                     Scope = scope,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
@@ -3261,6 +3593,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns Array of <see cref="BotCommand"/> on success. If commands aren't set, an empty list is returned
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<BotCommand[]> GetMyCommandsAsync(
         this ITelegramBotClient botClient,
         BotCommandScope? scope = default,
@@ -3269,10 +3602,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyCommandsRequest
+                new GetMyCommandsRequest
                 {
                     Scope = scope,
-                    LanguageCode = languageCode
+                    LanguageCode = languageCode,
                 },
                 cancellationToken
             )
@@ -3292,6 +3625,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetMyNameAsync(
         this ITelegramBotClient botClient,
         string? name = default,
@@ -3300,7 +3634,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyNameRequest { Name = name, LanguageCode = languageCode },
+                new SetMyNameRequest { Name = name, LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3318,6 +3652,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns <see cref="BotName"/> on success.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<BotName> GetMyNameAsync(
         this ITelegramBotClient botClient,
         string? languageCode = default,
@@ -3325,7 +3660,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyNameRequest { LanguageCode = languageCode },
+                new GetMyNameRequest { LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3346,6 +3681,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetMyDescriptionAsync(
         this ITelegramBotClient botClient,
         string? description = default,
@@ -3354,7 +3690,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyDescriptionRequest { Description = description, LanguageCode = languageCode },
+                new SetMyDescriptionRequest { Description = description, LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3373,6 +3709,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns <see cref="BotDescription"/> on success.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<BotDescription> GetMyDescriptionAsync(
         this ITelegramBotClient botClient,
         string? languageCode = default,
@@ -3380,7 +3717,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyDescriptionRequest { LanguageCode = languageCode },
+                new GetMyDescriptionRequest { LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3402,6 +3739,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns></returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetMyShortDescriptionAsync(
         this ITelegramBotClient botClient,
         string? shortDescription = default,
@@ -3410,7 +3748,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyShortDescriptionRequest
+                new SetMyShortDescriptionRequest
                 {
                     ShortDescription = shortDescription,
                     LanguageCode = languageCode,
@@ -3433,6 +3771,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns <see cref="BotShortDescription"/> on success.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<BotShortDescription> GetMyShortDescriptionAsync(
         this ITelegramBotClient botClient,
         string? languageCode = default,
@@ -3440,7 +3779,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyShortDescriptionRequest { LanguageCode = languageCode },
+                new GetMyShortDescriptionRequest { LanguageCode = languageCode },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3458,6 +3797,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
         long? chatId = default,
@@ -3466,7 +3806,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetChatMenuButtonRequest { ChatId = chatId, MenuButton = menuButton },
+                new SetChatMenuButtonRequest { ChatId = chatId, MenuButton = menuButton },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3483,6 +3823,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns><see cref="MenuButton"/> set for the given chat id or a default one</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<MenuButton> GetChatMenuButtonAsync(
         this ITelegramBotClient botClient,
         long? chatId = default,
@@ -3490,7 +3831,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetChatMenuButtonRequest() { ChatId = chatId },
+                new GetChatMenuButtonRequest { ChatId = chatId },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3512,6 +3853,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         ChatAdministratorRights? rights = default,
@@ -3520,7 +3862,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetMyDefaultAdministratorRightsRequest()
+                new SetMyDefaultAdministratorRightsRequest
                 {
                     Rights = rights,
                     ForChannels = forChannels,
@@ -3541,6 +3883,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Default or channel <see cref="ChatAdministratorRights"/> </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<ChatAdministratorRights> GetMyDefaultAdministratorRightsAsync(
         this ITelegramBotClient botClient,
         bool? forChannels = default,
@@ -3548,7 +3891,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetMyDefaultAdministratorRightsRequest { ForChannels = forChannels },
+                new GetMyDefaultAdministratorRightsRequest { ForChannels = forChannels },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3576,7 +3919,7 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in message text, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
-    /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -3587,6 +3930,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> EditMessageTextAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3594,18 +3938,21 @@ public static partial class TelegramBotClientExtensions
         string text,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageTextRequest(chatId, messageId, text)
+                new EditMessageTextRequest
                 {
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    Text = text,
                     ParseMode = parseMode,
                     Entities = entities,
-                    DisableWebPagePreview = disableWebPagePreview,
-                    ReplyMarkup = replyMarkup
+                    LinkPreviewOptions = linkPreviewOptions,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3626,7 +3973,7 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in message text, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
-    /// <param name="disableWebPagePreview">Disables link previews for links in this message</param>
+    /// <param name="linkPreviewOptions">Link preview generation options for the message</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -3636,24 +3983,27 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task EditMessageTextAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
         string text,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? entities = default,
-        bool? disableWebPagePreview = default,
+        LinkPreviewOptions? linkPreviewOptions = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageTextRequest(inlineMessageId, text)
+                new EditInlineMessageTextRequest
                 {
+                    InlineMessageId = inlineMessageId,
+                    Text = text,
                     ParseMode = parseMode,
                     Entities = entities,
-                    DisableWebPagePreview = disableWebPagePreview,
-                    ReplyMarkup = replyMarkup
+                    LinkPreviewOptions = linkPreviewOptions,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3667,7 +4017,7 @@ public static partial class TelegramBotClientExtensions
     /// Unique identifier for the target chat or username of the target channel
     /// (in the format <c>@channelusername</c>)
     /// </param>
-    /// <param name="messageId">dentifier of the message to edit</param>
+    /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="caption">New caption of the message, 0-1024 characters after entities parsing</param>
     /// <param name="parseMode">
     /// Mode for parsing entities in the new caption. See
@@ -3688,6 +4038,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> EditMessageCaptionAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3700,12 +4051,14 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageCaptionRequest(chatId, messageId)
+                new EditMessageCaptionRequest
                 {
+                    ChatId = chatId,
+                    MessageId = messageId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3735,6 +4088,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task EditMessageCaptionAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3746,12 +4100,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageCaptionRequest(inlineMessageId)
+                new EditInlineMessageCaptionRequest
                 {
+                    InlineMessageId = inlineMessageId,
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3780,6 +4135,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> EditMessageMediaAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3790,9 +4146,12 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageMediaRequest(chatId, messageId, media)
+                new EditMessageMediaRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    Media = media,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3816,6 +4175,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task EditMessageMediaAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3825,9 +4185,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageMediaRequest(inlineMessageId, media)
+                new EditInlineMessageMediaRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    InlineMessageId = inlineMessageId,
+                    Media = media,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3852,6 +4214,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success the edited <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> EditMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3861,9 +4224,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditMessageReplyMarkupRequest(chatId, messageId)
+                new EditMessageReplyMarkupRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3883,6 +4248,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task EditMessageReplyMarkupAsync(
         this ITelegramBotClient botClient,
         string inlineMessageId,
@@ -3891,9 +4257,10 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new EditInlineMessageReplyMarkupRequest(inlineMessageId)
+                new EditInlineMessageReplyMarkupRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    InlineMessageId = inlineMessageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3918,6 +4285,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the stopped <see cref="Poll"/> with the final results is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Poll> StopPollAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3927,9 +4295,11 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new StopPollRequest(chatId, messageId)
+                new StopPollRequest
                 {
-                    ReplyMarkup = replyMarkup
+                    ChatId = chatId,
+                    MessageId = messageId,
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -3958,6 +4328,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -3965,7 +4336,38 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new DeleteMessageRequest(chatId, messageId), cancellationToken)
+            .MakeRequestAsync(new DeleteMessageRequest { ChatId = chatId, MessageId = messageId }, cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to delete multiple messages simultaneously.
+    /// If some of the specified messages can't be found, they are skipped.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="messageIds">
+    /// Identifiers of 1-100 messages to delete. See
+    /// <see cref="DeleteMessageAsync(ITelegramBotClient,DeleteMessageRequest,CancellationToken)"/> for limitations
+    /// on which messages can be deleted
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
+    public static async Task DeleteMessagesAsync(
+        this ITelegramBotClient botClient,
+        ChatId chatId,
+        IEnumerable<int> messageIds,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                new DeleteMessagesRequest { ChatId = chatId, MessageIds = messageIds },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     #endregion Updating messages
@@ -4002,13 +4404,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">
     /// Protects the contents of sent messages from forwarding and saving
     /// </param>
-    /// <param name="replyToMessageId">
-    /// If the message is a reply, ID of the original message
-    /// </param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified
-    /// replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -4021,6 +4417,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// On success, the sent <see cref="Message"/> is returned.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendStickerAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
@@ -4029,24 +4426,24 @@ public static partial class TelegramBotClientExtensions
         string? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendStickerRequest(chatId, sticker)
+                new SendStickerRequest
                 {
-                    DisableNotification = disableNotification,
-                    ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
-                    ReplyMarkup = replyMarkup,
+                    ChatId = chatId,
+                    Sticker = sticker,
                     MessageThreadId = messageThreadId,
                     Emoji = emoji,
+                    DisableNotification = disableNotification,
+                    ProtectContent = protectContent,
+                    ReplyParameters = replyParameters,
+                    ReplyMarkup = replyMarkup,
                 },
-                cancellationToken: cancellationToken
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4065,16 +4462,14 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// On success, a <see cref="StickerSet"/> object is returned.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<StickerSet> GetStickerSetAsync(
         this ITelegramBotClient botClient,
         string name,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new GetStickerSetRequest(name),
-                cancellationToken: cancellationToken
-            )
+            .MakeRequestAsync(new GetStickerSetRequest { Name = name }, cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -4088,6 +4483,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, a <see cref="StickerSet"/> object is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Sticker[]> GetCustomEmojiStickersAsync(
         this ITelegramBotClient botClient,
         IEnumerable<string> customEmojiIds,
@@ -4095,8 +4491,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetCustomEmojiStickersRequest(customEmojiIds),
-                cancellationToken: cancellationToken
+                new GetCustomEmojiStickersRequest { CustomEmojiIds = customEmojiIds },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4123,6 +4519,7 @@ public static partial class TelegramBotClientExtensions
     /// <returns>
     /// Returns the uploaded <see cref="File"/> on success.
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<File> UploadStickerFileAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4132,8 +4529,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new UploadStickerFileRequest(userId, sticker, stickerFormat),
-                cancellationToken: cancellationToken
+                new UploadStickerFileRequest
+                {
+                    UserId = userId,
+                    Sticker = sticker,
+                    StickerFormat = stickerFormat,
+                },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4148,7 +4550,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="name">
     /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>). Can contain
-    /// only english letters, digits and underscores. Must begin with a letter, can't contain consecutive
+    /// only English letters, digits and underscores. Must begin with a letter, can't contain consecutive
     /// underscores and must end in <i>"_by_&lt;bot username&gt;"</i>. <i>&lt;bot_username&gt;</i> is case
     /// insensitive. 1-64 characters
     /// </param>
@@ -4174,6 +4576,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task CreateNewStickerSetAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4187,12 +4590,17 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateNewStickerSetRequest(userId, name, title, stickers, stickerFormat)
+                new CreateNewStickerSetRequest
                 {
+                    UserId = userId,
+                    Name = name,
+                    Title = title,
+                    Stickers = stickers,
+                    StickerFormat = stickerFormat,
                     NeedsRepainting = needsRepainting,
                     StickerType = stickerType,
                 },
-                cancellationToken: cancellationToken
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4227,6 +4635,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task AddStickerToSetAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -4236,8 +4645,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AddStickerToSetRequest(userId, name, sticker),
-                cancellationToken: cancellationToken
+                new AddStickerToSetRequest { UserId = userId, Name = name, Sticker = sticker, },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4252,6 +4661,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetStickerPositionInSetAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4260,8 +4670,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerPositionInSetRequest(sticker, position),
-                cancellationToken: cancellationToken
+                new SetStickerPositionInSetRequest { Sticker = sticker, Position = position, },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4275,6 +4685,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteStickerFromSetAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4282,8 +4693,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new DeleteStickerFromSetRequest(sticker),
-                cancellationToken: cancellationToken
+                new DeleteStickerFromSetRequest { Sticker = sticker },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4303,6 +4714,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetStickerEmojiListAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4311,8 +4723,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerEmojiListRequest(sticker, emojiList),
-                cancellationToken: cancellationToken
+                new SetStickerEmojiListRequest { Sticker = sticker, EmojiList = emojiList },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4333,6 +4745,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetStickerKeywordsAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4341,11 +4754,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerKeywordsRequest(sticker)
-                {
-                    Keywords = keywords,
-                },
-                cancellationToken: cancellationToken
+                new SetStickerKeywordsRequest { Sticker = sticker, Keywords = keywords, },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4366,6 +4776,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetStickerMaskPositionAsync(
         this ITelegramBotClient botClient,
         InputFileId sticker,
@@ -4374,8 +4785,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerMaskPositionRequest(sticker) { MaskPosition = maskPosition },
-                cancellationToken: cancellationToken
+                new SetStickerMaskPositionRequest { Sticker = sticker, MaskPosition = maskPosition },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4394,6 +4805,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetStickerSetTitleAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -4402,8 +4814,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerSetTitleRequest(name, title),
-                cancellationToken: cancellationToken
+                new SetStickerSetTitleRequest { Name = name, Title = title },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4435,6 +4847,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetStickerSetThumbnailAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -4444,11 +4857,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetStickerSetThumbnailRequest(name, userId)
-                {
-                    Thumbnail = thumbnail,
-                },
-                cancellationToken: cancellationToken
+                new SetStickerSetThumbnailRequest { Name = name, UserId = userId, Thumbnail = thumbnail },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4468,6 +4878,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetCustomEmojiStickerSetThumbnailAsync(
         this ITelegramBotClient botClient,
         string name,
@@ -4476,11 +4887,8 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetCustomEmojiStickerSetThumbnailRequest(name)
-                {
-                    CustomEmojiId = customEmojiId,
-                },
-                cancellationToken: cancellationToken
+                new SetCustomEmojiStickerSetThumbnailRequest { Name = name, CustomEmojiId = customEmojiId },
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -4496,16 +4904,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task DeleteStickerSetAsync(
         this ITelegramBotClient botClient,
         string name,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(
-                request: new DeleteStickerSetRequest(name),
-                cancellationToken: cancellationToken
-            )
+            .MakeRequestAsync(new DeleteStickerSetRequest { Name = name }, cancellationToken)
             .ConfigureAwait(false);
     #endregion
 
@@ -4539,6 +4945,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task AnswerInlineQueryAsync(
         this ITelegramBotClient botClient,
         string inlineQueryId,
@@ -4551,13 +4958,42 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerInlineQueryRequest(inlineQueryId, results)
+                new AnswerInlineQueryRequest
                 {
+                    InlineQueryId = inlineQueryId,
+                    Results = results,
                     CacheTime = cacheTime,
                     IsPersonal = isPersonal,
                     NextOffset = nextOffset,
                     Button = button,
                 },
+                cancellationToken
+            )
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to set the result of an interaction with a Web App and send a corresponding message on
+    /// behalf of the user to the chat from which the query originated. On success, a <see cref="SentWebAppMessage"/>
+    /// object is returned.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="webAppQueryId">Unique identifier for the query to be answered</param>
+    /// <param name="result">
+    /// An object describing the message to be sent
+    /// </param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
+    public static async Task AnswerWebAppQueryAsync(
+        this ITelegramBotClient botClient,
+        string webAppQueryId,
+        InlineQueryResult result,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(
+                new AnswerWebAppQueryRequest { WebAppQueryId = webAppQueryId, Result = result },
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4643,10 +5079,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -4657,6 +5090,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendInvoiceAsync(
         this ITelegramBotClient botClient,
         long chatId,
@@ -4684,23 +5118,22 @@ public static partial class TelegramBotClientExtensions
         bool? isFlexible = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendInvoiceRequest(
-                    chatId,
-                    title,
-                    description,
-                    payload,
-                    providerToken,
-                    currency,
-                    // ReSharper disable once PossibleMultipleEnumeration
-                    prices)
+                new SendInvoiceRequest
                 {
+                    ChatId = chatId,
+                    Title = title,
+                    Description = description,
+                    Payload = payload,
+                    ProviderToken = providerToken,
+                    Currency = currency,
+                    Prices = prices,
+                    MessageThreadId = messageThreadId,
                     MaxTipAmount = maxTipAmount,
                     SuggestedTipAmounts = suggestedTipAmounts,
                     StartParameter = startParameter,
@@ -4718,10 +5151,8 @@ public static partial class TelegramBotClientExtensions
                     IsFlexible = isFlexible,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -4790,6 +5221,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<string> CreateInvoiceLinkAsync(
         this ITelegramBotClient botClient,
         string title,
@@ -4816,15 +5248,14 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new CreateInvoiceLinkRequest(
-                    title,
-                    description,
-                    payload,
-                    providerToken,
-                    currency,
-                    // ReSharper disable once PossibleMultipleEnumeration
-                    prices)
+                new CreateInvoiceLinkRequest
                 {
+                    Title = title,
+                    Description = description,
+                    Payload = payload,
+                    ProviderToken = providerToken,
+                    Currency = currency,
+                    Prices = prices,
                     MaxTipAmount = maxTipAmount,
                     SuggestedTipAmounts = suggestedTipAmounts,
                     ProviderData = providerData,
@@ -4838,7 +5269,7 @@ public static partial class TelegramBotClientExtensions
                     NeedShippingAddress = needShippingAddress,
                     SendPhoneNumberToProvider = sendPhoneNumberToProvider,
                     SendEmailToProvider = sendEmailToProvider,
-                    IsFlexible = isFlexible
+                    IsFlexible = isFlexible,
                 },
                 cancellationToken
             )
@@ -4857,6 +5288,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task AnswerShippingQueryAsync(
         this ITelegramBotClient botClient,
         string shippingQueryId,
@@ -4865,7 +5297,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerShippingQueryRequest(shippingQueryId, shippingOptions),
+                new AnswerShippingQueryRequest(shippingQueryId, shippingOptions),
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4885,6 +5317,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task AnswerShippingQueryAsync(
         this ITelegramBotClient botClient,
         string shippingQueryId,
@@ -4893,7 +5326,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerShippingQueryRequest(shippingQueryId, errorMessage),
+                new AnswerShippingQueryRequest(shippingQueryId, errorMessage),
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4911,13 +5344,14 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task AnswerPreCheckoutQueryAsync(
         this ITelegramBotClient botClient,
         string preCheckoutQueryId,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new AnswerPreCheckoutQueryRequest(preCheckoutQueryId), cancellationToken)
+            .MakeRequestAsync(new AnswerPreCheckoutQueryRequest(preCheckoutQueryId), cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -4936,6 +5370,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task AnswerPreCheckoutQueryAsync(
         this ITelegramBotClient botClient,
         string preCheckoutQueryId,
@@ -4944,7 +5379,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage),
+                new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage),
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4958,10 +5393,10 @@ public static partial class TelegramBotClientExtensions
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">Unique identifier for the target chat</param>
-    /// <param name="gameShortName">
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
+    /// <param name="gameShortName">
     /// Short name of the game, serves as the unique identifier for the game. Set up your games via
     /// <a href="https://t.me/botfather">@BotFather</a>
     /// </param>
@@ -4969,10 +5404,7 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
-    /// <param name="replyToMessageId">If the message is a reply, ID of the original message</param>
-    /// <param name="allowSendingWithoutReply">
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </param>
+    /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -4983,6 +5415,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendGameAsync(
         this ITelegramBotClient botClient,
         long chatId,
@@ -4990,21 +5423,21 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
-        int? replyToMessageId = default,
-        bool? allowSendingWithoutReply = default,
+        ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SendGameRequest(chatId, gameShortName)
+                new SendGameRequest
                 {
+                    ChatId = chatId,
+                    GameShortName = gameShortName,
+                    MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
-                    ReplyToMessageId = replyToMessageId,
-                    AllowSendingWithoutReply = allowSendingWithoutReply,
+                    ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
-                    MessageThreadId = messageThreadId,
                 },
                 cancellationToken
             )
@@ -5032,6 +5465,7 @@ public static partial class TelegramBotClientExtensions
     /// On success returns the edited <see cref="Message"/>. Returns an error, if the new score is not greater
     /// than the user's current score in the chat and <paramref name="force"/> is <see langword="false"/>
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SetGameScoreAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -5044,10 +5478,14 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetGameScoreRequest(userId, score, chatId, messageId)
+                new SetGameScoreRequest
                 {
+                    UserId = userId,
+                    Score = score,
+                    ChatId = chatId,
+                    MessageId = messageId,
                     Force = force,
-                    DisableEditMessage = disableEditMessage
+                    DisableEditMessage = disableEditMessage,
                 },
                 cancellationToken
             )
@@ -5074,6 +5512,7 @@ public static partial class TelegramBotClientExtensions
     /// Returns an error, if the new score is not greater than the user's current score in the chat and
     /// <paramref name="force"/> is <see langword="false"/>
     /// </returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task SetGameScoreAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -5085,10 +5524,13 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new SetInlineGameScoreRequest(userId, score, inlineMessageId)
+                new SetInlineGameScoreRequest
                 {
+                    UserId = userId,
+                    Score = score,
+                    InlineMessageId = inlineMessageId,
                     Force = force,
-                    DisableEditMessage = disableEditMessage
+                    DisableEditMessage = disableEditMessage,
                 },
                 cancellationToken
             )
@@ -5111,6 +5553,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<GameHighScore[]> GetGameHighScoresAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -5119,7 +5562,15 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(request: new GetGameHighScoresRequest(userId, chatId, messageId), cancellationToken)
+            .MakeRequestAsync(
+                new GetGameHighScoresRequest
+                {
+                    ChatId = chatId,
+                    UserId = userId,
+                    MessageId = messageId,
+                },
+                cancellationToken
+            )
             .ConfigureAwait(false);
 
     /// <summary>
@@ -5138,6 +5589,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, returns an Array of <see cref="GameHighScore"/> objects.</returns>
+    [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<GameHighScore[]> GetGameHighScoresAsync(
         this ITelegramBotClient botClient,
         long userId,
@@ -5146,7 +5598,7 @@ public static partial class TelegramBotClientExtensions
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                request: new GetInlineGameHighScoresRequest(userId, inlineMessageId),
+                new GetInlineGameHighScoresRequest { UserId = userId, InlineMessageId = inlineMessageId },
                 cancellationToken
             )
             .ConfigureAwait(false);

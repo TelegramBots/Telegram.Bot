@@ -149,7 +149,7 @@ public class TelegramBotClient : ITelegramBotClient
 
         var apiResponse = await httpResponse
             .DeserializeContentAsync<ApiResponse<TResponse>>(
-                guard: response => response.Ok == false ||
+                guard: response => !response.Ok ||
                                    response.Result is null
             )
             .ConfigureAwait(false);
@@ -253,8 +253,13 @@ public class TelegramBotClient : ITelegramBotClient
 
         try
         {
+#if NET6_0_OR_GREATER
+            await httpResponse.Content.CopyToAsync(destination, cancellationToken)
+                .ConfigureAwait(false);
+#else
             await httpResponse.Content.CopyToAsync(destination)
                 .ConfigureAwait(false);
+#endif
         }
         catch (Exception exception)
         {

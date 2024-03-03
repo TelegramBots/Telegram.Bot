@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
@@ -17,7 +18,7 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// Short name of sticker set, to be used in <c>t.me/addstickers/</c> URLs (e.g., <i>animals</i>).
@@ -26,25 +27,25 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// <i>&lt;bot_username&gt;</i> is case insensitive. 1-64 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Name { get; }
+    public required string Name { get; init; }
 
     /// <summary>
     /// Sticker set title, 1-64 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Title { get; }
+    public required string Title { get; init; }
 
     /// <summary>
     /// A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public IEnumerable<InputSticker> Stickers { get; }
+    public required IEnumerable<InputSticker> Stickers { get; init; }
 
     /// <summary>
     /// Format of stickers in the set.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public StickerFormat StickerFormat { get; }
+    public required StickerFormat StickerFormat { get; init; }
 
     /// <summary>
     /// Type of stickers in the set.
@@ -83,13 +84,15 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// <param name="stickerFormat">
     /// Format of stickers in the set.
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public CreateNewStickerSetRequest(
         long userId,
         string name,
         string title,
         IEnumerable<InputSticker> stickers,
         StickerFormat stickerFormat)
-        : base("createNewStickerSet")
+        : this()
     {
         UserId = userId;
         Name = name;
@@ -97,6 +100,13 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
         Stickers = stickers;
         StickerFormat = stickerFormat;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public CreateNewStickerSetRequest()
+        : base("createNewStickerSet")
+    { }
 
     /// <inheritdoc/>
     public override HttpContent ToHttpContent()

@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -14,19 +16,21 @@ public class InputStickerSerializationTests
     {
         const string fileName = "myFile";
         InputFileStream inputFile = new(new MemoryStream(), fileName);
-        string[] emojiList = { "🙂" };
+        string[] emojiList = ["🙂"];
         InputSticker inputSticker = new(inputFile, emojiList);
 
         string json = JsonConvert.SerializeObject(inputSticker);
-        InputSticker obj = JsonConvert.DeserializeObject<InputSticker>(json)!;
+        JObject j = JObject.Parse(json);
 
-        InputFileStream objInputFile = (InputFileStream)obj.Sticker;
+        Assert.Equal(2, j.Children().Count());
+        Assert.Equal($"attach://{fileName}", j["sticker"]);
 
-        Assert.Equal(emojiList, obj.EmojiList);
-        Assert.Contains(@$"""sticker"":""attach://{fileName}""", json);
-        Assert.Equal(Stream.Null, objInputFile.Content);
-        Assert.Equal(fileName, objInputFile.FileName);
-        Assert.Equal(FileType.Stream, objInputFile.FileType);
+        JToken? je = j["emoji_list"];
+        Assert.NotNull(je);
+
+        JArray jEmojiList = Assert.IsType<JArray>(je);
+        Assert.Single(jEmojiList);
+        Assert.Equal("🙂", jEmojiList[0]);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input sticker with input file id")]
@@ -34,40 +38,41 @@ public class InputStickerSerializationTests
     {
         const string fileId = "This-is-a-file_id";
         InputFileId inputFileId = new(fileId);
-        string[] emojiList = new[] { "🙂" };
-        InputSticker inputStickerFileId = new InputSticker(inputFileId, emojiList);
+        string[] emojiList = ["🙂"];
+        InputSticker inputStickerFileId = new(inputFileId, emojiList);
 
         string json = JsonConvert.SerializeObject(inputStickerFileId);
-        InputSticker? obj = JsonConvert.DeserializeObject<InputSticker>(json);
+        JObject j = JObject.Parse(json);
 
-        InputFileId? objInputFileId = (InputFileId?)obj?.Sticker;
+        Assert.Equal(2, j.Children().Count());
+        Assert.Equal("This-is-a-file_id", j["sticker"]);
 
-        Assert.NotNull(obj);
-        Assert.Equal(emojiList, obj.EmojiList);
-        Assert.NotNull(objInputFileId);
-        Assert.Contains(@$"""sticker"":""{fileId}""", json);
-        Assert.Equal(fileId, objInputFileId.Id);
-        Assert.Equal(FileType.Id, objInputFileId.FileType);
+        JToken? je = j["emoji_list"];
+        Assert.NotNull(je);
+
+        JArray jEmojiList = Assert.IsType<JArray>(je);
+        Assert.Single(jEmojiList);
+        Assert.Equal("🙂", jEmojiList[0]);
     }
 
     [Fact(DisplayName = "Should serialize & deserialize input sticker with input file URL")]
     public void Should_Serialize_InputUrlFile()
     {
-        Uri url = new("http://github.org/TelegramBots");
+        Uri url = new("https://github.com/TelegramBots");
         InputFileUrl inputFileUrl = new(url);
-        string[] emojiList = new[] { "🙂" };
-        InputSticker inputStickerFileUrl = new InputSticker(inputFileUrl, emojiList);
+        string[] emojiList = ["🙂"];
+        InputSticker inputStickerFileUrl = new(inputFileUrl, emojiList);
 
         string json = JsonConvert.SerializeObject(inputStickerFileUrl);
-        InputSticker? obj = JsonConvert.DeserializeObject<InputSticker>(json);
+        JObject j = JObject.Parse(json);
 
-        InputFileUrl? objInputFileUrl = (InputFileUrl?)obj?.Sticker;
+        Assert.Equal(2, j.Children().Count());
+        Assert.Equal("https://github.com/TelegramBots", j["sticker"]);
 
-        Assert.NotNull(obj);
-        Assert.Equal(emojiList, obj.EmojiList);
-        Assert.NotNull(objInputFileUrl);
-        Assert.Contains(@$"""sticker"":""{url}""", json);
-        Assert.Equal(url, objInputFileUrl.Url);
-        Assert.Equal(FileType.Url, objInputFileUrl.FileType);
+        JToken? je = j["emoji_list"];
+        Assert.NotNull(je);
+        JArray jEmojiList = Assert.IsType<JArray>(je);
+        Assert.Single(jEmojiList);
+        Assert.Equal("🙂", jEmojiList[0]);
     }
 }

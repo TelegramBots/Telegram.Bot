@@ -78,7 +78,7 @@ public class OrderedFactAttribute : FactAttribute
     /// <param name="line">Line number in source file.</param>
     public OrderedFactAttribute(string description, [CallerLineNumber] int line = default)
     {
-        if (line < 1) { throw new ArgumentOutOfRangeException(nameof(line)); }
+        ArgumentOutOfRangeException.ThrowIfLessThan(line, 1);
         // ReSharper disable once VirtualMemberCallInConstructor
         if (!string.IsNullOrWhiteSpace(description)) { DisplayName = description; }
 

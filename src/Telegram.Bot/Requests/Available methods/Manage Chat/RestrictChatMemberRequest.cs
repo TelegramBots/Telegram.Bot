@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Converters;
 using Telegram.Bot.Requests.Abstractions;
 
@@ -14,17 +15,17 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public long UserId { get; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// New user permissions
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public ChatPermissions Permissions { get; }
+    public required ChatPermissions Permissions { get; init; }
 
     /// <summary>
     /// Pass <see langword="true"/> if chat permissions are set independently. Otherwise, the
@@ -56,11 +57,20 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
     /// </param>
     /// <param name="userId">Unique identifier of the target user</param>
     /// <param name="permissions">New user permissions</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public RestrictChatMemberRequest(ChatId chatId, long userId, ChatPermissions permissions)
-        : base("restrictChatMember")
+        : this()
     {
         ChatId = chatId;
         UserId = userId;
         Permissions = permissions;
     }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    public RestrictChatMemberRequest()
+        : base("restrictChatMember")
+    { }
 }

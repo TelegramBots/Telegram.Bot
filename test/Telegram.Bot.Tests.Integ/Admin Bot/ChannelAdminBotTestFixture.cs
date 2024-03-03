@@ -1,4 +1,5 @@
 using System.IO;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -17,7 +18,7 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
     public ChannelAdminBotTestFixture(TestsFixture fixture)
     {
         AddLifetime(
-            initialize: async () =>
+            initializer: async () =>
             {
                 _channelChatFixture = new(fixture, Constants.TestCollections.ChannelAdminBots);
                 await _channelChatFixture.InitializeAsync();
@@ -30,15 +31,18 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
                     _oldChatPhoto = stream.ToArray();
                 }
             },
-            dispose: async () =>
+            finalizer: async () =>
             {
                 // If chat had a photo before, reset the photo back.
                 if (_oldChatPhoto is not null)
                 {
                     await using MemoryStream photoStream = new(_oldChatPhoto);
                     await fixture.BotClient.SetChatPhotoAsync(
-                        chatId: Chat.Id,
-                        photo: new InputFileStream(photoStream)
+                        new()
+                        {
+                            ChatId = Chat.Id,
+                            Photo = InputFile.FromStream(photoStream),
+                        }
                     );
                 }
 

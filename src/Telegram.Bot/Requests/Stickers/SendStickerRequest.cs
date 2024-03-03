@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,7 +15,7 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
-    public ChatId ChatId { get; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Optional. Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
@@ -31,7 +32,7 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     /// Animated stickers can't be sent via an HTTP URL.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public InputFile Sticker { get; }
+    public required InputFile Sticker { get; init; }
 
     /// <summary>
     /// Optional. Emoji associated with the sticker; only for just uploaded stickers
@@ -47,13 +48,9 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? ProtectContent { get; set; }
 
-    /// <inheritdoc cref="Documentation.ReplyToMessageId"/>
+    /// <inheritdoc cref="Documentation.ReplyParameters"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ReplyToMessageId { get; set; }
-
-    /// <inheritdoc cref="Documentation.AllowSendingWithoutReply"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? AllowSendingWithoutReply { get; set; }
+    public ReplyParameters? ReplyParameters { get; set; }
 
     /// <inheritdoc cref="Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -74,12 +71,21 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
     /// Video stickers can only be sent by a <see cref="InputFileId"/>.
     /// Animated stickers can't be sent via an HTTP URL.
     /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public SendStickerRequest(ChatId chatId, InputFile sticker)
-        : base("sendSticker")
+        : this()
     {
         ChatId = chatId;
         Sticker = sticker;
     }
+
+    /// <summary>
+    /// Initializes a new request chatId and sticker
+    /// </summary>
+    public SendStickerRequest()
+        : base("sendSticker")
+    { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>

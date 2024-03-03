@@ -328,6 +328,8 @@ public static class Constants
 
         public const string DeleteMessage = "deleteMessage";
 
+        public const string DeleteMessages = "deleteMessages";
+
         public const string SendLocation = "sendLocation";
 
         public const string EditMessageLiveLocation = "editMessageLiveLocation";
@@ -401,6 +403,8 @@ public static class Constants
         public const string SendDice = "sendDice";
 
         public const string CopyMessage = "copyMessage";
+
+        public const string CopyMessages = "copyMessages";
 
         public const string UnpinAllChatMessages = "unpinAllChatMessages";
     }

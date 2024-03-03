@@ -1,6 +1,6 @@
 #nullable disable
 #pragma warning disable 169
-#pragma warning disable CA1823
+#pragma warning disable IDE0051
 
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -57,14 +57,9 @@ internal static class Documentation
     static readonly object DisableNotification;
 
     /// <summary>
-    /// If the message is a reply, ID of the original message
+    /// Description of the message to reply to
     /// </summary>
-    static readonly object ReplyToMessageId;
-
-    /// <summary>
-    /// Pass <see langword="true"/>, if the message should be sent even if the specified replied-to message is not found
-    /// </summary>
-    static readonly object AllowSendingWithoutReply;
+    static readonly object ReplyParameters;
 
     /// <summary>
     /// Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported

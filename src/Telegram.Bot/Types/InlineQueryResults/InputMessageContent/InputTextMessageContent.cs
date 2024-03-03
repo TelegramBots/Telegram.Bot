@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -14,7 +15,7 @@ public class InputTextMessageContent : InputMessageContent
     /// Text of the message to be sent, 1-4096 characters
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string MessageText { get; }
+    public required string MessageText { get; init; }
 
     /// <summary>
     /// Optional. Mode for
@@ -32,17 +33,25 @@ public class InputTextMessageContent : InputMessageContent
     public MessageEntity[]? Entities { get; set; } // ToDo: add test
 
     /// <summary>
-    /// Optional. Disables link previews for links in the sent message
+    /// Optional. Link preview generation options for the message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool? DisableWebPagePreview { get; set; }
+    public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <summary>
     /// Initializes a new input text message content
     /// </summary>
     /// <param name="messageText">The text of the message</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InputTextMessageContent(string messageText)
     {
         MessageText = messageText;
     }
+
+    /// <summary>
+    /// Initializes a new input text message content
+    /// </summary>
+    public InputTextMessageContent()
+    { }
 }

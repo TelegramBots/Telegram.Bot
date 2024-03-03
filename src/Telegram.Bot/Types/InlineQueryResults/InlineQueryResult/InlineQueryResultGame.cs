@@ -1,4 +1,4 @@
-
+using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Types.InlineQueryResults;
@@ -19,16 +19,24 @@ public class InlineQueryResultGame : InlineQueryResult
     /// Short name of the game
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string GameShortName { get; }
+    public required string GameShortName { get; init; }
 
     /// <summary>
     /// Initializes a new inline query result
     /// </summary>
     /// <param name="id">Unique identifier of this result</param>
     /// <param name="gameShortName">Short name of the game</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
     public InlineQueryResultGame(string id, string gameShortName)
         : base(id)
     {
         GameShortName = gameShortName;
     }
+
+    /// <summary>
+    /// Initializes a new inline query result
+    /// </summary>
+    public InlineQueryResultGame()
+    { }
 }

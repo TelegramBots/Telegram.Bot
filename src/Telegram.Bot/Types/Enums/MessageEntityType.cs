@@ -90,4 +90,9 @@ public enum MessageEntityType
     /// Inline custom emoji stickers
     /// </summary>
     CustomEmoji,
+
+    /// <summary>
+    /// Block quotation
+    /// </summary>
+    Blockquote,
 }

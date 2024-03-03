@@ -47,6 +47,23 @@ public class Update
     public Message? EditedChannelPost { get; set; }
 
     /// <summary>
+    /// Optional. A reaction to a message was changed by a user. The bot must be an administrator
+    /// in the chat and must explicitly specify "<see cref="UpdateType.MessageReaction"/>" in the list
+    /// of <c>AllowedUpdates</c> to receive these updates.
+    /// The update isn't received for reactions set by bots.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public MessageReactionUpdated? MessageReaction { get; set; }
+
+    /// <summary>
+    /// Optional. Reactions to a message with anonymous reactions were changed. The bot must
+    /// be an administrator in the chat and must explicitly specify "<see cref="UpdateType.MessageReactionCount"/>"
+    /// in the list of <c>AllowedUpdates</c> to receive these updates.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public MessageReactionCountUpdated? MessageReactionCount { get; set; }
+
+    /// <summary>
     /// Optional. New incoming inline query
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -98,7 +115,7 @@ public class Update
 
     /// <summary>
     /// Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat
-    /// and must explicitly specify “<see cref="UpdateType.ChatMember"/>” in the list of allowed_updates to
+    /// and must explicitly specify “<see cref="UpdateType.ChatMember"/>” in the list of <c>AllowedUpdates</c> to
     /// receive these updates.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -112,6 +129,20 @@ public class Update
     public ChatJoinRequest? ChatJoinRequest { get; set; }
 
     /// <summary>
+    /// Optional. A chat boost was added or changed.
+    /// The bot must be an administrator in the chat to receive these updates.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ChatBoostUpdated? ChatBoost { get; set; }
+
+    /// <summary>
+    /// Optional. A boost was removed from a chat.
+    /// The bot must be an administrator in the chat to receive these updates.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ChatBoostRemoved? RemovedChatBoost { get; set; }
+
+    /// <summary>
     /// Gets the update type.
     /// </summary>
     /// <value>
@@ -119,20 +150,24 @@ public class Update
     /// </value>
     public UpdateType Type => this switch
     {
-        { Message: { } }            => UpdateType.Message,
-        { EditedMessage: { } }      => UpdateType.EditedMessage,
-        { InlineQuery: { } }        => UpdateType.InlineQuery,
-        { ChosenInlineResult: { } } => UpdateType.ChosenInlineResult,
-        { CallbackQuery: { } }      => UpdateType.CallbackQuery,
-        { ChannelPost: { } }        => UpdateType.ChannelPost,
-        { EditedChannelPost: { } }  => UpdateType.EditedChannelPost,
-        { ShippingQuery: { } }      => UpdateType.ShippingQuery,
-        { PreCheckoutQuery: { } }   => UpdateType.PreCheckoutQuery,
-        { Poll: { } }               => UpdateType.Poll,
-        { PollAnswer: { } }         => UpdateType.PollAnswer,
-        { MyChatMember: { } }       => UpdateType.MyChatMember,
-        { ChatMember: { } }         => UpdateType.ChatMember,
-        { ChatJoinRequest: { } }    => UpdateType.ChatJoinRequest,
-        _                           => UpdateType.Unknown
+        { Message: not null }               => UpdateType.Message,
+        { EditedMessage: not null }         => UpdateType.EditedMessage,
+        { ChannelPost: not null }           => UpdateType.ChannelPost,
+        { EditedChannelPost: not null }     => UpdateType.EditedChannelPost,
+        { MessageReaction: not null }       => UpdateType.MessageReaction,
+        { MessageReactionCount: not null }  => UpdateType.MessageReactionCount,
+        { InlineQuery: not null }           => UpdateType.InlineQuery,
+        { ChosenInlineResult: not null }    => UpdateType.ChosenInlineResult,
+        { CallbackQuery: not null }         => UpdateType.CallbackQuery,
+        { ShippingQuery: not null }         => UpdateType.ShippingQuery,
+        { PreCheckoutQuery: not null }      => UpdateType.PreCheckoutQuery,
+        { Poll: not null }                  => UpdateType.Poll,
+        { PollAnswer: not null }            => UpdateType.PollAnswer,
+        { MyChatMember: not null }          => UpdateType.MyChatMember,
+        { ChatMember: not null }            => UpdateType.ChatMember,
+        { ChatJoinRequest: not null }       => UpdateType.ChatJoinRequest,
+        { ChatBoost: not null }             => UpdateType.ChatBoost,
+        { RemovedChatBoost: not null }      => UpdateType.RemovedChatBoost,
+        _                                   => UpdateType.Unknown
     };
 }

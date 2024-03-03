@@ -7,13 +7,13 @@ namespace Telegram.Bot.Requests;
 /// </summary>
 /// <typeparam name="TResult"></typeparam>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class ParameterlessRequest<TResult> : RequestBase<TResult>
+public abstract class ParameterlessRequest<TResult> : RequestBase<TResult>
 {
     /// <summary>
     /// Initializes an instance of <see cref="ParameterlessRequest{TResult}"/>
     /// </summary>
     /// <param name="methodName">Name of request method</param>
-    public ParameterlessRequest(string methodName)
+    protected ParameterlessRequest(string methodName)
         : base(methodName)
     { }
 
@@ -22,7 +22,7 @@ public class ParameterlessRequest<TResult> : RequestBase<TResult>
     /// </summary>
     /// <param name="methodName">Name of request method</param>
     /// <param name="method">HTTP request method</param>
-    public ParameterlessRequest(string methodName, HttpMethod method)
+    protected ParameterlessRequest(string methodName, HttpMethod method)
         : base(methodName, method)
     { }
 

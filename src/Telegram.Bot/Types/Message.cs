@@ -12,7 +12,7 @@ namespace Telegram.Bot.Types;
 /// This object represents a message.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class Message
+public class Message : MaybeInaccessibleMessage
 {
     /// <summary>
     /// Unique message identifier inside this chat
@@ -41,6 +41,12 @@ public class Message
     public Chat? SenderChat { get; set; }
 
     /// <summary>
+    /// Optional. If the sender of the message boosted the chat, the number of boosts added by the user
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public int? SenderBoostCount { get; set; }
+
+    /// <summary>
     /// Date the message was sent
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -54,49 +60,16 @@ public class Message
     public Chat Chat { get; set; } = default!;
 
     /// <summary>
-    /// Optional. For forwarded messages, sender of the original message
+    ///Optional. Information about the original message for forwarded messages
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public User? ForwardFrom { get; set; }
+    public MessageOrigin? ForwardOrigin { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the message is sent to a forum topic
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? IsTopicMessage { get; set; }
-
-    /// <summary>
-    /// Optional. For messages forwarded from channels or from anonymous administrators, information about the
-    /// original sender chat
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Chat? ForwardFromChat { get; set; }
-
-    /// <summary>
-    /// Optional. For messages forwarded from channels, identifier of the original message in the channel
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public int? ForwardFromMessageId { get; set; }
-
-    /// <summary>
-    /// Optional. For messages forwarded from channels, signature of the post author if present
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ForwardSignature { get; set; }
-
-    /// <summary>
-    /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
-    /// forwarded messages
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public string? ForwardSenderName { get; set; }
-
-    /// <summary>
-    /// Optional. For forwarded messages, date the original message was sent
-    /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime? ForwardDate { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the message is a channel post that was automatically forwarded to the connected
@@ -111,6 +84,25 @@ public class Message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public Message? ReplyToMessage { get; set; }
+
+    /// <summary>
+    /// Optional. Information about the message that is being replied to, which may come from
+    /// another chat or forum topic
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ExternalReplyInfo? ExternalReply { get; set; }
+
+    /// <summary>
+    /// Optional. For replies that quote part of the original message, the quoted part of the message
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public TextQuote? Quote { get; set; }
+
+    /// <summary>
+    /// Optional. For replies to a story, the original story
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Story? ReplyToStory { get; set; }
 
     /// <summary>
     /// Optional. Bot through which the message was sent
@@ -168,6 +160,13 @@ public class Message
         Text is null
             ? default
             : Entities?.Select(entity => Text.Substring(entity.Offset, entity.Length));
+
+    /// <summary>
+    /// Optional. Options used for link preview generation for the message, if it is a text message
+    /// and link preview options were changed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public LinkPreviewOptions? LinkPreviewOptions { get; set; }
 
     /// <summary>
     /// Optional. Message is an animation, information about the animation. For backward compatibility, when this
@@ -364,11 +363,11 @@ public class Message
     public long? MigrateFromChatId { get; set; }
 
     /// <summary>
-    /// Optional. Specified message was pinned. Note that the Message object in this field will not contain
-    /// further <see cref="ReplyToMessage"/> fields even if it is itself a reply.
+    /// Optional. Specified message was pinned. Note that the <see cref="Message"/> object in this field
+    /// will not contain further <see cref="ReplyToMessage"/> fields even if it itself is a reply.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public Message? PinnedMessage { get; set; }
+    public MaybeInaccessibleMessage? PinnedMessage { get; set; }
 
     /// <summary>
     /// Optional. Message is an invoice for a
@@ -387,7 +386,7 @@ public class Message
     /// Optional. Service message: a user was shared with the bot
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public UserShared? UserShared { get; set; }
+    public UsersShared? UsersShared { get; set; }
 
     /// <summary>
     /// Optional. Service message: a chat was shared with the bot
@@ -419,6 +418,12 @@ public class Message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ProximityAlertTriggered? ProximityAlertTriggered { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: user boosted the chat
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public ChatBoostAdded? BoostAdded { get; set; }
 
     /// <summary>
     /// Optional. Service message: forum topic created
@@ -455,6 +460,30 @@ public class Message
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public GeneralForumTopicUnhidden? GeneralForumTopicUnhidden { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: a scheduled giveaway was created
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GiveawayCreated? GiveawayCreated { get; set; }
+
+    /// <summary>
+    /// Optional. The message is a scheduled giveaway message
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Giveaway? Giveaway { get; set; }
+
+    /// <summary>
+    /// Optional. A giveaway with public winners was completed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GiveawayWinners? GiveawayWinners { get; set; }
+
+    /// <summary>
+    /// Optional. Service message: a giveaway without public winners was completed
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public GiveawayCompleted? GiveawayCompleted { get; set; }
 
     /// <summary>
     /// Optional. Service message: video chat scheduled
@@ -502,53 +531,58 @@ public class Message
     public MessageType Type =>
         this switch
         {
-            { Text: { } }                          => MessageType.Text,
-            { Photo: { } }                         => MessageType.Photo,
-            { Audio: { } }                         => MessageType.Audio,
-            { Video: { } }                         => MessageType.Video,
-            { Voice: { } }                         => MessageType.Voice,
-            { Animation: { } }                     => MessageType.Animation,
-            { Document: { } }                      => MessageType.Document,
-            { Sticker: { } }                       => MessageType.Sticker,
-            { Story: { } }                         => MessageType.Story,
-            // Venue also contains Location
-            { Location: { } } and { Venue: null }  => MessageType.Location,
-            { Venue: { } }                         => MessageType.Venue,
-            { Contact: { } }                       => MessageType.Contact,
-            { Game: { } }                          => MessageType.Game,
-            { VideoNote: { } }                     => MessageType.VideoNote,
-            { Invoice: { } }                       => MessageType.Invoice,
-            { SuccessfulPayment: { } }             => MessageType.SuccessfulPayment,
-            { ConnectedWebsite: { } }              => MessageType.WebsiteConnected,
-            { NewChatMembers: { Length: > 0 } }    => MessageType.ChatMembersAdded,
-            { LeftChatMember: { } }                => MessageType.ChatMemberLeft,
-            { NewChatTitle: { } }                  => MessageType.ChatTitleChanged,
-            { NewChatPhoto: { } }                  => MessageType.ChatPhotoChanged,
-            { PinnedMessage: { } }                 => MessageType.MessagePinned,
-            { DeleteChatPhoto: { } }               => MessageType.ChatPhotoDeleted,
-            { GroupChatCreated: { } }              => MessageType.GroupCreated,
-            { SupergroupChatCreated: { } }         => MessageType.SupergroupCreated,
-            { ChannelChatCreated: { } }            => MessageType.ChannelCreated,
-            { MigrateToChatId: { } }               => MessageType.MigratedToSupergroup,
-            { MigrateFromChatId: { } }             => MessageType.MigratedFromGroup,
-            { Poll: { } }                          => MessageType.Poll,
-            { Dice: { } }                          => MessageType.Dice,
-            { MessageAutoDeleteTimerChanged: { } } => MessageType.MessageAutoDeleteTimerChanged,
-            { ProximityAlertTriggered: { } }       => MessageType.ProximityAlertTriggered,
-            { VideoChatScheduled: { } }            => MessageType.VideoChatScheduled,
-            { VideoChatStarted: { } }              => MessageType.VideoChatStarted,
-            { VideoChatEnded: { } }                => MessageType.VideoChatEnded,
-            { VideoChatParticipantsInvited: { } }  => MessageType.VideoChatParticipantsInvited,
-            { WebAppData: { } }                    => MessageType.WebAppData,
-            { ForumTopicCreated: { } }             => MessageType.ForumTopicCreated,
-            { ForumTopicEdited: { } }              => MessageType.ForumTopicEdited,
-            { ForumTopicClosed: { } }              => MessageType.ForumTopicClosed,
-            { ForumTopicReopened: { } }            => MessageType.ForumTopicReopened,
-            { GeneralForumTopicHidden: { } }       => MessageType.GeneralForumTopicHidden,
-            { GeneralForumTopicUnhidden: { } }     => MessageType.GeneralForumTopicUnhidden,
-            { WriteAccessAllowed: { } }            => MessageType.WriteAccessAllowed,
-            { UserShared: { } }                    => MessageType.UserShared,
-            { ChatShared: { } }                    => MessageType.ChatShared,
-            _                                      => MessageType.Unknown
+            { Text: not null }                          => MessageType.Text,
+            { Animation: not null }                     => MessageType.Animation,
+            { Audio: not null }                         => MessageType.Audio,
+            { Document: not null }                      => MessageType.Document,
+            { Photo: not null }                         => MessageType.Photo,
+            { Sticker: not null }                       => MessageType.Sticker,
+            { Story: not null }                         => MessageType.Story,
+            { Video: not null }                         => MessageType.Video,
+            { VideoNote: not null }                     => MessageType.VideoNote,
+            { Voice: not null }                         => MessageType.Voice,
+            { Contact: not null }                       => MessageType.Contact,
+            { Dice: not null }                          => MessageType.Dice,
+            { Game: not null }                          => MessageType.Game,
+            { Poll: not null }                          => MessageType.Poll,
+            { Venue: not null }                         => MessageType.Venue,
+            { Location: not null } and { Venue: null }  => MessageType.Location,
+            { NewChatMembers.Length: > 0 }              => MessageType.NewChatMembers,
+            { LeftChatMember: not null }                => MessageType.LeftChatMember,
+            { NewChatTitle: not null }                  => MessageType.NewChatTitle,
+            { NewChatPhoto: not null }                  => MessageType.NewChatPhoto,
+            { DeleteChatPhoto: not null }               => MessageType.DeleteChatPhoto,
+            { GroupChatCreated: not null }              => MessageType.GroupChatCreated,
+            { SupergroupChatCreated: not null }         => MessageType.SupergroupChatCreated,
+            { ChannelChatCreated: not null }            => MessageType.ChannelChatCreated,
+            { MessageAutoDeleteTimerChanged: not null } => MessageType.MessageAutoDeleteTimerChanged,
+            { MigrateToChatId: not null }               => MessageType.MigrateToChatId,
+            { MigrateFromChatId: not null }             => MessageType.MigrateFromChatId,
+            { PinnedMessage: not null }                 => MessageType.PinnedMessage,
+            { Invoice: not null }                       => MessageType.Invoice,
+            { SuccessfulPayment: not null }             => MessageType.SuccessfulPayment,
+            { UsersShared: not null }                   => MessageType.UsersShared,
+            { ChatShared: not null }                    => MessageType.ChatShared,
+            { ConnectedWebsite: not null }              => MessageType.ConnectedWebsite,
+            { WriteAccessAllowed: not null }            => MessageType.WriteAccessAllowed,
+            { PassportData: not null }                  => MessageType.PassportData,
+            { ProximityAlertTriggered: not null }       => MessageType.ProximityAlertTriggered,
+            { BoostAdded: not null }                    => MessageType.BoostAdded,
+            { ForumTopicCreated: not null }             => MessageType.ForumTopicCreated,
+            { ForumTopicEdited: not null }              => MessageType.ForumTopicEdited,
+            { ForumTopicClosed: not null }              => MessageType.ForumTopicClosed,
+            { ForumTopicReopened: not null }            => MessageType.ForumTopicReopened,
+            { GeneralForumTopicHidden: not null }       => MessageType.GeneralForumTopicHidden,
+            { GeneralForumTopicUnhidden: not null }     => MessageType.GeneralForumTopicUnhidden,
+            { GiveawayCreated: not null }               => MessageType.GiveawayCreated,
+            { Giveaway: not null }                      => MessageType.Giveaway,
+            { GiveawayWinners: not null }               => MessageType.GiveawayWinners,
+            { GiveawayCompleted: not null }             => MessageType.GiveawayCompleted,
+            { VideoChatScheduled: not null }            => MessageType.VideoChatScheduled,
+            { VideoChatStarted: not null }              => MessageType.VideoChatStarted,
+            { VideoChatEnded: not null }                => MessageType.VideoChatEnded,
+            { VideoChatParticipantsInvited: not null }  => MessageType.VideoChatParticipantsInvited,
+            { WebAppData: not null }                    => MessageType.WebAppData,
+            _                                           => MessageType.Unknown
         };
 }

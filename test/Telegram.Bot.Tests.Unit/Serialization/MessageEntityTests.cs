@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
@@ -34,11 +36,13 @@ public class MessageEntityTests
             Type = MessageEntityType.PhoneNumber
         };
 
-        string? json = JsonConvert.SerializeObject(messageEntity);
+        string json = JsonConvert.SerializeObject(messageEntity);
+        JObject j = JObject.Parse(json);
 
-        Assert.NotNull(json);
-        Assert.True(json.Length > 10);
-        Assert.Contains(@"""type"":""phone_number""", json);
+        Assert.Equal(3, j.Children().Count());
+        Assert.Equal(10, j["length"]);
+        Assert.Equal(10, j["offset"]);
+        Assert.Equal("phone_number", j["type"]);
     }
 
     [Fact(DisplayName = "Should deserialize message entity with unknown type")]
@@ -68,10 +72,12 @@ public class MessageEntityTests
             Type = 0
         };
 
-        string? json = JsonConvert.SerializeObject(messageEntity);
+        string json = JsonConvert.SerializeObject(messageEntity);
+        JObject j = JObject.Parse(json);
 
-        Assert.NotNull(json);
-        Assert.True(json.Length > 10);
-        Assert.Contains(@"""type"":""unknown""", json);
+        Assert.Equal(3, j.Children().Count());
+        Assert.Equal(10, j["length"]);
+        Assert.Equal(10, j["offset"]);
+        Assert.Equal("unknown", j["type"]);
     }
 }

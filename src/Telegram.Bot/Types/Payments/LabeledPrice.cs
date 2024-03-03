@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Telegram.Bot.Types.Payments;
 
 /// <summary>
@@ -11,7 +13,7 @@ public class LabeledPrice
     /// Portion label
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public string Label { get; set; }
+    public required string Label { get; init; }
 
     /// <summary>
     /// Price of the product in the <i>smallest units</i> of the
@@ -24,7 +26,7 @@ public class LabeledPrice
     /// </para>
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int Amount { get; set; }
+    public required int Amount { get; init; }
 
     /// <summary>
     /// Initializes an instance of <see cref="LabeledPrice"/>
@@ -32,9 +34,16 @@ public class LabeledPrice
     /// <param name="label">Portion label</param>
     /// <param name="amount">Price of the product</param>
     [JsonConstructor]
+    [SetsRequiredMembers]
     public LabeledPrice(string label, int amount)
     {
         Label = label;
         Amount = amount;
     }
+
+    /// <summary>
+    /// Initializes an instance of <see cref="LabeledPrice"/>
+    /// </summary>
+    public LabeledPrice()
+    { }
 }
