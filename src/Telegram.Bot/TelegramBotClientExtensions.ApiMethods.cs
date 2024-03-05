@@ -318,7 +318,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
-    [Obsolete("Use the method SendMessageAsync instead")]
+    [Obsolete($"Use the method {nameof(SendMessageAsync)} instead")]
     public static async Task<Message> SendTextMessageAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,

@@ -71,6 +71,26 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
+    [JsonIgnore]
+    public int? ReplyToMessageId
+    {
+        get => ReplyParameters?.MessageId;
+        set
+        {
+            if (value is null)
+            {
+                ReplyParameters = null;
+            }
+            else
+            {
+                ReplyParameters ??= new();
+                ReplyParameters.MessageId = value.Value;
+            }
+        }
+    }
+
     /// <summary>
     /// Initializes a new request with chatId and photo
     /// </summary>

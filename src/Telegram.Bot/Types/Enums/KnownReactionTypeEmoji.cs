@@ -1,8 +1,11 @@
+using JetBrains.Annotations;
+
 namespace Telegram.Bot.Types.Enums;
 
 /// <summary>
 /// Reaction emoji.
 /// </summary>
+[PublicAPI]
 public static class KnownReactionTypeEmoji
 {
     /// <summary>
@@ -76,7 +79,7 @@ public static class KnownReactionTypeEmoji
     /// <summary>
     /// OK Hand Emoji
     /// </summary>
-    public const string OKHand = "👌";
+    public const string OkHand = "👌";
     /// <summary>
     /// Dove Emoji
     /// </summary>
