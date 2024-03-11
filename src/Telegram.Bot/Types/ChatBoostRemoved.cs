@@ -25,7 +25,7 @@ public class ChatBoostRemoved
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime RemoveDate { get; set; } = default!;
+    public DateTime RemoveDate { get; set; }
 
     /// <summary>
     /// Source of the removed boost

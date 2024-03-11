@@ -57,6 +57,12 @@ internal static class Documentation
     static readonly object DisableNotification;
 
     /// <summary>
+    /// If the message is a reply, ID of the original message
+    /// </summary>
+    [Obsolete]
+    static readonly object ReplyToMessageId;
+
+    /// <summary>
     /// Description of the message to reply to
     /// </summary>
     static readonly object ReplyParameters;

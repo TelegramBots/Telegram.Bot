@@ -19,13 +19,13 @@ public class Giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime WinnersSelectionDate { get; set; } = default!;
+    public DateTime WinnersSelectionDate { get; set; }
 
     /// <summary>
     /// The number of users which are supposed to be selected as winners of the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int WinnerCount { get; set; } = default!;
+    public int WinnerCount { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if only users who join the chats after the giveaway started should be eligible to win
