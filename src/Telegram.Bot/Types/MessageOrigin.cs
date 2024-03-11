@@ -133,7 +133,7 @@ public class MessageOriginChannel : MessageOrigin
     /// Unique message identifier inside the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; set; } = default!;
+    public int MessageId { get; set; }
 
     /// <summary>
     /// Optional. Signature of the original post author

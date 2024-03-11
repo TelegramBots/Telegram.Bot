@@ -59,6 +59,41 @@ public class SendMessageRequest : RequestBase<Message>, IChatTargetable
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IReplyMarkup? ReplyMarkup { get; set; }
 
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
+    [JsonIgnore]
+    public int? ReplyToMessageId
+    {
+        get => ReplyParameters?.MessageId;
+        set
+        {
+            if (value is null)
+            {
+                ReplyParameters = null;
+            }
+            else
+            {
+                ReplyParameters ??= new();
+                ReplyParameters.MessageId = value.Value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Disables link previews for links in this message
+    /// </summary>
+    [Obsolete($"This property is deprecated, use {nameof(LinkPreviewOptions)} instead")]
+    [JsonIgnore]
+    public bool? DisableWebPagePreview
+    {
+        get => LinkPreviewOptions?.IsDisabled;
+        set
+        {
+            LinkPreviewOptions ??= new();
+            LinkPreviewOptions.IsDisabled = value;
+        }
+    }
+
     /// <summary>
     /// Initializes a new request with chatId and text
     /// </summary>

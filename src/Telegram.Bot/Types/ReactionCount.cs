@@ -16,5 +16,5 @@ public class ReactionCount
     /// Number of times the reaction was added
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int TotalCount { get; set; } = default!;
+    public int TotalCount { get; set; }
 }
