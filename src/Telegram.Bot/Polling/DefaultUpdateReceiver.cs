@@ -59,12 +59,12 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         {
             Limit = limit,
             Offset = messageOffset,
-            AllowedUpdates = allowedUpdates,
+            AllowedUpdates = allowedUpdates
         };
         while (!cancellationToken.IsCancellationRequested)
         {
-            var timeout = (int) _botClient.Timeout.TotalSeconds;
-            request.Timeout = timeout;
+            request.Timeout = (int) _botClient.Timeout.TotalSeconds;
+
             var updates = emptyUpdates;
             try
             {
@@ -107,7 +107,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                         cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
 
-                    messageOffset = update.Id + 1;
+                    request.Offset = update.Id + 1;
                 }
                 catch (OperationCanceledException)
                 {
