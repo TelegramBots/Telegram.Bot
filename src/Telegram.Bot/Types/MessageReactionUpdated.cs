@@ -18,7 +18,7 @@ public class MessageReactionUpdated
     /// Unique identifier of the message inside the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; set; } = default!;
+    public int MessageId { get; set; }
 
     /// <summary>
     /// Optional.The user that changed the reaction, if the user isn't anonymous
@@ -37,7 +37,7 @@ public class MessageReactionUpdated
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime Date { get; set; } = default!;
+    public DateTime Date { get; set; }
 
     /// <summary>
     /// Previous list of reaction types that were set by the user

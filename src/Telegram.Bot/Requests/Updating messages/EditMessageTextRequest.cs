@@ -48,6 +48,21 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
+    /// Disables link previews for links in this message
+    /// </summary>
+    [Obsolete($"This property is deprecated, use {nameof(LinkPreviewOptions)} instead")]
+    [JsonIgnore]
+    public bool? DisableWebPagePreview
+    {
+        get => LinkPreviewOptions?.IsDisabled;
+        set
+        {
+            LinkPreviewOptions ??= new();
+            LinkPreviewOptions.IsDisabled = value;
+        }
+    }
+
+    /// <summary>
     /// Initializes a new request with chatId, messageId and text
     /// </summary>
     /// <param name="chatId">

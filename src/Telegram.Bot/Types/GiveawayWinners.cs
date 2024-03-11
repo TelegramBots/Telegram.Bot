@@ -18,20 +18,20 @@ public class GiveawayWinners
     /// Identifier of the message with the giveaway in the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int GiveawayMessageId { get; set; } = default!;
+    public int GiveawayMessageId { get; set; }
 
     /// <summary>
     /// Point in time when winners of the giveaway were selected
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime WinnersSelectionDate { get; set; } = default!;
+    public DateTime WinnersSelectionDate { get; set; }
 
     /// <summary>
     /// Total number of winners in the giveaway
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int WinnerCount { get; set; } = default!;
+    public int WinnerCount { get; set; }
 
     /// <summary>
     /// List of up to 100 winners of the giveaway

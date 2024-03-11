@@ -66,8 +66,9 @@ public class RequestSerializationTests
     public async Task Should_Serialize_CreateChatInviteLink_Request()
     {
         DateTime expireDate = new(2022, 1, 8, 10, 33, 45, DateTimeKind.Utc);
-        CreateChatInviteLinkRequest createChatInviteLinkRequest = new(chatId: 1_000_000)
+        CreateChatInviteLinkRequest createChatInviteLinkRequest = new()
         {
+            ChatId = 1_000_000,
             ExpireDate = expireDate,
             CreatesJoinRequest = true,
             MemberLimit = 123,
@@ -85,5 +86,64 @@ public class RequestSerializationTests
         Assert.Equal("Test link name", j["name"]);
         Assert.Equal(123, j["member_limit"]);
         Assert.Equal(true, j["creates_join_request"]);
+    }
+
+    [Fact]
+    public async Task Should_Ignore_Obsolete_ReplyToMessageId_Property()
+    {
+        SendMessageRequest request = new()
+        {
+            ChatId = 123,
+            Text = "Test",
+            ReplyToMessageId = 1004,
+        };
+
+        HttpContent httpContent = request.ToHttpContent()!;
+
+        string stringContent = await httpContent.ReadAsStringAsync();
+        JObject j = JObject.Parse(stringContent);
+
+        Assert.Equal(1004, request.ReplyToMessageId);
+        Assert.NotNull(request.ReplyParameters);
+        Assert.Equal(1004, request.ReplyParameters.MessageId);
+        Assert.Null(request.ReplyParameters.ChatId);
+        Assert.Null(request.ReplyParameters.QuoteEntities);
+        Assert.Null(request.ReplyParameters.AllowSendingWithoutReply);
+        Assert.Null(request.ReplyParameters.QuotePosition);
+        Assert.Null(request.ReplyParameters.QuoteParseMode);
+        Assert.False(j.ContainsKey("reply_to_message_id"));
+
+        JToken? jrp = j["reply_parameters"];
+        Assert.NotNull(jrp);
+        Assert.Equal(1004, jrp["message_id"]);
+    }
+
+    [Fact]
+    public async Task Should_Ignore_Obsolete_DisableWebPagePreview_Property()
+    {
+        SendMessageRequest request = new()
+        {
+            ChatId = 123,
+            Text = "Test",
+            DisableWebPagePreview = true,
+        };
+
+        HttpContent httpContent = request.ToHttpContent()!;
+
+        string stringContent = await httpContent.ReadAsStringAsync();
+        JObject j = JObject.Parse(stringContent);
+
+        Assert.True(request.DisableWebPagePreview);
+        Assert.NotNull(request.LinkPreviewOptions);
+        Assert.True(request.LinkPreviewOptions.IsDisabled);
+        Assert.Null(request.LinkPreviewOptions.Url);
+        Assert.Null(request.LinkPreviewOptions.PreferLargeMedia);
+        Assert.Null(request.LinkPreviewOptions.PreferSmallMedia);
+        Assert.Null(request.LinkPreviewOptions.ShowAboveText);
+        Assert.False(j.ContainsKey("disable_web_page_preview"));
+
+        JToken? jlpo = j["link_preview_options"];
+        Assert.NotNull(jlpo);
+        Assert.Equal(true, jlpo["is_disabled"]);
     }
 }

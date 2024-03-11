@@ -148,6 +148,7 @@ public class Update
     /// <value>
     /// The update type.
     /// </value>
+    [JsonIgnore]
     public UpdateType Type => this switch
     {
         { Message: not null }               => UpdateType.Message,
