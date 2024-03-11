@@ -55,20 +55,22 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                 // ignored
             }
         }
+        var timeout = (int) _botClient.Timeout.TotalSeconds;
+        var updates = emptyUpdates;
+        var request = new GetUpdatesRequest
+        {
+            Limit = limit,
+            Offset = messageOffset,
+            Timeout = timeout,
+            AllowedUpdates = allowedUpdates,
+        };
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            var timeout = (int) _botClient.Timeout.TotalSeconds;
-            var updates = emptyUpdates;
+
             try
             {
-                var request = new GetUpdatesRequest
-                {
-                    Limit = limit,
-                    Offset = messageOffset,
-                    Timeout = timeout,
-                    AllowedUpdates = allowedUpdates,
-                };
+
                 updates = await _botClient.MakeRequestAsync(
                     request: request,
                     cancellationToken:
