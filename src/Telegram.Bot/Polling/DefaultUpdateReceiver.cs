@@ -38,7 +38,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
 
         var allowedUpdates = _receiverOptions?.AllowedUpdates;
-        var limit = _receiverOptions?.Limit ?? default;
+        var limit = _receiverOptions?.Limit ?? 100;
         var messageOffset = _receiverOptions?.Offset ?? 0;
         var emptyUpdates = EmptyUpdates;
 
