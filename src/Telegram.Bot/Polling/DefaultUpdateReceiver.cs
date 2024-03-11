@@ -56,7 +56,6 @@ public class DefaultUpdateReceiver : IUpdateReceiver
             }
         }
         var timeout = (int) _botClient.Timeout.TotalSeconds;
-        var updates = emptyUpdates;
         var request = new GetUpdatesRequest
         {
             Limit = limit,
@@ -67,7 +66,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
 
         while (!cancellationToken.IsCancellationRequested)
         {
-
+            var updates = emptyUpdates;
             try
             {
 
