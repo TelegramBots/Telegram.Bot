@@ -62,7 +62,7 @@ public class Message : MaybeInaccessibleMessage
     /// <summary>
     /// Optional. For forwarded messages, sender of the original message
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonIgnore]
     [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
     public User? ForwardFrom => (ForwardOrigin as MessageOriginUser)?.SenderUser;
 
@@ -70,7 +70,7 @@ public class Message : MaybeInaccessibleMessage
     /// Optional. For messages forwarded from channels or from anonymous administrators, information about the
     /// original sender chat
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonIgnore]
     [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
     public Chat? ForwardFromChat => ForwardOrigin switch
     {
@@ -82,14 +82,14 @@ public class Message : MaybeInaccessibleMessage
     /// <summary>
     /// Optional. For messages forwarded from channels, identifier of the original message in the channel
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonIgnore]
     [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
     public int? ForwardFromMessageId => (ForwardOrigin as MessageOriginChannel)?.MessageId;
 
     /// <summary>
     /// Optional. For messages forwarded from channels, signature of the post author if present
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonIgnore]
     [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
     public string? ForwardSignature => (ForwardOrigin as MessageOriginChannel)?.AuthorSignature;
 
@@ -97,14 +97,14 @@ public class Message : MaybeInaccessibleMessage
     /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
     /// forwarded messages
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonIgnore]
     [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
     public string? ForwardSenderName => (ForwardOrigin as MessageOriginHiddenUser)?.SenderUserName;
 
     /// <summary>
     /// Optional. For forwarded messages, date the original message was sent
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonIgnore]
     [JsonConverter(typeof(UnixDateTimeConverter))]
     [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
     public DateTime? ForwardDate => ForwardOrigin?.Date;
