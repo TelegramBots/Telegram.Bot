@@ -38,7 +38,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         if (updateHandler is null) { throw new ArgumentNullException(nameof(updateHandler)); }
 
         var allowedUpdates = _receiverOptions?.AllowedUpdates;
-        var limit = _receiverOptions?.Limit ?? default;
+        var limit = _receiverOptions?.Limit ?? 100;
         var messageOffset = _receiverOptions?.Offset ?? 0;
         var emptyUpdates = EmptyUpdates;
 
@@ -55,20 +55,20 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                 // ignored
             }
         }
-
+        var request = new GetUpdatesRequest
+        {
+            Limit = limit,
+            Offset = messageOffset,
+            AllowedUpdates = allowedUpdates
+        };
         while (!cancellationToken.IsCancellationRequested)
         {
-            var timeout = (int) _botClient.Timeout.TotalSeconds;
+            request.Timeout = (int) _botClient.Timeout.TotalSeconds;
+
             var updates = emptyUpdates;
             try
             {
-                var request = new GetUpdatesRequest
-                {
-                    Limit = limit,
-                    Offset = messageOffset,
-                    Timeout = timeout,
-                    AllowedUpdates = allowedUpdates,
-                };
+
                 updates = await _botClient.MakeRequestAsync(
                     request: request,
                     cancellationToken:
@@ -107,7 +107,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
                         cancellationToken: cancellationToken
                     ).ConfigureAwait(false);
 
-                    messageOffset = update.Id + 1;
+                    request.Offset = update.Id + 1;
                 }
                 catch (OperationCanceledException)
                 {

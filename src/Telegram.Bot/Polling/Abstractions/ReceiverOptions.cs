@@ -10,7 +10,7 @@ namespace Telegram.Bot.Polling;
 [PublicAPI]
 public sealed class ReceiverOptions
 {
-    int? _limit;
+    int? _limit = 100;
 
     /// <summary>
     /// Identifier of the first update to be returned. Will be ignored if
