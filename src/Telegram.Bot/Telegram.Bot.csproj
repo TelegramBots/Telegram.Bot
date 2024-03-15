@@ -87,7 +87,7 @@
   <ItemGroup Label="Dev">
     <PackageReference Include="IsExternalInit" Version="1.0.3" PrivateAssets="all" />
     <PackageReference Include="Required" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.141" PrivateAssets="all" />
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.146" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
     <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
