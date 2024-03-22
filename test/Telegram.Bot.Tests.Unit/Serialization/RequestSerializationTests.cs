@@ -1,12 +1,8 @@
-using System;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Requests;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -19,11 +15,11 @@ public class RequestSerializationTests
         HttpContent deleteWebhookContent = deleteWebhookRequest.ToHttpContent()!;
 
         string stringContent = await deleteWebhookContent.ReadAsStringAsync();
-        JObject j = JObject.Parse(stringContent);
-
-
+        JsonNode? root = JsonNode.Parse(stringContent);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
         Assert.Single(j);
-        Assert.Equal(true, j["drop_pending_updates"]);
+        Assert.Equal(true, (bool?)j["drop_pending_updates"]);
     }
 
     [Fact(DisplayName = "Should serialize request")]
@@ -31,35 +27,11 @@ public class RequestSerializationTests
     {
         GetUpdatesRequest request = new() { Offset = 12345 };
 
-        string serializeRequest = JsonConvert.SerializeObject(request);
-        JObject j = JObject.Parse(serializeRequest);
+        string serializeRequest = JsonSerializer.Serialize(request, JsonSerializerOptionsProvider.Options);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(serializeRequest));
 
         Assert.Single(j);
-        Assert.Equal(12345, j["offset"]);
-    }
-
-    [Fact(DisplayName = "Should properly serialize request with custom json settings")]
-    public void Should_Properly_Serialize_Request_With_Custom_Json_Settings()
-    {
-        GetUpdatesRequest request = new() { Offset = 12345 };
-
-        JsonSerializerSettings settings = new()
-        {
-            NullValueHandling = NullValueHandling.Include,
-            ContractResolver = new CamelCasePropertyNamesContractResolver
-            {
-                IgnoreSerializableAttribute = true,
-                IgnoreShouldSerializeMembers = true
-            },
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            DateTimeZoneHandling = DateTimeZoneHandling.Unspecified
-        };
-
-        string serializeRequest = JsonConvert.SerializeObject(request, settings);
-        JObject j = JObject.Parse(serializeRequest);
-
-        Assert.Single(j);
-        Assert.Equal(12345, j["offset"]);
+        Assert.Equal(12345, (long?)j["offset"]);
     }
 
     [Fact(DisplayName = "Should serialize createChatInviteLink request")]
@@ -78,14 +50,14 @@ public class RequestSerializationTests
         HttpContent createChatInviteLinkContent = createChatInviteLinkRequest.ToHttpContent()!;
 
         string stringContent = await createChatInviteLinkContent.ReadAsStringAsync();
-        JObject j = JObject.Parse(stringContent);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(stringContent));
 
-        Assert.Equal(5, j.Children().Count());
-        Assert.Equal(1641638025, j["expire_date"]);
-        Assert.Equal(1000000, j["chat_id"]);
-        Assert.Equal("Test link name", j["name"]);
-        Assert.Equal(123, j["member_limit"]);
-        Assert.Equal(true, j["creates_join_request"]);
+        Assert.Equal(5, j.Count);
+        Assert.Equal(1641638025, (long?)j["expire_date"]);
+        Assert.Equal(1000000, (long?)j["chat_id"]);
+        Assert.Equal("Test link name", (string?)j["name"]);
+        Assert.Equal(123, (long?)j["member_limit"]);
+        Assert.Equal(true, (bool?)j["creates_join_request"]);
     }
 
     [Fact]
@@ -101,7 +73,7 @@ public class RequestSerializationTests
         HttpContent httpContent = request.ToHttpContent()!;
 
         string stringContent = await httpContent.ReadAsStringAsync();
-        JObject j = JObject.Parse(stringContent);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(stringContent));
 
         Assert.Equal(1004, request.ReplyToMessageId);
         Assert.NotNull(request.ReplyParameters);
@@ -113,9 +85,11 @@ public class RequestSerializationTests
         Assert.Null(request.ReplyParameters.QuoteParseMode);
         Assert.False(j.ContainsKey("reply_to_message_id"));
 
-        JToken? jrp = j["reply_parameters"];
+        JsonNode? node = j["reply_parameters"];
+        Assert.NotNull(node);
+        JsonObject jrp = Assert.IsAssignableFrom<JsonObject>(node);
         Assert.NotNull(jrp);
-        Assert.Equal(1004, jrp["message_id"]);
+        Assert.Equal(1004, (long?)jrp["message_id"]);
     }
 
     [Fact]
@@ -131,7 +105,7 @@ public class RequestSerializationTests
         HttpContent httpContent = request.ToHttpContent()!;
 
         string stringContent = await httpContent.ReadAsStringAsync();
-        JObject j = JObject.Parse(stringContent);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(stringContent));
 
         Assert.True(request.DisableWebPagePreview);
         Assert.NotNull(request.LinkPreviewOptions);
@@ -142,8 +116,10 @@ public class RequestSerializationTests
         Assert.Null(request.LinkPreviewOptions.ShowAboveText);
         Assert.False(j.ContainsKey("disable_web_page_preview"));
 
-        JToken? jlpo = j["link_preview_options"];
+        JsonNode? node = j["link_preview_options"];
+        Assert.NotNull(node);
+        JsonObject jlpo = Assert.IsAssignableFrom<JsonObject>(node);
         Assert.NotNull(jlpo);
-        Assert.Equal(true, jlpo["is_disabled"]);
+        Assert.Equal(true, (bool?)jlpo["is_disabled"]);
     }
 }

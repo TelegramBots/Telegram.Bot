@@ -7,20 +7,21 @@ namespace Telegram.Bot.Requests;
 /// Use this method to set the thumbnail of a custom emoji sticker set.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetCustomEmojiStickerSetThumbnailRequest : RequestBase<bool>
 {
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; init; }
 
     /// <summary>
     /// Optional. Custom emoji identifier of a <see cref="Sticker"/> from the <see cref="StickerSet"/>;
     /// pass an <see langword="null"/> to drop the thumbnail and use the first sticker as the thumbnail.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? CustomEmojiId { get; set; }
 
     /// <summary>

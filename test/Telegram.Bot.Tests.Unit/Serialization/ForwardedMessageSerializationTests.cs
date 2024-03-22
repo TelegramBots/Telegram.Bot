@@ -1,9 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -12,6 +10,7 @@ public class ForwardedMessageSerializationTests
     [Fact]
     public void Should_Return_MessageOriginUser_Info_From_Obsolete_Forward_Properties()
     {
+        // language=JSON
         const string json = """
         {
             "message_id": 1234,
@@ -33,23 +32,23 @@ public class ForwardedMessageSerializationTests
             },
             "date": 1526315997,
             "forward_origin": {
+                "type": "user",
                 "date": 1526315997,
                 "sender_user": {
                     "id": 7654321,
                     "is_bot": false,
                     "first_name": "First Name"
-                },
-                "type": "user"
+                }
             }
         }
         """;
 
-        Message? message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
         Assert.NotNull(message.ForwardOrigin);
-        MessageOriginUser originUser = Assert.IsType<MessageOriginUser>(message.ForwardOrigin);
+        MessageOriginUser originUser = Assert.IsAssignableFrom<MessageOriginUser>(message.ForwardOrigin);
 
         Assert.Equal(new(2018, 5, 14, 16, 39, 57, DateTimeKind.Utc), originUser.Date);
         Assert.Equal(originUser.Date, message.ForwardDate);
@@ -69,6 +68,7 @@ public class ForwardedMessageSerializationTests
     [Fact]
     public void Should_Return_MessageOriginHiddenUser_Info_From_Obsolete_Forward_Properties()
     {
+        // language=JSON
         const string json =
             """
             {
@@ -91,19 +91,20 @@ public class ForwardedMessageSerializationTests
                 },
                 "date": 1526315997,
                 "forward_origin": {
+                  "type": "hidden_user",
                     "date": 1526315997,
-                    "sender_user_name": "Test username",
-                    "type": "hidden_user"
+                    "sender_user_name": "Test username"
+
                 }
             }
             """;
 
-        Message? message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
         Assert.NotNull(message.ForwardOrigin);
-        MessageOriginHiddenUser hiddenUser = Assert.IsType<MessageOriginHiddenUser>(message.ForwardOrigin);
+        MessageOriginHiddenUser hiddenUser = Assert.IsAssignableFrom<MessageOriginHiddenUser>(message.ForwardOrigin);
 
         Assert.Equal(new(2018, 5, 14, 16, 39, 57, DateTimeKind.Utc), hiddenUser.Date);
         Assert.Equal(new(2018, 5, 14, 16, 39, 57, DateTimeKind.Utc), message.ForwardDate);
@@ -119,6 +120,7 @@ public class ForwardedMessageSerializationTests
     [Fact]
     public void Should_Return_MessageOriginChat_Info_From_Obsolete_Forward_Properties()
     {
+        // language=JSON
         const string json =
             """
             {
@@ -141,6 +143,7 @@ public class ForwardedMessageSerializationTests
                 },
                 "date": 1526315997,
                 "forward_origin": {
+                  "type": "chat",
                     "date": 1526315997,
                     "sender_chat": {
                         "id": 7654321,
@@ -148,18 +151,17 @@ public class ForwardedMessageSerializationTests
                         "username": "Test username",
                         "type": "supergroup"
                     },
-                    "author_signature": "Test signature",
-                    "type": "chat"
+                    "author_signature": "Test signature"
                 }
             }
             """;
 
-        Message? message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
         Assert.NotNull(message.ForwardOrigin);
-        MessageOriginChat originChat = Assert.IsType<MessageOriginChat>(message.ForwardOrigin);
+        MessageOriginChat originChat = Assert.IsAssignableFrom<MessageOriginChat>(message.ForwardOrigin);
 
         Assert.Equal(new(2018, 5, 14, 16, 39, 57, DateTimeKind.Utc), originChat.Date);
         Assert.Equal(originChat.Date, message.ForwardDate);
@@ -180,6 +182,7 @@ public class ForwardedMessageSerializationTests
     [Fact]
     public void Should_Return_MessageOriginChannel_Info_From_Obsolete_Forward_Properties()
     {
+        // language=JSON
         const string json =
             """
             {
@@ -202,26 +205,26 @@ public class ForwardedMessageSerializationTests
                 },
                 "date": 1526315997,
                 "forward_origin": {
-                    "date": 1526315997,
-                    "chat": {
-                        "id": 7654321,
-                        "first_name": "Test chat",
-                        "username": "Test username",
-                        "type": "supergroup"
-                    },
-                    "message_id": 1004,
-                    "author_signature": "Test signature",
-                    "type": "channel"
+                  "type": "channel",
+                  "date": 1526315997,
+                  "chat": {
+                    "id": 7654321,
+                    "first_name": "Test chat",
+                    "username": "Test username",
+                    "type": "supergroup"
+                  },
+                  "message_id": 1004,
+                  "author_signature": "Test signature"
                 }
             }
             """;
 
-        Message? message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
         Assert.NotNull(message.ForwardOrigin);
-        MessageOriginChannel originChannel = Assert.IsType<MessageOriginChannel>(message.ForwardOrigin);
+        MessageOriginChannel originChannel = Assert.IsAssignableFrom<MessageOriginChannel>(message.ForwardOrigin);
 
         Assert.Equal(new(2018, 5, 14, 16, 39, 57, DateTimeKind.Utc), originChannel.Date);
         Assert.Equal(originChannel.Date, message.ForwardDate);
@@ -267,8 +270,10 @@ public class ForwardedMessageSerializationTests
             },
         };
 
-        string serializedMessage = JsonConvert.SerializeObject(message);
-        JObject j = JObject.Parse(serializedMessage);
+        string serializedMessage = JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options);
+        JsonNode? root = JsonNode.Parse(serializedMessage);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
         Assert.False(j.ContainsKey("forward_from"));
         Assert.False(j.ContainsKey("forward_date"));
@@ -276,5 +281,67 @@ public class ForwardedMessageSerializationTests
         Assert.False(j.ContainsKey("forward_signature"));
         Assert.False(j.ContainsKey("forward_sender_name"));
         Assert.False(j.ContainsKey("forward_sender_name"));
+    }
+
+    [Fact]
+    public void Should_Return_MessageOriginChat_Info_From_Obsolete_Forward_Properties2()
+    {
+        // language=JSON
+        const string json =
+            """
+            {
+              "update_id": 123,
+              "chat_member": {
+                "chat": {
+                  "id": 1234567,
+                  "first_name": "Telegram_Bots",
+                  "last_name": null,
+                  "username": "TelegramBots",
+                  "type": "private"
+                },
+                "from": {
+                  "id": 1234567,
+                  "is_bot": false,
+                  "first_name": "Telegram_Bots",
+                  "last_name": null,
+                  "username": "TelegramBots",
+                  "language_code": null
+                },
+                "date": 1526315997,
+                "old_chat_member": {
+                  "status": "kicked",
+                  "until_date": 1617321600,
+                  "user": {
+                    "id": 12345,
+                    "is_bot": true,
+                    "first_name": "First Name",
+                    "last_name": "Last Name",
+                    "username": "test_bot",
+                    "language_code": "en_US"
+                  }
+                },
+                "new_chat_member": {
+                  "status": "kicked",
+                  "until_date": 1617321600,
+                  "user": {
+                    "id": 12345,
+                    "is_bot": true,
+                    "first_name": "First Name",
+                    "last_name": "Last Name",
+                    "username": "test_bot",
+                    "language_code": "en_US"
+                  }
+                }
+              }
+            }
+            """;
+
+        Update? update = JsonSerializer.Deserialize<Update>(json, JsonSerializerOptionsProvider.Options);
+
+        Assert.NotNull(update);
+        Assert.Equal(UpdateType.ChatMember, update.Type);
+        Assert.NotNull(update.ChatMember);
+        ChatMemberBanned oldChatMember = Assert.IsAssignableFrom<ChatMemberBanned>(update.ChatMember.OldChatMember);
+        ChatMemberBanned newChatMember = Assert.IsAssignableFrom<ChatMemberBanned>(update.ChatMember.NewChatMember);
     }
 }

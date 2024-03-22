@@ -9,17 +9,18 @@ namespace Telegram.Bot.Requests;
 /// for this to work and must have the <see cref="ChatAdministratorRights.CanDeleteMessages"/> administrator rights,
 /// unless it is the creator of the topic. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteForumTopicRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier for the target message thread of the forum topic
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageThreadId { get; init; }
 
     /// <summary>

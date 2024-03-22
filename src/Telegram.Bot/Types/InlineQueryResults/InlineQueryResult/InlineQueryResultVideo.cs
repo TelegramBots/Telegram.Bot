@@ -14,73 +14,84 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// If an <see cref="InlineQueryResultVideo"/> message contains an embedded video (e.g., YouTube),
 /// you <b>must</b> replace its content using <see cref="InlineQueryResultVideo.InputMessageContent"/>.
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
 public class InlineQueryResultVideo : InlineQueryResult
 {
     /// <summary>
     /// Type of the result, must be video
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Video;
 
     /// <summary>
     /// A valid URL for the embedded video player or video file
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string VideoUrl { get; init; }
 
     /// <summary>
     /// Mime type of the content of video url, “text/html” or “video/mp4”
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string MimeType { get; init; }
 
     /// <summary>
     /// URL of the thumbnail (jpeg only) for the video
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string ThumbnailUrl { get; init; }
 
     /// <summary>
     /// Title for the result
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; init; }
 
     /// <inheritdoc cref="Documentation.Caption" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Caption { get; set; }
 
     /// <inheritdoc cref="Documentation.ParseMode" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ParseMode? ParseMode { get; set; }
 
     /// <inheritdoc cref="Documentation.CaptionEntities" />
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
     /// <summary>
     /// Optional. Video width
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VideoWidth { get; set; }
 
     /// <summary>
     /// Optional. Video height
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VideoHeight { get; set; }
 
     /// <summary>
     /// Optional. Video duration in seconds
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? VideoDuration { get; set; }
 
     /// <summary>
     /// Optional. Short description of the result
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; set; }
 
     /// <summary>
@@ -88,7 +99,8 @@ public class InlineQueryResultVideo : InlineQueryResult
     /// <b>required</b> if <see cref="InlineQueryResultVideo"/> is used to send an
     /// HTML-page as a result (e.g., a YouTube video).
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InputMessageContent? InputMessageContent { get; set; }
 
     /// <summary>

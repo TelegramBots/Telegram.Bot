@@ -1,11 +1,9 @@
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +13,7 @@ public class StickerTypeConverterTests
     public void Should_Verify_All_StickerType_Members()
     {
         List<string> stickerTypeMembers = Enum
-            .GetNames<StickerType>()
+            .GetNames(typeof(StickerType))
             .OrderBy(x => x)
             .ToList();
         List<string> stickerTypeDataMembers = new StickerTypeData()
@@ -35,7 +33,7 @@ public class StickerTypeConverterTests
         Sticker sticker = new() { Type = stickerType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(sticker);
+        string result = JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -47,7 +45,7 @@ public class StickerTypeConverterTests
         Sticker expectedResult = new() { Type = stickerType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Sticker result = JsonConvert.DeserializeObject<Sticker>(jsonData)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
 
         Assert.Equal(expectedResult.Type, result.Type);
     }
@@ -57,27 +55,23 @@ public class StickerTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Sticker result = JsonConvert.DeserializeObject<Sticker>(jsonData)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
 
         Assert.Equal((StickerType)0, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_StickerType()
+    public void Should_Throw_JsonException_For_Incorrect_StickerType()
     {
         Sticker sticker = new() { Type = (StickerType)int.MaxValue };
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(sticker));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
     class Sticker
     {
-        /// <summary>
-        /// Type of the sticker. The type of the sticker is independent from its format,
-        /// which is determined by the fields <see cref="IsAnimated"/> and <see cref="IsVideo"/>.
-        /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public StickerType Type { get; set; }
     }
 
@@ -85,9 +79,9 @@ public class StickerTypeConverterTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { StickerType.Regular, "regular" };
-            yield return new object[] { StickerType.Mask, "mask" };
-            yield return new object[] { StickerType.CustomEmoji, "custom_emoji" };
+            yield return [StickerType.Regular, "regular"];
+            yield return [StickerType.Mask, "mask"];
+            yield return [StickerType.CustomEmoji, "custom_emoji"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

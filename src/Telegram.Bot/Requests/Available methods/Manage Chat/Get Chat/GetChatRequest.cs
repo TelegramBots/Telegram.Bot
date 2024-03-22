@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Telegram.Bot.Converters;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -10,11 +10,11 @@ namespace Telegram.Bot.Requests;
 /// one-on-one conversations, current username of a user, group or channel, etc.).
 /// Returns a <see cref="Chat"/> object on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class GetChatRequest : RequestBase<Chat>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     [JsonConverter(typeof(ChatIdConverter))]
     public required ChatId ChatId { get; init; }
 
@@ -36,6 +36,7 @@ public class GetChatRequest : RequestBase<Chat>, IChatTargetable
     /// <summary>
     /// Initializes a new request with chatId
     /// </summary>
+    [JsonConstructor]
     public GetChatRequest()
         : base("getChat")
     { }

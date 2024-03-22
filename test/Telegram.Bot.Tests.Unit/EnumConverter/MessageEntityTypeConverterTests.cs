@@ -1,11 +1,9 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +13,7 @@ public class MessageEntityTypeConverterTests
     public void Should_Verify_All_MessageEntityType_Members()
     {
         List<string> messageEntityTypeMembers = Enum
-            .GetNames<MessageEntityType>()
+            .GetNames(typeof(MessageEntityType))
             .OrderBy(x => x)
             .ToList();
         List<string> messageEntityDataMembers = new MessageEntityData()
@@ -34,7 +32,7 @@ public class MessageEntityTypeConverterTests
         MessageEntity messageEntity = new() { Type = messageEntityType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(messageEntity);
+        string result = JsonSerializer.Serialize(messageEntity, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -46,7 +44,7 @@ public class MessageEntityTypeConverterTests
         MessageEntity expectedResult = new() { Type = messageEntityType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        MessageEntity result = JsonConvert.DeserializeObject<MessageEntity>(jsonData)!;
+        MessageEntity result = JsonSerializer.Deserialize<MessageEntity>(jsonData, JsonSerializerOptionsProvider.Options)!;
 
         Assert.Equal(expectedResult.Type, result.Type);
     }
@@ -56,23 +54,23 @@ public class MessageEntityTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        MessageEntity result = JsonConvert.DeserializeObject<MessageEntity>(jsonData)!;
+        MessageEntity result = JsonSerializer.Deserialize<MessageEntity>(jsonData, JsonSerializerOptionsProvider.Options)!;
 
         Assert.Equal((MessageEntityType)0, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_MessageEntityType()
+    public void Should_Throw_JsonException_For_Incorrect_MessageEntityType()
     {
         MessageEntity messageEntity = new() { Type = (MessageEntityType)int.MaxValue };
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(messageEntity));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageEntity, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
     class MessageEntity
     {
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public MessageEntityType Type { get; init; }
     }
 
@@ -80,24 +78,24 @@ public class MessageEntityTypeConverterTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { MessageEntityType.Mention, "mention" };
-            yield return new object[] { MessageEntityType.Hashtag, "hashtag" };
-            yield return new object[] { MessageEntityType.BotCommand, "bot_command" };
-            yield return new object[] { MessageEntityType.Url, "url" };
-            yield return new object[] { MessageEntityType.Email, "email" };
-            yield return new object[] { MessageEntityType.Bold, "bold" };
-            yield return new object[] { MessageEntityType.Italic, "italic" };
-            yield return new object[] { MessageEntityType.Code, "code" };
-            yield return new object[] { MessageEntityType.Pre, "pre" };
-            yield return new object[] { MessageEntityType.TextLink, "text_link" };
-            yield return new object[] { MessageEntityType.TextMention, "text_mention" };
-            yield return new object[] { MessageEntityType.PhoneNumber, "phone_number" };
-            yield return new object[] { MessageEntityType.Cashtag, "cashtag" };
-            yield return new object[] { MessageEntityType.Underline, "underline" };
-            yield return new object[] { MessageEntityType.Strikethrough, "strikethrough" };
-            yield return new object[] { MessageEntityType.Spoiler, "spoiler" };
-            yield return new object[] { MessageEntityType.CustomEmoji, "custom_emoji" };
-            yield return new object[] { MessageEntityType.Blockquote, "blockquote" };
+            yield return [MessageEntityType.Mention, "mention"];
+            yield return [MessageEntityType.Hashtag, "hashtag"];
+            yield return [MessageEntityType.BotCommand, "bot_command"];
+            yield return [MessageEntityType.Url, "url"];
+            yield return [MessageEntityType.Email, "email"];
+            yield return [MessageEntityType.Bold, "bold"];
+            yield return [MessageEntityType.Italic, "italic"];
+            yield return [MessageEntityType.Code, "code"];
+            yield return [MessageEntityType.Pre, "pre"];
+            yield return [MessageEntityType.TextLink, "text_link"];
+            yield return [MessageEntityType.TextMention, "text_mention"];
+            yield return [MessageEntityType.PhoneNumber, "phone_number"];
+            yield return [MessageEntityType.Cashtag, "cashtag"];
+            yield return [MessageEntityType.Underline, "underline"];
+            yield return [MessageEntityType.Strikethrough, "strikethrough"];
+            yield return [MessageEntityType.Spoiler, "spoiler"];
+            yield return [MessageEntityType.CustomEmoji, "custom_emoji"];
+            yield return [MessageEntityType.Blockquote, "blockquote"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

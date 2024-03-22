@@ -10,14 +10,15 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 /// Note: This will only work in Telegram versions released after 9 April, 2016. Older clients will display
 /// <i>unsupported message</i>.
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
 public class InlineKeyboardMarkup : IReplyMarkup
 {
     /// <summary>
     /// Array of <see cref="InlineKeyboardButton"/> rows, each represented by an Array of
     /// <see cref="InlineKeyboardButton"/>.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required IEnumerable<IEnumerable<InlineKeyboardButton>> InlineKeyboard { get; init; }
 
     /// <summary>

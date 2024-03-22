@@ -1,8 +1,10 @@
 using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Extensions;
 
@@ -13,6 +15,7 @@ internal static class HttpResponseMessageExtensions
     /// </summary>
     /// <param name="httpResponse"><see cref="HttpResponseMessage"/> instance</param>
     /// <param name="guard"></param>
+    /// <param name="cancellationToken"></param>
     /// <typeparam name="T">Type of the resulting object</typeparam>
     /// <returns></returns>
     /// <exception cref="RequestException">
@@ -21,7 +24,8 @@ internal static class HttpResponseMessageExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static async Task<T> DeserializeContentAsync<T>(
         this HttpResponseMessage httpResponse,
-        Func<T, bool> guard)
+        Func<T, bool> guard,
+        CancellationToken cancellationToken = default)
         where T : class
     {
         Stream? contentStream = null;
@@ -41,11 +45,19 @@ internal static class HttpResponseMessageExtensions
             try
             {
                 contentStream = await httpResponse.Content
+#if NET6_0_OR_GREATER
+                    .ReadAsStreamAsync(cancellationToken)
+#else
                     .ReadAsStreamAsync()
+#endif
                     .ConfigureAwait(continueOnCapturedContext: false);
 
-                deserializedObject = contentStream
-                    .DeserializeJsonFromStream<T>();
+                deserializedObject = await JsonSerializer
+                    .DeserializeAsync<T>(
+                        utf8Json: contentStream,
+                        options: JsonSerializerOptionsProvider.Options,
+                        cancellationToken: cancellationToken
+                    ).ConfigureAwait(false);
             }
             catch (Exception exception)
             {

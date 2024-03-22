@@ -9,7 +9,6 @@ namespace Telegram.Bot.Types;
 /// It is guaranteed that the link will be valid for at least 1 hour. When the link expires, a new one can be requested
 /// by calling <see cref="TelegramBotClientExtensions.GetFileAsync(ITelegramBotClient,GetFileRequest,CancellationToken)"/>.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class File : FileBase
 {
     /// <summary>
@@ -17,6 +16,7 @@ public class File : FileBase
     /// <see cref="TelegramBotClientExtensions.GetFileAsync(ITelegramBotClient,GetFileRequest,CancellationToken)"/>
     /// to get the file.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? FilePath { get; set; }
 }

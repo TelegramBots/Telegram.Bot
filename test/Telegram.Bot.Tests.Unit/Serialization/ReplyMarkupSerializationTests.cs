@@ -1,8 +1,6 @@
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -12,42 +10,97 @@ public class ReplyMarkupSerializationTests
     [InlineData(null)]
     [InlineData("regular")]
     [InlineData("quiz")]
-    public void Should_Serialize_Request_Poll_Keyboard_Button(string? type)
+    public void Should_Serialize_Request_Poll_Keyboard_Button_From_Interface(string? type)
     {
         IReplyMarkup replyMarkup = new ReplyKeyboardMarkup(
             KeyboardButton.WithRequestPoll("Create a poll", type)
         );
 
-        string serializedReplyMarkup = JsonConvert.SerializeObject(replyMarkup);
+        string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, JsonSerializerOptionsProvider.Options);
 
-        JObject j = JObject.Parse(serializedReplyMarkup);
+        JsonNode? root = JsonNode.Parse(serializedReplyMarkup);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
         Assert.Single(j);
 
-        JToken? jk = j["keyboard"];
-        Assert.NotNull(jk);
-
-        JArray jKeyboard = Assert.IsType<JArray>(jk);
+        JsonNode? keyboardNode = j["keyboard"];
+        Assert.NotNull(keyboardNode);
+        JsonArray jKeyboard = Assert.IsAssignableFrom<JsonArray>(keyboardNode);
         Assert.Single(jKeyboard);
 
-        JToken jRow = jKeyboard[0];
-        Assert.Single(jRow);
+        JsonNode? jRow = jKeyboard[0];
+        Assert.NotNull(jRow);
+        JsonArray rowNode = Assert.IsAssignableFrom<JsonArray>(jRow);
+        Assert.Single(rowNode);
 
-        JToken? jButton = jRow[0];
+        JsonNode? jButton = jRow[0];
         Assert.NotNull(jButton);
-        Assert.Equal(2, jButton.Children().Count());
-        Assert.Equal("Create a poll", jButton["text"]);
+        JsonObject buttonNode = Assert.IsAssignableFrom<JsonObject>(jButton);
+        Assert.Equal(2, buttonNode.Count);
+        Assert.Equal("Create a poll", (string?)buttonNode["text"]);
 
-        JToken? jRequestPoll = jButton["request_poll"];
+        JsonNode? jRequestPoll = buttonNode["request_poll"];
         Assert.NotNull(jRequestPoll);
 
         if (string.IsNullOrEmpty(type))
         {
-            Assert.Empty(jRequestPoll);
+            JsonObject requestPollNode = Assert.IsAssignableFrom<JsonObject>(jRequestPoll);
+            Assert.Empty(requestPollNode);
         }
         else
         {
-            Assert.Single(jRequestPoll);
-            Assert.Equal(type, jRequestPoll["type"]);
+            JsonObject requestPollNode = Assert.IsAssignableFrom<JsonObject>(jRequestPoll);
+            Assert.Single(requestPollNode);
+            Assert.Equal(type, (string?)jRequestPoll["type"]);
+        }
+    }
+
+    [Theory(DisplayName = "Should serialize request poll keyboard button")]
+    [InlineData(null)]
+    [InlineData("regular")]
+    [InlineData("quiz")]
+    public void Should_Serialize_Request_Poll_Keyboard_Button(string? type)
+    {
+        ReplyKeyboardMarkup replyMarkup = new(
+            KeyboardButton.WithRequestPoll("Create a poll", type)
+        );
+
+        string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, JsonSerializerOptionsProvider.Options);
+
+        JsonNode? root = JsonNode.Parse(serializedReplyMarkup);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
+        Assert.Single(j);
+
+        JsonNode? keyboardNode = j["keyboard"];
+        Assert.NotNull(keyboardNode);
+        JsonArray jKeyboard = Assert.IsAssignableFrom<JsonArray>(keyboardNode);
+        Assert.Single(jKeyboard);
+
+        JsonNode? jRow = jKeyboard[0];
+        Assert.NotNull(jRow);
+        JsonArray rowNode = Assert.IsAssignableFrom<JsonArray>(jRow);
+        Assert.Single(rowNode);
+
+        JsonNode? jButton = jRow[0];
+        Assert.NotNull(jButton);
+        JsonObject buttonNode = Assert.IsAssignableFrom<JsonObject>(jButton);
+        Assert.Equal(2, buttonNode.Count);
+        Assert.Equal("Create a poll", (string?)buttonNode["text"]);
+
+        JsonNode? jRequestPoll = buttonNode["request_poll"];
+        Assert.NotNull(jRequestPoll);
+
+        if (string.IsNullOrEmpty(type))
+        {
+            JsonObject requestPollNode = Assert.IsAssignableFrom<JsonObject>(jRequestPoll);
+            Assert.Empty(requestPollNode);
+        }
+        else
+        {
+            JsonObject requestPollNode = Assert.IsAssignableFrom<JsonObject>(jRequestPoll);
+            Assert.Single(requestPollNode);
+            Assert.Equal(type, (string?)jRequestPoll["type"]);
         }
     }
 }

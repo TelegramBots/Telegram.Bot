@@ -1,8 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -18,7 +16,7 @@ public class MaskPositionPointConverterTests
         MaskPosition maskPosition = new() { Point = maskPositionPoint };
         string expectedResult = @$"{{""point"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(maskPosition);
+        string result = JsonSerializer.Serialize(maskPosition, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -33,7 +31,7 @@ public class MaskPositionPointConverterTests
         MaskPosition expectedResult = new() { Point = maskPositionPoint };
         string jsonData = @$"{{""point"":""{value}""}}";
 
-        MaskPosition? result = JsonConvert.DeserializeObject<MaskPosition>(jsonData);
+        MaskPosition? result = JsonSerializer.Deserialize<MaskPosition>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Point, result.Point);
@@ -44,14 +42,14 @@ public class MaskPositionPointConverterTests
     {
         string jsonData = @$"{{""point"":""{int.MaxValue}""}}";
 
-        MaskPosition? result = JsonConvert.DeserializeObject<MaskPosition>(jsonData);
+        MaskPosition? result = JsonSerializer.Deserialize<MaskPosition>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal((MaskPositionPoint)0, result.Point);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_MaskPositionPoint()
+    public void Should_Throw_JsonException_For_Incorrect_MaskPositionPoint()
     {
         MaskPosition maskPosition = new() { Point = (MaskPositionPoint)int.MaxValue };
 
@@ -60,13 +58,13 @@ public class MaskPositionPointConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(maskPosition));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(maskPosition, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
     class MaskPosition
     {
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public MaskPositionPoint Point { get; init; }
     }
 }

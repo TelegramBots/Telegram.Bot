@@ -8,25 +8,27 @@ namespace Telegram.Bot.Types.ReplyMarkups;
 /// The optional fields <see cref="WebApp"/>, <see cref="RequestUsers"/>, <see cref="RequestChat"/>,
 /// <see cref="RequestContact"/>, <see cref="RequestLocation"/>, and <see cref="RequestPoll"/> are mutually exclusive.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class KeyboardButton : IKeyboardButton
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Text { get; init; }
 
     /// <summary>
     /// Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users
     /// will be sent to the bot in a "<see cref="UsersShared"/>" service message. Available in private chats only.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public KeyboardButtonRequestUsers? RequestUsers { get; set; }
 
     /// <summary>
     /// Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users
     /// will be sent to the bot in a "<see cref="UsersShared"/>" service message. Available in private chats only.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     [Obsolete($"This property is deprecated, use {nameof(RequestUsers)} instead")]
     public KeyboardButtonRequestUser? RequestUser { get; set; }
 
@@ -34,35 +36,40 @@ public class KeyboardButton : IKeyboardButton
     /// Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
     /// its identifier to the bot in a “chat_shared” service message. Available in private chats only.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public KeyboardButtonRequestChat? RequestChat { get; set; }
 
     /// <summary>
     /// Optional. If <see langword="true"/>, the user's phone number will be sent as a contact when the button
     /// is pressed. Available in private chats only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RequestContact { get; set; }
 
     /// <summary>
     /// Optional. If <see langword="true"/>, the user's current location will be sent when the button is pressed.
     /// Available in private chats only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RequestLocation { get; set; }
 
     /// <summary>
     /// Optional. If specified, the user will be asked to create a poll and send it to the bot when the button
     /// is pressed. Available in private chats only
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public KeyboardButtonPollType? RequestPoll { get; set; }
 
     /// <summary>
     /// Optional. If specified, the described Web App will be launched when the button is pressed. The Web App will
     /// be able to send a “web_app_data” service message. Available in private chats only.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public WebAppInfo? WebApp { get; set; }
 
     /// <summary>

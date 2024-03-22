@@ -1,11 +1,9 @@
-using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +13,7 @@ public class StickerFormatConverterTests
     public void Should_Verify_All_StickerFormat_Members()
     {
         List<string> stickerFormatMembers = Enum
-            .GetNames<StickerFormat>()
+            .GetNames(typeof(StickerFormat))
             .OrderBy(x => x)
             .ToList();
         List<string> stickerFormatDataMembers = new StickerFormatData()
@@ -35,7 +33,7 @@ public class StickerFormatConverterTests
         Sticker sticker = new() { Format = stickerFormat };
         string expectedResult = @$"{{""format"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(sticker);
+        string result = JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -47,7 +45,7 @@ public class StickerFormatConverterTests
         Sticker expectedResult = new() { Format = stickerFormat };
         string jsonData = @$"{{""format"":""{value}""}}";
 
-        Sticker result = JsonConvert.DeserializeObject<Sticker>(jsonData)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
 
         Assert.Equal(expectedResult.Format, result.Format);
     }
@@ -57,26 +55,26 @@ public class StickerFormatConverterTests
     {
         string jsonData = @$"{{""format"":""{int.MaxValue}""}}";
 
-        Sticker result = JsonConvert.DeserializeObject<Sticker>(jsonData)!;
+        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
 
         Assert.Equal((StickerFormat)0, result.Format);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_StickerFormat()
+    public void Should_Throw_JsonException_For_Incorrect_StickerFormat()
     {
         Sticker sticker = new() { Format = (StickerFormat)int.MaxValue };
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(sticker));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
     class Sticker
     {
         /// <summary>
         /// Format of the sticker
         /// </summary>
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public StickerFormat Format { get; set; }
     }
 
@@ -84,9 +82,9 @@ public class StickerFormatConverterTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { StickerFormat.Static, "static" };
-            yield return new object[] { StickerFormat.Animated, "animated" };
-            yield return new object[] { StickerFormat.Video, "video" };
+            yield return [StickerFormat.Static, "static"];
+            yield return [StickerFormat.Animated, "animated"];
+            yield return [StickerFormat.Video, "video"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
