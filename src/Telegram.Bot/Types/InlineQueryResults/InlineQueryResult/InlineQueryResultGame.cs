@@ -6,19 +6,19 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// <summary>
 /// Represents a <see cref="Game"/>.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class InlineQueryResultGame : InlineQueryResult
 {
     /// <summary>
     /// Type of the result, must be game
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InlineQueryResultType Type => InlineQueryResultType.Game;
 
     /// <summary>
     /// Short name of the game
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string GameShortName { get; init; }
 
     /// <summary>

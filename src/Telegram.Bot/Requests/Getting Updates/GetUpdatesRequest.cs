@@ -18,7 +18,6 @@ namespace Telegram.Bot.Requests;
 /// </item>
 /// </list>
 /// </remarks>
-[JsonObject(NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class GetUpdatesRequest : RequestBase<Update[]>
 {
     /// <summary>
@@ -30,20 +29,23 @@ public class GetUpdatesRequest : RequestBase<Update[]>
     /// starting from <see cref="Offset">-offset</see> update from the end of the updates queue.
     /// All previous updates will forgotten.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Offset { get; set; }
 
     /// <summary>
     /// Limits the number of updates to be retrieved. Values between 1-100 are accepted. Defaults to 100
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Limit { get; set; }
 
     /// <summary>
     /// Timeout in seconds for long polling. Defaults to 0, i.e. usual short polling. Should be positive,
     /// short polling should be used for testing purposes only.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? Timeout { get; set; }
 
     /// <summary>
@@ -58,7 +60,8 @@ public class GetUpdatesRequest : RequestBase<Update[]>
     /// Please note that this parameter doesn't affect updates created before the call to the
     /// getUpdates, so unwanted updates may be received for a short period of time.
     /// </remarks>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<UpdateType>? AllowedUpdates { get; set; }
 
     /// <summary>

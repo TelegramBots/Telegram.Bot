@@ -1,4 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -7,6 +9,8 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents an HTTP URL for the file to be sent
 /// </summary>
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
 public class InputFileUrl : InputFile
 {
     /// <inheritdoc/>

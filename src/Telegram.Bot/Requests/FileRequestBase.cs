@@ -1,8 +1,8 @@
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Extensions;
+using Telegram.Bot.Serialization;
 
 namespace Telegram.Bot.Requests;
 
@@ -10,7 +10,7 @@ namespace Telegram.Bot.Requests;
 /// Represents an API request with a file
 /// </summary>
 /// <typeparam name="TResponse">Type of result expected in result</typeparam>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
 public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
 {
     /// <summary>
@@ -59,14 +59,14 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
         var boundary = $"{Guid.NewGuid()}{DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture)}";
         var multipartContent = new MultipartFormDataContent(boundary);
 
-        var stringContents = JObject.FromObject(this)
-            .Properties()
+        var stringContents = JsonSerializer.SerializeToElement(this, GetType(), JsonSerializerOptionsProvider.Options)
+            .EnumerateObject()
             .Where(prop => exceptPropertyNames.Contains(prop.Name, StringComparer.InvariantCulture) is false)
             .Select(prop => (name: prop.Name, content: new StringContent(prop.Value.ToString())));
 
-        foreach (var strContent in stringContents)
+        foreach (var (name, content) in stringContents)
         {
-            multipartContent.Add(content: strContent.content, name: strContent.name);
+            multipartContent.Add(content: content, name: name);
         }
 
         return multipartContent;

@@ -1,8 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -19,7 +17,7 @@ public class ChatTypeConverterTests
         InlineQuery inlineQuery = new() { Type = chatType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(inlineQuery);
+        string result = JsonSerializer.Serialize(inlineQuery, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -35,7 +33,7 @@ public class ChatTypeConverterTests
         InlineQuery expectedResult = new() { Type = chatType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        InlineQuery? result = JsonConvert.DeserializeObject<InlineQuery>(jsonData);
+        InlineQuery? result = JsonSerializer.Deserialize<InlineQuery>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -46,14 +44,14 @@ public class ChatTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        InlineQuery? result = JsonConvert.DeserializeObject<InlineQuery>(jsonData);
+        InlineQuery? result = JsonSerializer.Deserialize<InlineQuery>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal((ChatType)0, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_ChatType()
+    public void Should_Throw_JsonException_For_Incorrect_ChatType()
     {
         InlineQuery inlineQuery = new() { Type = (ChatType)int.MaxValue };
 
@@ -62,13 +60,13 @@ public class ChatTypeConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(inlineQuery));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(inlineQuery, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
     class InlineQuery
     {
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public ChatType Type { get; init; }
     }
 }

@@ -1,9 +1,7 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -23,25 +21,29 @@ public class StorySerializationTests
             },
         };
 
-        string serializeStory = JsonConvert.SerializeObject(story);
+        string serializeStory = JsonSerializer.Serialize(story, JsonSerializerOptionsProvider.Options);
 
-        JObject j = JObject.Parse(serializeStory);
+        JsonNode? root = JsonNode.Parse(serializeStory);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(2, j.Children().Count());
-        Assert.Equal(1234, j["id"]);
+        Assert.Equal(2, j.Count);
+        Assert.Equal(1234, (long?)j["id"]);
 
-        JToken? jc = j["chat"];
+        JsonNode? jc = j["chat"];
         Assert.NotNull(jc);
+        JsonObject chatNode = Assert.IsAssignableFrom<JsonObject>(jc);
 
-        Assert.Equal(3, jc.Children().Count());
-        Assert.Equal(876543, jc["id"]);
-        Assert.Equal("private", jc["type"]);
-        Assert.Equal("test_user", jc["username"]);
+        Assert.Equal(3, chatNode.Count);
+        Assert.Equal(876543, (long?)chatNode["id"]);
+        Assert.Equal("private", (string?)chatNode["type"]);
+        Assert.Equal("test_user", (string?)chatNode["username"]);
     }
 
     [Fact]
     public void Should_Deserialize_Story()
     {
+        // language=JSON
         const string story =
             """
             {
@@ -54,7 +56,7 @@ public class StorySerializationTests
             }
             """;
 
-        Story? deserializedStory = JsonConvert.DeserializeObject<Story>(story);
+        Story? deserializedStory = JsonSerializer.Deserialize<Story>(story, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(deserializedStory);
         Assert.Equal(1234, deserializedStory.Id);

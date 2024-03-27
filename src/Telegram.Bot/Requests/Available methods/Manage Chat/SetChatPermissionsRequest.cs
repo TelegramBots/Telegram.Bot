@@ -9,17 +9,18 @@ namespace Telegram.Bot.Requests;
 /// in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// New default chat permissions
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatPermissions Permissions { get; init; }
 
     /// <summary>
@@ -32,7 +33,8 @@ public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
     /// permissions; the <see cref="ChatPermissions.CanSendPolls"/> permission will imply the
     /// <see cref="ChatPermissions.CanSendMessages"/> permission.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? UseIndependentChatPermissions { get; set; }
 
     /// <summary>

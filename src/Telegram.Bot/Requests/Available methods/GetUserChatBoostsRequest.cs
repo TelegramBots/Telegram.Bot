@@ -8,19 +8,20 @@ namespace Telegram.Bot.Requests;
 /// Requires administrator rights in the chat.
 /// Returns a <see cref="UserChatBoosts"/> object.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class GetUserChatBoostsRequest : RequestBase<UserChatBoosts>
 {
     /// <summary>
     /// Unique identifier for the chat or username of the channel (in the format <c>@channelusername</c>)
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId  { get; init; }
 
     /// <summary>
     /// Unique identifier of the target user
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>

@@ -11,7 +11,7 @@ namespace EnumSerializer.Generator;
 [Generator(LanguageNames.CSharp)]
 public class EnumConverterGenerator : IIncrementalGenerator
 {
-    const string JsonConverterAttribute = "Newtonsoft.Json.JsonConverterAttribute";
+    const string JsonConverterAttribute = "System.Text.Json.Serialization.JsonConverterAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -56,6 +56,13 @@ public class EnumConverterGenerator : IIncrementalGenerator
                 sourceText: SourceText.From(result, Encoding.UTF8)
             );
         }
+
+        var optionsTemplate = Template.Parse(SourceGenerationHelper.JsonSerializerOptionsProviderTemplate);
+        var generatedOptionsProviderClass = SourceGenerationHelper.GenerateOptionsProviderClass(optionsTemplate, enumsToProcess);
+        context.AddSource(
+            hintName: "JsonSerializerOptionsProvider.g.cs",
+            sourceText: SourceText.From(generatedOptionsProviderClass, Encoding.UTF8)
+        );
     }
 
     static List<EnumInfo> GetTypesToGenerate(

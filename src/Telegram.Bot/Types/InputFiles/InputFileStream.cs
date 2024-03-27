@@ -1,5 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using JetBrains.Annotations;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -9,6 +11,8 @@ namespace Telegram.Bot.Types;
 /// This object represents the contents of a file to be uploaded. Must be posted using multipart/form-data in
 /// the usual way that files are uploaded via the browser
 /// </summary>
+[JsonConverter(typeof(InputFileConverter))]
+[PublicAPI]
 public class InputFileStream : InputFile
 {
     /// <inheritdoc/>

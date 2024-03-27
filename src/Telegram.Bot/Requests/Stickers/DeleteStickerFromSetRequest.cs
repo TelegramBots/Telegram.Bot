@@ -6,13 +6,13 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to delete a sticker from a set created by the bot. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteStickerFromSetRequest : RequestBase<bool>
 {
     /// <summary>
     /// <see cref="InputFileId">File identifier</see> of the sticker
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileId Sticker { get; init; }
 
     /// <summary>

@@ -7,14 +7,14 @@ namespace Telegram.Bot.Requests;
 /// <a href="https://core.telegram.org/bots/api#determining-list-of-commands">higher level commands</a>
 /// will be shown to affected users. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class DeleteMyCommandsRequest : RequestBase<bool>
 {
     /// <summary>
     /// An object, describing scope of users for which the commands are relevant.
     /// Defaults to <see cref="BotCommandScopeDefault"/>.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BotCommandScope? Scope { get; set; }
 
     /// <summary>
@@ -22,7 +22,8 @@ public class DeleteMyCommandsRequest : RequestBase<bool>
     /// from the given <see cref="Scope">Scope</see>, for whose language there are no dedicated
     /// commands
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? LanguageCode { get; set; }
 
     /// <summary>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if NET6_0_OR_GREATER
+
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -130,7 +131,7 @@ public class BlockingUpdateReceiverTests
         CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(4));
         MockTelegramBotClient bot = new(new MockClientOptions
         {
-            Messages = new[] { "foo-bar", "baz", "quux" },
+            Messages = ["foo-bar", "baz", "quux"],
             HandleNegativeOffset = true,
         });
 
@@ -150,3 +151,5 @@ public class BlockingUpdateReceiverTests
         Assert.Equal(0, bot.MessageGroupsLeft);
     }
 }
+
+#endif

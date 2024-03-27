@@ -15,38 +15,42 @@ namespace Telegram.Bot.Types;
 /// <see cref="Requests.AnswerCallbackQueryRequest"/> even if no notification to the user is needed (e.g., without
 /// specifying any of the optional parameters).
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CallbackQuery
 {
     /// <summary>
     /// Unique identifier for this query
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string Id { get; set; } = default!;
 
     /// <summary>
     /// Sender
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public User From { get; set; } = default!;
 
     /// <summary>
     /// Optional. Message sent by the bot with the callback button that originated the query
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MaybeInaccessibleMessage? Message { get; set; }
 
     /// <summary>
     /// Optional. Identifier of the message sent via the bot in inline mode, that originated the query
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? InlineMessageId { get; set; }
 
     /// <summary>
     /// Global identifier, uniquely corresponding to the chat to which the message with the callback button was
     /// sent. Useful for high scores in games.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public string ChatInstance { get; set; } = default!;
 
     /// <summary>
@@ -55,13 +59,15 @@ public class CallbackQuery
     /// <remarks>
     /// Be aware that a bad client can send arbitrary data in this field.
     /// </remarks>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Data { get; set; }
 
     /// <summary>
     /// Optional. Short name of a <see cref="Game"/> to be returned, serves as the unique identifier for the game.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? GameShortName { get; set; }
 
     /// <summary>

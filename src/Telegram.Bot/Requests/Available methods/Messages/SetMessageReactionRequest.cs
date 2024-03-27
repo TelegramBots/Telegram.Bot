@@ -11,19 +11,20 @@ namespace Telegram.Bot.Requests;
 /// available reactions as messages in the channel.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetMessageReactionRequest : RequestBase<bool>,
     IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the target message. If the message belongs to a media group, the reaction
     /// is set to the first non-deleted message in the group instead.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; init; }
 
     /// <summary>
@@ -31,13 +32,15 @@ public class SetMessageReactionRequest : RequestBase<bool>,
     /// set up to one reaction per message. A custom emoji reaction can be used if it is either
     /// already present on the message or explicitly allowed by chat administrators.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<ReactionType>? Reaction { get; set; }
 
     /// <summary>
     /// Pass <see langword="true"/> to set the reaction with a big animation
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsBig { get; set; }
 
     /// <summary>

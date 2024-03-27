@@ -9,35 +9,39 @@ namespace Telegram.Bot.Requests;
 /// Returns an error, if the new score is not greater than the user's current score in the chat and
 /// <see cref="Force"/> is <see langword="false"/>.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
     /// New score, must be non-negative
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int Score { get; init; }
 
     /// <summary>
     /// Pass <see langword="true"/>, if the high score is allowed to decrease. This can be useful when fixing mistakes
     /// or banning cheaters.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? Force { get; set; }
 
     /// <summary>
     /// Pass <see langword="true"/>, if the game message should not be automatically edited to include the current
     /// scoreboard
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? DisableEditMessage { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.InlineMessageId"/>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InlineMessageId { get; init; }
 
     /// <summary>

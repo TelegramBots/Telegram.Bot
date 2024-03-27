@@ -29,5 +29,5 @@ public enum InputMediaType
     /// <summary>
     /// Document
     /// </summary>
-    Document
+    Document,
 }

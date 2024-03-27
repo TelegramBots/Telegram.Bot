@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +13,7 @@ public class UpdateTypeConverterTests
     public void Should_Verify_All_UpdateType_Members()
     {
         List<string> updateTypeMembers = Enum
-            .GetNames<UpdateType>()
+            .GetNames(typeof(UpdateType))
             .OrderBy(x => x)
             .ToList();
         List<string> updateTypeDataMembers = new UpdateTypeData()
@@ -38,7 +36,7 @@ public class UpdateTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        string result = JsonConvert.SerializeObject(update);
+        string result = JsonSerializer.Serialize(update, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -53,7 +51,7 @@ public class UpdateTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
+        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -67,46 +65,46 @@ public class UpdateTypeConverterTests
             {"type":"{{int.MaxValue}}"}
             """;
 
-        Update? result = JsonConvert.DeserializeObject<Update>(jsonData);
+        Update? result = JsonSerializer.Deserialize<Update>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(UpdateType.Unknown, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_UpdateType()
+    public void Should_Throw_JsonException_For_Incorrect_UpdateType()
     {
         Update update = new((UpdateType)int.MaxValue);
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(update));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(update, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    record Update([property: JsonProperty(Required = Required.Always)] UpdateType Type);
+
+    record Update([property: JsonRequired] UpdateType Type);
 
     private class UpdateTypeData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { UpdateType.Unknown, "unknown" };
-            yield return new object[] { UpdateType.Message, "message" };
-            yield return new object[] { UpdateType.EditedMessage, "edited_message" };
-            yield return new object[] { UpdateType.ChannelPost, "channel_post" };
-            yield return new object[] { UpdateType.EditedChannelPost, "edited_channel_post" };
-            yield return new object[] { UpdateType.MessageReaction, "message_reaction" };
-            yield return new object[] { UpdateType.MessageReactionCount, "message_reaction_count" };
-            yield return new object[] { UpdateType.InlineQuery, "inline_query" };
-            yield return new object[] { UpdateType.ChosenInlineResult, "chosen_inline_result" };
-            yield return new object[] { UpdateType.CallbackQuery, "callback_query" };
-            yield return new object[] { UpdateType.ShippingQuery, "shipping_query" };
-            yield return new object[] { UpdateType.PreCheckoutQuery, "pre_checkout_query" };
-            yield return new object[] { UpdateType.Poll, "poll" };
-            yield return new object[] { UpdateType.PollAnswer, "poll_answer" };
-            yield return new object[] { UpdateType.MyChatMember, "my_chat_member" };
-            yield return new object[] { UpdateType.ChatMember, "chat_member" };
-            yield return new object[] { UpdateType.ChatJoinRequest, "chat_join_request" };
-            yield return new object[] { UpdateType.ChatBoost, "chat_boost" };
-            yield return new object[] { UpdateType.RemovedChatBoost, "removed_chat_boost" };
+            yield return [UpdateType.Unknown, "unknown"];
+            yield return [UpdateType.Message, "message"];
+            yield return [UpdateType.EditedMessage, "edited_message"];
+            yield return [UpdateType.ChannelPost, "channel_post"];
+            yield return [UpdateType.EditedChannelPost, "edited_channel_post"];
+            yield return [UpdateType.MessageReaction, "message_reaction"];
+            yield return [UpdateType.MessageReactionCount, "message_reaction_count"];
+            yield return [UpdateType.InlineQuery, "inline_query"];
+            yield return [UpdateType.ChosenInlineResult, "chosen_inline_result"];
+            yield return [UpdateType.CallbackQuery, "callback_query"];
+            yield return [UpdateType.ShippingQuery, "shipping_query"];
+            yield return [UpdateType.PreCheckoutQuery, "pre_checkout_query"];
+            yield return [UpdateType.Poll, "poll"];
+            yield return [UpdateType.PollAnswer, "poll_answer"];
+            yield return [UpdateType.MyChatMember, "my_chat_member"];
+            yield return [UpdateType.ChatMember, "chat_member"];
+            yield return [UpdateType.ChatJoinRequest, "chat_join_request"];
+            yield return [UpdateType.ChatBoost, "chat_boost"];
+            yield return [UpdateType.RemovedChatBoost, "removed_chat_boost"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

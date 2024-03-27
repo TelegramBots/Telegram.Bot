@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -15,7 +13,7 @@ public class MessageTypeConverterTests
     public void Should_Verify_All_MessageType_Members()
     {
         List<string> messageTypeMembers = Enum
-            .GetNames<MessageType>()
+            .GetNames(typeof(MessageType))
             .OrderBy(x => x)
             .ToList();
         List<string> messageTypeDataMembers = new MessageTypeData()
@@ -37,7 +35,7 @@ public class MessageTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        string result = JsonConvert.SerializeObject(message);
+        string result = JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -52,7 +50,7 @@ public class MessageTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        Message? result = JsonConvert.DeserializeObject<Message>(jsonData);
+        Message? result = JsonSerializer.Deserialize<Message>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -66,22 +64,22 @@ public class MessageTypeConverterTests
             {"type":"{{int.MaxValue}}"}
             """;
 
-        Message? result = JsonConvert.DeserializeObject<Message>(jsonData);
+        Message? result = JsonSerializer.Deserialize<Message>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(MessageType.Unknown, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_MessageType()
+    public void Should_Throw_JsonException_For_Incorrect_MessageType()
     {
         Message message = new((MessageType)int.MaxValue );
 
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(message));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    record Message([property: JsonProperty(Required = Required.Always)] MessageType Type);
+
+    record Message([property: JsonRequired] MessageType Type);
 
     private class MessageTypeData : IEnumerable<object[]>
     {

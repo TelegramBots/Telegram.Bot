@@ -43,5 +43,5 @@ public enum BotCommandScopeType
     /// Represents the <see cref="BotCommandScope"/> of bot commands, covering a specific member of
     /// a group or supergroup <see cref="Chat"/>.
     /// </summary>
-    ChatMember
+    ChatMember,
 }

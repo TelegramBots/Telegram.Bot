@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json.Converters;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Serialization;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -12,15 +12,16 @@ namespace Telegram.Bot.Requests;
 /// administrator in the chat for this to work and must have the appropriate admin rights.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
@@ -29,7 +30,8 @@ public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTar
     /// Applied for supergroups and channels only.
     /// </summary>
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public DateTime? UntilDate { get; set; }
 
     /// <summary>
@@ -37,7 +39,8 @@ public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTar
     /// <see langword="false"/>, the user will be able to see messages in the group that were sent before
     /// the user was removed. Always <see langword="true"/> for supergroups and channels.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? RevokeMessages { get; set; }
 
     /// <summary>
@@ -59,6 +62,7 @@ public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTar
     /// <summary>
     /// Initializes a new request
     /// </summary>
+    [JsonConstructor]
     public BanChatMemberRequest()
         : base("banChatMember")
     { }

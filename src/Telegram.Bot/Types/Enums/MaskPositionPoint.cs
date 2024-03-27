@@ -24,5 +24,5 @@ public enum MaskPositionPoint
     /// <summary>
     /// The chin
     /// </summary>
-    Chin
+    Chin,
 }

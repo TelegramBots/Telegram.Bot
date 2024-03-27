@@ -1,8 +1,14 @@
+using JetBrains.Annotations;
+
 namespace Telegram.Bot.Types.ReplyMarkups;
 
 /// <summary>
 /// Marker interface for a regular or inline button of the reply keyboard
 /// </summary>
+[JsonPolymorphic]
+[JsonDerivedType(typeof(InlineKeyboardButton))]
+[JsonDerivedType(typeof(KeyboardButton))]
+[PublicAPI]
 public interface IKeyboardButton
 {
     /// <summary>

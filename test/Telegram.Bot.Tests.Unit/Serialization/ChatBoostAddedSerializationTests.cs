@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -10,6 +9,7 @@ public class ChatBoostAddedSerializationTests
     [Fact]
     public void Should_Deserialize_ChatBoostAdded()
     {
+        // language=JSON
         const string chatBoostAdded =
             """
             {
@@ -17,7 +17,7 @@ public class ChatBoostAddedSerializationTests
             }
             """;
 
-        ChatBoostAdded? deserialize = JsonConvert.DeserializeObject<ChatBoostAdded>(chatBoostAdded);
+        ChatBoostAdded? deserialize = JsonSerializer.Deserialize<ChatBoostAdded>(chatBoostAdded, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(deserialize);
         Assert.Equal(101, deserialize.BoostCount);
@@ -31,10 +31,13 @@ public class ChatBoostAddedSerializationTests
             BoostCount = 101,
         };
 
-        string json = JsonConvert.SerializeObject(chat);
-        JObject j = JObject.Parse(json);
+        string json = JsonSerializer.Serialize(chat, JsonSerializerOptionsProvider.Options);
 
-        Assert.Single(j.Children());
-        Assert.Equal(101, j["boost_count"]);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
+
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
+        Assert.Single(j);
+        Assert.Equal(101, (long?)j["boost_count"]);
     }
 }

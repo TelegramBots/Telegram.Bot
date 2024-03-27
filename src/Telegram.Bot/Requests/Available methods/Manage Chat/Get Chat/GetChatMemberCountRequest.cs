@@ -7,11 +7,11 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to get the number of members in a chat. Returns <c>int</c> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class GetChatMemberCountRequest : RequestBase<int>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
@@ -32,6 +32,7 @@ public class GetChatMemberCountRequest : RequestBase<int>, IChatTargetable
     /// <summary>
     /// Initializes a new request with chatId
     /// </summary>
+    [JsonConstructor]
     public GetChatMemberCountRequest()
         : base("getChatMemberCount")
     { }

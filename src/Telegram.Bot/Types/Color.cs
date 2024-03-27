@@ -1,13 +1,14 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Telegram.Bot.Serialization;
 
 namespace Telegram.Bot.Types;
 
 /// <summary>
 /// Represent a color in RGB space
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 [StructLayout(LayoutKind.Sequential)]
+[JsonConverter(typeof(ColorConverter))]
 public readonly record struct Color
 {
     const int MaxRgbValue = 16777215;
@@ -20,19 +21,22 @@ public readonly record struct Color
     /// <summary>
     /// Red component
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Red { get; }
 
     /// <summary>
     /// Green component
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Green { get; }
 
     /// <summary>
     /// Blue component
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public int Blue { get; }
 
     /// <summary>

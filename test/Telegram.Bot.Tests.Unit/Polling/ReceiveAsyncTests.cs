@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Polling;
 using Telegram.Bot.Types;
@@ -70,7 +69,7 @@ public class ReceiveAsyncTests
         }
         catch (Exception ex)
         {
-            Assert.IsType<InvalidOperationException>(ex);
+            Assert.IsAssignableFrom<InvalidOperationException>(ex);
             Assert.Contains("Oops", ex.Message);
         }
 
@@ -85,7 +84,7 @@ public class ReceiveAsyncTests
 
         MockTelegramBotClient bot = new(new MockClientOptions
         {
-            Messages = new[] { "foo-bar", "baz", "quux" },
+            Messages = ["foo-bar", "baz", "quux"],
             HandleNegativeOffset = true
         });
 

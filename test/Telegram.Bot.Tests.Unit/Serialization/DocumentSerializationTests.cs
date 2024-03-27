@@ -1,10 +1,7 @@
-using System;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -37,49 +34,64 @@ public class DocumentSerializationTests
                 FileSize = 123_456,
                 MimeType = "plain/text"
             },
-            Date = new(2024, 1, 1, 10, 0, 0, DateTimeKind.Utc),
+            Date = new DateTime(
+                year: 2024,
+                month: 1,
+                day: 1,
+                hour: 10,
+                minute: 0,
+                second: 0,
+                kind: DateTimeKind.Utc
+            ),
             Caption = "Test Document Description"
         };
 
-        string json = JsonConvert.SerializeObject(documentMessage);
+        string json = JsonSerializer.Serialize(documentMessage, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(json);
 
-        JObject j = JObject.Parse(json);
-        Assert.Equal(6, j.Children().Count());
-        Assert.Equal(1234, j["message_id"]);
-        Assert.Equal("Test Document Description", j["caption"]);
-        Assert.Equal(1704088800, j["date"]);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
+        Assert.Equal(6, j.Count);
+        Assert.Equal(1234, (long?)j["message_id"]);
+        Assert.Equal("Test Document Description", (string?)j["caption"]);
+        Assert.Equal(1704103200, (long?)j["date"]);
 
-        JToken? document = j["document"];
-        Assert.NotNull(document);
-        Assert.Equal(5, document.Children().Count());
-        Assert.Equal("KLAHCVUydfS_jHIBildtwpmvxZg", document["file_id"]);
-        Assert.Equal("AgADcOsAAhUdZAc", document["file_unique_id"]);
-        Assert.Equal("test_file.txt", document["file_name"]);
-        Assert.Equal(123_456, document["file_size"]);
-        Assert.Equal("plain/text", document["mime_type"]);
+        JsonNode? documentNode = j["document"];
+        Assert.NotNull(documentNode);
+        JsonObject document = Assert.IsAssignableFrom<JsonObject>(documentNode);
 
-        JToken? user = j["from"];
-        Assert.NotNull(user);
-        Assert.Equal(4, user.Children().Count());
-        Assert.Equal(123_456_789, user["id"]);
-        Assert.Equal("TelegramBots", user["first_name"]);
-        Assert.Equal("Telegram_Bots", user["username"]);
-        Assert.Equal(false, user["is_bot"]);
+        Assert.Equal(5, document.Count);
+        Assert.Equal("KLAHCVUydfS_jHIBildtwpmvxZg", (string?)document["file_id"]);
+        Assert.Equal("AgADcOsAAhUdZAc", (string?)document["file_unique_id"]);
+        Assert.Equal("test_file.txt", (string?)document["file_name"]);
+        Assert.Equal(123_456, (int?)document["file_size"]);
+        Assert.Equal("plain/text", (string?)document["mime_type"]);
 
-        JToken? chat = j["chat"];
-        Assert.NotNull(chat);
-        Assert.Equal(4, chat.Children().Count());
-        Assert.Equal(-9_877_654_320_000, chat["id"]);
-        Assert.Equal("Test Chat", chat["title"]);
-        Assert.Equal("supergroup", chat["type"]);
-        Assert.Equal(true, chat["can_set_sticker_set"]);
+        JsonNode? fromNode = j["from"];
+        Assert.NotNull(fromNode);
+        JsonObject user = Assert.IsAssignableFrom<JsonObject>(fromNode);
+        Assert.Equal(4, user.Count);
+        Assert.Equal(123_456_789, (long?)user["id"]);
+        Assert.Equal("TelegramBots", (string?)user["first_name"]);
+        Assert.Equal("Telegram_Bots", (string?)user["username"]);
+        Assert.Equal(false, (bool?)user["is_bot"]);
+
+        JsonNode? chatNode = j["chat"];
+        Assert.NotNull(chatNode);
+        JsonObject chat = Assert.IsAssignableFrom<JsonObject>(chatNode);
+        Assert.Equal(4, chat.Count);
+        Assert.Equal(-9_877_654_320_000, (long?)chat["id"]);
+        Assert.Equal("Test Chat", (string?)chat["title"]);
+        Assert.Equal("supergroup", (string?)chat["type"]);
+        Assert.Equal(true, (bool?)chat["can_set_sticker_set"]);
     }
 
     [Fact(DisplayName = "Should deserialize a document message")]
     public void Should_Deserialize_DocumentMessage()
     {
+        // language=JSON
         const string json = """
         {
             "message_id": 1234,
@@ -151,7 +163,7 @@ public class DocumentSerializationTests
         }
         """;
 
-        Message? message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Document, message.Type);

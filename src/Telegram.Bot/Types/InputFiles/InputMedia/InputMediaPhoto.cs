@@ -12,13 +12,15 @@ public class InputMediaPhoto :
     IAlbumInputMedia
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InputMediaType Type => InputMediaType.Photo;
 
     /// <summary>
     /// Optional. Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasSpoiler { get; set; }
 
     /// <summary>

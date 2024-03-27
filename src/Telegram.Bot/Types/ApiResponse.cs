@@ -4,37 +4,41 @@
 /// Represents bot API response
 /// </summary>
 /// <typeparam name="TResult">Expected type of operation result</typeparam>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ApiResponse<TResult>
 {
     /// <summary>
     /// Gets a value indicating whether the request was successful.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public bool Ok { get; private set; }
 
     /// <summary>
     /// Gets the error message.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Description { get; private set; }
 
     /// <summary>
     /// Gets the error code.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public int? ErrorCode { get; private set; }
 
     /// <summary>
     /// Contains information about why a request was unsuccessful.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ResponseParameters? Parameters { get; private set; }
 
     /// <summary>
     /// Gets the result object.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public TResult? Result { get; private set; }
 
     /// <summary>

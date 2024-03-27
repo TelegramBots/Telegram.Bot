@@ -6,7 +6,6 @@ namespace Telegram.Bot.Requests;
 /// a <see cref="WebhookInfo"/> object. If the bot is using <see cref="GetUpdatesRequest"/>,
 /// will return an object with the <see cref="WebhookInfo.Url"/> field empty.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class GetWebhookInfoRequest : ParameterlessRequest<WebhookInfo>
 {
     /// <summary>

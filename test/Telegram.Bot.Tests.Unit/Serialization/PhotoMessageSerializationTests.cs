@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
+
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -13,6 +12,7 @@ public class PhotoMessageSerializationTests
     [Fact(DisplayName = "Should deserialize a photo message")]
     public void Should_Deserialize_PhotoMessage()
     {
+        // language=JSON
         const string json = """
         {
             "message_id": 1234,
@@ -65,7 +65,7 @@ public class PhotoMessageSerializationTests
         }
         """;
 
-        Message? message = JsonConvert.DeserializeObject<Message>(json);
+        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Photo, message.Type);
@@ -133,50 +133,58 @@ public class PhotoMessageSerializationTests
             ]
         };
 
-        string json = JsonConvert.SerializeObject(message);
-        JObject j = JObject.Parse(json);
+        string json = JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(5, j.Children().Count());
-        Assert.Equal(1234, j["message_id"]);
-        Assert.Equal(123, j["date"]);
+        Assert.Equal(5, j.Count);
+        Assert.Equal(1234, (long?)j["message_id"]);
+        Assert.Equal(1514764800, (long?)j["date"]);
 
-        JToken? jChat = j["chat"];
+        JsonNode? chatNode = j["chat"];
+        Assert.NotNull(chatNode);
+        JsonObject jChat = Assert.IsAssignableFrom<JsonObject>(chatNode);
         Assert.NotNull(jChat);
-        Assert.Equal(4, jChat.Children().Count());
-        Assert.Equal(1234567, jChat["id"]);
-        Assert.Equal("Telegram_Bots", jChat["first_name"]);
-        Assert.Equal("TelegramBots", jChat["username"]);
-        Assert.Equal("private", jChat["type"]);
+        Assert.Equal(4, jChat.Count);
+        Assert.Equal(1234567, (long?)jChat["id"]);
+        Assert.Equal("Telegram_Bots", (string?)jChat["first_name"]);
+        Assert.Equal("TelegramBots", (string?)jChat["username"]);
+        Assert.Equal("private", (string?)jChat["type"]);
 
-        JToken? jFrom = j["from"];
+        JsonNode? fromNode = j["from"];
+        Assert.NotNull(fromNode);
+        JsonObject jFrom = Assert.IsAssignableFrom<JsonObject>(fromNode);
         Assert.NotNull(jFrom);
-        Assert.Equal(4, jFrom.Children().Count());
-        Assert.Equal(1234567, jFrom["id"]);
-        Assert.Equal("Telegram_Bots", jFrom["first_name"]);
-        Assert.Equal("TelegramBots", jFrom["username"]);
-        Assert.Equal(false, jFrom["is_bot"]);
+        Assert.Equal(4, jFrom.Count);
+        Assert.Equal(1234567, (long?)jFrom["id"]);
+        Assert.Equal("Telegram_Bots", (string?)jFrom["first_name"]);
+        Assert.Equal("TelegramBots", (string?)jFrom["username"]);
+        Assert.Equal(false, (bool?)jFrom["is_bot"]);
 
-        JToken? jPhoto = j["photo"];
+        JsonNode? photoNode = j["photo"];
+        Assert.NotNull(photoNode);
+        JsonArray jPhoto = Assert.IsAssignableFrom<JsonArray>(photoNode);
         Assert.NotNull(jPhoto);
-        Assert.IsType<JArray>(jPhoto);
-        Assert.Equal(4, jPhoto.Children().Count());
-        Assert.All(jPhoto.Children(), photo =>
+        Assert.Equal(4, jPhoto.Count);
+        Assert.All(jPhoto, photo =>
         {
-            Assert.Equal(5, photo.Children().Count());
-            Assert.NotNull(photo["file_id"]);
-            Assert.Equal(JTokenType.String, photo["file_id"]!.Type);
+            JsonObject p = Assert.IsAssignableFrom<JsonObject>(photo);
+            Assert.Equal(5, p.Count);
+            Assert.NotNull(p["file_id"]);
+            Assert.Equal(JsonValueKind.String, p["file_id"]!.GetValueKind());
 
-            Assert.NotNull(photo["file_unique_id"]);
-            Assert.Equal(JTokenType.String, photo["file_unique_id"]!.Type);
+            Assert.NotNull(p["file_unique_id"]);
+            Assert.Equal(JsonValueKind.String, p["file_unique_id"]!.GetValueKind());
 
-            Assert.NotNull(photo["file_size"]);
-            Assert.Equal(JTokenType.Integer, photo["file_size"]!.Type);
+            Assert.NotNull(p["file_size"]);
+            Assert.Equal(JsonValueKind.Number, p["file_size"]!.GetValueKind());
 
-            Assert.NotNull(photo["width"]);
-            Assert.Equal(JTokenType.Integer, photo["width"]!.Type);
+            Assert.NotNull(p["width"]);
+            Assert.Equal(JsonValueKind.Number, p["width"]!.GetValueKind());
 
-            Assert.NotNull(photo["height"]);
-            Assert.Equal(JTokenType.Integer, photo["height"]!.Type);
+            Assert.NotNull(p["height"]);
+            Assert.Equal(JsonValueKind.Number, p["height"]!.GetValueKind());
         });
     }
 }

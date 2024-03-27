@@ -1,8 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using Telegram.Bot.Types.Enums;
 using Xunit;
+using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -16,7 +14,7 @@ public class PollTypeConverterTests
         Poll poll = new() { Type = pollType };
         string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonConvert.SerializeObject(poll);
+        string result = JsonSerializer.Serialize(poll, JsonSerializerOptionsProvider.Options);
 
         Assert.Equal(expectedResult, result);
     }
@@ -29,7 +27,7 @@ public class PollTypeConverterTests
         Poll expectedResult = new() { Type = pollType };
         string jsonData = @$"{{""type"":""{value}""}}";
 
-        Poll? result = JsonConvert.DeserializeObject<Poll>(jsonData);
+        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -40,14 +38,14 @@ public class PollTypeConverterTests
     {
         string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
 
-        Poll? result = JsonConvert.DeserializeObject<Poll>(jsonData);
+        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonSerializerOptionsProvider.Options);
 
         Assert.NotNull(result);
         Assert.Equal((PollType)0, result.Type);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_PollType()
+    public void Should_Throw_JsonException_For_Incorrect_PollType()
     {
         Poll poll = new() { Type = (PollType)int.MaxValue };
 
@@ -56,13 +54,13 @@ public class PollTypeConverterTests
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(poll));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(poll, JsonSerializerOptionsProvider.Options));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
     class Poll
     {
-        [JsonProperty(Required = Required.Always)]
+        [JsonRequired]
         public PollType Type { get; init; }
     }
 }

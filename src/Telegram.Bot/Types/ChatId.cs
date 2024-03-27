@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Telegram.Bot.Converters;
+using Telegram.Bot.Serialization;
 
 namespace Telegram.Bot.Types;
 

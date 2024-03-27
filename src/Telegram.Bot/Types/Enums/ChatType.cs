@@ -29,5 +29,5 @@ public enum ChatType
     /// <summary>
     /// “sender” for a private chat with the inline query sender
     /// </summary>
-    Sender
+    Sender,
 }

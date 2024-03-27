@@ -9,11 +9,11 @@ namespace Telegram.Bot.Requests;
 /// link is revoked. The bot must be an administrator in the chat for this to work and must have the
 /// appropriate admin rights. Returns the new invite link as <c>string</c> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ExportChatInviteLinkRequest : RequestBase<string>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>

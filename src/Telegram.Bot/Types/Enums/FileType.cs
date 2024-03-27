@@ -19,5 +19,5 @@ public enum FileType
     /// <summary>
     /// File URL
     /// </summary>
-    Url
+    Url,
 }

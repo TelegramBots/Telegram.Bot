@@ -12,20 +12,22 @@ namespace Telegram.Bot.Requests;
 /// <remarks>
 /// The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
 public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
 {
     /// <summary>
     /// Unique identifier for the query to be answered
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string PreCheckoutQueryId { get; init; }
 
     /// <summary>
     /// Specify <see langword="true"/> if everything is alright (goods are available, etc.) and the
     /// bot is ready to proceed with the order. Use <see langword="false"/> if there are any problems.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required bool Ok { get; init; }
 
     /// <summary>
@@ -34,7 +36,8 @@ public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     /// the last of our amazing black T-shirts while you were busy filling out your payment details.
     /// Please choose a different color or garment!"). Telegram will display this message to the user.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? ErrorMessage { get; set; }
 
     /// <summary>
