@@ -1,0 +1,28 @@
+name: Publish NuGet
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref }}
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '8.0'
+
+      - name: Pack with dotnet
+        run: dotnet pack --configuration Release --output nupkgs
+
+      - name: Publish to GitHub Packages
+        run: dotnet nuget push "./nupkgs/*.nupkg" --source "github" --skip-duplicate
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
