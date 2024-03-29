@@ -17,7 +17,7 @@ variables:
   - template: variables.yml
   - group: GithubPAT
   - name: githubFeed
-    value: Telegram.Bot/Telegram.Bot
+    value: TelegramBots/Telegram.Bot
 
 pool:
   vmImage: $(vmImage)
