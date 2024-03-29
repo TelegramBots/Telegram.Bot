@@ -16,6 +16,7 @@ pr: none
 variables:
   - template: variables.yml
 
+
 pool:
   vmImage: $(vmImage)
 
@@ -39,6 +40,8 @@ steps:
       -p:Version=$(releaseVersion)
       $(projectPath)
     displayName: Create nuget package
+  - task: NuGetAuthenticate@1
+    displayName: 'NuGet Authenticate'
   - pwsh: >
       dotnet nuget push
       $(Build.ArtifactStagingDirectory)/packages/*.nupkg
