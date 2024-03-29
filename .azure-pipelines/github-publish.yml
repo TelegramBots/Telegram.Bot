@@ -17,7 +17,8 @@ variables:
   - template: variables.yml
   - name: githubOrganization
     value: Telegram.Bot/Telegram.Bot
-    githubPAT: $(GithubPAT)
+  - name: githubPAT
+    value: $(GithubPAT)
 
 pool:
   vmImage: $(vmImage)
