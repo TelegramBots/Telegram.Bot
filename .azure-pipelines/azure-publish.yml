@@ -42,10 +42,12 @@ steps:
     displayName: Create nuget package
   - task: NuGetAuthenticate@1
     displayName: 'NuGet Authenticate'
-  - pwsh: >
-      dotnet nuget push
-      $(Build.ArtifactStagingDirectory)/packages/*.nupkg
-      --source "https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/release/nuget/v3/index.json"
-      --api-key "<ANY_STRING>"
-      --skip-duplicate
-    displayName: Publish package to Github Packages
+  - task: NuGetCommand@2
+    inputs:
+      command: push
+      allowPackageConflicts: true
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: 'Telegram.Bot/release'
+      apiKey: '$(AzureNugetApiKey)'
+    displayName: Publish package to Azure Nuget feed
