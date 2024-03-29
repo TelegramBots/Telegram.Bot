@@ -15,9 +15,6 @@ pr: none
 
 variables:
   - template: variables.yml
-  - group: GithubPAT
-  - name: githubFeed
-    value: TelegramBots
 
 pool:
   vmImage: $(vmImage)
@@ -45,7 +42,7 @@ steps:
   - pwsh: >
       dotnet nuget push
       $(Build.ArtifactStagingDirectory)/packages/*.nupkg
-      --source "https://nuget.pkg.github.com/$(githubFeed)/index.json"
-      --api-key $(GithubPAT)
+      --source "https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/Telegram.Bot/nuget/v3/index.json"
+      --api-key "<ANY_STRING>"
       --skip-duplicate
     displayName: Publish package to Github Packages
