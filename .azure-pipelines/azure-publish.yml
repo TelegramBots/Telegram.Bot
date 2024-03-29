@@ -45,7 +45,7 @@ steps:
   - pwsh: >
       dotnet nuget push
       $(Build.ArtifactStagingDirectory)/packages/*.nupkg
-      --source "https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/Telegram.Bot/nuget/v3/index.json"
+      --source "https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/release/nuget/v3/index.json"
       --api-key "<ANY_STRING>"
       --skip-duplicate
     displayName: Publish package to Github Packages
