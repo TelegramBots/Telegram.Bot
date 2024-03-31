@@ -100,4 +100,24 @@ public enum UpdateType
     /// The <see cref="Update"/> contains a <see cref="Update.RemovedChatBoost"/>
     /// </summary>
     RemovedChatBoost,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains a <see cref="Update.BusinessConnection"/>
+    /// </summary>
+    BusinessConnection,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains a <see cref="Update.BusinessMessage"/>
+    /// </summary>
+    BusinessMessage,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains a <see cref="Update.EditedBusinessMessage"/>
+    /// </summary>
+    EditedBusinessMessage,
+
+    /// <summary>
+    /// The <see cref="Update"/> contains a <see cref="Update.DeletedBusinessMessages"/>
+    /// </summary>
+    DeletedBusinessMessage,
 }

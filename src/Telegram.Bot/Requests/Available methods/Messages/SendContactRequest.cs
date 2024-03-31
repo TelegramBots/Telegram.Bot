@@ -9,8 +9,11 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send phone contacts. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendContactRequest : RequestBase<Message>, IChatTargetable
+public class SendContactRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    public string? BusinessConnectionId { get; init; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }

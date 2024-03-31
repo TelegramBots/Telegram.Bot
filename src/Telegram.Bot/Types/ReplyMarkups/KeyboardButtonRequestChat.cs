@@ -65,7 +65,22 @@ public class KeyboardButtonRequestChat
     /// restrictions are applied.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
-    public bool BotIsMember { get; set; }
+    public bool? BotIsMember { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the chat's title
+    /// </summary>
+    public bool? RequestTitle { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the chat's username
+    /// </summary>
+    public bool? RequestUsername { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the chat's photo
+    /// </summary>
+    public bool? RequestPhoto { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KeyboardButtonRequestChat"/> class with requestId and chatIsChannel

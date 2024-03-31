@@ -24,4 +24,22 @@ public class ChatShared
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public long ChatId { get; set; }
+
+    /// <summary>
+    /// Optional. Title of the chat, if the title was requested by the bot.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? Title { get; set; }
+
+    /// <summary>
+    /// Optional. Username of the chat, if the username was requested by the bot and available.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? Username { get; set; }
+
+    /// <summary>
+    /// Optional. Available sizes of the chat photo, if the photo was requested by the bot
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public PhotoSize[]? Photo { get; set; }
 }

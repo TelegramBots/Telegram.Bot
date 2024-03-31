@@ -16,8 +16,11 @@ namespace Telegram.Bot.Requests;
 /// changed in the future.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
+public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    public string? BusinessConnectionId { get; init; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }

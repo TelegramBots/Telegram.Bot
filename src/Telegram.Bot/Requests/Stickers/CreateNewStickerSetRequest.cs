@@ -44,8 +44,8 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// <summary>
     /// Format of stickers in the set.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
-    public required StickerFormat StickerFormat { get; init; }
+    [Obsolete("This property is no longer recognised by Telegram")]
+    public StickerFormat StickerFormat { get; init; }
 
     /// <summary>
     /// Type of stickers in the set.
@@ -91,7 +91,7 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
         string name,
         string title,
         IEnumerable<InputSticker> stickers,
-        StickerFormat stickerFormat)
+        StickerFormat stickerFormat = default)
         : this()
     {
         UserId = userId;

@@ -13,8 +13,11 @@ namespace Telegram.Bot.Requests;
 /// of <see cref="Message"/>s that were sent is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
+public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    public string? BusinessConnectionId { get; init; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }

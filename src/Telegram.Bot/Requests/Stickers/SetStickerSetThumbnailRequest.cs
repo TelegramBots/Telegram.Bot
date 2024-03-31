@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
@@ -38,6 +39,12 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     public InputFile? Thumbnail { get; set; }
 
     /// <summary>
+    /// Format of the thumbnail
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public required StickerFormat Format { get; init; }
+
+    /// <summary>
     /// Initializes a new request with sticker and position
     /// </summary>
     /// <param name="name">Sticker set name</param>
@@ -49,6 +56,7 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     {
         Name = name;
         UserId = userId;
+        Format = StickerFormat.Static;
     }
 
     /// <summary>
