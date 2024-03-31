@@ -1,8 +1,9 @@
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Telegram.Bot.Requests;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Tests.Integ.Framework.Fixtures;
 using Telegram.Bot.Types;
@@ -136,13 +137,13 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
         string json =
             $$"""
             {
-                chat_id: "{{fixture.SupergroupChat.Id}}",
-                photo: "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg",
-                caption: "Photo request deserialized from JSON",
+                "chat_id": "{{fixture.SupergroupChat.Id}}",
+                "photo": "https://cdn.pixabay.com/photo/2017/04/11/21/34/giraffe-2222908_640.jpg",
+                "caption": "Photo request deserialized from JSON"
             }
             """;
 
-        SendPhotoRequest request = JsonConvert.DeserializeObject<SendPhotoRequest>(json);
+        SendPhotoRequest request = JsonSerializer.Deserialize<SendPhotoRequest>(json, JsonSerializerOptionsProvider.Options);
 
         Message message = await BotClient.MakeRequestAsync(request);
 

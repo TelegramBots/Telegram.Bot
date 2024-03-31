@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types;
 using Xunit;
 
@@ -20,9 +20,22 @@ public static class Asserts
         }
         else
         {
-            var expectedToken = JToken.FromObject(expected).RemoveFields(excludeFields);
-            var actualToken = JToken.FromObject(actual).RemoveFields(excludeFields);
-            bool equals = JToken.DeepEquals(expectedToken, actualToken);
+            JsonNode expectedNode = JsonSerializer.SerializeToNode(expected, JsonSerializerOptionsProvider.Options);
+            JsonNode actualNode = JsonSerializer.SerializeToNode(actual, JsonSerializerOptionsProvider.Options);
+
+            if (expectedNode is null) throw new ArgumentException("Couldn't serialize expected object");
+            if (actualNode is null) throw new ArgumentException("Couldn't serialize actual object");
+
+            foreach (var excludeField in excludeFields)
+            {
+                if (expectedNode is JsonObject expectedObject && actualNode is JsonObject actualObject)
+                {
+                    expectedObject.Remove(excludeField);
+                    actualObject.Remove(excludeField);
+                }
+            }
+
+            bool equals = JsonNode.DeepEquals(expectedNode, actualNode);;
 
             if (equals)
             {
@@ -31,8 +44,8 @@ public static class Asserts
             else
             {
                 // Print out both JSON values in the case of an inequality
-                string expectedJson = JsonConvert.SerializeObject(expectedToken);
-                string actualJson = JsonConvert.SerializeObject(actualToken);
+                string expectedJson = JsonSerializer.Serialize(expectedNode, JsonSerializerOptionsProvider.Options);
+                string actualJson = JsonSerializer.Serialize(actualNode, JsonSerializerOptionsProvider.Options);
                 Assert.Equal(expectedJson, actualJson);
             }
         }
@@ -42,43 +55,14 @@ public static class Asserts
     public static void UsersEqual(User expected, User actual)
     {
         JsonEquals(
-            expected,
-            actual,
-            "can_join_groups",
-            "can_read_all_group_messages",
-            "supports_inline_queries"
+            expected: expected,
+            actual: actual,
+            excludeFields:
+            [
+                "can_join_groups",
+                "can_read_all_group_messages",
+                "supports_inline_queries"
+            ]
         );
-    }
-
-    static JToken RemoveFields(this JToken token, params string[] fields)
-    {
-        if (fields?.Length > 0)
-        {
-            _RemoveFields(token, fields);
-        }
-
-        return token;
-    }
-
-    static void _RemoveFields(JToken token, string[] fields)
-    {
-        if (fields.Length > 0 && token is JContainer container)
-        {
-            var removeList = new List<JToken>();
-            foreach (var el in container.Children())
-            {
-                if (el is JProperty p && fields.Contains(p.Name))
-                {
-                    removeList.Add(el);
-                }
-
-                _RemoveFields(el, fields);
-            }
-
-            foreach (var el in removeList)
-            {
-                el.Remove();
-            }
-        }
     }
 }
