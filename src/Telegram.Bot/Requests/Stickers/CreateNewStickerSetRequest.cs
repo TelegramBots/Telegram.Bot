@@ -91,7 +91,7 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
         string name,
         string title,
         IEnumerable<InputSticker> stickers,
-        StickerFormat stickerFormat = default)
+        StickerFormat stickerFormat)
         : this()
     {
         UserId = userId;
