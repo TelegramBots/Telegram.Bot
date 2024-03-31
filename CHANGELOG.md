@@ -61,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   - `BoostAdded`
   - `LinkPreviewOptions`
   - `ExternalReply`
+  - `Giveaway`
   - `GiveawayCreated`
   - `GiveawayWinners`
   - `GiveawayCompleted`
@@ -84,7 +85,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Properties `RequestTitle`, `RequestUsername` and `RequestPhoto` to class `KeyboardButtonRequestChat`
 - Properties `RequestName`, `RequestUsername` and `RequestPhoto` to class `KeyboardButtonRequestUsers`
 - Property `Format` to class `InputSticker`
-- Classes `BusinessConnection`, `BusinessOpeningHours`, `BusinessOpeningHoursInterval`, `BusinessIntro`, `BusinessLocation`, `BusinessMessagesDeleted` and `SharedUser`
+- The classes `BusinessConnection`, `BusinessOpeningHours`, `BusinessOpeningHoursInterval`, `BusinessIntro`, `BusinessLocation`, `BusinessMessagesDeleted` and `SharedUser`
 - A class `Birthday`
 - Required property `StickerFormat Format` to class `SetStickerSetThumbnailRequest`
 - Property `Users` to class `UsersShared`
@@ -108,26 +109,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Enum `ReactionTypeKind`
 - Enum `ChatBoostSourceType`
 - The class `KnownReactionTypeEmoji` containing Emojis available for `ReactionTypeEmoji`.
-- The class `MessageReactionUpdated`
-- The class `MessageReactionCountUpdated`
-- Type `ReactionCount`.
+- The classes `MessageReactionUpdated`, `MessageReactionCountUpdated` and `ReactionCount`.
 - New methods `ITelegramBotClient.SetMessageReactionAsync`, `ITelegramBotClient.GetUserChatBoostsAsync`, `ITelegramBotClient.DeleteMessagesAsync`, `ITelegramBotClient.ForwardMessagesAsync` and `ITelegramBotClient.CopyMessagesAsync`
-- The class `ExternalReplyInfo`
-containing information about a message that is replied to by the current message, but can be from another chat or forum topic.
-- The class `TextQuote` 
-which contains the part of the replied message text or caption that is quoted in the current message.
-- The class `ReplyParameters`.
-- The class `LinkPreviewOptions`.
+- The class `ExternalReplyInfo` containing information about a message that is replied to by the current message, but can be from another chat or forum topic.
+- The class `TextQuote` which contains the part of the replied message text or caption that is quoted in the current message.
+- The classes `ReplyParameters` and `LinkPreviewOptions`.
 - New enum value `Blockquote` for `MessageEntityType`.
-- The classes `ChatBoostUpdated` and `ChatBoostRemoved`
-- The classes `ChatBoostSourcePremium`, `ChatBoostSourceGiftCode` and `ChatBoostSourceGiveaway`, representing different sources of a chat boost.
-- The class `Giveaway` and the property `Giveaway` to the class `Message` for messages about scheduled giveaways.
-- The class `GiveawayCreated`
-- The class `GiveawayWinners`
-- The class `GiveawayCompleted`
-- New `MessageType` enum members: `Giveaway`, `GiveawayCreated`, `GiveawayWinners` and `GiveawayCompleted`
-- Classes `MaybeInaccessibleMessage` and `InaccessibleMessage`.
-- The class `ChatBoostAdded`
+- The classes `ChatBoostAdded`, `ChatBoostUpdated` and `ChatBoostRemoved`, `ChatBoostSourcePremium`, `ChatBoostSourceGiftCode` and `ChatBoostSourceGiveaway`
+- The class `Giveaway`, `GiveawayCreated`, `GiveawayWinners` and `GiveawayCompleted`
+- Members `Giveaway`, `GiveawayCreated`, `GiveawayWinners` and `GiveawayCompleted` to enum `MessageType`
+- The Classes `MaybeInaccessibleMessage` and `InaccessibleMessage`.
 - Classes `MessageOrigin`, `MessageOriginUser`, `MessageOriginHiddenUser` and `MessageOriginChannel`
 - Enum `MessageOriginType`
 - Enum member `MessageType.BoostAdded`
