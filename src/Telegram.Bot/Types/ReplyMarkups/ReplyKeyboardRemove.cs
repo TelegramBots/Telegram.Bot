@@ -13,7 +13,6 @@ public class ReplyKeyboardRemove : ReplyMarkupBase
     /// hide the keyboard from sight but keep it accessible, use '<see cref="ReplyKeyboardMarkup.OneTimeKeyboard"/>'
     /// in <see cref="ReplyKeyboardMarkup"/>)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public bool RemoveKeyboard => true;
 }

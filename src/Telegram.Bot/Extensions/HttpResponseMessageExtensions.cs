@@ -63,7 +63,7 @@ internal static class HttpResponseMessageExtensions
             {
                 throw CreateRequestException(
                     httpResponse: httpResponse,
-                    message: "Required properties not found in response",
+                    message: "There was an exception during deserialization of the response",
                     exception: exception
                 );
             }

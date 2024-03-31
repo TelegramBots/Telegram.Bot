@@ -12,7 +12,6 @@ public abstract class InputMedia
     /// <summary>
     /// Type of the media
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract InputMediaType Type { get; }
 
