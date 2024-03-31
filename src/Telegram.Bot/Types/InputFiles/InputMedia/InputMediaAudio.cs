@@ -13,7 +13,6 @@ public class InputMediaAudio :
     IAlbumInputMedia
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InputMediaType Type => InputMediaType.Audio;
 

@@ -11,7 +11,6 @@ public class ForceReplyMarkup : ReplyMarkupBase
     /// <summary>
     /// Shows reply interface to the user, as if they manually selected the bot’s message and tapped 'Reply'
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public bool ForceReply => true;
 

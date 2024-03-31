@@ -12,7 +12,6 @@ public class InputMediaAnimation :
     IInputMediaThumb
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override InputMediaType Type => InputMediaType.Animation;
 

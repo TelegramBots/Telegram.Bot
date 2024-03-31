@@ -19,7 +19,6 @@ public abstract class BotCommandScope
     /// <summary>
     /// Scope type
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public abstract BotCommandScopeType Type { get; }
 
@@ -78,7 +77,6 @@ public abstract class BotCommandScope
 public class BotCommandScopeDefault : BotCommandScope
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override BotCommandScopeType Type => BotCommandScopeType.Default;
 }
@@ -87,7 +85,6 @@ public class BotCommandScopeDefault : BotCommandScope
 public class BotCommandScopeAllPrivateChats : BotCommandScope
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override BotCommandScopeType Type => BotCommandScopeType.AllPrivateChats;
 }
@@ -96,7 +93,6 @@ public class BotCommandScopeAllPrivateChats : BotCommandScope
 public class BotCommandScopeAllGroupChats : BotCommandScope
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override BotCommandScopeType Type => BotCommandScopeType.AllGroupChats;
 }
@@ -105,7 +101,6 @@ public class BotCommandScopeAllGroupChats : BotCommandScope
 public class BotCommandScopeAllChatAdministrators : BotCommandScope
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override BotCommandScopeType Type => BotCommandScopeType.AllChatAdministrators;
 }
@@ -120,7 +115,6 @@ public class BotCommandScopeChat : BotCommandScope
     /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
     /// (in the format @supergroupusername)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
@@ -129,7 +123,6 @@ public class BotCommandScopeChat : BotCommandScope
 public class BotCommandScopeChatAdministrators : BotCommandScope
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override BotCommandScopeType Type => BotCommandScopeType.ChatAdministrators;
 
@@ -137,7 +130,6 @@ public class BotCommandScopeChatAdministrators : BotCommandScope
     /// Unique identifier for the target <see cref="Chat"/> or username of the target supergroup
     /// (in the format @supergroupusername)
     /// </summary>
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public ChatId ChatId { get; set; } = default!;
 }
@@ -146,7 +138,6 @@ public class BotCommandScopeChatAdministrators : BotCommandScope
 public class BotCommandScopeChatMember : BotCommandScope
 {
     /// <inheritdoc />
-    [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public override BotCommandScopeType Type => BotCommandScopeType.ChatMember;
 
