@@ -4833,6 +4833,7 @@ public static partial class TelegramBotClientExtensions
     /// <param name="userId">
     /// User identifier of the sticker set owner
     /// </param>
+    /// <param name="format">Format of the thumbnail</param>
     /// <param name="thumbnail">
     /// A <b>.WEBP</b> or <b>.PNG</b> image with the thumbnail, must be up to 128 kilobytes in size and have
     /// a width and height of exactly 100px, or a <b>.TGS</b> animation with a thumbnail up to 32 kilobytes in
@@ -4852,12 +4853,19 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         string name,
         long userId,
+        StickerFormat format,
         InputFile? thumbnail = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
-                new SetStickerSetThumbnailRequest { Name = name, UserId = userId, Thumbnail = thumbnail },
+                new SetStickerSetThumbnailRequest
+                {
+                    Name = name,
+                    UserId = userId,
+                    Thumbnail = thumbnail,
+                    Format = format,
+                },
                 cancellationToken
             )
             .ConfigureAwait(false);

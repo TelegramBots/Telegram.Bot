@@ -49,14 +49,15 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// </summary>
     /// <param name="name">Sticker set name</param>
     /// <param name="userId">User identifier of the sticker set owner</param>
+    /// <param name="format">Format of the thumbnail</param>
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
-    public SetStickerSetThumbnailRequest(string name, long userId)
+    public SetStickerSetThumbnailRequest(string name, long userId, StickerFormat format)
         : this()
     {
         Name = name;
         UserId = userId;
-        Format = StickerFormat.Static;
+        Format = format;
     }
 
     /// <summary>
