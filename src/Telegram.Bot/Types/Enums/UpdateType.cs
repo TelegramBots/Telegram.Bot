@@ -119,5 +119,5 @@ public enum UpdateType
     /// <summary>
     /// The <see cref="Update"/> contains a <see cref="Update.DeletedBusinessMessages"/>
     /// </summary>
-    DeletedBusinessMessage,
+    DeletedBusinessMessages,
 }

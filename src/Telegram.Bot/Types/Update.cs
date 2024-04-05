@@ -183,7 +183,7 @@ public class Update
         { BusinessConnection: not null }      => UpdateType.BusinessConnection,
         { BusinessMessage: not null }         => UpdateType.BusinessMessage,
         { EditedBusinessMessage: not null }   => UpdateType.EditedBusinessMessage,
-        { DeletedBusinessMessages: not null } => UpdateType.DeletedBusinessMessage,
+        { DeletedBusinessMessages: not null } => UpdateType.DeletedBusinessMessages,
         { MessageReaction: not null }         => UpdateType.MessageReaction,
         { MessageReactionCount: not null }    => UpdateType.MessageReactionCount,
         { InlineQuery: not null }             => UpdateType.InlineQuery,
