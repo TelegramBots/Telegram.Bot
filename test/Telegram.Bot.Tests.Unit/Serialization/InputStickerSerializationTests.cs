@@ -22,7 +22,7 @@ public class InputStickerSerializationTests
         string json = JsonConvert.SerializeObject(inputSticker);
         JObject j = JObject.Parse(json);
 
-        Assert.Equal(2, j.Children().Count());
+        Assert.Equal(3, j.Children().Count());
         Assert.Equal($"attach://{fileName}", j["sticker"]);
 
         JToken? je = j["emoji_list"];
@@ -44,7 +44,7 @@ public class InputStickerSerializationTests
         string json = JsonConvert.SerializeObject(inputStickerFileId);
         JObject j = JObject.Parse(json);
 
-        Assert.Equal(2, j.Children().Count());
+        Assert.Equal(3, j.Children().Count());
         Assert.Equal("This-is-a-file_id", j["sticker"]);
 
         JToken? je = j["emoji_list"];
@@ -66,7 +66,7 @@ public class InputStickerSerializationTests
         string json = JsonConvert.SerializeObject(inputStickerFileUrl);
         JObject j = JObject.Parse(json);
 
-        Assert.Equal(2, j.Children().Count());
+        Assert.Equal(3, j.Children().Count());
         Assert.Equal("https://github.com/TelegramBots", j["sticker"]);
 
         JToken? je = j["emoji_list"];
