@@ -46,7 +46,7 @@ steps:
       --skip-duplicate
       --source https://api.nuget.org/v3/index.json
     displayName: Publish package to NuGet
-  - task: GitHubRelease@0
+  - task: GitHubRelease@1
     inputs:
       action: create
       target: $(Build.SourceVersion)
