@@ -304,6 +304,24 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to get information about the connection of the bot with a business account.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="request">Request parameters</param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>Returns a <see cref="BusinessConnection"/> object.</returns>
+    public static async Task<BusinessConnection> GetBusinessConnectionAsync(
+        this ITelegramBotClient botClient,
+        GetBusinessConnectionRequest request,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(request, cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to close the bot instance before moving it from one local server to another. You need to
     /// delete the webhook before calling this method to ensure that the bot isn't launched again after server
     /// restart. The method will return error 429 in the first 10 minutes after the bot is launched.

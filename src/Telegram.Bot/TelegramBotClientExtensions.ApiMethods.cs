@@ -314,6 +314,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to <see cref="ForceReplyMarkup">force a
     /// reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -331,6 +334,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -347,6 +351,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -652,6 +657,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -670,6 +678,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
@@ -687,6 +696,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -741,6 +751,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -762,6 +775,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -782,6 +796,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -838,6 +853,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -857,6 +875,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -875,6 +894,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -935,6 +955,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -958,6 +981,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -980,6 +1004,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1039,6 +1064,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1061,6 +1089,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1082,6 +1111,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1131,6 +1161,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <returns>On success, the sent <see cref="Message"/> is returned.</returns>
     [Obsolete("Use the overload that accepts the corresponding request class")]
     public static async Task<Message> SendVoiceAsync(
@@ -1146,6 +1179,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1163,6 +1197,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1205,6 +1240,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1222,6 +1260,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1238,6 +1277,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1261,6 +1301,9 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
     /// <param name="replyParameters">Description of the message to reply to</param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1274,6 +1317,7 @@ public static partial class TelegramBotClientExtensions
         bool? disableNotification = default,
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1286,6 +1330,7 @@ public static partial class TelegramBotClientExtensions
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1327,6 +1372,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1346,6 +1394,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1364,6 +1413,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1597,6 +1647,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1619,6 +1672,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1639,6 +1693,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1670,6 +1725,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the action will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1687,6 +1745,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1703,6 +1762,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1768,6 +1828,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the action will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1793,6 +1856,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1817,6 +1881,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1852,6 +1917,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the action will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1866,6 +1934,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1879,6 +1948,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -1923,6 +1993,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="SendVideoNoteAsync(ITelegramBotClient,SendVideoNoteRequest,CancellationToken)">video notes</see>
     /// </param>
     /// <param name="messageThreadId">Unique identifier for the target message thread; supergroups only</param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the action will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -1932,6 +2005,7 @@ public static partial class TelegramBotClientExtensions
         ChatId chatId,
         ChatAction chatAction,
         int? messageThreadId = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -1941,6 +2015,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     Action = chatAction,
                     MessageThreadId = messageThreadId,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken)
             .ConfigureAwait(false);
@@ -4411,6 +4486,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the action will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -4428,6 +4506,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -4442,6 +4521,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
@@ -5419,6 +5499,9 @@ public static partial class TelegramBotClientExtensions
     /// <see cref="ReplyKeyboardRemove">remove reply keyboard</see> or to
     /// <see cref="ForceReplyMarkup">force a reply</see> from the user
     /// </param>
+    /// <param name="businessConnectionId">
+    /// Unique identifier of the business connection on behalf of which the message will be sent
+    /// </param>
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
@@ -5433,6 +5516,7 @@ public static partial class TelegramBotClientExtensions
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
+        string? businessConnectionId = default,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
@@ -5446,6 +5530,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
+                    BusinessConnectionId = businessConnectionId,
                 },
                 cancellationToken
             )
