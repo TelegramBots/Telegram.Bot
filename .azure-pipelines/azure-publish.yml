@@ -15,7 +15,7 @@ pr: none
 
 variables:
   - template: variables.yml
-
+  - group: AzureArtifactsKey
 
 pool:
   vmImage: $(vmImage)
@@ -42,9 +42,10 @@ steps:
     displayName: Create nuget package
   - task: NuGetAuthenticate@1
     displayName: 'NuGet Authenticate'
-  - pwsh: >
-      dotnet nuget push
-      $(Build.ArtifactStagingDirectory)/packages/*.nupkg
-      --source "https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/release/nuget/v3/index.json"
-      --api-key "$(AzureNugetApiKey)"
-      --skip-duplicate
+  - task: NuGetCommand@2
+    inputs:
+      command: 'push'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+      nuGetFeedType: 'external'
+      publishFeedCredentials: https://pkgs.dev.azure.com/tgbots/Telegram.Bot/_packaging/release/nuget/v3/index.json
+      apiKey: $(AzureNugetApiKey)
