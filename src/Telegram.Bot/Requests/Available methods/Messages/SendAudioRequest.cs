@@ -19,6 +19,7 @@ namespace Telegram.Bot.Requests;
 public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
     /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? BusinessConnectionId { get; set; }
 
     /// <inheritdoc />

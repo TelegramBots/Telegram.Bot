@@ -12,6 +12,7 @@ namespace Telegram.Bot.Requests;
 public class SendContactRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
     /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public string? BusinessConnectionId { get; set; }
 
     /// <inheritdoc />
