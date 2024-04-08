@@ -1,4 +1,6 @@
-﻿namespace Telegram.Bot.Types;
+﻿using Newtonsoft.Json.Converters;
+
+namespace Telegram.Bot.Types;
 
 /// <summary>
 /// Describes the connection of the bot with a business account.
@@ -31,6 +33,7 @@ public class BusinessConnection
     /// Date the connection was established
     /// </summary>
     [JsonProperty(Required = Required.Always)]
+    [JsonConverter(typeof(UnixDateTimeConverter))]
     public DateTime Date { get; set; }
 
     /// <summary>
