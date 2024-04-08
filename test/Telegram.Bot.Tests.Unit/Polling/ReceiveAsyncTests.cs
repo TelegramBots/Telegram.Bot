@@ -79,13 +79,13 @@ public class ReceiveAsyncTests
     }
 
     [Fact]
-    public async Task ThrowOutPendingUpdates()
+    public async Task ShouldDropPendingUpdates()
     {
         CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(4));
 
         MockTelegramBotClient bot = new(new MockClientOptions
         {
-            Messages = new[] { "foo-bar", "baz", "quux" },
+            Messages = ["foo-bar", "baz", "quux"],
             HandleNegativeOffset = true
         });
 
@@ -107,7 +107,7 @@ public class ReceiveAsyncTests
 
         await bot.ReceiveAsync(
             updateHandler,
-            new() { ThrowPendingUpdates = true },
+            new() { DropPendingUpdates = true },
             cancellationTokenSource.Token
         );
 

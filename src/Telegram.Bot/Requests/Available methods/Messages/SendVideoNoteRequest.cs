@@ -13,8 +13,12 @@ namespace Telegram.Bot.Requests;
 /// to send video messages. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
+public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }

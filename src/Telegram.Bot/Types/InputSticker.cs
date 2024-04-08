@@ -23,6 +23,12 @@ public class InputSticker
     public required InputFile Sticker { get; init; }
 
     /// <summary>
+    /// Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, “video” for a WEBM video
+    /// </summary>
+    [JsonProperty(Required = Required.Always)]
+    public required StickerFormat Format { get; init; }
+
+    /// <summary>
     /// List of 1-20 emoji associated with the sticker
     /// </summary>
     [JsonProperty(Required = Required.Always)]

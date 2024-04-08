@@ -76,6 +76,13 @@ public class User
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? SupportsInlineQueries { get; set; }
 
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the bot can be connected to a Telegram Business account to receive its
+    /// messages. Returned only in <see cref="Requests.GetMeRequest"/>
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? CanConnectToBusiness { get; set; }
+
     /// <inheritdoc/>
     public override string ToString() =>
         $"{(Username is null ? $"{FirstName}{LastName?.Insert(0, " ")}" : $"@{Username}")} ({Id})";

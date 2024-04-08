@@ -9,8 +9,12 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send a game. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendGameRequest : RequestBase<Message>, IChatTargetable
+public class SendGameRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <summary>
     /// Unique identifier for the target chat
     /// </summary>

@@ -30,13 +30,15 @@ public class StickerSet
     /// <summary>
     /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Animated">animated stickers</see>
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [Obsolete("This field is no longer sent by Bot API")]
     public bool IsAnimated { get; set; }
 
     /// <summary>
     /// <see langword="true"/>, if the sticker set contains <see cref="StickerFormat.Video">video stickers</see>
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [Obsolete("This field is no longer sent by Bot API")]
     public bool IsVideo { get; set; }
 
     /// <summary>

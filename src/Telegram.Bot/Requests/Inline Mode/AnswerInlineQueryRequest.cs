@@ -49,7 +49,7 @@ public class AnswerInlineQueryRequest : RequestBase<bool>
     public string? NextOffset { get; set; }
 
     /// <summary>
-    /// A JSON-serialized object describing a button to be shown above inline query results
+    /// An object describing a button to be shown above inline query results
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public InlineQueryResultsButton? Button { get; set; }

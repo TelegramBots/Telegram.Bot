@@ -93,14 +93,14 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
         {
             var shouldThrowPendingUpdates = (
                 _updatesThrown,
-                _receiver._receiverOptions?.ThrowPendingUpdates ?? false
+                _receiver._receiverOptions?.DropPendingUpdates ?? false
             );
 
             if (shouldThrowPendingUpdates is (false, true))
             {
                 try
                 {
-                    _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
+                    _messageOffset = await _receiver._botClient.DropPendingUpdatesAsync(
                         cancellationToken: _token
                     ).ConfigureAwait(false);
                 }

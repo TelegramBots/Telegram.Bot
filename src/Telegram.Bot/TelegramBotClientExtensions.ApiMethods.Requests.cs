@@ -304,6 +304,24 @@ public static partial class TelegramBotClientExtensions
             .ConfigureAwait(false);
 
     /// <summary>
+    /// Use this method to get information about the connection of the bot with a business account.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="request">Request parameters</param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>Returns a <see cref="BusinessConnection"/> object.</returns>
+    public static async Task<BusinessConnection> GetBusinessConnectionAsync(
+        this ITelegramBotClient botClient,
+        GetBusinessConnectionRequest request,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(request, cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
     /// Use this method to close the bot instance before moving it from one local server to another. You need to
     /// delete the webhook before calling this method to ensure that the bot isn't launched again after server
     /// restart. The method will return error 429 in the first 10 minutes after the bot is launched.
@@ -1856,7 +1874,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to specify a URL and receive incoming updates via an outgoing webhook.
     /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
-    /// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
+    /// specified URL, containing an <see cref="Types.Update"/>. In case of
     /// an unsuccessful request, we will give up after a reasonable amount of attempts.
     /// Returns <see langword="true"/> on success.
     /// <para>
@@ -2071,6 +2089,27 @@ public static partial class TelegramBotClientExtensions
     public static async Task<bool> DeleteStickerFromSetAsync(
         this ITelegramBotClient botClient,
         DeleteStickerFromSetRequest request,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(request, cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Use this method to replace an existing sticker in a sticker set with a new one. The method is equivalent to
+    /// calling <see cref="DeleteStickerFromSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.DeleteStickerFromSetRequest,System.Threading.CancellationToken)"/>,
+    /// then <see cref="AddStickerToSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.AddStickerToSetRequest,System.Threading.CancellationToken)"/>,
+    /// then <see cref="SetStickerPositionInSetAsync(Telegram.Bot.ITelegramBotClient,Telegram.Bot.Requests.SetStickerPositionInSetRequest,System.Threading.CancellationToken)"/>.
+    /// Returns <see langword="true"/> on success.
+    /// </summary>
+    /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
+    /// <param name="request">Request parameters</param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    public static async Task ReplaceStickerInSetAsync(
+        this ITelegramBotClient botClient,
+        ReplaceStickerInSetRequest request,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
