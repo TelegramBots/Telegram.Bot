@@ -11,6 +11,7 @@ namespace Telegram.Bot.Polling;
 public sealed class ReceiverOptions
 {
     int? _limit = 100;
+    bool _dropPendingUpdates;
 
     /// <summary>
     /// Identifier of the first update to be returned. Will be ignored if
@@ -54,5 +55,14 @@ public sealed class ReceiverOptions
     /// <c>null</c>, otherwise <see cref="AllowedUpdates"/> will effectively be set to
     /// receive all <see cref="Update"/>s.
     /// </summary>
-    public bool ThrowPendingUpdates { get; set; }
+    [Obsolete($"This property will be removed in future updates, use {nameof(DropPendingUpdates)} instead")]
+    public bool ThrowPendingUpdates { get => _dropPendingUpdates; set => _dropPendingUpdates = value; }
+
+    /// <summary>
+    /// Indicates if all pending <see cref="Update"/>s should be thrown out before start
+    /// polling. If set to <see langword="true"/> <see cref="AllowedUpdates"/> should be set to not
+    /// <c>null</c>, otherwise <see cref="AllowedUpdates"/> will effectively be set to
+    /// receive all <see cref="Update"/>s.
+    /// </summary>
+    public bool DropPendingUpdates { get => _dropPendingUpdates; set => _dropPendingUpdates = value; }
 }

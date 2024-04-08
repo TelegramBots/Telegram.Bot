@@ -42,11 +42,11 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         var messageOffset = _receiverOptions?.Offset ?? 0;
         var emptyUpdates = EmptyUpdates;
 
-        if (_receiverOptions?.ThrowPendingUpdates is true)
+        if (_receiverOptions?.DropPendingUpdates is true)
         {
             try
             {
-                messageOffset = await _botClient.ThrowOutPendingUpdatesAsync(
+                messageOffset = await _botClient.DropPendingUpdatesAsync(
                     cancellationToken: cancellationToken
                 ).ConfigureAwait(false);
             }
@@ -59,7 +59,7 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         {
             Limit = limit,
             Offset = messageOffset,
-            AllowedUpdates = allowedUpdates
+            AllowedUpdates = allowedUpdates,
         };
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -117,3 +117,4 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         }
     }
 }
+

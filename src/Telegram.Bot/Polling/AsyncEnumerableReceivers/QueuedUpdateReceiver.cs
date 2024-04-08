@@ -132,11 +132,11 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
 
         async Task ReceiveUpdatesAsync()
         {
-            if (_receiver._receiverOptions?.ThrowPendingUpdates is true)
+            if (_receiver._receiverOptions?.DropPendingUpdates is true)
             {
                 try
                 {
-                    _messageOffset = await _receiver._botClient.ThrowOutPendingUpdatesAsync(
+                    _messageOffset = await _receiver._botClient.DropPendingUpdatesAsync(
                         cancellationToken: _token
                     ).ConfigureAwait(false);
                 }
