@@ -13,7 +13,7 @@ public class ReplaceStickerInSetRequest : RequestBase<bool>
     /// User identifier of the sticker set owner
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public required int UserId { get; init; }
+    public required long UserId { get; init; }
 
     /// <summary>
     /// Sticker set name
