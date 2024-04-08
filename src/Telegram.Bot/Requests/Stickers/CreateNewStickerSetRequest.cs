@@ -36,7 +36,7 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     public required string Title { get; init; }
 
     /// <summary>
-    /// A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
+    /// A list of 1-50 initial stickers to be added to the sticker set
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public required IEnumerable<InputSticker> Stickers { get; init; }
@@ -79,7 +79,7 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Sticker set title, 1-64 characters
     /// </param>
     /// <param name="stickers">
-    /// A JSON-serialized list of 1-50 initial stickers to be added to the sticker set
+    /// A list of 1-50 initial stickers to be added to the sticker set
     /// </param>
     /// <param name="stickerFormat">
     /// Format of stickers in the set.

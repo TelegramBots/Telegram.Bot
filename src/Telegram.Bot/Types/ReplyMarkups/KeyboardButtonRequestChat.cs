@@ -46,14 +46,14 @@ public class KeyboardButtonRequestChat
     public bool? ChatIsCreated { get; set; }
 
     /// <summary>
-    /// Optional. A JSON-serialized object listing the required administrator rights of the user in the chat.
+    /// Optional. An object listing the required administrator rights of the user in the chat.
     /// If not specified, no additional restrictions are applied.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ChatAdministratorRights? UserAdministratorRights { get; set; }
 
     /// <summary>
-    /// Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat.
+    /// Optional. An object listing the required administrator rights of the bot in the chat.
     /// The rights must be a subset of <see cref="ChatAdministratorRights" />. If not specified, no additional
     /// restrictions are applied.
     /// </summary>

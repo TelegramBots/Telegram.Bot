@@ -59,7 +59,7 @@ public class AnswerShippingQueryRequest : RequestBase<bool>
     /// Initializes a new successful answerShippingQuery request with shipping options
     /// </summary>
     /// <param name="shippingQueryId">Unique identifier for the query to be answered</param>
-    /// <param name="shippingOptions">A JSON-serialized array of available shipping options</param>
+    /// <param name="shippingOptions">An array of available shipping options</param>
     [SetsRequiredMembers]
     public AnswerShippingQueryRequest(
         string shippingQueryId,
