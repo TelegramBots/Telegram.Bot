@@ -80,35 +80,40 @@ public class Chat
     /// Optional. For private chats, the date of birth of the user.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Birthday? Birthday { get; set; }
 
     /// <summary>
     /// Optional. For private chats with business accounts, the intro of the business.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BusinessIntro? BusinessIntro { get; set; }
 
     /// <summary>
     /// Optional. For private chats with business accounts, the location of the business.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BusinessLocation? BusinessLocation { get; set; }
 
     /// <summary>
     /// Optional. For private chats with business accounts, the opening hours of the business.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BusinessOpeningHours? BusinessOpeningHours { get; set; }
 
     /// <summary>
     /// Optional. For private chats, the personal channel of the user.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Chat? PersonalChat { get; set; }
 
     /// <summary>

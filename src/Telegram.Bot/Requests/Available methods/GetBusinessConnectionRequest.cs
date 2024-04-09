@@ -12,7 +12,8 @@ public class GetBusinessConnectionRequest : RequestBase<BusinessConnection>
     /// <summary>
     /// Unique identifier of the business connection
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string BusinessConnectionId { get; init; }
 
     /// <summary>

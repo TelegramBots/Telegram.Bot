@@ -54,7 +54,8 @@ public class Message : MaybeInaccessibleMessage
     /// Optional. The bot that actually sent the message on behalf of the business account.
     /// Available only for outgoing messages sent on behalf of the connected business account.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public User? SenderBusinessBot { get; set; }
 
     /// <summary>
@@ -70,7 +71,8 @@ public class Message : MaybeInaccessibleMessage
     /// the message belongs to a chat of the corresponding business account that is independent from any potential bot
     /// chat which might share the same identifier.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? BusinessConnectionId { get; set; }
 
     /// <summary>
@@ -208,7 +210,8 @@ public class Message : MaybeInaccessibleMessage
     /// Optional. <see langword="true"/>, if the message was sent by an implicit action, for example, as an away or a
     /// greeting business message, or as a scheduled message
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? IsFromOffline { get; set; }
 
     /// <summary>

@@ -23,9 +23,11 @@ public class InputSticker
     public required InputFile Sticker { get; init; }
 
     /// <summary>
-    /// Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS animation, “video” for a WEBM video
+    /// Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a
+    /// .TGS animation, “video” for a WEBM video
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required StickerFormat Format { get; init; }
 
     /// <summary>
@@ -65,11 +67,14 @@ public class InputSticker
     /// <param name="emojiList">
     /// List of 1-20 emoji associated with the sticker
     /// </param>
+    /// <param name="format">Format of the added sticker</param>
     [SetsRequiredMembers]
-    public InputSticker(InputFile sticker, IEnumerable<string> emojiList)
+    [Obsolete("Use parameterless constructor and required properties")]
+    public InputSticker(InputFile sticker, IEnumerable<string> emojiList, StickerFormat format)
     {
         Sticker = sticker;
         EmojiList = emojiList;
+        Format = format;
     }
 
     /// <summary>

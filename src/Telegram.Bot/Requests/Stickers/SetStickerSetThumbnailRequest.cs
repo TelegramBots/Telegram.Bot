@@ -43,7 +43,8 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// <summary>
     /// Format of the thumbnail
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required StickerFormat Format { get; init; }
 
     /// <summary>

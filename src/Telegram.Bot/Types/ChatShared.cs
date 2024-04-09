@@ -29,18 +29,21 @@ public class ChatShared
     /// <summary>
     /// Optional. Title of the chat, if the title was requested by the bot.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Title { get; set; }
 
     /// <summary>
     /// Optional. Username of the chat, if the username was requested by the bot and available.
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? Username { get; set; }
 
     /// <summary>
     /// Optional. Available sizes of the chat photo, if the photo was requested by the bot
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public PhotoSize[]? Photo { get; set; }
 }

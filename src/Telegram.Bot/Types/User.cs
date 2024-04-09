@@ -90,7 +90,8 @@ public class User
     /// Optional. <see langword="true"/>, if the bot can be connected to a Telegram Business account to receive its
     /// messages. Returned only in <see cref="Requests.GetMeRequest"/>
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? CanConnectToBusiness { get; set; }
 
     /// <inheritdoc/>

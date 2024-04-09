@@ -55,25 +55,29 @@ public class Update
     /// Optional. The bot was connected to or disconnected from a business account, or a user edited an existing
     /// connection with the bot
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BusinessConnection? BusinessConnection { get; set; }
 
     /// <summary>
     /// Optional. New non-service message from a connected business account
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Message? BusinessMessage { get; set; }
 
     /// <summary>
     /// Optional. New version of a message from a connected business account
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public Message? EditedBusinessMessage { get; set; }
 
     /// <summary>
     /// Optional. Messages were deleted from a connected business account
     /// </summary>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public BusinessMessagesDeleted? DeletedBusinessMessages { get; set; }
 
     /// <summary>
