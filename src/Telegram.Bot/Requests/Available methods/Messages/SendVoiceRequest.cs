@@ -15,8 +15,13 @@ namespace Telegram.Bot.Requests;
 /// <see cref="Message"/> is returned. Bots can currently send voice messages of up to 50 MB in size,
 /// this limit may be changed in the future.
 /// </summary>
-public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable
+public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

@@ -40,6 +40,21 @@ public class KeyboardButtonRequestUsers
     public int? MaxQuantity { get; set; }
 
     /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the users' first and last name
+    /// </summary>
+    public bool? RequestName { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the users' username
+    /// </summary>
+    public bool? RequestUsername { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the users' photo
+    /// </summary>
+    public bool? RequestPhoto { get; set; }
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="KeyboardButtonRequestUsers"/> class with requestId
     /// </summary>
     /// <param name="requestId">

@@ -11,8 +11,13 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to send photos. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
-public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable
+public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

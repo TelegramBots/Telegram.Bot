@@ -79,7 +79,7 @@ public class InputInvoiceMessageContent : InputMessageContent
     public int[]? SuggestedTipAmounts { get; set; }
 
     /// <summary>
-    /// Optional. A JSON-serialized object for data about the invoice, which will be shared with
+    /// Optional. An object for data about the invoice, which will be shared with
     /// the payment provider. A detailed description of the required fields should be provided by
     /// the payment provider.
     /// </summary>

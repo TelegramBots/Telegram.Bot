@@ -10,8 +10,13 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to send text messages. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
-public class SendMessageRequest : RequestBase<Message>, IChatTargetable
+public class SendMessageRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

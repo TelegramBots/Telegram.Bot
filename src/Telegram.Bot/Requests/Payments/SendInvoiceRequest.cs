@@ -108,7 +108,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     public string? StartParameter { get; set; }
 
     /// <summary>
-    /// A JSON-serialized data about the invoice, which will be shared with the payment provider.
+    /// A data about the invoice, which will be shared with the payment provider.
     /// A detailed description of required fields should be provided by the payment provider.
     /// </summary>
     [JsonInclude]

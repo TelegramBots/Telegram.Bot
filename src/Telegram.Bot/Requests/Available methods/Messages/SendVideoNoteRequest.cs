@@ -12,8 +12,13 @@ namespace Telegram.Bot.Requests;
 /// Telegram clients support rounded square mp4 videos of up to 1 minute long. Use this method
 /// to send video messages. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
-public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable
+public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

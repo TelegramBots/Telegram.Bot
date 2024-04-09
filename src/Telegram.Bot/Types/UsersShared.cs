@@ -22,7 +22,15 @@ public class UsersShared
     /// storing these identifiers. The bot may not have access to the users and could be unable to use
     /// these identifiers, unless the users are already known to the bot by some other means.
     /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    [Obsolete($"This property is no longer sent by Telegram, use {nameof(Users)} instead")]
+    public long[]? UserIds { get; set; } = [];
+
+    /// <summary>
+    /// Information about users shared with the bot.
+    /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public long[] UserIds { get; set; } = Array.Empty<long>();
+    public SharedUser[] Users { get; set; } = [];
 }

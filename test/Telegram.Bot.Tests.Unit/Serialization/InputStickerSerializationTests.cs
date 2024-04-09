@@ -20,7 +20,7 @@ public class InputStickerSerializationTests
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(2, j.Count);
+        Assert.Equal(3, j.Count);
         Assert.Equal($"attach://{fileName}", (string?)j["sticker"]);
 
         JsonNode? je = j["emoji_list"];
@@ -44,7 +44,7 @@ public class InputStickerSerializationTests
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(2, j.Count);
+        Assert.Equal(3, j.Count);
         Assert.Equal("This-is-a-file_id", (string?)j["sticker"]);
 
         JsonNode? je = j["emoji_list"];
@@ -68,7 +68,7 @@ public class InputStickerSerializationTests
         Assert.NotNull(root);
 
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Equal(2, j.Count);
+        Assert.Equal(3, j.Count);
         Assert.Equal("https://github.com/TelegramBots", (string?)j["sticker"]);
 
         JsonNode? je = j["emoji_list"];

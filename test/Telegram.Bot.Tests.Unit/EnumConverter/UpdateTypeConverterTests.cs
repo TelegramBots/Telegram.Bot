@@ -105,6 +105,10 @@ public class UpdateTypeConverterTests
             yield return [UpdateType.ChatJoinRequest, "chat_join_request"];
             yield return [UpdateType.ChatBoost, "chat_boost"];
             yield return [UpdateType.RemovedChatBoost, "removed_chat_boost"];
+            yield return [UpdateType.BusinessConnection, "business_connection"];
+            yield return [UpdateType.BusinessMessage, "business_message"];
+            yield return [UpdateType.EditedBusinessMessage, "edited_business_message"];
+            yield return [UpdateType.DeletedBusinessMessages, "deleted_business_messages"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

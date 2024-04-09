@@ -19,7 +19,7 @@ public class SetStickerMaskPositionRequest : RequestBase<bool>
     public required InputFileId Sticker { get; init; }
 
     /// <summary>
-    /// A JSON-serialized object with the position where the mask should be placed on faces.
+    /// An object with the position where the mask should be placed on faces.
     /// <see cref="Nullable">Omit</see> the parameter to remove the mask position.
     /// </summary>
     [JsonInclude]

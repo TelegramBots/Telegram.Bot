@@ -36,7 +36,7 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     public required string Name { get; init; }
 
     /// <summary>
-    /// A JSON-serialized object with information about the added sticker.
+    /// An object with information about the added sticker.
     /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </summary>
     [JsonRequired]
@@ -53,7 +53,7 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Sticker set name
     /// </param>
     /// <param name="sticker">
-    /// A JSON-serialized object with information about the added sticker.
+    /// An object with information about the added sticker.
     /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </param>
     [SetsRequiredMembers]

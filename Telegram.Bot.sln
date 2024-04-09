@@ -35,6 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".azure-pipelines", ".azure-
 		.azure-pipelines\non-interactive-integration-tests.yml = .azure-pipelines\non-interactive-integration-tests.yml
 		.azure-pipelines\release-pipeline.yml = .azure-pipelines\release-pipeline.yml
 		.azure-pipelines\variables.yml = .azure-pipelines\variables.yml
+		.azure-pipelines\external-release-publish.yml = .azure-pipelines\external-release-publish.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "jobs", "jobs", "{C20A563E-603B-49E8-A954-DB90D4F351DE}"

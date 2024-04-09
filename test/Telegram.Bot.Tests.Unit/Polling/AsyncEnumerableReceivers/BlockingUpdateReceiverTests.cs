@@ -126,7 +126,7 @@ public class BlockingUpdateReceiverTests
     }
 
     [Fact]
-    public async Task ThrowOutPendingUpdates()
+    public async Task ShouldDropPendingUpdates()
     {
         CancellationTokenSource cancellationTokenSource = new(TimeSpan.FromSeconds(4));
         MockTelegramBotClient bot = new(new MockClientOptions
@@ -135,7 +135,7 @@ public class BlockingUpdateReceiverTests
             HandleNegativeOffset = true,
         });
 
-        BlockingUpdateReceiver receiver = new(bot, new() { ThrowPendingUpdates = true });
+        BlockingUpdateReceiver receiver = new(bot, new() { DropPendingUpdates = true });
 
         await using IAsyncEnumerator<Update> enumerator = receiver.GetAsyncEnumerator(cancellationTokenSource.Token);
 

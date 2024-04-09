@@ -14,8 +14,13 @@ namespace Telegram.Bot.Requests;
 /// the sent <see cref="Message"/> is returned. Bots can currently send animation files of up to
 /// 50 MB in size, this limit may be changed in the future.
 /// </summary>
-public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable
+public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

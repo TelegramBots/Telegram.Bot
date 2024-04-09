@@ -12,8 +12,13 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send an animated emoji that will display a random value. On success,
 /// the sent <see cref="Message"/> is returned.
 /// </summary>
-public class SendDiceRequest : RequestBase<Message>, IChatTargetable
+public class SendDiceRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

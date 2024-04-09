@@ -47,7 +47,7 @@ public class ReplyParameters
     public string? QuoteParseMode { get; set; }
 
     /// <summary>
-    /// Optional. A JSON-serialized list of special entities that appear in the quote.
+    /// Optional. A list of special entities that appear in the quote.
     /// It can be specified instead of <see cref="QuoteParseMode"/>.
     /// </summary>
     [JsonInclude]

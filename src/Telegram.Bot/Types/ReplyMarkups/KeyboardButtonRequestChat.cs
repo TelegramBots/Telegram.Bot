@@ -50,7 +50,7 @@ public class KeyboardButtonRequestChat
     public bool? ChatIsCreated { get; set; }
 
     /// <summary>
-    /// Optional. A JSON-serialized object listing the required administrator rights of the user in the chat.
+    /// Optional. An object listing the required administrator rights of the user in the chat.
     /// If not specified, no additional restrictions are applied.
     /// </summary>
     [JsonInclude]
@@ -58,7 +58,7 @@ public class KeyboardButtonRequestChat
     public ChatAdministratorRights? UserAdministratorRights { get; set; }
 
     /// <summary>
-    /// Optional. A JSON-serialized object listing the required administrator rights of the bot in the chat.
+    /// Optional. An object listing the required administrator rights of the bot in the chat.
     /// The rights must be a subset of <see cref="ChatAdministratorRights" />. If not specified, no additional
     /// restrictions are applied.
     /// </summary>
@@ -73,6 +73,27 @@ public class KeyboardButtonRequestChat
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? BotIsMember { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the chat's title
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? RequestTitle { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the chat's username
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? RequestUsername { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true" /> to request the chat's photo
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? RequestPhoto { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="KeyboardButtonRequestChat"/> class with requestId and chatIsChannel

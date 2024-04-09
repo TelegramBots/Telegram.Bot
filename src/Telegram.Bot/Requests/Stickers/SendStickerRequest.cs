@@ -10,8 +10,13 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send static .WEBP, animated .TGS, or video .WEBM stickers.
 /// On success, the sent <see cref="Message"/> is returned.
 /// </summary>
-public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable
+public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

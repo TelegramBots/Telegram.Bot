@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
-using System.Text.Json.Nodes;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Types.Enums;
@@ -15,8 +14,13 @@ namespace Telegram.Bot.Requests;
 /// is returned. Bots can currently send files of any type of up to 50 MB in size,
 /// this limit may be changed in the future.
 /// </summary>
-public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable
+public class SendDocumentRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

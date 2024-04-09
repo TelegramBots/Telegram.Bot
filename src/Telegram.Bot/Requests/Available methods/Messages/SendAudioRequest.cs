@@ -15,8 +15,13 @@ namespace Telegram.Bot.Requests;
 /// is returned. Bots can currently send audio files of up to 50 MB in size, this limit may be
 /// changed in the future.
 /// </summary>
-public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable
+public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

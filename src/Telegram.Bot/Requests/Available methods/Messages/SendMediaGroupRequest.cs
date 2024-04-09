@@ -12,8 +12,13 @@ namespace Telegram.Bot.Requests;
 /// audio files can be only grouped in an album with messages of the same type. On success, an array
 /// of <see cref="Message"/>s that were sent is returned.
 /// </summary>
-public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
+public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]

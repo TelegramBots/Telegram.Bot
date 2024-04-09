@@ -11,6 +11,7 @@ public class GetForumTopicIconStickersRequest : RequestBase<Sticker[]>
     /// <summary>
     /// Initializes a new request
     /// </summary>
-    public GetForumTopicIconStickersRequest() : base("getForumTopicIconStickers")
+    public GetForumTopicIconStickersRequest()
+        : base("getForumTopicIconStickers")
     { }
 }

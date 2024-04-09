@@ -14,8 +14,13 @@ namespace Telegram.Bot.Requests;
 /// sent as <see cref="Document"/>). On success, the sent <see cref="Message"/> is returned.
 /// Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
 /// </summary>
-public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
+public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
