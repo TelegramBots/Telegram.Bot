@@ -87,7 +87,6 @@ public static partial class TelegramBotClientExtensions
     /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
     /// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
     /// an unsuccessful request, we will give up after a reasonable amount of attempts.
-    /// Returns <see langword="true"/> on success.
     /// <para>
     /// If you'd like to make sure that the webhook was set by you, you can specify secret data
     /// in the parameter <see cref="SetWebhookRequest.SecretToken"/> . If specified, the request
