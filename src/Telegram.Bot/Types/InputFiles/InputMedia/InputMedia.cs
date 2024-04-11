@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
 
 // ReSharper disable once CheckNamespace
@@ -7,6 +8,12 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents the content of a media message to be sent
 /// </summary>
+[CustomJsonPolymorphic("type")]
+[CustomJsonDerivedType<InputMediaAnimation>("animation")]
+[CustomJsonDerivedType<InputMediaAudio>("audio")]
+[CustomJsonDerivedType<InputMediaDocument>("document")]
+[CustomJsonDerivedType<InputMediaPhoto>("photo")]
+[CustomJsonDerivedType<InputMediaVideo>("video")]
 public abstract class InputMedia
 {
     /// <summary>
