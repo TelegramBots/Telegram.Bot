@@ -9,22 +9,8 @@ public static partial class JsonSerializerOptionsProvider
 {
     static JsonSerializerOptionsProvider()
     {
-        Options = new()
-        {
-            Converters =
-            {
-                new UnixDateTimeConverter(),
-                new BanTimeConverter(),
-                new ColorConverter(),
-                new InputFileConverter(),
-                new ChatIdConverter(),
-                new PolymorphicJsonConverterFactory(),
-            },
-            PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-        };
-
+        Options = new JsonSerializerOptions();
+        Configure(Options);
         AddGeneratedConverters(Options.Converters);
     }
 
@@ -32,6 +18,23 @@ public static partial class JsonSerializerOptionsProvider
     ///
     /// </summary>
     public static JsonSerializerOptions Options { get; }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="options"></param>
+    public static void Configure(JsonSerializerOptions options)
+    {
+        options.Converters.Add(new UnixDateTimeConverter());
+        options.Converters.Add(new BanTimeConverter());
+        options.Converters.Add(new ColorConverter());
+        options.Converters.Add(new InputFileConverter());
+        options.Converters.Add(new ChatIdConverter());
+        options.Converters.Add(new PolymorphicJsonConverterFactory());
+        options.PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower;
+        options.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip;
+    }
 
     static partial void AddGeneratedConverters(IList<JsonConverter> converters);
 }
