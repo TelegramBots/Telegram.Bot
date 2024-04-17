@@ -69,6 +69,41 @@ public class Chat
     public string[]? ActiveUsernames { get; set; }
 
     /// <summary>
+    /// Optional. For private chats, the date of birth of the user.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Birthday? Birthday { get; set; }
+
+    /// <summary>
+    /// Optional. For private chats with business accounts, the intro of the business.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public BusinessIntro? BusinessIntro { get; set; }
+
+    /// <summary>
+    /// Optional. For private chats with business accounts, the location of the business.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public BusinessLocation? BusinessLocation { get; set; }
+
+    /// <summary>
+    /// Optional. For private chats with business accounts, the opening hours of the business.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public BusinessOpeningHours? BusinessOpeningHours { get; set; }
+
+    /// <summary>
+    /// Optional. For private chats, the personal channel of the user.
+    /// Returned only in <see cref="Requests.GetChatRequest"/>.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Chat? PersonalChat { get; set; }
+
+    /// <summary>
     /// Optional. List of available reactions allowed in the chat. If omitted, then all <see cref="ReactionTypeEmoji.Emoji">emoji reactions</see> are allowed.
     /// Returned only in <see cref="Requests.GetChatRequest"/>.
     /// </summary>

@@ -13,8 +13,12 @@ namespace Telegram.Bot.Requests;
 /// of <see cref="Message"/>s that were sent is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
+public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }
@@ -42,6 +46,26 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public ReplyParameters? ReplyParameters { get; set; }
+
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
+    [JsonIgnore]
+    public int? ReplyToMessageId
+    {
+        get => ReplyParameters?.MessageId;
+        set
+        {
+            if (value is null)
+            {
+                ReplyParameters = null;
+            }
+            else
+            {
+                ReplyParameters ??= new();
+                ReplyParameters.MessageId = value.Value;
+            }
+        }
+    }
 
     /// <summary>
     /// Initializes a request with chatId and media

@@ -47,6 +47,13 @@ public class Message : MaybeInaccessibleMessage
     public int? SenderBoostCount { get; set; }
 
     /// <summary>
+    /// Optional. The bot that actually sent the message on behalf of the business account.
+    /// Available only for outgoing messages sent on behalf of the connected business account.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public User? SenderBusinessBot { get; set; }
+
+    /// <summary>
     /// Date the message was sent
     /// </summary>
     [JsonProperty(Required = Required.Always)]
@@ -54,10 +61,68 @@ public class Message : MaybeInaccessibleMessage
     public DateTime Date { get; set; }
 
     /// <summary>
+    /// Optional. Unique identifier of the business connection from which the message was received. If non-empty,
+    /// the message belongs to a chat of the corresponding business account that is independent from any potential bot
+    /// chat which might share the same identifier.
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
+    /// <summary>
     /// Conversation the message belongs to
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     public Chat Chat { get; set; } = default!;
+
+    /// <summary>
+    /// Optional. For forwarded messages, sender of the original message
+    /// </summary>
+    [JsonIgnore]
+    [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
+    public User? ForwardFrom => (ForwardOrigin as MessageOriginUser)?.SenderUser;
+
+    /// <summary>
+    /// Optional. For messages forwarded from channels or from anonymous administrators, information about the
+    /// original sender chat
+    /// </summary>
+    [JsonIgnore]
+    [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
+    public Chat? ForwardFromChat => ForwardOrigin switch
+    {
+        MessageOriginChannel originChannel => originChannel.Chat,
+        MessageOriginChat originChat => originChat.SenderChat,
+        _ => null,
+    };
+
+    /// <summary>
+    /// Optional. For messages forwarded from channels, identifier of the original message in the channel
+    /// </summary>
+    [JsonIgnore]
+    [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
+    public int? ForwardFromMessageId => (ForwardOrigin as MessageOriginChannel)?.MessageId;
+
+    /// <summary>
+    /// Optional. For messages forwarded from channels, signature of the post author if present
+    /// </summary>
+    [JsonIgnore]
+    [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
+    public string? ForwardSignature => (ForwardOrigin as MessageOriginChannel)?.AuthorSignature;
+
+    /// <summary>
+    /// Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
+    /// forwarded messages
+    /// </summary>
+    [JsonIgnore]
+    [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
+    public string? ForwardSenderName => (ForwardOrigin as MessageOriginHiddenUser)?.SenderUserName;
+
+    /// <summary>
+    /// Optional. For forwarded messages, date the original message was sent
+    /// </summary>
+    [JsonIgnore]
+    [JsonConverter(typeof(UnixDateTimeConverter))]
+    [Obsolete($"This property is deprecated, use {nameof(ForwardOrigin)} property")]
+    public DateTime? ForwardDate => ForwardOrigin?.Date;
 
     /// <summary>
     ///Optional. Information about the original message for forwarded messages
@@ -123,6 +188,13 @@ public class Message : MaybeInaccessibleMessage
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public bool? HasProtectedContent { get; set; }
+
+    /// <summary>
+    /// Optional. <see langword="true"/>, if the message was sent by an implicit action, for example, as an away or a
+    /// greeting business message, or as a scheduled message
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool? IsFromOffline { get; set; }
 
     /// <summary>
     /// Optional. The unique identifier of a media message group this message belongs to
@@ -389,6 +461,13 @@ public class Message : MaybeInaccessibleMessage
     public UsersShared? UsersShared { get; set; }
 
     /// <summary>
+    /// Optional. Service message: a user was shared with the bot
+    /// </summary>
+    [Obsolete($"This property is deprecated, use property {nameof(UsersShared)}")]
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public UserShared? UserShared { get; set; }
+
+    /// <summary>
     /// Optional. Service message: a chat was shared with the bot
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -528,6 +607,7 @@ public class Message : MaybeInaccessibleMessage
     /// <value>
     /// The <see cref="MessageType"/> of the <see cref="Message"/>
     /// </value>
+    [JsonIgnore]
     public MessageType Type =>
         this switch
         {
@@ -562,6 +642,7 @@ public class Message : MaybeInaccessibleMessage
             { Invoice: not null }                       => MessageType.Invoice,
             { SuccessfulPayment: not null }             => MessageType.SuccessfulPayment,
             { UsersShared: not null }                   => MessageType.UsersShared,
+            { UserShared: not null }                    => MessageType.UserShared,
             { ChatShared: not null }                    => MessageType.ChatShared,
             { ConnectedWebsite: not null }              => MessageType.ConnectedWebsite,
             { WriteAccessAllowed: not null }            => MessageType.WriteAccessAllowed,

@@ -98,7 +98,7 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     public string? StartParameter { get; set; }
 
     /// <summary>
-    /// A JSON-serialized data about the invoice, which will be shared with the payment provider.
+    /// A data about the invoice, which will be shared with the payment provider.
     /// A detailed description of required fields should be provided by the payment provider.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
@@ -186,6 +186,26 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// <inheritdoc cref="Documentation.InlineReplyMarkup" />
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
+
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
+    [JsonIgnore]
+    public int? ReplyToMessageId
+    {
+        get => ReplyParameters?.MessageId;
+        set
+        {
+            if (value is null)
+            {
+                ReplyParameters = null;
+            }
+            else
+            {
+                ReplyParameters ??= new();
+                ReplyParameters.MessageId = value.Value;
+            }
+        }
+    }
 
     /// <summary>
     /// Initializes a new request with chatId, title, description, payload, providerToken, currency

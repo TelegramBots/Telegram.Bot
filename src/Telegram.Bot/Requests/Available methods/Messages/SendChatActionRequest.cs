@@ -22,8 +22,12 @@ namespace Telegram.Bot.Requests;
 /// </para>
 /// </remarks>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendChatActionRequest : RequestBase<bool>, IChatTargetable
+public class SendChatActionRequest : RequestBase<bool>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }

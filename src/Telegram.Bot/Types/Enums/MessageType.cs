@@ -227,6 +227,12 @@ public enum MessageType
     WriteAccessAllowed,
 
     /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.UserShared"/>
+    /// </summary>
+    [Obsolete($"This member is obsolete, use {nameof(MessageType)}.{nameof(UsersShared)} instead")]
+    UserShared,
+
+    /// <summary>
     /// The <see cref="Message"/> contains a <see cref="Message.UsersShared"/>
     /// </summary>
     UsersShared,

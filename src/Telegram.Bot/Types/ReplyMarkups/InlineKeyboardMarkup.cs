@@ -32,7 +32,7 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// <param name="inlineKeyboardButton">Keyboard button</param>
     [SetsRequiredMembers]
     public InlineKeyboardMarkup(InlineKeyboardButton inlineKeyboardButton)
-        : this(new[] { inlineKeyboardButton })
+        : this([inlineKeyboardButton])
     { }
 
     /// <summary>
@@ -41,7 +41,7 @@ public class InlineKeyboardMarkup : IReplyMarkup
     /// <param name="inlineKeyboardRow">The inline keyboard row</param>
     [SetsRequiredMembers]
     public InlineKeyboardMarkup(IEnumerable<InlineKeyboardButton> inlineKeyboardRow)
-        : this(new[] { inlineKeyboardRow })
+        : this([inlineKeyboardRow])
     { }
 
     /// <summary>

@@ -18,14 +18,14 @@ public class MessageReactionCountUpdated
     /// Unique message identifier inside the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; set; } = default!;
+    public int MessageId { get; set; }
 
     /// <summary>
     /// Date of the change
     /// </summary>
     [JsonProperty(Required = Required.Always)]
     [JsonConverter(typeof(UnixDateTimeConverter))]
-    public DateTime Date { get; set; } = default!;
+    public DateTime Date { get; set; }
 
     /// <summary>
     /// List of reactions that are present on the message

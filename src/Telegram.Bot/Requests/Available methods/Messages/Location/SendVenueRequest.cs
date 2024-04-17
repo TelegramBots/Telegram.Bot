@@ -9,8 +9,12 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send information about a venue. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendVenueRequest : RequestBase<Message>, IChatTargetable
+public class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }

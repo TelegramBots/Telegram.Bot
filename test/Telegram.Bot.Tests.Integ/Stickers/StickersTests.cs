@@ -113,7 +113,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticRegularStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Static,
                 StickerType = StickerType.Regular,
             }
         );
@@ -124,8 +123,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName }
         );
 
-        Assert.False(classFixture.TestStaticRegularStickerSet.IsAnimated);
-        Assert.False(classFixture.TestStaticRegularStickerSet.IsVideo);
         Assert.Equal(2, classFixture.TestStaticRegularStickerSet.Stickers.Length);
     }
 
@@ -156,7 +153,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestAnimatedRegularStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Animated,
                 StickerType = StickerType.Regular,
             }
         );
@@ -167,8 +163,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName }
         );
 
-        Assert.True(classFixture.TestAnimatedRegularStickerSet.IsAnimated);
-        Assert.False(classFixture.TestAnimatedRegularStickerSet.IsVideo);
         Assert.Equal(2, classFixture.TestAnimatedRegularStickerSet.Stickers.Length);
     }
 
@@ -199,7 +193,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestVideoRegularStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Video,
                 StickerType = StickerType.Regular,
             }
         );
@@ -210,8 +203,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName }
         );
 
-        Assert.False(classFixture.TestVideoRegularStickerSet.IsAnimated);
-        Assert.True(classFixture.TestVideoRegularStickerSet.IsVideo);
         Assert.Equal(2, classFixture.TestVideoRegularStickerSet.Stickers.Length);
     }
     #endregion
@@ -226,8 +217,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
@@ -273,8 +262,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName }
         );
 
-        Assert.True(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
@@ -320,8 +307,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.True(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker firstSticker = stickerSet.Stickers.First();
@@ -347,6 +332,8 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         Assert.Equal(firstSticker.Height, stickerMessage.Sticker.Height);
         Assert.False(stickerMessage.Sticker.IsAnimated);
         Assert.True(stickerMessage.Sticker.IsVideo);
+        Assert.NotNull(firstSticker.Thumbnail);
+        Assert.NotNull(stickerMessage.Sticker.Thumbnail);
         Assert.Equal(firstSticker.Thumbnail.FileUniqueId, stickerMessage.Sticker.Thumbnail.FileUniqueId);
         Assert.Equal(firstSticker.Thumbnail.FileSize, stickerMessage.Sticker.Thumbnail.FileSize);
         Assert.Equal(firstSticker.Thumbnail.Width, stickerMessage.Sticker.Thumbnail.Width);
@@ -387,8 +374,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
@@ -429,8 +414,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName }
         );
 
-        Assert.True(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
@@ -471,8 +454,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
             new GetStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName }
         );
 
-        Assert.False(stickerSet.IsAnimated);
-        Assert.True(stickerSet.IsVideo);
         Assert.Equal(3, stickerSet.Stickers.Length);
 
         Sticker thirdSticker = stickerSet.Stickers[2];
@@ -658,6 +639,7 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticRegularStickerSetName,
                 UserId = classFixture.OwnerUserId,
                 Thumbnail = InputFile.FromStream(stream),
+                Format = StickerFormat.Static,
             }
         );
 
@@ -695,7 +677,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = "Invalid_Sticker_Set_Name",
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -727,7 +708,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = classFixture.TestStaticRegularStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -764,7 +744,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = newStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -796,7 +775,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = classFixture.TestStaticRegularStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -830,7 +808,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                     Name = classFixture.TestStaticRegularStickerSetName,
                     Title = classFixture.TestStickerSetTitle,
                     Stickers = inputStickers,
-                    StickerFormat = StickerFormat.Static,
                 }
             )
         );
@@ -921,7 +898,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticMaskStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Static,
                 StickerType = StickerType.Mask,
             }
         );
@@ -933,8 +909,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.Mask, classFixture.TestStaticMaskStickerSet.StickerType);
-        Assert.False(classFixture.TestStaticMaskStickerSet.IsAnimated);
-        Assert.False(classFixture.TestStaticMaskStickerSet.IsVideo);
         Assert.Single(classFixture.TestStaticMaskStickerSet.Stickers);
     }
 
@@ -973,8 +947,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.Mask, stickerSet.StickerType);
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker sticker = stickerSet.Stickers.Last();
@@ -1067,7 +1039,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
                 Name = classFixture.TestStaticCustomEmojiStickerSetName,
                 Title = classFixture.TestStickerSetTitle,
                 Stickers = inputStickers,
-                StickerFormat = StickerFormat.Static,
                 StickerType = StickerType.CustomEmoji,
             }
         );
@@ -1079,8 +1050,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.CustomEmoji, classFixture.TestStaticCustomEmojiStickerSet.StickerType);
-        Assert.False(classFixture.TestStaticCustomEmojiStickerSet.IsAnimated);
-        Assert.False(classFixture.TestStaticCustomEmojiStickerSet.IsVideo);
         Assert.Single(classFixture.TestStaticCustomEmojiStickerSet.Stickers);
     }
 
@@ -1112,8 +1081,6 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
         );
 
         Assert.Equal(StickerType.CustomEmoji, stickerSet.StickerType);
-        Assert.False(stickerSet.IsAnimated);
-        Assert.False(stickerSet.IsVideo);
         Assert.Equal(2, stickerSet.Stickers.Length);
 
         Sticker sticker = stickerSet.Stickers.Last();

@@ -70,7 +70,7 @@ public class CreateInvoiceLinkRequest : RequestBase<string>
     public IEnumerable<int>? SuggestedTipAmounts { get; set; }
 
     /// <summary>
-    /// JSON-serialized data about the invoice, which will be shared with the payment provider.
+    /// Data about the invoice, which will be shared with the payment provider.
     /// A detailed description of required fields should be provided by the payment provider.
     /// </summary>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]

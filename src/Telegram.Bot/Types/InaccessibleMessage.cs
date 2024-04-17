@@ -16,11 +16,11 @@ public class InaccessibleMessage : MaybeInaccessibleMessage
     /// Unique message identifier inside the chat
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int MessageId { get; set; } = default!;
+    public int MessageId { get; set; }
 
     /// <summary>
     /// Always 0. The field can be used to differentiate regular and inaccessible messages.
     /// </summary>
     [JsonProperty(Required = Required.Always)]
-    public int Date { get; set; } = default!;
+    public int Date { get; set; }
 }

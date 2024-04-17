@@ -9,7 +9,7 @@ namespace Telegram.Bot.Requests;
 /// <summary>
 /// Use this method to specify a URL and receive incoming updates via an outgoing webhook.
 /// Whenever there is an update for the bot, we will send an HTTPS POST request to the
-/// specified URL, containing a JSON-serialized <see cref="Types.Update"/>. In case of
+/// specified URL, containing an <see cref="Types.Update"/>. In case of
 /// an unsuccessful request, we will give up after a reasonable amount of attempts.
 /// Returns <see langword="true"/> on success.
 /// <para>

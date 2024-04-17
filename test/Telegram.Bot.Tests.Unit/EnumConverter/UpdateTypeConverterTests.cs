@@ -88,25 +88,29 @@ public class UpdateTypeConverterTests
     {
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return new object[] { UpdateType.Unknown, "unknown" };
-            yield return new object[] { UpdateType.Message, "message" };
-            yield return new object[] { UpdateType.EditedMessage, "edited_message" };
-            yield return new object[] { UpdateType.ChannelPost, "channel_post" };
-            yield return new object[] { UpdateType.EditedChannelPost, "edited_channel_post" };
-            yield return new object[] { UpdateType.MessageReaction, "message_reaction" };
-            yield return new object[] { UpdateType.MessageReactionCount, "message_reaction_count" };
-            yield return new object[] { UpdateType.InlineQuery, "inline_query" };
-            yield return new object[] { UpdateType.ChosenInlineResult, "chosen_inline_result" };
-            yield return new object[] { UpdateType.CallbackQuery, "callback_query" };
-            yield return new object[] { UpdateType.ShippingQuery, "shipping_query" };
-            yield return new object[] { UpdateType.PreCheckoutQuery, "pre_checkout_query" };
-            yield return new object[] { UpdateType.Poll, "poll" };
-            yield return new object[] { UpdateType.PollAnswer, "poll_answer" };
-            yield return new object[] { UpdateType.MyChatMember, "my_chat_member" };
-            yield return new object[] { UpdateType.ChatMember, "chat_member" };
-            yield return new object[] { UpdateType.ChatJoinRequest, "chat_join_request" };
-            yield return new object[] { UpdateType.ChatBoost, "chat_boost" };
-            yield return new object[] { UpdateType.RemovedChatBoost, "removed_chat_boost" };
+            yield return [UpdateType.Unknown, "unknown"];
+            yield return [UpdateType.Message, "message"];
+            yield return [UpdateType.EditedMessage, "edited_message"];
+            yield return [UpdateType.ChannelPost, "channel_post"];
+            yield return [UpdateType.EditedChannelPost, "edited_channel_post"];
+            yield return [UpdateType.MessageReaction, "message_reaction"];
+            yield return [UpdateType.MessageReactionCount, "message_reaction_count"];
+            yield return [UpdateType.InlineQuery, "inline_query"];
+            yield return [UpdateType.ChosenInlineResult, "chosen_inline_result"];
+            yield return [UpdateType.CallbackQuery, "callback_query"];
+            yield return [UpdateType.ShippingQuery, "shipping_query"];
+            yield return [UpdateType.PreCheckoutQuery, "pre_checkout_query"];
+            yield return [UpdateType.Poll, "poll"];
+            yield return [UpdateType.PollAnswer, "poll_answer"];
+            yield return [UpdateType.MyChatMember, "my_chat_member"];
+            yield return [UpdateType.ChatMember, "chat_member"];
+            yield return [UpdateType.ChatJoinRequest, "chat_join_request"];
+            yield return [UpdateType.ChatBoost, "chat_boost"];
+            yield return [UpdateType.RemovedChatBoost, "removed_chat_boost"];
+            yield return [UpdateType.BusinessConnection, "business_connection"];
+            yield return [UpdateType.BusinessMessage, "business_message"];
+            yield return [UpdateType.EditedBusinessMessage, "edited_business_message"];
+            yield return [UpdateType.DeletedBusinessMessages, "deleted_business_messages"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

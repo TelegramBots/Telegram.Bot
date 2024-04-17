@@ -11,8 +11,12 @@ namespace Telegram.Bot.Requests;
 /// Use this method to send text messages. On success, the sent <see cref="Message"/> is returned.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendMessageRequest : RequestBase<Message>, IChatTargetable
+public class SendMessageRequest : RequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }
@@ -58,6 +62,41 @@ public class SendMessageRequest : RequestBase<Message>, IChatTargetable
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IReplyMarkup? ReplyMarkup { get; set; }
+
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
+    [JsonIgnore]
+    public int? ReplyToMessageId
+    {
+        get => ReplyParameters?.MessageId;
+        set
+        {
+            if (value is null)
+            {
+                ReplyParameters = null;
+            }
+            else
+            {
+                ReplyParameters ??= new();
+                ReplyParameters.MessageId = value.Value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Disables link previews for links in this message
+    /// </summary>
+    [Obsolete($"This property is deprecated, use {nameof(LinkPreviewOptions)} instead")]
+    [JsonIgnore]
+    public bool? DisableWebPagePreview
+    {
+        get => LinkPreviewOptions?.IsDisabled;
+        set
+        {
+            LinkPreviewOptions ??= new();
+            LinkPreviewOptions.IsDisabled = value;
+        }
+    }
 
     /// <summary>
     /// Initializes a new request with chatId and text

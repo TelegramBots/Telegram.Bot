@@ -85,7 +85,7 @@ public class ReplyKeyboardMarkup : ReplyMarkupBase
     public static implicit operator ReplyKeyboardMarkup?(string? text) =>
         text is null
             ? default
-            : new(new[] { new KeyboardButton(text) });
+            : new([new KeyboardButton(text)]);
 
     /// <summary>
     /// Generates a reply keyboard markup with multiple buttons on one row

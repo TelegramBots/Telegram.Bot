@@ -47,6 +47,31 @@ public class Update
     public Message? EditedChannelPost { get; set; }
 
     /// <summary>
+    /// Optional. The bot was connected to or disconnected from a business account, or a user edited an existing
+    /// connection with the bot
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public BusinessConnection? BusinessConnection { get; set; }
+
+    /// <summary>
+    /// Optional. New non-service message from a connected business account
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Message? BusinessMessage { get; set; }
+
+    /// <summary>
+    /// Optional. New version of a message from a connected business account
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public Message? EditedBusinessMessage { get; set; }
+
+    /// <summary>
+    /// Optional. Messages were deleted from a connected business account
+    /// </summary>
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public BusinessMessagesDeleted? DeletedBusinessMessages { get; set; }
+
+    /// <summary>
     /// Optional. A reaction to a message was changed by a user. The bot must be an administrator
     /// in the chat and must explicitly specify "<see cref="UpdateType.MessageReaction"/>" in the list
     /// of <c>AllowedUpdates</c> to receive these updates.
@@ -148,26 +173,31 @@ public class Update
     /// <value>
     /// The update type.
     /// </value>
+    [JsonIgnore]
     public UpdateType Type => this switch
     {
-        { Message: not null }               => UpdateType.Message,
-        { EditedMessage: not null }         => UpdateType.EditedMessage,
-        { ChannelPost: not null }           => UpdateType.ChannelPost,
-        { EditedChannelPost: not null }     => UpdateType.EditedChannelPost,
-        { MessageReaction: not null }       => UpdateType.MessageReaction,
-        { MessageReactionCount: not null }  => UpdateType.MessageReactionCount,
-        { InlineQuery: not null }           => UpdateType.InlineQuery,
-        { ChosenInlineResult: not null }    => UpdateType.ChosenInlineResult,
-        { CallbackQuery: not null }         => UpdateType.CallbackQuery,
-        { ShippingQuery: not null }         => UpdateType.ShippingQuery,
-        { PreCheckoutQuery: not null }      => UpdateType.PreCheckoutQuery,
-        { Poll: not null }                  => UpdateType.Poll,
-        { PollAnswer: not null }            => UpdateType.PollAnswer,
-        { MyChatMember: not null }          => UpdateType.MyChatMember,
-        { ChatMember: not null }            => UpdateType.ChatMember,
-        { ChatJoinRequest: not null }       => UpdateType.ChatJoinRequest,
-        { ChatBoost: not null }             => UpdateType.ChatBoost,
-        { RemovedChatBoost: not null }      => UpdateType.RemovedChatBoost,
-        _                                   => UpdateType.Unknown
+        { Message: not null }                 => UpdateType.Message,
+        { EditedMessage: not null }           => UpdateType.EditedMessage,
+        { ChannelPost: not null }             => UpdateType.ChannelPost,
+        { EditedChannelPost: not null }       => UpdateType.EditedChannelPost,
+        { BusinessConnection: not null }      => UpdateType.BusinessConnection,
+        { BusinessMessage: not null }         => UpdateType.BusinessMessage,
+        { EditedBusinessMessage: not null }   => UpdateType.EditedBusinessMessage,
+        { DeletedBusinessMessages: not null } => UpdateType.DeletedBusinessMessages,
+        { MessageReaction: not null }         => UpdateType.MessageReaction,
+        { MessageReactionCount: not null }    => UpdateType.MessageReactionCount,
+        { InlineQuery: not null }             => UpdateType.InlineQuery,
+        { ChosenInlineResult: not null }      => UpdateType.ChosenInlineResult,
+        { CallbackQuery: not null }           => UpdateType.CallbackQuery,
+        { ShippingQuery: not null }           => UpdateType.ShippingQuery,
+        { PreCheckoutQuery: not null }        => UpdateType.PreCheckoutQuery,
+        { Poll: not null }                    => UpdateType.Poll,
+        { PollAnswer: not null }              => UpdateType.PollAnswer,
+        { MyChatMember: not null }            => UpdateType.MyChatMember,
+        { ChatMember: not null }              => UpdateType.ChatMember,
+        { ChatJoinRequest: not null }         => UpdateType.ChatJoinRequest,
+        { ChatBoost: not null }               => UpdateType.ChatBoost,
+        { RemovedChatBoost: not null }        => UpdateType.RemovedChatBoost,
+        _                                     => UpdateType.Unknown
     };
 }

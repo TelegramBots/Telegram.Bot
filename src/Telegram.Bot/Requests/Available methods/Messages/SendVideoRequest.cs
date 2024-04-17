@@ -15,8 +15,12 @@ namespace Telegram.Bot.Requests;
 /// Bots can currently send video files of up to 50 MB in size, this limit may be changed in the future.
 /// </summary>
 [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
+public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
+    /// <inheritdoc />
+    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public string? BusinessConnectionId { get; set; }
+
     /// <inheritdoc />
     [JsonProperty(Required = Required.Always)]
     public required ChatId ChatId { get; init; }
@@ -99,6 +103,26 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable
     /// <inheritdoc cref="Abstractions.Documentation.ReplyMarkup"/>
     [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
     public IReplyMarkup? ReplyMarkup { get; set; }
+
+    /// <inheritdoc cref="Abstractions.Documentation.ReplyToMessageId"/>
+    [Obsolete($"This property is deprecated, use {nameof(ReplyParameters)} instead")]
+    [JsonIgnore]
+    public int? ReplyToMessageId
+    {
+        get => ReplyParameters?.MessageId;
+        set
+        {
+            if (value is null)
+            {
+                ReplyParameters = null;
+            }
+            else
+            {
+                ReplyParameters ??= new();
+                ReplyParameters.MessageId = value.Value;
+            }
+        }
+    }
 
     /// <summary>
     /// Initializes a new request with chatId and video

@@ -119,6 +119,7 @@ public class MessageTypeConverterTests
             yield return [MessageType.PinnedMessage, "pinned_message"];
             yield return [MessageType.Invoice, "invoice"];
             yield return [MessageType.SuccessfulPayment, "successful_payment"];
+            yield return [MessageType.UserShared, "user_shared"];
             yield return [MessageType.UsersShared, "users_shared"];
             yield return [MessageType.ChatShared, "chat_shared"];
             yield return [MessageType.ConnectedWebsite, "connected_website"];
