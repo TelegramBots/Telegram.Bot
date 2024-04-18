@@ -13,10 +13,10 @@ namespace Telegram.Bot.Types;
 /// </list>
 /// </summary>
 [CustomJsonPolymorphic("type")]
-[CustomJsonDerivedType<MessageOriginUser>("user")]
-[CustomJsonDerivedType<MessageOriginHiddenUser>("hidden_user")]
-[CustomJsonDerivedType<MessageOriginChat>("chat")]
-[CustomJsonDerivedType<MessageOriginChannel>("channel")]
+[CustomJsonDerivedType(typeof(MessageOriginUser), "user")]
+[CustomJsonDerivedType(typeof(MessageOriginHiddenUser), "hidden_user")]
+[CustomJsonDerivedType(typeof(MessageOriginChat), "chat")]
+[CustomJsonDerivedType(typeof(MessageOriginChannel), "channel")]
 public abstract class MessageOrigin
 {
     /// <summary>

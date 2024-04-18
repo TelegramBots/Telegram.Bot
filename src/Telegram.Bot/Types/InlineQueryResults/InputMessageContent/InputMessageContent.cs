@@ -8,9 +8,9 @@ namespace Telegram.Bot.Types.InlineQueryResults;
 /// <see cref="InlineQuery">inline query</see>.
 /// </summary>
 [CustomJsonPolymorphic]
-[CustomJsonDerivedType<InputContactMessageContent>]
-[CustomJsonDerivedType<InputInvoiceMessageContent>]
-[CustomJsonDerivedType<InputLocationMessageContent>]
-[CustomJsonDerivedType<InputTextMessageContent>]
-[CustomJsonDerivedType<InputVenueMessageContent>]
+[CustomJsonDerivedType(typeof(InputContactMessageContent))]
+[CustomJsonDerivedType(typeof(InputInvoiceMessageContent))]
+[CustomJsonDerivedType(typeof(InputLocationMessageContent))]
+[CustomJsonDerivedType(typeof(InputTextMessageContent))]
+[CustomJsonDerivedType(typeof(InputVenueMessageContent))]
 public abstract class InputMessageContent;

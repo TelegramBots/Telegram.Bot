@@ -7,12 +7,12 @@ namespace Telegram.Bot.Types;
 /// This object contains information about one member of the chat.
 /// </summary>
 [CustomJsonPolymorphic("status")]
-[CustomJsonDerivedType<ChatMemberAdministrator>("administrator")]
-[CustomJsonDerivedType<ChatMemberBanned>("kicked")]
-[CustomJsonDerivedType<ChatMemberLeft>("left")]
-[CustomJsonDerivedType<ChatMemberMember>("member")]
-[CustomJsonDerivedType<ChatMemberOwner>("creator")]
-[CustomJsonDerivedType<ChatMemberRestricted>("restricted")]
+[CustomJsonDerivedType(typeof(ChatMemberAdministrator), "administrator")]
+[CustomJsonDerivedType(typeof(ChatMemberBanned), "kicked")]
+[CustomJsonDerivedType(typeof(ChatMemberLeft), "left")]
+[CustomJsonDerivedType(typeof(ChatMemberMember), "member")]
+[CustomJsonDerivedType(typeof(ChatMemberOwner), "creator")]
+[CustomJsonDerivedType(typeof(ChatMemberRestricted), "restricted")]
 public abstract class ChatMember
 {
     /// <summary>

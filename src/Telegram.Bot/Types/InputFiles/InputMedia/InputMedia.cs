@@ -9,11 +9,11 @@ namespace Telegram.Bot.Types;
 /// This object represents the content of a media message to be sent
 /// </summary>
 [CustomJsonPolymorphic("type")]
-[CustomJsonDerivedType<InputMediaAnimation>("animation")]
-[CustomJsonDerivedType<InputMediaAudio>("audio")]
-[CustomJsonDerivedType<InputMediaDocument>("document")]
-[CustomJsonDerivedType<InputMediaPhoto>("photo")]
-[CustomJsonDerivedType<InputMediaVideo>("video")]
+[CustomJsonDerivedType(typeof(InputMediaAnimation), "animation")]
+[CustomJsonDerivedType(typeof(InputMediaAudio), "audio")]
+[CustomJsonDerivedType(typeof(InputMediaDocument), "document")]
+[CustomJsonDerivedType(typeof(InputMediaPhoto), "photo")]
+[CustomJsonDerivedType(typeof(InputMediaVideo), "video")]
 public abstract class InputMedia
 {
     /// <summary>

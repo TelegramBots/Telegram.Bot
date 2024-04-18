@@ -7,13 +7,13 @@ namespace Telegram.Bot.Types;
 /// This object represents the scope to which bot commands are applied
 /// </summary>
 [CustomJsonPolymorphic("type")]
-[CustomJsonDerivedType<BotCommandScopeDefault>("default")]
-[CustomJsonDerivedType<BotCommandScopeAllPrivateChats>("all_private_chats")]
-[CustomJsonDerivedType<BotCommandScopeAllGroupChats>("all_group_chats")]
-[CustomJsonDerivedType<BotCommandScopeAllChatAdministrators>("all_chat_administrators")]
-[CustomJsonDerivedType<BotCommandScopeChat>("chat")]
-[CustomJsonDerivedType<BotCommandScopeChatAdministrators>("chat_administrators")]
-[CustomJsonDerivedType<BotCommandScopeChatMember>("chat_member")]
+[CustomJsonDerivedType(typeof(BotCommandScopeDefault), "default")]
+[CustomJsonDerivedType(typeof(BotCommandScopeAllPrivateChats), "all_private_chats")]
+[CustomJsonDerivedType(typeof(BotCommandScopeAllGroupChats), "all_group_chats")]
+[CustomJsonDerivedType(typeof(BotCommandScopeAllChatAdministrators), "all_chat_administrators")]
+[CustomJsonDerivedType(typeof(BotCommandScopeChat), "chat")]
+[CustomJsonDerivedType(typeof(BotCommandScopeChatAdministrators), "chat_administrators")]
+[CustomJsonDerivedType(typeof(BotCommandScopeChatMember), "chat_member")]
 public abstract class BotCommandScope
 {
     /// <summary>

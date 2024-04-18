@@ -15,9 +15,9 @@ namespace Telegram.Bot.Types;
 /// Otherwise the default menu button is applied. By default, the menu button opens the list of bot commands.
 /// </summary>
 [CustomJsonPolymorphic("type")]
-[CustomJsonDerivedType<MenuButtonDefault>("default")]
-[CustomJsonDerivedType<MenuButtonCommands>("commands")]
-[CustomJsonDerivedType<MenuButtonWebApp>("web_app")]
+[CustomJsonDerivedType(typeof(MenuButtonDefault), "default")]
+[CustomJsonDerivedType(typeof(MenuButtonCommands), "commands")]
+[CustomJsonDerivedType(typeof(MenuButtonWebApp), "web_app")]
 public abstract class MenuButton
 {
     /// <summary>

@@ -12,9 +12,9 @@ namespace Telegram.Bot.Types;
 /// </list>
 /// </summary>
 [CustomJsonPolymorphic("source")]
-[CustomJsonDerivedType<ChatBoostSourcePremium>("premium")]
-[CustomJsonDerivedType<ChatBoostSourceGiftCode>("gift_code")]
-[CustomJsonDerivedType<ChatBoostSourceGiveaway>("giveaway")]
+[CustomJsonDerivedType(typeof(ChatBoostSourcePremium), "premium")]
+[CustomJsonDerivedType(typeof(ChatBoostSourceGiftCode), "gift_code")]
+[CustomJsonDerivedType(typeof(ChatBoostSourceGiveaway), "giveaway")]
 public abstract class ChatBoostSource
 {
     /// <summary>

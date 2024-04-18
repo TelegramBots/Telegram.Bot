@@ -7,8 +7,8 @@ namespace Telegram.Bot.Types;
 /// A marker for input media types that can be used in sendMediaGroup method.
 /// </summary>
 [CustomJsonPolymorphic]
-[CustomJsonDerivedType<InputMediaAudio>]
-[CustomJsonDerivedType<InputMediaDocument>]
-[CustomJsonDerivedType<InputMediaPhoto>]
-[CustomJsonDerivedType<InputMediaVideo>]
+[CustomJsonDerivedType(typeof(InputMediaAudio))]
+[CustomJsonDerivedType(typeof(InputMediaDocument))]
+[CustomJsonDerivedType(typeof(InputMediaPhoto))]
+[CustomJsonDerivedType(typeof(InputMediaVideo))]
 public interface IAlbumInputMedia;

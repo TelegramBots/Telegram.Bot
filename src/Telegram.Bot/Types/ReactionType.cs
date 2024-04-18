@@ -11,8 +11,8 @@ namespace Telegram.Bot.Types;
 /// </list>
 /// </summary>
 [CustomJsonPolymorphic("type")]
-[CustomJsonDerivedType<ReactionTypeEmoji>("emoji")]
-[CustomJsonDerivedType<ReactionTypeCustomEmoji>("custom_emoji")]
+[CustomJsonDerivedType(typeof(ReactionTypeEmoji), "emoji")]
+[CustomJsonDerivedType(typeof(ReactionTypeCustomEmoji), "custom_emoji")]
 public abstract class ReactionType
 {
     /// <summary>
