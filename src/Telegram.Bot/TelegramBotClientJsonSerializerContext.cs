@@ -245,6 +245,7 @@ namespace Telegram.Bot;
 [JsonSerializable(typeof(MessageOriginChannel))]
 [JsonSerializable(typeof(InputFileUrl))]
 [JsonSerializable(typeof(ReactionTypeKind))]
+[JsonSerializable(typeof(InaccessibleMessage))]
 
 #endregion
 public partial class TelegramBotClientJsonSerializerContext : JsonSerializerContext
@@ -269,7 +270,8 @@ public partial class TelegramBotClientJsonSerializerContext : JsonSerializerCont
             new ChatMemberConverter(),
             new MenuButtonConverter(),
             new MessageOriginConverter(),
-            new ReactionTypeConverter()
+            new ReactionTypeConverter(),
+            new MaybeInaccessibleMessageConverter()
         }
     };
 

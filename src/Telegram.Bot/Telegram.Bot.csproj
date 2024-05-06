@@ -51,7 +51,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Title>Telegram Bot API Client</Title>
-    <Version>1.0.0-alpha.9</Version>
+    <Version>1.0.0-alpha.11</Version>
     <Description>
       This package contains AOT-friendly implementation of Telegram Bot API and was originally forked from Telegram.Bot at https://github.com/TelegramBots/Telegram.Bot
     </Description>
@@ -71,7 +71,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="8.0.3" />
-    <PackageReference Include="Telegram.Bot.Aot.Base" Version="1.0.0-alpha.9" />
+    <PackageReference Include="Telegram.Bot.Aot.Base" Version="1.0.0-alpha.11" />
   </ItemGroup>
 
   <ItemGroup Label="Dev">
@@ -94,6 +94,10 @@
       <PackagePath>/</PackagePath>
       <Link>README.md</Link>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Telegram.Bot.Base\Telegram.Bot.Base.csproj" />
   </ItemGroup>
 
 </Project>
