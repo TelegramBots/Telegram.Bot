@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if NET6_0_OR_GREATER
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -54,7 +55,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
         return new Enumerator(receiver: this, cancellationToken: cancellationToken);
     }
 
-    sealed class Enumerator : IAsyncEnumerator<Update>
+    class Enumerator : IAsyncEnumerator<Update>
     {
         readonly BlockingUpdateReceiver _receiver;
         readonly CancellationTokenSource _cts;
@@ -158,3 +159,4 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
         }
     }
 }
+#endif

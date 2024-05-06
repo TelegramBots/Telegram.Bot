@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
     <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>True</EnableNETAnalyzers>
@@ -13,7 +13,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <IsAotCompatible>true</IsAotCompatible>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net7.0')) Or $([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
 
   <PropertyGroup Label="Warnings">
@@ -51,18 +51,18 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Title>Telegram Bot API Client</Title>
-    <Version>1.0.0-alpha.11</Version>
+    <Version>1.0.0-alpha.12</Version>
     <Description>
       This package contains AOT-friendly implementation of Telegram Bot API and was originally forked from Telegram.Bot at https://github.com/TelegramBots/Telegram.Bot
     </Description>
     <PackageId>Telegram.Bot.Aot</PackageId>
-    <Authors>RoundRobin,Poulad,tuscen, codeinhabitant</Authors>
+    <Authors>RoundRobin,Poulad,tuscen</Authors>
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/codeinhabitant/Telegram.Bot.Aot</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/TelegramBots/telegram.bot</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/codeinhabitant/Telegram.Bot.Aot.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/TelegramBots/telegram.bot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>
       $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
@@ -71,7 +71,19 @@
 
   <ItemGroup>
     <PackageReference Include="System.Text.Json" Version="8.0.3" />
-    <PackageReference Include="Telegram.Bot.Aot.Base" Version="1.0.0-alpha.11" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UseLocalProjects)'=='true'">
+    <ProjectReference Include="..\Telegram.Bot.Base\Telegram.Bot.Base.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UseLocalProjects)'!='true'">
+    <PackageReference Include="Telegram.Bot.Aot.Base" Version="1.0.0-alpha.12" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0'">
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup Label="Dev">
@@ -95,9 +107,5 @@
       <Link>README.md</Link>
     </None>
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Telegram.Bot.Base\Telegram.Bot.Base.csproj" />
-  </ItemGroup>
-
+  
 </Project>

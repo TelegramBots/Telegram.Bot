@@ -50,7 +50,11 @@ public static class HttpResponseMessageExtensions
             try
             {
                 contentStream = await httpResponse.Content
+#if NET6_0_OR_GREATER
                     .ReadAsStreamAsync(cancellationToken)
+#else
+                    .ReadAsStreamAsync()
+#endif
                     .ConfigureAwait(continueOnCapturedContext: false);
 
                 deserializedObject = await JsonSerializer
@@ -89,10 +93,14 @@ public static class HttpResponseMessageExtensions
         }
         finally
         {
+#if NET6_0_OR_GREATER
             if (contentStream is not null)
             {
                 await contentStream.DisposeAsync().ConfigureAwait(false);
             }
+#else
+            contentStream?.Dispose();
+#endif
         }
     }
 

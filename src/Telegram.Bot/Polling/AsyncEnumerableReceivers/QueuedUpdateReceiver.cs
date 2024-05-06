@@ -1,3 +1,4 @@
+#if NET6_0_OR_GREATER
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -237,3 +238,4 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
         }
     }
 }
+#endif

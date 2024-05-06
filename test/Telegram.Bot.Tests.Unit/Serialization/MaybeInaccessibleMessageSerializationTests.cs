@@ -4,111 +4,68 @@ using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
-public class MenuButtonSerializationTests
+public class MaybeInaccessibleMessageSerializationTests
 {
     [Fact]
-    public void Should_Deserialize_Menu_Button_Web_App()
+    public void Should_Deserialize_InaccessibleMessage()
     {
-        // language=JSON
-        const string button = """
-        {
-            "type": "web_app",
-            "text": "Test text",
-            "web_app": {
-                "url": "https://example.com/link/to/web/app"
-            }
-        }
-        """;
+        string inaccessibleMessage = """{"chat":{"id":1234,"type":"private"},"message_id":1234,"date":0}""";
 
-        MenuButton? menuButton = JsonSerializer.Deserialize(button, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
+        MaybeInaccessibleMessage? maybeInaccessibleMessage = JsonSerializer.Deserialize(inaccessibleMessage, TelegramBotClientJsonSerializerContext.Instance.MaybeInaccessibleMessage);
 
-        MenuButtonWebApp webAppButton = Assert.IsAssignableFrom<MenuButtonWebApp>(menuButton);
-
-        Assert.Equal(MenuButtonType.WebApp, menuButton.Type);
-        Assert.NotNull(webAppButton.Text);
-        Assert.Equal("Test text", webAppButton.Text);
-        Assert.NotNull(webAppButton.WebApp);
-        Assert.NotNull(webAppButton.WebApp.Url);
-        Assert.Equal("https://example.com/link/to/web/app", webAppButton.WebApp.Url);
+        Assert.NotNull(maybeInaccessibleMessage);
+        Assert.IsType<InaccessibleMessage>(maybeInaccessibleMessage);
     }
 
     [Fact]
-    public void Should_Serialize_Menu_Button_Web_App()
+    public void Should_Serialize_InaccessibleMessage()
     {
-        MenuButtonWebApp webAppButton = new()
+        string expectedResult = """{"chat":{"id":1234,"type":"private"},"message_id":1234,"date":0}""";
+
+        InaccessibleMessage inaccessibleMessage = new()
         {
-            WebApp = new(url: "https://example.com/link/to/web/app"),
-            Text = "Test text"
+            Chat = new Chat
+            {
+                Id = 1234,
+                Type = ChatType.Private,
+            },
+            MessageId = 1234,
+            Date = 0
         };
 
-        string webAppButtonJson = JsonSerializer.Serialize(webAppButton, TelegramBotClientJsonSerializerContext.Instance.MenuButtonWebApp);
-
-        JsonNode? root = JsonNode.Parse(webAppButtonJson);
-        Assert.NotNull(root);
-
-        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Equal(3, j.Count);
-
-        Assert.Equal("web_app", (string?)j["type"]);
-        Assert.Equal("Test text", (string?)j["text"]);
-
-        JsonObject? jWebApp = j["web_app"]?.AsObject();
-        Assert.NotNull(jWebApp);
-        Assert.Single(jWebApp);
-        Assert.Equal("https://example.com/link/to/web/app", (string?)jWebApp["url"]);
+        string inaccessibleMessageJson = JsonSerializer.Serialize(inaccessibleMessage, TelegramBotClientJsonSerializerContext.Instance.MaybeInaccessibleMessage);
+        Assert.Equal(expectedResult, inaccessibleMessageJson);
     }
 
     [Fact]
-    public void Should_Deserialize_Menu_Button_Default()
+    public void Should_Deserialize_Message()
     {
-        var button = new { type = MenuButtonType.Default, };
+        string message = """{"message_id":1234,"date":1704052800,"chat":{"id":1234,"type":"private"}}""";
 
-        string menuButtonJson = JsonSerializer.Serialize(button);
-        MenuButton? menuButton = JsonSerializer.Deserialize(menuButtonJson, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
+        MaybeInaccessibleMessage? maybeInaccessibleMessage = JsonSerializer.Deserialize(message, TelegramBotClientJsonSerializerContext.Instance.MaybeInaccessibleMessage);
 
-        Assert.NotNull(menuButton);
-        Assert.Equal(MenuButtonType.Default, menuButton.Type);
-        Assert.IsAssignableFrom<MenuButtonDefault>(menuButton);
+        Assert.NotNull(maybeInaccessibleMessage);
+        Assert.IsType<Message>(maybeInaccessibleMessage);
+
     }
 
     [Fact]
-    public void Should_Serialize_Menu_Button_Default()
+    public void Should_Serialize_Message()
     {
-        MenuButtonDefault menuButton = new();
+        string expectedResult = """{"message_id":1234,"date":1704052800,"chat":{"id":1234,"type":"private"}}""";
 
-        string menuButtonJson = JsonSerializer.Serialize(menuButton, TelegramBotClientJsonSerializerContext.Instance.MenuButtonDefault);
-        JsonNode? root = JsonNode.Parse(menuButtonJson);
-        Assert.NotNull(root);
+        Message message = new()
+        {
+            Chat = new Chat
+            {
+                Id = 1234,
+                Type = ChatType.Private,
+            },
+            MessageId = 1234,
+            Date = new DateTime(2024,1,1)
+        };
 
-        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Single(j);
-        Assert.Equal("default", (string?)j["type"]);
-    }
-
-    [Fact]
-    public void Should_Deserialize_Menu_Button_Commands()
-    {
-        var button = new { type = MenuButtonType.Commands, };
-
-        string menuButtonJson = JsonSerializer.Serialize(button);
-        MenuButton? menuButton = JsonSerializer.Deserialize(menuButtonJson, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
-
-        Assert.NotNull(menuButton);
-        Assert.Equal(MenuButtonType.Commands, menuButton.Type);
-        Assert.IsAssignableFrom<MenuButtonCommands>(menuButton);
-    }
-
-    [Fact]
-    public void Should_Serialize_Menu_Button_Commands()
-    {
-        MenuButtonCommands menuButton = new();
-
-        string menuButtonJson = JsonSerializer.Serialize(menuButton, TelegramBotClientJsonSerializerContext.Instance.MenuButtonCommands);
-        JsonNode? root = JsonNode.Parse(menuButtonJson);
-        Assert.NotNull(root);
-
-        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Single(j);
-        Assert.Equal("commands", (string?)j["type"]);
+        string messageJson = JsonSerializer.Serialize(message, TelegramBotClientJsonSerializerContext.Instance.MaybeInaccessibleMessage);
+        Assert.Equal(expectedResult, messageJson);
     }
 }

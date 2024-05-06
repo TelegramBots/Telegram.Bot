@@ -33,11 +33,11 @@ internal static class TelegramBotClientExtensions
                     cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
 
-        if (updates.Length > 0)
-        {
-            return updates[^1].Id + 1;
-        }
-
+#if NET6_0_OR_GREATER
+        if (updates.Length > 0) { return updates[^1].Id + 1; }
+#else
+        if (updates.Length > 0) { return updates[updates.Length - 1].Id + 1; }
+#endif
         return 0;
     }
 }

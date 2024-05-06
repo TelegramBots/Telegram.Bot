@@ -36,7 +36,7 @@ public class CallbackQuery
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Message? Message { get; set; }
+    public MaybeInaccessibleMessage? Message { get; set; }
 
     /// <summary>
     /// Optional. Identifier of the message sent via the bot in inline mode, that originated the query

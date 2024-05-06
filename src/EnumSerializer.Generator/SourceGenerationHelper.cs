@@ -80,7 +80,4 @@ internal static class SourceGenerationHelper
 
         return result;
     }
-
-    internal static string GenerateOptionsProviderClass(Template template, IEnumerable<EnumInfo> enums)
-        => template.Render(new { Enums = enums });
 }

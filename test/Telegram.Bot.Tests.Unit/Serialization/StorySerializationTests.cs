@@ -55,7 +55,7 @@ public class StorySerializationTests
             }
             """;
 
-        Story? deserializedStory = JsonSerializer.Deserialize<Story>(story, TelegramBotClientJsonSerializerContext.Instance.Story);
+        Story? deserializedStory = JsonSerializer.Deserialize(story, TelegramBotClientJsonSerializerContext.Instance.Story);
 
         Assert.NotNull(deserializedStory);
         Assert.Equal(1234, deserializedStory.Id);

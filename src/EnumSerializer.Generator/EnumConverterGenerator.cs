@@ -93,7 +93,8 @@ public class EnumConverterGenerator : IIncrementalGenerator
 
             foreach (var member in enumMembers)
             {
-                if (member is not IFieldSymbol field || field.ConstantValue is null)
+                if (member is not IFieldSymbol field
+                    || field.ConstantValue is null)
                 {
                     continue;
                 }

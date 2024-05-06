@@ -11,7 +11,7 @@ namespace Telegram.Bot.Types;
 /// <summary>
 /// This object represents a message.
 /// </summary>
-public class Message
+public class Message : MaybeInaccessibleMessage
 {
     /// <summary>
     /// Unique message identifier inside this chat
@@ -492,7 +492,7 @@ public class Message
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-    public Message? PinnedMessage { get; set; }
+    public MaybeInaccessibleMessage? PinnedMessage { get; set; }
 
     /// <summary>
     /// Optional. Message is an invoice for a
