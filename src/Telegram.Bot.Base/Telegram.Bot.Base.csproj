@@ -24,7 +24,7 @@
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <Title>Telegram Bot Aot Base</Title>
-    <Version>1.0.0-alpha.8</Version>
+    <Version>1.0.0-alpha.9</Version>
     <Description>
       This package contains AOT-friendly types for Telegram.Bot.Aot. The code was originally forked from Telegram.Bot at https://github.com/TelegramBots/Telegram.Bot
     </Description>
@@ -33,9 +33,9 @@
     <Copyright>Copyright © Robin Müller 2016</Copyright>
     <PackageIcon>package-icon.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/codeinhabitant/Telegram.Bot</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/codeinhabitant/Telegram.Bot.Aot</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/codeinhabitant/Telegram.Bot.git</RepositoryUrl>
+    <RepositoryUrl>https://github.com/codeinhabitant/Telegram.Bot.Aot.git</RepositoryUrl>
     <PackageTags>Telegram;Bot;Api;Payment;Inline;Games</PackageTags>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>
       $(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb
