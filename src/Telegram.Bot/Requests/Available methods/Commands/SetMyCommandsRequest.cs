@@ -51,6 +51,6 @@ public class SetMyCommandsRequest : RequestBase<bool>
     /// Initializes a new request with commands
     /// </summary>
     public SetMyCommandsRequest()
-        : base("setMyCommands")
+        : base("setMyCommands", TelegramBotClientJsonSerializerContext.Instance.SetMyCommandsRequest)
     { }
 }

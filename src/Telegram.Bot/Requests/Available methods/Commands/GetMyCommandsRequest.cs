@@ -26,6 +26,6 @@ public class GetMyCommandsRequest : RequestBase<BotCommand[]>
     /// Initializes a new request
     /// </summary>
     public GetMyCommandsRequest()
-        : base("getMyCommands")
+        : base("getMyCommands", TelegramBotClientJsonSerializerContext.Instance.GetMyCommandsRequest)
     { }
 }

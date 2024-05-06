@@ -1,5 +1,4 @@
-﻿#if NET6_0_OR_GREATER
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -55,7 +54,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
         return new Enumerator(receiver: this, cancellationToken: cancellationToken);
     }
 
-    class Enumerator : IAsyncEnumerator<Update>
+    sealed class Enumerator : IAsyncEnumerator<Update>
     {
         readonly BlockingUpdateReceiver _receiver;
         readonly CancellationTokenSource _cts;
@@ -130,6 +129,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
                                 Limit = _limit,
                                 AllowedUpdates = _allowedUpdates,
                             },
+                            TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray,
                             cancellationToken: _token
                         )
                         .ConfigureAwait(false);
@@ -158,4 +158,3 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
         }
     }
 }
-#endif

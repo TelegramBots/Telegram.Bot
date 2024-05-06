@@ -77,6 +77,6 @@ public class AnswerShippingQueryRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public AnswerShippingQueryRequest()
-        : base("answerShippingQuery")
+        : base("answerShippingQuery", TelegramBotClientJsonSerializerContext.Instance.AnswerShippingQueryRequest)
     { }
 }

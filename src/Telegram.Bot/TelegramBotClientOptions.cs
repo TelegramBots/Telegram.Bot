@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot;
 
 /// <summary>
@@ -90,7 +91,6 @@ public class TelegramBotClientOptions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static long? GetIdFromToken(string token)
         {
-#if NET6_0_OR_GREATER
             var span = token.AsSpan();
             var index = span.IndexOf(':');
 
@@ -98,14 +98,6 @@ public class TelegramBotClientOptions
 
             var botIdSpan = span[..index];
             if (!long.TryParse(botIdSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var botId)) { return null; }
-#else
-            var index = token.IndexOf(value: ':');
-
-            if (index is < 1 or > 16) { return null; }
-
-            var botIdSpan = token.Substring(startIndex: 0, length: index);
-            if (!long.TryParse(botIdSpan, NumberStyles.Integer, CultureInfo.InvariantCulture, out var botId)) { return null; }
-#endif
 
             return botId;
         }

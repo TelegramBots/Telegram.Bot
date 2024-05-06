@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -43,7 +42,7 @@ public class ForwardedMessageSerializationTests
         }
         """;
 
-        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
+        Message? message = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.Message);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
@@ -99,7 +98,7 @@ public class ForwardedMessageSerializationTests
             }
             """;
 
-        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
+        Message? message = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.Message);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
@@ -156,7 +155,7 @@ public class ForwardedMessageSerializationTests
             }
             """;
 
-        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
+        Message? message = JsonSerializer.Deserialize<Message>(json, TelegramBotClientJsonSerializerContext.Instance.Message);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
@@ -219,7 +218,7 @@ public class ForwardedMessageSerializationTests
             }
             """;
 
-        Message? message = JsonSerializer.Deserialize<Message>(json, JsonSerializerOptionsProvider.Options);
+        Message? message = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.Message);
 
         Assert.NotNull(message);
         Assert.Equal(MessageType.Text, message.Type);
@@ -270,7 +269,7 @@ public class ForwardedMessageSerializationTests
             },
         };
 
-        string serializedMessage = JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options);
+        string serializedMessage = JsonSerializer.Serialize(message, TelegramBotClientJsonSerializerContext.Instance.Message);
         JsonNode? root = JsonNode.Parse(serializedMessage);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -336,7 +335,7 @@ public class ForwardedMessageSerializationTests
             }
             """;
 
-        Update? update = JsonSerializer.Deserialize<Update>(json, JsonSerializerOptionsProvider.Options);
+        Update? update = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.Update);
 
         Assert.NotNull(update);
         Assert.Equal(UpdateType.ChatMember, update.Type);

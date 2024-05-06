@@ -50,6 +50,6 @@ public class StopPollRequest : RequestBase<Poll>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public StopPollRequest()
-        : base("stopPoll")
+        : base("stopPoll", TelegramBotClientJsonSerializerContext.Instance.StopPollRequest)
     { }
 }

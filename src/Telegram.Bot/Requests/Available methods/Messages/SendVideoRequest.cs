@@ -164,13 +164,13 @@ public class SendVideoRequest : FileRequestBase<Message>, IChatTargetable, IBusi
     /// Initializes a new request
     /// </summary>
     public SendVideoRequest()
-        : base("sendVideo")
+        : base("sendVideo", TelegramBotClientJsonSerializerContext.Instance.SendVideoRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Video is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("video", "thumbnail")
+            ? GenerateMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendVideoRequest, "video", "thumbnail")
                 .AddContentIfInputFile(media: Video, name: "video")
                 .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
             : base.ToHttpContent();

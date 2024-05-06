@@ -34,6 +34,6 @@ public class GetChatMemberCountRequest : RequestBase<int>, IChatTargetable
     /// </summary>
     [JsonConstructor]
     public GetChatMemberCountRequest()
-        : base("getChatMemberCount")
+        : base("getChatMemberCount", TelegramBotClientJsonSerializerContext.Instance.GetChatMemberCountRequest)
     { }
 }

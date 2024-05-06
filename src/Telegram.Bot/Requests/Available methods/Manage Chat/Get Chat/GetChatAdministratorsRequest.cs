@@ -36,6 +36,6 @@ public class GetChatAdministratorsRequest : RequestBase<ChatMember[]>, IChatTarg
     /// Initializes a new request
     /// </summary>
     public GetChatAdministratorsRequest()
-        : base("getChatAdministrators")
+        : base("getChatAdministrators", TelegramBotClientJsonSerializerContext.Instance.GetChatAdministratorsRequest)
     { }
 }

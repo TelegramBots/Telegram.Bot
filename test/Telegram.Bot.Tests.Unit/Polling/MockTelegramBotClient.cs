@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Args;
@@ -45,6 +46,7 @@ public class MockTelegramBotClient : ITelegramBotClient
 
     public async Task<TResponse> MakeRequestAsync<TResponse>(
         IRequest<TResponse> request,
+        JsonTypeInfo<ApiResponse<TResponse>> serializerContext,
         CancellationToken cancellationToken = default)
     {
         if (request is not GetUpdatesRequest getUpdatesRequest) { throw new NotImplementedException(); }

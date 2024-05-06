@@ -131,14 +131,15 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable, IBusi
     /// Initializes a new request
     /// </summary>
     public SendVoiceRequest()
-        : base("sendVoice")
+        : base("sendVoice", TelegramBotClientJsonSerializerContext.Instance.SendVoiceRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Voice switch
         {
-            InputFileStream voice => ToMultipartFormDataContent(fileParameterName: "voice", inputFile: voice),
+            InputFileStream voice =>
+                ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendVoiceRequest, fileParameterName: "voice", inputFile: voice),
             _               => base.ToHttpContent()
         };
 }

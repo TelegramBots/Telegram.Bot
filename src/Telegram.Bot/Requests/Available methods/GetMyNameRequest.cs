@@ -18,6 +18,6 @@ public class GetMyNameRequest : RequestBase<BotName>
     /// Initializes a new request
     /// </summary>
     public GetMyNameRequest()
-        : base("getMyName")
+        : base("getMyName", TelegramBotClientJsonSerializerContext.Instance.GetMyNameRequest)
     { }
 }

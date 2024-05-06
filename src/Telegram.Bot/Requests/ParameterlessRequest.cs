@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Text.Json.Serialization.Metadata;
 
 namespace Telegram.Bot.Requests;
 
@@ -13,8 +14,9 @@ public abstract class ParameterlessRequest<TResult> : RequestBase<TResult>
     /// Initializes an instance of <see cref="ParameterlessRequest{TResult}"/>
     /// </summary>
     /// <param name="methodName">Name of request method</param>
-    protected ParameterlessRequest(string methodName)
-        : base(methodName)
+    /// <param name="jsonTypeInfo"></param>
+    protected ParameterlessRequest(string methodName, JsonTypeInfo jsonTypeInfo)
+        : base(methodName, jsonTypeInfo)
     { }
 
     /// <summary>
@@ -22,8 +24,11 @@ public abstract class ParameterlessRequest<TResult> : RequestBase<TResult>
     /// </summary>
     /// <param name="methodName">Name of request method</param>
     /// <param name="method">HTTP request method</param>
-    protected ParameterlessRequest(string methodName, HttpMethod method)
-        : base(methodName, method)
+    /// <param name="jsonTypeInfo"></param>
+    protected ParameterlessRequest(
+        string methodName,
+        HttpMethod method, JsonTypeInfo jsonTypeInfo)
+        : base(methodName, method, jsonTypeInfo)
     { }
 
     /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>

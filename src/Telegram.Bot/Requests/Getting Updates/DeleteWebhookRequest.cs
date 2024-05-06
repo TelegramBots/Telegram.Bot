@@ -18,6 +18,6 @@ public class DeleteWebhookRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public DeleteWebhookRequest()
-        : base("deleteWebhook")
+        : base("deleteWebhook", TelegramBotClientJsonSerializerContext.Instance.DeleteWebhookRequest)
     { }
 }

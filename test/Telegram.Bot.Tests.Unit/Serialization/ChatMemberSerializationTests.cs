@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -27,7 +26,7 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, JsonSerializerOptionsProvider.Options);
+        ChatMember? chatMember = JsonSerializer.Deserialize<ChatMember>(json, TelegramBotClientJsonSerializerContext.JsonSerializerOptions);
 
         ChatMemberOwner owner = Assert.IsAssignableFrom<ChatMemberOwner>(chatMember);
 
@@ -61,7 +60,7 @@ public class ChatMemberSerializationTests
             CustomTitle = "Custom test title"
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatMemberOwner);
 
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
@@ -102,7 +101,7 @@ public class ChatMemberSerializationTests
             UntilDate = new(2021, 4, 2, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatMemberBanned);
 
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
@@ -142,7 +141,8 @@ public class ChatMemberSerializationTests
             },
         };
 
-        string chatMemberJson = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string chatMemberJson = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatMemberBanned);
+
         JsonNode? root = JsonNode.Parse(chatMemberJson);
         Assert.NotNull(root);
 
@@ -185,7 +185,8 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMemberBanned? bannedUser = JsonSerializer.Deserialize<ChatMemberBanned>(json, JsonSerializerOptionsProvider.Options);
+        ChatMemberBanned? bannedUser =
+            JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ChatMemberBanned);
 
         Assert.NotNull(bannedUser);
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
@@ -218,7 +219,8 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMemberBanned? bannedUser = JsonSerializer.Deserialize<ChatMemberBanned>(json, JsonSerializerOptionsProvider.Options);
+        ChatMemberBanned? bannedUser =
+            JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ChatMemberBanned);
 
         Assert.NotNull(bannedUser);
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
@@ -250,7 +252,8 @@ public class ChatMemberSerializationTests
         }
         """;
 
-        ChatMemberBanned? bannedUser = JsonSerializer.Deserialize<ChatMemberBanned>(json, JsonSerializerOptionsProvider.Options);
+        ChatMemberBanned? bannedUser =
+            JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ChatMemberBanned);
 
         Assert.NotNull(bannedUser);
         Assert.Equal(ChatMemberStatus.Kicked, bannedUser.Status);
@@ -315,7 +318,8 @@ public class ChatMemberSerializationTests
             }
             """;
 
-        Update? update = JsonSerializer.Deserialize<Update>(json, JsonSerializerOptionsProvider.Options);
+        Update? update =
+            JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.Update);
 
         Assert.NotNull(update);
         Assert.Equal(UpdateType.ChatMember, update.Type);

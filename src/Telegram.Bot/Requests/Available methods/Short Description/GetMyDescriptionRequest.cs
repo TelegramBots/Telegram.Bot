@@ -19,6 +19,6 @@ public class GetMyShortDescriptionRequest : RequestBase<BotShortDescription>
     /// Initializes a new request
     /// </summary>
     public GetMyShortDescriptionRequest()
-        : base("getMyShortDescription")
+        : base("getMyShortDescription", TelegramBotClientJsonSerializerContext.Instance.GetMyShortDescriptionRequest)
     { }
 }

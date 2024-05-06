@@ -1,43 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class BotCommandScopeTypeConverterTests
 {
     [Theory]
-    [InlineData(BotCommandScopeType.Default, "default")]
-    [InlineData(BotCommandScopeType.AllPrivateChats, "all_private_chats")]
-    [InlineData(BotCommandScopeType.AllGroupChats, "all_group_chats")]
-    [InlineData(BotCommandScopeType.AllChatAdministrators, "all_chat_administrators")]
-    [InlineData(BotCommandScopeType.Chat, "chat")]
-    [InlineData(BotCommandScopeType.ChatAdministrators, "chat_administrators")]
-    [InlineData(BotCommandScopeType.ChatMember, "chat_member")]
-    public void Should_Convert_BotCommandScopeType_To_String(BotCommandScopeType botCommandScopeType, string value)
+    [ClassData(typeof(BotCommandScopeData))]
+    public void Should_Convert_BotCommandScopeType_To_String(BotCommandScope botCommandScope, string value)
     {
-        BotCommandScope botCommandScope = new(){ Type = botCommandScopeType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string result = JsonSerializer.Serialize(botCommandScope, TelegramBotClientJsonSerializerContext.Instance.BotCommandScope);
 
-        string result = JsonSerializer.Serialize(botCommandScope, JsonSerializerOptionsProvider.Options);
-
-        Assert.Equal(expectedResult, result);
+        Assert.Equal(value, result);
     }
 
     [Theory]
-    [InlineData(BotCommandScopeType.Default, "default")]
-    [InlineData(BotCommandScopeType.AllPrivateChats, "all_private_chats")]
-    [InlineData(BotCommandScopeType.AllGroupChats, "all_group_chats")]
-    [InlineData(BotCommandScopeType.AllChatAdministrators, "all_chat_administrators")]
-    [InlineData(BotCommandScopeType.Chat, "chat")]
-    [InlineData(BotCommandScopeType.ChatAdministrators, "chat_administrators")]
-    [InlineData(BotCommandScopeType.ChatMember, "chat_member")]
-    public void Should_Convert_String_To_BotCommandScopeType(BotCommandScopeType botCommandScopeType, string value)
+    [ClassData(typeof(BotCommandScopeData))]
+    public void Should_Convert_String_To_BotCommandScopeType(BotCommandScope expectedResult, string value)
     {
-        BotCommandScope expectedResult = new() { Type = botCommandScopeType };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        BotCommandScope? result = JsonSerializer.Deserialize<BotCommandScope>(jsonData, JsonSerializerOptionsProvider.Options);
+        BotCommandScope? result = JsonSerializer.Deserialize(value, TelegramBotClientJsonSerializerContext.Instance.BotCommandScope);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -46,25 +30,48 @@ public class BotCommandScopeTypeConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_BotCommandScopeType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        BotCommandScope? result = JsonSerializer.Deserialize<BotCommandScope>(jsonData, JsonSerializerOptionsProvider.Options);
+        BotCommandScopeType? result =
+            JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.BotCommandScopeType);
         Assert.NotNull(result);
-        Assert.Equal((BotCommandScopeType)0, result.Type);
+        Assert.Equal((BotCommandScopeType)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_BotCommandScopeType()
     {
-        BotCommandScope botCommandScope = new() { Type = (BotCommandScopeType)int.MaxValue };
-
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(botCommandScope, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((BotCommandScopeType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.BotCommandScopeType));
     }
 
-
-    class BotCommandScope
+    private class BotCommandScopeData : IEnumerable<object[]>
     {
-        [JsonRequired]
-        public BotCommandScopeType Type { get; init; }
+        private static BotCommandScope NewBotCommandScope(BotCommandScopeType botCommandScopeType)
+        {
+            return botCommandScopeType switch
+            {
+                BotCommandScopeType.Default => new BotCommandScopeDefault(),
+                BotCommandScopeType.AllPrivateChats => new BotCommandScopeAllPrivateChats(),
+                BotCommandScopeType.AllGroupChats => new BotCommandScopeAllGroupChats(),
+                BotCommandScopeType.AllChatAdministrators => new BotCommandScopeAllChatAdministrators(),
+                BotCommandScopeType.Chat => new BotCommandScopeChat { ChatId = 1234 },
+                BotCommandScopeType.ChatAdministrators => new BotCommandScopeChatAdministrators { ChatId = 1234 },
+                BotCommandScopeType.ChatMember => new BotCommandScopeChatMember { ChatId = 123456789, UserId = 1234 },
+                _ => throw new ArgumentOutOfRangeException(nameof(botCommandScopeType), botCommandScopeType, null),
+            };
+
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewBotCommandScope(BotCommandScopeType.Default), """{"type":"default"}"""];
+            yield return [NewBotCommandScope(BotCommandScopeType.AllPrivateChats), """{"type":"all_private_chats"}"""];
+            yield return [NewBotCommandScope(BotCommandScopeType.AllGroupChats), """{"type":"all_group_chats"}"""];
+            yield return [NewBotCommandScope(BotCommandScopeType.AllChatAdministrators), """{"type":"all_chat_administrators"}"""];
+            yield return [NewBotCommandScope(BotCommandScopeType.Chat), """{"type":"chat","chat_id":1234}"""];
+            yield return [NewBotCommandScope(BotCommandScopeType.ChatAdministrators), """{"type":"chat_administrators","chat_id":1234}"""];
+            yield return [NewBotCommandScope(BotCommandScopeType.ChatMember), """{"type":"chat_member","chat_id":123456789,"user_id":1234}"""];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

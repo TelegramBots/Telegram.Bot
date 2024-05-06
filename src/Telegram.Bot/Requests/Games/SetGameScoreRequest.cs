@@ -78,6 +78,6 @@ public class SetGameScoreRequest : RequestBase<Message>, IUserTargetable, IChatT
     /// Initializes a new request
     /// </summary>
     public SetGameScoreRequest()
-        : base("setGameScore")
+        : base("setGameScore", TelegramBotClientJsonSerializerContext.Instance.SetGameScoreRequest)
     { }
 }

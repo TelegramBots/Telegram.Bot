@@ -117,6 +117,6 @@ public class SendContactRequest : RequestBase<Message>, IChatTargetable, IBusine
     /// Initializes a new request
     /// </summary>
     public SendContactRequest()
-        : base("sendContact")
+        : base("sendContact", TelegramBotClientJsonSerializerContext.Instance.SendContactRequest)
     { }
 }

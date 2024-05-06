@@ -30,6 +30,6 @@ public class UnhideGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public UnhideGeneralForumTopicRequest()
-        : base("unhideGeneralForumTopic")
+        : base("unhideGeneralForumTopic", TelegramBotClientJsonSerializerContext.Instance.UnhideGeneralForumTopicRequest)
     { }
 }

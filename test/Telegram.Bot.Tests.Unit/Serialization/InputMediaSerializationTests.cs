@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -22,7 +21,7 @@ public class InputMediaSerializationTests
         }
         """;
 
-        InputMedia? inputMedia = JsonSerializer.Deserialize<InputMedia>(json, JsonSerializerOptionsProvider.Options);
+        InputMedia? inputMedia = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.InputMedia);
 
         Assert.NotNull(inputMedia);
         Assert.Equal(InputMediaType.Animation, inputMedia.Type);
@@ -52,7 +51,7 @@ public class InputMediaSerializationTests
         }
         """;
 
-        InputMediaAnimation? animation = JsonSerializer.Deserialize<InputMediaAnimation>(json, JsonSerializerOptionsProvider.Options);
+        InputMediaAnimation? animation = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.InputMediaAnimation);
 
         Assert.NotNull(animation);
         Assert.Equal("Test *caption*", animation.Caption);
@@ -76,7 +75,7 @@ public class InputMediaSerializationTests
             Height = 200,
         };
 
-        string json = JsonSerializer.Serialize(animation, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(animation, TelegramBotClientJsonSerializerContext.Instance.InputMediaAnimation);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -103,7 +102,7 @@ public class InputMediaSerializationTests
             Height = 200,
         };
 
-        string json = JsonSerializer.Serialize(animation, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(animation, TelegramBotClientJsonSerializerContext.Instance.InputMedia);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -128,7 +127,7 @@ public class InputMediaSerializationTests
             Caption = "Test *caption*",
         };
 
-        string json = JsonSerializer.Serialize(animation, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(animation, TelegramBotClientJsonSerializerContext.Instance.InputMediaPhoto);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

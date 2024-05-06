@@ -34,6 +34,6 @@ public class DeleteChatPhotoRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public DeleteChatPhotoRequest()
-        : base("deleteChatPhoto")
+        : base("deleteChatPhoto", TelegramBotClientJsonSerializerContext.Instance.DeleteChatPhotoRequest)
     { }
 }

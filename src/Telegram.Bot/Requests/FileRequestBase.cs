@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json.Serialization.Metadata;
 using Telegram.Bot.Extensions;
 using Telegram.Bot.Serialization;
 
@@ -17,8 +18,9 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// Initializes an instance of request
     /// </summary>
     /// <param name="methodName">Bot API method</param>
-    protected FileRequestBase(string methodName)
-        : base(methodName)
+    /// <param name="jsonTypeInfo"></param>
+    protected FileRequestBase(string methodName, JsonTypeInfo jsonTypeInfo)
+        : base(methodName, jsonTypeInfo)
     { }
 
     /// <summary>
@@ -26,17 +28,20 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
     /// </summary>
     /// <param name="methodName">Bot API method</param>
     /// <param name="method">HTTP method to use</param>
-    protected FileRequestBase(string methodName, HttpMethod method)
-        : base(methodName, method)
+    /// <param name="jsonTypeInfo"></param>
+    protected FileRequestBase(string methodName, HttpMethod method, JsonTypeInfo jsonTypeInfo)
+        : base(methodName, method, jsonTypeInfo)
     { }
 
     /// <summary>
     /// Generate multipart form data content
     /// </summary>
     /// <param name="fileParameterName"></param>
+    /// <param name="context"></param>
     /// <param name="inputFile"></param>
     /// <returns></returns>
     protected MultipartFormDataContent ToMultipartFormDataContent(
+        JsonTypeInfo context,
         string fileParameterName,
         InputFileStream inputFile)
     {
@@ -45,21 +50,26 @@ public abstract class FileRequestBase<TResponse> : RequestBase<TResponse>
             throw new ArgumentNullException(nameof(inputFile), $"{nameof(inputFile)} or it's content is null");
         }
 
-        return GenerateMultipartFormDataContent(fileParameterName)
+        return GenerateMultipartFormDataContent(context, fileParameterName)
             .AddContentIfInputFile(media: inputFile, name: fileParameterName);
     }
 
     /// <summary>
     /// Generate multipart form data content
     /// </summary>
+    /// <param name="context"></param>
     /// <param name="exceptPropertyNames"></param>
     /// <returns></returns>
-    protected MultipartFormDataContent GenerateMultipartFormDataContent(params string[] exceptPropertyNames)
+    protected MultipartFormDataContent GenerateMultipartFormDataContent(
+        JsonTypeInfo context,
+        params string[] exceptPropertyNames)
     {
         var boundary = $"{Guid.NewGuid()}{DateTime.UtcNow.Ticks.ToString(CultureInfo.InvariantCulture)}";
         var multipartContent = new MultipartFormDataContent(boundary);
 
-        var stringContents = JsonSerializer.SerializeToElement(this, GetType(), JsonSerializerOptionsProvider.Options)
+        var jsonElement = JsonSerializer.SerializeToElement(this, context);
+
+        var stringContents = jsonElement
             .EnumerateObject()
             .Where(prop => exceptPropertyNames.Contains(prop.Name, StringComparer.InvariantCulture) is false)
             .Select(prop => (name: prop.Name, content: new StringContent(prop.Value.ToString())));

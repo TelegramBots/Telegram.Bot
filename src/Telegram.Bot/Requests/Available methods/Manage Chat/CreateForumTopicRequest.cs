@@ -56,6 +56,6 @@ public class CreateForumTopicRequest : RequestBase<ForumTopic>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public CreateForumTopicRequest()
-        : base("createForumTopic")
+        : base("createForumTopic", TelegramBotClientJsonSerializerContext.Instance.CreateForumTopicRequest)
     { }
 }

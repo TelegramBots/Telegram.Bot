@@ -75,6 +75,6 @@ public class AnswerPreCheckoutQueryRequest : RequestBase<bool>
     /// Initializes a new failing answerPreCheckoutQuery request with error message
     /// </summary>
     public AnswerPreCheckoutQueryRequest()
-        : base("answerPreCheckoutQuery")
+        : base("answerPreCheckoutQuery", TelegramBotClientJsonSerializerContext.Instance.AnswerPreCheckoutQueryRequest)
     { }
 }

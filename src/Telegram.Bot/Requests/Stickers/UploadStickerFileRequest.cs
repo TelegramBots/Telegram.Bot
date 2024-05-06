@@ -60,10 +60,10 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// Initializes a new request
     /// </summary>
     public UploadStickerFileRequest()
-        : base("uploadStickerFile")
+        : base("uploadStickerFile", TelegramBotClientJsonSerializerContext.Instance.UploadStickerFileRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()
-        => ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: Sticker);
+        => ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.UploadStickerFileRequest, fileParameterName: "sticker", inputFile: Sticker);
 }

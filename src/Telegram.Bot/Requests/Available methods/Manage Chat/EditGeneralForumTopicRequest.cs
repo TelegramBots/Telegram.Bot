@@ -37,6 +37,6 @@ public class EditGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public EditGeneralForumTopicRequest()
-        : base("editGeneralForumTopic")
+        : base("editGeneralForumTopic", TelegramBotClientJsonSerializerContext.Instance.EditGeneralForumTopicRequest)
     { }
 }

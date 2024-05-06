@@ -92,6 +92,6 @@ public class CopyMessagesRequest : RequestBase<MessageId[]>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public CopyMessagesRequest()
-        : base("copyMessages")
+        : base("copyMessages", TelegramBotClientJsonSerializerContext.Instance.CopyMessagesRequest)
     { }
 }

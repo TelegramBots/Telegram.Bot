@@ -123,13 +123,13 @@ public class SendVideoNoteRequest : FileRequestBase<Message>, IChatTargetable, I
     /// Initializes a new request
     /// </summary>
     public SendVideoNoteRequest()
-        : base("sendVideoNote")
+        : base("sendVideoNote", TelegramBotClientJsonSerializerContext.Instance.SendVideoNoteRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         VideoNote is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("video_note", "thumbnail")
+            ? GenerateMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendVideoNoteRequest, "video_note", "thumbnail")
                 .AddContentIfInputFile(media: VideoNote, name: "video_note")
                 .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
             : base.ToHttpContent();

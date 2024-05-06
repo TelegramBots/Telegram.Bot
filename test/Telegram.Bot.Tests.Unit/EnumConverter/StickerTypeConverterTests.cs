@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class StickerTypeConverterTests
 {
+    // [todo] maybe without TelegramBotClientJsonSerializerContext the whole class
+
     [Fact]
     public void Should_Verify_All_StickerType_Members()
     {
@@ -16,11 +18,10 @@ public class StickerTypeConverterTests
             .GetNames(typeof(StickerType))
             .OrderBy(x => x)
             .ToList();
-        List<string> stickerTypeDataMembers = new StickerTypeData()
-            .Select(x => Enum.GetName(typeof(StickerType), x[0]))
-            .OrderBy(x => x)
-            .ToList()!;
-
+         List<string> stickerTypeDataMembers = new StickerTypeData()
+                        .Select(x => ((Sticker)x[0]).Type.ToString()) // Извлекаем тип стикера из объекта Sticker
+                        .OrderBy(x => x)
+                        .ToList();
         Assert.Equal(stickerTypeMembers.Count, stickerTypeDataMembers.Count);
         Assert.Equal(stickerTypeMembers, stickerTypeDataMembers);
     }
@@ -28,24 +29,22 @@ public class StickerTypeConverterTests
 
     [Theory]
     [ClassData(typeof(StickerTypeData))]
-    public void Should_Convert_StickerType_To_String(StickerType stickerType, string value)
+    public void Should_Convert_StickerType_To_String(Sticker sticker, string value)
     {
-        Sticker sticker = new() { Type = stickerType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string expectedResult =  $$"""{"type":"{{value}}","width":512,"height":512,"is_animated":false,"is_video":false,"file_id":"1","file_unique_id":"1"}""";
 
-        string result = JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(sticker, TelegramBotClientJsonSerializerContext.Instance.Sticker);
 
         Assert.Equal(expectedResult, result);
     }
 
     [Theory]
     [ClassData(typeof(StickerTypeData))]
-    public void Should_Convert_String_To_StickerType(StickerType stickerType, string value)
+    public void Should_Convert_String_To_StickerType(Sticker expectedResult, string value)
     {
-        Sticker expectedResult = new() { Type = stickerType };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
+        string jsonData =
+            $$"""{"type":"{{value}}","width":512,"height":512,"is_animated":false,"is_video":false,"file_id":"1","file_unique_id":"1"}""";
+        Sticker result = JsonSerializer.Deserialize(jsonData, TelegramBotClientJsonSerializerContext.Instance.Sticker)!;
 
         Assert.Equal(expectedResult.Type, result.Type);
     }
@@ -53,35 +52,41 @@ public class StickerTypeConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_StickerType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
+        StickerType result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.StickerType)!;
 
-        Sticker result = JsonSerializer.Deserialize<Sticker>(jsonData, JsonSerializerOptionsProvider.Options)!;
-
-        Assert.Equal((StickerType)0, result.Type);
+        Assert.Equal((StickerType)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_StickerType()
     {
-        Sticker sticker = new() { Type = (StickerType)int.MaxValue };
-
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sticker, JsonSerializerOptionsProvider.Options));
-    }
-
-
-    class Sticker
-    {
-        [JsonRequired]
-        public StickerType Type { get; set; }
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize(
+                StickerTypeData.NewSticker((StickerType)int.MaxValue),
+                TelegramBotClientJsonSerializerContext.Instance.Sticker));
     }
 
     private class StickerTypeData : IEnumerable<object[]>
     {
+        internal static Sticker NewSticker(StickerType stickerType)
+        {
+            return new Sticker
+            {
+                FileId = "1",
+                FileUniqueId = "1",
+                Type = stickerType,
+                Width = 512,
+                Height = 512,
+                IsAnimated = false,
+                IsVideo = false,
+            };
+        }
+
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return [StickerType.Regular, "regular"];
-            yield return [StickerType.Mask, "mask"];
-            yield return [StickerType.CustomEmoji, "custom_emoji"];
+            yield return [NewSticker(StickerType.Regular), "regular"];
+            yield return [NewSticker(StickerType.Mask), "mask"];
+            yield return [NewSticker(StickerType.CustomEmoji), "custom_emoji"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

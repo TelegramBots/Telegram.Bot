@@ -90,6 +90,6 @@ public class EditMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
     /// Initializes a new request
     /// </summary>
     public EditMessageLiveLocationRequest()
-        : base("editMessageLiveLocation")
+        : base("editMessageLiveLocation", TelegramBotClientJsonSerializerContext.Instance.EditMessageLiveLocationRequest)
     { }
 }

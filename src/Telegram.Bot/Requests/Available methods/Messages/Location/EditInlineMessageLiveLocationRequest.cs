@@ -77,6 +77,6 @@ public class EditInlineMessageLiveLocationRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public EditInlineMessageLiveLocationRequest()
-        : base("editMessageLiveLocation")
+        : base("editMessageLiveLocation", TelegramBotClientJsonSerializerContext.Instance.EditInlineMessageLiveLocationRequest)
     { }
 }

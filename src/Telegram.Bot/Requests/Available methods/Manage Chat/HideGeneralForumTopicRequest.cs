@@ -29,6 +29,6 @@ public class HideGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public HideGeneralForumTopicRequest()
-        : base("hideGeneralForumTopic")
+        : base("hideGeneralForumTopic", TelegramBotClientJsonSerializerContext.Instance.HideGeneralForumTopicRequest)
     { }
 }

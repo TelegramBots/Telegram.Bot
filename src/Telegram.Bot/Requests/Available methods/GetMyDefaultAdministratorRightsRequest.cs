@@ -20,6 +20,6 @@ public class GetMyDefaultAdministratorRightsRequest : RequestBase<ChatAdministra
     /// Initializes a new request
     /// </summary>
     public GetMyDefaultAdministratorRightsRequest()
-        : base("getMyDefaultAdministratorRights")
+        : base("getMyDefaultAdministratorRights", TelegramBotClientJsonSerializerContext.Instance.GetMyDefaultAdministratorRightsRequest)
     { }
 }

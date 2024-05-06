@@ -21,7 +21,7 @@ public class GetBusinessConnectionRequest : RequestBase<BusinessConnection>
     /// </summary>
     [SetsRequiredMembers]
     public GetBusinessConnectionRequest(string businessConnectionId)
-        : base("getBusinessConnection")
+        : base("getBusinessConnection", TelegramBotClientJsonSerializerContext.Instance.GetBusinessConnectionRequest)
     {
         BusinessConnectionId = businessConnectionId;
     }
@@ -31,6 +31,6 @@ public class GetBusinessConnectionRequest : RequestBase<BusinessConnection>
     /// Initializes a new request
     /// </summary>
     public GetBusinessConnectionRequest()
-        : base("getBusinessConnection")
+        : base("getBusinessConnection", TelegramBotClientJsonSerializerContext.Instance.GetBusinessConnectionRequest)
     { }
 }

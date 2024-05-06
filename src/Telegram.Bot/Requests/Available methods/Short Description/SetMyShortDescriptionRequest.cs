@@ -28,6 +28,6 @@ public class SetMyShortDescriptionRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetMyShortDescriptionRequest()
-        : base("setMyShortDescription")
+        : base("setMyShortDescription", TelegramBotClientJsonSerializerContext.Instance.SetMyShortDescriptionRequest)
     { }
 }

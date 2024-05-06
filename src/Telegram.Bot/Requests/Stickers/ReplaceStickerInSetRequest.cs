@@ -41,6 +41,6 @@ public class ReplaceStickerInSetRequest : RequestBase<bool>
     /// Initializes a new request with name
     /// </summary>
     public ReplaceStickerInSetRequest()
-        : base("replaceStickerInSet")
+        : base("replaceStickerInSet", TelegramBotClientJsonSerializerContext.Instance.ReplaceStickerInSetRequest)
     { }
 }

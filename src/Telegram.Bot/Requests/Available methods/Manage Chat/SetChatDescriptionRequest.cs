@@ -42,6 +42,6 @@ public class SetChatDescriptionRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public SetChatDescriptionRequest()
-        : base("setChatDescription")
+        : base("setChatDescription", TelegramBotClientJsonSerializerContext.Instance.SetChatDescriptionRequest)
     { }
 }

@@ -2,7 +2,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Telegram.Bot.Requests;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -27,7 +26,7 @@ public class RequestSerializationTests
     {
         GetUpdatesRequest request = new() { Offset = 12345 };
 
-        string serializeRequest = JsonSerializer.Serialize(request, JsonSerializerOptionsProvider.Options);
+        string serializeRequest = JsonSerializer.Serialize(request, TelegramBotClientJsonSerializerContext.Instance.GetUpdatesRequest);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(JsonNode.Parse(serializeRequest));
 
         Assert.Single(j);

@@ -49,6 +49,6 @@ public class DeleteMessagesRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request with chatId and messageIds
     /// </summary>
     public DeleteMessagesRequest()
-        : base("deleteMessages")
+        : base("deleteMessages", TelegramBotClientJsonSerializerContext.Instance.DeleteMessagesRequest)
     { }
 }

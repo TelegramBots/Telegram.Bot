@@ -109,20 +109,20 @@ public class SetWebhookRequest : FileRequestBase<bool>
     /// </param>
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
-    public SetWebhookRequest(string url) : base("setWebhook")
+    public SetWebhookRequest(string url) : base("setWebhook", TelegramBotClientJsonSerializerContext.Instance.SetWebhookRequest)
         => Url = url;
 
     /// <summary>
     /// Initializes a new request
     /// </summary>
-    public SetWebhookRequest() : base("setWebhook")
+    public SetWebhookRequest() : base("setWebhook", TelegramBotClientJsonSerializerContext.Instance.SetWebhookRequest)
     { }
 
     /// <inheritdoc cref="RequestBase{TResponse}.ToHttpContent"/>
     public override HttpContent? ToHttpContent() =>
         Certificate switch
         {
-            not null => ToMultipartFormDataContent("certificate", Certificate),
+            not null => ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SetWebhookRequest, "certificate", Certificate),
             _        => base.ToHttpContent()
         };
 }

@@ -17,7 +17,7 @@ public class ApiResponseSerializationTests
         }
         """;
 
-        ApiResponse<bool>? apiResponse = JsonSerializer.Deserialize<ApiResponse<bool>>(json, JsonSerializerOptionsProvider.Options);
+        ApiResponse<bool>? apiResponse = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean);
 
         Assert.NotNull(apiResponse);
         Assert.True(apiResponse.Ok);
@@ -37,7 +37,7 @@ public class ApiResponseSerializationTests
       }
       """;
 
-        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize<ApiResponse<BotDescription>>(json, JsonSerializerOptionsProvider.Options);
+        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBotDescription);
 
         Assert.NotNull(apiResponse);
         Assert.True(apiResponse.Ok);
@@ -62,7 +62,7 @@ public class ApiResponseSerializationTests
         }
         """;
 
-        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize<ApiResponse<BotDescription>>(json, JsonSerializerOptionsProvider.Options);
+        ApiResponse<BotDescription>? apiResponse = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBotDescription);
 
         Assert.NotNull(apiResponse);
         Assert.False(apiResponse.Ok);

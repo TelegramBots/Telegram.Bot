@@ -64,7 +64,7 @@ public class AnswerCallbackQueryRequest : RequestBase<bool>
     /// <summary>
     /// Initializes a new request with callbackQueryId
     /// </summary>
-    public AnswerCallbackQueryRequest() : base("answerCallbackQuery") { }
+    public AnswerCallbackQueryRequest() : base("answerCallbackQuery", TelegramBotClientJsonSerializerContext.Instance.AnswerCallbackQueryRequest) { }
 
     /// <summary>
     /// Initializes a new request with callbackQueryId

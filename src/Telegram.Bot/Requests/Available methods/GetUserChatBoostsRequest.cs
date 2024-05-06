@@ -28,7 +28,7 @@ public class GetUserChatBoostsRequest : RequestBase<UserChatBoosts>
     /// Initializes a new request
     /// </summary>
     public GetUserChatBoostsRequest()
-        : base("getUserChatBoosts")
+        : base("getUserChatBoosts", TelegramBotClientJsonSerializerContext.Instance.GetUserChatBoostsRequest)
     { }
 
     /// <summary>

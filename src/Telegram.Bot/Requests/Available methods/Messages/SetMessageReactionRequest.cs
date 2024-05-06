@@ -66,6 +66,6 @@ public class SetMessageReactionRequest : RequestBase<bool>,
     /// Initializes a new request
     /// </summary>
     public SetMessageReactionRequest()
-        : base("setMessageReaction")
+        : base("setMessageReaction", TelegramBotClientJsonSerializerContext.Instance.SetMessageReactionRequest)
     { }
 }

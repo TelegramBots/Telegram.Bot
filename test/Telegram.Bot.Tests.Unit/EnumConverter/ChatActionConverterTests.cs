@@ -1,79 +1,81 @@
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class ChatActionConverterTests
 {
     [Theory]
-    [InlineData(ChatAction.Typing, "typing")]
-    [InlineData(ChatAction.UploadPhoto, "upload_photo")]
-    [InlineData(ChatAction.RecordVideo, "record_video")]
-    [InlineData(ChatAction.UploadVideo, "upload_video")]
-    [InlineData(ChatAction.RecordVoice, "record_voice")]
-    [InlineData(ChatAction.UploadVoice, "upload_voice")]
-    [InlineData(ChatAction.UploadDocument, "upload_document")]
-    [InlineData(ChatAction.ChooseSticker, "choose_sticker")]
-    [InlineData(ChatAction.FindLocation, "find_location")]
-    [InlineData(ChatAction.RecordVideoNote, "record_video_note")]
-    [InlineData(ChatAction.UploadVideoNote, "upload_video_note")]
-    public void Should_Convert_ChatAction_To_String(ChatAction chatAction, string value)
+    [ClassData(typeof(ChatActionData))]
+    public void Should_Convert_ChatAction_To_String(SendChatActionRequest sendChatActionRequest, string value)
     {
-        SendChatActionRequest sendChatActionRequest = new() { Type = chatAction };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string expectedResult = $$"""{"chat_id":1234,"action":"{{value}}"}""";
 
-        string result = JsonSerializer.Serialize(sendChatActionRequest, JsonSerializerOptionsProvider.Options);
+        string result =
+            JsonSerializer.Serialize(sendChatActionRequest, TelegramBotClientJsonSerializerContext.Instance.SendChatActionRequest);
 
         Assert.Equal(expectedResult, result);
     }
 
     [Theory]
-    [InlineData(ChatAction.Typing, "typing")]
-    [InlineData(ChatAction.UploadPhoto, "upload_photo")]
-    [InlineData(ChatAction.RecordVideo, "record_video")]
-    [InlineData(ChatAction.UploadVideo, "upload_video")]
-    [InlineData(ChatAction.RecordVoice, "record_voice")]
-    [InlineData(ChatAction.UploadVoice, "upload_voice")]
-    [InlineData(ChatAction.UploadDocument, "upload_document")]
-    [InlineData(ChatAction.ChooseSticker, "choose_sticker")]
-    [InlineData(ChatAction.FindLocation, "find_location")]
-    [InlineData(ChatAction.RecordVideoNote, "record_video_note")]
-    [InlineData(ChatAction.UploadVideoNote, "upload_video_note")]
-    public void Should_Convert_String_ToChatAction(ChatAction chatAction, string value)
+    [ClassData(typeof(ChatActionData))]
+    public void Should_Convert_String_ToChatAction(SendChatActionRequest expectedResult, string value)
     {
-        SendChatActionRequest expectedResult = new() { Type = chatAction };
-        string jsonData = @$"{{""type"":""{value}""}}";
+        string jsonData = $$"""{"chat_id":1234,"action":"{{value}}"}""";
 
-        SendChatActionRequest? result = JsonSerializer.Deserialize<SendChatActionRequest>(jsonData, JsonSerializerOptionsProvider.Options);
+        SendChatActionRequest? result =
+            JsonSerializer.Deserialize(jsonData, TelegramBotClientJsonSerializerContext.Instance.SendChatActionRequest);
 
         Assert.NotNull(result);
-        Assert.Equal(expectedResult.Type, result.Type);
+        Assert.Equal(expectedResult.Action, result.Action);
     }
 
     [Fact]
     public void Should_Return_Zero_For_Incorrect_ChatAction()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        SendChatActionRequest? result = JsonSerializer.Deserialize<SendChatActionRequest>(jsonData, JsonSerializerOptionsProvider.Options);
+        ChatAction? result =
+            JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ChatAction);
 
         Assert.NotNull(result);
-        Assert.Equal((ChatAction)0, result.Type);
+        Assert.Equal((ChatAction)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_ChatAction()
     {
-        SendChatActionRequest sendChatActionRequest = new() { Type = (ChatAction)int.MaxValue };
-
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(sendChatActionRequest, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((ChatAction)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ChatAction));
     }
 
-
-    class SendChatActionRequest
+    private class ChatActionData : IEnumerable<object[]>
     {
-        [JsonRequired]
-        public ChatAction Type { get; init; }
+        private static SendChatActionRequest NewSendChatActionRequest(ChatAction chatAction)
+        {
+               return new SendChatActionRequest
+                {
+                    ChatId = 1234,
+                    Action = chatAction
+                };
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewSendChatActionRequest(ChatAction.Typing), "typing"];
+            yield return [NewSendChatActionRequest(ChatAction.UploadPhoto), "upload_photo"];
+            yield return [NewSendChatActionRequest(ChatAction.RecordVideo), "record_video"];
+            yield return [NewSendChatActionRequest(ChatAction.UploadVideo), "upload_video"];
+            yield return [NewSendChatActionRequest(ChatAction.RecordVoice), "record_voice"];
+            yield return [NewSendChatActionRequest(ChatAction.UploadVoice), "upload_voice"];
+            yield return [NewSendChatActionRequest(ChatAction.UploadDocument), "upload_document"];
+            yield return [NewSendChatActionRequest(ChatAction.ChooseSticker), "choose_sticker"];
+            yield return [NewSendChatActionRequest(ChatAction.FindLocation), "find_location"];
+            yield return [NewSendChatActionRequest(ChatAction.RecordVideoNote), "record_video_note"];
+            yield return [NewSendChatActionRequest(ChatAction.UploadVideoNote), "upload_video_note"];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

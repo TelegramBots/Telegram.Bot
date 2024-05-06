@@ -44,6 +44,6 @@ public class SetStickerMaskPositionRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetStickerMaskPositionRequest()
-        : base("setStickerMaskPosition")
+        : base("setStickerMaskPosition", TelegramBotClientJsonSerializerContext.Instance.SetStickerMaskPositionRequest)
     { }
 }

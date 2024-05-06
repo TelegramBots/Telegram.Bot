@@ -59,6 +59,6 @@ public class GetGameHighScoresRequest : RequestBase<GameHighScore[]>, IUserTarge
     /// Initializes a new request
     /// </summary>
     public GetGameHighScoresRequest()
-        : base("getGameHighScores")
+        : base("getGameHighScores", TelegramBotClientJsonSerializerContext.Instance.GetGameHighScoresRequest)
     { }
 }

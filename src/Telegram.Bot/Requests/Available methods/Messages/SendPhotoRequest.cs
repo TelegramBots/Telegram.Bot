@@ -131,14 +131,15 @@ public class SendPhotoRequest : FileRequestBase<Message>, IChatTargetable, IBusi
     /// Initializes a new request
     /// </summary>
     public SendPhotoRequest()
-        : base("sendPhoto")
+        : base("sendPhoto", TelegramBotClientJsonSerializerContext.Instance.SendPhotoRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Photo switch
         {
-            InputFileStream photo => ToMultipartFormDataContent(fileParameterName: "photo", inputFile: photo),
+            InputFileStream photo =>
+                ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendPhotoRequest, fileParameterName: "photo", inputFile: photo),
             _                     => base.ToHttpContent()
         };
 }

@@ -75,6 +75,6 @@ public class EditChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTarge
     /// Initializes a new request
     /// </summary>
     public EditChatInviteLinkRequest()
-        : base("editChatInviteLink")
+        : base("editChatInviteLink", TelegramBotClientJsonSerializerContext.Instance.EditChatInviteLinkRequest)
     { }
 }

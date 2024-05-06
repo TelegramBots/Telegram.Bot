@@ -49,6 +49,6 @@ public class StopMessageLiveLocationRequest : RequestBase<Message>, IChatTargeta
     /// Initializes a new request
     /// </summary>
     public StopMessageLiveLocationRequest()
-        : base("stopMessageLiveLocation")
+        : base("stopMessageLiveLocation", TelegramBotClientJsonSerializerContext.Instance.StopMessageLiveLocationRequest)
     { }
 }

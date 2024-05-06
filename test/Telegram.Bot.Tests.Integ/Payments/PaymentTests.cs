@@ -49,7 +49,10 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         PreliminaryInvoice preliminaryInvoice = paymentsBuilder.GetPreliminaryInvoice();
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        Message message = await BotClient.MakeRequestAsync(requestRequest);
+        Message message
+            = await BotClient.MakeRequestAsync(
+                requestRequest,
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
         Invoice invoice = message.Invoice;
 
         Assert.Equal(MessageType.Invoice, message.Type);
@@ -100,7 +103,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        await BotClient.MakeRequestAsync(requestRequest);
+        await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
@@ -108,7 +111,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             shippingQueryId: shippingUpdate.ShippingQuery!.Id
         );
 
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
+        await BotClient.MakeRequestAsync(shippingQueryRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean);
 
         Assert.Equal(UpdateType.ShippingQuery, shippingUpdate.Type);
         Assert.Equal("<my-payload>", shippingUpdate.ShippingQuery.InvoicePayload);
@@ -160,7 +163,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        await BotClient.MakeRequestAsync(requestRequest);
+        await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
@@ -168,7 +171,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             shippingQueryId: shippingUpdate.ShippingQuery!.Id
         );
 
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
+        await BotClient.MakeRequestAsync(shippingQueryRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean);
 
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
@@ -239,7 +242,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        Message invoiceMessage = await BotClient.MakeRequestAsync(requestRequest);
+        Message invoiceMessage
+            = await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
@@ -247,7 +251,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             shippingQueryId: shippingUpdate.ShippingQuery!.Id
         );
 
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
+        await BotClient.MakeRequestAsync(shippingQueryRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean);
 
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
@@ -311,7 +315,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         await fixture.SendTestInstructionsAsync(instruction, chatId: classFixture.PrivateChat.Id);
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
-        Message invoiceMessage = await BotClient.MakeRequestAsync(requestRequest);
+        Message invoiceMessage
+            = await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
 
@@ -373,7 +378,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        await BotClient.MakeRequestAsync(requestRequest);
+        await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
@@ -382,7 +387,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
             errorMessage: "Sorry, but we don't ship to your contry."
         );
 
-        await BotClient.MakeRequestAsync(shippingQueryRequest);
+        await BotClient.MakeRequestAsync(shippingQueryRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean);
     }
 
     [OrderedFact("Should send invoice for no shipment option, and reply pre-checkout query with an error.")]
@@ -419,7 +424,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        await BotClient.MakeRequestAsync(requestRequest);
+        await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Update preCheckoutUpdate = await GetPreCheckoutQueryUpdate();
         PreCheckoutQuery query = preCheckoutUpdate.PreCheckoutQuery;
@@ -460,7 +465,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
-            async () => await BotClient.MakeRequestAsync(requestRequest)
+            async ()
+                => await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage)
         );
 
         Assert.Equal(400, exception.ErrorCode);
@@ -512,7 +518,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        await BotClient.MakeRequestAsync(requestRequest);
+        await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Update shippingUpdate = await GetShippingQueryUpdate();
 
@@ -521,7 +527,8 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
         );
 
         ApiRequestException exception = await Assert.ThrowsAsync<ApiRequestException>(
-            async () => await BotClient.MakeRequestAsync(shippingQueryRequest)
+            async ()
+                => await BotClient.MakeRequestAsync(shippingQueryRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean)
         );
 
         Assert.Equal(400, exception.ErrorCode);
@@ -571,7 +578,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         SendInvoiceRequest requestRequest = paymentsBuilder.BuildInvoiceRequest();
 
-        await BotClient.MakeRequestAsync(requestRequest);
+        await BotClient.MakeRequestAsync(requestRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
     }
 
     async Task<Update> GetShippingQueryUpdate(CancellationToken cancellationToken = default)

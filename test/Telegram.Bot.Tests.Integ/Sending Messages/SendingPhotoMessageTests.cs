@@ -143,9 +143,9 @@ public class SendingPhotoMessageTests(TestsFixture fixture, EntityFixture<Messag
             }
             """;
 
-        SendPhotoRequest request = JsonSerializer.Deserialize<SendPhotoRequest>(json, JsonSerializerOptionsProvider.Options);
+        SendPhotoRequest request = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.SendPhotoRequest);
 
-        Message message = await BotClient.MakeRequestAsync(request);
+        Message message = await BotClient.MakeRequestAsync(request, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Assert.Equal(MessageType.Photo, message.Type);
     }

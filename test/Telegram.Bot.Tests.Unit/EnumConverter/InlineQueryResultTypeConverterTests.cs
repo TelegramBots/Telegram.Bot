@@ -1,57 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
 using Telegram.Bot.Types.InlineQueryResults;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class InlineQueryResultTypeConverterTests
 {
     [Theory]
-    [InlineData((InlineQueryResultType)0, "unknown")]
-    [InlineData(InlineQueryResultType.Article, "article")]
-    [InlineData(InlineQueryResultType.Photo, "photo")]
-    [InlineData(InlineQueryResultType.Gif, "gif")]
-    [InlineData(InlineQueryResultType.Mpeg4Gif, "mpeg4_gif")]
-    [InlineData(InlineQueryResultType.Video, "video")]
-    [InlineData(InlineQueryResultType.Audio, "audio")]
-    [InlineData(InlineQueryResultType.Contact, "contact")]
-    [InlineData(InlineQueryResultType.Document, "document")]
-    [InlineData(InlineQueryResultType.Location, "location")]
-    [InlineData(InlineQueryResultType.Venue, "venue")]
-    [InlineData(InlineQueryResultType.Voice, "voice")]
-    [InlineData(InlineQueryResultType.Game, "game")]
-    [InlineData(InlineQueryResultType.Sticker, "sticker")]
-    public void Should_Convert_InlineQueryResultType_To_String(InlineQueryResultType inlineQueryResultType, string value)
+    [ClassData(typeof(InlineQueryResultData))]
+    public void Should_Convert_InlineQueryResultType_To_String(InlineQueryResult inlineQuery, string value)
     {
-        InlineQueryResult inlineQuery = new() { Type = inlineQueryResultType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string result = JsonSerializer.Serialize(inlineQuery, TelegramBotClientJsonSerializerContext.Instance.InlineQueryResult);
 
-        string result = JsonSerializer.Serialize(inlineQuery, JsonSerializerOptionsProvider.Options);
-
-        Assert.Equal(expectedResult, result);
+        Assert.Equal(value, result);
     }
 
     [Theory]
-    [InlineData((InlineQueryResultType)0, "unknown")]
-    [InlineData(InlineQueryResultType.Article, "article")]
-    [InlineData(InlineQueryResultType.Photo, "photo")]
-    [InlineData(InlineQueryResultType.Gif, "gif")]
-    [InlineData(InlineQueryResultType.Mpeg4Gif, "mpeg4_gif")]
-    [InlineData(InlineQueryResultType.Video, "video")]
-    [InlineData(InlineQueryResultType.Audio, "audio")]
-    [InlineData(InlineQueryResultType.Contact, "contact")]
-    [InlineData(InlineQueryResultType.Document, "document")]
-    [InlineData(InlineQueryResultType.Location, "location")]
-    [InlineData(InlineQueryResultType.Venue, "venue")]
-    [InlineData(InlineQueryResultType.Voice, "voice")]
-    [InlineData(InlineQueryResultType.Game, "game")]
-    [InlineData(InlineQueryResultType.Sticker, "sticker")]
-    public void Should_Convert_String_To_InlineQueryResultType(InlineQueryResultType inlineQueryResultType, string value)
+    [ClassData(typeof(InlineQueryResultData))]
+    public void Should_Convert_String_To_InlineQueryResultType(InlineQueryResult expectedResult, string value)
     {
-        InlineQueryResult expectedResult = new() { Type = inlineQueryResultType };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        InlineQueryResult? result = JsonSerializer.Deserialize<InlineQueryResult>(jsonData, JsonSerializerOptionsProvider.Options);
+        InlineQueryResult? result = JsonSerializer.Deserialize(value, TelegramBotClientJsonSerializerContext.Instance.InlineQueryResult);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -60,26 +29,129 @@ public class InlineQueryResultTypeConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_InlineQueryResultType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        InlineQueryResult? result = JsonSerializer.Deserialize<InlineQueryResult>(jsonData, JsonSerializerOptionsProvider.Options);
+        InlineQueryResultType? result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.InlineQueryResultType);
 
         Assert.NotNull(result);
-        Assert.Equal((InlineQueryResultType)0, result.Type);
+        Assert.Equal((InlineQueryResultType)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_InlineQueryResultType()
     {
-        InlineQueryResult inlineQueryResult = new() { Type = (InlineQueryResultType)int.MaxValue };
-
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(inlineQueryResult, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((InlineQueryResultType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.InlineQueryResultType));
     }
 
-
-    class InlineQueryResult
+    private class InlineQueryResultData : IEnumerable<object[]>
     {
-        [JsonRequired]
-        public InlineQueryResultType Type { get; init; }
+        private static InlineQueryResult NewInlineQueryResult(InlineQueryResultType inlineQueryResultType)
+        {
+            return inlineQueryResultType switch
+            {
+                InlineQueryResultType.Article => new InlineQueryResultArticle
+                {
+                    Id = "id",
+                    Title = "title",
+                    InputMessageContent = new InputTextMessageContent { MessageText = "message" },
+                },
+                InlineQueryResultType.Photo => new InlineQueryResultPhoto
+                {
+                    Id = "id",
+                    PhotoUrl = "url",
+                    ThumbnailUrl = "thumb",
+                },
+                InlineQueryResultType.Gif => new InlineQueryResultGif
+                {
+                    Id = "id",
+                    GifUrl = "url",
+                    ThumbnailUrl = "thumb",
+                },
+                InlineQueryResultType.Mpeg4Gif => new InlineQueryResultMpeg4Gif
+                {
+                    Id = "id",
+                    Mpeg4Url = "url",
+                    ThumbnailUrl = "thumb",
+                },
+                InlineQueryResultType.Video => new InlineQueryResultVideo
+                {
+                    Id = "id",
+                    VideoUrl = "url",
+                    MimeType = "video/mp4",
+                    ThumbnailUrl = "thumb",
+                    Title = "title",
+                },
+                InlineQueryResultType.Audio => new InlineQueryResultAudio
+                {
+                    Id = "id",
+                    AudioUrl = "url",
+                    Title = "title",
+                },
+                InlineQueryResultType.Contact => new InlineQueryResultContact
+                {
+                    Id = "id",
+                    PhoneNumber = "123456789",
+                    FirstName = "FirstName",
+                },
+                InlineQueryResultType.Document => new InlineQueryResultDocument
+                {
+                    Id = "id",
+                    Title = "title",
+                    DocumentUrl = "url",
+                    MimeType = "application/pdf",
+                },
+                InlineQueryResultType.Location => new InlineQueryResultLocation
+                {
+                    Id = "id",
+                    Latitude = 1.0f,
+                    Longitude = 1.0f,
+                    Title = "title",
+                },
+                InlineQueryResultType.Venue => new InlineQueryResultVenue
+                {
+                    Id = "id",
+                    Latitude = 1.0f,
+                    Longitude = 1.0f,
+                    Title = "title",
+                    Address = "address",
+                },
+                InlineQueryResultType.Voice => new InlineQueryResultVoice
+                {
+                    Id = "id",
+                    VoiceUrl = "url",
+                    Title = "title",
+                },
+                InlineQueryResultType.Game => new InlineQueryResultGame
+                {
+                    Id = "id",
+                    GameShortName = "game",
+                },
+                InlineQueryResultType.Sticker => new InlineQueryResultCachedSticker
+                {
+                    Id = "id",
+                    StickerFileId = "file_id",
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(inlineQueryResultType), inlineQueryResultType, null)
+            };
+
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewInlineQueryResult(InlineQueryResultType.Article), """{"type":"article","title":"title","input_message_content":{"message_text":"message"},"id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Photo), """{"type":"photo","photo_url":"url","thumbnail_url":"thumb","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Gif), """{"type":"gif","gif_url":"url","thumbnail_url":"thumb","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Mpeg4Gif), """{"type":"mpeg4_gif","mpeg4_url":"url","thumbnail_url":"thumb","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Video), """{"type":"video","video_url":"url","mime_type":"video/mp4","thumbnail_url":"thumb","title":"title","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Audio), """{"type":"audio","audio_url":"url","title":"title","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Contact), """{"type":"contact","phone_number":"123456789","first_name":"FirstName","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Document), """{"type":"document","title":"title","document_url":"url","mime_type":"application/pdf","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Location), """{"type":"location","latitude":1,"longitude":1,"title":"title","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Venue), """{"type":"venue","latitude":1,"longitude":1,"title":"title","address":"address","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Voice), """{"type":"voice","voice_url":"url","title":"title","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Game), """{"type":"game","game_short_name":"game","id":"id"}"""];
+            yield return [NewInlineQueryResult(InlineQueryResultType.Sticker), """{"type":"sticker","sticker_file_id":"file_id","id":"id"}"""];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

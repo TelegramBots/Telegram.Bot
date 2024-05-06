@@ -44,10 +44,10 @@ public class SetChatPhotoRequest : FileRequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public SetChatPhotoRequest()
-        : base("setChatPhoto")
+        : base("setChatPhoto", TelegramBotClientJsonSerializerContext.Instance.SetChatPhotoRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent ToHttpContent()
-        => ToMultipartFormDataContent("photo", Photo);
+        => ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SetChatPhotoRequest, "photo", Photo);
 }

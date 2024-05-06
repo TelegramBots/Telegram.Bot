@@ -33,6 +33,6 @@ public class DeleteStickerFromSetRequest : RequestBase<bool>
     /// Initializes a new request with sticker
     /// </summary>
     public DeleteStickerFromSetRequest()
-        : base("deleteStickerFromSet")
+        : base("deleteStickerFromSet", TelegramBotClientJsonSerializerContext.Instance.DeleteStickerFromSetRequest)
     { }
 }

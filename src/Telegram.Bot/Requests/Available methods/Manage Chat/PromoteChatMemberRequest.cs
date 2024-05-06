@@ -151,6 +151,6 @@ public class PromoteChatMemberRequest : RequestBase<bool>, IChatTargetable, IUse
     /// Initializes a new request
     /// </summary>
     public PromoteChatMemberRequest()
-        : base("promoteChatMember")
+        : base("promoteChatMember", TelegramBotClientJsonSerializerContext.Instance.PromoteChatMemberRequest)
     { }
 }

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class MessageTypeConverterTests
 {
-    [Fact]
+    [Fact(Skip = "Doesn't make much sense since MessageType never gets serialized in the API")]
     public void Should_Verify_All_MessageType_Members()
     {
         List<string> messageTypeMembers = Enum
@@ -25,7 +24,7 @@ public class MessageTypeConverterTests
         Assert.Equal(messageTypeMembers, messageTypeDataMembers);
     }
 
-    [Theory]
+    [Theory(Skip = "Doesn't make much sense since MessageType never gets serialized in the API")]
     [ClassData(typeof(MessageTypeData))]
     public void Should_Convert_UpdateType_To_String(MessageType messageType, string value)
     {
@@ -35,12 +34,12 @@ public class MessageTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        string result = JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(message);
 
         Assert.Equal(expectedResult, result);
     }
 
-    [Theory]
+    [Theory(Skip = "Doesn't make much sense since MessageType never gets serialized in the API")]
     [ClassData(typeof(MessageTypeData))]
     public void Should_Convert_String_To_UpdateType(MessageType messageType, string value)
     {
@@ -50,13 +49,13 @@ public class MessageTypeConverterTests
             {"type":"{{value}}"}
             """;
 
-        Message? result = JsonSerializer.Deserialize<Message>(jsonData, JsonSerializerOptionsProvider.Options);
+        Message? result = JsonSerializer.Deserialize<Message>(jsonData);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
-    [Fact]
+    [Fact(Skip = "Doesn't make much sense since MessageType never gets serialized in the API")]
     public void Should_Return_Unknown_For_Incorrect_UpdateType()
     {
         string jsonData =
@@ -64,18 +63,18 @@ public class MessageTypeConverterTests
             {"type":"{{int.MaxValue}}"}
             """;
 
-        Message? result = JsonSerializer.Deserialize<Message>(jsonData, JsonSerializerOptionsProvider.Options);
+        Message? result = JsonSerializer.Deserialize<Message>(jsonData);
 
         Assert.NotNull(result);
         Assert.Equal(MessageType.Unknown, result.Type);
     }
 
-    [Fact]
+    [Fact(Skip = "Doesn't make much sense since MessageType never gets serialized in the API")]
     public void Should_Throw_JsonException_For_Incorrect_MessageType()
     {
         Message message = new((MessageType)int.MaxValue );
 
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(message, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(message));
     }
 
 

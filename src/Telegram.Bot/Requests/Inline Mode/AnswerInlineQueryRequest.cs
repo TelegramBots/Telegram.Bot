@@ -78,6 +78,6 @@ public class AnswerInlineQueryRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public AnswerInlineQueryRequest()
-        : base("answerInlineQuery")
+        : base("answerInlineQuery", TelegramBotClientJsonSerializerContext.Instance.AnswerInlineQueryRequest)
     { }
 }

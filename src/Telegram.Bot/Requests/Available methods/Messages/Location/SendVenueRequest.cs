@@ -134,6 +134,6 @@ public class SendVenueRequest : RequestBase<Message>, IChatTargetable, IBusiness
     /// <summary>
     /// Initializes a new request
     /// </summary>
-    public SendVenueRequest() : base("sendVenue")
+    public SendVenueRequest() : base("sendVenue", TelegramBotClientJsonSerializerContext.Instance.SendVenueRequest)
     { }
 }

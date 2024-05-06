@@ -43,6 +43,6 @@ public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserT
     /// Initializes a new request with chatId and userId
     /// </summary>
     public ApproveChatJoinRequest()
-        : base("approveChatJoinRequest")
+        : base("approveChatJoinRequest", TelegramBotClientJsonSerializerContext.Instance.ApproveChatJoinRequest)
     { }
 }

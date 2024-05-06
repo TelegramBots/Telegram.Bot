@@ -43,6 +43,6 @@ public class SetChatTitleRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request with chatId and title
     /// </summary>
     public SetChatTitleRequest()
-        : base("setChatTitle")
+        : base("setChatTitle", TelegramBotClientJsonSerializerContext.Instance.SetChatTitleRequest)
     { }
 }

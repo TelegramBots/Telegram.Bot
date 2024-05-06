@@ -42,6 +42,6 @@ public class SetCustomEmojiStickerSetThumbnailRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetCustomEmojiStickerSetThumbnailRequest()
-        : base("setCustomEmojiStickerSetThumbnail")
+        : base("setCustomEmojiStickerSetThumbnail", TelegramBotClientJsonSerializerContext.Instance.SetCustomEmojiStickerSetThumbnailRequest)
     { }
 }

@@ -36,6 +36,6 @@ public class EditInlineMessageReplyMarkupRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public EditInlineMessageReplyMarkupRequest()
-        : base("editMessageReplyMarkup")
+        : base("editMessageReplyMarkup", TelegramBotClientJsonSerializerContext.Instance.EditInlineMessageReplyMarkupRequest)
     { }
 }

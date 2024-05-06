@@ -64,6 +64,6 @@ public class BanChatMemberRequest : RequestBase<bool>, IChatTargetable, IUserTar
     /// </summary>
     [JsonConstructor]
     public BanChatMemberRequest()
-        : base("banChatMember")
+        : base("banChatMember", TelegramBotClientJsonSerializerContext.Instance.BanChatMemberRequest)
     { }
 }

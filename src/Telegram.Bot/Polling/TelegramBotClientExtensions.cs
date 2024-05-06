@@ -26,14 +26,18 @@ internal static class TelegramBotClientExtensions
             Timeout = 0,
             AllowedUpdates = Array.Empty<UpdateType>(),
         };
-        var updates = await botClient.MakeRequestAsync(request: request, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
+        var updates =
+            await botClient.MakeRequestAsync(
+                    request: request,
+                    TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray,
+                    cancellationToken: cancellationToken)
+                .ConfigureAwait(false);
 
-#if NET6_0_OR_GREATER
-        if (updates.Length > 0) { return updates[^1].Id + 1; }
-#else
-        if (updates.Length > 0) { return updates[updates.Length - 1].Id + 1; }
-#endif
+        if (updates.Length > 0)
+        {
+            return updates[^1].Id + 1;
+        }
+
         return 0;
     }
 }

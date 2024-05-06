@@ -56,13 +56,6 @@ public class EnumConverterGenerator : IIncrementalGenerator
                 sourceText: SourceText.From(result, Encoding.UTF8)
             );
         }
-
-        var optionsTemplate = Template.Parse(SourceGenerationHelper.JsonSerializerOptionsProviderTemplate);
-        var generatedOptionsProviderClass = SourceGenerationHelper.GenerateOptionsProviderClass(optionsTemplate, enumsToProcess);
-        context.AddSource(
-            hintName: "JsonSerializerOptionsProvider.g.cs",
-            sourceText: SourceText.From(generatedOptionsProviderClass, Encoding.UTF8)
-        );
     }
 
     static List<EnumInfo> GetTypesToGenerate(
@@ -100,8 +93,7 @@ public class EnumConverterGenerator : IIncrementalGenerator
 
             foreach (var member in enumMembers)
             {
-                if (member is not IFieldSymbol field
-                    || field.ConstantValue is null)
+                if (member is not IFieldSymbol field || field.ConstantValue is null)
                 {
                     continue;
                 }

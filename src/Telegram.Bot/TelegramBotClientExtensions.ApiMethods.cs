@@ -78,6 +78,7 @@ public static partial class TelegramBotClientExtensions
                     Timeout = timeout,
                     AllowedUpdates = allowedUpdates,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -174,6 +175,7 @@ public static partial class TelegramBotClientExtensions
                     DropPendingUpdates = dropPendingUpdates,
                     SecretToken = secretToken,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -198,6 +200,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new DeleteWebhookRequest { DropPendingUpdates = dropPendingUpdates },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -220,7 +223,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetWebhookInfoRequest(), cancellationToken)
+            .MakeRequestAsync(
+                new GetWebhookInfoRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseWebhookInfo,
+                cancellationToken)
             .ConfigureAwait(false);
 
     #endregion Getting updates
@@ -241,7 +247,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetMeRequest(), cancellationToken)
+            .MakeRequestAsync(
+                new GetMeRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseUser,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -260,7 +269,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new LogOutRequest(), cancellationToken)
+            .MakeRequestAsync(
+                new LogOutRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -278,7 +290,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new CloseRequest(), cancellationToken)
+            .MakeRequestAsync(
+                new CloseRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -353,6 +368,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -403,6 +419,7 @@ public static partial class TelegramBotClientExtensions
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -460,6 +477,7 @@ public static partial class TelegramBotClientExtensions
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessageIdArray,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -543,6 +561,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessageId,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -609,6 +628,7 @@ public static partial class TelegramBotClientExtensions
                     ProtectContent = protectContent,
                     RemoveCaption = removeCaption,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessageIdArray,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -698,6 +718,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -798,6 +819,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -896,6 +918,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1006,6 +1029,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1113,6 +1137,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1199,6 +1224,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1279,6 +1305,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1332,6 +1359,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyParameters = replyParameters,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessageArray,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1415,6 +1443,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1478,6 +1507,7 @@ public static partial class TelegramBotClientExtensions
                     ProximityAlertRadius = proximityAlertRadius,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1534,6 +1564,7 @@ public static partial class TelegramBotClientExtensions
                     ProximityAlertRadius = proximityAlertRadius,
                     ReplyMarkup = replyMarkup
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1574,6 +1605,7 @@ public static partial class TelegramBotClientExtensions
                     MessageId = messageId,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1607,6 +1639,7 @@ public static partial class TelegramBotClientExtensions
                     InlineMessageId = inlineMessageId,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1695,6 +1728,7 @@ public static partial class TelegramBotClientExtensions
                     MessageThreadId = messageThreadId,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1764,6 +1798,7 @@ public static partial class TelegramBotClientExtensions
                     MessageThreadId = messageThreadId,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1883,6 +1918,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -1950,6 +1986,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2017,6 +2054,7 @@ public static partial class TelegramBotClientExtensions
                     MessageThreadId = messageThreadId,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -2063,6 +2101,7 @@ public static partial class TelegramBotClientExtensions
                     Reaction = reaction,
                     IsBig = isBig,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -2097,6 +2136,7 @@ public static partial class TelegramBotClientExtensions
                     Offset = offset,
                     Limit = limit,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseUserProfilePhotos,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2128,6 +2168,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetFileRequest { FileId = fileId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseFile,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2175,6 +2216,7 @@ public static partial class TelegramBotClientExtensions
                     UntilDate = untilDate,
                     RevokeMessages = revokeMessages,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2212,6 +2254,7 @@ public static partial class TelegramBotClientExtensions
                     UserId = userId,
                     OnlyIfBanned = onlyIfBanned,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2262,6 +2305,7 @@ public static partial class TelegramBotClientExtensions
                     UntilDate = untilDate,
                     UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2374,6 +2418,7 @@ public static partial class TelegramBotClientExtensions
                     CanPinMessages = canPinMessages,
                     CanManageTopics = canManageTopic,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2409,6 +2454,7 @@ public static partial class TelegramBotClientExtensions
                     UserId = userId,
                     CustomTitle = customTitle,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2441,6 +2487,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     SenderChatId = senderChatId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2472,6 +2519,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     SenderChatId = senderChatId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2515,6 +2563,7 @@ public static partial class TelegramBotClientExtensions
                     Permissions = permissions,
                     UseIndependentChatPermissions = useIndependentChatPermissions,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2544,6 +2593,7 @@ public static partial class TelegramBotClientExtensions
                 {
                     ChatId = chatId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseString,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2593,6 +2643,7 @@ public static partial class TelegramBotClientExtensions
                     MemberLimit = memberLimit,
                     CreatesJoinRequest = createsJoinRequest,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseChatInviteLink,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2643,6 +2694,7 @@ public static partial class TelegramBotClientExtensions
                     MemberLimit = memberLimit,
                     CreatesJoinRequest = createsJoinRequest,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseChatInviteLink,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2676,6 +2728,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     InviteLink = inviteLink,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseChatInviteLink,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2708,6 +2761,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     UserId = userId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2740,6 +2794,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     UserId = userId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2771,6 +2826,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     Photo = photo,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken)
             .ConfigureAwait(false);
 
@@ -2794,6 +2850,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new DeleteChatPhotoRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2825,6 +2882,7 @@ public static partial class TelegramBotClientExtensions
                     ChatId = chatId,
                     Title = title,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2852,6 +2910,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetChatDescriptionRequest { ChatId = chatId, Description = description },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2891,6 +2950,7 @@ public static partial class TelegramBotClientExtensions
                     MessageId = messageId,
                     DisableNotification = disableNotification,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2923,6 +2983,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull().
             MakeRequestAsync(
                 new UnpinChatMessageRequest { ChatId = chatId, MessageId = messageId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -2948,7 +3009,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
-            MakeRequestAsync(new UnpinAllChatMessagesRequest { ChatId = chatId }, cancellationToken)
+            MakeRequestAsync(
+                new UnpinAllChatMessagesRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2969,7 +3033,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull().
-            MakeRequestAsync(new LeaveChatRequest { ChatId = chatId }, cancellationToken)
+            MakeRequestAsync(
+                new LeaveChatRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -2992,7 +3059,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetChatRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new GetChatRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseChat,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3018,7 +3088,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetChatAdministratorsRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new GetChatAdministratorsRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseChatMemberArray,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3040,7 +3113,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetChatMemberCountRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new GetChatMemberCountRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseInt32,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3066,6 +3142,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetChatMemberRequest { ChatId = chatId, UserId = userId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseChatMember,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3096,6 +3173,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetChatStickerSetRequest { ChatId = chatId, StickerSetName = stickerSetName },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3122,7 +3200,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new DeleteChatStickerSetRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new DeleteChatStickerSetRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3139,7 +3220,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetForumTopicIconStickersRequest(), cancellationToken)
+            .MakeRequestAsync(
+                new GetForumTopicIconStickersRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseStickerArray,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3186,6 +3270,7 @@ public static partial class TelegramBotClientExtensions
                     IconColor = iconColor,
                     IconCustomEmojiId = iconCustomEmojiId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseForumTopic,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3230,6 +3315,7 @@ public static partial class TelegramBotClientExtensions
                     Name = name,
                     IconCustomEmojiId = iconCustomEmojiId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3258,6 +3344,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new CloseForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3286,6 +3373,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new ReopenForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3315,6 +3403,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new DeleteForumTopicRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3343,6 +3432,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new UnpinAllForumTopicMessagesRequest { ChatId = chatId, MessageThreadId = messageThreadId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3371,6 +3461,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new EditGeneralForumTopicRequest { ChatId = chatId, Name = name },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3395,7 +3486,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new CloseGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new CloseGeneralForumTopicRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3419,7 +3513,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new ReopenGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new ReopenGeneralForumTopicRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3442,7 +3539,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new HideGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new HideGeneralForumTopicRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3465,7 +3565,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnhideGeneralForumTopicRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new UnhideGeneralForumTopicRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3488,7 +3591,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new UnpinAllGeneralForumTopicMessagesRequest { ChatId = chatId }, cancellationToken)
+            .MakeRequestAsync(
+                new UnpinAllGeneralForumTopicMessagesRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3546,6 +3652,7 @@ public static partial class TelegramBotClientExtensions
                     Url = url,
                     CacheTime = cacheTime,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3573,7 +3680,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetUserChatBoostsRequest { ChatId = chatId, UserId = userId }, cancellationToken)
+            .MakeRequestAsync(
+                new GetUserChatBoostsRequest { ChatId = chatId, UserId = userId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseUserChatBoosts,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -3611,6 +3721,7 @@ public static partial class TelegramBotClientExtensions
                     Scope = scope,
                     LanguageCode = languageCode,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3647,6 +3758,7 @@ public static partial class TelegramBotClientExtensions
                     Scope = scope,
                     LanguageCode = languageCode,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3682,6 +3794,7 @@ public static partial class TelegramBotClientExtensions
                     Scope = scope,
                     LanguageCode = languageCode,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBotCommandArray,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3710,6 +3823,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetMyNameRequest { Name = name, LanguageCode = languageCode },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3736,6 +3850,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetMyNameRequest { LanguageCode = languageCode },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBotName,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3766,6 +3881,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetMyDescriptionRequest { Description = description, LanguageCode = languageCode },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3793,6 +3909,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetMyDescriptionRequest { LanguageCode = languageCode },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBotDescription,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3828,6 +3945,7 @@ public static partial class TelegramBotClientExtensions
                     ShortDescription = shortDescription,
                     LanguageCode = languageCode,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3855,6 +3973,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetMyShortDescriptionRequest { LanguageCode = languageCode },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBotShortDescription,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3882,6 +4001,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetChatMenuButtonRequest { ChatId = chatId, MenuButton = menuButton },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3907,6 +4027,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetChatMenuButtonRequest { ChatId = chatId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMenuButton,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3942,6 +4063,7 @@ public static partial class TelegramBotClientExtensions
                     Rights = rights,
                     ForChannels = forChannels,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -3967,6 +4089,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetMyDefaultAdministratorRightsRequest { ForChannels = forChannels },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseChatAdministratorRights,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4029,6 +4152,7 @@ public static partial class TelegramBotClientExtensions
                     LinkPreviewOptions = linkPreviewOptions,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4080,6 +4204,7 @@ public static partial class TelegramBotClientExtensions
                     LinkPreviewOptions = linkPreviewOptions,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4135,6 +4260,7 @@ public static partial class TelegramBotClientExtensions
                     CaptionEntities = captionEntities,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4183,6 +4309,7 @@ public static partial class TelegramBotClientExtensions
                     CaptionEntities = captionEntities,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4228,6 +4355,7 @@ public static partial class TelegramBotClientExtensions
                     Media = media,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4266,6 +4394,7 @@ public static partial class TelegramBotClientExtensions
                     Media = media,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4305,6 +4434,7 @@ public static partial class TelegramBotClientExtensions
                     MessageId = messageId,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4337,6 +4467,7 @@ public static partial class TelegramBotClientExtensions
                     InlineMessageId = inlineMessageId,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4376,6 +4507,7 @@ public static partial class TelegramBotClientExtensions
                     MessageId = messageId,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponsePoll,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4411,7 +4543,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new DeleteMessageRequest { ChatId = chatId, MessageId = messageId }, cancellationToken)
+            .MakeRequestAsync(
+                new DeleteMessageRequest { ChatId = chatId, MessageId = messageId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -4441,6 +4576,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new DeleteMessagesRequest { ChatId = chatId, MessageIds = messageIds },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4523,6 +4659,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4549,7 +4686,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new GetStickerSetRequest { Name = name }, cancellationToken)
+            .MakeRequestAsync(
+                new GetStickerSetRequest { Name = name },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseStickerSet,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -4572,6 +4712,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetCustomEmojiStickersRequest { CustomEmojiIds = customEmojiIds },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseStickerArray,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4615,6 +4756,7 @@ public static partial class TelegramBotClientExtensions
                     Sticker = sticker,
                     StickerFormat = stickerFormat,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseFile,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4680,6 +4822,7 @@ public static partial class TelegramBotClientExtensions
                     NeedsRepainting = needsRepainting,
                     StickerType = stickerType,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4726,6 +4869,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new AddStickerToSetRequest { UserId = userId, Name = name, Sticker = sticker, },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4751,6 +4895,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetStickerPositionInSetRequest { Sticker = sticker, Position = position, },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4774,6 +4919,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new DeleteStickerFromSetRequest { Sticker = sticker },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4804,6 +4950,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetStickerEmojiListRequest { Sticker = sticker, EmojiList = emojiList },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4835,6 +4982,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetStickerKeywordsRequest { Sticker = sticker, Keywords = keywords, },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4866,6 +5014,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetStickerMaskPositionRequest { Sticker = sticker, MaskPosition = maskPosition },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4895,6 +5044,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetStickerSetTitleRequest { Name = name, Title = title },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4946,6 +5096,7 @@ public static partial class TelegramBotClientExtensions
                     Thumbnail = thumbnail,
                     Format = format,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4976,6 +5127,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new SetCustomEmojiStickerSetThumbnailRequest { Name = name, CustomEmojiId = customEmojiId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -4999,7 +5151,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new DeleteStickerSetRequest { Name = name }, cancellationToken)
+            .MakeRequestAsync(
+                new DeleteStickerSetRequest { Name = name },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
     #endregion
 
@@ -5055,6 +5210,7 @@ public static partial class TelegramBotClientExtensions
                     NextOffset = nextOffset,
                     Button = button,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5082,6 +5238,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new AnswerWebAppQueryRequest { WebAppQueryId = webAppQueryId, Result = result },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseSentWebAppMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5242,6 +5399,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5359,6 +5517,7 @@ public static partial class TelegramBotClientExtensions
                     SendEmailToProvider = sendEmailToProvider,
                     IsFlexible = isFlexible,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseString,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5386,6 +5545,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new AnswerShippingQueryRequest(shippingQueryId, shippingOptions),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5415,6 +5575,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new AnswerShippingQueryRequest(shippingQueryId, errorMessage),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5439,7 +5600,10 @@ public static partial class TelegramBotClientExtensions
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()
-            .MakeRequestAsync(new AnswerPreCheckoutQueryRequest(preCheckoutQueryId), cancellationToken)
+            .MakeRequestAsync(
+                new AnswerPreCheckoutQueryRequest(preCheckoutQueryId),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
+                cancellationToken)
             .ConfigureAwait(false);
 
     /// <summary>
@@ -5468,6 +5632,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new AnswerPreCheckoutQueryRequest(preCheckoutQueryId, errorMessage),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5532,6 +5697,7 @@ public static partial class TelegramBotClientExtensions
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5580,6 +5746,7 @@ public static partial class TelegramBotClientExtensions
                     Force = force,
                     DisableEditMessage = disableEditMessage,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5625,6 +5792,7 @@ public static partial class TelegramBotClientExtensions
                     Force = force,
                     DisableEditMessage = disableEditMessage,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5662,6 +5830,7 @@ public static partial class TelegramBotClientExtensions
                     UserId = userId,
                     MessageId = messageId,
                 },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseGameHighScoreArray,
                 cancellationToken
             )
             .ConfigureAwait(false);
@@ -5692,6 +5861,7 @@ public static partial class TelegramBotClientExtensions
         await botClient.ThrowIfNull()
             .MakeRequestAsync(
                 new GetInlineGameHighScoresRequest { UserId = userId, InlineMessageId = inlineMessageId },
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseGameHighScoreArray,
                 cancellationToken
             )
             .ConfigureAwait(false);

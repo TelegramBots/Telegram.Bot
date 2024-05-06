@@ -47,6 +47,6 @@ public class SetStickerEmojiListRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetStickerEmojiListRequest()
-        : base("setStickerEmojiList")
+        : base("setStickerEmojiList", TelegramBotClientJsonSerializerContext.Instance.SetStickerEmojiListRequest)
     { }
 }

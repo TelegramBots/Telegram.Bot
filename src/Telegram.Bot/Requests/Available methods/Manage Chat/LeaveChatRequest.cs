@@ -33,6 +33,6 @@ public class LeaveChatRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request with chatId
     /// </summary>
     public LeaveChatRequest()
-        : base("leaveChat")
+        : base("leaveChat", TelegramBotClientJsonSerializerContext.Instance.LeaveChatRequest)
     { }
 }

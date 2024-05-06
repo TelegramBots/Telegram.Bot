@@ -1,7 +1,6 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -21,7 +20,7 @@ public class MenuButtonSerializationTests
         }
         """;
 
-        MenuButton? menuButton = JsonSerializer.Deserialize<MenuButton>(button, JsonSerializerOptionsProvider.Options);
+        MenuButton? menuButton = JsonSerializer.Deserialize(button, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
 
         MenuButtonWebApp webAppButton = Assert.IsAssignableFrom<MenuButtonWebApp>(menuButton);
 
@@ -42,7 +41,7 @@ public class MenuButtonSerializationTests
             Text = "Test text"
         };
 
-        string webAppButtonJson = JsonSerializer.Serialize(webAppButton, JsonSerializerOptionsProvider.Options);
+        string webAppButtonJson = JsonSerializer.Serialize(webAppButton, TelegramBotClientJsonSerializerContext.Instance.MenuButtonWebApp);
 
         JsonNode? root = JsonNode.Parse(webAppButtonJson);
         Assert.NotNull(root);
@@ -64,8 +63,8 @@ public class MenuButtonSerializationTests
     {
         var button = new { type = MenuButtonType.Default, };
 
-        string menuButtonJson = JsonSerializer.Serialize(button, JsonSerializerOptionsProvider.Options);
-        MenuButton? menuButton = JsonSerializer.Deserialize<MenuButton>(menuButtonJson, JsonSerializerOptionsProvider.Options);
+        string menuButtonJson = JsonSerializer.Serialize(button);
+        MenuButton? menuButton = JsonSerializer.Deserialize(menuButtonJson, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
 
         Assert.NotNull(menuButton);
         Assert.Equal(MenuButtonType.Default, menuButton.Type);
@@ -77,7 +76,7 @@ public class MenuButtonSerializationTests
     {
         MenuButtonDefault menuButton = new();
 
-        string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
+        string menuButtonJson = JsonSerializer.Serialize(menuButton, TelegramBotClientJsonSerializerContext.Instance.MenuButtonDefault);
         JsonNode? root = JsonNode.Parse(menuButtonJson);
         Assert.NotNull(root);
 
@@ -91,13 +90,12 @@ public class MenuButtonSerializationTests
     {
         var button = new { type = MenuButtonType.Commands, };
 
-        string menuButtonJson = JsonSerializer.Serialize(button, JsonSerializerOptionsProvider.Options);
-        JsonNode? root = JsonNode.Parse(menuButtonJson);
-        Assert.NotNull(root);
+        string menuButtonJson = JsonSerializer.Serialize(button);
+        MenuButton? menuButton = JsonSerializer.Deserialize(menuButtonJson, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
 
-        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
-        Assert.Single(j);
-        Assert.Equal("commands", (string?)j["type"]);
+        Assert.NotNull(menuButton);
+        Assert.Equal(MenuButtonType.Commands, menuButton.Type);
+        Assert.IsAssignableFrom<MenuButtonCommands>(menuButton);
     }
 
     [Fact]
@@ -105,7 +103,7 @@ public class MenuButtonSerializationTests
     {
         MenuButtonCommands menuButton = new();
 
-        string menuButtonJson = JsonSerializer.Serialize(menuButton, JsonSerializerOptionsProvider.Options);
+        string menuButtonJson = JsonSerializer.Serialize(menuButton, TelegramBotClientJsonSerializerContext.Instance.MenuButtonCommands);
         JsonNode? root = JsonNode.Parse(menuButtonJson);
         Assert.NotNull(root);
 

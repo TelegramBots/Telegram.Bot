@@ -1,55 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
 using Telegram.Bot.Types.Passport;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class EncryptedPassportElementTypeConverterTests
 {
     [Theory]
-    [InlineData(EncryptedPassportElementType.PersonalDetails, "personal_details")]
-    [InlineData(EncryptedPassportElementType.Passport, "passport")]
-    [InlineData(EncryptedPassportElementType.DriverLicence, "driver_licence")]
-    [InlineData(EncryptedPassportElementType.IdentityCard, "identity_card")]
-    [InlineData(EncryptedPassportElementType.InternalPassport, "internal_passport")]
-    [InlineData(EncryptedPassportElementType.Address, "address")]
-    [InlineData(EncryptedPassportElementType.UtilityBill, "utility_bill")]
-    [InlineData(EncryptedPassportElementType.BankStatement, "bank_statement")]
-    [InlineData(EncryptedPassportElementType.RentalAgreement, "rental_agreement")]
-    [InlineData(EncryptedPassportElementType.PassportRegistration, "passport_registration")]
-    [InlineData(EncryptedPassportElementType.TemporaryRegistration, "temporary_registration")]
-    [InlineData(EncryptedPassportElementType.PhoneNumber, "phone_number")]
-    [InlineData(EncryptedPassportElementType.Email, "email")]
-    public void Should_Convert_EncryptedPassportElementType_To_String(EncryptedPassportElementType encryptedPassportElementType, string value)
+    [ClassData(typeof(EncryptedPassportElementData))]
+    public void Should_Convert_EncryptedPassportElementType_To_String(EncryptedPassportElement encryptedPassportElement, string value)
     {
-        EncryptedPassportElement encryptedPassportElement = new() { Type = encryptedPassportElementType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
 
-        string result = JsonSerializer.Serialize(encryptedPassportElement, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(encryptedPassportElement, TelegramBotClientJsonSerializerContext.Instance.EncryptedPassportElement);
 
-        Assert.Equal(expectedResult, result);
+        Assert.Equal(value, result);
     }
 
     [Theory]
-    [InlineData(EncryptedPassportElementType.PersonalDetails, "personal_details")]
-    [InlineData(EncryptedPassportElementType.Passport, "passport")]
-    [InlineData(EncryptedPassportElementType.DriverLicence, "driver_licence")]
-    [InlineData(EncryptedPassportElementType.IdentityCard, "identity_card")]
-    [InlineData(EncryptedPassportElementType.InternalPassport, "internal_passport")]
-    [InlineData(EncryptedPassportElementType.Address, "address")]
-    [InlineData(EncryptedPassportElementType.UtilityBill, "utility_bill")]
-    [InlineData(EncryptedPassportElementType.BankStatement, "bank_statement")]
-    [InlineData(EncryptedPassportElementType.RentalAgreement, "rental_agreement")]
-    [InlineData(EncryptedPassportElementType.PassportRegistration, "passport_registration")]
-    [InlineData(EncryptedPassportElementType.TemporaryRegistration, "temporary_registration")]
-    [InlineData(EncryptedPassportElementType.PhoneNumber, "phone_number")]
-    [InlineData(EncryptedPassportElementType.Email, "email")]
-    public void Should_Convert_String_To_EncryptedPassportElementType(EncryptedPassportElementType encryptedPassportElementType, string value)
+    [ClassData(typeof(EncryptedPassportElementData))]
+    public void Should_Convert_String_To_EncryptedPassportElementType(EncryptedPassportElement expectedResult, string value)
     {
-        EncryptedPassportElement expectedResult = new() { Type = encryptedPassportElementType };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        EncryptedPassportElement? result = JsonSerializer.Deserialize<EncryptedPassportElement>(jsonData, JsonSerializerOptionsProvider.Options);
+        EncryptedPassportElement? result = JsonSerializer.Deserialize(value, TelegramBotClientJsonSerializerContext.Instance.EncryptedPassportElement);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -58,31 +30,53 @@ public class EncryptedPassportElementTypeConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_EncryptedPassportElementType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        EncryptedPassportElement? result = JsonSerializer.Deserialize<EncryptedPassportElement>(jsonData, JsonSerializerOptionsProvider.Options);
+        EncryptedPassportElementType? result =
+            JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.EncryptedPassportElementType);
 
         Assert.NotNull(result);
-        Assert.Equal((EncryptedPassportElementType)0, result.Type);
+        Assert.Equal((EncryptedPassportElementType)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_EncryptedPassportElementType()
     {
-        EncryptedPassportElement encryptedPassportElement = new() { Type = (EncryptedPassportElementType)int.MaxValue };
-
         // ToDo: add EncryptedPassportElementType.Unknown ?
         //    protected override string GetStringValue(EncryptedPassportElementType value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(encryptedPassportElement, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((EncryptedPassportElementType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.EncryptedPassportElementType));
     }
 
-
-    class EncryptedPassportElement
+    private class EncryptedPassportElementData : IEnumerable<object[]>
     {
-        [JsonRequired]
-        public EncryptedPassportElementType Type { get; init; }
+        private static EncryptedPassportElement NewEncryptedPassportElement(EncryptedPassportElementType encryptedPassportElementType)
+        {
+            return new EncryptedPassportElement
+            {
+                Type = encryptedPassportElementType,
+                Hash = "hash",
+            };
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.PersonalDetails), """{"type":"personal_details","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.Passport), """{"type":"passport","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.DriverLicence), """{"type":"driver_licence","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.IdentityCard), """{"type":"identity_card","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.InternalPassport), """{"type":"internal_passport","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.Address), """{"type":"address","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.UtilityBill), """{"type":"utility_bill","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.BankStatement), """{"type":"bank_statement","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.RentalAgreement), """{"type":"rental_agreement","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.PassportRegistration), """{"type":"passport_registration","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.TemporaryRegistration), """{"type":"temporary_registration","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.PhoneNumber), """{"type":"phone_number","hash":"hash"}"""];
+            yield return [NewEncryptedPassportElement(EncryptedPassportElementType.Email), """{"type":"email","hash":"hash"}"""];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

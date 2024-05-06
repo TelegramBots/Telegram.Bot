@@ -95,6 +95,6 @@ public class SendDiceRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     /// Initializes a new request
     /// </summary>
     public SendDiceRequest()
-        : base("sendDice")
+        : base("sendDice", TelegramBotClientJsonSerializerContext.Instance.SendDiceRequest)
     { }
 }

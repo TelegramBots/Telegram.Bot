@@ -43,6 +43,6 @@ public class AnswerWebAppQueryRequest : RequestBase<SentWebAppMessage>
     /// Initializes a new request
     /// </summary>
     public AnswerWebAppQueryRequest()
-        : base("answerWebAppQuery")
+        : base("answerWebAppQuery", TelegramBotClientJsonSerializerContext.Instance.AnswerWebAppQueryRequest)
     { }
 }

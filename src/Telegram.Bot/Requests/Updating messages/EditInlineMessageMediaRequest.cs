@@ -49,6 +49,6 @@ public class EditInlineMessageMediaRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId and new media
     /// </summary>
     public EditInlineMessageMediaRequest()
-        : base("editMessageMedia")
+        : base("editMessageMedia", TelegramBotClientJsonSerializerContext.Instance.EditInlineMessageMediaRequest)
     { }
 }

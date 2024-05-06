@@ -14,6 +14,6 @@ public class LogOutRequest : ParameterlessRequest<bool>
     /// <summary>
     /// Initializes a new request
     /// </summary>
-    public LogOutRequest() : base("logOut")
+    public LogOutRequest() : base("logOut", TelegramBotClientJsonSerializerContext.Instance.LogOutRequest)
     { }
 }

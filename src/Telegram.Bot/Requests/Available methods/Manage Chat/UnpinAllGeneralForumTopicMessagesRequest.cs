@@ -32,6 +32,6 @@ public class UnpinAllGeneralForumTopicMessagesRequest : RequestBase<bool>, IChat
     /// Initializes a new request
     /// </summary>
     public UnpinAllGeneralForumTopicMessagesRequest()
-        : base("unpinAllGeneralForumTopicMessages")
+        : base("unpinAllGeneralForumTopicMessages", TelegramBotClientJsonSerializerContext.Instance.UnpinAllGeneralForumTopicMessagesRequest)
     { }
 }

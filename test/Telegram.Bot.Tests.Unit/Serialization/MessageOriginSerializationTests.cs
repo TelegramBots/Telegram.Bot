@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -24,7 +23,7 @@ public class MessageOriginSerializationTests
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string json = JsonSerializer.Serialize(origin, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOriginUser);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -46,7 +45,7 @@ public class MessageOriginSerializationTests
     }
 
     [Fact]
-    public void Should_Serialize_MessageOriginHidden()
+    public void Should_Serialize_MessageOriginHiddenUser()
     {
         MessageOriginHiddenUser origin = new()
         {
@@ -54,7 +53,7 @@ public class MessageOriginSerializationTests
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string json = JsonSerializer.Serialize(origin, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOriginHiddenUser);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -85,7 +84,7 @@ public class MessageOriginSerializationTests
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string json = JsonSerializer.Serialize(origin, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOriginChat);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -120,7 +119,7 @@ public class MessageOriginSerializationTests
             Date = new(2024, 2, 16, 18, 0, 0, 0, DateTimeKind.Utc)
         };
 
-        string json = JsonSerializer.Serialize(origin, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOriginChannel);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -160,7 +159,7 @@ public class MessageOriginSerializationTests
             }
             """;
 
-        MessageOrigin? messageOrigin = JsonSerializer.Deserialize<MessageOrigin>(origin, JsonSerializerOptionsProvider.Options);
+        MessageOrigin? messageOrigin = JsonSerializer.Deserialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOrigin);
         Assert.NotNull(messageOrigin);
 
         MessageOriginUser originUser = Assert.IsAssignableFrom<MessageOriginUser>(messageOrigin);
@@ -177,7 +176,7 @@ public class MessageOriginSerializationTests
     }
 
     [Fact]
-    public void Should_Deserialize_MessageOriginHidden()
+    public void Should_Deserialize_MessageOriginHiddenUser()
     {
         // language=JSON
         const string origin =
@@ -189,7 +188,7 @@ public class MessageOriginSerializationTests
             }
             """;
 
-        MessageOrigin? messageOrigin = JsonSerializer.Deserialize<MessageOrigin>(origin, JsonSerializerOptionsProvider.Options);
+        MessageOrigin? messageOrigin = JsonSerializer.Deserialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOrigin);
         Assert.NotNull(messageOrigin);
 
         MessageOriginHiddenUser originHiddenUser = Assert.IsAssignableFrom<MessageOriginHiddenUser>(messageOrigin);
@@ -217,8 +216,7 @@ public class MessageOriginSerializationTests
             }
             """;
 
-
-        MessageOrigin? messageOrigin = JsonSerializer.Deserialize<MessageOrigin>(origin, JsonSerializerOptionsProvider.Options);
+        MessageOrigin? messageOrigin = JsonSerializer.Deserialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOrigin);
         Assert.NotNull(messageOrigin);
 
         MessageOriginChat originChat = Assert.IsAssignableFrom<MessageOriginChat>(messageOrigin);
@@ -251,7 +249,7 @@ public class MessageOriginSerializationTests
             }
             """;
 
-        MessageOrigin? messageOrigin = JsonSerializer.Deserialize<MessageOrigin>(origin, JsonSerializerOptionsProvider.Options);
+        MessageOrigin? messageOrigin = JsonSerializer.Deserialize(origin, TelegramBotClientJsonSerializerContext.Instance.MessageOrigin);
         Assert.NotNull(messageOrigin);
 
         MessageOriginChannel originChannel = Assert.IsAssignableFrom<MessageOriginChannel>(messageOrigin);

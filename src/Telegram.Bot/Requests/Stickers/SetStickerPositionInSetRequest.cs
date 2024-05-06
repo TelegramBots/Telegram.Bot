@@ -43,6 +43,6 @@ public class SetStickerPositionInSetRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetStickerPositionInSetRequest()
-        : base("setStickerPositionInSet")
+        : base("setStickerPositionInSet", TelegramBotClientJsonSerializerContext.Instance.SetStickerPositionInSetRequest)
     { }
 }

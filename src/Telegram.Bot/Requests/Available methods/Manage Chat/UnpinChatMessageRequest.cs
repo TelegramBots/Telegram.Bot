@@ -44,6 +44,6 @@ public class UnpinChatMessageRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public UnpinChatMessageRequest()
-        : base("unpinChatMessage")
+        : base("unpinChatMessage", TelegramBotClientJsonSerializerContext.Instance.UnpinChatMessageRequest)
     { }
 }

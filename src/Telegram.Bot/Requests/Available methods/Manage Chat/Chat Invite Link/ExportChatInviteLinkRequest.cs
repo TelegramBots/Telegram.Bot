@@ -34,6 +34,6 @@ public class ExportChatInviteLinkRequest : RequestBase<string>, IChatTargetable
     /// Initializes a new request with chatId
     /// </summary>
     public ExportChatInviteLinkRequest()
-        : base("exportChatInviteLink")
+        : base("exportChatInviteLink", TelegramBotClientJsonSerializerContext.Instance.ExportChatInviteLinkRequest)
     { }
 }

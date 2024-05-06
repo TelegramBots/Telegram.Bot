@@ -66,6 +66,6 @@ public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
     /// Initializes a new request with chatId and messageIdn
     /// </summary>
     public EditMessageCaptionRequest()
-        : base("editMessageCaption")
+        : base("editMessageCaption", TelegramBotClientJsonSerializerContext.Instance.EditMessageCaptionRequest)
     { }
 }

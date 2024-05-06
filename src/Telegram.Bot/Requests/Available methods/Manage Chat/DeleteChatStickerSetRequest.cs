@@ -35,6 +35,6 @@ public class DeleteChatStickerSetRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public DeleteChatStickerSetRequest()
-        : base("deleteChatStickerSet")
+        : base("deleteChatStickerSet", TelegramBotClientJsonSerializerContext.Instance.DeleteChatStickerSetRequest)
     { }
 }

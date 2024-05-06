@@ -45,6 +45,6 @@ public class UnbanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public UnbanChatSenderChatRequest()
-        : base("unbanChatSenderChat")
+        : base("unbanChatSenderChat", TelegramBotClientJsonSerializerContext.Instance.UnbanChatSenderChatRequest)
     { }
 }

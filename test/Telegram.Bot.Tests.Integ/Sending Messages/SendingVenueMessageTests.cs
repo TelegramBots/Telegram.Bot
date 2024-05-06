@@ -63,9 +63,9 @@ public class SendingVenueMessageTests(TestsFixture fixture)
             }
             """;
 
-        SendVenueRequest request = JsonSerializer.Deserialize<SendVenueRequest>(json, JsonSerializerOptionsProvider.Options);
+        SendVenueRequest request = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.SendVenueRequest);
 
-        Message message = await BotClient.MakeRequestAsync(request);
+        Message message = await BotClient.MakeRequestAsync(request, TelegramBotClientJsonSerializerContext.Instance.ApiResponseMessage);
 
         Assert.Equal(MessageType.Venue, message.Type);
         Assert.NotNull(message.Venue);

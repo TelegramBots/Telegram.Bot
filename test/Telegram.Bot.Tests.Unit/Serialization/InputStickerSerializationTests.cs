@@ -2,7 +2,6 @@ using System.IO;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -21,7 +20,7 @@ public class InputStickerSerializationTests
             Format = StickerFormat.Static
         };
 
-        string json = JsonSerializer.Serialize(inputSticker, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(inputSticker, TelegramBotClientJsonSerializerContext.Instance.InputSticker);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -51,7 +50,7 @@ public class InputStickerSerializationTests
             Format = StickerFormat.Static,
         };
 
-        string json = JsonSerializer.Serialize(inputStickerFileId, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(inputStickerFileId, TelegramBotClientJsonSerializerContext.Instance.InputSticker);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -81,7 +80,7 @@ public class InputStickerSerializationTests
             Format = StickerFormat.Static,
         };
 
-        string json = JsonSerializer.Serialize(inputStickerFileUrl, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(inputStickerFileUrl, TelegramBotClientJsonSerializerContext.Instance.InputSticker);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
 

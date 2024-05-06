@@ -41,6 +41,6 @@ public class CloseForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public CloseForumTopicRequest()
-        : base("closeForumTopic")
+        : base("closeForumTopic", TelegramBotClientJsonSerializerContext.Instance.CloseForumTopicRequest)
     { }
 }

@@ -42,6 +42,6 @@ public class GetChatMemberRequest : RequestBase<ChatMember>, IChatTargetable, IU
     /// </summary>
     [JsonConstructor]
     public GetChatMemberRequest()
-        : base("getChatMember")
+        : base("getChatMember", TelegramBotClientJsonSerializerContext.Instance.GetChatMemberRequest)
     { }
 }

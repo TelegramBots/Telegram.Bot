@@ -67,14 +67,15 @@ public class SetStickerSetThumbnailRequest : FileRequestBase<bool>, IUserTargeta
     /// Initializes a new request
     /// </summary>
     public SetStickerSetThumbnailRequest()
-        : base("setStickerSetThumbnail")
+        : base("setStickerSetThumbnail", TelegramBotClientJsonSerializerContext.Instance.SetStickerSetThumbnailRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Thumbnail switch
         {
-            InputFileStream thumbnail => ToMultipartFormDataContent(fileParameterName: "thumbnail", inputFile: thumbnail),
+            InputFileStream thumbnail =>
+                ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SetStickerSetThumbnailRequest, fileParameterName: "thumbnail", inputFile: thumbnail),
             _                         => base.ToHttpContent()
         };
 }

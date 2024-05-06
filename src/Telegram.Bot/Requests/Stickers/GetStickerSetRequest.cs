@@ -31,6 +31,6 @@ public class GetStickerSetRequest : RequestBase<StickerSet>
     /// Initializes a new request with name
     /// </summary>
     public GetStickerSetRequest()
-        : base("getStickerSet")
+        : base("getStickerSet", TelegramBotClientJsonSerializerContext.Instance.GetStickerSetRequest)
     { }
 }

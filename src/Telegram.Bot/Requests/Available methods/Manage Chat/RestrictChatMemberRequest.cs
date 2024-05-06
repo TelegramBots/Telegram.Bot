@@ -75,6 +75,6 @@ public class RestrictChatMemberRequest : RequestBase<bool>, IChatTargetable, IUs
     /// Initializes a new request
     /// </summary>
     public RestrictChatMemberRequest()
-        : base("restrictChatMember")
+        : base("restrictChatMember", TelegramBotClientJsonSerializerContext.Instance.RestrictChatMemberRequest)
     { }
 }

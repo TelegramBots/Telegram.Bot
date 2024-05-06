@@ -73,7 +73,7 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Initializes a new request
     /// </summary>
     public AddStickerToSetRequest()
-        : base("addStickerToSet")
+        : base("addStickerToSet", TelegramBotClientJsonSerializerContext.Instance.AddStickerToSetRequest)
     { }
 
     /// <inheritdoc />
@@ -81,7 +81,8 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
         =>
         Sticker.Sticker switch
         {
-            InputFileStream sticker => ToMultipartFormDataContent(fileParameterName: sticker.FileName!, inputFile: sticker),
+            InputFileStream sticker =>
+                ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.AddStickerToSetRequest, fileParameterName: sticker.FileName!, inputFile: sticker),
             _                       => base.ToHttpContent()
         };
 }

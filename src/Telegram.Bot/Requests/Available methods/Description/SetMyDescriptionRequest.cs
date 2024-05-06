@@ -1,3 +1,4 @@
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 /// <summary>
@@ -26,6 +27,6 @@ public class SetMyDescriptionRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetMyDescriptionRequest()
-        : base("setMyDescription")
+        : base("setMyDescription", TelegramBotClientJsonSerializerContext.Instance.SetMyDescriptionRequest)
     { }
 }

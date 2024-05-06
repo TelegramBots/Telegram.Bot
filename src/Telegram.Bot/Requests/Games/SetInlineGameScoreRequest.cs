@@ -64,6 +64,6 @@ public class SetInlineGameScoreRequest : RequestBase<bool>, IUserTargetable
     /// Initializes a new request
     /// </summary>
     public SetInlineGameScoreRequest()
-        : base("setGameScore")
+        : base("setGameScore", TelegramBotClientJsonSerializerContext.Instance.SetInlineGameScoreRequest)
     { }
 }

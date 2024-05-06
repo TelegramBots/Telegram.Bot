@@ -56,6 +56,6 @@ public class BanChatSenderChatRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public BanChatSenderChatRequest()
-        : base("banChatSenderChat")
+        : base("banChatSenderChat", TelegramBotClientJsonSerializerContext.Instance.BanChatSenderChatRequest)
     { }
 }

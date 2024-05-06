@@ -43,6 +43,6 @@ public class DeclineChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserT
     /// Initializes a new request with chatId and userId
     /// </summary>
     public DeclineChatJoinRequest()
-        : base("declineChatJoinRequest")
+        : base("declineChatJoinRequest", TelegramBotClientJsonSerializerContext.Instance.DeclineChatJoinRequest)
     { }
 }

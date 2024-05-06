@@ -67,6 +67,6 @@ public class CreateChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
     /// Initializes a new request
     /// </summary>
     public CreateChatInviteLinkRequest()
-        : base("createChatInviteLink")
+        : base("createChatInviteLink", TelegramBotClientJsonSerializerContext.Instance.CreateChatInviteLinkRequest)
     { }
 }

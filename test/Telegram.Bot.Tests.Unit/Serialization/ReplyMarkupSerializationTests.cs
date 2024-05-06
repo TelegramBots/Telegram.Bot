@@ -1,6 +1,5 @@
 using Telegram.Bot.Types.ReplyMarkups;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -16,7 +15,7 @@ public class ReplyMarkupSerializationTests
             KeyboardButton.WithRequestPoll("Create a poll", type)
         );
 
-        string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, JsonSerializerOptionsProvider.Options);
+        string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, TelegramBotClientJsonSerializerContext.Instance.ReplyKeyboardMarkup);
 
         JsonNode? root = JsonNode.Parse(serializedReplyMarkup);
         Assert.NotNull(root);
@@ -65,7 +64,7 @@ public class ReplyMarkupSerializationTests
             KeyboardButton.WithRequestPoll("Create a poll", type)
         );
 
-        string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, JsonSerializerOptionsProvider.Options);
+        string serializedReplyMarkup = JsonSerializer.Serialize(replyMarkup, TelegramBotClientJsonSerializerContext.Instance.ReplyKeyboardMarkup);
 
         JsonNode? root = JsonNode.Parse(serializedReplyMarkup);
         Assert.NotNull(root);

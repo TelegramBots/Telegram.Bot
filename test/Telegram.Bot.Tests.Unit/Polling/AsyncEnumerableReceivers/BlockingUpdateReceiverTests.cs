@@ -1,6 +1,4 @@
-﻿#if NET6_0_OR_GREATER
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Polling;
@@ -151,5 +149,3 @@ public class BlockingUpdateReceiverTests
         Assert.Equal(0, bot.MessageGroupsLeft);
     }
 }
-
-#endif

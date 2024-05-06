@@ -49,6 +49,6 @@ public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetab
     /// Initializes a new request with chatId and messageId
     /// </summary>
     public EditMessageReplyMarkupRequest()
-        : base("editMessageReplyMarkup")
+        : base("editMessageReplyMarkup", TelegramBotClientJsonSerializerContext.Instance.EditMessageReplyMarkupRequest)
     { }
 }

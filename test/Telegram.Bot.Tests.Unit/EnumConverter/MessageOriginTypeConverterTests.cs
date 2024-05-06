@@ -1,65 +1,101 @@
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class MessageOriginTypeConverterTests
 {
     [Theory]
-    [InlineData(MessageOriginType.User, "user")]
-    [InlineData(MessageOriginType.HiddenUser, "hidden_user")]
-    [InlineData(MessageOriginType.Chat, "chat")]
-    [InlineData(MessageOriginType.Channel, "channel")]
-    public void Should_Convert_MessageOriginType_To_String(MessageOriginType messageOriginType, string value)
+    [ClassData(typeof(MessageOriginData))]
+    public void Should_Convert_MessageOriginType_To_String(MessageOrigin messageOrigin, string value)
     {
-        MessageOrigin messageOrigin = new() { Type = messageOriginType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string result = JsonSerializer.Serialize(messageOrigin, TelegramBotClientJsonSerializerContext.Instance.MessageOrigin);
 
-        string result = JsonSerializer.Serialize(messageOrigin, JsonSerializerOptionsProvider.Options);
-
-        Assert.Equal(expectedResult, result);
+        Assert.Equal(value, result);
     }
 
     [Theory]
-    [InlineData(MessageOriginType.User, "user")]
-    [InlineData(MessageOriginType.HiddenUser, "hidden_user")]
-    [InlineData(MessageOriginType.Chat, "chat")]
-    [InlineData(MessageOriginType.Channel, "channel")]
-    public void Should_Convert_String_To_MessageOriginType(MessageOriginType messageOriginType, string value)
+    [ClassData(typeof(MessageOriginData))]
+    public void Should_Convert_String_To_MessageOriginType(MessageOrigin expectedResult, string value)
     {
-        MessageOrigin expectedResult = new() { Type = messageOriginType };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonSerializerOptionsProvider.Options);
+        MessageOrigin? result = JsonSerializer.Deserialize(value, TelegramBotClientJsonSerializerContext.Instance.MessageOrigin);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
     [Fact]
-    public void Should_Return_Zero_For_Incorrect_ChatMemberStatus()
+    public void Should_Return_Zero_For_Incorrect_MessageOriginType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        MessageOrigin? result = JsonSerializer.Deserialize<MessageOrigin>(jsonData, JsonSerializerOptionsProvider.Options);
+        MessageOriginType? result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.MessageOriginType);
 
         Assert.NotNull(result);
-        Assert.Equal((MessageOriginType)0, result.Type);
+        Assert.Equal((MessageOriginType)0, result);
     }
 
     [Fact]
-    public void Should_Throw_JsonException_For_Incorrect_ChatMemberStatus()
+    public void Should_Throw_JsonException_For_Incorrect_MessageOriginType()
     {
-        MessageOrigin messageOrigin = new() { Type = (MessageOriginType)int.MaxValue };
-
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageOrigin, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((MessageOriginType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.MessageOriginType));
     }
 
-
-    class MessageOrigin
+    private class MessageOriginData : IEnumerable<object[]>
     {
-        [JsonRequired]
-        public MessageOriginType Type { get; init; }
+        private static MessageOrigin NewMessageOrigin(MessageOriginType messageOriginType)
+        {
+            return messageOriginType switch
+            {
+                MessageOriginType.User => new MessageOriginUser
+                {
+                    Date = new DateTime(2024, 01, 01),
+                    SenderUser = new User
+                    {
+                        Id = 123456789,
+                        IsBot = false,
+                        FirstName = "FirstName",
+                    }
+                },
+                MessageOriginType.HiddenUser => new MessageOriginHiddenUser
+                {
+                    Date = new DateTime(2024, 01, 01),
+                    SenderUserName = "a",
+                },
+                MessageOriginType.Chat => new MessageOriginChat
+                {
+                    Date = new DateTime(2024, 01, 01),
+                    SenderChat = new Chat
+                    {
+                        Id = 1234,
+                        Type = ChatType.Private,
+                    }
+                },
+                MessageOriginType.Channel => new MessageOriginChannel
+                {
+                    Date = new DateTime(2024, 01, 01),
+                    Chat = new Chat
+                    {
+                        Id = 1234,
+                        Type = ChatType.Private,
+                    },
+                    MessageId = 1234,
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(messageOriginType), messageOriginType, null)
+            };
+
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewMessageOrigin(MessageOriginType.User), """{"type":"user","sender_user":{"id":123456789,"is_bot":false,"first_name":"FirstName"},"date":1704052800}"""];
+            yield return [NewMessageOrigin(MessageOriginType.HiddenUser), """{"type":"hidden_user","sender_user_name":"a","date":1704052800}"""];
+            yield return [NewMessageOrigin(MessageOriginType.Chat), """{"type":"chat","sender_chat":{"id":1234,"type":"private"},"date":1704052800}"""];
+            yield return [NewMessageOrigin(MessageOriginType.Channel), """{"type":"channel","chat":{"id":1234,"type":"private"},"message_id":1234,"date":1704052800}"""];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

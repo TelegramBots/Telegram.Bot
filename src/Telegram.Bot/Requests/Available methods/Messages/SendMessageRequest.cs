@@ -128,6 +128,6 @@ public class SendMessageRequest : RequestBase<Message>, IChatTargetable, IBusine
     /// Initializes a new request
     /// </summary>
     public SendMessageRequest()
-        : base("sendMessage")
+        : base("sendMessage", TelegramBotClientJsonSerializerContext.Instance.SendMessageRequest)
     { }
 }

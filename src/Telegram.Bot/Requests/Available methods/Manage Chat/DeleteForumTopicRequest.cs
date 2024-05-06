@@ -41,6 +41,6 @@ public class DeleteForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public DeleteForumTopicRequest()
-        : base("deleteForumTopic")
+        : base("deleteForumTopic", TelegramBotClientJsonSerializerContext.Instance.DeleteForumTopicRequest)
     { }
 }

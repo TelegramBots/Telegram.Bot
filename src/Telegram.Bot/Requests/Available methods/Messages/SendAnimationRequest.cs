@@ -157,13 +157,13 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable, I
     /// Initializes a new request
     /// </summary>
     public SendAnimationRequest()
-        : base("sendAnimation")
+        : base("sendAnimation", TelegramBotClientJsonSerializerContext.Instance.SendAnimationRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Animation is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("animation", "thumbnail")
+            ? GenerateMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendAnimationRequest, "animation", "thumbnail")
                 .AddContentIfInputFile(media: Animation, name: "animation")
                 .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
             : base.ToHttpContent();

@@ -45,6 +45,6 @@ public class GetUserProfilePhotosRequest : RequestBase<UserProfilePhotos>, IUser
     /// Initializes a new request with userId
     /// </summary>
     public GetUserProfilePhotosRequest()
-        : base("getUserProfilePhotos")
+        : base("getUserProfilePhotos", TelegramBotClientJsonSerializerContext.Instance.GetUserProfilePhotosRequest)
     { }
 }

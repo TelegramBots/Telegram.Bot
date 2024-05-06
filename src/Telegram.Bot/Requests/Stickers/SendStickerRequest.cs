@@ -96,14 +96,15 @@ public class SendStickerRequest : FileRequestBase<Message>, IChatTargetable, IBu
     /// Initializes a new request chatId and sticker
     /// </summary>
     public SendStickerRequest()
-        : base("sendSticker")
+        : base("sendSticker", TelegramBotClientJsonSerializerContext.Instance.SendStickerRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Sticker switch
         {
-            InputFileStream sticker => ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: sticker),
+            InputFileStream sticker =>
+                ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendStickerRequest, fileParameterName: "sticker", inputFile: sticker),
             _                       => base.ToHttpContent()
         };
 }

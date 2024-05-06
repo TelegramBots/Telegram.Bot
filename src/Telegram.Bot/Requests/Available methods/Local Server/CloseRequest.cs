@@ -14,6 +14,6 @@ public class CloseRequest : ParameterlessRequest<bool>
     /// <summary>
     /// Initializes a new request
     /// </summary>
-    public CloseRequest(): base("close")
+    public CloseRequest(): base("close", TelegramBotClientJsonSerializerContext.Instance.CloseRequest)
     { }
 }

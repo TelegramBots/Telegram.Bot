@@ -91,6 +91,6 @@ public class EditMessageTextRequest : RequestBase<Message>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public EditMessageTextRequest()
-        : base("editMessageText")
+        : base("editMessageText", TelegramBotClientJsonSerializerContext.Instance.EditMessageTextRequest)
     { }
 }

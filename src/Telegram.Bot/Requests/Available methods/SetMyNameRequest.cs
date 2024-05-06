@@ -25,6 +25,6 @@ public class SetMyNameRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetMyNameRequest()
-        : base("setMyName")
+        : base("setMyName", TelegramBotClientJsonSerializerContext.Instance.SetMyNameRequest)
     { }
 }

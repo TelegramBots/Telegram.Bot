@@ -76,6 +76,6 @@ public class ForwardMessageRequest : RequestBase<Message>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public ForwardMessageRequest()
-        : base("forwardMessage")
+        : base("forwardMessage", TelegramBotClientJsonSerializerContext.Instance.ForwardMessageRequest)
     { }
 }

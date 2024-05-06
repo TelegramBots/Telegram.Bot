@@ -35,6 +35,6 @@ public class GetCustomEmojiStickersRequest : RequestBase<Sticker[]>
     /// Initializes a new request with name
     /// </summary>
     public GetCustomEmojiStickersRequest()
-        : base("getCustomEmojiStickers")
+        : base("getCustomEmojiStickers", TelegramBotClientJsonSerializerContext.Instance.GetCustomEmojiStickersRequest)
     { }
 }

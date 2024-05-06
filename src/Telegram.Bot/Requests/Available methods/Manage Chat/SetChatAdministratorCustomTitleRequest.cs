@@ -51,6 +51,6 @@ public class SetChatAdministratorCustomTitleRequest : RequestBase<bool>, IChatTa
     /// Initializes a new request
     /// </summary>
     public SetChatAdministratorCustomTitleRequest()
-        : base("setChatAdministratorCustomTitle")
+        : base("setChatAdministratorCustomTitle", TelegramBotClientJsonSerializerContext.Instance.SetChatAdministratorCustomTitleRequest)
     { }
 }

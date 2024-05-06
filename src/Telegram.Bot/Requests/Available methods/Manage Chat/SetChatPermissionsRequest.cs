@@ -57,6 +57,6 @@ public class SetChatPermissionsRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request with chatId and new default permissions
     /// </summary>
     public SetChatPermissionsRequest()
-        : base("setChatPermissions")
+        : base("setChatPermissions", TelegramBotClientJsonSerializerContext.Instance.SetChatPermissionsRequest)
     { }
 }

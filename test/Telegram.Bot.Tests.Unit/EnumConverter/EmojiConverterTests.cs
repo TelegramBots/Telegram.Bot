@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
@@ -10,24 +10,22 @@ public class EmojiConverterTests
 {
     [Theory]
     [ClassData(typeof(EmojieData))]
-    public void Should_Convert_Emoji_To_String(Emoji emoji, string value)
+    public void Should_Convert_Emoji_To_String(SendDiceRequest dice, string value)
     {
-        Dice dice = new() { Emoji = emoji };
-        string expectedResult = @$"{{""emoji"":""{value}""}}";
+        string expectedResult = $$"""{"chat_id":1,"emoji":"{{value}}"}""";
 
-        string result = JsonSerializer.Serialize(dice, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(dice, TelegramBotClientJsonSerializerContext.Instance.SendDiceRequest);
 
         Assert.Equal(expectedResult, result);
     }
 
     [Theory]
     [ClassData(typeof(EmojieData))]
-    public void Should_Convert_String_To_Emoji(Emoji emoji, string value)
+    public void Should_Convert_String_To_Emoji(SendDiceRequest expectedResult, string value)
     {
-        Dice expectedResult = new() { Emoji = emoji };
-        string jsonData = @$"{{""emoji"":""{value}""}}";
+        string jsonData = $$"""{"chat_id":1,"emoji":"{{value}}"}""";
 
-        Dice? result = JsonSerializer.Deserialize<Dice>(jsonData, JsonSerializerOptionsProvider.Options);
+        SendDiceRequest? result = JsonSerializer.Deserialize(jsonData, TelegramBotClientJsonSerializerContext.Instance.SendDiceRequest);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Emoji, result.Emoji);
@@ -36,44 +34,43 @@ public class EmojiConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_Emoji()
     {
-        string jsonData = @$"{{""emoji"":""{int.MaxValue}""}}";
-
-        Dice? result = JsonSerializer.Deserialize<Dice>(jsonData, JsonSerializerOptionsProvider.Options);
+        Emoji? result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.Emoji);
 
         Assert.NotNull(result);
-        Assert.Equal((Emoji)0, result.Emoji);
+        Assert.Equal((Emoji)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_Emoji()
     {
-        Dice dice = new() { Emoji = (Emoji)int.MaxValue };
-
         // ToDo: add Emoji.Unknown ?
         //    protected override string GetStringValue(Emoji value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(dice, JsonSerializerOptionsProvider.Options));
-    }
-
-
-    class Dice
-    {
-        [JsonRequired]
-        public Emoji Emoji { get; init; }
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((Emoji)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.Emoji));
     }
 
     private class EmojieData : IEnumerable<object[]>
     {
+        private static SendDiceRequest NewSendDiceRequest(Emoji emoji)
+        {
+            return new SendDiceRequest
+            {
+                ChatId = 1,
+                Emoji = emoji,
+            };
+        }
+
         public IEnumerator<object[]> GetEnumerator()
         {
-            yield return [Emoji.Dice, @"\uD83C\uDFB2"];           // 🎲
-            yield return [Emoji.Darts, @"\uD83C\uDFAF"];          // 🎯
-            yield return [Emoji.Basketball, @"\uD83C\uDFC0"];     // 🏀
-            yield return [Emoji.Football, @"\u26BD"];              // ⚽
-            yield return [Emoji.SlotMachine, @"\uD83C\uDFB0"];    // 🎰
-            yield return [Emoji.Bowling, @"\uD83C\uDFB3"];        // 🎳
+            yield return [NewSendDiceRequest(Emoji.Dice), @"\uD83C\uDFB2"];           // 🎲
+            yield return [NewSendDiceRequest(Emoji.Darts), @"\uD83C\uDFAF"];          // 🎯
+            yield return [NewSendDiceRequest(Emoji.Basketball), @"\uD83C\uDFC0"];     // 🏀
+            yield return [NewSendDiceRequest(Emoji.Football), @"\u26BD"];             // ⚽
+            yield return [NewSendDiceRequest(Emoji.SlotMachine), @"\uD83C\uDFB0"];    // 🎰
+            yield return [NewSendDiceRequest(Emoji.Bowling), @"\uD83C\uDFB3"];        // 🎳
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

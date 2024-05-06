@@ -64,7 +64,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
     /// Initializes a new
     /// </summary>
     public EditMessageMediaRequest()
-        : base("editMessageMedia")
+        : base("editMessageMedia", TelegramBotClientJsonSerializerContext.Instance.EditMessageMediaRequest)
     { }
 
     /// <inheritdoc />
@@ -76,7 +76,7 @@ public class EditMessageMediaRequest : FileRequestBase<Message>, IChatTargetable
             return base.ToHttpContent();
         }
 
-        var multipartContent = GenerateMultipartFormDataContent();
+        var multipartContent = GenerateMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.EditMessageMediaRequest);
 
         if (Media.Media is InputFileStream file)
         {

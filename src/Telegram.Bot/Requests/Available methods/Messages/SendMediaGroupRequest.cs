@@ -94,13 +94,13 @@ public class SendMediaGroupRequest : FileRequestBase<Message[]>, IChatTargetable
     /// Initializes a request
     /// </summary>
     public SendMediaGroupRequest()
-        : base("sendMediaGroup")
+        : base("sendMediaGroup", TelegramBotClientJsonSerializerContext.Instance.SendMediaGroupRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent ToHttpContent()
     {
-        var multipartContent = GenerateMultipartFormDataContent();
+        var multipartContent = GenerateMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendMediaGroupRequest);
 
         foreach (var mediaItem in Media)
         {

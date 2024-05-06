@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -23,7 +22,7 @@ public class ChatSourceBoostSerializationTests
             },
         };
 
-        string json = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourcePremium);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
@@ -63,7 +62,7 @@ public class ChatSourceBoostSerializationTests
             IsUnclaimed = true,
         };
 
-        string json = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiveaway);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
 
@@ -104,7 +103,7 @@ public class ChatSourceBoostSerializationTests
             },
         };
 
-        string json = JsonSerializer.Serialize(creator, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiftCode);
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
@@ -140,7 +139,7 @@ public class ChatSourceBoostSerializationTests
         }
         """;
 
-        ChatBoostSource? boostSource = JsonSerializer.Deserialize<ChatBoostSource>(json, JsonSerializerOptionsProvider.Options);
+        ChatBoostSource? boostSource = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSource);
 
         ChatBoostSourcePremium premium = Assert.IsAssignableFrom<ChatBoostSourcePremium>(boostSource);
 
@@ -170,7 +169,8 @@ public class ChatSourceBoostSerializationTests
         }
         """;
 
-        ChatBoostSourceGiftCode? giveaway = JsonSerializer.Deserialize<ChatBoostSourceGiftCode>(json, JsonSerializerOptionsProvider.Options);
+        ChatBoostSourceGiftCode? giveaway =
+            JsonSerializer.Deserialize<ChatBoostSourceGiftCode>(json, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiftCode);
 
         Assert.NotNull(giveaway);
         Assert.Equal(ChatBoostSourceType.GiftCode, giveaway.Source);
@@ -203,7 +203,8 @@ public class ChatSourceBoostSerializationTests
         }
         """;
 
-        ChatBoostSourceGiveaway? giveaway = JsonSerializer.Deserialize<ChatBoostSourceGiveaway>(json, JsonSerializerOptionsProvider.Options);
+        ChatBoostSourceGiveaway? giveaway =
+            JsonSerializer.Deserialize(json,TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiveaway);
 
         Assert.NotNull(giveaway);
         Assert.Equal(ChatBoostSourceType.Giveaway, giveaway.Source);

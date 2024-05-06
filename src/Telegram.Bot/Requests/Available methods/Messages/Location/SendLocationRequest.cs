@@ -115,6 +115,6 @@ public class SendLocationRequest : RequestBase<Message>, IChatTargetable, IBusin
     /// Initializes a new request
     /// </summary>
     public SendLocationRequest()
-        : base("sendLocation")
+        : base("sendLocation", TelegramBotClientJsonSerializerContext.Instance.SendLocationRequest)
     { }
 }

@@ -36,6 +36,6 @@ public class StopInlineMessageLiveLocationRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public StopInlineMessageLiveLocationRequest()
-        : base("stopMessageLiveLocation")
+        : base("stopMessageLiveLocation", TelegramBotClientJsonSerializerContext.Instance.StopInlineMessageLiveLocationRequest)
     { }
 }

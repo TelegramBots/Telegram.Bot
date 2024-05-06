@@ -44,6 +44,6 @@ public class SetChatStickerSetRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public SetChatStickerSetRequest()
-        : base("setChatStickerSet")
+        : base("setChatStickerSet", TelegramBotClientJsonSerializerContext.Instance.SetChatStickerSetRequest)
     { }
 }

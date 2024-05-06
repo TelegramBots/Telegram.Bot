@@ -1,7 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
@@ -21,7 +20,7 @@ public class ChatSerializationTests
             }
             """;
 
-        Chat? deserialize = JsonSerializer.Deserialize<Chat>(chat, JsonSerializerOptionsProvider.Options);
+        Chat? deserialize = JsonSerializer.Deserialize(chat, TelegramBotClientJsonSerializerContext.Instance.Chat);
 
         Assert.NotNull(deserialize);
         Assert.Equal(10, deserialize.UnrestrictBoostCount);
@@ -41,7 +40,7 @@ public class ChatSerializationTests
             CustomEmojiStickerSetName = "test_sticker_set"
         };
 
-        string json = JsonSerializer.Serialize(chat, JsonSerializerOptionsProvider.Options);
+        string json = JsonSerializer.Serialize(chat, TelegramBotClientJsonSerializerContext.Instance.Chat);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

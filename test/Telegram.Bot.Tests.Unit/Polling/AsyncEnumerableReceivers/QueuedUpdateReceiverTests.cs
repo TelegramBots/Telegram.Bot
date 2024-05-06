@@ -1,6 +1,4 @@
-﻿#if NET6_0_OR_GREATER
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Polling;
@@ -218,5 +216,3 @@ public class QueuedUpdateReceiverTests
         Assert.Same(exceptionFromErrorHandler, aggregateException.InnerExceptions[1]);
     }
 }
-
-#endif

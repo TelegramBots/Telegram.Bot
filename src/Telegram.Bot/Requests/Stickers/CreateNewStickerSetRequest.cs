@@ -110,13 +110,13 @@ public class CreateNewStickerSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Initializes a new request
     /// </summary>
     public CreateNewStickerSetRequest()
-        : base("createNewStickerSet")
+        : base("createNewStickerSet", TelegramBotClientJsonSerializerContext.Instance.CreateNewStickerSetRequest)
     { }
 
     /// <inheritdoc/>
     public override HttpContent ToHttpContent()
     {
-        var multipartContent = GenerateMultipartFormDataContent();
+        var multipartContent = GenerateMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.CreateNewStickerSetRequest);
 
         foreach (var inputSticker in Stickers)
         {

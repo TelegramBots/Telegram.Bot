@@ -150,13 +150,13 @@ public class SendAudioRequest : FileRequestBase<Message>, IChatTargetable, IBusi
     /// Initializes a new request
     /// </summary>
     public SendAudioRequest()
-        : base("sendAudio")
+        : base("sendAudio", TelegramBotClientJsonSerializerContext.Instance.SendAudioRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent() =>
         Audio is InputFileStream || Thumbnail is InputFileStream
-            ? GenerateMultipartFormDataContent("audio", "thumbnail")
+            ? GenerateMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.SendAudioRequest,"audio", "thumbnail")
                 .AddContentIfInputFile(media: Audio, name: "audio")
                 .AddContentIfInputFile(media: Thumbnail, name: "thumbnail")
             : base.ToHttpContent();

@@ -44,6 +44,6 @@ public class RevokeChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
     /// Initializes a new request with chatId and inviteLink
     /// </summary>
     public RevokeChatInviteLinkRequest()
-        : base("revokeChatInviteLink")
+        : base("revokeChatInviteLink", TelegramBotClientJsonSerializerContext.Instance.RevokeChatInviteLinkRequest)
     { }
 }

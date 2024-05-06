@@ -55,6 +55,6 @@ public class EditInlineMessageCaptionRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId and new caption
     /// </summary>
     public EditInlineMessageCaptionRequest()
-        : base("editMessageCaption")
+        : base("editMessageCaption", TelegramBotClientJsonSerializerContext.Instance.EditInlineMessageCaptionRequest)
     { }
 }

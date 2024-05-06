@@ -44,6 +44,6 @@ public class SetStickerKeywordsRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetStickerKeywordsRequest()
-        : base("setStickerKeywords")
+        : base("setStickerKeywords", TelegramBotClientJsonSerializerContext.Instance.SetStickerKeywordsRequest)
     { }
 }

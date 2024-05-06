@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Telegram.Bot.Requests;
 
+#pragma warning disable CS1574, CS1584, CS1581, CS1580
+
 /// <summary>
 /// Use this method to get basic info about a file and prepare it for downloading. For the moment,
 /// bots can download files of up to 20MB in size. On success, a <see cref="File"/> object is
@@ -17,6 +19,8 @@ namespace Telegram.Bot.Requests;
 /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or
 /// <see cref="TelegramBotClientExtensions.GetInfoAndDownloadFileAsync"/> methods to download the file
 /// </remarks>
+
+#pragma warning restore CS1574, CS1584, CS1581, CS1580
 
 public class GetFileRequest : RequestBase<File>
 {
@@ -43,6 +47,6 @@ public class GetFileRequest : RequestBase<File>
     /// Initializes a new request
     /// </summary>
     public GetFileRequest()
-        : base("getFile")
+        : base("getFile", TelegramBotClientJsonSerializerContext.Instance.GetFileRequest)
     { }
 }

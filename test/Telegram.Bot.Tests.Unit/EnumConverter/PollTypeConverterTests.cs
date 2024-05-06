@@ -1,33 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Requests;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class PollTypeConverterTests
 {
     [Theory]
-    [InlineData(PollType.Regular, "regular")]
-    [InlineData(PollType.Quiz, "quiz")]
-    public void Should_Convert_ChatType_To_String(PollType pollType, string value)
+    [ClassData(typeof(PollTypeData))]
+    public void Should_Convert_ChatType_To_String(SendPollRequest sendPollRequest, string value)
     {
-        Poll poll = new() { Type = pollType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string expectedResult = $$"""{"chat_id":1234,"question":"q","options":["a","b"],"type":"{{value}}"}""";
 
-        string result = JsonSerializer.Serialize(poll, JsonSerializerOptionsProvider.Options);
+        string result = JsonSerializer.Serialize(sendPollRequest, TelegramBotClientJsonSerializerContext.Instance.SendPollRequest);
 
         Assert.Equal(expectedResult, result);
     }
 
     [Theory]
-    [InlineData(PollType.Regular, "regular")]
-    [InlineData(PollType.Quiz, "quiz")]
-    public void Should_Convert_String_To_PollType(PollType pollType, string value)
+    [ClassData(typeof(PollTypeData))]
+    public void Should_Convert_String_To_PollType(SendPollRequest expectedResult, string value)
     {
-        Poll expectedResult = new() { Type = pollType };
-        string jsonData = @$"{{""type"":""{value}""}}";
+        string jsonData = $$"""{"chat_id":1234,"question":"q","options":["a","b"],"type":"{{value}}"}""";
 
-        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonSerializerOptionsProvider.Options);
+        SendPollRequest? result = JsonSerializer.Deserialize(jsonData, TelegramBotClientJsonSerializerContext.Instance.SendPollRequest);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -36,31 +34,42 @@ public class PollTypeConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_PollType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        Poll? result = JsonSerializer.Deserialize<Poll>(jsonData, JsonSerializerOptionsProvider.Options);
+        PollType? result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.PollType);
 
         Assert.NotNull(result);
-        Assert.Equal((PollType)0, result.Type);
+        Assert.Equal((PollType)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_PollType()
     {
-        Poll poll = new() { Type = (PollType)int.MaxValue };
-
         // ToDo: add PollType.Unknown ?
         //    protected override string GetStringValue(PollType value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(poll, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize((PollType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.PollType));
     }
 
-
-    class Poll
+    private class PollTypeData : IEnumerable<object[]>
     {
-        [JsonRequired]
-        public PollType Type { get; init; }
+        private static SendPollRequest NewSendPollRequest(PollType pollType)
+        {
+            return new SendPollRequest
+            {
+                ChatId = 1234,
+                Question = "q",
+                Options = new[] { "a", "b" },
+                Type = pollType,
+            };
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewSendPollRequest(PollType.Regular), "regular"];
+            yield return [NewSendPollRequest(PollType.Quiz), "quiz"];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

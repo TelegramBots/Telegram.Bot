@@ -1,4 +1,3 @@
-#if NET6_0_OR_GREATER
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -68,7 +67,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
         return _enumerator;
     }
 
-    class Enumerator : IAsyncEnumerator<Update>
+    sealed class Enumerator : IAsyncEnumerator<Update>
     {
         readonly QueuedUpdateReceiver _receiver;
         readonly CancellationTokenSource _cts;
@@ -130,6 +129,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
             return true;
         }
 
+        // ReSharper disable once CognitiveComplexity
         async Task ReceiveUpdatesAsync()
         {
             if (_receiver._receiverOptions?.DropPendingUpdates is true)
@@ -159,6 +159,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
                                 AllowedUpdates = _allowedUpdates,
                                 Limit = _limit,
                             },
+                            TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray,
                             cancellationToken: _token
                         )
                         .ConfigureAwait(false);
@@ -236,4 +237,3 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
         }
     }
 }
-#endif

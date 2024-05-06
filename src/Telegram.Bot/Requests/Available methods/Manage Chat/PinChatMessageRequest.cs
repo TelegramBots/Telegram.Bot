@@ -50,6 +50,6 @@ public class PinChatMessageRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request with chatId and messageId
     /// </summary>
     public PinChatMessageRequest()
-        : base("pinChatMessage")
+        : base("pinChatMessage", TelegramBotClientJsonSerializerContext.Instance.PinChatMessageRequest)
     { }
 }

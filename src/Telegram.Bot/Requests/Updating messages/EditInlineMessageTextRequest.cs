@@ -79,6 +79,6 @@ public class EditInlineMessageTextRequest : RequestBase<bool>
     /// Initializes a new request with inlineMessageId and new text
     /// </summary>
     public EditInlineMessageTextRequest()
-        : base("editMessageText")
+        : base("editMessageText", TelegramBotClientJsonSerializerContext.Instance.EditInlineMessageTextRequest)
     { }
 }

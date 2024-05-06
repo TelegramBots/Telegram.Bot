@@ -12,6 +12,6 @@ public class GetWebhookInfoRequest : ParameterlessRequest<WebhookInfo>
     /// Initializes a new request
     /// </summary>
     public GetWebhookInfoRequest()
-        : base("getWebhookInfo")
+        : base("getWebhookInfo", TelegramBotClientJsonSerializerContext.Instance.GetWebhookInfoRequest)
     { }
 }

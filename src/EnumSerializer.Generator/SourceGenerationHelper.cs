@@ -4,23 +4,6 @@ namespace EnumSerializer.Generator;
 
 internal static class SourceGenerationHelper
 {
-    internal const string JsonSerializerOptionsProviderTemplate =
-        """
-        using System.Collections.Generic;
-
-        namespace Telegram.Bot.Serialization;
-
-        public static partial class JsonSerializerOptionsProvider
-        {
-            static partial void AddGeneratedConverters(IList<JsonConverter> converters)
-            {
-                {{~ for enum in enums ~}}
-                converters.Add(new global::{{ if enum.namespace }}{{ enum.namespace }}.{{ end }}{{ enum.name }}Converter());
-                {{~ end ~}}
-            }
-        }
-        """;
-
     internal const string ConverterTemplate =
         """
         //------------------------------------------------------------------------------
@@ -34,11 +17,13 @@ internal static class SourceGenerationHelper
 
         #nullable enable
 
+        #pragma warning disable 1591
+
         {{~ if enum_namespace ~}}
         namespace {{ enum_namespace }};
         {{~ end ~}}
 
-        internal partial class {{ enum_name }}Converter : global::System.Text.Json.Serialization.JsonConverter<global::{{ enum_namespace }}.{{ enum_name }}>
+        public partial class {{ enum_name }}Converter : global::System.Text.Json.Serialization.JsonConverter<global::{{ enum_namespace }}.{{ enum_name }}>
         {
             public override void Write(
                 global::System.Text.Json.Utf8JsonWriter writer,

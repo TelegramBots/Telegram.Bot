@@ -101,6 +101,6 @@ public class SendGameRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     /// Initializes a new request
     /// </summary>
     public SendGameRequest()
-        : base("sendGame")
+        : base("sendGame", TelegramBotClientJsonSerializerContext.Instance.SendGameRequest)
     { }
 }

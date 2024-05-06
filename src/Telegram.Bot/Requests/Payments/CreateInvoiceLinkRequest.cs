@@ -203,6 +203,6 @@ public class CreateInvoiceLinkRequest : RequestBase<string>
     /// Initializes a new request
     /// </summary>
     public CreateInvoiceLinkRequest()
-        : base("createInvoiceLink")
+        : base("createInvoiceLink", TelegramBotClientJsonSerializerContext.Instance.CreateInvoiceLinkRequest)
     { }
 }

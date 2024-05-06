@@ -13,20 +13,29 @@ public class TestMockClient
         MockTelegramBotClient bot = new("hello-world", "foo-bar-123");
         Assert.Equal(2, bot.MessageGroupsLeft);
 
-        Update[] updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
+        Update[] updates
+            = await bot.MakeRequestAsync(
+                new GetUpdatesRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray);
         Assert.Equal(2, updates.Length);
         Assert.Equal(1, bot.MessageGroupsLeft);
         Assert.Equal("hello", updates[0].Message!.Text);
         Assert.Equal("world", updates[1].Message!.Text);
 
-        updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
+        updates
+            = await bot.MakeRequestAsync(
+                new GetUpdatesRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray);
         Assert.Equal(3, updates.Length);
         Assert.Equal(0, bot.MessageGroupsLeft);
         Assert.Equal("foo", updates[0].Message!.Text);
         Assert.Equal("bar", updates[1].Message!.Text);
         Assert.Equal("123", updates[2].Message!.Text);
 
-        updates = await bot.MakeRequestAsync(new GetUpdatesRequest());
+        updates
+            = await bot.MakeRequestAsync(
+                new GetUpdatesRequest(),
+                TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray);
         Assert.Empty(updates);
         Assert.Equal(0, bot.MessageGroupsLeft);
     }
@@ -37,7 +46,10 @@ public class TestMockClient
         MockTelegramBotClient bot = new("foo") { Options = { ExceptionToThrow = new("Oops") } };
 
         Exception ex = await Assert.ThrowsAsync<Exception>(
-            async () => await bot.MakeRequestAsync(new GetUpdatesRequest())
+            async ()
+                => await bot.MakeRequestAsync(
+                    new GetUpdatesRequest(),
+                    TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray)
         );
         Assert.Equal("Oops", ex.Message);
     }

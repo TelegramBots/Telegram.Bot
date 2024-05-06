@@ -41,6 +41,6 @@ public class ReopenForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public ReopenForumTopicRequest()
-        : base("reopenForumTopic")
+        : base("reopenForumTopic", TelegramBotClientJsonSerializerContext.Instance.ReopenForumTopicRequest)
     { }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization.Metadata;
 using Telegram.Bot.Requests.Abstractions;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Requests;
 
@@ -20,12 +20,16 @@ public abstract class RequestBase<TResponse> : IRequest<TResponse>
     [JsonIgnore]
     public string MethodName { get; }
 
+    [JsonIgnore]
+    public JsonTypeInfo JsonTypeInfo { get; }
+
     /// <summary>
     /// Initializes an instance of request
     /// </summary>
     /// <param name="methodName">Bot API method</param>
-    protected RequestBase(string methodName)
-        : this(methodName, HttpMethod.Post)
+    /// <param name="jsonTypeInfo"></param>
+    protected RequestBase(string methodName, JsonTypeInfo jsonTypeInfo)
+        : this(methodName, HttpMethod.Post, jsonTypeInfo)
     { }
 
     /// <summary>
@@ -33,19 +37,22 @@ public abstract class RequestBase<TResponse> : IRequest<TResponse>
     /// </summary>
     /// <param name="methodName">Bot API method</param>
     /// <param name="method">HTTP method to use</param>
-    protected RequestBase(string methodName, HttpMethod method) =>
-        (MethodName, Method) = (methodName, method);
+    /// <param name="jsonTypeInfo"></param>
+    protected RequestBase(string methodName, HttpMethod method, JsonTypeInfo jsonTypeInfo) =>
+        (MethodName, Method, JsonTypeInfo) = (methodName, method, jsonTypeInfo);
 
     /// <summary>
     /// Generate content of HTTP message
     /// </summary>
     /// <returns>Content of HTTP request</returns>
-    public virtual HttpContent? ToHttpContent() =>
-        new StringContent(
-            content: JsonSerializer.Serialize(this, GetType(), JsonSerializerOptionsProvider.Options),
+    public virtual HttpContent? ToHttpContent()
+    {
+        return new StringContent(
+            content: JsonSerializer.Serialize(this, JsonTypeInfo),
             encoding: Encoding.UTF8,
             mediaType: "application/json"
         );
+    }
 
     /// <inheritdoc />
     [JsonIgnore]

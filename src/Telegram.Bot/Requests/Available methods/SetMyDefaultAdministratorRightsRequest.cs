@@ -28,6 +28,8 @@ public class SetMyDefaultAdministratorRightsRequest : RequestBase<bool>
     /// Initializes a new request
     /// </summary>
     public SetMyDefaultAdministratorRightsRequest()
-        : base("setMyDefaultAdministratorRights")
+        : base(
+            "setMyDefaultAdministratorRights",
+            TelegramBotClientJsonSerializerContext.Instance.SetMyDefaultAdministratorRightsRequest)
     { }
 }

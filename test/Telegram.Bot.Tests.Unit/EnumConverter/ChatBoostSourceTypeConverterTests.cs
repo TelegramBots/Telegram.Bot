@@ -1,63 +1,86 @@
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
-using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerOptionsProvider;
 
 namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class ChatBoostSourceTypeConverterTests
 {
     [Theory]
-    [InlineData(ChatBoostSourceType.Giveaway, "giveaway")]
-    [InlineData(ChatBoostSourceType.Premium, "premium")]
-    [InlineData(ChatBoostSourceType.GiftCode, "gift_code")]
-    public void Should_Convert_ChatBoostSourceType_To_String(ChatBoostSourceType kind, string value)
+    [ClassData(typeof(ChatBoostSourceData))]
+    public void Should_Convert_ChatBoostSourceType_To_String(ChatBoostSource chatBoostSource, string value)
     {
-        Container container = new() { Type = kind };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string result = JsonSerializer.Serialize(chatBoostSource, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSource);
 
-        string result = JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options);
-
-        Assert.Equal(expectedResult, result);
+        Assert.Equal(value, result);
     }
 
     [Theory]
-    [InlineData(ChatBoostSourceType.Giveaway, "giveaway")]
-    [InlineData(ChatBoostSourceType.Premium, "premium")]
-    [InlineData(ChatBoostSourceType.GiftCode, "gift_code")]
-    public void Should_Convert_String_ToChatBoostSourceType(ChatBoostSourceType kind, string value)
+    [ClassData(typeof(ChatBoostSourceData))]
+    public void Should_Convert_String_ToChatBoostSourceType(ChatBoostSource expectedResult, string value)
     {
-        Container expectedResult = new() { Type = kind };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
+        ChatBoostSource? result = JsonSerializer.Deserialize(value, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSource);
 
         Assert.NotNull(result);
-        Assert.Equal(expectedResult.Type, result.Type);
+        Assert.Equal(expectedResult.Source, result.Source);
     }
 
     [Fact]
     public void Should_Return_Zero_For_Incorrect_ChatBoostSourceType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        Container? result = JsonSerializer.Deserialize<Container>(jsonData, JsonSerializerOptionsProvider.Options);
+        ChatBoostSourceType? result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceType);
 
         Assert.NotNull(result);
-        Assert.Equal((ChatBoostSourceType)0, result.Type);
+        Assert.Equal((ChatBoostSourceType)0, result);
     }
 
     [Fact]
     public void Should_Throw_JsonException_For_Incorrect_ChatBoostSourceType()
     {
-        Container container = new() { Type = (ChatBoostSourceType)int.MaxValue };
-
-        Assert.Throws<JsonException>(() => JsonSerializer.Serialize(container, JsonSerializerOptionsProvider.Options));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((ChatBoostSourceType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceType));
     }
 
-
-    class Container
+    private class ChatBoostSourceData : IEnumerable<object[]>
     {
-        [JsonRequired]
-        public ChatBoostSourceType Type { get; init; }
+        private static ChatBoostSource NewChatBoostSource(ChatBoostSourceType chatBoostSourceType)
+        {
+            return chatBoostSourceType switch
+            {
+                ChatBoostSourceType.Premium => new ChatBoostSourcePremium
+                {
+                    User = NewUser()
+                },
+                ChatBoostSourceType.GiftCode => new ChatBoostSourceGiftCode
+                {
+                    User = NewUser()
+                },
+                ChatBoostSourceType.Giveaway => new ChatBoostSourceGiveaway
+                {
+                    GiveawayMessageId = 1
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(chatBoostSourceType), chatBoostSourceType, null)
+            };
+        }
+
+        private static User NewUser()
+        {
+            return new User
+            {
+                Id = 1,
+                IsBot = false,
+                FirstName = "FirstName",
+            };
+        }
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewChatBoostSource(ChatBoostSourceType.Premium), """{"source":"premium","user":{"id":1,"is_bot":false,"first_name":"FirstName"}}"""];
+            yield return [NewChatBoostSource(ChatBoostSourceType.GiftCode), """{"source":"gift_code","user":{"id":1,"is_bot":false,"first_name":"FirstName"}}"""];
+            yield return [NewChatBoostSource(ChatBoostSourceType.Giveaway), """{"source":"giveaway","giveaway_message_id":1}"""];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

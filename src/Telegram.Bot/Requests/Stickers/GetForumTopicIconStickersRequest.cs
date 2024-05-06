@@ -12,6 +12,6 @@ public class GetForumTopicIconStickersRequest : RequestBase<Sticker[]>
     /// Initializes a new request
     /// </summary>
     public GetForumTopicIconStickersRequest()
-        : base("getForumTopicIconStickers")
+        : base("getForumTopicIconStickers", TelegramBotClientJsonSerializerContext.Instance.GetForumTopicIconStickersRequest)
     { }
 }

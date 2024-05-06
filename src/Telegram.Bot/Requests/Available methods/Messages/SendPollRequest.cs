@@ -184,6 +184,6 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     /// Initializes a new request
     /// </summary>
     public SendPollRequest()
-        : base("sendPoll")
+        : base("sendPoll", TelegramBotClientJsonSerializerContext.Instance.SendPollRequest)
     { }
 }

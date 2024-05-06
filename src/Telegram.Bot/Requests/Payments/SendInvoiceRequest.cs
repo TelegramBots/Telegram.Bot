@@ -279,6 +279,6 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public SendInvoiceRequest()
-        : base("sendInvoice")
+        : base("sendInvoice", TelegramBotClientJsonSerializerContext.Instance.SendInvoiceRequest)
     { }
 }
