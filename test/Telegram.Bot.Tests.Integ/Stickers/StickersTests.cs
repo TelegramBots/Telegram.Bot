@@ -878,9 +878,23 @@ public class StickersTests(TestsFixture fixture, StickersTestsFixture classFixtu
     {
         const string expectedExceptionMessage = "Bad Request: STICKERSET_INVALID";
 
-        await BotClient.DeleteStickerSetAsync(new DeleteStickerSetRequest { Name = classFixture.TestStaticRegularStickerSetName });
-        await BotClient.DeleteStickerSetAsync(new DeleteStickerSetRequest { Name = classFixture.TestAnimatedRegularStickerSetName });
-        await BotClient.DeleteStickerSetAsync(new DeleteStickerSetRequest { Name = classFixture.TestVideoRegularStickerSetName });
+        string[] stickerSets = [
+            classFixture.TestStaticRegularStickerSetName,
+            classFixture.TestAnimatedRegularStickerSetName,
+            classFixture.TestVideoRegularStickerSetName,
+        ];
+
+        foreach (string stickerSet in stickerSets)
+        {
+            try
+            {
+                await BotClient.DeleteStickerSetAsync(new DeleteStickerSetRequest { Name = stickerSet });
+            }
+            catch (ApiRequestException e) when(e.Message == expectedExceptionMessage)
+            {
+                // skipping, already deleted
+            }
+        }
 
         await Task.Delay(1_000);
 

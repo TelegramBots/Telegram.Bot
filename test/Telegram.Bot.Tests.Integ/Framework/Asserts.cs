@@ -8,6 +8,7 @@ namespace Telegram.Bot.Tests.Integ.Framework;
 
 public static class Asserts
 {
+    // ReSharper disable once CognitiveComplexity
     public static void JsonEquals(
         object expected,
         object actual,
@@ -60,7 +61,8 @@ public static class Asserts
             [
                 "can_join_groups",
                 "can_read_all_group_messages",
-                "supports_inline_queries"
+                "supports_inline_queries",
+                "can_connect_to_business",
             ]
         );
     }

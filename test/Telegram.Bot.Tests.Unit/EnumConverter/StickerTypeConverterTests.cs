@@ -9,8 +9,6 @@ namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class StickerTypeConverterTests
 {
-    // [todo] maybe without TelegramBotClientJsonSerializerContext the whole class
-
     [Fact]
     public void Should_Verify_All_StickerType_Members()
     {
@@ -19,7 +17,7 @@ public class StickerTypeConverterTests
             .OrderBy(x => x)
             .ToList();
          List<string> stickerTypeDataMembers = new StickerTypeData()
-                        .Select(x => ((Sticker)x[0]).Type.ToString()) // Извлекаем тип стикера из объекта Sticker
+                        .Select(x => ((Sticker)x[0]).Type.ToString())
                         .OrderBy(x => x)
                         .ToList();
         Assert.Equal(stickerTypeMembers.Count, stickerTypeDataMembers.Count);

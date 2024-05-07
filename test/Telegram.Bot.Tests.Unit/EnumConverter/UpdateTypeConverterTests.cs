@@ -18,7 +18,7 @@ public class UpdateTypeConverterTests
             .ToList();
 
         List<string> updateTypeDataMembers = new UpdateTypeData()
-            .Select(x => ((WebhookInfo)x[0]).AllowedUpdates!.First().ToString()) // Предполагаем, что AllowedUpdates не пуст и содержит один элемент
+            .Select(x => ((WebhookInfo)x[0]).AllowedUpdates!.First().ToString())
             .OrderBy(x => x)
             .ToList();
 

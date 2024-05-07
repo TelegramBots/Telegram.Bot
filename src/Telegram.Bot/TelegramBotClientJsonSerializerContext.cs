@@ -7,11 +7,9 @@ using Telegram.Bot.Types.InlineQueryResults;
 // ReSharper disable once CheckNamespace
 namespace Telegram.Bot;
 
-
 /// <summary>
 /// A context for JSON serialization and deserialization
 /// </summary>
-
 
 #region Requests
 
@@ -255,6 +253,7 @@ public partial class TelegramBotClientJsonSerializerContext : JsonSerializerCont
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
+        IgnoreReadOnlyProperties = true,
         Converters =
         {
             new UnixDateTimeConverter(),
@@ -271,7 +270,9 @@ public partial class TelegramBotClientJsonSerializerContext : JsonSerializerCont
             new MenuButtonConverter(),
             new MessageOriginConverter(),
             new ReactionTypeConverter(),
-            new MaybeInaccessibleMessageConverter()
+            new MaybeInaccessibleMessageConverter(),
+            new AlbumInputMediaConverter(),
+            new InputMediaThumbConverter()
         }
     };
 

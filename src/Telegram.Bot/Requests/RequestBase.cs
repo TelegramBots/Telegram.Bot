@@ -21,7 +21,7 @@ public abstract class RequestBase<TResponse> : IRequest<TResponse>
     public string MethodName { get; }
 
     [JsonIgnore]
-    public JsonTypeInfo JsonTypeInfo { get; }
+    private JsonTypeInfo JsonTypeInfo { get; }
 
     /// <summary>
     /// Initializes an instance of request

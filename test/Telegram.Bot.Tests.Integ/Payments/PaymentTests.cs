@@ -21,6 +21,8 @@ namespace Telegram.Bot.Tests.Integ.Payments;
 public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
     : IClassFixture<PaymentFixture>, IAsyncLifetime
 {
+    private const string Currency = "USD";
+
     ITelegramBotClient BotClient => fixture.BotClient;
 
     [OrderedFact("Should send an invoice")]
@@ -40,7 +42,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                     width: 1264,
                     height: 1264
                 ))
-            .WithCurrency(currency: "USD")
+            .WithCurrency(currency: Currency)
             .WithStartParameter(startParameter: "crater-copernicus")
             .WithPayload(payload: "<my-payload>")
             .WithPaymentProviderToken(paymentsProviderToken: classFixture.PaymentProviderToken)
@@ -87,7 +89,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                 .WithId(id: "dhl-express")
                 .WithPrice(label: "Packaging", amount: 400_000)
                 .WithPrice(label: "Shipping price", amount: 337_600))
-            .WithCurrency(currency: "USD")
+            .WithCurrency(currency: Currency)
             .WithPayload("<my-payload>")
             .WithFlexible()
             .RequireShippingAddress()
@@ -145,7 +147,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                 .WithId(id: "dhl-express")
                 .WithPrice(label: "Packaging", amount: 400_000)
                 .WithPrice(label: "Shipping price", amount: 337_600))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .WithFlexible()
             .RequireShippingAddress()
@@ -219,7 +221,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                 .WithId(id: "dhl-express")
                 .WithPrice(label: "Packaging", amount: 400_000)
                 .WithPrice(label: "Shipping price", amount: 337_600))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .RequireEmail()
             .RequireName()
@@ -298,7 +300,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                     width: 960,
                     height: 640
                 ))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .WithSuggestedTips(100, 150, 200)
             .WithMaxTip(maxTipAmount: 300)
@@ -360,7 +362,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                 .WithId(id: "dhl-express")
                 .WithPrice(label: "Packaging", amount: 400_000)
                 .WithPrice(label: "Shipping price", amount: 337_600))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .WithFlexible()
             .RequireShippingAddress()
@@ -384,7 +386,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
 
         AnswerShippingQueryRequest shippingQueryRequest = paymentsBuilder.BuildShippingQueryRequest(
             shippingQueryId: shippingUpdate.ShippingQuery!.Id,
-            errorMessage: "Sorry, but we don't ship to your contry."
+            errorMessage: "Sorry, but we don't ship to your country."
         );
 
         await BotClient.MakeRequestAsync(shippingQueryRequest, TelegramBotClientJsonSerializerContext.Instance.ApiResponseBoolean);
@@ -408,7 +410,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                     width: 1280,
                     height: 820
                 ))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .WithPaymentProviderToken(classFixture.PaymentProviderToken)
             .ToChat(classFixture.PrivateChat.Id);
@@ -456,7 +458,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                     width: 1280,
                     height: 820
                 ))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .WithProviderData("INVALID-JSON")
             .WithPaymentProviderToken(classFixture.PaymentProviderToken)
@@ -500,7 +502,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                 .WithId(id: "dhl-express")
                 .WithPrice(label: "Packaging", amount: 400_000)
                 .WithPrice(label: "Shipping price", amount: 337_600))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .WithFlexible()
             .RequireShippingAddress()
@@ -570,7 +572,7 @@ public class PaymentTests(TestsFixture fixture, PaymentFixture classFixture)
                     width: 1280,
                     height: 820
                 ))
-            .WithCurrency("USD")
+            .WithCurrency(Currency)
             .WithPayload("<my-payload>")
             .WithReplyMarkup(replyMarkup)
             .WithPaymentProviderToken(classFixture.PaymentProviderToken)

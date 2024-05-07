@@ -27,7 +27,6 @@
     <ProjectReference Include="..\..\src\Telegram.Bot\Telegram.Bot.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.Development.json" CopyToOutputDirectory="Always" Condition="Exists('appsettings.Development.json')" />
     <None Include="Files/**" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>

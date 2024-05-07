@@ -9,7 +9,6 @@ namespace Telegram.Bot.Tests.Unit.EnumConverter;
 
 public class StickerFormatConverterTests
 {
-    // [todo] maybe without TelegramBotClientJsonSerializerContext the whole class
     [Fact]
     public void Should_Verify_All_StickerFormat_Members()
     {
@@ -18,7 +17,7 @@ public class StickerFormatConverterTests
             .OrderBy(x => x)
             .ToList();
         List<string> stickerFormatDataMembers = new StickerFormatData()
-            .Select(x => ((InputSticker)x[0]).Format.ToString()) // Извлекаем формат стикера из объекта InputSticker
+            .Select(x => ((InputSticker)x[0]).Format.ToString())
             .OrderBy(x => x)
             .ToList();
 

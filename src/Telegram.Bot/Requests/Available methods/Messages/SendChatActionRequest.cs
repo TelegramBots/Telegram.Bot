@@ -32,7 +32,7 @@ public class SendChatActionRequest : RequestBase<bool>, IChatTargetable, IBusine
     /// <inheritdoc />
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required ChatId ChatId { get; set; }
+    public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Type of action to broadcast. Choose one, depending on what the user is about to receive:

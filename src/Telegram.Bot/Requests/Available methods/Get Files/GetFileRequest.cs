@@ -1,7 +1,6 @@
-// ReSharper disable once CheckNamespace
-
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
 
 #pragma warning disable CS1574, CS1584, CS1581, CS1580

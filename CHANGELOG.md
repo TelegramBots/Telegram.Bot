@@ -21,6 +21,265 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 <!-- markdownlint-configure-file { "MD024": false } -->
 
+## [AOT support]
+### Added
+- `Telegram.Bot.Base` project due to two source generators don't really work properly while in the same project
+- `TelegramBotClientJsonSerializerContext` class that provides `JsonSerializerContext` for serialisation and deserialisation
+- AOT friendly serialisation and deserialisation via `TelegramBotClientJsonSerializerContext` to the classes:
+  - `BlockingUpdateReceiver`
+  - `QueuedUpdateReceiver`
+  - `TelegramBotClientExtensions`
+  - `DeleteMyCommandsRequest`
+  - `GetMyCommandsRequest`
+  - `SetMyCommandsRequest`
+  - `GetMyDescriptionRequest`
+  - `SetMyDescriptionRequest`
+  - `GetFileRequest`
+  - `GetUserProfilePhotosRequest`
+  - `CloseRequest`
+  - `LogOutRequest`
+  - `ApproveChatJoinRequest`
+  - `CreateChatInviteLinkRequest`
+  - `DeclineChatJoinRequest`
+  - `EditChatInviteLinkRequest`
+  - `ExportChatInviteLinkRequest`
+  - `RevokeChatInviteLinkRequest`
+  - `GetChatAdministratorsRequest`
+  - `GetChatMemberCountRequest`
+  - `GetChatMemberRequest`
+  - `GetChatRequest`
+  - `BanChatMemberRequest`
+  - `BanChatSenderChatRequest`
+  - `CloseForumTopicRequest`
+  - `CloseGeneralForumTopicRequest`
+  - `CreateForumTopicRequest`
+  - `DeleteChatPhotoRequest`
+  - `DeleteChatStickerSetRequest`
+  - `DeleteForumTopicRequest`
+  - `EditForumTopicRequest`
+  - `EditGeneralForumTopicRequest`
+  - `HideGeneralForumTopicRequest`
+  - `LeaveChatRequest`
+  - `PinChatMessageRequest`
+  - `PromoteChatMemberRequest`
+  - `ReopenForumTopicRequest`
+  - `ReopenGeneralForumTopicRequest`
+  - `RestrictChatMemberRequest`
+  - `SetChatAdministratorCustomTitleRequest`
+  - `SetChatDescriptionRequest`
+  - `SetChatPermissionsRequest`
+  - `SetChatPhotoRequest`
+  - `SetChatStickerSetRequest`
+  - `SetChatTitleRequest`
+  - `UnbanChatMemberRequest`
+  - `UnbanChatSenderChatRequest`
+  - `UnhideGeneralForumTopicRequest`
+  - `UnpinAllChatMessagesRequest`
+  - `UnpinAllForumTopicMessagesRequest`
+  - `UnpinAllGeneralForumTopicMessages`
+  - `UnpinAllGeneralForumTopicMessagesRequest`
+  - `UnpinChatMessageRequest`
+  - `EditInlineMessageLiveLocationRequest`
+  - `EditMessageLiveLocationRequest`
+  - `SendLocationRequest`
+  - `SendVenueRequest`
+  - `StopInlineMessageLiveLocationRequest`
+  - `StopMessageLiveLocationRequest`
+  - `CopyMessageRequest`
+  - `CopyMessagesRequest`
+  - `ForwardMessageRequest`
+  - `ForwardMessagesRequest`
+  - `SendAnimationRequest`
+  - `SendAudioRequest`
+  - `SendChatActionRequest`
+  - `SendContactRequest`
+  - `SendDiceRequest`
+  - `SendDocumentRequest`
+  - `SendMediaGroupRequest`
+  - `SendMessageRequest`
+  - `SendPhotoRequest`
+  - `SendPollRequest`
+  - `SendVideoNoteRequest`
+  - `SendVideoRequest`
+  - `SendVoiceRequest`
+  - `SetMessageReactionRequest`
+  - `GetMyShortDescriptionRequest`
+  - `SetMyShortDescriptionRequest`
+  - `AnswerCallbackQueryRequest`
+  - `GetBusinessConnectionRequest`
+  - `GetChatMenuButtonRequest`
+  - `GetMeRequest`
+  - `GetMyDefaultAdministratorRightsRequest`
+  - `GetMyNameRequest`
+  - `GetUserChatBoostsRequest`
+  - `SetChatMenuButtonRequest`
+  - `SetMyDefaultAdministratorRightsRequest`
+  - `SetMyNameRequest`
+  - `GetGameHighScoresRequest`
+  - `GetInlineGameHighScoresRequest`
+  - `SendGameRequest`
+  - `SetGameScoreRequest`
+  - `SetInlineGameScoreRequest`
+  - `DeleteWebhookRequest`
+  - `GetUpdatesRequest`
+  - `GetWebhookInfoRequest`
+  - `SetWebhookRequest`
+  - `AnswerInlineQueryRequest`
+  - `AnswerWebAppQueryRequest`
+  - `AnswerPreCheckoutQueryRequest`
+  - `AnswerShippingQueryRequest`
+  - `CreateInvoiceLinkRequest`
+  - `SendInvoiceRequest`
+  - `AddStickerToSetRequest`
+  - `CreateNewStickerSetRequest`
+  - `DeleteStickerFromSetRequest`
+  - `DeleteStickerSetRequest`
+  - `GetCustomEmojiStickersRequest`
+  - `GetForumTopicIconStickersRequest`
+  - `GetStickerSetRequest`
+  - `ReplaceStickerInSetRequest`
+  - `SendStickerRequest`
+  - `SetCustomEmojiStickerSetThumbnailRequest`
+  - `SetStickerEmojiListRequest`
+  - `SetStickerKeywordsRequest`
+  - `SetStickerMaskPositionRequest`
+  - `SetStickerPositionInSetRequest`
+  - `SetStickerSetThumbnailRequest`
+  - `SetStickerSetTitleRequest`
+  - `UploadStickerFileRequest`
+  - `DeleteMessageRequest`
+  - `DeleteMessagesRequest`
+  - `EditInlineMessageCaptionRequest`
+  - `EditInlineMessageMediaRequest`
+  - `EditInlineMessageReplyMarkupRequest`
+  - `EditInlineMessageTextRequest`
+  - `EditMessageCaptionRequest`
+  - `EditMessageMediaRequest`
+  - `EditMessageReplyMarkupRequest`
+  - `EditMessageTextRequest`
+  - `StopPollRequest`
+  - `TelegramBotClient`
+  - `TelegramBotClientExtensions`
+- Parameter of type `JsonTypeInfo` to the base classes and interfaces:
+  - `FileRequestBase`
+  - `ParameterlessRequest`
+  - `RequestBase`
+  - `TelegramBotClient`
+  - `HttpResponseMessageExtensions`
+  - `StreamExtensions`
+  - `ITelegramBotClient`
+- AOT friendly json converters:
+  - `BotCommandScopeConverter`
+  - `ChatBoostSourceConverter`
+  - `ChatMemberConverter`
+  - `InlineQueryResultConverter`
+  - `InputMediaConverter`
+  - `InputMessageContentConverter`
+  - `MenuButtonConverter`
+  - `MessageOriginConverter`
+  - `ReactionTypeConverter`
+  - `AlbumInputMediaConverter`
+  - `InputMediaThumbConverter`
+- `CS1574, CS1584, CS1581, CS1580` pragma warnings suppression due to project separation to the classes:
+  - `GetFileRequest`
+  - `File`
+  - `FileBase`
+  - `ITelegramBotClient`
+- In `Telegram.Bot.Tests.Unit`project attribute `Skip` for the following tests `MessageTypeConverterTests` and `FileTypeConverterTests` as the corresponded enums don't ever get serialised in the API
+- `MaybeInaccessibleMessageSerializationTests` to `Telegram.Bot.Tests.Unit`project
+- In `Telegram.Bot.Tests.Integ` project:
+  - `can_connect_to_business` to `excludeFields` in `Asserts.UsersEqual`
+  - attribute `Skip` fot the test `Should_Fail_Test_Api_Token` as the API actually returns `401` and it is handled by the library in the way: `catch (ApiRequestException e)  when (e.ErrorCode == 401) { return false; }`
+  - `Currency` constant to `PaymentTests` for easy modification as not all providers accept `USD`
+### Changed
+- `Telegram.Bot` project split in two: `Telegram.Bot` and `Telegram.Bot.Base` because two source generators don't really work properly while in the same project depending on each other's output
+- `MaybeInaccessibleMessageConverter` to support AOT
+- `public` modifier instead of `internal` to classes due to project separation:
+  - `CallerArgumentExpressionAttribute`
+  - `HttpContentExtensions`
+  - `HttpResponseMessageExtensions`
+  - `StreamExtensions`
+  - `StringExtensions`
+  - `BanTimeConverter`
+  - `ChatIdConverter`
+  - `ColorConverter`
+  - `InputFileConverter`
+  - `UnixDateTimeConverterUtil`
+  - `UnixDateTimeConverter`
+- `Should_Delete_Sticker_Sets` of `StickersTests` amended in `Telegram.Bot.Tests.Integ` so the test continues when the sticker set is already deleted.
+- In `Telegram.Bot.Tests.Unit` project the following unit test changed so they can test the same `TelegramBotClientJsonSerializerContext` that is used in the API calls:
+  - `BotCommandScopeTypeConverterTests`
+  - `ChatActionConverterTests`
+  - `ChatBoostSourceTypeConverterTests`
+  - `ChatMemberStatusConverterTests`
+  - `ChatTypeConverterTests`
+  - `EmojiConverterTests`
+  - `EncryptedPassportElementTypeConverterTests`
+  - `FileTypeConverterTests`
+  - `InlineQueryResultTypeConverterTests`
+  - `InputMediaTypeConverterTests`
+  - `MaskPositionPointConverterTests`
+  - `MenuButtonTypeConverterTests`
+  - `MessageEntityTypeConverterTests`
+  - `MessageOriginTypeConverterTests`
+  - `MessageTypeConverterTests`
+  - `ParseModeConverterTests`
+  - `PollTypeConverterTests`
+  - `ReactionTypeKindConverterTests`
+  - `StickerFormatConverterTests`
+  - `StickerTypeConverterTests`
+  - `ParseModeConverterTests`
+  - `PollTypeConverterTests`
+  - `ReactionTypeKindConverterTests`
+  - `StickerFormatConverterTests`
+  - `UpdateTypeConverterTests`
+  - `TestMockClient`
+  - `MockClientOptions`
+  - `ApiResponseSerializationTests`
+  - `ChatBoostAddedSerializationTests`
+  - `ChatMemberSerializationTests`
+  - `ChatSerializationTests`
+  - `ChatSourceBoostSerializationTests`
+  - `DocumentSerializationTests`
+  - `ForwardedMessageSerializationTests`
+  - `InputFileSerializationTests`
+  - `InputMediaSerializationTests`
+  - `InputMessageContentSerializationTests`
+  - `InputQueryResultSerializationTests`
+  - `InputQueryResultTests`
+  - `InputStickerSerializationTests`
+  - `MenuButtonSerializationTests`
+  - `MessageEntityTests`
+  - `MessageOriginSerializationTests`
+  - `MethodNameTests`
+  - `PhotoMessageSerializationTests`
+  - `ReactionTypeSerializationTests`
+  - `ReplyMarkupSerializationTests`
+  - `RequestSerializationTests`
+  - `StorySerializationTests`
+### Removed
+- `JsonSerializerOptionsProvider` generation from `EnumConverterGenerator`
+- `JsonSerializerOptionsProviderTemplate` and `GenerateOptionsProviderClass` from `SourceGenerationHelper`
+- Classes which aren't AOT friendly:
+  - `CustomJsonDerivedTypeAttribute`
+  - `CustomJsonPolymorphicAttribute`
+  - `JsonSerializerOptionsProvider`
+  - `PolymorphicJsonConverter`
+  - `PolymorphicJsonConverterFactory`
+- Attribute `JsonConverter` from the class  `MaybeInaccessibleMessage` as it  now has its own converter
+- Attribute `JsonConverter` from the enums `FileType` and `MessageType` as they don't really ever get serialized
+- `CustomJsonDerivedType` and `CustomJsonPolymorphic` attributes from:
+  - `InlineQueryResult`
+  - `IAlbumInputMedia`
+  - `InputMedia`
+  - `BotCommandScope`
+  - `ChatBoostSource`
+  - `ChatMember`
+  - `MenuButton`
+  - `MessageOrigin`
+  - `ReactionType`
+  - `InputMessageContent`
+
 ## [Unreleased]
 
 > [Bot API 7.0](https://core.telegram.org/bots/api#december-29-2023) (December 29, 2023)

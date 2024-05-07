@@ -18,7 +18,7 @@ public class MessageEntityTypeConverterTests
             .ToList();
 
         List<string> messageEntityDataMembers = new MessageEntityData()
-            .Select(x => ((MessageEntity)x[0]).Type.ToString()) // Извлекаем формат стикера из объекта InputSticker
+            .Select(x => ((MessageEntity)x[0]).Type.ToString())
             .OrderBy(x => x)
             .ToList();
 

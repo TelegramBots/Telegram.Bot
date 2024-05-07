@@ -1,5 +1,4 @@
-﻿using Telegram.Bot.Serialization;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Xunit;
 
 namespace Telegram.Bot.Tests.Unit.Serialization;

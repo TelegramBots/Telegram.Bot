@@ -12,7 +12,6 @@ using Telegram.Bot.Extensions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Requests.Abstractions;
 
-// ReSharper disable once CheckNamespace
 namespace Telegram.Bot;
 
 /// <summary>

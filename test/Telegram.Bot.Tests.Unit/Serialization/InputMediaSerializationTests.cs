@@ -127,7 +127,7 @@ public class InputMediaSerializationTests
             Caption = "Test *caption*",
         };
 
-        string json = JsonSerializer.Serialize(animation, TelegramBotClientJsonSerializerContext.Instance.InputMediaPhoto);
+        string json = JsonSerializer.Serialize(animation, TelegramBotClientJsonSerializerContext.Instance.IAlbumInputMedia);
 
         JsonNode? root = JsonNode.Parse(json);
         Assert.NotNull(root);

@@ -68,7 +68,7 @@ public class QueuedUpdateReceiver : IAsyncEnumerable<Update>
         return _enumerator;
     }
 
-    sealed class Enumerator : IAsyncEnumerator<Update>
+    class Enumerator : IAsyncEnumerator<Update>
     {
         readonly QueuedUpdateReceiver _receiver;
         readonly CancellationTokenSource _cts;
