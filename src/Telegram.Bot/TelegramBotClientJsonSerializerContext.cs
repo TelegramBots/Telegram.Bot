@@ -253,7 +253,7 @@ public partial class TelegramBotClientJsonSerializerContext : JsonSerializerCont
         PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-        IgnoreReadOnlyProperties = true,
+
         Converters =
         {
             new UnixDateTimeConverter(),
