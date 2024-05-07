@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -9,33 +9,23 @@ namespace Telegram.Bot.Tests.Unit.EnumConverter;
 public class ChatTypeConverterTests
 {
     [Theory]
-    [InlineData(ChatType.Private, "private")]
-    [InlineData(ChatType.Group, "group")]
-    [InlineData(ChatType.Channel, "channel")]
-    [InlineData(ChatType.Supergroup, "supergroup")]
-    [InlineData(ChatType.Sender, "sender")]
-    public void Should_Convert_ChatType_To_String(ChatType chatType, string value)
+    [ClassData(typeof(ChatData))]
+    public void Should_Convert_ChatType_To_String(Chat chat, string value)
     {
-        InlineQuery inlineQuery = new() { Type = chatType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string expectedResult = $$"""{"id":1,"type":"{{value}}"}""";
 
-        string result = JsonConvert.SerializeObject(inlineQuery);
+        string result = JsonSerializer.Serialize(chat, TelegramBotClientJsonSerializerContext.Instance.Chat);
 
         Assert.Equal(expectedResult, result);
     }
 
     [Theory]
-    [InlineData(ChatType.Private, "private")]
-    [InlineData(ChatType.Group, "group")]
-    [InlineData(ChatType.Channel, "channel")]
-    [InlineData(ChatType.Supergroup, "supergroup")]
-    [InlineData(ChatType.Sender, "sender")]
-    public void Should_Convert_String_To_ChatType(ChatType chatType, string value)
+    [ClassData(typeof(ChatData))]
+    public void Should_Convert_String_To_ChatType(Chat expectedResult, string value)
     {
-        InlineQuery expectedResult = new() { Type = chatType };
-        string jsonData = @$"{{""type"":""{value}""}}";
+        string jsonData = $$"""{"id":1,"type":"{{value}}"}""";
 
-        InlineQuery? result = JsonConvert.DeserializeObject<InlineQuery>(jsonData);
+        Chat? result = JsonSerializer.Deserialize(jsonData, TelegramBotClientJsonSerializerContext.Instance.Chat);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -44,31 +34,44 @@ public class ChatTypeConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_ChatType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        InlineQuery? result = JsonConvert.DeserializeObject<InlineQuery>(jsonData);
+        ChatType? result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ChatType);
 
         Assert.NotNull(result);
-        Assert.Equal((ChatType)0, result.Type);
+        Assert.Equal((ChatType)0, result);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_ChatType()
+    public void Should_Throw_JsonException_For_Incorrect_ChatType()
     {
-        InlineQuery inlineQuery = new() { Type = (ChatType)int.MaxValue };
-
         // ToDo: add ChatType.Unknown ?
         //    protected override string GetStringValue(ChatType value) =>
         //        EnumToString.TryGetValue(value, out var stringValue)
         //            ? stringValue
         //            : "unknown";
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(inlineQuery));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((ChatType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ChatType));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    class InlineQuery
+    private class ChatData : IEnumerable<object[]>
     {
-        [JsonProperty(Required = Required.Always)]
-        public ChatType Type { get; init; }
+        private static Chat NewChat(ChatType chatType)
+        {
+            return new Chat
+            {
+                Type = chatType,
+                Id = 1,
+            };
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewChat(ChatType.Private), "private"];
+            yield return [NewChat(ChatType.Group), "group"];
+            yield return [NewChat(ChatType.Channel), "channel"];
+            yield return [NewChat(ChatType.Supergroup), "supergroup"];
+            yield return [NewChat(ChatType.Sender), "sender"];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

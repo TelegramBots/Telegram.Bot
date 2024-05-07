@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -26,22 +22,26 @@ public class ChatSourceBoostSerializationTests
             },
         };
 
-        string chatMemberJson = JsonConvert.SerializeObject(creator);
-        JObject j = JObject.Parse(chatMemberJson);
+        string json = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourcePremium);
 
-        Assert.Equal(2, j.Children().Count());
-        Assert.Equal("premium", j["source"]);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        JToken? ju = j["user"];
-        Assert.NotNull(ju);
+        Assert.Equal(2, j.Count);
+        Assert.Equal("premium", (string?)j["source"]);
 
-        Assert.Equal(6, ju.Children().Count());
-        Assert.Equal(12345, ju["id"]);
-        Assert.Equal(true, ju["is_bot"]);
-        Assert.Equal("First Name", ju["first_name"]);
-        Assert.Equal("Last Name", ju["first_name"]);
-        Assert.Equal("test_bot", ju["username"]);
-        Assert.Equal("en_US", ju["language_code"]);
+        JsonNode? userNode = j["user"];
+        Assert.NotNull(userNode);
+        JsonObject ju = Assert.IsAssignableFrom<JsonObject>(userNode);
+
+        Assert.Equal(6, ju.Count);
+        Assert.Equal(12345, (long?)ju["id"]);
+        Assert.Equal(true, (bool?)ju["is_bot"]);
+        Assert.Equal("First Name", (string?)ju["first_name"]);
+        Assert.Equal("Last Name", (string?)ju["last_name"]);
+        Assert.Equal("test_bot", (string?)ju["username"]);
+        Assert.Equal("en_US", (string?)ju["language_code"]);
     }
 
     [Fact]
@@ -62,24 +62,29 @@ public class ChatSourceBoostSerializationTests
             IsUnclaimed = true,
         };
 
-        string chatMemberJson = JsonConvert.SerializeObject(creator);
-        JObject j = JObject.Parse(chatMemberJson);
+        string json = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiveaway);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
 
-        Assert.Equal(4, j.Children().Count());
-        Assert.Equal("giveaway", j["source"]);
-        Assert.Equal(654321, j["giveaway_message_id"]);
-        Assert.Equal(true, j["is_unclaimed"]);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        JToken? ju = j["user"];
-        Assert.NotNull(ju);
+        Assert.Equal(4, j.Count);
+        Assert.Equal("giveaway", (string?)j["source"]);
+        Assert.Equal(654321, (long?)j["giveaway_message_id"]);
+        Assert.Equal(true, (bool?)j["is_unclaimed"]);
 
-        Assert.Equal(6, ju.Children().Count());
-        Assert.Equal(12345, ju["id"]);
-        Assert.Equal(true, ju["is_bot"]);
-        Assert.Equal("First Name", ju["first_name"]);
-        Assert.Equal("Last Name", ju["first_name"]);
-        Assert.Equal("test_bot", ju["username"]);
-        Assert.Equal("en_US", ju["language_code"]);
+        JsonNode? userNode = j["user"];
+        Assert.NotNull(userNode);
+
+        JsonObject ju = Assert.IsAssignableFrom<JsonObject>(userNode);
+
+        Assert.Equal(6, ju.Count);
+        Assert.Equal(12345, (long?)ju["id"]);
+        Assert.Equal(true, (bool?)ju["is_bot"]);
+        Assert.Equal("First Name", (string?)ju["first_name"]);
+        Assert.Equal("Last Name", (string?)ju["last_name"]);
+        Assert.Equal("test_bot", (string?)ju["username"]);
+        Assert.Equal("en_US", (string?)ju["language_code"]);
     }
 
     [Fact]
@@ -98,26 +103,30 @@ public class ChatSourceBoostSerializationTests
             },
         };
 
-        string chatMemberJson = JsonConvert.SerializeObject(creator);
-        JObject j = JObject.Parse(chatMemberJson);
+        string json = JsonSerializer.Serialize(creator, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiftCode);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(2, j.Children().Count());
+        Assert.Equal(2, j.Count);
 
-        JToken? ju = j["user"];
-        Assert.NotNull(ju);
+        JsonNode? userNode = j["user"];
+        Assert.NotNull(userNode);
+        JsonObject ju = Assert.IsAssignableFrom<JsonObject>(userNode);
 
-        Assert.Equal(6, ju.Children().Count());
-        Assert.Equal(12345, ju["id"]);
-        Assert.Equal(true, ju["is_bot"]);
-        Assert.Equal("First Name", ju["first_name"]);
-        Assert.Equal("Last Name", ju["first_name"]);
-        Assert.Equal("test_bot", ju["username"]);
-        Assert.Equal("en_US", ju["language_code"]);
+        Assert.Equal(6, ju.Count);
+        Assert.Equal(12345, (long?)ju["id"]);
+        Assert.Equal(true, (bool?)ju["is_bot"]);
+        Assert.Equal("First Name", (string?)ju["first_name"]);
+        Assert.Equal("Last Name", (string?)ju["last_name"]);
+        Assert.Equal("test_bot", (string?)ju["username"]);
+        Assert.Equal("en_US", (string?)ju["language_code"]);
     }
 
     [Fact]
     public void Should_Deserialize_ChatBoostPremium()
     {
+        // language=JSON
         const string json = """
         {
             "source": "premium",
@@ -130,7 +139,7 @@ public class ChatSourceBoostSerializationTests
         }
         """;
 
-        ChatBoostSource? boostSource = JsonConvert.DeserializeObject<ChatBoostSource>(json);
+        ChatBoostSource? boostSource = JsonSerializer.Deserialize(json, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSource);
 
         ChatBoostSourcePremium premium = Assert.IsAssignableFrom<ChatBoostSourcePremium>(boostSource);
 
@@ -145,7 +154,8 @@ public class ChatSourceBoostSerializationTests
     [Fact]
     public void Should_Deserialize_ChatBoostSourceGiftCode()
     {
-        string json = """
+        // language=JSON
+        const string json = """
         {
             "source": "gift_code",
             "user": {
@@ -159,7 +169,8 @@ public class ChatSourceBoostSerializationTests
         }
         """;
 
-        ChatBoostSourceGiftCode? giveaway = JsonConvert.DeserializeObject<ChatBoostSourceGiftCode>(json);
+        ChatBoostSourceGiftCode? giveaway =
+            JsonSerializer.Deserialize<ChatBoostSourceGiftCode>(json, TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiftCode);
 
         Assert.NotNull(giveaway);
         Assert.Equal(ChatBoostSourceType.GiftCode, giveaway.Source);
@@ -175,7 +186,8 @@ public class ChatSourceBoostSerializationTests
     [Fact]
     public void Should_Deserialize_ChatBoostSourceGiveaway()
     {
-        string json = """
+        // language=JSON
+        const string json = """
         {
             "source": "giveaway",
             "giveaway_message_id": 12345,
@@ -191,7 +203,8 @@ public class ChatSourceBoostSerializationTests
         }
         """;
 
-        ChatBoostSourceGiveaway? giveaway = JsonConvert.DeserializeObject<ChatBoostSourceGiveaway>(json);
+        ChatBoostSourceGiveaway? giveaway =
+            JsonSerializer.Deserialize(json,TelegramBotClientJsonSerializerContext.Instance.ChatBoostSourceGiveaway);
 
         Assert.NotNull(giveaway);
         Assert.Equal(ChatBoostSourceType.Giveaway, giveaway.Source);

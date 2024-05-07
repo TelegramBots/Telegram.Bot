@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
@@ -88,9 +87,7 @@ public class FileDownloadTests(TestsFixture fixture, FileDownloadTests.Fixture c
 
         Assert.NotNull(fileSize);
         Assert.InRange(fileStream.Length, (int)fileSize - 100, (int)fileSize + 100);
-        Assert.True(JToken.DeepEquals(
-            JToken.FromObject(classFixture.File), JToken.FromObject(file)
-        ));
+        Asserts.JsonEquals(classFixture.File, file);
     }
 
     [OrderedFact("Should throw InvalidParameterException while trying to get file using wrong file_id")]

@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -9,55 +9,57 @@ namespace Telegram.Bot.Tests.Unit.EnumConverter;
 public class ReactionTypeKindConverterTests
 {
     [Theory]
-    [InlineData(ReactionTypeKind.Emoji, "emoji")]
-    [InlineData(ReactionTypeKind.CustomEmoji, "custom_emoji")]
-    public void Should_Convert_ChatAction_To_String(ReactionTypeKind kind, string value)
+    [ClassData(typeof(ReactionTypeData))]
+    public void Should_Convert_ReactionType_To_String(ReactionType container, string expectedResult)
     {
-        Container container = new() { Type = kind };
-        string expectedResult = @$"{{""type"":""{value}""}}";
-
-        string result = JsonConvert.SerializeObject(container);
+        string result = JsonSerializer.Serialize(container, TelegramBotClientJsonSerializerContext.Instance.ReactionType);
 
         Assert.Equal(expectedResult, result);
     }
 
     [Theory]
-    [InlineData(ReactionTypeKind.Emoji, "emoji")]
-    [InlineData(ReactionTypeKind.CustomEmoji, "custom_emoji")]
-    public void Should_Convert_String_ToChatAction(ReactionTypeKind kind, string value)
+    [ClassData(typeof(ReactionTypeData))]
+    public void Should_Convert_String_ToReactionType(ReactionType expectedResult, string value)
     {
-        Container expectedResult = new() { Type = kind };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        Container? result = JsonConvert.DeserializeObject<Container>(jsonData);
+        ReactionType? result = JsonSerializer.Deserialize(value, TelegramBotClientJsonSerializerContext.Instance.ReactionType);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
     }
 
     [Fact]
-    public void Should_Return_Zero_For_Incorrect_ChatAction()
+    public void Should_Return_Zero_For_Incorrect_ReactionType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
+        ReactionTypeKind result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ReactionTypeKind);
 
-        Container? result = JsonConvert.DeserializeObject<Container>(jsonData);
-
-        Assert.NotNull(result);
-        Assert.Equal((ReactionTypeKind)0, result.Type);
+        Assert.Equal((ReactionTypeKind)0, result);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_ChatAction()
+    public void Should_Throw_JsonException_For_Incorrect_ReactionType()
     {
-        Container container = new() { Type = (ReactionTypeKind)int.MaxValue };
-
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(container));
+        Assert.Throws<JsonException>(() =>
+            JsonSerializer.Serialize((ReactionTypeKind)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.ReactionTypeKind));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    class Container
+    private class ReactionTypeData : IEnumerable<object[]>
     {
-        [JsonProperty(Required = Required.Always)]
-        public ReactionTypeKind Type { get; init; }
+        internal static ReactionType NewReactionType(ReactionTypeKind reactionTypeKind)
+        {
+            return reactionTypeKind switch
+            {
+                ReactionTypeKind.Emoji => new ReactionTypeEmoji { Emoji = "👍" },
+                ReactionTypeKind.CustomEmoji => new ReactionTypeCustomEmoji { CustomEmojiId = "1" },
+                _ => throw new ArgumentOutOfRangeException(nameof(reactionTypeKind), reactionTypeKind, null)
+            };
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewReactionType(ReactionTypeKind.Emoji), """{"type":"emoji","emoji":"\uD83D\uDC4D"}"""];
+            yield return [NewReactionType(ReactionTypeKind.CustomEmoji), """{"type":"custom_emoji","custom_emoji_id":"1"}"""];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

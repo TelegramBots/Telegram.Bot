@@ -13,23 +13,25 @@ namespace Telegram.Bot.Requests;
 /// methods (the file can be used multiple times).
 /// Returns the uploaded <see cref="File"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
     /// A file with the sticker in .WEBP, .PNG, .TGS, or .WEBM format.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputFileStream Sticker { get; init; }
 
     /// <summary>
     /// Format of the sticker
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required StickerFormat StickerFormat { get; init; }
 
     /// <summary>
@@ -58,10 +60,10 @@ public class UploadStickerFileRequest : FileRequestBase<File>, IUserTargetable
     /// Initializes a new request
     /// </summary>
     public UploadStickerFileRequest()
-        : base("uploadStickerFile")
+        : base("uploadStickerFile", TelegramBotClientJsonSerializerContext.Instance.UploadStickerFileRequest)
     { }
 
     /// <inheritdoc />
     public override HttpContent? ToHttpContent()
-        => ToMultipartFormDataContent(fileParameterName: "sticker", inputFile: Sticker);
+        => ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.UploadStickerFileRequest, fileParameterName: "sticker", inputFile: Sticker);
 }

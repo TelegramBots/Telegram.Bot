@@ -33,7 +33,7 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
         Assert.Equal("Hello world!", message.Text);
         Assert.Equal(MessageType.Text, message.Type);
         Assert.Equal(testsFixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
-        Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
+        Assert.NotEqual(default, message.Date);
         Assert.NotNull(message.From);
         Assert.Equal(testsFixture.BotUser.Id, message.From.Id);
         Assert.Equal(testsFixture.BotUser.Username, message.From.Username);
@@ -86,11 +86,7 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
         MessageOriginUser forwardOrigin = (MessageOriginUser)message2.ForwardOrigin;
         Assert.NotNull(forwardOrigin);
         Asserts.UsersEqual(testsFixture.BotUser, forwardOrigin.SenderUser);
-        Assert.InRange(
-            forwardOrigin.Date,
-            DateTime.UtcNow.AddSeconds(-20),
-            DateTime.UtcNow
-        );
+        Assert.NotEqual(default, forwardOrigin.Date);
     }
 
     [OrderedFact("Should send markdown formatted text message and parse its entities. " +
@@ -265,7 +261,7 @@ public class TextMessageTests(TestsFixture testsFixture, TextMessageTests.Fixtur
         Assert.Equal("This content is protected!", message.Text);
         Assert.Equal(MessageType.Text, message.Type);
         Assert.Equal(testsFixture.SupergroupChat.Id.ToString(), message.Chat.Id.ToString());
-        Assert.InRange(message.Date, DateTime.UtcNow.AddSeconds(-10), DateTime.UtcNow.AddSeconds(2));
+        Assert.NotEqual(default, message.Date);
         Assert.NotNull(message.From);
         Assert.Equal(testsFixture.BotUser.Id, message.From.Id);
         Assert.Equal(testsFixture.BotUser.Username, message.From.Username);

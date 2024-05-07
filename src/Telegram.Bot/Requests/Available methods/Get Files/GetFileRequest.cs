@@ -1,8 +1,9 @@
-// ReSharper disable once CheckNamespace
-
 using System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once CheckNamespace
 namespace Telegram.Bot.Requests;
+
+#pragma warning disable CS1574, CS1584, CS1581, CS1580
 
 /// <summary>
 /// Use this method to get basic info about a file and prepare it for downloading. For the moment,
@@ -17,13 +18,16 @@ namespace Telegram.Bot.Requests;
 /// You can use <see cref="ITelegramBotClient.DownloadFileAsync"/> or
 /// <see cref="TelegramBotClientExtensions.GetInfoAndDownloadFileAsync"/> methods to download the file
 /// </remarks>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
+
+#pragma warning restore CS1574, CS1584, CS1581, CS1580
+
 public class GetFileRequest : RequestBase<File>
 {
     /// <summary>
     /// File identifier to get info about
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string FileId { get; init; }
 
     /// <summary>
@@ -42,6 +46,6 @@ public class GetFileRequest : RequestBase<File>
     /// Initializes a new request
     /// </summary>
     public GetFileRequest()
-        : base("getFile")
+        : base("getFile", TelegramBotClientJsonSerializerContext.Instance.GetFileRequest)
     { }
 }

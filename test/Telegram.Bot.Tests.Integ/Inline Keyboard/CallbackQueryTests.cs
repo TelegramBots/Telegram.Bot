@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Telegram.Bot.Requests;
 using Telegram.Bot.Tests.Integ.Framework;
 using Telegram.Bot.Types;
@@ -55,9 +54,7 @@ public class CallbackQueryTests(TestsFixture fixture)
         Assert.False(callbackQuery.From.IsBot);
         Assert.NotNull(callbackQuery.From.Username);
         Assert.NotEmpty(callbackQuery.From.Username);
-        Assert.True(JToken.DeepEquals(
-            JToken.FromObject(message), JToken.FromObject(callbackQuery.Message)
-        ));
+        Asserts.JsonEquals(message, callbackQuery.Message);
     }
 
     [OrderedFact("Should receive and answer callback query result with an alert")]
@@ -101,8 +98,6 @@ public class CallbackQueryTests(TestsFixture fixture)
         Assert.NotNull(callbackQuery.From.Username);
         Assert.NotEmpty(callbackQuery.From.Username);
         Assert.NotNull(callbackQuery.Message);
-        Assert.True(JToken.DeepEquals(
-            JToken.FromObject(message), JToken.FromObject(callbackQuery.Message)
-        ));
+        Asserts.JsonEquals(message, callbackQuery.Message);
     }
 }

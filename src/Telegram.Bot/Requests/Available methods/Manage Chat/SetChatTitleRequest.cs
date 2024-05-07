@@ -9,17 +9,18 @@ namespace Telegram.Bot.Requests;
 /// The bot must be an administrator in the chat for this to work and must have the appropriate
 /// admin rights. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class SetChatTitleRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// New chat title, 1-255 characters
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Title { get; init; }
 
     /// <summary>
@@ -42,6 +43,6 @@ public class SetChatTitleRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request with chatId and title
     /// </summary>
     public SetChatTitleRequest()
-        : base("setChatTitle")
+        : base("setChatTitle", TelegramBotClientJsonSerializerContext.Instance.SetChatTitleRequest)
     { }
 }

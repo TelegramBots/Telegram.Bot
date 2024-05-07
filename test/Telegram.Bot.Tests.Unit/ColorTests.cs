@@ -1,4 +1,3 @@
-using System;
 using Telegram.Bot.Types;
 using Xunit;
 

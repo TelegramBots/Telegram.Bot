@@ -10,17 +10,18 @@ namespace Telegram.Bot.Requests;
 /// must have the appropriate admin rights. Returns the revoked invite link as
 /// <see cref="ChatInviteLink"/> object.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class RevokeChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// The invite link to revoke
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string InviteLink { get; init; }
 
     /// <summary>
@@ -43,6 +44,6 @@ public class RevokeChatInviteLinkRequest : RequestBase<ChatInviteLink>, IChatTar
     /// Initializes a new request with chatId and inviteLink
     /// </summary>
     public RevokeChatInviteLinkRequest()
-        : base("revokeChatInviteLink")
+        : base("revokeChatInviteLink", TelegramBotClientJsonSerializerContext.Instance.RevokeChatInviteLinkRequest)
     { }
 }

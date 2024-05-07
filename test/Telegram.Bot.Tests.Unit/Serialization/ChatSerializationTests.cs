@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -12,6 +9,7 @@ public class ChatSerializationTests
     [Fact]
     public void Should_Deserialize_Chat()
     {
+        // language=JSON
         const string chat =
             """
             {
@@ -22,7 +20,7 @@ public class ChatSerializationTests
             }
             """;
 
-        Chat? deserialize = JsonConvert.DeserializeObject<Chat>(chat);
+        Chat? deserialize = JsonSerializer.Deserialize(chat, TelegramBotClientJsonSerializerContext.Instance.Chat);
 
         Assert.NotNull(deserialize);
         Assert.Equal(10, deserialize.UnrestrictBoostCount);
@@ -42,14 +40,17 @@ public class ChatSerializationTests
             CustomEmojiStickerSetName = "test_sticker_set"
         };
 
-        string json = JsonConvert.SerializeObject(chat);
+        string json = JsonSerializer.Serialize(chat, TelegramBotClientJsonSerializerContext.Instance.Chat);
 
-        JObject j = JObject.Parse(json);
+        JsonNode? root = JsonNode.Parse(json);
+        Assert.NotNull(root);
 
-        Assert.Equal(4, j.Children().Count());
-        Assert.Equal(chat.UnrestrictBoostCount, j["unrestrict_boost_count"]);
-        Assert.Equal("supergroup", j["type"]);
-        Assert.Equal(chat.Id, j["id"]);
-        Assert.Equal(chat.CustomEmojiStickerSetName, j["custom_emoji_sticker_set_name"]);
+        JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
+
+        Assert.Equal(4, j.Count);
+        Assert.Equal(chat.UnrestrictBoostCount, (int?)j["unrestrict_boost_count"]);
+        Assert.Equal("supergroup", (string?)j["type"]);
+        Assert.Equal(chat.Id, (long?)j["id"]);
+        Assert.Equal(chat.CustomEmojiStickerSetName, (string?)j["custom_emoji_sticker_set_name"]);
     }
 }

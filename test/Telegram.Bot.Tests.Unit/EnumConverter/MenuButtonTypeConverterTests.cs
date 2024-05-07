@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
+using System.Collections;
+using System.Collections.Generic;
+using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Xunit;
 
@@ -9,29 +9,19 @@ namespace Telegram.Bot.Tests.Unit.EnumConverter;
 public class MenuButtonTypeConverterTests
 {
     [Theory]
-    [InlineData(MenuButtonType.Default, "default")]
-    [InlineData(MenuButtonType.Commands, "commands")]
-    [InlineData(MenuButtonType.WebApp, "web_app")]
-    public void Should_Convert_MenuButtonType_To_String(MenuButtonType menuButtonType, string value)
+    [ClassData(typeof(MenuButtonData))]
+    public void Should_Convert_MenuButtonType_To_String(MenuButton menuButton, string value)
     {
-        MenuButton menuButton = new() { Type = menuButtonType };
-        string expectedResult = @$"{{""type"":""{value}""}}";
+        string result = JsonSerializer.Serialize(menuButton, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
 
-        string result = JsonConvert.SerializeObject(menuButton);
-
-        Assert.Equal(expectedResult, result);
+        Assert.Equal(value, result);
     }
 
     [Theory]
-    [InlineData(MenuButtonType.Default, "default")]
-    [InlineData(MenuButtonType.Commands, "commands")]
-    [InlineData(MenuButtonType.WebApp, "web_app")]
-    public void Should_Convert_String_To_MenuButtonType(MenuButtonType menuButtonType, string value)
+    [ClassData(typeof(MenuButtonData))]
+    public void Should_Convert_String_To_MenuButtonType(MenuButton expectedResult, string value)
     {
-        MenuButton expectedResult = new() { Type = menuButtonType };
-        string jsonData = @$"{{""type"":""{value}""}}";
-
-        MenuButton? result = JsonConvert.DeserializeObject<MenuButton>(jsonData);
+        MenuButton? result = JsonSerializer.Deserialize(value, TelegramBotClientJsonSerializerContext.Instance.MenuButton);
 
         Assert.NotNull(result);
         Assert.Equal(expectedResult.Type, result.Type);
@@ -40,31 +30,45 @@ public class MenuButtonTypeConverterTests
     [Fact]
     public void Should_Return_Zero_For_Incorrect_MenuButtonType()
     {
-        string jsonData = @$"{{""type"":""{int.MaxValue}""}}";
-
-        MenuButton? result = JsonConvert.DeserializeObject<MenuButton>(jsonData);
+        MenuButtonType? result = JsonSerializer.Deserialize(int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.MenuButtonType);
 
         Assert.NotNull(result);
-        Assert.Equal((MenuButtonType)0, result.Type);
+        Assert.Equal((MenuButtonType)0, result);
     }
 
     [Fact]
-    public void Should_Throw_NotSupportedException_For_Incorrect_MenuButtonType()
+    public void Should_Throw_JsonException_For_Incorrect_MenuButtonType()
     {
-        MenuButton menuButton = new() { Type = (MenuButtonType)int.MaxValue };
-
-        // ToDo: add InputMediaType.Unknown ?
-        //    protected override string GetStringValue(InputMediaType value) =>
-        //        EnumToString.TryGetValue(value, out var stringValue)
-        //            ? stringValue
-        //            : "unknown";
-        Assert.Throws<NotSupportedException>(() => JsonConvert.SerializeObject(menuButton));
+        Assert.Throws<JsonException>(() => JsonSerializer.Serialize((MenuButtonType)int.MaxValue, TelegramBotClientJsonSerializerContext.Instance.MenuButtonType));
     }
 
-    [JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
-    class MenuButton
+    private class MenuButtonData : IEnumerable<object[]>
     {
-        [JsonProperty(Required = Required.Always)]
-        public MenuButtonType Type { get; init; }
+        private static MenuButton NewMenuButton(MenuButtonType menuButtonType)
+        {
+            return menuButtonType switch
+            {
+                MenuButtonType.Default => new MenuButtonDefault(),
+                MenuButtonType.Commands => new MenuButtonCommands() ,
+                MenuButtonType.WebApp => new MenuButtonWebApp
+                {
+                    Text = "a", WebApp = new WebAppInfo
+                    {
+                        Url = "https://example.com",
+                    }
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(menuButtonType), menuButtonType, null)
+            };
+
+        }
+
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return [NewMenuButton(MenuButtonType.Default), """{"type":"default"}"""];
+            yield return [NewMenuButton(MenuButtonType.Commands), """{"type":"commands"}"""];
+            yield return [NewMenuButton(MenuButtonType.WebApp), """{"type":"web_app","text":"a","web_app":{"url":"https://example.com"}}"""];
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

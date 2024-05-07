@@ -1,8 +1,10 @@
 using System;
+using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Requests.Abstractions;
+using Telegram.Bot.Types;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
@@ -27,17 +29,20 @@ internal class RetryTelegramBotClient(
     TestClientOptions options)
     : TelegramBotClient(options)
 {
-    public override async Task<TResponse> MakeRequestAsync<TResponse>(
-        IRequest<TResponse> request,
-        CancellationToken cancellationToken = default)
+    public override async Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request,
+                                                                      JsonTypeInfo<ApiResponse<TResponse>> serializerContext,
+                                                                      CancellationToken cancellationToken = default)
     {
-        ApiRequestException apiRequestException = default!;
+        RequestException apiRequestException = new RequestException("Should never been fired");
 
         for (var i = 0; i < options.RetryCount; i++)
         {
             try
             {
-                return await base.MakeRequestAsync(request, cancellationToken);
+                return await base.MakeRequestAsync(
+                    request,
+                    serializerContext,
+                    cancellationToken);
             }
             catch (ApiRequestException e) when (e.ErrorCode == 429)
             {

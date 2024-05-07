@@ -21,24 +21,26 @@ namespace Telegram.Bot.Requests;
 /// </list>
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
     /// Sticker set name
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required string Name { get; init; }
 
     /// <summary>
     /// An object with information about the added sticker.
     /// If exactly the same sticker had already been added to the set, then the set isn't changed.
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required InputSticker Sticker { get; init; }
 
     /// <summary>
@@ -71,7 +73,7 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
     /// Initializes a new request
     /// </summary>
     public AddStickerToSetRequest()
-        : base("addStickerToSet")
+        : base("addStickerToSet", TelegramBotClientJsonSerializerContext.Instance.AddStickerToSetRequest)
     { }
 
     /// <inheritdoc />
@@ -79,7 +81,8 @@ public class AddStickerToSetRequest : FileRequestBase<bool>, IUserTargetable
         =>
         Sticker.Sticker switch
         {
-            InputFileStream sticker => ToMultipartFormDataContent(fileParameterName: sticker.FileName!, inputFile: sticker),
+            InputFileStream sticker =>
+                ToMultipartFormDataContent(TelegramBotClientJsonSerializerContext.Instance.AddStickerToSetRequest, fileParameterName: sticker.FileName!, inputFile: sticker),
             _                       => base.ToHttpContent()
         };
 }

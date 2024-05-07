@@ -71,8 +71,8 @@ public class DefaultUpdateReceiver : IUpdateReceiver
 
                 updates = await _botClient.MakeRequestAsync(
                     request: request,
-                    cancellationToken:
-                    cancellationToken
+                    TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray,
+                    cancellationToken: cancellationToken
                 ).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
@@ -117,4 +117,3 @@ public class DefaultUpdateReceiver : IUpdateReceiver
         }
     }
 }
-

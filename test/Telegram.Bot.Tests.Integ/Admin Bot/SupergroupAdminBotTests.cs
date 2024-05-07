@@ -1,4 +1,3 @@
-using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Linq;
@@ -162,9 +161,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
         Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
         Assert.NotNull(chat.PinnedMessage);
-        Assert.True(JToken.DeepEquals(
-            JToken.FromObject(pinnedMsg), JToken.FromObject(chat.PinnedMessage)
-        ));
+        Asserts.JsonEquals(pinnedMsg, chat.PinnedMessage);
     }
 
     [OrderedFact("Should unpin last chat message")]
@@ -181,10 +178,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     Message secondsFromEndPinnedMessage = classFixture.PinnedMessages[^2];
 
         Assert.NotNull(chat.PinnedMessage);
-        Assert.True(JToken.DeepEquals(
-            JToken.FromObject(secondsFromEndPinnedMessage),
-            JToken.FromObject(chat.PinnedMessage)
-        ));
+        Asserts.JsonEquals(secondsFromEndPinnedMessage, chat.PinnedMessage);
     }
 
     [OrderedFact("Should unpin first chat message")]

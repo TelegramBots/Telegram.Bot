@@ -9,21 +9,23 @@ namespace Telegram.Bot.Requests;
 /// Use this method to edit only the reply markup of messages. On success the edited
 /// <see cref="Message"/> is returned.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Identifier of the message to edit
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required int MessageId { get; init; }
 
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
-    [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public InlineKeyboardMarkup? ReplyMarkup { get; set; }
 
     /// <summary>
@@ -47,6 +49,6 @@ public class EditMessageReplyMarkupRequest : RequestBase<Message>, IChatTargetab
     /// Initializes a new request with chatId and messageId
     /// </summary>
     public EditMessageReplyMarkupRequest()
-        : base("editMessageReplyMarkup")
+        : base("editMessageReplyMarkup", TelegramBotClientJsonSerializerContext.Instance.EditMessageReplyMarkupRequest)
     { }
 }

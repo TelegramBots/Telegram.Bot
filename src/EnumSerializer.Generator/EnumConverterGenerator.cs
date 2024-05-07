@@ -11,7 +11,7 @@ namespace EnumSerializer.Generator;
 [Generator(LanguageNames.CSharp)]
 public class EnumConverterGenerator : IIncrementalGenerator
 {
-    const string JsonConverterAttribute = "Newtonsoft.Json.JsonConverterAttribute";
+    const string JsonConverterAttribute = "System.Text.Json.Serialization.JsonConverterAttribute";
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {

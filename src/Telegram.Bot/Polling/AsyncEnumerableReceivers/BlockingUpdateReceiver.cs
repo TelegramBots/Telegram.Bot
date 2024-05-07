@@ -130,6 +130,7 @@ public class BlockingUpdateReceiver : IAsyncEnumerable<Update>
                                 Limit = _limit,
                                 AllowedUpdates = _allowedUpdates,
                             },
+                            TelegramBotClientJsonSerializerContext.Instance.ApiResponseUpdateArray,
                             cancellationToken: _token
                         )
                         .ConfigureAwait(false);

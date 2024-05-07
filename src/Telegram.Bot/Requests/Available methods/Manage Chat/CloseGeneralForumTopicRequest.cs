@@ -9,11 +9,11 @@ namespace Telegram.Bot.Requests;
 /// the chat for this to work and must have the <see cref="ChatAdministratorRights.CanManageTopics"/> administrator
 /// rights. Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class CloseGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
 {
     /// <inheritdoc />
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
@@ -29,6 +29,6 @@ public class CloseGeneralForumTopicRequest : RequestBase<bool>, IChatTargetable
     /// Initializes a new request
     /// </summary>
     public CloseGeneralForumTopicRequest()
-        : base("closeGeneralForumTopic")
+        : base("closeGeneralForumTopic", TelegramBotClientJsonSerializerContext.Instance.CloseGeneralForumTopicRequest)
     { }
 }

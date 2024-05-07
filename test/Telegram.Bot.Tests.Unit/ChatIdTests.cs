@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Telegram.Bot.Types;
@@ -120,11 +119,11 @@ public class ChatIdTestData : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
-        yield return new object[] { new ChatId(0), new ChatId(0), true };
-        yield return new object[] { new ChatId(50), new ChatId(50), true };
-        yield return new object[] { new ChatId(100), new ChatId(50), false };
-        yield return new object[] { new ChatId("@user"), new ChatId("@user"), true };
-        yield return new object[] { new ChatId(50), new ChatId("@50"), false };
+        yield return [new ChatId(0), new ChatId(0), true];
+        yield return [new ChatId(50), new ChatId(50), true];
+        yield return [new ChatId(100), new ChatId(50), false];
+        yield return [new ChatId("@user"), new ChatId("@user"), true];
+        yield return [new ChatId(50), new ChatId("@50"), false];
     }
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

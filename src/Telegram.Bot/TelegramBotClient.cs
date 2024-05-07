@@ -2,6 +2,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
+using System.Text.Json.Serialization.Metadata;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -82,9 +83,10 @@ public class TelegramBotClient : ITelegramBotClient
     { }
 
     /// <inheritdoc />
-    public virtual async Task<TResponse> MakeRequestAsync<TResponse>(
-        IRequest<TResponse> request,
-        CancellationToken cancellationToken = default)
+    public virtual async Task<TResponse> MakeRequestAsync<TResponse>(IRequest<TResponse> request,
+                                                                     JsonTypeInfo<ApiResponse<TResponse>>
+                                                                         serializerContext,
+                                                                     CancellationToken cancellationToken = default)
     {
         if (request is null) { throw new ArgumentNullException(nameof(request)); }
 
@@ -93,7 +95,7 @@ public class TelegramBotClient : ITelegramBotClient
 #pragma warning disable CA2000
         var httpRequest = new HttpRequestMessage(method: request.Method, requestUri: url)
         {
-            Content = request.ToHttpContent()
+            Content = request.ToHttpContent(),
         };
 #pragma warning restore CA2000
 
@@ -136,11 +138,13 @@ public class TelegramBotClient : ITelegramBotClient
         if (httpResponse.StatusCode != HttpStatusCode.OK)
         {
             var failedApiResponse = await httpResponse
-                .DeserializeContentAsync<ApiResponse>(
+                .DeserializeContentAsync(
                     guard: response =>
                         response.ErrorCode == default ||
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                        response.Description is null
+                        response.Description is null,
+                    TelegramBotClientJsonSerializerContext.Instance.ApiResponse,
+                    cancellationToken
                 )
                 .ConfigureAwait(false);
 
@@ -148,9 +152,11 @@ public class TelegramBotClient : ITelegramBotClient
         }
 
         var apiResponse = await httpResponse
-            .DeserializeContentAsync<ApiResponse<TResponse>>(
+            .DeserializeContentAsync(
                 guard: response => !response.Ok ||
-                                   response.Result is null
+                                   response.Result is null,
+                serializerContext,
+                cancellationToken
             )
             .ConfigureAwait(false);
 
@@ -198,7 +204,10 @@ public class TelegramBotClient : ITelegramBotClient
     {
         try
         {
-            await MakeRequestAsync(request: new GetMeRequest(), cancellationToken: cancellationToken)
+            await MakeRequestAsync(
+                    request: new GetMeRequest(),
+                    serializerContext: TelegramBotClientJsonSerializerContext.Instance.ApiResponseUser,
+                    cancellationToken: cancellationToken)
                 .ConfigureAwait(false);
             return true;
         }
@@ -236,7 +245,9 @@ public class TelegramBotClient : ITelegramBotClient
                     guard: response =>
                         response.ErrorCode == default ||
                         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-                        response.Description is null
+                        response.Description is null,
+                    TelegramBotClientJsonSerializerContext.Instance.ApiResponse,
+                    cancellationToken
                 )
                 .ConfigureAwait(false);
 
@@ -285,7 +296,7 @@ public class TelegramBotClient : ITelegramBotClient
                         completionOption: HttpCompletionOption.ResponseHeadersRead,
                         cancellationToken: cancellationToken
                     )
-                    .ConfigureAwait(continueOnCapturedContext: false);
+                    .ConfigureAwait(false);
             }
             catch (TaskCanceledException exception)
             {

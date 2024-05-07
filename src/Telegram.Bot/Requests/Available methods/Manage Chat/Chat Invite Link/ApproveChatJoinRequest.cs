@@ -9,17 +9,18 @@ namespace Telegram.Bot.Requests;
 /// work and must have the <see cref="ChatPermissions.CanInviteUsers"/> administrator right.
 /// Returns <see langword="true"/> on success.
 /// </summary>
-[JsonObject(MemberSerialization.OptIn, NamingStrategyType = typeof(SnakeCaseNamingStrategy))]
 public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserTargetable
 {
     /// <inheritdoc/>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required ChatId ChatId { get; init; }
 
     /// <summary>
     /// Unique identifier of the target user
     /// </summary>
-    [JsonProperty(Required = Required.Always)]
+    [JsonRequired]
+    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
     public required long UserId { get; init; }
 
     /// <summary>
@@ -42,6 +43,6 @@ public class ApproveChatJoinRequest : RequestBase<bool>, IChatTargetable, IUserT
     /// Initializes a new request with chatId and userId
     /// </summary>
     public ApproveChatJoinRequest()
-        : base("approveChatJoinRequest")
+        : base("approveChatJoinRequest", TelegramBotClientJsonSerializerContext.Instance.ApproveChatJoinRequest)
     { }
 }
