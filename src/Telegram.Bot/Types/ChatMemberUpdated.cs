@@ -52,6 +52,14 @@ public class ChatMemberUpdated
     public ChatInviteLink? InviteLink { get; set; }
 
     /// <summary>
+    /// Optional. <see langword="true"/>, if the user joined the chat after sending a direct join request without
+    /// using an invite link and being approved by an administrator
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ViaJoinRequest { get; set; }
+
+    /// <summary>
     /// Optional. <see langword="true"/>, if the user joined the chat via a chat folder invite link
     /// </summary>
     [JsonInclude]

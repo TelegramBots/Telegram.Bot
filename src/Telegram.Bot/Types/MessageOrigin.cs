@@ -17,6 +17,7 @@ namespace Telegram.Bot.Types;
 [CustomJsonDerivedType(typeof(MessageOriginHiddenUser), "hidden_user")]
 [CustomJsonDerivedType(typeof(MessageOriginChat), "chat")]
 [CustomJsonDerivedType(typeof(MessageOriginChannel), "channel")]
+// [CustomJsonDerivedType(typeof(FallbackUnsupportedMessageOrigin), UnknownCase = true)]
 public abstract class MessageOrigin
 {
     /// <summary>

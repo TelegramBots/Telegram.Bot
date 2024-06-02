@@ -9,7 +9,7 @@ public class ChannelChatFixture : AsyncLifetimeFixture
 {
     readonly TestsFixture _testsFixture;
 
-    public Chat ChannelChat { get; private set; }
+    public ChatFullInfo ChannelChat { get; private set; }
     public ChatId ChannelChatId { get; private set; }
 
     public ChannelChatFixture(TestsFixture testsFixture, string collectionName)
@@ -32,7 +32,7 @@ public class ChannelChatFixture : AsyncLifetimeFixture
         );
     }
 
-    async Task<Chat> GetChat(string collectionName)
+    async Task<ChatFullInfo> GetChat(string collectionName)
     {
         var chatId = _testsFixture.Configuration.ChannelChatId;
         if (chatId is not null)

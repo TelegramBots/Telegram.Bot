@@ -42,11 +42,18 @@ public class InputMediaAnimation :
     public int? Duration { get; set; }
 
     /// <summary>
-    /// Optional. Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
+    /// Optional. Pass <see langword="true"/>, if the animation needs to be covered with a spoiler animation
     /// </summary>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? HasSpoiler { get; set; }
+
+    /// <summary>
+    /// Optional. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
     /// Initializes a new animation media to send with an <see cref="InputFile"/>

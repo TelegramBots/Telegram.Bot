@@ -36,9 +36,9 @@ public class InputInvoiceMessageContent : InputMessageContent
     /// <summary>
     /// Payment provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string ProviderToken { get; init; }
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ProviderToken { get; set; }
 
     /// <summary>
     /// Three-letter ISO 4217 currency code, see

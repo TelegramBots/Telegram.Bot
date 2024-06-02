@@ -10,7 +10,7 @@ namespace Telegram.Bot.Requests;
 /// one-on-one conversations, current username of a user, group or channel, etc.).
 /// Returns a <see cref="Chat"/> object on success.
 /// </summary>
-public class GetChatRequest : RequestBase<Chat>, IChatTargetable
+public class GetChatRequest : RequestBase<ChatFullInfo>, IChatTargetable
 {
     /// <inheritdoc />
     [JsonRequired]

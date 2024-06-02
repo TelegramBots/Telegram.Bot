@@ -41,6 +41,11 @@ public class EditMessageCaptionRequest : RequestBase<Message>, IChatTargetable
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
+    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
+
     /// <inheritdoc cref="Documentation.InlineReplyMarkup"/>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

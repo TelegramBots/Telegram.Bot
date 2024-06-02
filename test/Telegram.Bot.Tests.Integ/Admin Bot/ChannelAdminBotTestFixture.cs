@@ -10,7 +10,7 @@ public class ChannelAdminBotTestFixture : AsyncLifetimeFixture
     ChannelChatFixture _channelChatFixture;
     byte[] _oldChatPhoto;
 
-    public Chat Chat => _channelChatFixture.ChannelChat;
+    public ChatFullInfo Chat => _channelChatFixture.ChannelChat;
     public Message PinnedMessage { get; set; }
 
 

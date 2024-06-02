@@ -24,7 +24,6 @@ public class DocumentSerializationTests
                 Id = -9_877_654_320_000,
                 Title = "Test Chat",
                 Type = ChatType.Supergroup,
-                CanSetStickerSet = true
             },
             Document = new()
             {
@@ -81,11 +80,10 @@ public class DocumentSerializationTests
         JsonNode? chatNode = j["chat"];
         Assert.NotNull(chatNode);
         JsonObject chat = Assert.IsAssignableFrom<JsonObject>(chatNode);
-        Assert.Equal(4, chat.Count);
+        Assert.Equal(3, chat.Count);
         Assert.Equal(-9_877_654_320_000, (long?)chat["id"]);
         Assert.Equal("Test Chat", (string?)chat["title"]);
         Assert.Equal("supergroup", (string?)chat["type"]);
-        Assert.Equal(true, (bool?)chat["can_set_sticker_set"]);
     }
 
     [Fact(DisplayName = "Should deserialize a document message")]
@@ -110,13 +108,7 @@ public class DocumentSerializationTests
                 "title": "Test Chat",
                 "username": null,
                 "first_name": null,
-                "last_name": null,
-                "all_members_are_administrators": false,
-                "photo": null,
-                "description": null,
-                "invite_link": null,
-                "sticker_set_name": null,
-                "can_set_sticker_set": null
+                "last_name": null
             },
             "forward_from": null,
             "forward_from_chat": null,
@@ -168,6 +160,5 @@ public class DocumentSerializationTests
         Assert.NotNull(message);
         Assert.Equal(MessageType.Document, message.Type);
         Assert.Equal("test_file.txt", message.Document?.FileName);
-        Assert.Null(message.Chat.CanSetStickerSet);
     }
 }

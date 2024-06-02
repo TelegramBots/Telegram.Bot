@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Telegram.Bot.Requests.Abstractions;
 using Telegram.Bot.Serialization;
 using Telegram.Bot.Types.Enums;
@@ -38,11 +39,27 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     public required string Question { get; init; }
 
     /// <summary>
+    /// Mode for parsing entities in the question. See formatting options for more details.
+    /// Currently, only custom emoji entities are allowed
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ParseMode? QuestionParseMode { get; set; }
+
+    /// <summary>
+    /// A list of special entities that appear in the poll question.
+    /// It can be specified instead of <see cref="QuestionParseMode"/>
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IEnumerable<MessageEntity>? QuestionEntities { get; set; }
+
+    /// <summary>
     /// A list of answer options, 2-10 strings 1-100 characters each
     /// </summary>
     [JsonRequired]
     [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required IEnumerable<string> Options { get; init; }
+    public required IEnumerable<InputPollOption> Options { get; init; }
 
     /// <summary>
     /// <see langword="true"/>, if the poll needs to be anonymous, defaults to <see langword="true"/>
@@ -132,6 +149,11 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ProtectContent { get; set; }
 
+    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MessageEffectId { get; set; }
+
     /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
@@ -172,12 +194,30 @@ public class SendPollRequest : RequestBase<Message>, IChatTargetable, IBusinessC
     /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
     [SetsRequiredMembers]
     [Obsolete("Use parameterless constructor with required properties")]
-    public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)
+    public SendPollRequest(ChatId chatId, string question, IEnumerable<InputPollOption> options)
         : this()
     {
         ChatId = chatId;
         Question = question;
         Options = options;
+    }
+
+    /// <summary>
+    /// Initializes a new request with chatId, question and <see cref="PollOption"/>
+    /// </summary>
+    /// <param name="chatId">Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="question">Poll question, 1-300 characters</param>
+    /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
+    public SendPollRequest(ChatId chatId, string question, IEnumerable<string> options)
+        : this()
+    {
+        ChatId = chatId;
+        Question = question;
+        Options = options.Select(option => new InputPollOption(option));
     }
 
     /// <summary>

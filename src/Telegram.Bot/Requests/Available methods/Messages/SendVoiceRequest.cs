@@ -10,10 +10,10 @@ namespace Telegram.Bot.Requests;
 
 /// <summary>
 /// Use this method to send audio files, if you want Telegram clients to display the file as a playable
-/// voice message. For this to work, your audio must be in an .OGG file encoded with OPUS (other
-/// formats may be sent as <see cref="Audio"/> or <see cref="Document"/>). On success, the sent
-/// <see cref="Message"/> is returned. Bots can currently send voice messages of up to 50 MB in size,
-/// this limit may be changed in the future.
+/// voice message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format,
+/// or in .M4A format (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>).
+/// On success, the sent <see cref="Message"/> is returned. Bots can currently send voice messages
+/// of up to 50 MB in size, this limit may be changed in the future.
 /// </summary>
 public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable, IBusinessConnectable
 {
@@ -76,6 +76,11 @@ public class SendVoiceRequest : FileRequestBase<Message>, IChatTargetable, IBusi
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ProtectContent { get; set; }
+
+    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MessageEffectId { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonInclude]

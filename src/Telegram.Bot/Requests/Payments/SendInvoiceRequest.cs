@@ -55,9 +55,9 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
     /// <summary>
     /// Payments provider token, obtained via <a href="https://t.me/botfather">@BotFather</a>
     /// </summary>
-    [JsonRequired]
-    [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-    public required string ProviderToken { get; init; }
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? ProviderToken { get; set; }
 
     /// <summary>
     /// Three-letter ISO 4217 currency code, see
@@ -271,6 +271,42 @@ public class SendInvoiceRequest : RequestBase<Message>, IChatTargetable
         Description = description;
         Payload = payload;
         ProviderToken = providerToken;
+        Currency = currency;
+        Prices = prices;
+    }
+
+    /// <summary>
+    /// Initializes a new request
+    /// </summary>
+    /// <param name="chatId">
+    /// Unique identifier for the target chat or username of the target channel
+    /// (in the format <c>@channelusername</c>)
+    /// </param>
+    /// <param name="title">Product name, 1-32 characters</param>
+    /// <param name="description">Product description, 1-255 characters</param>
+    /// <param name="payload">Bot-defined invoice payload, 1-128 bytes</param>
+    /// <param name="currency">
+    /// Three-letter ISO 4217 currency code, see
+    /// <a href="https://core.telegram.org/bots/payments#supported-currencies">more on currencies</a>
+    /// </param>
+    /// <param name="prices">
+    /// Price breakdown, a list of components (e.g. product price, tax, discount, delivery cost,
+    /// delivery tax, bonus, etc.)
+    /// </param>
+    [SetsRequiredMembers]
+    [Obsolete("Use parameterless constructor with required properties")]
+    public SendInvoiceRequest(
+        long chatId,
+        string title,
+        string description,
+        string payload,
+        string currency,
+        IEnumerable<LabeledPrice> prices) : this()
+    {
+        ChatId = chatId;
+        Title = title;
+        Description = description;
+        Payload = payload;
         Currency = currency;
         Prices = prices;
     }

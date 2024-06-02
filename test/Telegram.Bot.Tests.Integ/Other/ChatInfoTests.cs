@@ -19,12 +19,12 @@ public class ChatInfoTests(TestsFixture fixture)
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Supergroup_Chat()
     {
-        Chat supergroupChat = fixture.SupergroupChat;
+        ChatFullInfo supergroupChat = fixture.SupergroupChat;
 
-        Chat chat = await BotClient.GetChatAsync(
+        ChatFullInfo chat = await BotClient.GetChatAsync(
             new GetChatRequest
             {
-                ChatId = supergroupChat.Id,
+                ChatId = supergroupChat,
             }
         );
 
@@ -105,14 +105,14 @@ public class ChatInfoTests(TestsFixture fixture)
              * for a regular user, "User ID" is the same number as "Private Chat ID".
              */
             ChatMember[] chatAdmins = await BotClient.GetChatAdministratorsAsync(
-                new GetChatAdministratorsRequest { ChatId = fixture.SupergroupChat }
+                new GetChatAdministratorsRequest { ChatId = fixture.SupergroupChat.Id }
             );
             privateChatId = chatAdmins
                 .Single(member => member.Status == ChatMemberStatus.Creator)
                 .User.Id;
         }
 
-        Chat chat = await BotClient.GetChatAsync(
+        ChatFullInfo chat = await BotClient.GetChatAsync(
             new GetChatRequest { ChatId = privateChatId, }
         );
 

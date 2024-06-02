@@ -57,6 +57,13 @@ public class InputMediaVideo :
     public bool? HasSpoiler { get; set; }
 
     /// <summary>
+    /// Optional. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
+
+    /// <summary>
     /// Initializes a new video media to send with an <see cref="InputFile"/>
     /// </summary>
     /// <param name="media">File to send</param>
