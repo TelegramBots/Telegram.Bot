@@ -250,6 +250,7 @@ public class Message : MaybeInaccessibleMessage
     /// <value>
     /// The entity contents.
     /// </value>
+    [JsonIgnore]
     public IEnumerable<string>? EntityValues =>
         Text is null
             ? default
@@ -262,6 +263,13 @@ public class Message : MaybeInaccessibleMessage
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public LinkPreviewOptions? LinkPreviewOptions { get; set; }
+
+    /// <summary>
+    /// Optional. Unique identifier of the message effect added to the message
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? EffectId { get; set; }
 
     /// <summary>
     /// Optional. Message is an animation, information about the animation. For backward compatibility, when this
@@ -348,10 +356,18 @@ public class Message : MaybeInaccessibleMessage
     /// <value>
     /// The caption entity contents.
     /// </value>
+    [JsonIgnore]
     public IEnumerable<string>? CaptionEntityValues =>
         Caption is null
             ? default
             : CaptionEntities?.Select(entity => Caption.Substring(entity.Offset, entity.Length));
+
+    /// <summary>
+    /// Optional. Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
 
     /// <summary>
     /// Optional. <see langword="true"/>, if the message media is covered by a spoiler animation
@@ -568,6 +584,13 @@ public class Message : MaybeInaccessibleMessage
     public ChatBoostAdded? BoostAdded { get; set; }
 
     /// <summary>
+    /// Optional. Service message: chat background set
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ChatBackground? ChatBackgroundSet { get; set; }
+
+    /// <summary>
     /// Optional. Service message: forum topic created
     /// </summary>
     [JsonInclude]
@@ -743,6 +766,7 @@ public class Message : MaybeInaccessibleMessage
             { VideoChatEnded: not null }                => MessageType.VideoChatEnded,
             { VideoChatParticipantsInvited: not null }  => MessageType.VideoChatParticipantsInvited,
             { WebAppData: not null }                    => MessageType.WebAppData,
+            { ChatBackgroundSet: not null }             => MessageType.ChatBackgroundSet,
             _                                           => MessageType.Unknown
         };
 }

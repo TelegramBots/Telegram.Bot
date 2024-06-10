@@ -86,6 +86,11 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable, I
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public IEnumerable<MessageEntity>? CaptionEntities { get; set; }
 
+    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
+
     /// <summary>
     /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
     /// </summary>
@@ -102,6 +107,11 @@ public class SendAnimationRequest : FileRequestBase<Message>, IChatTargetable, I
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public bool? ProtectContent { get; set; }
+
+    /// <inheritdoc cref="Abstractions.Documentation.MessageEffectId"/>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? MessageEffectId { get; set; }
 
     /// <inheritdoc cref="Abstractions.Documentation.ReplyParameters"/>
     [JsonInclude]

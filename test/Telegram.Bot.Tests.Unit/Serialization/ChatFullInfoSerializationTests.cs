@@ -5,7 +5,7 @@ using JsonSerializerOptionsProvider = Telegram.Bot.Serialization.JsonSerializerO
 
 namespace Telegram.Bot.Tests.Unit.Serialization;
 
-public class ChatSerializationTests
+public class ChatFullInfoSerializationTests
 {
     [Fact]
     public void Should_Deserialize_Chat()
@@ -17,28 +17,34 @@ public class ChatSerializationTests
               "id": 12345,
               "type": "supergroup",
               "unrestrict_boost_count": 10,
-              "custom_emoji_sticker_set_name": "test_sticker_set"
+              "custom_emoji_sticker_set_name": "test_sticker_set",
+              "accent_color_id": 123456,
+              "max_reaction_count": 100
             }
             """;
 
-        Chat? deserialize = JsonSerializer.Deserialize<Chat>(chat, JsonSerializerOptionsProvider.Options);
+        ChatFullInfo? chatFullInfo = JsonSerializer.Deserialize<ChatFullInfo>(chat, JsonSerializerOptionsProvider.Options);
 
-        Assert.NotNull(deserialize);
-        Assert.Equal(10, deserialize.UnrestrictBoostCount);
-        Assert.Equal(12345, deserialize.Id);
-        Assert.Equal(ChatType.Supergroup, deserialize.Type);
-        Assert.Equal("test_sticker_set", deserialize.CustomEmojiStickerSetName);
+        Assert.NotNull(chatFullInfo);
+        Assert.Equal(10, chatFullInfo.UnrestrictBoostCount);
+        Assert.Equal(12345, chatFullInfo.Id);
+        Assert.Equal(ChatType.Supergroup, chatFullInfo.Type);
+        Assert.Equal("test_sticker_set", chatFullInfo.CustomEmojiStickerSetName);
+        Assert.Equal(123456, chatFullInfo.AccentColorId);
+        Assert.Equal(100, chatFullInfo.MaxReactionCount);
     }
 
     [Fact]
     public void Should_Serialize_Chat()
     {
-        Chat chat = new()
+        ChatFullInfo chat = new()
         {
             Id = 1000,
             Type = ChatType.Supergroup,
             UnrestrictBoostCount = 10,
-            CustomEmojiStickerSetName = "test_sticker_set"
+            CustomEmojiStickerSetName = "test_sticker_set",
+            MaxReactionCount = 100,
+            AccentColorId = 123456,
         };
 
         string json = JsonSerializer.Serialize(chat, JsonSerializerOptionsProvider.Options);
@@ -48,10 +54,12 @@ public class ChatSerializationTests
 
         JsonObject j = Assert.IsAssignableFrom<JsonObject>(root);
 
-        Assert.Equal(4, j.Count);
+        Assert.Equal(6, j.Count);
         Assert.Equal(chat.UnrestrictBoostCount, (int?)j["unrestrict_boost_count"]);
         Assert.Equal("supergroup", (string?)j["type"]);
         Assert.Equal(chat.Id, (long?)j["id"]);
         Assert.Equal(chat.CustomEmojiStickerSetName, (string?)j["custom_emoji_sticker_set_name"]);
+        Assert.Equal(chat.AccentColorId, (int?)j["accent_color_id"]);
+        Assert.Equal(chat.MaxReactionCount, (int?)j["max_reaction_count"]);
     }
 }

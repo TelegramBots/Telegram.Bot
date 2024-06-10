@@ -56,7 +56,6 @@ public class MessageOriginTypeConverterTests
         Assert.Throws<JsonException>(() => JsonSerializer.Serialize(messageOrigin, JsonSerializerOptionsProvider.Options));
     }
 
-
     class MessageOrigin
     {
         [JsonRequired]

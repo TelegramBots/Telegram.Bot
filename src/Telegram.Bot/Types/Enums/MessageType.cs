@@ -276,4 +276,9 @@ public enum MessageType
     /// The <see cref="Message"/> contains a <see cref="Message.BoostAdded"/>
     /// </summary>
     BoostAdded,
+
+    /// <summary>
+    /// The <see cref="Message"/> contains a <see cref="Message.ChatBackgroundSet"/>
+    /// </summary>
+    ChatBackgroundSet,
 }

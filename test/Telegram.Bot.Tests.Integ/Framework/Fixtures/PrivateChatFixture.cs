@@ -7,7 +7,7 @@ namespace Telegram.Bot.Tests.Integ.Framework.Fixtures;
 
 public class PrivateChatFixture : AsyncLifetimeFixture
 {
-    public Chat PrivateChat { get; private set; }
+    public ChatFullInfo PrivateChat { get; private set; }
 
     public PrivateChatFixture(TestsFixture testsFixture, string collectionName)
     {
@@ -25,9 +25,9 @@ public class PrivateChatFixture : AsyncLifetimeFixture
         );
     }
 
-    static async Task<Chat> GetChat(TestsFixture testsFixture, string collectionName)
+    static async Task<ChatFullInfo> GetChat(TestsFixture testsFixture, string collectionName)
     {
-        Chat chat;
+        ChatFullInfo chat;
         long? chatId = testsFixture.Configuration.TesterPrivateChatId;
         if (chatId.HasValue)
         {

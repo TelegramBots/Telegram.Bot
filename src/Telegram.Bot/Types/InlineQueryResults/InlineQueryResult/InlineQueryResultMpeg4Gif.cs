@@ -83,6 +83,13 @@ public class InlineQueryResultMpeg4Gif : InlineQueryResult
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public MessageEntity[]? CaptionEntities { get; set; }
 
+    /// <summary>
+    /// <inheritdoc cref="Documentation.ShowCaptionAboveMedia" />
+    /// </summary>
+    [JsonInclude]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public bool? ShowCaptionAboveMedia { get; set; }
+
     /// <inheritdoc cref="Documentation.InputMessageContent" />
     [JsonInclude]
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

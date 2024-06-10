@@ -596,7 +596,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="ChatFullInfo.CanSetStickerSet"/> optionally returned in
     /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)">GetChatAsync</see>
     /// requests to check if the bot can use this method
     /// </summary>
@@ -740,7 +740,7 @@ public static partial class TelegramBotClientExtensions
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
     /// <returns>Returns a <see cref="Chat"/> object on success.</returns>
-    public static async Task<Chat> GetChatAsync(
+    public static async Task<ChatFullInfo> GetChatAsync(
         this ITelegramBotClient botClient,
         GetChatRequest request,
         CancellationToken cancellationToken = default
@@ -954,7 +954,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="ChatFullInfo.CanSetStickerSet"/> optionally returned in
     /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)">GetChatAsync</see>
     /// request to check if the bot can use this method.
     /// </summary>
@@ -1968,9 +1968,28 @@ public static partial class TelegramBotClientExtensions
     /// <param name="cancellationToken">
     /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
     /// </param>
+    /// <returns>Returns <see langword="true"/> on success.</returns>
     public static async Task<bool> AnswerPreCheckoutQueryAsync(
         this ITelegramBotClient botClient,
         AnswerPreCheckoutQueryRequest request,
+        CancellationToken cancellationToken = default
+    ) =>
+        await botClient.ThrowIfNull()
+            .MakeRequestAsync(request, cancellationToken)
+            .ConfigureAwait(false);
+
+    /// <summary>
+    /// Refunds a successful payment in Telegram Stars
+    /// </summary>
+    /// <param name="botClient"></param>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken">
+    /// A cancellation token that can be used by other objects or threads to receive notice of cancellation
+    /// </param>
+    /// <returns>Returns <see langword="true"/> on success</returns>
+    public static async Task<bool> RefundStarPaymentAsync(
+        this ITelegramBotClient botClient,
+        RefundStarPaymentRequest request,
         CancellationToken cancellationToken = default
     ) =>
         await botClient.ThrowIfNull()

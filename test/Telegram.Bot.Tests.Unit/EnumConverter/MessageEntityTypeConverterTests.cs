@@ -96,6 +96,7 @@ public class MessageEntityTypeConverterTests
             yield return [MessageEntityType.Spoiler, "spoiler"];
             yield return [MessageEntityType.CustomEmoji, "custom_emoji"];
             yield return [MessageEntityType.Blockquote, "blockquote"];
+            yield return [MessageEntityType.ExpandableBlockquote, "expandable_blockquote"];
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

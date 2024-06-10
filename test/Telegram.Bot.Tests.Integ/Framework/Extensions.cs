@@ -32,6 +32,7 @@ internal static class Extensions
 
     public static string? GetSafeUsername(this User user) => user.Username?.Replace("_", "\\_");
     public static string? GetSafeUsername(this Chat chat) => chat.Username?.Replace("_", "\\_");
+    public static string? GetSafeUsername(this ChatFullInfo chat) => chat.Username?.Replace("_", "\\_");
 
     public static DateTime With(this DateTime dateTime, DateTimeComponents components) =>
         new(year: components.Year ?? dateTime.Year,

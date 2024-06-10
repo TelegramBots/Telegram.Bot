@@ -86,7 +86,7 @@ public class ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTest
     {
         Message pinnedMsg = classFixture.PinnedMessage;
 
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id});
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id});
 
         Assert.NotNull(chat.PinnedMessage);
         Asserts.JsonEquals(pinnedMsg, chat.PinnedMessage);
@@ -103,7 +103,7 @@ public class ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTest
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Chat_With_No_Pinned_Message()
     {
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id});
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id});
 
         Assert.Null(chat.PinnedMessage);
     }
@@ -130,7 +130,7 @@ public class ChannelAdminBotTests(TestsFixture testsFixture, ChannelAdminBotTest
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Chat_Photo()
     {
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
         Assert.NotNull(chat.Photo);
         Assert.NotEmpty(chat.Photo.BigFileId);

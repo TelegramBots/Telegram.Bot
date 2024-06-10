@@ -25,7 +25,7 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture) : IClas
             {
                 ChatId = Fixture.SupergroupChat,
                 Question = "Who shot first?",
-                Options = ["Han Solo", "Greedo", "I don't care"],
+                Options = [new("Han Solo"), new("Greedo"), new("I don't care")],
                 OpenPeriod = 6,
             }
         );
@@ -84,7 +84,7 @@ public class SelfStoppingPollTests(SelfStoppingPollTestsFixture fixture) : IClas
             {
                 ChatId = Fixture.SupergroupChat,
                 Question = "Who shot first?",
-                Options = ["Han Solo", "Greedo", "I don't care"],
+                Options = [new("Han Solo"), new("Greedo"), new("I don't care")],
                 CloseDate = closeDate,
             }
         );

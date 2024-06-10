@@ -29,11 +29,11 @@ public class TestsFixture : IDisposable
 
     public UpdateReceiver UpdateReceiver { get; private set; }
 
-    public Chat SupergroupChat { get; private set; }
+    public ChatFullInfo SupergroupChat { get; private set; }
 
-    public Chat PrivateChat { get; set; }
+    public ChatFullInfo PrivateChat { get; set; }
 
-    public Chat ChannelChat { get; set; }
+    public ChatFullInfo ChannelChat { get; set; }
 
     public RunSummary RunSummary { get; } = new();
 
@@ -116,7 +116,7 @@ public class TestsFixture : IDisposable
             )
         );
 
-    public async Task<Chat> GetChatFromTesterAsync(
+    public async Task<ChatFullInfo> GetChatFromTesterAsync(
         ChatType chatType,
         CancellationToken cancellationToken = default)
     {
@@ -139,12 +139,22 @@ public class TestsFixture : IDisposable
 
         await UpdateReceiver.DiscardNewUpdatesAsync(cancellationToken);
 
-        return chatType == ChatType.Channel
+        var chat = chatType == ChatType.Channel
             ? ((MessageOriginChannel)update.Message?.ForwardOrigin)!.Chat
             : update.Message?.Chat;
+
+        if (chat is null)
+        {
+            throw new InvalidOperationException("Couldn't find the chat from the tester.");
+        }
+
+        return await BotClient.GetChatAsync(
+            new GetChatRequest { ChatId = chat.Id },
+            cancellationToken: cancellationToken
+        );
     }
 
-    public async Task<Chat> GetChatFromAdminAsync()
+    public async Task<ChatFullInfo> GetChatFromAdminAsync()
     {
         await UpdateReceiver.DiscardNewUpdatesAsync();
 
@@ -262,7 +272,7 @@ public class TestsFixture : IDisposable
         return task;
     }
 
-    async Task<Chat> FindSupergroupTestChatAsync(CancellationToken cancellationToken = default)
+    async Task<ChatFullInfo> FindSupergroupTestChatAsync(CancellationToken cancellationToken = default)
     {
         var supergroupChatId = Configuration.SuperGroupChatId;
         return await BotClient.GetChatAsync(new GetChatRequest {ChatId = supergroupChatId}, cancellationToken);
@@ -277,7 +287,7 @@ public class TestsFixture : IDisposable
 
         // Assume all chat admins are allowed testers
         var admins = await BotClient.GetChatAdministratorsAsync(
-            new GetChatAdministratorsRequest {ChatId = SupergroupChat}, cancellationToken
+            new GetChatAdministratorsRequest {ChatId = SupergroupChat.Id}, cancellationToken
         );
         allowedUserNames = admins
             .Where(member => !member.User.IsBot)

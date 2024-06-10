@@ -95,4 +95,9 @@ public enum MessageEntityType
     /// Block quotation
     /// </summary>
     Blockquote,
+
+    /// <summary>
+    /// Expandable blockquote
+    /// </summary>
+    ExpandableBlockquote,
 }

@@ -307,6 +307,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -332,6 +335,7 @@ public static partial class TelegramBotClientExtensions
         LinkPreviewOptions? linkPreviewOptions = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -349,6 +353,7 @@ public static partial class TelegramBotClientExtensions
                     LinkPreviewOptions = linkPreviewOptions,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -496,6 +501,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="showCaptionAboveMedia">
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </param>
     /// <param name="disableNotification">
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
@@ -521,6 +529,7 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? showCaptionAboveMedia = default,
         bool? disableNotification = default,
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
@@ -538,6 +547,7 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    ShowCaptionAboveMedia = showCaptionAboveMedia,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
                     ReplyParameters = replyParameters,
@@ -643,6 +653,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="showCaptionAboveMedia">
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </param>
     /// <param name="hasSpoiler">
     /// Pass <see langword="true"/> if the photo needs to be covered with a spoiler animation
     /// </param>
@@ -650,6 +663,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -673,8 +689,10 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? showCaptionAboveMedia = default,
         bool? hasSpoiler = default,
         bool? disableNotification = default,
+        string? messageEffectId = default,
         bool? protectContent = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
@@ -691,9 +709,11 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    ShowCaptionAboveMedia = showCaptionAboveMedia,
                     HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -744,6 +764,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -773,6 +796,7 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -794,6 +818,7 @@ public static partial class TelegramBotClientExtensions
                     Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -846,6 +871,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -873,6 +901,7 @@ public static partial class TelegramBotClientExtensions
         bool? disableContentTypeDetection = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -892,6 +921,7 @@ public static partial class TelegramBotClientExtensions
                     DisableContentTypeDetection = disableContentTypeDetection,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -940,6 +970,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="showCaptionAboveMedia">
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </param>
     /// <param name="hasSpoiler">
     /// Pass <see langword="true"/> if the video needs to be covered with a spoiler animation
     /// </param>
@@ -948,6 +981,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -975,10 +1011,12 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? showCaptionAboveMedia = default,
         bool? hasSpoiler = default,
         bool? supportsStreaming = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -998,10 +1036,12 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    ShowCaptionAboveMedia = showCaptionAboveMedia,
                     HasSpoiler = hasSpoiler,
                     SupportsStreaming = supportsStreaming,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -1050,6 +1090,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="showCaptionAboveMedia">
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </param>
     /// <param name="hasSpoiler">
     /// Pass <see langword="true"/> if the animation needs to be covered with a spoiler animation
     /// </param>
@@ -1057,6 +1100,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1084,9 +1130,11 @@ public static partial class TelegramBotClientExtensions
         string? caption = default,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? showCaptionAboveMedia = default,
         bool? hasSpoiler = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1106,9 +1154,11 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    ShowCaptionAboveMedia = showCaptionAboveMedia,
                     HasSpoiler = hasSpoiler,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -1119,9 +1169,9 @@ public static partial class TelegramBotClientExtensions
 
     /// <summary>
     /// Use this method to send audio files, if you want Telegram clients to display the file as a playable voice
-    /// message. For this to work, your audio must be in an .OGG file encoded with OPUS (other formats may be sent
-    /// as <see cref="Audio"/> or <see cref="Document"/>). Bots can currently send voice messages of up to 50 MB
-    /// in size, this limit may be changed in the future.
+    /// message. For this to work, your audio must be in an .OGG file encoded with OPUS, or in .MP3 format,
+    /// or in .M4A format (other formats may be sent as <see cref="Audio"/> or <see cref="Document"/>).
+    /// Bots can currently send voice messages of up to 50 MB in size, this limit may be changed in the future.
     /// </summary>
     /// <param name="botClient">An instance of <see cref="ITelegramBotClient"/></param>
     /// <param name="chatId">
@@ -1151,6 +1201,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1177,6 +1230,7 @@ public static partial class TelegramBotClientExtensions
         int? duration = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1195,6 +1249,7 @@ public static partial class TelegramBotClientExtensions
                     Duration = duration,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -1233,6 +1288,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1258,6 +1316,7 @@ public static partial class TelegramBotClientExtensions
         InputFile? thumbnail = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1275,6 +1334,7 @@ public static partial class TelegramBotClientExtensions
                     Thumbnail = thumbnail,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -1300,6 +1360,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="businessConnectionId">
     /// Unique identifier of the business connection on behalf of which the message will be sent
@@ -1316,6 +1379,7 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         string? businessConnectionId = default,
         CancellationToken cancellationToken = default
@@ -1329,6 +1393,7 @@ public static partial class TelegramBotClientExtensions
                     MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     BusinessConnectionId = businessConnectionId,
                 },
@@ -1365,6 +1430,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1392,6 +1460,7 @@ public static partial class TelegramBotClientExtensions
         int? proximityAlertRadius = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1411,6 +1480,7 @@ public static partial class TelegramBotClientExtensions
                     ProximityAlertRadius = proximityAlertRadius,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -1432,6 +1502,12 @@ public static partial class TelegramBotClientExtensions
     /// <param name="messageId">Identifier of the message to edit</param>
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
+    /// <param name="livePeriod">
+    /// New period in seconds during which the location can be updated, starting from the message send date.
+    /// If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed
+    /// the current live_period by more than a day, and the live location expiration date must remain within the next
+    /// 90 days. If not specified, then <paramref name="livePeriod"/> remains unchanged.
+    /// </param>
     /// <param name="horizontalAccuracy">
     /// The radius of uncertainty for the location, measured in meters; 0-1500
     /// </param>
@@ -1459,6 +1535,7 @@ public static partial class TelegramBotClientExtensions
         int messageId,
         double latitude,
         double longitude,
+        int? livePeriod,
         float? horizontalAccuracy = default,
         int? heading = default,
         int? proximityAlertRadius = default,
@@ -1473,6 +1550,7 @@ public static partial class TelegramBotClientExtensions
                     MessageId = messageId,
                     Latitude = latitude,
                     Longitude = longitude,
+                    LivePeriod = livePeriod,
                     HorizontalAccuracy = horizontalAccuracy,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
@@ -1491,6 +1569,12 @@ public static partial class TelegramBotClientExtensions
     /// <param name="inlineMessageId">Identifier of the inline message</param>
     /// <param name="latitude">Latitude of new location</param>
     /// <param name="longitude">Longitude of new location</param>
+    /// <param name="livePeriod">
+    /// New period in seconds during which the location can be updated, starting from the message send date.
+    /// If 0x7FFFFFFF is specified, then the location can be updated forever. Otherwise, the new value must not exceed
+    /// the current live_period by more than a day, and the live location expiration date must remain within the next
+    /// 90 days. If not specified, then <paramref name="livePeriod"/> remains unchanged.
+    /// </param>
     /// <param name="horizontalAccuracy">
     /// The radius of uncertainty for the location, measured in meters; 0-1500
     /// </param>
@@ -1516,6 +1600,7 @@ public static partial class TelegramBotClientExtensions
         string inlineMessageId,
         double latitude,
         double longitude,
+        int? livePeriod = default,
         float? horizontalAccuracy = default,
         int? heading = default,
         int? proximityAlertRadius = default,
@@ -1529,10 +1614,11 @@ public static partial class TelegramBotClientExtensions
                     InlineMessageId = inlineMessageId,
                     Latitude = latitude,
                     Longitude = longitude,
+                    LivePeriod = livePeriod,
                     HorizontalAccuracy = horizontalAccuracy,
                     Heading = heading,
                     ProximityAlertRadius = proximityAlertRadius,
-                    ReplyMarkup = replyMarkup
+                    ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
             )
@@ -1640,6 +1726,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1670,6 +1759,7 @@ public static partial class TelegramBotClientExtensions
         string? googlePlaceType = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1690,6 +1780,7 @@ public static partial class TelegramBotClientExtensions
                     GooglePlaceType = googlePlaceType,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
@@ -1718,6 +1809,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1743,6 +1837,7 @@ public static partial class TelegramBotClientExtensions
         string? vCard = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1759,6 +1854,7 @@ public static partial class TelegramBotClientExtensions
                     Vcard = vCard,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     MessageThreadId = messageThreadId,
@@ -1778,6 +1874,14 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <param name="question">Poll question, 1-300 characters</param>
     /// <param name="options">A list of answer options, 2-10 strings 1-100 characters each</param>
+    /// <param name="questionParseMode">
+    /// Mode for parsing entities in the question. See formatting options for more details.
+    /// Currently, only custom emoji entities are allowed
+    /// </param>
+    /// <param name="questionEntities">
+    /// A list of special entities that appear in the poll question.
+    /// It can be specified instead of <paramref name="questionParseMode"/>
+    /// </param>
     /// <param name="messageThreadId">
     /// Unique identifier for the target message thread (topic) of the forum; for forum supergroups only
     /// </param>
@@ -1821,6 +1925,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1840,7 +1947,9 @@ public static partial class TelegramBotClientExtensions
         this ITelegramBotClient botClient,
         ChatId chatId,
         string question,
-        IEnumerable<string> options,
+        IEnumerable<InputPollOption> options,
+        ParseMode? questionParseMode = default,
+        IEnumerable<MessageEntity>? questionEntities = default,
         int? messageThreadId = default,
         bool? isAnonymous = default,
         PollType? type = default,
@@ -1854,6 +1963,7 @@ public static partial class TelegramBotClientExtensions
         bool? isClosed = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1879,6 +1989,7 @@ public static partial class TelegramBotClientExtensions
                     IsClosed = isClosed,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -1910,6 +2021,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -1932,6 +2046,7 @@ public static partial class TelegramBotClientExtensions
         Emoji? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -1946,6 +2061,7 @@ public static partial class TelegramBotClientExtensions
                     Emoji = emoji,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -2986,7 +3102,7 @@ public static partial class TelegramBotClientExtensions
     /// </param>
     /// <returns>Returns a <see cref="Chat"/> object on success.</returns>
     [Obsolete("Use the overload that accepts the corresponding request class")]
-    public static async Task<Chat> GetChatAsync(
+    public static async Task<ChatFullInfo> GetChatAsync(
         this ITelegramBotClient botClient,
         ChatId chatId,
         CancellationToken cancellationToken = default
@@ -3073,7 +3189,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to set a new group sticker set for a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="ChatFullInfo.CanSetStickerSet"/> optionally returned in
     /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)"/> requests to check if the bot
     /// can use this method.
     /// </summary>
@@ -3103,7 +3219,7 @@ public static partial class TelegramBotClientExtensions
     /// <summary>
     /// Use this method to delete a group sticker set from a supergroup. The bot must be an administrator in the
     /// chat for this to work and must have the appropriate admin rights. Use the field
-    /// <see cref="Chat.CanSetStickerSet"/> optionally returned in
+    /// <see cref="ChatFullInfo.CanSetStickerSet"/> optionally returned in
     /// <see cref="GetChatAsync(ITelegramBotClient,GetChatRequest,CancellationToken)"/> requests to check if the bot
     /// can use this method
     /// </summary>
@@ -4103,6 +4219,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="showCaptionAboveMedia">
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -4121,6 +4240,7 @@ public static partial class TelegramBotClientExtensions
         string? caption,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? showCaptionAboveMedia = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -4133,6 +4253,7 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    ShowCaptionAboveMedia = showCaptionAboveMedia,
                     ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
@@ -4154,6 +4275,9 @@ public static partial class TelegramBotClientExtensions
     /// List of special entities that appear in the caption, which can be specified instead
     /// of <see cref="ParseMode"/>
     /// </param>
+    /// <param name="showCaptionAboveMedia">
+    /// Pass <see langword="true"/>, if the caption must be shown above the message media
+    /// </param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
     /// <see cref="ReplyKeyboardMarkup">custom reply keyboard</see>, instructions to
@@ -4170,6 +4294,7 @@ public static partial class TelegramBotClientExtensions
         string? caption,
         ParseMode? parseMode = default,
         IEnumerable<MessageEntity>? captionEntities = default,
+        bool? showCaptionAboveMedia = default,
         InlineKeyboardMarkup? replyMarkup = default,
         CancellationToken cancellationToken = default
     ) =>
@@ -4181,6 +4306,7 @@ public static partial class TelegramBotClientExtensions
                     Caption = caption,
                     ParseMode = parseMode,
                     CaptionEntities = captionEntities,
+                    ShowCaptionAboveMedia = showCaptionAboveMedia,
                     ReplyMarkup = replyMarkup,
                 },
                 cancellationToken
@@ -4479,6 +4605,9 @@ public static partial class TelegramBotClientExtensions
     /// <param name="protectContent">
     /// Protects the contents of sent messages from forwarding and saving
     /// </param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -4504,6 +4633,7 @@ public static partial class TelegramBotClientExtensions
         string? emoji = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         IReplyMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -4519,6 +4649,7 @@ public static partial class TelegramBotClientExtensions
                     Emoji = emoji,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,
@@ -5185,9 +5316,9 @@ public static partial class TelegramBotClientExtensions
         string title,
         string description,
         string payload,
-        string providerToken,
         string currency,
         IEnumerable<LabeledPrice> prices,
+        string? providerToken = default,
         int? messageThreadId = default,
         int? maxTipAmount = default,
         IEnumerable<int>? suggestedTipAmounts = default,
@@ -5315,9 +5446,9 @@ public static partial class TelegramBotClientExtensions
         string title,
         string description,
         string payload,
-        string providerToken,
         string currency,
         IEnumerable<LabeledPrice> prices,
+        string? providerToken = default,
         int? maxTipAmount = default,
         IEnumerable<int>? suggestedTipAmounts = default,
         string? providerData = default,
@@ -5492,6 +5623,9 @@ public static partial class TelegramBotClientExtensions
     /// Sends the message silently. Users will receive a notification with no sound
     /// </param>
     /// <param name="protectContent">Protects the contents of sent messages from forwarding and saving</param>
+    /// <param name="messageEffectId">
+    /// Unique identifier of the message effect to be added to the message; for private chats only
+    /// </param>
     /// <param name="replyParameters">Description of the message to reply to</param>
     /// <param name="replyMarkup">
     /// Additional interface options. An <see cref="InlineKeyboardMarkup">inline keyboard</see>,
@@ -5514,6 +5648,7 @@ public static partial class TelegramBotClientExtensions
         int? messageThreadId = default,
         bool? disableNotification = default,
         bool? protectContent = default,
+        string? messageEffectId = default,
         ReplyParameters? replyParameters = default,
         InlineKeyboardMarkup? replyMarkup = default,
         string? businessConnectionId = default,
@@ -5528,6 +5663,7 @@ public static partial class TelegramBotClientExtensions
                     MessageThreadId = messageThreadId,
                     DisableNotification = disableNotification,
                     ProtectContent = protectContent,
+                    MessageEffectId = messageEffectId,
                     ReplyParameters = replyParameters,
                     ReplyMarkup = replyMarkup,
                     BusinessConnectionId = businessConnectionId,

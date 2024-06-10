@@ -64,7 +64,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
             Permissions = newDefaultPermissions,
         });
 
-        Chat supergroup = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo supergroup = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
         Assert.NotNull(supergroup.Permissions);
         Asserts.JsonEquals(newDefaultPermissions, supergroup.Permissions);
     }
@@ -158,7 +158,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     {
         Message pinnedMsg = classFixture.PinnedMessages.Last();
 
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
         Assert.NotNull(chat.PinnedMessage);
         Asserts.JsonEquals(pinnedMsg, chat.PinnedMessage);
@@ -173,7 +173,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
         // Wait for chat object to update on Telegram servers
         await Task.Delay(TimeSpan.FromSeconds(5));
 
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
     Message secondsFromEndPinnedMessage = classFixture.PinnedMessages[^2];
 
@@ -205,7 +205,7 @@ public class SupergroupAdminBotTests(SupergroupAdminBotTestsFixture classFixture
     [Trait(Constants.MethodTraitName, Constants.TelegramBotApiMethods.GetChat)]
     public async Task Should_Get_Chat_With_No_Pinned_Message()
     {
-        Chat chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
+        ChatFullInfo chat = await BotClient.GetChatAsync(new GetChatRequest { ChatId = classFixture.Chat.Id });
 
         Assert.Null(chat.PinnedMessage);
     }
